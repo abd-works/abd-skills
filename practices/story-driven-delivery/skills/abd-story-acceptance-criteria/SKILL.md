@@ -32,7 +32,8 @@ Build acceptance criteria per **story**, that explain what must be true when use
 
 Read these files:
 - **`reference/concepts.md`** — what AC are, WHEN/THEN/AND/BUT, domain terms, atomic AC, actor alternation, pitfalls.
-- **`reference/examples.md`** — a complete worked AC example showing the expected format.
+- **`reference/examples.md`** — worked AC for one story (same domain as `abd-story-mapping` examples).
+- **`templates/acceptance-criteria-example.md`** — full multi-story filled example (Manage Customer Orders).
 
 **Non-negotiable before writing any Domain terms section:** every term must already exist in a domain source artifact (Domain Language, domain sketch, domain model, Class Model, or any team-designated vocabulary file). If a term is missing, **stop — list every missing term and ask the user how to proceed** before writing it into AC. **NEVER create `domain-terms.md` if any domain source file already exists.** Only create `domain-terms.md` as a bootstrap when the engagement has no domain sources at all. See rule **Domain terms must come from the domain model** in `rules/`.
 

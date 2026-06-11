@@ -471,7 +471,22 @@ html[data-abd-theme="executive"] .catalog-body code {
 }
 
 .page-hero--detail {
-  padding-top: 48px;
+  padding-top: 20px;
+  padding-bottom: 16px;
+}
+.page-hero--detail .page-headline {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 4px 0 6px;
+}
+.page-headline .skill-name-prefix,
+.cap-card__title .skill-name-prefix {
+  color: var(--accent);
+}
+.page-hero--detail .body-lead {
+  font-size: 0.9rem;
+  margin: 0;
+  color: var(--muted);
 }
 
 .page-hero--detail .back-link {
@@ -731,8 +746,18 @@ a.cap-card:hover .cap-card__more {
   color: #b8b8c2;
   margin: 0 0 18px;
 }
+.skill-detail-page .skill-hero-img-wrap + .install-block {
+  margin-top: 18px;
+}
+.skill-detail-page .install-block + .skill-cr-grid,
+.skill-detail-page .install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block {
+  margin-top: 0;
+}
 .install-block {
-  margin: 22px 0 0;
+  margin: 20px 0 0;
   padding: 16px 18px;
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid var(--border-muted);
@@ -1041,26 +1066,624 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 .plugin-slots h3:first-child { margin-top: 0; }
 .cap-grid--plugin-slot { margin-bottom: 8px; }
 
+/* ── Skill detail: family kanban stage nav (matches hub column headings) ── */
+.skill-kanban-nav {
+  --fam-sdd: #6bcb77;
+  --fam-ddd: #6c5ce7;
+  --fam-uxd: #e84393;
+  --fam-arc: #4fc3f7;
+  --fam-idea: var(--accent);
+  --abd-accent: var(--accent);
+  --abd-accent-glow: var(--accent-soft, var(--accent));
+  --abd-raised: var(--raised);
+  --abd-bg: var(--bg);
+  --abd-border: var(--border);
+  --abd-text: var(--text);
+  --abd-muted: var(--muted);
+  background: var(--raised);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0 16px;
+}
+.skill-kanban-nav .wrap {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.skill-kanban-nav__board {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  gap: 6px 8px;
+  align-items: start;
+}
+.skill-kanban-nav__practice-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  margin: 0;
+  padding: 0 8px;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-left-width: 3px;
+  border-radius: 4px;
+  line-height: 1.25;
+  box-sizing: border-box;
+  transition: box-shadow 120ms, border-color 120ms;
+  color: inherit;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card:hover {
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--sdd {
+  border-left-color: var(--fam-sdd);
+  color: var(--fam-sdd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--ddd {
+  border-left-color: var(--fam-ddd);
+  color: var(--fam-ddd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--uxd {
+  border-left-color: var(--fam-uxd);
+  color: var(--fam-uxd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--arc {
+  border-left-color: var(--fam-arc);
+  color: var(--fam-arc);
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap {
+  position: relative;
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip.kb-col-shape-tooltip {
+  min-width: 10rem;
+  max-width: 22rem;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:hover .kb-skill-tooltip,
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:focus-within .kb-skill-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.skill-kanban-nav__stages {
+  display: grid;
+  grid-template-columns: repeat(var(--skill-kanban-cols, 5), minmax(0, 1fr));
+  gap: 0 8px;
+  min-width: 0;
+}
+.skill-kanban-nav__col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.skill-kanban-nav__tickets {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.skill-kanban-nav .kb-col-head {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 8px 6px 7px;
+  font-family: var(--font-mono);
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.skill-kanban-nav .kb-col-head--static {
+  cursor: default;
+}
+.skill-kanban-nav a.kb-col-head {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav a.kb-col-head:hover {
+  border-color: rgba(229, 83, 26, 0.35);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.15);
+}
+.skill-kanban-nav .kb-col-head--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-col-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+}
+.skill-kanban-nav .kb-col-scope-shape {
+  flex-shrink: 0;
+  border: 2px solid var(--abd-accent);
+  border-radius: 2px;
+}
+.skill-kanban-nav__stages .kb-col-shape-tooltip,
+.skill-kanban-nav__stages .kb-skill-tooltip-wrap .kb-col-shape-tooltip {
+  display: none !important;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 8px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 7px 9px;
+  font-family: var(--font-mono);
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid rgba(229, 83, 26, 0.45);
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 14px;
+  border: 5px solid transparent;
+  border-bottom-color: rgba(229, 83, 26, 0.45);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__name {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--abd-accent-glow);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__bullets {
+  font-size: 8px;
+  line-height: 1.45;
+  color: var(--abd-text);
+  white-space: pre-line;
+}
+.skill-kanban-nav .kb-col-scope-shape--solution { width: 36px; height: 12px; }
+.skill-kanban-nav .kb-col-scope-shape--increment { width: 24px; height: 16px; }
+.skill-kanban-nav .kb-col-scope-shape--sprint { width: 16px; height: 22px; }
+.skill-kanban-nav .kb-col-scope-shape--story { width: 11px; height: 28px; }
+.skill-kanban-nav .kb-col-head-title {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--abd-text);
+}
+.skill-kanban-nav .kb-col-head-title > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.skill-kanban-nav .kb-col-num {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--abd-text);
+  background: var(--abd-bg);
+  border: 1px solid var(--abd-border);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+.skill-kanban-nav .kb-ticket {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  background: var(--abd-raised);
+  color: var(--abd-text);
+  padding: 5px 6px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  border-left-width: 3px;
+  border-left-color: var(--abd-muted);
+  line-height: 1.25;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav .kb-ticket:hover {
+  border-color: var(--abd-border);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.2);
+}
+.skill-kanban-nav .kb-ticket.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-ticket.aad-fam-sdd { border-left-color: var(--fam-sdd); }
+.skill-kanban-nav .kb-ticket.aad-fam-ddd { border-left-color: var(--fam-ddd); }
+.skill-kanban-nav .kb-ticket.aad-fam-uxd { border-left-color: var(--fam-uxd); }
+.skill-kanban-nav .kb-ticket.aad-fam-arc { border-left-color: var(--fam-arc); }
+.skill-kanban-nav .kb-ticket.aad-fam-idea { border-left-color: var(--fam-idea); }
+@media (max-width: 960px) {
+  .skill-kanban-nav__board {
+    grid-template-columns: 1fr;
+  }
+  .skill-kanban-nav__stages {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
+
+/* ── Skill detail: full-width hero image / embedded viewer ── */
+.skill-hero-img-wrap {
+  margin: 24px 0 0;
+}
+.skill-hero-img-wrap:empty { display: none; }
+.skill-hero-img-wrap img,
+.skill-hero-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--raised);
+}
+
+/* HTML prototype iframe (reference/example/index.html) */
+.skill-prototype-wrap {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-prototype-frame {
+  display: block;
+  width: 100%;
+  min-height: 540px;
+  height: 71vh;
+  max-height: 810px;
+  border: 0;
+  background: #fff;
+}
+.skill-prototype-open {
+  margin: 0;
+  padding: 8px 14px;
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+  background: var(--raised);
+}
+.skill-prototype-open a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.skill-prototype-open a:hover { text-decoration: underline; }
+
+/* draw.io embedded viewer */
+.skill-drawio-wrap {
+  position: relative;
+  width: 100%;
+  height: min(71vh, 680px);
+  min-height: 340px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-drawio-wrap .mxgraph {
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+}
+.skill-drawio-wrap .geToolbarContainer {
+  z-index: 4;
+}
+
+/* code file preview */
+.skill-code-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--raised);
+  font-size: 13px;
+}
+.skill-code-lang {
+  padding: 6px 14px;
+  font-family: var(--mono, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.skill-code-preview pre {
+  margin: 0;
+  padding: 16px;
+  overflow-x: auto;
+  max-height: 420px;
+}
+.skill-code-preview code {
+  font-family: var(--mono, 'JetBrains Mono', monospace);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+/* rendered markdown preview */
+.skill-hero-img-wrap .skill-md-preview {
+  max-height: min(71vh, 610px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.skill-md-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px 24px;
+  background: var(--surface);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.skill-md-preview h1 { font-size: 18px; font-weight: 700; margin: 0 0 12px; }
+.skill-md-preview h2 { font-size: 15px; font-weight: 600; margin: 16px 0 8px;
+  border-bottom: 1px solid var(--border); padding-bottom: 3px; }
+.skill-md-preview h3 { font-size: 13px; font-weight: 600; margin: 12px 0 6px; }
+.skill-md-preview h4 { font-size: 12px; font-weight: 600; margin: 10px 0 4px; color: var(--muted); }
+.skill-md-preview p  { margin: 0 0 10px; }
+.skill-md-preview .spec-steps { margin: 0 0 14px; }
+.skill-md-preview p.spec-step { margin: 0 0 4px; line-height: 1.55; }
+.skill-md-preview .md-table-wrap { overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview .md-table { border-collapse: collapse; width: 100%; }
+.skill-md-preview ul, .skill-md-preview ol { margin: 0 0 10px; padding-left: 20px; }
+.skill-md-preview li { margin-bottom: 3px; }
+.skill-md-preview code { background: var(--raised); border-radius: 3px;
+  padding: 1px 5px; font-family: var(--mono, monospace); font-size: 12px; }
+.skill-md-preview pre { background: var(--raised); border-radius: 5px;
+  padding: 12px; overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview table { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
+.skill-md-preview th, .skill-md-preview td {
+  border: 1px solid var(--border); padding: 6px 10px; }
+.skill-md-preview th { background: var(--raised); font-weight: 600; }
+
+/* ── Skill detail: concepts | rules two-column grid ── */
+.skill-cr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin: 24px 0 0;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .skill-cr-grid { grid-template-columns: 1fr; }
+}
+.skill-cr-col { min-width: 0; }
+.skill-cr-single { margin: 24px 0 0; }
+
+/* Glossary example hero — term blocks without heavy HR dividers */
+.skill-md-preview--glossary h1 {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 10px;
+  border: 0;
+  padding: 0;
+}
+.skill-md-preview--glossary h2 {
+  font-size: 16px;
+  margin-top: 0;
+}
+.skill-md-preview--glossary h3 {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 14px 0 6px;
+  padding: 6px 8px;
+  background: var(--raised);
+  border-radius: 4px;
+  border-left: 3px solid var(--accent);
+}
+.skill-md-preview--glossary hr {
+  display: none;
+}
+.skill-md-preview--glossary ul {
+  margin-top: 0;
+}
+
+/* ── Skill detail: full-width content below ── */
+.skill-detail-content-col { margin-top: 32px; }
+.skill-detail-page .skill-cr-grid,
+.skill-detail-page .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-single,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-single {
+  margin-top: 0;
+}
+
+/* ── Skill detail: concepts (expandable) ── */
+.skill-hero-img-wrap + .install-block {
+  margin-top: 16px;
+}
+.install-block + .skill-cr-grid,
+.install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-concepts {
+  margin: 0 0 20px;
+}
+.skill-concepts-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 8px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-concept {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-concept summary {
+  padding: 8px 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  user-select: none;
+}
+.skill-concept summary::-webkit-details-marker { display: none; }
+.skill-concept summary::marker { content: ""; }
+.skill-concept summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-concept[open] summary::before { content: "\2212"; }
+.skill-concept-body {
+  padding: 6px 4px 10px 1.9rem;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.skill-concept-body p { margin: 0 0 8px; }
+.skill-concept-body p:last-child { margin-bottom: 0; }
+.skill-concept-body ul { margin: 0 0 8px 1.1em; padding: 0; }
+.skill-concept-body li { margin: 3px 0; }
+
+/* ── Skill detail: rules (DO / DON'T) ── */
+.skill-rules {
+  margin: 0 0 20px;
+}
+.skill-rules-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 12px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-rule {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule[open] > .skill-rule-header {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule-header {
+  padding: 8px 10px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  background: var(--raised);
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+.skill-rule-header::-webkit-details-marker { display: none; }
+.skill-rule-header::marker { content: ""; }
+.skill-rule-header::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-rule[open] > .skill-rule-header::before {
+  content: "\2212";
+}
+.skill-rule-section {
+  padding: 8px 12px;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+.skill-rule-section--do {
+  border-left: 3px solid #2d8a4e;
+}
+.skill-rule-section--dont {
+  border-left: 3px solid #c0392b;
+}
+.skill-rule-section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+  color: var(--muted);
+}
+.skill-rule-section--do .skill-rule-section-label { color: #2d8a4e; }
+.skill-rule-section--dont .skill-rule-section-label { color: #c0392b; }
+.skill-rule-section ul { margin: 0; padding: 0 0 0 1.1em; }
+.skill-rule-section li { margin: 2px 0; color: var(--text); }
+
 </style>
-<script src="../commons/catalog-nav.js?v=foundry-8"></script>
+<script src="../commons/catalog-nav.js?v=foundry-9"></script>
 </head>
 <body data-nav-prefix="../" data-nav-current="skills" data-nav-site-base="../../../abd-works-website/">
 <main id="main-content">
 
+
+
 <div class="page-hero page-hero--detail">
   <div class="wrap">
-    <a class="back-link" href="../plugin/skill-builder.html">← Skill Builder</a>
-    <p class="s-name">Skill</p>
-    <h1 class="page-headline">abd-query-practice-sources</h1>
+    <a class="back-link" href="../index.html">← The ABD Foundry</a>
+    
+    <h1 class="page-headline"><span class="skill-name-prefix">abd-</span>query-practice-sources</h1>
     <p class="body-lead">Pull defensible excerpts from the content hub so a new practice can cite real sources, not guesswork: one auditable log of what you kept and why it matters.</p>
   </div>
 </div>
 
 <div class="catalog-body">
-<div class="wrap">
+<div class="wrap skill-detail-page">
 
-<h2>Description</h2>
-<div class="entry-prose">Before anyone writes instructions or rules for a practice, you need a single, honest record of what the hub actually contains on that topic: what you read, where it lives, and how each piece supports the skill. This skill is about finding and recording that evidence so later work stays anchored to real content.</div>
+<div class="skill-hero-img-wrap">
+
+</div>
 
 <section class="install-block" aria-labelledby="install-npx-heading">
   <h2 id="install-npx-heading">Install with npx</h2>
@@ -1069,85 +1692,17 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 </section>
 
 
-<hr class="entry-divider">
+<div class="skill-cr-single"><div class="skill-rules">
+<h2 class="skill-rules-heading">Rules</h2>
+<details class="skill-rule">
+<summary class="skill-rule-header">Hub retrieval discipline</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Log what you keep — If you would quote or paraphrase the hub in a rule, that text appears under ### Kept chunk N in inputs/abd-answers-retrieval.md as a verbatim fenced body (full pipeline markdown when available), not only a summary table cell — so authoring does not need a second query.</li><li>Dedupe — Same chunk hit twice → one Kept chunk (same Source location / slide body).</li><li>Tag honestly — Relevance reflects how you will use the chunk (rule vs example vs diagram_ref), not a generic other to skip thinking.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Invent hub claims with no matching Kept chunk (verbatim body) in the retrieval log.</li><li>Design a chunking strategy for the hub in this step; only query and record.</li><li>Author the target practice package in this step — no *rules/.md, SKILL.md, templates/, or bundle_rules_into_skill_md.py on the target. Relevance: rule means the chunk will back a rule later in abd-author-practice-skill, not &quot;create rules/** now.&quot;</li></ul></div>
+</details>
+</div></div>
 
 
 
-<hr class="entry-divider">
-
-<h2 id="entry-contents">Contents</h2>
-<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p>Before anyone writes <strong>instructions</strong> or <strong>rules</strong> for a practice, you need a <strong>single, honest record</strong> of what the hub actually contains on that topic: what you read, where it lives, and how each piece supports the skill. This skill is about <strong>finding and recording</strong> that evidence so later work stays <strong>anchored</strong> to real content.</p></div></details>
-<details class="entry-md-section" id="when-to-use"><summary class="entry-md-section__summary">When to use</summary><div class="entry-md-section__body"><ul>
-<li>You are defining a <strong>new or revised</strong> practice under <strong>`agilebydesign-skills/skills/&lt;skill-name&gt;/`</strong> and need <strong>hub-backed</strong> material.</li>
-<li>You must <strong>not</strong> treat model memory or paraphrase as a substitute for <strong>logged</strong> excerpts and locations.</li>
-<li>You want <strong>scoped</strong> search (folders, memory roots) and queries that <strong>match</strong> how the hub is already indexed.</li>
-</ul></div></details>
-<details class="entry-md-section" id="not-in-this-pass"><summary class="entry-md-section__summary">Not in this pass</summary><div class="entry-md-section__body"><p><strong>Re-chunking</strong> or designing a <strong>chunking strategy</strong> for the hub. The index is fixed; you <strong>retrieve</strong> and <strong>record</strong>, you do not reshape the corpus here.</p>
-<p><strong>Target package — authoring is later:</strong> Do <strong>not</strong> create or edit the practice skill&#x27;s <strong>`rules/*.md`</strong>, <strong>`SKILL.md`</strong>, <strong>`templates/`</strong>, or run <strong>`bundle_rules_into_skill_md.py`</strong> here. Those belong to <strong>abd-author-practice-skill</strong>. This pass may create <strong>`skills/&lt;skill-name&gt;/`</strong> and <strong>`inputs/`</strong> and must finish <strong>`inputs/abd-answers-retrieval.md`</strong>. <em>Relevance</em> tag <strong>`rule`</strong> means &quot;this chunk will support a future <strong>rules/</strong> file&quot; — it is <strong>not</strong> permission to write <strong>`rules/`</strong> during retrieval.</p></div></details>
-<details class="entry-md-section" id="output-log-canonical"><summary class="entry-md-section__summary">Output log (canonical)</summary><div class="entry-md-section__body"><p><strong>Path (target skill):</strong> `skills/&lt;skill-name&gt;/inputs/abd-answers-retrieval.md`</p>
-<p>Create <strong>`skills/&lt;skill-name&gt;/`</strong> and <strong>`inputs/`</strong> if they do not exist (the practice package root under <strong>agilebydesign-skills</strong>). One <strong>shared log</strong> per skill package (not a generic scratch pool). Optionally copy <strong>`templates/inputs-readme.md`</strong> from <strong>this</strong> skill to <strong>`inputs/README.md`</strong>.</p>
-<p><strong>Every kept chunk</strong> must be recorded so <strong>authoring does not need a second query</strong>:</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Field</th><th>Required</th></tr></thead><tbody><tr><td><strong>Verbatim body</strong></td><td>Yes — under <strong>`### Kept chunk N`</strong>, paste the <strong>full</strong> chunk text you will use (fenced block). Prefer the pipeline markdown file for that slide; `npm run rag:query` <strong>`bodyPreview`</strong> only when you will replace it if truncated.</td></tr><tr><td><strong>Source / title</strong></td><td>Yes — chunk title, `sourceUrl`, or hub path from the chunk header</td></tr><tr><td><strong>Relevance</strong></td><td>Yes — one of: <strong>`rule`</strong>, <strong>`core_concept`</strong>, <strong>`example`</strong>, <strong>`procedure`</strong>, <strong>`glossary`</strong>, <strong>`diagram_ref`</strong>, <strong>`other`</strong></td></tr><tr><td><strong>Relevance note</strong></td><td>Yes for <strong>`other`</strong>; otherwise short (why this chunk supports the skill)</td></tr><tr><td><strong>Query</strong></td><td>Yes — which query string produced this hit</td></tr><tr><td><strong>Rank</strong></td><td>Recommended — 1-based rank in result set or score if present in JSON</td></tr></tbody></table></div>
-<p>A <strong>summary-only table</strong> without fenced bodies is <strong>not</strong> enough.</p>
-<p>The log file itself should be <strong>data only</strong> (kept chunks and optional JSON trail). Do <strong>not</strong> paste long format instructions or a <strong>Run parameters</strong> table into <strong>`inputs/abd-answers-retrieval.md`</strong> — how to fill the log is <strong>this SKILL.md</strong> and the thin <strong>`templates/abd-answers-retrieval-input.md`</strong> starter.</p>
-<p>Start from <strong>`templates/abd-answers-retrieval-input.md`</strong> (copy into the target skill and fill).</p>
-<h3>Relevance tags (use consistently)</h3>
-<ul>
-<li><strong>rule</strong> — normative constraint / DO / DON&#x27;T for <strong>rules/</strong> or Validate</li>
-<li><strong>core_concept</strong> — definitions and teaching points for <strong>Purpose</strong> / <strong>Core concepts</strong></li>
-<li><strong>example</strong> — samples for <strong>Example</strong>, templates, or manual figures</li>
-<li><strong>procedure</strong> — steps for <strong>Agent instructions</strong> / <strong>Build</strong></li>
-<li><strong>glossary</strong> — terms / vocabulary</li>
-<li><strong>diagram_ref</strong> — visuals to mirror in a <strong>manual</strong></li>
-<li><strong>other</strong> — rare; explain in <strong>Relevance note</strong></li>
-</ul></div></details>
-<details class="entry-md-section" id="core-concepts"><summary class="entry-md-section__summary">Core concepts</summary><div class="entry-md-section__body"><ul>
-<li><strong>Audit trail</strong> — Anything later presented as <strong>from the hub</strong> should trace to a <strong>row</strong> in this file (<strong>#</strong> + <strong>source location</strong>).</li>
-<li><strong>Retrieve, not re-chunk</strong> — Tune <strong>queries</strong> and <strong>k</strong>; do not invent a new chunking plan for abd-answers here.</li>
-</ul>
-<p>Apply the <strong>bundled rules</strong> at the end of this file when deciding what to keep and how to record it.</p></div></details>
-<details class="entry-md-section" id="retrieval-workflow"><summary class="entry-md-section__summary">Retrieval workflow</summary><div class="entry-md-section__body"><p>1. <strong>Decompose the skill topic</strong> into 3-7 <strong>short queries</strong> (phrases the hub would index), not one vague sentence. 2. <strong>Map to folders</strong> — set `--folders` when the engagement names hub paths (comma-separated, forward slashes). 3. <strong>Choose k</strong> — start <strong>8</strong>; <strong>12-15</strong> if thin; lower if noisy. 4. <strong>Match indexed chunks</strong> — phrase queries so hits align with <strong>titles</strong> and <strong>bodyPreview</strong> in results.</p></div></details>
-<details class="entry-md-section" id="run-queries"><summary class="entry-md-section__summary">Run queries</summary><div class="entry-md-section__body"><p>After steps <strong>1–4</strong>, from the <strong>abd-answers</strong> repository root:</p>
-<pre><code>npm run rag:query -- &quot;your primary query&quot; --k 8</code></pre>
-<p><strong>Scoped:</strong></p>
-<pre><code>npm run rag:query -- &quot;your query&quot; --folders &quot;path/one,path/two&quot; --k 10</code></pre>
-<p>Optional: `--memory-root-id &quot;&lt;id&gt;&quot;` or `--rag-ref pinecone://...` per abd-answers docs.</p>
-<p>5. <strong>Write `inputs/abd-answers-retrieval.md`</strong> — required. Ensure the target <strong>`skills/&lt;skill-name&gt;/inputs/`</strong> folder exists. Start from <strong>`skills/abd-practice-skill-builder/abd-query-practice-sources/templates/abd-answers-retrieval-input.md`</strong> (copy into the target <strong>`inputs/`</strong> if the log file is new). For <strong>each kept chunk</strong>, add <strong>`### Kept chunk N`</strong> with the metadata fields in <strong>Output log</strong> above and paste the <strong>verbatim</strong> body in a fenced block. Merge all queries into <strong>one</strong> file; <strong>dedupe</strong> identical <strong>Source location</strong> / slide bodies.</p></div></details>
-<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Treat the log as a reviewer would before any authoring depends on it.</p>
-<ul>
-<li><strong>Exists and complete</strong> — <strong>`inputs/abd-answers-retrieval.md`</strong> is present; each <strong>Kept chunk</strong> has metadata and a <strong>fenced verbatim body</strong> (not summary-only).</li>
-<li><strong>Coverage</strong> — At least one chunk supports each major <strong>SKILL.md</strong> section you plan to ship (or a documented gap elsewhere).</li>
-<li><strong>Rules trace</strong> — You do not plan <strong>normative</strong> <strong>rules/</strong> bullets without a supporting <strong>`rule`</strong> or <strong>`procedure`</strong> chunk.</li>
-<li><strong>Honesty</strong> — Each chunk records <strong>Query</strong> (and similarity/rank when available); obvious <strong>dupes</strong> merged by <strong>Source location</strong> / body.</li>
-</ul>
-<hr>
-<p>&lt;!-- execute_rules:bundle_rules:begin --&gt;</p>
-<h3>Rule: Hub retrieval discipline</h3>
-<p><strong>Scanner:</strong> Manual review</p>
-<h4>DO</h4>
-<ul>
-<li><strong>Log what you keep</strong> — If you would quote or paraphrase the hub in a rule, that text appears under <strong>`### Kept chunk N`</strong> in <strong>`inputs/abd-answers-retrieval.md`</strong> as a <strong>verbatim</strong> fenced body (full pipeline markdown when available), not only a summary table cell — so authoring does not need a <strong>second</strong> query.</li>
-<li><strong>Dedupe</strong> — Same chunk hit twice → one <strong>Kept chunk</strong> (same <strong>Source location</strong> / slide body).</li>
-<li><strong>Tag honestly</strong> — <strong>Relevance</strong> reflects how you will <strong>use</strong> the chunk (rule vs example vs diagram_ref), not a generic <strong>`other`</strong> to skip thinking.</li>
-</ul>
-<h4>DO NOT</h4>
-<ul>
-<li><strong>Invent hub claims</strong> with no matching <strong>Kept chunk</strong> (verbatim body) in the retrieval log.</li>
-<li><strong>Design a chunking strategy</strong> for the hub in this step; only <strong>query</strong> and <strong>record</strong>.</li>
-<li><strong>Author the target practice package</strong> in this step — no <strong>`rules/*.md`</strong>, <strong>`SKILL.md`</strong>, <strong>`templates/`</strong>, or <strong>`bundle_rules_into_skill_md.py`</strong> on the target. <strong>`Relevance: rule`</strong> means the chunk will back a rule <strong>later</strong> in <strong>abd-author-practice-skill</strong>, not &quot;create <strong>rules/</strong> now.&quot;</li>
-</ul>
-<p><strong>Source:</strong> Practice-skill builder convention (abd-query-practice-sources). &lt;!-- execute_rules:bundle_rules:end --&gt;</p></div></details>
-
-<ul class="file-list file-list--root">
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../foundational/skill-builder/skills/abd-query-practice-sources/rules/hub-retrieval-discipline.md" target="_blank" rel="noopener noreferrer"><strong>hub-retrieval-discipline.md</strong></a><span class="file-meta"> → Rule: Hub retrieval discipline</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../foundational/skill-builder/skills/abd-query-practice-sources/templates/abd-answers-retrieval-input.md" target="_blank" rel="noopener noreferrer"><strong>abd-answers-retrieval-input.md</strong></a><span class="file-meta"> → Canonical RAG input for the target practice skill.</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../foundational/skill-builder/skills/abd-query-practice-sources/templates/inputs-readme.md" target="_blank" rel="noopener noreferrer"><strong>inputs-readme.md</strong></a><span class="file-meta"> → abd-answers-retrieval.md — filled by abd-query-practice-sources; required fields per row: Content, Source location, Relevance (rule | core_concept | example | procedure | glossary | diagram_ref | other), plus query and rank.</span></li>
-</ul></div></details></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../foundational/skill-builder/skills/abd-query-practice-sources/SKILL.md" target="_blank" rel="noopener noreferrer"><strong>SKILL.md</strong></a><span class="file-meta"> → name: abd-query-practice-sources</span></li>
-</ul>
 
 </div>
 </div>

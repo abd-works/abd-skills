@@ -1,8 +1,8 @@
 # User experience design package
 
-Information architecture, mockups, UX specification / implementation.
+Information architecture, lo-fi mockups, clickable hi-fi prototypes.
 
-**Skills:** abd-information-architecture, abd-ux-information-architecture, abd-ux-mockup, abd-ux-specification, abd-ux-design, abd-ux-user-impact-map
+**Skills:** abd-ux-user-impact-map, abd-ux-information-architecture, abd-ux-mockup, abd-ux-specification
 
 ## Deploy
 

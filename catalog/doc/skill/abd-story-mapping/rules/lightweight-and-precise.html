@@ -471,7 +471,22 @@ html[data-abd-theme="executive"] .catalog-body code {
 }
 
 .page-hero--detail {
-  padding-top: 48px;
+  padding-top: 20px;
+  padding-bottom: 16px;
+}
+.page-hero--detail .page-headline {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 4px 0 6px;
+}
+.page-headline .skill-name-prefix,
+.cap-card__title .skill-name-prefix {
+  color: var(--accent);
+}
+.page-hero--detail .body-lead {
+  font-size: 0.9rem;
+  margin: 0;
+  color: var(--muted);
 }
 
 .page-hero--detail .back-link {
@@ -731,8 +746,18 @@ a.cap-card:hover .cap-card__more {
   color: #b8b8c2;
   margin: 0 0 18px;
 }
+.skill-detail-page .skill-hero-img-wrap + .install-block {
+  margin-top: 18px;
+}
+.skill-detail-page .install-block + .skill-cr-grid,
+.skill-detail-page .install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block {
+  margin-top: 0;
+}
 .install-block {
-  margin: 22px 0 0;
+  margin: 20px 0 0;
   padding: 16px 18px;
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid var(--border-muted);
@@ -1041,8 +1066,603 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 .plugin-slots h3:first-child { margin-top: 0; }
 .cap-grid--plugin-slot { margin-bottom: 8px; }
 
+/* ── Skill detail: family kanban stage nav (matches hub column headings) ── */
+.skill-kanban-nav {
+  --fam-sdd: #6bcb77;
+  --fam-ddd: #6c5ce7;
+  --fam-uxd: #e84393;
+  --fam-arc: #4fc3f7;
+  --fam-idea: var(--accent);
+  --abd-accent: var(--accent);
+  --abd-accent-glow: var(--accent-soft, var(--accent));
+  --abd-raised: var(--raised);
+  --abd-bg: var(--bg);
+  --abd-border: var(--border);
+  --abd-text: var(--text);
+  --abd-muted: var(--muted);
+  background: var(--raised);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0 16px;
+}
+.skill-kanban-nav .wrap {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.skill-kanban-nav__board {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  gap: 6px 8px;
+  align-items: start;
+}
+.skill-kanban-nav__practice-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  margin: 0;
+  padding: 0 8px;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-left-width: 3px;
+  border-radius: 4px;
+  line-height: 1.25;
+  box-sizing: border-box;
+  transition: box-shadow 120ms, border-color 120ms;
+  color: inherit;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card:hover {
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--sdd {
+  border-left-color: var(--fam-sdd);
+  color: var(--fam-sdd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--ddd {
+  border-left-color: var(--fam-ddd);
+  color: var(--fam-ddd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--uxd {
+  border-left-color: var(--fam-uxd);
+  color: var(--fam-uxd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--arc {
+  border-left-color: var(--fam-arc);
+  color: var(--fam-arc);
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap {
+  position: relative;
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip.kb-col-shape-tooltip {
+  min-width: 10rem;
+  max-width: 22rem;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:hover .kb-skill-tooltip,
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:focus-within .kb-skill-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.skill-kanban-nav__stages {
+  display: grid;
+  grid-template-columns: repeat(var(--skill-kanban-cols, 5), minmax(0, 1fr));
+  gap: 0 8px;
+  min-width: 0;
+}
+.skill-kanban-nav__col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.skill-kanban-nav__tickets {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.skill-kanban-nav .kb-col-head {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 8px 6px 7px;
+  font-family: var(--font-mono);
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.skill-kanban-nav .kb-col-head--static {
+  cursor: default;
+}
+.skill-kanban-nav a.kb-col-head {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav a.kb-col-head:hover {
+  border-color: rgba(229, 83, 26, 0.35);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.15);
+}
+.skill-kanban-nav .kb-col-head--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-col-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+}
+.skill-kanban-nav .kb-col-scope-shape {
+  flex-shrink: 0;
+  border: 2px solid var(--abd-accent);
+  border-radius: 2px;
+}
+.skill-kanban-nav__stages .kb-col-shape-tooltip,
+.skill-kanban-nav__stages .kb-skill-tooltip-wrap .kb-col-shape-tooltip {
+  display: none !important;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 8px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 7px 9px;
+  font-family: var(--font-mono);
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid rgba(229, 83, 26, 0.45);
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 14px;
+  border: 5px solid transparent;
+  border-bottom-color: rgba(229, 83, 26, 0.45);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__name {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--abd-accent-glow);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__bullets {
+  font-size: 8px;
+  line-height: 1.45;
+  color: var(--abd-text);
+  white-space: pre-line;
+}
+.skill-kanban-nav .kb-col-scope-shape--solution { width: 36px; height: 12px; }
+.skill-kanban-nav .kb-col-scope-shape--increment { width: 24px; height: 16px; }
+.skill-kanban-nav .kb-col-scope-shape--sprint { width: 16px; height: 22px; }
+.skill-kanban-nav .kb-col-scope-shape--story { width: 11px; height: 28px; }
+.skill-kanban-nav .kb-col-head-title {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--abd-text);
+}
+.skill-kanban-nav .kb-col-head-title > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.skill-kanban-nav .kb-col-num {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--abd-text);
+  background: var(--abd-bg);
+  border: 1px solid var(--abd-border);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+.skill-kanban-nav .kb-ticket {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  background: var(--abd-raised);
+  color: var(--abd-text);
+  padding: 5px 6px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  border-left-width: 3px;
+  border-left-color: var(--abd-muted);
+  line-height: 1.25;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav .kb-ticket:hover {
+  border-color: var(--abd-border);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.2);
+}
+.skill-kanban-nav .kb-ticket.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-ticket.aad-fam-sdd { border-left-color: var(--fam-sdd); }
+.skill-kanban-nav .kb-ticket.aad-fam-ddd { border-left-color: var(--fam-ddd); }
+.skill-kanban-nav .kb-ticket.aad-fam-uxd { border-left-color: var(--fam-uxd); }
+.skill-kanban-nav .kb-ticket.aad-fam-arc { border-left-color: var(--fam-arc); }
+.skill-kanban-nav .kb-ticket.aad-fam-idea { border-left-color: var(--fam-idea); }
+@media (max-width: 960px) {
+  .skill-kanban-nav__board {
+    grid-template-columns: 1fr;
+  }
+  .skill-kanban-nav__stages {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
+
+/* ── Skill detail: full-width hero image / embedded viewer ── */
+.skill-hero-img-wrap {
+  margin: 24px 0 0;
+}
+.skill-hero-img-wrap:empty { display: none; }
+.skill-hero-img-wrap img,
+.skill-hero-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--raised);
+}
+
+/* HTML prototype iframe (reference/example/index.html) */
+.skill-prototype-wrap {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-prototype-frame {
+  display: block;
+  width: 100%;
+  min-height: 540px;
+  height: 71vh;
+  max-height: 810px;
+  border: 0;
+  background: #fff;
+}
+.skill-prototype-open {
+  margin: 0;
+  padding: 8px 14px;
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+  background: var(--raised);
+}
+.skill-prototype-open a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.skill-prototype-open a:hover { text-decoration: underline; }
+
+/* draw.io embedded viewer */
+.skill-drawio-wrap {
+  position: relative;
+  width: 100%;
+  height: min(71vh, 680px);
+  min-height: 340px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-drawio-wrap .mxgraph {
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+}
+.skill-drawio-wrap .geToolbarContainer {
+  z-index: 4;
+}
+
+/* code file preview */
+.skill-code-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--raised);
+  font-size: 13px;
+}
+.skill-code-lang {
+  padding: 6px 14px;
+  font-family: var(--mono, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.skill-code-preview pre {
+  margin: 0;
+  padding: 16px;
+  overflow-x: auto;
+  max-height: 420px;
+}
+.skill-code-preview code {
+  font-family: var(--mono, 'JetBrains Mono', monospace);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+/* rendered markdown preview */
+.skill-hero-img-wrap .skill-md-preview {
+  max-height: min(71vh, 610px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.skill-md-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px 24px;
+  background: var(--surface);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.skill-md-preview h1 { font-size: 18px; font-weight: 700; margin: 0 0 12px; }
+.skill-md-preview h2 { font-size: 15px; font-weight: 600; margin: 16px 0 8px;
+  border-bottom: 1px solid var(--border); padding-bottom: 3px; }
+.skill-md-preview h3 { font-size: 13px; font-weight: 600; margin: 12px 0 6px; }
+.skill-md-preview h4 { font-size: 12px; font-weight: 600; margin: 10px 0 4px; color: var(--muted); }
+.skill-md-preview p  { margin: 0 0 10px; }
+.skill-md-preview .spec-steps { margin: 0 0 14px; }
+.skill-md-preview p.spec-step { margin: 0 0 4px; line-height: 1.55; }
+.skill-md-preview .md-table-wrap { overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview .md-table { border-collapse: collapse; width: 100%; }
+.skill-md-preview ul, .skill-md-preview ol { margin: 0 0 10px; padding-left: 20px; }
+.skill-md-preview li { margin-bottom: 3px; }
+.skill-md-preview code { background: var(--raised); border-radius: 3px;
+  padding: 1px 5px; font-family: var(--mono, monospace); font-size: 12px; }
+.skill-md-preview pre { background: var(--raised); border-radius: 5px;
+  padding: 12px; overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview table { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
+.skill-md-preview th, .skill-md-preview td {
+  border: 1px solid var(--border); padding: 6px 10px; }
+.skill-md-preview th { background: var(--raised); font-weight: 600; }
+
+/* ── Skill detail: concepts | rules two-column grid ── */
+.skill-cr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin: 24px 0 0;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .skill-cr-grid { grid-template-columns: 1fr; }
+}
+.skill-cr-col { min-width: 0; }
+.skill-cr-single { margin: 24px 0 0; }
+
+/* Glossary example hero — term blocks without heavy HR dividers */
+.skill-md-preview--glossary h1 {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 10px;
+  border: 0;
+  padding: 0;
+}
+.skill-md-preview--glossary h2 {
+  font-size: 16px;
+  margin-top: 0;
+}
+.skill-md-preview--glossary h3 {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 14px 0 6px;
+  padding: 6px 8px;
+  background: var(--raised);
+  border-radius: 4px;
+  border-left: 3px solid var(--accent);
+}
+.skill-md-preview--glossary hr {
+  display: none;
+}
+.skill-md-preview--glossary ul {
+  margin-top: 0;
+}
+
+/* ── Skill detail: full-width content below ── */
+.skill-detail-content-col { margin-top: 32px; }
+.skill-detail-page .skill-cr-grid,
+.skill-detail-page .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-single,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-single {
+  margin-top: 0;
+}
+
+/* ── Skill detail: concepts (expandable) ── */
+.skill-hero-img-wrap + .install-block {
+  margin-top: 16px;
+}
+.install-block + .skill-cr-grid,
+.install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-concepts {
+  margin: 0 0 20px;
+}
+.skill-concepts-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 8px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-concept {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-concept summary {
+  padding: 8px 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  user-select: none;
+}
+.skill-concept summary::-webkit-details-marker { display: none; }
+.skill-concept summary::marker { content: ""; }
+.skill-concept summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-concept[open] summary::before { content: "\2212"; }
+.skill-concept-body {
+  padding: 6px 4px 10px 1.9rem;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.skill-concept-body p { margin: 0 0 8px; }
+.skill-concept-body p:last-child { margin-bottom: 0; }
+.skill-concept-body ul { margin: 0 0 8px 1.1em; padding: 0; }
+.skill-concept-body li { margin: 3px 0; }
+
+/* ── Skill detail: rules (DO / DON'T) ── */
+.skill-rules {
+  margin: 0 0 20px;
+}
+.skill-rules-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 12px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-rule {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule[open] > .skill-rule-header {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule-header {
+  padding: 8px 10px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  background: var(--raised);
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+.skill-rule-header::-webkit-details-marker { display: none; }
+.skill-rule-header::marker { content: ""; }
+.skill-rule-header::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-rule[open] > .skill-rule-header::before {
+  content: "\2212";
+}
+.skill-rule-section {
+  padding: 8px 12px;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+.skill-rule-section--do {
+  border-left: 3px solid #2d8a4e;
+}
+.skill-rule-section--dont {
+  border-left: 3px solid #c0392b;
+}
+.skill-rule-section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+  color: var(--muted);
+}
+.skill-rule-section--do .skill-rule-section-label { color: #2d8a4e; }
+.skill-rule-section--dont .skill-rule-section-label { color: #c0392b; }
+.skill-rule-section ul { margin: 0; padding: 0 0 0 1.1em; }
+.skill-rule-section li { margin: 2px 0; color: var(--text); }
+
 </style>
-<script src="../../../../commons/catalog-nav.js?v=foundry-8"></script>
+<script src="../../../../commons/catalog-nav.js?v=foundry-9"></script>
 </head>
 <body data-nav-prefix="../../../../" data-nav-current="skills" data-nav-site-base="../../../../../../abd-works-website/">
 <main id="main-content">
@@ -1051,6 +1671,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
   <div class="wrap">
     <a class="back-link" href="../../../../skill/abd-story-mapping.html">← abd-story-mapping</a>
     <p class="s-name">Rule</p>
+
     <h1 class="page-headline">rules/lightweight-and-precise.md</h1>
     <p class="body-lead">Rule: Lightweight and Precise</p>
   </div>
@@ -1086,7 +1707,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
   → Detailed API specs: POST /orders with JSON body {item_id, quantity, customer_id}
   → Database: orders table with FK to customers
   → UI: Modal with item picker and quantity stepper</code></pre>
-<p>If you have this kind of detail from context, put it in `notes` with a `context_source` citation — not in the story structure itself.</p></div>
+<p>If you have this kind of detail from context, put it in <code>notes</code> with a <code>context_source</code> citation — not in the story structure itself.</p></div>
 
 </div>
 </div>

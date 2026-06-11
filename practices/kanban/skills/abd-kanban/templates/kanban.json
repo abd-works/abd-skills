@@ -62,7 +62,6 @@
           "name": "engineering",
           "scope": "sprint",
           "stage_work_required": [
-            { "skill": "abd-ux-specification", "role": "ux-designer" },
             { "skill": "abd-domain-code", "role": "business-expert" },
             { "skill": "abd-story-acceptance-test", "role": "product-owner" },
             { "skill": "abd-clean-code", "role": "engineer" },
@@ -132,7 +131,6 @@
           "name": "engineering",
           "scope": "sprint",
           "stage_work_required": [
-            { "skill": "abd-ux-specification", "role": "ux-designer" },
             { "skill": "abd-domain-code", "role": "business-expert" },
             { "skill": "abd-story-acceptance-test", "role": "product-owner" },
             { "skill": "abd-clean-code", "role": "engineer" },

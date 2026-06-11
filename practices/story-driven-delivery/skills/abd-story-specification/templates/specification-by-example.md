@@ -4,11 +4,11 @@
 
 ---
 
-<!-- 
+<!--
   Each story uses whichever notation fits its behavior:
   - Plain Scenario: distinct logical flow with inline values (bold concepts, italic values)
   - Scenario Outline: data-driven variations with {column_name} tokens and example tables
-  
+
   Stories are the organizing unit. Both notations live in this single file.
 -->
 

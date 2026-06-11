@@ -12,7 +12,7 @@ description: >-
 
 ## Purpose
 
-Write **Given/When/Then** scenarios that make a story's expected behavior concrete and testable, using real domain values and named outcomes so the team can verify what the system must do.
+Build **specification scenarios** per **story** that turn acceptance criteria and story intent into runnable examples: preconditions (**Given**), triggers (**When**), observable outcomes (**Then**), chained effects (**And**), and explicit negatives (**But**). Write **multiple scenarios** per story — at least one happy path plus **edge** and **error** cases implied by the story or its AC — each a **complete example** with realistic domain values, not placeholders. Ground every step in the domain model: use exact concept names, deliberate relationships in step language, and **Examples** tables whose columns reflect domain structure (not isolated field lists). When AC exist, use the main-flow AC as the spine (WHEN → When, THEN/AND → Then/And), then add Given preconditions and additional scenarios for failures, boundaries, and alternate flows. Focus on what users and systems do and what becomes observable; keep implementation detail out unless the story is explicitly technical.
 
 ---
 

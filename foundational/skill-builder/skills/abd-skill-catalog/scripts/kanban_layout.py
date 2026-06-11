@@ -19,6 +19,7 @@ from catalog_supporting_groups import (
     FOUNDATIONAL_CROSSCUT_PLUGINS,
     SUPPORTING_CROSSCUT_GROUPS,
 )
+from family_catalog import FAMILY_PACKAGES
 
 BOOTCAMP_CATALOG_PREFIX = "../abd-skills-catalog/"
 
@@ -28,6 +29,8 @@ GITHUB_SKILL_ALIASES: dict[str, str] = {
     "abd-acceptance-criteria": "abd-story-acceptance-criteria",
     "abd-acceptance-test-driven-development": "abd-story-acceptance-test",
     "abd-specification-by-example": "abd-story-specification",
+    "abd-information-architecture": "abd-ux-information-architecture",
+    "abd-impact-mapping": "abd-ux-user-impact-map",
 }
 
 STAGE_FILES: tuple[tuple[str, str, int], ...] = (
@@ -78,6 +81,13 @@ PLUGIN_LABEL: dict[str, str] = {
     "kanban": "Kanban",
 }
 
+PLUGIN_TOOLTIP: dict[str, str] = {
+    "story-driven-delivery": "Given/When/Then scenarios with real example data",
+    "domain-driven-design": "Typed terms + relationships (a schema), not prose definitions",
+    "user-experience-design": "Component spec with named states & rules, not a static picture",
+    "architecture-centric-engineering": "Interface contracts / templates the engine can follow",
+}
+
 DELIVERY_AGENTS: tuple[str, ...] = (
     "kanban-lead",
     "product-owner",
@@ -116,6 +126,7 @@ KANBAN_STAGE_EXCLUDED_SKILLS: dict[str, frozenset[str]] = {
 
 # Kanban tile label overrides (stage_id, skill_id) → display text.
 KANBAN_SKILL_LABEL_OVERRIDES: dict[tuple[str, str], str] = {
+    ("shaping", "abd-ux-user-impact-map"): "user impact map",
     ("shaping", "abd-story-mapping"): "story mapping outline",
     ("exploration", "abd-architecture-specification"): "architecture specification document",
     ("specification", "abd-architecture-specification"): "architecture specification template",
@@ -466,12 +477,195 @@ def _plugin_href(plugin_id: str, *, relative: str) -> str:
     return f"{relative}plugin/{quote(plugin_id, safe='')}.html"
 
 
-def build_kanban_legend_html(*, relative_href_prefix: str = "../", indent: str = "      ") -> str:
+def _plugin_id_for_pkg_rel(pkg_rel_posix: str) -> str:
+    norm = pkg_rel_posix.replace("\\", "/").strip("/")
+    if not norm:
+        return ""
+    for fam_id, fam_path in FAMILY_PACKAGES.items():
+        fp = fam_path.rstrip("/")
+        if norm == fp or norm.startswith(fp + "/"):
+            return fam_id
+    return ""
+
+
+def plugin_first_skill_href_map(
+    skills: list,
+    skill_dir_by_name: dict[str, str],
+    *,
+    relative: str = "",
+) -> dict[str, str]:
+    """Map plugin id → first practice-tier skill detail page (same target as skills listing)."""
+    by_plugin: dict[str, list] = {}
+    for s in skills:
+        if getattr(s, "garden_tier", "") != "practice":
+            continue
+        pid = _plugin_id_for_pkg_rel(getattr(s, "pkg_rel_posix", ""))
+        if pid:
+            by_plugin.setdefault(pid, []).append(s)
+    out: dict[str, str] = {}
+    for pid, entries in by_plugin.items():
+        first = min(
+            entries,
+            key=lambda e: (getattr(e, "garden_order", 9999), getattr(e, "dir_name", e.name)),
+        )
+        out[pid] = _skill_href(first.name, skill_dir_by_name, relative=relative)
+    return out
+
+
+def _family_nav_href(
+    plugin_id: str,
+    *,
+    relative: str,
+    plugin_first_skill_hrefs: dict[str, str] | None,
+) -> str:
+    """Family/plugin label → first skill page when available (matches skills grid), else plugin page."""
+    if plugin_first_skill_hrefs and plugin_id in plugin_first_skill_hrefs:
+        return plugin_first_skill_hrefs[plugin_id]
+    return _plugin_href(plugin_id, relative=relative)
+
+
+def _skill_page_sibling_href(skill_id: str, skill_dir_by_name: dict[str, str]) -> str:
+    """Href between skill detail pages in catalog/skill/."""
+    dir_name = skill_dir_by_name.get(skill_id) or GITHUB_SKILL_ALIASES.get(
+        skill_id, skill_id
+    )
+    return f"{quote(dir_name, safe='')}.html"
+
+
+def _catalog_skill_href_as_sibling(href: str) -> str:
+    """Turn catalog-root skill/foo.html into sibling foo.html for skill detail pages."""
+    if href.startswith("skill/"):
+        return href[6:]
+    return href
+
+
+def plugin_stage_skill_href_map(
+    model: KanbanModel,
+    skill_dir_by_name: dict[str, str],
+    *,
+    sibling_pages: bool = False,
+    relative: str = "",
+) -> dict[str, dict[str, str]]:
+    """Map each practice family to the first kanban skill href per delivery stage."""
+    out: dict[str, dict[str, str]] = {}
+    for stage_id, _title, _num, _purpose in model.stages:
+        for plugin_id in PLUGIN_ROW_ORDER:
+            if stage_id in out.get(plugin_id, {}):
+                continue
+            for sk in model.matrix.get(stage_id, {}).get(plugin_id, []):
+                if not _kanban_include_skill(
+                    sk.skill_id, stage_id=stage_id, notes=sk.notes
+                ):
+                    continue
+                href = (
+                    _skill_page_sibling_href(sk.skill_id, skill_dir_by_name)
+                    if sibling_pages
+                    else _skill_href(sk.skill_id, skill_dir_by_name, relative=relative)
+                )
+                out.setdefault(plugin_id, {})[stage_id] = href
+                break
+    return out
+
+
+def resolve_skill_stage_id(
+    model: KanbanModel,
+    plugin_id: str,
+    *,
+    current_skill_id: str,
+    current_dir_name: str,
+    skill_dir_by_name: dict[str, str],
+) -> str:
+    """Delivery stage for the open skill — first kanban column that contains it."""
+
+    def matches(skill_id: str) -> bool:
+        dir_name = skill_dir_by_name.get(skill_id) or GITHUB_SKILL_ALIASES.get(
+            skill_id, skill_id
+        )
+        return skill_id == current_skill_id or dir_name == current_dir_name
+
+    for stage_id, _title, _num, _purpose in model.stages:
+        for sk in model.matrix.get(stage_id, {}).get(plugin_id, []):
+            if matches(sk.skill_id):
+                return stage_id
+        if plugin_id == "idea-shaping" and stage_id == "shaping":
+            for skill_id in model.stage_folder_skills.get(stage_id, []):
+                if matches(skill_id):
+                    return stage_id
+    return model.stages[0][0]
+
+
+def _family_nav_href_at_stage(
+    plugin_id: str,
+    stage_id: str,
+    *,
+    plugin_stage_skill_hrefs: dict[str, dict[str, str]] | None,
+    plugin_first_skill_hrefs: dict[str, str] | None,
+    relative: str = "",
+    sibling_pages: bool = False,
+) -> str:
+    """Family link at a specific delivery stage, with first-skill fallback."""
+    if plugin_stage_skill_hrefs:
+        per_stage = plugin_stage_skill_hrefs.get(plugin_id, {})
+        if stage_id in per_stage:
+            return per_stage[stage_id]
+    if plugin_first_skill_hrefs and plugin_id in plugin_first_skill_hrefs:
+        href = plugin_first_skill_hrefs[plugin_id]
+        return _catalog_skill_href_as_sibling(href) if sibling_pages else href
+    return _plugin_href(plugin_id, relative=relative)
+
+
+def build_skill_page_practice_sidebar_html(
+    *,
+    current_plugin_id: str,
+    current_stage_id: str,
+    plugin_stage_skill_hrefs: dict[str, dict[str, str]] | None = None,
+    plugin_first_skill_hrefs: dict[str, str] | None = None,
+    relative_href_prefix: str = "",
+    sibling_pages: bool = False,
+) -> str:
+    """Left practice-family rail (hub style) — each link keeps the current delivery stage."""
+    cards: list[str] = []
+    for plugin_id in PLUGIN_ROW_ORDER:
+        css = PLUGIN_CSS_CLASS.get(plugin_id, "")
+        key = PLUGIN_PERSPECTIVE_KEY.get(plugin_id, "")
+        tooltip = PLUGIN_TOOLTIP.get(plugin_id, "")
+        href = _family_nav_href_at_stage(
+            plugin_id,
+            current_stage_id,
+            plugin_stage_skill_hrefs=plugin_stage_skill_hrefs,
+            plugin_first_skill_hrefs=plugin_first_skill_hrefs,
+            relative=relative_href_prefix,
+            sibling_pages=sibling_pages,
+        )
+        inner = _skill_ticket_inner_html(plugin_id, tooltip)
+        current_cls = " kb-ticket--current" if plugin_id == current_plugin_id else ""
+        tooltip_cls = " has-skill-tooltip" if tooltip else ""
+        cards.append(
+            f'      <a class="foundry-practice-col__card foundry-perspective-label--{key} '
+            f"aad-skill {css}{current_cls}{tooltip_cls}\" href=\"{_h(href)}\">{inner}</a>"
+        )
+    return (
+        '    <div class="skill-kanban-nav__practice-col" aria-label="Practice families">\n'
+        + "\n".join(cards)
+        + "\n    </div>"
+    )
+
+
+def build_kanban_legend_html(
+    *,
+    relative_href_prefix: str = "../",
+    indent: str = "      ",
+    plugin_first_skill_hrefs: dict[str, str] | None = None,
+) -> str:
     """Practice plugin key cards (same style as skill tickets); delivery omitted — in crosscut."""
     cards: list[str] = []
     for plugin_id in PLUGIN_ROW_ORDER:
         css = PLUGIN_CSS_CLASS.get(plugin_id, "")
-        href = _plugin_href(plugin_id, relative=relative_href_prefix)
+        href = _family_nav_href(
+            plugin_id,
+            relative=relative_href_prefix,
+            plugin_first_skill_hrefs=plugin_first_skill_hrefs,
+        )
         cards.append(
             f'<a class="kb-ticket aad-skill {css}" '
             f'href="{_h(href)}">{_h(plugin_id)}</a>'
@@ -543,17 +737,223 @@ def _foundry_col_head_html(stage_id: str, title: str, num: str | int, href: str)
     )
 
 
-def build_foundry_practice_col_html(*, relative_href_prefix: str = "") -> str:
+def _skill_nav_col_head_html(
+    stage_id: str,
+    title: str,
+    num: str | int,
+    *,
+    href: str = "",
+    is_active: bool = False,
+) -> str:
+    """Kanban column head for skill detail nav — links to the stage skill when href is set."""
+    shape_key, scope_name, width_label, bullets = STAGE_SCOPE_META[stage_id]
+    tooltip_label = f"{scope_name}. {width_label}. {bullets.replace(' · ', ', ')}"
+    active_cls = " kb-col-head--current" if is_active else ""
+    inner = (
+        f'          <div class="kb-col-head-row">\n'
+        f'            <span class="kb-col-scope-shape kb-col-scope-shape--{shape_key}" '
+        f'aria-hidden="true"></span>\n'
+        f'            <span class="kb-col-head-title"><span>{_h(title)}</span>'
+        f'<span class="kb-col-num">{num}</span></span>\n'
+        f"          </div>\n"
+    )
+    if href:
+        return (
+            f'        <a class="kb-col-head kb-col-head--link{active_cls}" data-stage="{stage_id}" '
+            f'href="{_h(href)}" title="{_h(tooltip_label)}">\n'
+            f"{inner}"
+            f"        </a>\n"
+        )
+    return (
+        f'        <div class="kb-col-head kb-col-head--static" data-stage="{stage_id}" '
+        f'title="{_h(tooltip_label)}">\n'
+        f"{inner}"
+        f"        </div>\n"
+    )
+
+
+def _skill_in_family(
+    skill_id: str,
+    family_skill_ids: frozenset[str],
+    skill_dir_by_name: dict[str, str],
+) -> bool:
+    if skill_id in family_skill_ids:
+        return True
+    dir_name = skill_dir_by_name.get(skill_id)
+    if dir_name and dir_name in family_skill_ids:
+        return True
+    alias = GITHUB_SKILL_ALIASES.get(skill_id)
+    if alias and alias in family_skill_ids:
+        return True
+    return bool(alias and skill_dir_by_name.get(alias, "") in family_skill_ids)
+
+
+def _skill_nav_ticket_html(
+    *,
+    skill_id: str,
+    stage_id: str,
+    skill_dir_by_name: dict[str, str],
+    family_css: str,
+    is_active: bool = False,
+    notes: str = "",
+    skill_purpose_by_name: dict[str, str] | None = None,
+) -> str:
+    dir_name = skill_dir_by_name.get(skill_id) or GITHUB_SKILL_ALIASES.get(skill_id, skill_id)
+    href = f"{quote(dir_name, safe='')}.html"
+    label = _skill_label(skill_id, stage_id)
+    purpose = _skill_purpose_text(skill_id, skill_purpose_by_name, notes=notes)
+    title_attr = f' title="{_h(purpose)}"' if purpose else ""
+    active_cls = " kb-ticket--current" if is_active else ""
+    return (
+        f'          <a class="kb-ticket aad-skill {family_css}{active_cls}" '
+        f'href="{_h(href)}"{title_attr}>{_h(label)}</a>'
+    )
+
+
+def build_skill_family_kanban_nav_html(
+    model: KanbanModel,
+    plugin_id: str,
+    *,
+    family_skill_ids: frozenset[str],
+    skill_dir_by_name: dict[str, str],
+    current_skill_id: str,
+    current_dir_name: str = "",
+    skill_purpose_by_name: dict[str, str] | None = None,
+    plugin_stage_skill_hrefs: dict[str, dict[str, str]] | None = None,
+    plugin_first_skill_hrefs: dict[str, str] | None = None,
+) -> str:
+    """Kanban column nav for skill pages — practice sidebar + stage headings."""
+    if not plugin_id or plugin_id not in PLUGIN_ROW_ORDER:
+        return ""
+
+    family_css = PLUGIN_CSS_CLASS.get(plugin_id, STAGE_SKILL_FAMILY_CLASS)
+    cols: list[str] = []
+    current_marked = False
+
+    def append_ticket(
+        *,
+        skill_id: str,
+        stage_id: str,
+        notes: str = "",
+    ) -> None:
+        nonlocal current_marked, first_href, col_is_active
+        dir_name = skill_dir_by_name.get(skill_id) or GITHUB_SKILL_ALIASES.get(
+            skill_id, skill_id
+        )
+        if not first_href:
+            first_href = f"{quote(dir_name, safe='')}.html"
+        matches_current = (
+            skill_id == current_skill_id or dir_name == current_dir_name
+        )
+        is_active = matches_current and not current_marked
+        if is_active:
+            current_marked = True
+            col_is_active = True
+        tickets.append(
+            _skill_nav_ticket_html(
+                skill_id=skill_id,
+                stage_id=stage_id,
+                skill_dir_by_name=skill_dir_by_name,
+                family_css=family_css,
+                is_active=is_active,
+                notes=notes,
+                skill_purpose_by_name=skill_purpose_by_name,
+            )
+        )
+
+    for stage_id, title, num, _purpose in model.stages:
+        tickets: list[str] = []
+        seen_in_col: set[str] = set()
+        first_href = ""
+        col_is_active = False
+
+        for sk in model.matrix.get(stage_id, {}).get(plugin_id, []):
+            if not _kanban_include_skill(sk.skill_id, stage_id=stage_id, notes=sk.notes):
+                continue
+            if not _skill_in_family(sk.skill_id, family_skill_ids, skill_dir_by_name):
+                continue
+            if sk.skill_id in seen_in_col:
+                continue
+            seen_in_col.add(sk.skill_id)
+            append_ticket(skill_id=sk.skill_id, stage_id=stage_id, notes=sk.notes)
+
+        if plugin_id == "idea-shaping" and stage_id == "shaping":
+            for skill_id in model.stage_folder_skills.get(stage_id, []):
+                if skill_id in seen_in_col:
+                    continue
+                if not _kanban_include_skill(skill_id, stage_id=stage_id):
+                    continue
+                if not _skill_in_family(skill_id, family_skill_ids, skill_dir_by_name):
+                    continue
+                seen_in_col.add(skill_id)
+                append_ticket(skill_id=skill_id, stage_id=stage_id)
+
+        if not tickets:
+            continue
+
+        col_head = _skill_nav_col_head_html(
+            stage_id, title, num, href=first_href, is_active=col_is_active
+        )
+        cols.append(
+            f'      <div class="skill-kanban-nav__col" data-stage="{stage_id}">\n'
+            f"{col_head}"
+            f'        <div class="skill-kanban-nav__tickets">\n'
+            + "\n".join(tickets)
+            + "\n        </div>\n      </div>"
+        )
+
+    if not cols:
+        return ""
+
+    current_stage_id = resolve_skill_stage_id(
+        model,
+        plugin_id,
+        current_skill_id=current_skill_id,
+        current_dir_name=current_dir_name,
+        skill_dir_by_name=skill_dir_by_name,
+    )
+    sidebar = build_skill_page_practice_sidebar_html(
+        current_plugin_id=plugin_id,
+        current_stage_id=current_stage_id,
+        plugin_stage_skill_hrefs=plugin_stage_skill_hrefs,
+        plugin_first_skill_hrefs=plugin_first_skill_hrefs,
+        sibling_pages=True,
+    )
+    col_count = len(cols)
+    return (
+        '<div class="skill-kanban-nav">\n'
+        '<div class="wrap">\n'
+        '<div class="skill-kanban-nav__board">\n'
+        f"{sidebar}\n"
+        f'<nav class="skill-kanban-nav__stages" style="--skill-kanban-cols: {col_count}" '
+        'aria-label="Practice stages">\n'
+        + "\n".join(cols)
+        + "\n</nav>\n</div>\n</div>\n</div>\n"
+    )
+
+
+def build_foundry_practice_col_html(
+    *,
+    relative_href_prefix: str = "",
+    plugin_first_skill_hrefs: dict[str, str] | None = None,
+) -> str:
     """Practice plugin key — left rail beside the board (replaces short perspective labels)."""
     cards: list[str] = []
     for plugin_id in PLUGIN_ROW_ORDER:
         css = PLUGIN_CSS_CLASS.get(plugin_id, "")
         key = PLUGIN_PERSPECTIVE_KEY[plugin_id]
-        href = _plugin_href(plugin_id, relative=relative_href_prefix)
+        href = _family_nav_href(
+            plugin_id,
+            relative=relative_href_prefix,
+            plugin_first_skill_hrefs=plugin_first_skill_hrefs,
+        )
+        tooltip = PLUGIN_TOOLTIP.get(plugin_id, "")
+        tooltip_cls = " has-skill-tooltip" if tooltip else ""
+        inner = _skill_ticket_inner_html(plugin_id, tooltip)
         cards.append(
             f'      <a class="kb-ticket aad-skill {css} foundry-practice-col__card '
-            f"foundry-perspective-label foundry-perspective-label--{key}\" "
-            f'data-perspective="{key}" href="{_h(href)}">{_h(plugin_id)}</a>'
+            f"foundry-perspective-label foundry-perspective-label--{key}{tooltip_cls}\" "
+            f'data-perspective="{key}" href="{_h(href)}">{inner}</a>'
         )
     return (
         '    <div class="foundry-practice-col" aria-label="Practice plugins">\n'
@@ -576,6 +976,7 @@ def build_catalog_hub_kanban_embed_html(
     skill_dir_by_name: dict[str, str],
     *,
     skill_purpose_by_name: dict[str, str] | None = None,
+    plugin_first_skill_hrefs: dict[str, str] | None = None,
 ) -> str:
     """Foundry hub kanban — CDD tour, perspective labels, board, questions, crosscut."""
     cols = build_kanban_board_html(
@@ -589,13 +990,17 @@ def build_catalog_hub_kanban_embed_html(
         foundry_hub=True,
         skill_purpose_by_name=skill_purpose_by_name,
     )
-    practice_col = build_foundry_practice_col_html(relative_href_prefix="")
+    practice_col = build_foundry_practice_col_html(
+        relative_href_prefix="",
+        plugin_first_skill_hrefs=plugin_first_skill_hrefs,
+    )
     cdd = textwrap.indent(_load_foundry_cdd_panel_html().strip(), "    ")
     questions = build_stage_questions_row_html(model, foundry_grid=True)
     crosscut = build_crosscut_html(
         skill_dir_by_name,
         relative_href_prefix="",
         skill_purpose_by_name=skill_purpose_by_name,
+        plugin_first_skill_hrefs=plugin_first_skill_hrefs,
     )
     after_parts: list[str] = []
     if questions.strip():
@@ -1304,6 +1709,7 @@ def build_crosscut_html(
     *,
     relative_href_prefix: str = "../",
     skill_purpose_by_name: dict[str, str] | None = None,
+    plugin_first_skill_hrefs: dict[str, str] | None = None,
 ) -> str:
     """Cross-plugin skill rows below stage question bullets."""
     rel = relative_href_prefix
@@ -1312,7 +1718,11 @@ def build_crosscut_html(
 
     for group_id, label, plugin_id, skill_ids in SUPPORTING_CROSSCUT_GROUPS:
         family_css = PLUGIN_CSS_CLASS.get(plugin_id, "aad-fam-supporting")
-        group_href = _plugin_href(plugin_id, relative=rel)
+        group_href = _family_nav_href(
+            plugin_id,
+            relative=rel,
+            plugin_first_skill_hrefs=plugin_first_skill_hrefs,
+        )
         practice_rows_list.extend(
             _crosscut_group_rows(
                 label,
@@ -1333,7 +1743,11 @@ def build_crosscut_html(
                 skill_ids,
                 skill_dir_by_name,
                 relative=rel,
-                group_href=_plugin_href(plugin_id, relative=rel),
+                group_href=_family_nav_href(
+                    plugin_id,
+                    relative=rel,
+                    plugin_first_skill_hrefs=plugin_first_skill_hrefs,
+                ),
                 family_css="aad-fam-foundational",
                 tier="foundational",
                 skill_purpose_by_name=skill_purpose_by_name,

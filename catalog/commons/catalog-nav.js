@@ -179,6 +179,28 @@
 
 
 
+  function foundryLinks() {
+
+    var p = navPrefix();
+
+    return [
+
+      { id: 'hub', label: 'Complete', href: p + 'index.html' },
+
+      { id: 'skills', label: 'Skills', href: p + 'skills.html' },
+
+      { id: 'agents', label: 'Agents', href: p + 'agents.html' },
+
+      { id: 'instructions', label: 'Instructions', href: p + 'instructions.html' },
+
+      { id: 'kanban', label: 'Delivery kanban', href: p + 'kanban-layout/index.html' }
+
+    ];
+
+  }
+
+
+
   function linkHTML(links, currentPage) {
 
     return links.map(function (l) {
@@ -209,11 +231,21 @@
 
     var site = siteBase();
 
-    return SITE_LINKS.map(function (l) {
+    var items = SITE_LINKS.map(function (l) {
 
       return { label: l.label, href: site + l.href, kind: 'site' };
 
     });
+
+    items.push({ sep: true });
+
+    foundryLinks().forEach(function (l) {
+
+      items.push({ id: l.id, label: l.label, href: l.href, kind: 'foundry' });
+
+    });
+
+    return items;
 
   }
 

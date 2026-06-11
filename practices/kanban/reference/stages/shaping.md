@@ -27,7 +27,7 @@ Shaping uses the same **`abd-story-mapping`** skill as Discovery but in **outlin
 | 1 | **Domain-driven design** | `abd-domain-glossary` | Business Expert | Module boundaries + KA-grouped domain terms in one pass |
 | 2 | **Story-driven delivery** | `abd-story-mapping` (**outline mode**) | Product Owner | Epic-level map; actors and journeys, not full decomposition |
 | 2b | **Story-driven delivery** | `drawio-story-sync` | | **Background** after story-mapping — `story-map.drawio` |
-| 3 | **User experience design** | `abd-impact-mapping` | Product Owner | Outcome-first goals, actors, impacts, deliverable options |
+| 3 | **User experience design** | `abd-ux-user-impact-map` | Product Owner | Outcome-first goals, actors, impacts, deliverable options |
 | 4 | **Architecture-centric engineering** | `abd-architecture-outline` | Engineer | System context, layering, deployment — no blueprint depth yet |
 
 ## Entry conditions

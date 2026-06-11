@@ -471,7 +471,22 @@ html[data-abd-theme="executive"] .catalog-body code {
 }
 
 .page-hero--detail {
-  padding-top: 48px;
+  padding-top: 20px;
+  padding-bottom: 16px;
+}
+.page-hero--detail .page-headline {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 4px 0 6px;
+}
+.page-headline .skill-name-prefix,
+.cap-card__title .skill-name-prefix {
+  color: var(--accent);
+}
+.page-hero--detail .body-lead {
+  font-size: 0.9rem;
+  margin: 0;
+  color: var(--muted);
 }
 
 .page-hero--detail .back-link {
@@ -731,8 +746,18 @@ a.cap-card:hover .cap-card__more {
   color: #b8b8c2;
   margin: 0 0 18px;
 }
+.skill-detail-page .skill-hero-img-wrap + .install-block {
+  margin-top: 18px;
+}
+.skill-detail-page .install-block + .skill-cr-grid,
+.skill-detail-page .install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block {
+  margin-top: 0;
+}
 .install-block {
-  margin: 22px 0 0;
+  margin: 20px 0 0;
   padding: 16px 18px;
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid var(--border-muted);
@@ -1041,8 +1066,603 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 .plugin-slots h3:first-child { margin-top: 0; }
 .cap-grid--plugin-slot { margin-bottom: 8px; }
 
+/* ── Skill detail: family kanban stage nav (matches hub column headings) ── */
+.skill-kanban-nav {
+  --fam-sdd: #6bcb77;
+  --fam-ddd: #6c5ce7;
+  --fam-uxd: #e84393;
+  --fam-arc: #4fc3f7;
+  --fam-idea: var(--accent);
+  --abd-accent: var(--accent);
+  --abd-accent-glow: var(--accent-soft, var(--accent));
+  --abd-raised: var(--raised);
+  --abd-bg: var(--bg);
+  --abd-border: var(--border);
+  --abd-text: var(--text);
+  --abd-muted: var(--muted);
+  background: var(--raised);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0 16px;
+}
+.skill-kanban-nav .wrap {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.skill-kanban-nav__board {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  gap: 6px 8px;
+  align-items: start;
+}
+.skill-kanban-nav__practice-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  margin: 0;
+  padding: 0 8px;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-left-width: 3px;
+  border-radius: 4px;
+  line-height: 1.25;
+  box-sizing: border-box;
+  transition: box-shadow 120ms, border-color 120ms;
+  color: inherit;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card:hover {
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--sdd {
+  border-left-color: var(--fam-sdd);
+  color: var(--fam-sdd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--ddd {
+  border-left-color: var(--fam-ddd);
+  color: var(--fam-ddd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--uxd {
+  border-left-color: var(--fam-uxd);
+  color: var(--fam-uxd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--arc {
+  border-left-color: var(--fam-arc);
+  color: var(--fam-arc);
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap {
+  position: relative;
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip.kb-col-shape-tooltip {
+  min-width: 10rem;
+  max-width: 22rem;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:hover .kb-skill-tooltip,
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:focus-within .kb-skill-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.skill-kanban-nav__stages {
+  display: grid;
+  grid-template-columns: repeat(var(--skill-kanban-cols, 5), minmax(0, 1fr));
+  gap: 0 8px;
+  min-width: 0;
+}
+.skill-kanban-nav__col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.skill-kanban-nav__tickets {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.skill-kanban-nav .kb-col-head {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 8px 6px 7px;
+  font-family: var(--font-mono);
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.skill-kanban-nav .kb-col-head--static {
+  cursor: default;
+}
+.skill-kanban-nav a.kb-col-head {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav a.kb-col-head:hover {
+  border-color: rgba(229, 83, 26, 0.35);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.15);
+}
+.skill-kanban-nav .kb-col-head--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-col-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+}
+.skill-kanban-nav .kb-col-scope-shape {
+  flex-shrink: 0;
+  border: 2px solid var(--abd-accent);
+  border-radius: 2px;
+}
+.skill-kanban-nav__stages .kb-col-shape-tooltip,
+.skill-kanban-nav__stages .kb-skill-tooltip-wrap .kb-col-shape-tooltip {
+  display: none !important;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 8px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 7px 9px;
+  font-family: var(--font-mono);
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid rgba(229, 83, 26, 0.45);
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 14px;
+  border: 5px solid transparent;
+  border-bottom-color: rgba(229, 83, 26, 0.45);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__name {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--abd-accent-glow);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__bullets {
+  font-size: 8px;
+  line-height: 1.45;
+  color: var(--abd-text);
+  white-space: pre-line;
+}
+.skill-kanban-nav .kb-col-scope-shape--solution { width: 36px; height: 12px; }
+.skill-kanban-nav .kb-col-scope-shape--increment { width: 24px; height: 16px; }
+.skill-kanban-nav .kb-col-scope-shape--sprint { width: 16px; height: 22px; }
+.skill-kanban-nav .kb-col-scope-shape--story { width: 11px; height: 28px; }
+.skill-kanban-nav .kb-col-head-title {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--abd-text);
+}
+.skill-kanban-nav .kb-col-head-title > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.skill-kanban-nav .kb-col-num {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--abd-text);
+  background: var(--abd-bg);
+  border: 1px solid var(--abd-border);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+.skill-kanban-nav .kb-ticket {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  background: var(--abd-raised);
+  color: var(--abd-text);
+  padding: 5px 6px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  border-left-width: 3px;
+  border-left-color: var(--abd-muted);
+  line-height: 1.25;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav .kb-ticket:hover {
+  border-color: var(--abd-border);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.2);
+}
+.skill-kanban-nav .kb-ticket.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-ticket.aad-fam-sdd { border-left-color: var(--fam-sdd); }
+.skill-kanban-nav .kb-ticket.aad-fam-ddd { border-left-color: var(--fam-ddd); }
+.skill-kanban-nav .kb-ticket.aad-fam-uxd { border-left-color: var(--fam-uxd); }
+.skill-kanban-nav .kb-ticket.aad-fam-arc { border-left-color: var(--fam-arc); }
+.skill-kanban-nav .kb-ticket.aad-fam-idea { border-left-color: var(--fam-idea); }
+@media (max-width: 960px) {
+  .skill-kanban-nav__board {
+    grid-template-columns: 1fr;
+  }
+  .skill-kanban-nav__stages {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
+
+/* ── Skill detail: full-width hero image / embedded viewer ── */
+.skill-hero-img-wrap {
+  margin: 24px 0 0;
+}
+.skill-hero-img-wrap:empty { display: none; }
+.skill-hero-img-wrap img,
+.skill-hero-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--raised);
+}
+
+/* HTML prototype iframe (reference/example/index.html) */
+.skill-prototype-wrap {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-prototype-frame {
+  display: block;
+  width: 100%;
+  min-height: 540px;
+  height: 71vh;
+  max-height: 810px;
+  border: 0;
+  background: #fff;
+}
+.skill-prototype-open {
+  margin: 0;
+  padding: 8px 14px;
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+  background: var(--raised);
+}
+.skill-prototype-open a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.skill-prototype-open a:hover { text-decoration: underline; }
+
+/* draw.io embedded viewer */
+.skill-drawio-wrap {
+  position: relative;
+  width: 100%;
+  height: min(71vh, 680px);
+  min-height: 340px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-drawio-wrap .mxgraph {
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+}
+.skill-drawio-wrap .geToolbarContainer {
+  z-index: 4;
+}
+
+/* code file preview */
+.skill-code-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--raised);
+  font-size: 13px;
+}
+.skill-code-lang {
+  padding: 6px 14px;
+  font-family: var(--mono, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.skill-code-preview pre {
+  margin: 0;
+  padding: 16px;
+  overflow-x: auto;
+  max-height: 420px;
+}
+.skill-code-preview code {
+  font-family: var(--mono, 'JetBrains Mono', monospace);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+/* rendered markdown preview */
+.skill-hero-img-wrap .skill-md-preview {
+  max-height: min(71vh, 610px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.skill-md-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px 24px;
+  background: var(--surface);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.skill-md-preview h1 { font-size: 18px; font-weight: 700; margin: 0 0 12px; }
+.skill-md-preview h2 { font-size: 15px; font-weight: 600; margin: 16px 0 8px;
+  border-bottom: 1px solid var(--border); padding-bottom: 3px; }
+.skill-md-preview h3 { font-size: 13px; font-weight: 600; margin: 12px 0 6px; }
+.skill-md-preview h4 { font-size: 12px; font-weight: 600; margin: 10px 0 4px; color: var(--muted); }
+.skill-md-preview p  { margin: 0 0 10px; }
+.skill-md-preview .spec-steps { margin: 0 0 14px; }
+.skill-md-preview p.spec-step { margin: 0 0 4px; line-height: 1.55; }
+.skill-md-preview .md-table-wrap { overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview .md-table { border-collapse: collapse; width: 100%; }
+.skill-md-preview ul, .skill-md-preview ol { margin: 0 0 10px; padding-left: 20px; }
+.skill-md-preview li { margin-bottom: 3px; }
+.skill-md-preview code { background: var(--raised); border-radius: 3px;
+  padding: 1px 5px; font-family: var(--mono, monospace); font-size: 12px; }
+.skill-md-preview pre { background: var(--raised); border-radius: 5px;
+  padding: 12px; overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview table { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
+.skill-md-preview th, .skill-md-preview td {
+  border: 1px solid var(--border); padding: 6px 10px; }
+.skill-md-preview th { background: var(--raised); font-weight: 600; }
+
+/* ── Skill detail: concepts | rules two-column grid ── */
+.skill-cr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin: 24px 0 0;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .skill-cr-grid { grid-template-columns: 1fr; }
+}
+.skill-cr-col { min-width: 0; }
+.skill-cr-single { margin: 24px 0 0; }
+
+/* Glossary example hero — term blocks without heavy HR dividers */
+.skill-md-preview--glossary h1 {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 10px;
+  border: 0;
+  padding: 0;
+}
+.skill-md-preview--glossary h2 {
+  font-size: 16px;
+  margin-top: 0;
+}
+.skill-md-preview--glossary h3 {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 14px 0 6px;
+  padding: 6px 8px;
+  background: var(--raised);
+  border-radius: 4px;
+  border-left: 3px solid var(--accent);
+}
+.skill-md-preview--glossary hr {
+  display: none;
+}
+.skill-md-preview--glossary ul {
+  margin-top: 0;
+}
+
+/* ── Skill detail: full-width content below ── */
+.skill-detail-content-col { margin-top: 32px; }
+.skill-detail-page .skill-cr-grid,
+.skill-detail-page .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-single,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-single {
+  margin-top: 0;
+}
+
+/* ── Skill detail: concepts (expandable) ── */
+.skill-hero-img-wrap + .install-block {
+  margin-top: 16px;
+}
+.install-block + .skill-cr-grid,
+.install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-concepts {
+  margin: 0 0 20px;
+}
+.skill-concepts-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 8px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-concept {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-concept summary {
+  padding: 8px 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  user-select: none;
+}
+.skill-concept summary::-webkit-details-marker { display: none; }
+.skill-concept summary::marker { content: ""; }
+.skill-concept summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-concept[open] summary::before { content: "\2212"; }
+.skill-concept-body {
+  padding: 6px 4px 10px 1.9rem;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.skill-concept-body p { margin: 0 0 8px; }
+.skill-concept-body p:last-child { margin-bottom: 0; }
+.skill-concept-body ul { margin: 0 0 8px 1.1em; padding: 0; }
+.skill-concept-body li { margin: 3px 0; }
+
+/* ── Skill detail: rules (DO / DON'T) ── */
+.skill-rules {
+  margin: 0 0 20px;
+}
+.skill-rules-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 12px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-rule {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule[open] > .skill-rule-header {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule-header {
+  padding: 8px 10px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  background: var(--raised);
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+.skill-rule-header::-webkit-details-marker { display: none; }
+.skill-rule-header::marker { content: ""; }
+.skill-rule-header::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-rule[open] > .skill-rule-header::before {
+  content: "\2212";
+}
+.skill-rule-section {
+  padding: 8px 12px;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+.skill-rule-section--do {
+  border-left: 3px solid #2d8a4e;
+}
+.skill-rule-section--dont {
+  border-left: 3px solid #c0392b;
+}
+.skill-rule-section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+  color: var(--muted);
+}
+.skill-rule-section--do .skill-rule-section-label { color: #2d8a4e; }
+.skill-rule-section--dont .skill-rule-section-label { color: #c0392b; }
+.skill-rule-section ul { margin: 0; padding: 0 0 0 1.1em; }
+.skill-rule-section li { margin: 2px 0; color: var(--text); }
+
 </style>
-<script src="../../../commons/catalog-nav.js?v=foundry-8"></script>
+<script src="../../../commons/catalog-nav.js?v=foundry-9"></script>
 </head>
 <body data-nav-prefix="../../../" data-nav-current="skills" data-nav-site-base="../../../../../abd-works-website/">
 <main id="main-content">
@@ -1051,6 +1671,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
   <div class="wrap">
     <a class="back-link" href="../../../skill/story-graph-ops.html">← story-graph-ops</a>
     <p class="s-name">Markdown</p>
+
     <h1 class="page-headline">MIGRATION_PARITY.md</h1>
     <p class="body-lead">Story graph parity: agile_bots → story-graph-ops</p>
   </div>
@@ -1061,50 +1682,50 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 
 <h2>Content</h2>
 <div class="rule-prose"><h1>Story graph parity: agile_bots → story-graph-ops</h1>
-<p>This document answers why `story_graph.nodes` still matters, what “full migration” means, and how tests (including CLI-style tests) should follow.</p>
-<h2>Two different `StoryMap` implementations today</h2>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Location</th><th>Role</th></tr></thead><tbody><tr><td>`agile_bots/src/story_graph/nodes.py`</td><td><strong>Full domain</strong>: `StoryMap`, `Epic`, `SubEpic`, `Story`, AC, scenarios, increments, `create_<em>`, `move_</em>`, `save()`, navigation, scope/submit hooks via `_bot`, trace generation, test-class moves, merge/updater entry points.</td></tr><tr><td>`agilebydesign-skills/.../story-graph-ops/scripts/story_map.py`</td><td><strong>Ops façade</strong>: dict-backed tree walk (`Epic` / `Story` wrappers), `from_json_file`, `from_bot`, scanners—<strong>no</strong> parity with `nodes.StoryMap` mutations.</td></tr></tbody></table></div>
-<p>The skill’s `SKILL.md` already describes CRUD on the artifact; the <strong>implementation</strong> has not caught up. That gap is the source of confusion—not a naming mistake.</p>
+<p>This document answers why <code>story_graph.nodes</code> still matters, what “full migration” means, and how tests (including CLI-style tests) should follow.</p>
+<h2>Two different <code>StoryMap</code> implementations today</h2>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Location</th><th>Role</th></tr></thead><tbody><tr><td><code>agile_bots/src/story_graph/nodes.py</code></td><td><strong>Full domain</strong>: <code>StoryMap</code>, <code>Epic</code>, <code>SubEpic</code>, <code>Story</code>, AC, scenarios, increments, <code>create_*</code>, <code>move_*</code>, <code>save()</code>, navigation, scope/submit hooks via <code>_bot</code>, trace generation, test-class moves, merge/updater entry points.</td></tr><tr><td><code>agilebydesign-skills/.../story-graph-ops/scripts/story_map.py</code></td><td><strong>Ops façade</strong>: dict-backed tree walk (<code>Epic</code> / <code>Story</code> wrappers), <code>from_json_file</code>, <code>from_bot</code>, scanners—<strong>no</strong> parity with <code>nodes.StoryMap</code> mutations.</td></tr></tbody></table></div>
+<p>The skill’s <code>SKILL.md</code> already describes CRUD on the artifact; the <strong>implementation</strong> has not caught up. That gap is the source of confusion—not a naming mistake.</p>
 <h2>What “bring everything over” includes</h2>
 <p>Minimum set that is <strong>not</strong> optional if the skill truly owns the graph lifecycle:</p>
-<p>1. <strong>`nodes.py`</strong> (large): hierarchy + mutations + serialization to `story-graph.json`. 2. <strong>`domain.py`</strong>: `DomainConcept`, `StoryUser`, etc. 3. <strong>`story_graph_paths.py`</strong>: path layout (or an injectable `StoryGraphPaths`-compatible object). 4. <strong>`test_class_mover.py`</strong>: used from nodes for test-class moves (logging paths should be neutralized for standalone use). 5. <strong>Apply-merge-from-report</strong> (concept, not DrawIO parsing): logic that takes an <strong>`UpdateReport`</strong> (or equivalent JSON) and updates `story-graph.json` belongs with <strong>story graph</strong> tooling—<strong>story-graph-ops</strong> or agile_bots—once the report <strong>already exists</strong>. Implement it with <strong>no</strong> DrawIO / synchronizer imports (see dependency direction below).</p>
-<p>Cross-cutting refactors required for <strong>standalone</strong> use (no agile_bots `Bot`):</p>
+<p>1. <strong><code>nodes.py</code></strong> (large): hierarchy + mutations + serialization to <code>story-graph.json</code>. 2. <strong><code>domain.py</code></strong>: <code>DomainConcept</code>, <code>StoryUser</code>, etc. 3. <strong><code>story_graph_paths.py</code></strong>: path layout (or an injectable <code>StoryGraphPaths</code>-compatible object). 4. <strong><code>test_class_mover.py</code></strong>: used from nodes for test-class moves (logging paths should be neutralized for standalone use). 5. <strong>Apply-merge-from-report</strong> (concept, not DrawIO parsing): logic that takes an <strong><code>UpdateReport</code></strong> (or equivalent JSON) and updates <code>story-graph.json</code> belongs with <strong>story graph</strong> tooling—<strong>story-graph-ops</strong> or agile_bots—once the report <strong>already exists</strong>. Implement it with <strong>no</strong> DrawIO / synchronizer imports (see dependency direction below).</p>
+<p>Cross-cutting refactors required for <strong>standalone</strong> use (no agile_bots <code>Bot</code>):</p>
 <ul>
-<li><strong>`_bot`</strong>: today gates `save()`, scope, `submit_action`, `openStoryFile`, `render_diagram`, behaviors list, etc. Standalone mode needs a small <strong>host protocol</strong> (e.g. optional `StoryGraphHost` with `workspace_directory`, `story_graph_path`, `save()`, and no-op or delegated behaviors) so mutations still call `save()` without a full bot.</li>
-<li><strong>`utils`</strong>: `sanitize_json_string`, `find_test_class_line`, `find_test_method_line`, `find_matching_test_files`, `name_to_test_stem`—either copy minimal helpers into the skill or depend on a tiny shared util package.</li>
-<li><strong>`traceability.trace_generator`</strong>: optional lazy import or stub when trace is not needed for file ops.</li>
+<li><strong><code>_bot</code></strong>: today gates <code>save()</code>, scope, <code>submit_action</code>, <code>openStoryFile</code>, <code>render_diagram</code>, behaviors list, etc. Standalone mode needs a small <strong>host protocol</strong> (e.g. optional <code>StoryGraphHost</code> with <code>workspace_directory</code>, <code>story_graph_path</code>, <code>save()</code>, and no-op or delegated behaviors) so mutations still call <code>save()</code> without a full bot.</li>
+<li><strong><code>utils</code></strong>: <code>sanitize_json_string</code>, <code>find_test_class_line</code>, <code>find_test_method_line</code>, <code>find_matching_test_files</code>, <code>name_to_test_stem</code>—either copy minimal helpers into the skill or depend on a tiny shared util package.</li>
+<li><strong><code>traceability.trace_generator</code></strong>: optional lazy import or stub when trace is not needed for file ops.</li>
 </ul>
-<h2>Why CLI tests (`TTYBotTestHelper`, `story_graph.create_*`) were called “stay in agile_bots”</h2>
-<p>Those tests assert the <strong>agile_bots REPL/CLI</strong> contract: `story_graph.&lt;path&gt;.create_epic`, `move_story_node`, etc., wired through `TTYBotTestHelper` and bot state.</p>
-<p>That is <strong>not</strong> the same as `story_graph_cli.py` today, which only implements <strong>read / names / search / filter / write</strong> on JSON.</p>
-<p><strong>Intended end state:</strong> once `story_graph_cli.py` exposes the <strong>same operations</strong> as the bot’s `story_graph.<em>` commands, port the </em><em>scenarios</em>* from `TestCreateEpic`, `TestMoveStoryNode`, etc.</p>
-<p><strong>CLI shape (prefer bot parity):</strong> mutation commands should accept <strong>dot-style paths</strong> like the current bot CLI (e.g. `story_graph.&quot;Invoke Bot&quot;.create_sub_epic`), not only “pipe a full golden `story-graph.json`.” Use `--file` for which graph to edit; use a single <strong>`--path`</strong> (or positional) string for the dotted navigation + operation so subprocess tests read like the old TTY cases.</p>
-<p><strong>Assertions:</strong> you do <strong>not</strong> have to check in giant golden JSON files. Typical pattern: run the dot-notation mutate command, then `story_graph_cli.py read --file ...` (or `names` / `search`) and assert on <strong>parsed JSON</strong> or listed lines—same information, less brittle than diffing a whole file unless you want an explicit golden for regression.</p>
-<p><strong>In-process alternative:</strong> import the full `StoryMap` (vendored package) and assert on dict/file when you want faster tests without subprocess overhead.</p>
-<p>`TTYBotTestHelper` stays <strong>bot-specific</strong>; the <strong>cases</strong> port to the skill CLI or Python API once the mutation surface exists.</p>
+<h2>Why CLI tests (<code>TTYBotTestHelper</code>, <code>story_graph.create_*</code>) were called “stay in agile_bots”</h2>
+<p>Those tests assert the <strong>agile_bots REPL/CLI</strong> contract: <code>story_graph.&lt;path&gt;.create_epic</code>, <code>move_story_node</code>, etc., wired through <code>TTYBotTestHelper</code> and bot state.</p>
+<p>That is <strong>not</strong> the same as <code>story_graph_cli.py</code> today, which only implements <strong>read / names / search / filter / write</strong> on JSON.</p>
+<p><strong>Intended end state:</strong> once <code>story_graph_cli.py</code> exposes the <strong>same operations</strong> as the bot’s <code>story_graph.*</code> commands, port the <strong>scenarios</strong> from <code>TestCreateEpic</code>, <code>TestMoveStoryNode</code>, etc.</p>
+<p><strong>CLI shape (prefer bot parity):</strong> mutation commands should accept <strong>dot-style paths</strong> like the current bot CLI (e.g. <code>story_graph.&quot;Invoke Bot&quot;.create_sub_epic</code>), not only “pipe a full golden <code>story-graph.json</code>.” Use <code>--file</code> for which graph to edit; use a single <strong><code>--path</code></strong> (or positional) string for the dotted navigation + operation so subprocess tests read like the old TTY cases.</p>
+<p><strong>Assertions:</strong> you do <strong>not</strong> have to check in giant golden JSON files. Typical pattern: run the dot-notation mutate command, then <code>story_graph_cli.py read --file ...</code> (or <code>names</code> / <code>search</code>) and assert on <strong>parsed JSON</strong> or listed lines—same information, less brittle than diffing a whole file unless you want an explicit golden for regression.</p>
+<p><strong>In-process alternative:</strong> import the full <code>StoryMap</code> (vendored package) and assert on dict/file when you want faster tests without subprocess overhead.</p>
+<p><code>TTYBotTestHelper</code> stays <strong>bot-specific</strong>; the <strong>cases</strong> port to the skill CLI or Python API once the mutation surface exists.</p>
 <h2>Suggested phases</h2>
-<p>1. <strong>Vendor core graph domain</strong> under `story-graph-ops/scripts/` (package `story_graph_ops/`) with `domain.py` + `nodes.py` + `story_graph_paths.py` + `test_class_mover.py` + <strong>`story_graph_scope.py`</strong> (`ScopeType`, `StoryGraphFilter`, `FileFilter`, `StoryGraphScope` — bot-free dict/file filtering from `agile_bots/src/scope/scope.py`), adjusted imports and `_bot`/host protocol. 2. <strong>Wire `story_map.py`</strong>: either deprecate in favor of the full `StoryMap` for walks, or make `story_map` a thin alias over the same tree types to remove duplicate `Epic`/`Story` classes. 3. <strong>Extend `story_graph_cli.py`</strong> with mutation subcommands mirroring bot CLI where feasible. 4. <strong>Port tests</strong> from `agile_bots/test/invoke_bot/edit_story_map/` in order: pure graph mutations → file save/load → scope (if host stubbed) → CLI subprocess tests mirroring old TTY scenarios.</p>
+<p>1. <strong>Vendor core graph domain</strong> under <code>story-graph-ops/scripts/</code> (package <code>story_graph_ops/</code>) with <code>domain.py</code> + <code>nodes.py</code> + <code>story_graph_paths.py</code> + <code>test_class_mover.py</code> + <strong><code>story_graph_scope.py</code></strong> (<code>ScopeType</code>, <code>StoryGraphFilter</code>, <code>FileFilter</code>, <code>StoryGraphScope</code> — bot-free dict/file filtering from <code>agile_bots/src/scope/scope.py</code>), adjusted imports and <code>_bot</code>/host protocol. 2. <strong>Wire <code>story_map.py</code></strong>: either deprecate in favor of the full <code>StoryMap</code> for walks, or make <code>story_map</code> a thin alias over the same tree types to remove duplicate <code>Epic</code>/<code>Story</code> classes. 3. <strong>Extend <code>story_graph_cli.py</code></strong> with mutation subcommands mirroring bot CLI where feasible. 4. <strong>Port tests</strong> from <code>agile_bots/test/invoke_bot/edit_story_map/</code> in order: pure graph mutations → file save/load → scope (if host stubbed) → CLI subprocess tests mirroring old TTY scenarios.</p>
 <h2>Tests to track (agile_bots)</h2>
-<p>Under `test/invoke_bot/edit_story_map/` (and related helpers): graph edits, increments, scope, display, submit scoped action, etc. Each file should be listed in a checklist as it gains a skill-side equivalent.</p>
+<p>Under <code>test/invoke_bot/edit_story_map/</code> (and related helpers): graph edits, increments, scope, display, submit scoped action, etc. Each file should be listed in a checklist as it gains a skill-side equivalent.</p>
 <h2>agile_bots synchronizers reference</h2>
-<p>See `agile_bots/src/synchronizers/story_io/STORY_GRAPH_OPS_BRIDGE.md` for how DrawIO report generation stays in <strong>story_io</strong> while apply-merge runs in <strong>story-graph-ops</strong> (or <strong>drawio-story-sync</strong> `apply-report` CLI).</p>
+<p>See <code>agile_bots/src/synchronizers/story_io/STORY_GRAPH_OPS_BRIDGE.md</code> for how DrawIO report generation stays in <strong>story_io</strong> while apply-merge runs in <strong>story-graph-ops</strong> (or <strong>drawio-story-sync</strong> <code>apply-report</code> CLI).</p>
 <h2>DrawIO vs story-graph-ops (who does what)</h2>
 <ul>
-<li><strong>Dependency direction:</strong> <strong>story-graph-ops must not depend on DrawIO</strong>—no imports from drawio-story-sync, synchronizers, or `.drawio` parsing. The edge goes <strong>DrawIO → story-graph-ops</strong> (or DrawIO → story bot): the DrawIO skill <strong>calls</strong> ops to apply a report or mutate JSON; ops stays JSON-only and DrawIO-free.</li>
-<li><strong>drawio-story-sync:</strong> load/extract diagram, <strong>generate the update report</strong>. `synchronizers.story_io` and friends live <strong>only</strong> here.</li>
-<li><strong>story-graph-ops:</strong> accepts paths + JSON / report payloads (e.g. “apply this `UpdateReport` JSON to this `story-graph.json`”). No diagram reads.</li>
+<li><strong>Dependency direction:</strong> <strong>story-graph-ops must not depend on DrawIO</strong>—no imports from drawio-story-sync, synchronizers, or <code>.drawio</code> parsing. The edge goes <strong>DrawIO → story-graph-ops</strong> (or DrawIO → story bot): the DrawIO skill <strong>calls</strong> ops to apply a report or mutate JSON; ops stays JSON-only and DrawIO-free.</li>
+<li><strong>drawio-story-sync:</strong> load/extract diagram, <strong>generate the update report</strong>. <code>synchronizers.story_io</code> and friends live <strong>only</strong> here.</li>
+<li><strong>story-graph-ops:</strong> accepts paths + JSON / report payloads (e.g. “apply this <code>UpdateReport</code> JSON to this <code>story-graph.json</code>”). No diagram reads.</li>
 <li><strong>Orchestration:</strong> after the report exists, <strong>drawio-story-sync</strong> invokes <strong>story-graph-ops</strong> CLI or Python API—or the user invokes <strong>story bot</strong> for merge-with-report. Ops does not vendor synchronizers.</li>
 </ul>
-<p><strong>story-graph-ops</strong> exposes <strong>apply report → updated graph on disk</strong> (and general CRUD on the file). It does <strong>not</strong> own “read `.drawio` and diff.”</p>
+<p><strong>story-graph-ops</strong> exposes <strong>apply report → updated graph on disk</strong> (and general CRUD on the file). It does <strong>not</strong> own “read <code>.drawio</code> and diff.”</p>
 <h3>Type model: DrawIO extends graph nodes (not a second tree)</h3>
 <ul>
-<li><strong>Canonical nodes</strong> (`StoryNode`, `Epic`, `SubEpic`, `Story`, …) live with <strong>story-graph-ops</strong> (vendored from today’s `story_graph.nodes`): they describe the <strong>story graph</strong> domain and `story-graph.json`.</li>
-<li><strong>DrawIO</strong> code (`drawio-story-sync` / synchronizers) should use a <strong>DrawIO hierarchy</strong> of types—`DrawIOElement`, `DrawIOEpic`, `DrawIOStory`, …—that <strong>extend</strong> those graph node types (plus XML/cell identity, layout, styles). Diagram-specific behavior stays in subclasses; shared naming, children, and merge semantics stay on the base graph types.</li>
+<li><strong>Canonical nodes</strong> (<code>StoryNode</code>, <code>Epic</code>, <code>SubEpic</code>, <code>Story</code>, …) live with <strong>story-graph-ops</strong> (vendored from today’s <code>story_graph.nodes</code>): they describe the <strong>story graph</strong> domain and <code>story-graph.json</code>.</li>
+<li><strong>DrawIO</strong> code (<code>drawio-story-sync</code> / synchronizers) should use a <strong>DrawIO hierarchy</strong> of types—<code>DrawIOElement</code>, <code>DrawIOEpic</code>, <code>DrawIOStory</code>, …—that <strong>extend</strong> those graph node types (plus XML/cell identity, layout, styles). Diagram-specific behavior stays in subclasses; shared naming, children, and merge semantics stay on the base graph types.</li>
 <li><strong>Avoid</strong> a parallel “DrawIO-only” epic/story tree that duplicates the graph model with no inheritance; that is what causes drift and confusion.</li>
 </ul>
-<p>(Aligned with the existing agile_bots direction: `DrawIOStoryNode` bridges DrawIO cells and the story map—keep that <strong>specialization</strong> on the DrawIO side, <strong>bases</strong> on the story-graph side.)</p>
+<p>(Aligned with the existing agile_bots direction: <code>DrawIOStoryNode</code> bridges DrawIO cells and the story map—keep that <strong>specialization</strong> on the DrawIO side, <strong>bases</strong> on the story-graph side.)</p>
 <hr>
-<p><strong>Summary:</strong> Confusion comes from two `StoryMap`s and a CLI that only covers half the skill’s stated obligations. Full migration means <strong>nodes-level domain + dependencies + mutation CLI + tests</strong>; TTY tests should reappear as <strong>skill CLI or API tests</strong>, not abandoned. <strong>DrawIO generates the report and depends on story-graph-ops (or story bot) to apply it—story-graph-ops never depends on DrawIO.</strong> <strong>DrawIO diagram types extend story-graph node types; one graph domain, DrawIO as a specialized layer.</strong></p></div>
+<p><strong>Summary:</strong> Confusion comes from two <code>StoryMap</code>s and a CLI that only covers half the skill’s stated obligations. Full migration means <strong>nodes-level domain + dependencies + mutation CLI + tests</strong>; TTY tests should reappear as <strong>skill CLI or API tests</strong>, not abandoned. <strong>DrawIO generates the report and depends on story-graph-ops (or story bot) to apply it—story-graph-ops never depends on DrawIO.</strong> <strong>DrawIO diagram types extend story-graph node types; one graph domain, DrawIO as a specialized layer.</strong></p></div>
 
 </div>
 </div>

@@ -471,7 +471,22 @@ html[data-abd-theme="executive"] .catalog-body code {
 }
 
 .page-hero--detail {
-  padding-top: 48px;
+  padding-top: 20px;
+  padding-bottom: 16px;
+}
+.page-hero--detail .page-headline {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 4px 0 6px;
+}
+.page-headline .skill-name-prefix,
+.cap-card__title .skill-name-prefix {
+  color: var(--accent);
+}
+.page-hero--detail .body-lead {
+  font-size: 0.9rem;
+  margin: 0;
+  color: var(--muted);
 }
 
 .page-hero--detail .back-link {
@@ -731,8 +746,18 @@ a.cap-card:hover .cap-card__more {
   color: #b8b8c2;
   margin: 0 0 18px;
 }
+.skill-detail-page .skill-hero-img-wrap + .install-block {
+  margin-top: 18px;
+}
+.skill-detail-page .install-block + .skill-cr-grid,
+.skill-detail-page .install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block {
+  margin-top: 0;
+}
 .install-block {
-  margin: 22px 0 0;
+  margin: 20px 0 0;
   padding: 16px 18px;
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid var(--border-muted);
@@ -1041,28 +1066,640 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 .plugin-slots h3:first-child { margin-top: 0; }
 .cap-grid--plugin-slot { margin-bottom: 8px; }
 
+/* ── Skill detail: family kanban stage nav (matches hub column headings) ── */
+.skill-kanban-nav {
+  --fam-sdd: #6bcb77;
+  --fam-ddd: #6c5ce7;
+  --fam-uxd: #e84393;
+  --fam-arc: #4fc3f7;
+  --fam-idea: var(--accent);
+  --abd-accent: var(--accent);
+  --abd-accent-glow: var(--accent-soft, var(--accent));
+  --abd-raised: var(--raised);
+  --abd-bg: var(--bg);
+  --abd-border: var(--border);
+  --abd-text: var(--text);
+  --abd-muted: var(--muted);
+  background: var(--raised);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0 16px;
+}
+.skill-kanban-nav .wrap {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.skill-kanban-nav__board {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  gap: 6px 8px;
+  align-items: start;
+}
+.skill-kanban-nav__practice-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  margin: 0;
+  padding: 0 8px;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-left-width: 3px;
+  border-radius: 4px;
+  line-height: 1.25;
+  box-sizing: border-box;
+  transition: box-shadow 120ms, border-color 120ms;
+  color: inherit;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card:hover {
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--sdd {
+  border-left-color: var(--fam-sdd);
+  color: var(--fam-sdd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--ddd {
+  border-left-color: var(--fam-ddd);
+  color: var(--fam-ddd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--uxd {
+  border-left-color: var(--fam-uxd);
+  color: var(--fam-uxd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--arc {
+  border-left-color: var(--fam-arc);
+  color: var(--fam-arc);
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap {
+  position: relative;
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip.kb-col-shape-tooltip {
+  min-width: 10rem;
+  max-width: 22rem;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:hover .kb-skill-tooltip,
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:focus-within .kb-skill-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.skill-kanban-nav__stages {
+  display: grid;
+  grid-template-columns: repeat(var(--skill-kanban-cols, 5), minmax(0, 1fr));
+  gap: 0 8px;
+  min-width: 0;
+}
+.skill-kanban-nav__col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.skill-kanban-nav__tickets {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.skill-kanban-nav .kb-col-head {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 8px 6px 7px;
+  font-family: var(--font-mono);
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.skill-kanban-nav .kb-col-head--static {
+  cursor: default;
+}
+.skill-kanban-nav a.kb-col-head {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav a.kb-col-head:hover {
+  border-color: rgba(229, 83, 26, 0.35);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.15);
+}
+.skill-kanban-nav .kb-col-head--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-col-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+}
+.skill-kanban-nav .kb-col-scope-shape {
+  flex-shrink: 0;
+  border: 2px solid var(--abd-accent);
+  border-radius: 2px;
+}
+.skill-kanban-nav__stages .kb-col-shape-tooltip,
+.skill-kanban-nav__stages .kb-skill-tooltip-wrap .kb-col-shape-tooltip {
+  display: none !important;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 8px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 7px 9px;
+  font-family: var(--font-mono);
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid rgba(229, 83, 26, 0.45);
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 14px;
+  border: 5px solid transparent;
+  border-bottom-color: rgba(229, 83, 26, 0.45);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__name {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--abd-accent-glow);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__bullets {
+  font-size: 8px;
+  line-height: 1.45;
+  color: var(--abd-text);
+  white-space: pre-line;
+}
+.skill-kanban-nav .kb-col-scope-shape--solution { width: 36px; height: 12px; }
+.skill-kanban-nav .kb-col-scope-shape--increment { width: 24px; height: 16px; }
+.skill-kanban-nav .kb-col-scope-shape--sprint { width: 16px; height: 22px; }
+.skill-kanban-nav .kb-col-scope-shape--story { width: 11px; height: 28px; }
+.skill-kanban-nav .kb-col-head-title {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--abd-text);
+}
+.skill-kanban-nav .kb-col-head-title > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.skill-kanban-nav .kb-col-num {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--abd-text);
+  background: var(--abd-bg);
+  border: 1px solid var(--abd-border);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+.skill-kanban-nav .kb-ticket {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  background: var(--abd-raised);
+  color: var(--abd-text);
+  padding: 5px 6px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  border-left-width: 3px;
+  border-left-color: var(--abd-muted);
+  line-height: 1.25;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav .kb-ticket:hover {
+  border-color: var(--abd-border);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.2);
+}
+.skill-kanban-nav .kb-ticket.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-ticket.aad-fam-sdd { border-left-color: var(--fam-sdd); }
+.skill-kanban-nav .kb-ticket.aad-fam-ddd { border-left-color: var(--fam-ddd); }
+.skill-kanban-nav .kb-ticket.aad-fam-uxd { border-left-color: var(--fam-uxd); }
+.skill-kanban-nav .kb-ticket.aad-fam-arc { border-left-color: var(--fam-arc); }
+.skill-kanban-nav .kb-ticket.aad-fam-idea { border-left-color: var(--fam-idea); }
+@media (max-width: 960px) {
+  .skill-kanban-nav__board {
+    grid-template-columns: 1fr;
+  }
+  .skill-kanban-nav__stages {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
+
+/* ── Skill detail: full-width hero image / embedded viewer ── */
+.skill-hero-img-wrap {
+  margin: 24px 0 0;
+}
+.skill-hero-img-wrap:empty { display: none; }
+.skill-hero-img-wrap img,
+.skill-hero-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--raised);
+}
+
+/* HTML prototype iframe (reference/example/index.html) */
+.skill-prototype-wrap {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-prototype-frame {
+  display: block;
+  width: 100%;
+  min-height: 540px;
+  height: 71vh;
+  max-height: 810px;
+  border: 0;
+  background: #fff;
+}
+.skill-prototype-open {
+  margin: 0;
+  padding: 8px 14px;
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+  background: var(--raised);
+}
+.skill-prototype-open a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.skill-prototype-open a:hover { text-decoration: underline; }
+
+/* draw.io embedded viewer */
+.skill-drawio-wrap {
+  position: relative;
+  width: 100%;
+  height: min(71vh, 680px);
+  min-height: 340px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-drawio-wrap .mxgraph {
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+}
+.skill-drawio-wrap .geToolbarContainer {
+  z-index: 4;
+}
+
+/* code file preview */
+.skill-code-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--raised);
+  font-size: 13px;
+}
+.skill-code-lang {
+  padding: 6px 14px;
+  font-family: var(--mono, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.skill-code-preview pre {
+  margin: 0;
+  padding: 16px;
+  overflow-x: auto;
+  max-height: 420px;
+}
+.skill-code-preview code {
+  font-family: var(--mono, 'JetBrains Mono', monospace);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+/* rendered markdown preview */
+.skill-hero-img-wrap .skill-md-preview {
+  max-height: min(71vh, 610px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.skill-md-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px 24px;
+  background: var(--surface);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.skill-md-preview h1 { font-size: 18px; font-weight: 700; margin: 0 0 12px; }
+.skill-md-preview h2 { font-size: 15px; font-weight: 600; margin: 16px 0 8px;
+  border-bottom: 1px solid var(--border); padding-bottom: 3px; }
+.skill-md-preview h3 { font-size: 13px; font-weight: 600; margin: 12px 0 6px; }
+.skill-md-preview h4 { font-size: 12px; font-weight: 600; margin: 10px 0 4px; color: var(--muted); }
+.skill-md-preview p  { margin: 0 0 10px; }
+.skill-md-preview .spec-steps { margin: 0 0 14px; }
+.skill-md-preview p.spec-step { margin: 0 0 4px; line-height: 1.55; }
+.skill-md-preview .md-table-wrap { overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview .md-table { border-collapse: collapse; width: 100%; }
+.skill-md-preview ul, .skill-md-preview ol { margin: 0 0 10px; padding-left: 20px; }
+.skill-md-preview li { margin-bottom: 3px; }
+.skill-md-preview code { background: var(--raised); border-radius: 3px;
+  padding: 1px 5px; font-family: var(--mono, monospace); font-size: 12px; }
+.skill-md-preview pre { background: var(--raised); border-radius: 5px;
+  padding: 12px; overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview table { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
+.skill-md-preview th, .skill-md-preview td {
+  border: 1px solid var(--border); padding: 6px 10px; }
+.skill-md-preview th { background: var(--raised); font-weight: 600; }
+
+/* ── Skill detail: concepts | rules two-column grid ── */
+.skill-cr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin: 24px 0 0;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .skill-cr-grid { grid-template-columns: 1fr; }
+}
+.skill-cr-col { min-width: 0; }
+.skill-cr-single { margin: 24px 0 0; }
+
+/* Glossary example hero — term blocks without heavy HR dividers */
+.skill-md-preview--glossary h1 {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 10px;
+  border: 0;
+  padding: 0;
+}
+.skill-md-preview--glossary h2 {
+  font-size: 16px;
+  margin-top: 0;
+}
+.skill-md-preview--glossary h3 {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 14px 0 6px;
+  padding: 6px 8px;
+  background: var(--raised);
+  border-radius: 4px;
+  border-left: 3px solid var(--accent);
+}
+.skill-md-preview--glossary hr {
+  display: none;
+}
+.skill-md-preview--glossary ul {
+  margin-top: 0;
+}
+
+/* ── Skill detail: full-width content below ── */
+.skill-detail-content-col { margin-top: 32px; }
+.skill-detail-page .skill-cr-grid,
+.skill-detail-page .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-single,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-single {
+  margin-top: 0;
+}
+
+/* ── Skill detail: concepts (expandable) ── */
+.skill-hero-img-wrap + .install-block {
+  margin-top: 16px;
+}
+.install-block + .skill-cr-grid,
+.install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-concepts {
+  margin: 0 0 20px;
+}
+.skill-concepts-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 8px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-concept {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-concept summary {
+  padding: 8px 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  user-select: none;
+}
+.skill-concept summary::-webkit-details-marker { display: none; }
+.skill-concept summary::marker { content: ""; }
+.skill-concept summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-concept[open] summary::before { content: "\2212"; }
+.skill-concept-body {
+  padding: 6px 4px 10px 1.9rem;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.skill-concept-body p { margin: 0 0 8px; }
+.skill-concept-body p:last-child { margin-bottom: 0; }
+.skill-concept-body ul { margin: 0 0 8px 1.1em; padding: 0; }
+.skill-concept-body li { margin: 3px 0; }
+
+/* ── Skill detail: rules (DO / DON'T) ── */
+.skill-rules {
+  margin: 0 0 20px;
+}
+.skill-rules-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 12px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-rule {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule[open] > .skill-rule-header {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule-header {
+  padding: 8px 10px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  background: var(--raised);
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+.skill-rule-header::-webkit-details-marker { display: none; }
+.skill-rule-header::marker { content: ""; }
+.skill-rule-header::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-rule[open] > .skill-rule-header::before {
+  content: "\2212";
+}
+.skill-rule-section {
+  padding: 8px 12px;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+.skill-rule-section--do {
+  border-left: 3px solid #2d8a4e;
+}
+.skill-rule-section--dont {
+  border-left: 3px solid #c0392b;
+}
+.skill-rule-section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+  color: var(--muted);
+}
+.skill-rule-section--do .skill-rule-section-label { color: #2d8a4e; }
+.skill-rule-section--dont .skill-rule-section-label { color: #c0392b; }
+.skill-rule-section ul { margin: 0; padding: 0 0 0 1.1em; }
+.skill-rule-section li { margin: 2px 0; color: var(--text); }
+
 </style>
-<script src="../commons/catalog-nav.js?v=foundry-8"></script>
+<script src="../commons/catalog-nav.js?v=foundry-9"></script>
 </head>
 <body data-nav-prefix="../" data-nav-current="skills" data-nav-site-base="../../../abd-works-website/">
 <main id="main-content">
 
+
+
 <div class="page-hero page-hero--detail">
   <div class="wrap">
-    <a class="back-link" href="../index.html">← Foundry home</a>
-    <p class="s-name">Skill</p>
-    <h1 class="page-headline">abd-service-level-objectives</h1>
+    <a class="back-link" href="../index.html">← The ABD Foundry</a>
+    
+    <h1 class="page-headline"><span class="skill-name-prefix">abd-</span>service-level-objectives</h1>
     <p class="body-lead">Measurable NFRs as SLI/SLO/SLA — target × volume × percentage, scoped to story map, with error-budget policy.</p>
   </div>
 </div>
 
 <div class="catalog-body">
-<div class="wrap">
+<div class="wrap skill-detail-page">
 
-<h2>Description</h2>
-<div class="entry-prose">A non-functional requirement that cannot be measured is a wish. Teams that ship without measurable NFRs discover the truth in production — too late, too expensive, sometimes too public. This skill turns each NFR into a concrete Service Level Indicator (what is measured), Service Level Objective (the target on that indicator), and where a customer-facing commitment exists, a Service Level Agreement. Critically, each objective is scoped to the functional area it applies to: a single user story, an epic, a parent epic, or the system as a whole.<br>
-<br>
----</div>
+<div class="skill-hero-img-wrap">
+<div class='skill-md-preview'><h1>Service Level Objectives — Examples</h1>
+<h2>Typical SLO matrix structure</h2>
+<pre><code>docs/architecture/service-level-objectives.md
+├── 1. Scope and how to read this document
+├── 2. Criticality classification          ← which features are mission-critical vs. best-effort
+├── 3. System-level SLOs                   ← applies everywhere
+├── 4. Parent-epic SLOs                    ← per-area (Orders, Catalogue, etc.)
+├── 5. Story-level SLOs                    ← specific high-criticality scenarios
+├── 6. Error-budget policy                 ← when to slow feature work
+└── 7. SLA section                         ← contractual commitments (if any)</code></pre>
+<hr>
+<h2>The shape of a good SLO matrix</h2>
+<p>Each SLO row uses this skeleton:</p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Scope</th><th>Category</th><th>SLI (what we measure)</th><th>SLO (target × volume × percentage)</th><th>Measurement</th><th>Owner</th></tr></thead><tbody></tbody></table></div>
+<p><strong>Example rows:</strong></p>
+<div class="md-table-wrap"><table class="md-table"><tbody><tr><td>System</td><td>Availability &amp; Reliability</td><td>API uptime</td><td>99.9% uptime over 28-day rolling window, at all production traffic</td><td>CloudWatch synthetic + 5xx ratio</td><td>Platform team</td></tr><tr><td>Parent epic: Orders</td><td>Performance &amp; Scalability</td><td>p99 latency <code>POST /orders</code></td><td>&lt; 300 ms at 10 000 req/day at 99.9%</td><td>Datadog APM</td><td>Orders team</td></tr><tr><td>Story: Place high-value order</td><td>Availability &amp; Reliability</td><td>Order durability</td><td>Zero loss at any volume at 100% within commit window</td><td>Outbox replay audit</td><td>Orders team</td></tr><tr><td>System</td><td>Security &amp; Compliance</td><td>Time to revoke leaked token</td><td>&lt; 5 min at any volume at 99%</td><td>Auth0 audit log + sec tooling</td><td>Security team</td></tr><tr><td>System</td><td>Maintainability &amp; Supportability</td><td>MTTR for sev-1 incidents</td><td>&lt; 1 hour at all incidents at 95%</td><td>Incident-management tool</td><td>On-call rotation</td></tr></tbody></table></div></div>
+
+</div>
 
 <section class="install-block" aria-labelledby="install-npx-heading">
   <h2 id="install-npx-heading">Install with npx</h2>
@@ -1071,71 +1708,52 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 </section>
 
 
-<hr class="entry-divider">
-
-
-
-<hr class="entry-divider">
-
-<h2 id="entry-contents">Contents</h2>
-<details class="entry-md-section" id="md-overview"><summary class="entry-md-section__summary">Overview</summary><div class="entry-md-section__body"><p>﻿--- name: abd-service-level-objectives catalog_garden_tier: practice catalog_garden_order: 55 catalogue_one_liner: &gt;- Measurable NFRs as SLI/SLO/SLA — target × volume × percentage, scoped to story map, with error-budget policy. description: &gt;- Capture the non-functional requirements (NFRs) of a system as concrete Service Level Indicators, Objectives, and Agreements (SLI/SLO/SLA) tied to a specific scope — a story, an epic, a parent epic, or the whole system. NFRs are organised into six categories. Every objective states a target at a volume at a percentage so it can be measured, alerted on, and refused. Use when committing to measurable non-functional targets, after an incident reveals missing targets, when drafting SLAs, or when classifying features by criticality.</p>
-<hr>
-<h1>abd-service-level-objectives</h1></div></details>
-<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p>A non-functional requirement that cannot be measured is a wish. Teams that ship without measurable NFRs discover the truth in production — too late, too expensive, sometimes too public. This skill turns each NFR into a concrete <strong>Service Level Indicator</strong> (what is measured), <strong>Service Level Objective</strong> (the target on that indicator), and where a customer-facing commitment exists, a <strong>Service Level Agreement</strong>. Critically, each objective is scoped to the <strong>functional area</strong> it applies to: a single user story, an epic, a parent epic, or the system as a whole.</p>
+<div class="skill-cr-grid">
+<div class="skill-cr-col"><div class="skill-concepts">
+<h2 class="skill-concepts-heading">Concepts</h2>
+<details class="skill-concept"><summary>What is a Service Level Indicator / Objective / Agreement?</summary><div class="skill-concept-body"><div class="md-table-wrap"><table class="md-table"><thead><tr><th>Term</th><th>Definition</th><th>Example</th></tr></thead><tbody><tr><td><strong>SLI</strong> (Indicator)</td><td>The <em>thing being measured</em>. Always a ratio or a quantity over a time window.</td><td>&quot;p99 response time for <code>POST /orders</code>&quot;</td></tr><tr><td><strong>SLO</strong> (Objective)</td><td>The <em>internal target</em> on the SLI, expressed as <strong>a target value at a volume at a percentage</strong>.</td><td>&quot;&lt; 300 ms p99, sustained over 10 000 requests/day, met 99.9% of the time over a 28-day window&quot;</td></tr><tr><td><strong>SLA</strong> (Agreement)</td><td>The <em>external commitment</em> (usually contractual), looser than the SLO so internal teams have headroom.</td><td>&quot;99.5% monthly availability on the Orders API, with credits below threshold&quot;</td></tr></tbody></table></div>
 <hr></div></details>
-<details class="entry-md-section" id="output-file"><summary class="entry-md-section__summary">Output file</summary><div class="entry-md-section__body"><p><strong>Deliverables folder:</strong> see `../agent-protocol.md` — Output file resolution.</p>
-<p><strong>File name:</strong> `service-level-objectives.md`. Add a `&lt;name&gt;-` prefix only when disambiguation is needed.</p>
+<details class="skill-concept"><summary>Six NFR categories</summary><div class="skill-concept-body"><div class="md-table-wrap"><table class="md-table"><thead><tr><th>Category</th><th>What it covers</th></tr></thead><tbody><tr><td><strong>Performance &amp; Scalability</strong></td><td>Speed, throughput, capacity, growth headroom.</td></tr><tr><td><strong>Availability &amp; Reliability</strong></td><td>Uptime, fault tolerance, mean time between failures, recovery objectives.</td></tr><tr><td><strong>Security &amp; Compliance</strong></td><td>Data protection, authorization correctness, encryption, regulatory adherence.</td></tr><tr><td><strong>Usability &amp; Accessibility</strong></td><td>UX quality, accessibility standards, learnability.</td></tr><tr><td><strong>Maintainability &amp; Supportability</strong></td><td>Ease of change, debuggability, deployment without downtime, MTTR.</td></tr><tr><td><strong>Interoperability &amp; Compatibility</strong></td><td>Integration, browser/device compatibility, API contract stability.</td></tr></tbody></table></div>
 <hr></div></details>
-<details class="entry-md-section" id="agent-instructions"><summary class="entry-md-section__summary">Agent Instructions</summary><div class="entry-md-section__body"><p>&gt; <strong>MANDATORY — read `../agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.</strong></p>
-<h3>1. Read context</h3>
-<p>Read these files:</p>
+<details class="skill-concept"><summary>Scope: where the SLO lives in the story map</summary><div class="skill-concept-body"><div class="md-table-wrap"><table class="md-table"><thead><tr><th>Scope</th><th>When to set NFRs here</th></tr></thead><tbody><tr><td><strong>System</strong></td><td>An NFR that genuinely applies to the whole product.</td></tr><tr><td><strong>Parent epic</strong></td><td>An NFR that applies to a coherent group of features.</td></tr><tr><td><strong>Epic</strong></td><td>An NFR that applies to one epic but not its siblings.</td></tr><tr><td><strong>Story</strong></td><td>An NFR specific to a single user-visible scenario.</td></tr></tbody></table></div>
+<hr></div></details>
+<details class="skill-concept"><summary>The target-volume-percentage shape</summary><div class="skill-concept-body"><p>Every well-formed SLO has three numbers:</p>
+<pre><code>{target value}  at  {volume}  at  {percentage}</code></pre>
 <ul>
-<li><strong>`reference/concepts.md`</strong> — SLI/SLO/SLA definitions, six NFR categories, scope levels, target-volume-percentage shape, and error budgets.</li>
-<li><strong>`reference/examples.md`</strong> — typical SLO matrix structure and the shape of a good SLO row.</li>
-</ul>
-<h3>2. Generate</h3>
-<p>Read every file in <strong>`rules/`</strong>; author to those rules.</p>
-<p><strong>Produce output from every template:</strong></p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td>`templates/service-level-objectives.md`</td><td>The SLO matrix — scope statement, criticality classification, system-level SLOs, parent-epic SLOs, story-level SLOs (high-criticality only), error-budget policy, and SLA section (if applicable).</td></tr></tbody></table></div>
-<p><strong>Build steps:</strong> 1. Establish scope vocabulary from story map (or system + parent epic fallback). 2. Classify features by criticality (mission-critical / business-important / best-effort). 3. Set system-level SLOs (availability, security, maintainability). 4. Set parent-epic SLOs where targets differ from system default. 5. Set story-level SLOs only for highest-criticality stories. 6. Define error-budget policy with concrete actions at 50%/25%/0%. 7. List SLAs separately — each looser than its supporting SLO.</p>
-<h3>3. Validate</h3>
-<p>Run the scanners:</p>
-<pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/abd-service-level-objectives \
-  --workspace &lt;path-to-output&gt;</code></pre>
-<p>Then emit per-rule verdicts per `../agent-protocol.md`.</p>
-<hr></div></details>
-<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Inspect what was built — read the artifacts as reviewers.</p>
-<ul>
-<li><strong>Every SLO has target × volume × percentage</strong> — no bare adjectives; no target without volume; no 100% on availability claims.</li>
-<li><strong>Every row picks one of the six NFR categories</strong> — no &quot;Other&quot; or merged categories.</li>
-<li><strong>Every row has a named scope</strong> — system, parent epic, epic, or story — that exists in the story map.</li>
-<li><strong>Every SLI is measurable today</strong> — names a real tool or a planned tool with an owner.</li>
-<li><strong>Error-budget policy is concrete</strong> — actions tied to thresholds (50%/25%/0%), not &quot;review periodically&quot;.</li>
-<li><strong>SLAs are looser than supporting SLOs</strong> — never the same number; internal target has headroom.</li>
-<li><strong>Criticality classification is explicit</strong> — section marks each area as mission-critical / business-important / best-effort.</li>
-<li><strong>No bundle markers</strong> — `SKILL.md` has no `&lt;!-- execute_rules:bundle_rules --&gt;` markers.</li>
+<li><strong>Target value</strong> — the threshold being met (e.g. 300 ms, 99.9% uptime).</li>
+<li><strong>Volume</strong> — the conditions under which the target is claimed (e.g. &quot;at 10 000 req/day&quot;).</li>
+<li><strong>Percentage</strong> — how often the target must be met over the measurement window (e.g. &quot;99.9% over 28 days&quot;).</li>
 </ul>
 <hr></div></details>
+<details class="skill-concept"><summary>Error budgets and burn rates</summary><div class="skill-concept-body"><p>Every SLO with a percentage less than 100% has an <strong>error budget</strong> equal to <code>1 − target</code>. The skill&#x27;s template ships a section for error-budget policy: what the team does when the budget is at 50% remaining, 25%, 0%.</p></div></details>
+</div></div>
+<div class="skill-cr-col"><div class="skill-rules">
+<h2 class="skill-rules-heading">Rules</h2>
+<details class="skill-rule">
+<summary class="skill-rule-header">Error-budget policy states concrete actions at named thresholds</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Include a policy table with one row per named threshold and a concrete action in plain language.</li><li>State who owns each action and how the burn rate is calculated and reviewed.</li><li>For SLOs without an error budget (100% targets like zero data loss, encryption coverage), state explicitly that the absolute-target nature means there is no budget — any miss is an incident.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Ship the matrix with error budgets implicit in the percentages but no policy section.</li><li>Use vague verbs in the actions column.</li><li>State a policy that no team actually applies.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">SLA is looser than the supporting SLO</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>For each SLA row, name the supporting internal SLO row and confirm the SLA threshold is strictly looser.</li><li>When negotiating a new SLA, set the SLO first and the SLA at least one tier looser (e.g. 99.99% SLO → 99.9% SLA, or 99.9% SLO → 99.5% SLA).</li><li>State the supporting SLO explicitly in the SLA section so the relationship is visible to both engineering and legal/sales.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Publish an SLA equal to the supporting SLO.</li><li>Publish an SLA tighter than the internal SLO.</li><li>Ship the matrix with SLAs but no named supporting SLO rows.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Every SLO row has a named scope and one NFR category</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Name the scope in the row&#x27;s Scope column using one of: system, parent epic: {name}, epic: {name}, story: {name}.</li><li>When a parent-epic-level target genuinely overrides the system default, write the row at parent-epic scope and let the matrix make the override visible.</li><li>Pick exactly one NFR category from the canonical six. If a target genuinely spans two categories, split it into two rows.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Omit the scope column or leave it blank.</li><li>Scope every row to &quot;system&quot; because &quot;everything matters to everyone&quot;.</li><li>Pick a category outside the canonical six (&quot;Performance and Security&quot;, &quot;Other&quot;, &quot;Cross-cutting&quot;).</li><li>Scope a row to a story when its parent epic&#x27;s SLO already covers it.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Every SLO row has target × volume × percentage</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Write every SLO as {target value} at {volume} at {percentage} (or as three filled cells in a table that compose to the same shape).</li><li>Choose a percentage less than 100% for anything subject to real-world failure (availability, latency, success rate). 100% is appropriate only for absolute requirements (zero data loss, zero unauthorized writes, encryption coverage).</li><li>Make the volume realistic and named. &quot;Peak hour&quot;, &quot;10 000 req/day&quot;, &quot;during business hours&quot;, &quot;across both regions concurrently&quot; all qualify.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Ship a row with no volume condition.</li><li>Claim 100% on a probabilistic dimension.</li><li>State an objective in adjectives.</li><li>Use a SLI that is not actually being measured today, without naming the planned tool and owner.</li></ul></div>
+</details>
+</div></div>
+</div>
 
-<ul class="file-list file-list--root">
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>reference/</strong><span class="file-meta"> → Folder (2 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/discovery/abd-service-level-objectives/reference/concepts.md" target="_blank" rel="noopener noreferrer"><strong>concepts.md</strong></a><span class="file-meta"> → Service Level Objectives — Concepts</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/discovery/abd-service-level-objectives/reference/examples.md" target="_blank" rel="noopener noreferrer"><strong>examples.md</strong></a><span class="file-meta"> → Service Level Objectives — Examples</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/discovery/abd-service-level-objectives/rules/error-budget-policy-has-concrete-actions.md" target="_blank" rel="noopener noreferrer"><strong>error-budget-policy-has-concrete-actions.md</strong></a><span class="file-meta"> → Rule: Error-budget policy states concrete actions at named thresholds</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/discovery/abd-service-level-objectives/rules/sla-is-looser-than-supporting-slo.md" target="_blank" rel="noopener noreferrer"><strong>sla-is-looser-than-supporting-slo.md</strong></a><span class="file-meta"> → Rule: SLA is looser than the supporting SLO</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/discovery/abd-service-level-objectives/rules/slo-row-has-named-scope-and-nfr-category.md" target="_blank" rel="noopener noreferrer"><strong>slo-row-has-named-scope-and-nfr-category.md</strong></a><span class="file-meta"> → Rule: Every SLO row has a named scope and one NFR category</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/discovery/abd-service-level-objectives/rules/slo-row-has-target-volume-and-percentage.md" target="_blank" rel="noopener noreferrer"><strong>slo-row-has-target-volume-and-percentage.md</strong></a><span class="file-meta"> → Rule: Every SLO row has target × volume × percentage</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>scanners/</strong><span class="file-meta"> → Folder (0 items).</span></summary><div class="file-tree__inner"><p class="file-list__nested-note">Empty folder.</p></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/discovery/abd-service-level-objectives/templates/service-level-objectives.md" target="_blank" rel="noopener noreferrer"><strong>service-level-objectives.md</strong></a><span class="file-meta"> → {ProductName} — Service Level Objectives</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/discovery/abd-service-level-objectives/templates/slo-row.md" target="_blank" rel="noopener noreferrer"><strong>slo-row.md</strong></a><span class="file-meta"> → SLO row template</span></li>
-</ul></div></details></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/discovery/abd-service-level-objectives/SKILL.md" target="_blank" rel="noopener noreferrer"><strong>SKILL.md</strong></a><span class="file-meta"> → name: abd-service-level-objectives</span></li>
-</ul>
+
+
 
 </div>
 </div>

@@ -471,7 +471,22 @@ html[data-abd-theme="executive"] .catalog-body code {
 }
 
 .page-hero--detail {
-  padding-top: 48px;
+  padding-top: 20px;
+  padding-bottom: 16px;
+}
+.page-hero--detail .page-headline {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 4px 0 6px;
+}
+.page-headline .skill-name-prefix,
+.cap-card__title .skill-name-prefix {
+  color: var(--accent);
+}
+.page-hero--detail .body-lead {
+  font-size: 0.9rem;
+  margin: 0;
+  color: var(--muted);
 }
 
 .page-hero--detail .back-link {
@@ -731,8 +746,18 @@ a.cap-card:hover .cap-card__more {
   color: #b8b8c2;
   margin: 0 0 18px;
 }
+.skill-detail-page .skill-hero-img-wrap + .install-block {
+  margin-top: 18px;
+}
+.skill-detail-page .install-block + .skill-cr-grid,
+.skill-detail-page .install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block {
+  margin-top: 0;
+}
 .install-block {
-  margin: 22px 0 0;
+  margin: 20px 0 0;
   padding: 16px 18px;
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid var(--border-muted);
@@ -1041,32 +1066,768 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 .plugin-slots h3:first-child { margin-top: 0; }
 .cap-grid--plugin-slot { margin-bottom: 8px; }
 
+/* ── Skill detail: family kanban stage nav (matches hub column headings) ── */
+.skill-kanban-nav {
+  --fam-sdd: #6bcb77;
+  --fam-ddd: #6c5ce7;
+  --fam-uxd: #e84393;
+  --fam-arc: #4fc3f7;
+  --fam-idea: var(--accent);
+  --abd-accent: var(--accent);
+  --abd-accent-glow: var(--accent-soft, var(--accent));
+  --abd-raised: var(--raised);
+  --abd-bg: var(--bg);
+  --abd-border: var(--border);
+  --abd-text: var(--text);
+  --abd-muted: var(--muted);
+  background: var(--raised);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0 16px;
+}
+.skill-kanban-nav .wrap {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.skill-kanban-nav__board {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  gap: 6px 8px;
+  align-items: start;
+}
+.skill-kanban-nav__practice-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  margin: 0;
+  padding: 0 8px;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-left-width: 3px;
+  border-radius: 4px;
+  line-height: 1.25;
+  box-sizing: border-box;
+  transition: box-shadow 120ms, border-color 120ms;
+  color: inherit;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card:hover {
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--sdd {
+  border-left-color: var(--fam-sdd);
+  color: var(--fam-sdd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--ddd {
+  border-left-color: var(--fam-ddd);
+  color: var(--fam-ddd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--uxd {
+  border-left-color: var(--fam-uxd);
+  color: var(--fam-uxd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--arc {
+  border-left-color: var(--fam-arc);
+  color: var(--fam-arc);
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap {
+  position: relative;
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip.kb-col-shape-tooltip {
+  min-width: 10rem;
+  max-width: 22rem;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:hover .kb-skill-tooltip,
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:focus-within .kb-skill-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.skill-kanban-nav__stages {
+  display: grid;
+  grid-template-columns: repeat(var(--skill-kanban-cols, 5), minmax(0, 1fr));
+  gap: 0 8px;
+  min-width: 0;
+}
+.skill-kanban-nav__col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.skill-kanban-nav__tickets {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.skill-kanban-nav .kb-col-head {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 8px 6px 7px;
+  font-family: var(--font-mono);
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.skill-kanban-nav .kb-col-head--static {
+  cursor: default;
+}
+.skill-kanban-nav a.kb-col-head {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav a.kb-col-head:hover {
+  border-color: rgba(229, 83, 26, 0.35);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.15);
+}
+.skill-kanban-nav .kb-col-head--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-col-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+}
+.skill-kanban-nav .kb-col-scope-shape {
+  flex-shrink: 0;
+  border: 2px solid var(--abd-accent);
+  border-radius: 2px;
+}
+.skill-kanban-nav__stages .kb-col-shape-tooltip,
+.skill-kanban-nav__stages .kb-skill-tooltip-wrap .kb-col-shape-tooltip {
+  display: none !important;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 8px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 7px 9px;
+  font-family: var(--font-mono);
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid rgba(229, 83, 26, 0.45);
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 14px;
+  border: 5px solid transparent;
+  border-bottom-color: rgba(229, 83, 26, 0.45);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__name {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--abd-accent-glow);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__bullets {
+  font-size: 8px;
+  line-height: 1.45;
+  color: var(--abd-text);
+  white-space: pre-line;
+}
+.skill-kanban-nav .kb-col-scope-shape--solution { width: 36px; height: 12px; }
+.skill-kanban-nav .kb-col-scope-shape--increment { width: 24px; height: 16px; }
+.skill-kanban-nav .kb-col-scope-shape--sprint { width: 16px; height: 22px; }
+.skill-kanban-nav .kb-col-scope-shape--story { width: 11px; height: 28px; }
+.skill-kanban-nav .kb-col-head-title {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--abd-text);
+}
+.skill-kanban-nav .kb-col-head-title > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.skill-kanban-nav .kb-col-num {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--abd-text);
+  background: var(--abd-bg);
+  border: 1px solid var(--abd-border);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+.skill-kanban-nav .kb-ticket {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  background: var(--abd-raised);
+  color: var(--abd-text);
+  padding: 5px 6px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  border-left-width: 3px;
+  border-left-color: var(--abd-muted);
+  line-height: 1.25;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav .kb-ticket:hover {
+  border-color: var(--abd-border);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.2);
+}
+.skill-kanban-nav .kb-ticket.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-ticket.aad-fam-sdd { border-left-color: var(--fam-sdd); }
+.skill-kanban-nav .kb-ticket.aad-fam-ddd { border-left-color: var(--fam-ddd); }
+.skill-kanban-nav .kb-ticket.aad-fam-uxd { border-left-color: var(--fam-uxd); }
+.skill-kanban-nav .kb-ticket.aad-fam-arc { border-left-color: var(--fam-arc); }
+.skill-kanban-nav .kb-ticket.aad-fam-idea { border-left-color: var(--fam-idea); }
+@media (max-width: 960px) {
+  .skill-kanban-nav__board {
+    grid-template-columns: 1fr;
+  }
+  .skill-kanban-nav__stages {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
+
+/* ── Skill detail: full-width hero image / embedded viewer ── */
+.skill-hero-img-wrap {
+  margin: 24px 0 0;
+}
+.skill-hero-img-wrap:empty { display: none; }
+.skill-hero-img-wrap img,
+.skill-hero-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--raised);
+}
+
+/* HTML prototype iframe (reference/example/index.html) */
+.skill-prototype-wrap {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-prototype-frame {
+  display: block;
+  width: 100%;
+  min-height: 540px;
+  height: 71vh;
+  max-height: 810px;
+  border: 0;
+  background: #fff;
+}
+.skill-prototype-open {
+  margin: 0;
+  padding: 8px 14px;
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+  background: var(--raised);
+}
+.skill-prototype-open a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.skill-prototype-open a:hover { text-decoration: underline; }
+
+/* draw.io embedded viewer */
+.skill-drawio-wrap {
+  position: relative;
+  width: 100%;
+  height: min(71vh, 680px);
+  min-height: 340px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-drawio-wrap .mxgraph {
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+}
+.skill-drawio-wrap .geToolbarContainer {
+  z-index: 4;
+}
+
+/* code file preview */
+.skill-code-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--raised);
+  font-size: 13px;
+}
+.skill-code-lang {
+  padding: 6px 14px;
+  font-family: var(--mono, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.skill-code-preview pre {
+  margin: 0;
+  padding: 16px;
+  overflow-x: auto;
+  max-height: 420px;
+}
+.skill-code-preview code {
+  font-family: var(--mono, 'JetBrains Mono', monospace);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+/* rendered markdown preview */
+.skill-hero-img-wrap .skill-md-preview {
+  max-height: min(71vh, 610px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.skill-md-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px 24px;
+  background: var(--surface);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.skill-md-preview h1 { font-size: 18px; font-weight: 700; margin: 0 0 12px; }
+.skill-md-preview h2 { font-size: 15px; font-weight: 600; margin: 16px 0 8px;
+  border-bottom: 1px solid var(--border); padding-bottom: 3px; }
+.skill-md-preview h3 { font-size: 13px; font-weight: 600; margin: 12px 0 6px; }
+.skill-md-preview h4 { font-size: 12px; font-weight: 600; margin: 10px 0 4px; color: var(--muted); }
+.skill-md-preview p  { margin: 0 0 10px; }
+.skill-md-preview .spec-steps { margin: 0 0 14px; }
+.skill-md-preview p.spec-step { margin: 0 0 4px; line-height: 1.55; }
+.skill-md-preview .md-table-wrap { overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview .md-table { border-collapse: collapse; width: 100%; }
+.skill-md-preview ul, .skill-md-preview ol { margin: 0 0 10px; padding-left: 20px; }
+.skill-md-preview li { margin-bottom: 3px; }
+.skill-md-preview code { background: var(--raised); border-radius: 3px;
+  padding: 1px 5px; font-family: var(--mono, monospace); font-size: 12px; }
+.skill-md-preview pre { background: var(--raised); border-radius: 5px;
+  padding: 12px; overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview table { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
+.skill-md-preview th, .skill-md-preview td {
+  border: 1px solid var(--border); padding: 6px 10px; }
+.skill-md-preview th { background: var(--raised); font-weight: 600; }
+
+/* ── Skill detail: concepts | rules two-column grid ── */
+.skill-cr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin: 24px 0 0;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .skill-cr-grid { grid-template-columns: 1fr; }
+}
+.skill-cr-col { min-width: 0; }
+.skill-cr-single { margin: 24px 0 0; }
+
+/* Glossary example hero — term blocks without heavy HR dividers */
+.skill-md-preview--glossary h1 {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 10px;
+  border: 0;
+  padding: 0;
+}
+.skill-md-preview--glossary h2 {
+  font-size: 16px;
+  margin-top: 0;
+}
+.skill-md-preview--glossary h3 {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 14px 0 6px;
+  padding: 6px 8px;
+  background: var(--raised);
+  border-radius: 4px;
+  border-left: 3px solid var(--accent);
+}
+.skill-md-preview--glossary hr {
+  display: none;
+}
+.skill-md-preview--glossary ul {
+  margin-top: 0;
+}
+
+/* ── Skill detail: full-width content below ── */
+.skill-detail-content-col { margin-top: 32px; }
+.skill-detail-page .skill-cr-grid,
+.skill-detail-page .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-single,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-single {
+  margin-top: 0;
+}
+
+/* ── Skill detail: concepts (expandable) ── */
+.skill-hero-img-wrap + .install-block {
+  margin-top: 16px;
+}
+.install-block + .skill-cr-grid,
+.install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-concepts {
+  margin: 0 0 20px;
+}
+.skill-concepts-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 8px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-concept {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-concept summary {
+  padding: 8px 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  user-select: none;
+}
+.skill-concept summary::-webkit-details-marker { display: none; }
+.skill-concept summary::marker { content: ""; }
+.skill-concept summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-concept[open] summary::before { content: "\2212"; }
+.skill-concept-body {
+  padding: 6px 4px 10px 1.9rem;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.skill-concept-body p { margin: 0 0 8px; }
+.skill-concept-body p:last-child { margin-bottom: 0; }
+.skill-concept-body ul { margin: 0 0 8px 1.1em; padding: 0; }
+.skill-concept-body li { margin: 3px 0; }
+
+/* ── Skill detail: rules (DO / DON'T) ── */
+.skill-rules {
+  margin: 0 0 20px;
+}
+.skill-rules-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 12px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-rule {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule[open] > .skill-rule-header {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule-header {
+  padding: 8px 10px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  background: var(--raised);
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+.skill-rule-header::-webkit-details-marker { display: none; }
+.skill-rule-header::marker { content: ""; }
+.skill-rule-header::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-rule[open] > .skill-rule-header::before {
+  content: "\2212";
+}
+.skill-rule-section {
+  padding: 8px 12px;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+.skill-rule-section--do {
+  border-left: 3px solid #2d8a4e;
+}
+.skill-rule-section--dont {
+  border-left: 3px solid #c0392b;
+}
+.skill-rule-section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+  color: var(--muted);
+}
+.skill-rule-section--do .skill-rule-section-label { color: #2d8a4e; }
+.skill-rule-section--dont .skill-rule-section-label { color: #c0392b; }
+.skill-rule-section ul { margin: 0; padding: 0 0 0 1.1em; }
+.skill-rule-section li { margin: 2px 0; color: var(--text); }
+
 </style>
-<script src="../commons/catalog-nav.js?v=foundry-8"></script>
+<script src="../commons/catalog-nav.js?v=foundry-9"></script>
 </head>
 <body data-nav-prefix="../" data-nav-current="skills" data-nav-site-base="../../../abd-works-website/">
 <main id="main-content">
 
+<div class="skill-kanban-nav">
+<div class="wrap">
+<div class="skill-kanban-nav__board">
+    <div class="skill-kanban-nav__practice-col" aria-label="Practice families">
+      <a class="foundry-practice-col__card foundry-perspective-label--sdd aad-skill aad-fam-sdd kb-ticket--current has-skill-tooltip" href="abd-story-acceptance-test.html"><span class="kb-skill-tooltip-wrap">story-driven-delivery<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">story-driven-delivery</span><span class="kb-col-shape-tooltip__bullets">Given/When/Then scenarios with real example data</span></span></span></a>
+      <a class="foundry-practice-col__card foundry-perspective-label--ddd aad-skill aad-fam-ddd has-skill-tooltip" href="abd-domain-code.html"><span class="kb-skill-tooltip-wrap">domain-driven-design<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">domain-driven-design</span><span class="kb-col-shape-tooltip__bullets">Typed terms + relationships (a schema), not prose definitions</span></span></span></a>
+      <a class="foundry-practice-col__card foundry-perspective-label--uxd aad-skill aad-fam-uxd has-skill-tooltip" href="abd-ux-user-impact-map.html"><span class="kb-skill-tooltip-wrap">user-experience-design<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">user-experience-design</span><span class="kb-col-shape-tooltip__bullets">Component spec with named states &amp; rules, not a static picture</span></span></span></a>
+      <a class="foundry-practice-col__card foundry-perspective-label--arc aad-skill aad-fam-arc has-skill-tooltip" href="abd-architecture-code.html"><span class="kb-skill-tooltip-wrap">architecture-centric-engineering<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture-centric-engineering</span><span class="kb-col-shape-tooltip__bullets">Interface contracts / templates the engine can follow</span></span></span></a>
+    </div>
+<nav class="skill-kanban-nav__stages" style="--skill-kanban-cols: 5" aria-label="Practice stages">
+      <div class="skill-kanban-nav__col" data-stage="shaping">
+        <a class="kb-col-head kb-col-head--link" data-stage="shaping" href="abd-story-mapping.html" title="Whole solution. wide / shallow. outcomes, scope, boundaries">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--solution" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Shaping</span><span class="kb-col-num">1</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-sdd" href="abd-story-mapping.html" title="Build a Patton-style story map per scope from source material — a single shared picture of the product as epics (broad capability areas), sub-epics (flows or feature areas), and stories (one observable user or system interaction each). Decompose requirements into outcomes and behaviors, not build tasks or source dumps, so product, delivery, and domain people share one structure. Name every epic, sub-epic, and story verb—noun; carry who acts in story_type, not in the title. Record context gaps inline where source material is thin.">story mapping outline</a>
+        </div>
+      </div>
+      <div class="skill-kanban-nav__col" data-stage="discovery">
+        <a class="kb-col-head kb-col-head--link" data-stage="discovery" href="abd-story-mapping.html" title="Increment. medium. interactions, experience, structure">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--increment" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Discovery</span><span class="kb-col-num">2</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-sdd" href="abd-story-mapping.html" title="Build a Patton-style story map per scope from source material — a single shared picture of the product as epics (broad capability areas), sub-epics (flows or feature areas), and stories (one observable user or system interaction each). Decompose requirements into outcomes and behaviors, not build tasks or source dumps, so product, delivery, and domain people share one structure. Name every epic, sub-epic, and story verb—noun; carry who acts in story_type, not in the title. Record context gaps inline where source material is thin.">story mapping</a>
+        </div>
+      </div>
+      <div class="skill-kanban-nav__col" data-stage="exploration">
+        <a class="kb-col-head kb-col-head--link" data-stage="exploration" href="abd-story-acceptance-criteria.html" title="Sprint. narrow / deeper. behaviour, design, logic">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--sprint" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Exploration</span><span class="kb-col-num">3</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-sdd" href="abd-story-acceptance-criteria.html" title="Build acceptance criteria per story, that explain what must be true when users and systems interact: observable triggers (WHEN), expected outcomes (THEN), chained effects (AND), and explicit negatives (BUT). These act as informal first-draft BDD-style steps that guide downstream scenario work. Focus on interactions using domain terms, avoid implementation detail unless the story is technical, and even then keep it minimal.">story acceptance criteria</a>
+        </div>
+      </div>
+      <div class="skill-kanban-nav__col" data-stage="specification">
+        <a class="kb-col-head kb-col-head--link" data-stage="specification" href="abd-story-specification.html" title="Story. narrow / executable. examples, design, templates">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--story" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Specification</span><span class="kb-col-num">4</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-sdd" href="abd-story-specification.html" title="Build specification scenarios per story that turn acceptance criteria and story intent into runnable examples: preconditions (Given), triggers (When), observable outcomes (Then), chained effects (And), and explicit negatives (But). Write multiple scenarios per story — at least one happy path plus edge and error cases implied by the story or its AC — each a complete example with realistic domain values, not placeholders. Ground every step in the domain model: use exact concept names, deliberate relationships in step language, and Examples tables whose columns reflect domain structure (not isolated field lists). When AC exist, use the main-flow AC as the spine (WHEN → When, THEN/AND → Then/And), then add Given preconditions and additional scenarios for failures, boundaries, and alternate flows. Focus on what users and systems do and what becomes observable; keep implementation detail out unless the story is explicitly technical.">story specification</a>
+        </div>
+      </div>
+      <div class="skill-kanban-nav__col" data-stage="engineering">
+        <a class="kb-col-head kb-col-head--link kb-col-head--current" data-stage="engineering" href="abd-story-acceptance-test.html" title="Story. narrowest / deep. tests, code, interface">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--story" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Engineering</span><span class="kb-col-num">5</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-sdd kb-ticket--current" href="abd-story-acceptance-test.html" title="Write tests first. Write code to pass them.
+
+This skill creates executable test files — in whatever language and framework the project uses — from whatever behavioral context is available: specification scenarios, acceptance criteria, stories, notes, or a rough description of what the system should do. The output is real test code that runs, fails, and drives what gets built.
+
+The workflow is test-driven: write a test that expresses the expected behavior, run it to confirm it fails (RED), then implement production code until the test passes (GREEN). Each test is a precise, runnable statement of what the system must do — test methods show the Given-When-Then flow and helper functions do the work.">story acceptance test</a>
+        </div>
+      </div>
+</nav>
+</div>
+</div>
+</div>
+
+
 <div class="page-hero page-hero--detail">
   <div class="wrap">
-    <a class="back-link" href="../plugin/story-driven-delivery.html">← Story Driven Delivery</a>
-    <p class="s-name">Skill</p>
-    <h1 class="page-headline">abd-story-acceptance-test</h1>
+    <a class="back-link" href="../index.html">← The ABD Foundry</a>
+    
+    <h1 class="page-headline"><span class="skill-name-prefix">abd-</span>story-acceptance-test</h1>
     <p class="body-lead">Tests first, then code: executable acceptance tests from scenarios, AC, or notes (RED-GREEN-REFACTOR).</p>
   </div>
 </div>
 
 <div class="catalog-body">
-<div class="wrap">
+<div class="wrap skill-detail-page">
 
-<h2>Description</h2>
-<div class="entry-prose">Write tests first. Write code to pass them.<br>
-<br>
-This skill creates executable test files — in whatever language and framework the project uses — from whatever behavioral context is available: specification scenarios, acceptance criteria, stories, notes, or a rough description of what the system should do. The output is real test code that runs, fails, and drives what gets built.<br>
-<br>
-The workflow is test-driven: write a test that expresses the expected behavior, run it to confirm it fails (RED), then implement production code until the test passes (GREEN). Each test is a precise, runnable statement of what the system must do — test methods show the Given-When-Then flow and helper functions do the work.<br>
-<br>
----</div>
+<div class="skill-hero-img-wrap">
+<div class='skill-code-preview'><div class='skill-code-lang'>python · example.py</div><pre><code class='language-python'>class TestCustomerPlacesAndTracksNewOrder:
+    def test_order_confirmed_tracked_and_shipped(
+        self, given_warehouse_and_customer: Customer
+    ) -&gt; None:
+
+        customer = given_warehouse_and_customer
+        cart = given_cart_with_items(
+            customer, [(&quot;Kibble 5kg&quot;, Decimal(&quot;24.99&quot;))]
+        )
+        order = when_customer_adds_items_and_submits_order(cart)
+        then_order_is_confirmed_with_tracking_number(order)
+        then_order_status_is(order, &quot;Processing&quot;)
+
+        active_orders = when_customer_views_active_orders(customer)
+        then_order_is_displayed_among_active_orders(active_orders, order)
+        then_order_status_is(order, &quot;Processing&quot;)
+
+        when_order_is_dispatched(order)
+        then_customer_receives_shipment_notification(customer, order)
+        then_order_status_is(order, &quot;Shipped&quot;)
+
+
+def given_warehouse_central_hub_with_standard_inventory() -&gt; None:
+    &quot;&quot;&quot;Background: Warehouse &#x27;Central Hub&#x27; with Inventory for standard products.&quot;&quot;&quot;
+    raise NotImplementedError(&quot;GREEN: seed warehouse inventory&quot;)
+def given_customer_with_active_account(name: str = &quot;Jane Doe&quot;) -&gt; Customer:
+    &quot;&quot;&quot;Background / Given: Customer with an active account.&quot;&quot;&quot;
+    return Customer(name=name, account_active=True)
+def given_cart_with_items(customer: Customer, items: List[tuple[str, Decimal]]) -&gt; Cart:
+    &quot;&quot;&quot;Given: cart containing items (product label, line total).&quot;&quot;&quot;
+    cart = Cart(customer=customer)
+    cart.add_items(items)
+    return cart
+def when_customer_adds_items_and_submits_order(cart: Cart) -&gt; Order:
+    &quot;&quot;&quot;When: Customer adds items to the cart and submits the order.&quot;&quot;&quot;
+    return cart.submit()
+def when_customer_views_active_orders(customer: Customer) -&gt; List[Order]:
+    &quot;&quot;&quot;When: Customer views active orders for their account.&quot;&quot;&quot;
+    raise NotImplementedError(&quot;GREEN: return active orders for customer&quot;)
+def when_order_is_dispatched(order: Order) -&gt; None:
+    &quot;&quot;&quot;When: the order is dispatched.&quot;&quot;&quot;
+    order.dispatch()
+def when_customer_applies_discount_code(cart: Cart, code: str) -&gt; DiscountResult:
+    &quot;&quot;&quot;When: Customer applies Discount Code.&quot;&quot;&quot;
+    raise NotImplementedError(f&quot;GREEN: apply discount code {code!r}&quot;)
+def then_order_is_confirmed_with_tracking_number(order: Order) -&gt; None:
+    &quot;&quot;&quot;Then: order is confirmed with a tracking number.&quot;&quot;&quot;
+    assert order.tracking_number is not None
+def then_order_is_displayed_among_active_orders(
+    orders: List[Order], expected: Order
+) -&gt; None:
+    &quot;&quot;&quot;Then: that order is displayed along with any other active orders.&quot;&quot;&quot;
+    assert expected in orders
+def then_order_status_is(order: Order, status: str) -&gt; None:
+    &quot;&quot;&quot;Then / And: status for that order is displayed.&quot;&quot;&quot;
+    assert order.status == status
+def then_customer_receives_shipment_notification(customer: Customer, order: Order) -&gt; None:
+    &quot;&quot;&quot;Then: Customer receives a shipment notification.&quot;&quot;&quot;
+    raise NotImplementedError(&quot;GREEN: assert notification sent&quot;)
+def then_order_total_is(result: DiscountResult, expected: str) -&gt; None:
+    &quot;&quot;&quot;Then: Order Total matches expected amount.&quot;&quot;&quot;
+    assert result.order_total == Decimal(expected)
+def then_discount_line_shows(result: DiscountResult, description: str) -&gt; None:
+    &quot;&quot;&quot;And: Discount line shows expected description.&quot;&quot;&quot;
+    assert result.discount_description == description
+@pytest.fixture
+def given_warehouse_and_customer() -&gt; Customer:
+    given_warehouse_central_hub_with_standard_inventory()
+    return given_customer_with_active_account(&quot;Jane Doe&quot;)
+
+</code></pre></div>
+
+</div>
 
 <section class="install-block" aria-labelledby="install-npx-heading">
   <h2 id="install-npx-heading">Install with npx</h2>
@@ -1075,159 +1836,197 @@ The workflow is test-driven: write a test that expresses the expected behavior, 
 </section>
 
 
-<hr class="entry-divider">
-
-
-
-<hr class="entry-divider">
-
-<h2 id="entry-contents">Contents</h2>
-<details class="entry-md-section" id="md-overview"><summary class="entry-md-section__summary">Overview</summary><div class="entry-md-section__body"><p>﻿--- name: abd-story-acceptance-test catalog_garden_tier: practice catalog_garden_order: 50 catalogue_one_liner: &gt;- Tests first, then code: executable acceptance tests from scenarios, AC, or notes (RED-GREEN-REFACTOR). description: &gt;- Writes executable acceptance tests (RED-GREEN-REFACTOR) from scenarios, acceptance criteria, stories, or rough descriptions. Orchestrator pattern: Given-When-Then test methods call helper functions; one class per story, one method per scenario. Use when writing acceptance tests, turning behavioral context into test code, or driving implementation with tests.</p>
-<hr>
-<h1>abd-story-acceptance-test</h1></div></details>
-<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p><strong>Write tests first. Write code to pass them.</strong></p>
-<p>This skill creates <strong>executable test files</strong> — in whatever language and framework the project uses — from whatever behavioral context is available: specification scenarios, acceptance criteria, stories, notes, or a rough description of what the system should do. The output is real test code that runs, fails, and drives what gets built.</p>
-<p>The workflow is <strong>test-driven</strong>: write a test that expresses the expected behavior, run it to confirm it fails (RED), then implement production code until the test passes (GREEN). Each test is a precise, runnable statement of what the system must do — test methods show the Given-When-Then flow and helper functions do the work.</p>
-<hr></div></details>
-<details class="entry-md-section" id="output-file"><summary class="entry-md-section__summary">Output file</summary><div class="entry-md-section__body"><p><strong>Where to write the test files (`&lt;tests-folder&gt;` resolution):</strong></p>
-<p>1. <strong>The path the user told you to use.</strong> If the user names a file or folder, use exactly that. 2. <strong>Where the project already keeps tests.</strong> Look at the workspace; if a `tests/`, `test/`, `spec/`, or language-conventional test folder exists, put new test files in the appropriate subdirectory there. 3. <strong>The workspace root.</strong> If neither applies, write to the workspace root or a sensible language-default location.</p>
-<p>Do <strong>not</strong> invent a predetermined folder name. Tests follow the host project&#x27;s conventions.</p>
-<p><strong>File names:</strong> Use the target language&#x27;s test-discovery convention (`test_&lt;scenario&gt;.py`, `&lt;Scenario&gt;Test.java`, `*.test.ts`, etc.).</p>
-<hr></div></details>
-<details class="entry-md-section" id="agent-instructions"><summary class="entry-md-section__summary">Agent Instructions</summary><div class="entry-md-section__body"><p>&gt; <strong>MANDATORY — read `../agent-protocol.md` before starting. It defines read-gates and the per-rule verdict format.</strong></p>
-<h3>1. Read context</h3>
-<p>Read these files:</p>
+<div class="skill-cr-grid">
+<div class="skill-cr-col"><div class="skill-concepts">
+<h2 class="skill-concepts-heading">Concepts</h2>
+<details class="skill-concept"><summary>What is acceptance test-driven development?</summary><div class="skill-concept-body"><p><strong>Acceptance test-driven development (ATDD)</strong> is a practice where <strong>automated tests</strong> are written from behavioral context — in whatever form is available — before (or alongside) production code. Tests validate that the system does what the behavior says it should do — from the outside, through observable outcomes.</p>
+<p>The richer the input, the more direct the translation: <strong>spec-by-example scenarios</strong> give you Given/When/Then steps to encode directly; <strong>acceptance criteria</strong> give you WHEN/THEN pairs to convert; <strong>stories with notes</strong> give you intent to derive from; <strong>unstructured context</strong> gives you behaviors to discover and make concrete.</p>
+<p>In this skill&#x27;s approach:</p>
 <ul>
-<li><strong>`reference/concepts.md`</strong> — what ATDD is, test organization, orchestrator pattern, TDD cycle, domain language.</li>
-<li><strong>`reference/examples.md`</strong> — worked example (Python/pytest) showing the expected file shape.</li>
+<li><strong>Tests drive design</strong> — tests are written against the real expected API first; they must fail before implementation begins.</li>
+<li><strong>RED before GREEN</strong> — a test that passes immediately proves nothing; a failing test defines exactly what to build.</li>
+<li><strong>Orchestrator pattern</strong> — test methods show the Given-When-Then flow by calling helper functions; helpers handle the detail.</li>
+<li><strong>Domain language</strong> — test and class names, method names, and helper names use the same vocabulary as the domain context being tested.</li>
+<li><strong>Any context works</strong> — the quality of the output scales with the specificity of the input, but the practice applies regardless.</li>
 </ul>
-<h3>2. Generate</h3>
-<p>Read every file in <strong>`rules/`</strong>; author to those rules.</p>
-<p><strong>Before writing any code:</strong> 0. <strong>Verify test structure first (Priority 1)</strong> — Trace the story hierarchy, declare file / class / method before writing any code. See <strong>Test organization</strong> in `reference/concepts.md`. 1. <strong>Confirm language and framework</strong> — If not stated, ask. Defaults: pytest (Python), `node:test` (JS/TS), JUnit 5 (Java). 2. <strong>Pick the matching template</strong> from `templates/` — `acceptance-tests.py`, `.js`, or `.java`. Emit code only; omit the `## Instructions` block.</p>
-<p><strong>Build steps:</strong> 3. One file per area, one class per story, one method per scenario. Name helpers with GWT language (`given_<em>`, `when_</em>`, `then_*`) matching step text verbatim. Parameterize helpers to prevent sprawl. Extract shared helpers to `tests/&lt;epic_name&gt;/&lt;epic_name&gt;_helper.py` when reused across files.</p>
-<p><strong>Template table:</strong></p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td>`templates/acceptance-tests.py`</td><td>Python/pytest test file following orchestrator pattern</td></tr><tr><td>`templates/acceptance-tests.js`</td><td>JS/TS test file following orchestrator pattern</td></tr><tr><td>`templates/acceptance-tests.java`</td><td>Java/JUnit5 test file following orchestrator pattern</td></tr></tbody></table></div>
-<h3>3. Validate</h3>
-<p>Run the scanners:</p>
-<pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/abd-story-acceptance-test \
-  --workspace &lt;path-to-output&gt;</code></pre>
-<p>Then emit per-rule verdicts per `../agent-protocol.md`.</p>
 <hr></div></details>
-<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Inspect what was built — read test files as reviewers.</p>
+<details class="skill-concept"><summary>Test organization</summary><div class="skill-concept-body"><p>Tests mirror the story hierarchy as a folder structure. You navigate down through epics and sub-epics as nested folders until you reach the lowest-level sub-epic — that becomes the <strong>file</strong>. The story inside it becomes the <strong>class</strong>. Each scenario on that story becomes a <strong>method</strong>.</p>
+<pre><code>tests/
+  &lt;epic&gt;/
+    &lt;epic&gt;_helper.py              ← shared Given/When/Then helpers for this epic
+    &lt;sub_epic&gt;/
+      &lt;sub_epic&gt;/
+        ...
+          &lt;lowest_sub_epic&gt;/
+            &lt;lowest_sub_epic&gt;.py  ← FILE  (named after the lowest-level sub-epic)
+              class Test&lt;Story&gt;   ← CLASS (named after the story)
+                def test_&lt;scenario&gt;  ← METHOD (named after the scenario)</code></pre>
+<p>The epic-level helper file (<code>&lt;epic&gt;_helper.py</code>) sits at the epic folder and contains only reusable <code>given_*</code> / <code>when_*</code> / <code>then_*</code> helper methods — no test methods. Sub-epic test files inherit from it when they share helpers.</p>
+<p><strong>The most common mistake</strong> is naming the file after the story instead of the lowest-level sub-epic. The story is always the class, never the file.</p>
+<p><strong>Before writing any code, declare the structure explicitly:</strong></p>
 <ul>
-<li><strong>Test structure declared</strong> — file/class/method hierarchy stated before writing code; file named after lowest-level sub-epic, class after story.</li>
-<li><strong>Orchestrator pattern</strong> — test methods under 20 lines; helpers named with GWT vocabulary; no duplicated helper variants.</li>
-<li><strong>RED before GREEN</strong> — tests written before production code; assertions are specific enough to fail for the right reasons.</li>
-<li><strong>Domain language</strong> — class names, method names, and helper names use domain vocabulary from stories/AC.</li>
-<li><strong>Coverage</strong> — happy path, failure path, and edge cases covered.</li>
-<li><strong>No bundle markers</strong> — `SKILL.md` has no `&lt;!-- execute_rules:bundle_rules --&gt;` markers.</li>
+<li>Story Path: <code>[Epic] → [Sub-Epic] → ... → [Lowest Sub-Epic] → [Story]</code></li>
+<li>File: <code>tests/&lt;epic&gt;/.../&lt;lowest_sub_epic&gt;/&lt;lowest_sub_epic&gt;.py</code></li>
+<li>Class: <code>Test&lt;ExactStoryName&gt;</code></li>
+<li>Method: <code>test_&lt;scenario_outcome_snake_case&gt;</code></li>
+<li>Existing: yes / no — add to existing file; do not create a duplicate</li>
+</ul></div></details>
+<details class="skill-concept"><summary>Orchestrator pattern</summary><div class="skill-concept-body"><p>Test methods <strong>orchestrate</strong> the flow; <strong>helper functions</strong> handle the details.</p>
+<ul>
+<li>Test method: under 20 lines, shows Given/When/Then structure by calling helpers.</li>
+<li>Helper function: under 20 lines, reusable setup/action/assertion logic.</li>
+<li>Test class: under 300 lines, one class per story.</li>
 </ul>
-<hr></div></details>
+<p><strong>Helper naming</strong> — name helpers using the step vocabulary: <code>given_cart_with_items(...)</code>, <code>when_order_is_submitted(...)</code>, <code>then_order_is_confirmed(...)</code>. Test methods read as executable scenarios.</p>
+<p><strong>Helper discipline</strong> — parameterize to prevent sprawl. If <code>create_order_pending</code> and <code>create_order_confirmed</code> appear side by side, merge them into <code>create_order(status)</code>. When helpers are shared across multiple sub-epic test files, extract them into an epic-level base class.</p></div></details>
+<details class="skill-concept"><summary>TDD cycle</summary><div class="skill-concept-body"><p><strong>RED → GREEN → REFACTOR.</strong> Write a failing test first (RED). Implement the minimal code to make it pass (GREEN). Improve code quality while keeping tests green (REFACTOR). Tests must fail before any production code exists — a test that passes immediately proves nothing.</p></div></details>
+<details class="skill-concept"><summary>Domain language</summary><div class="skill-concept-body"><p>Use the same vocabulary as the domain model, stories, and acceptance criteria in:</p>
+<ul>
+<li>Class names → domain entities (<code>GatherContextAction</code>, <code>BotConfig</code>)</li>
+<li>Method names → domain responsibilities (<code>inject_questions_and_evidence</code>, <code>load_trigger_words</code>)</li>
+<li>Test names → observable behavior (<code>test_agent_loads_configuration_when_file_exists</code>)</li>
+</ul></div></details>
+</div></div>
+<div class="skill-cr-col"><div class="skill-rules">
+<h2 class="skill-rules-heading">Rules</h2>
+<details class="skill-rule">
+<summary class="skill-rule-header">Assert Full Results</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Compare the full result against a named standard fixture.</li><li>Define standard data sets as module-level constants or helper factories.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Assert only one field from a complex domain result.</li><li>Assert a count instead of the underlying records.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Bug-Fix Test First</summary>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Edit production code without first writing a test that fails because of the bug.</li><li>Deploy a fix and assume it works without a passing test.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Call Production Code Directly</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Call the real class and method.</li><li>Let the test fail with a clear error if the code is not yet implemented.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Mock the class under test.</li><li>Comment out the call because the code does not exist.</li><li>Fake state by writing to private attributes.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Class-Based Test Organization</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Before writing code, state the structure explicitly:</li><li>Source: [Flow / Area] → [Behavior] → [Scenario]</li><li>File: test_&lt;area_snake_case&gt;.py</li><li>Class: Test&lt;ExactBehaviorName&gt; (PascalCase of full behavior name from source)</li><li>Method: test_&lt;scenario_outcome_snake_case&gt;</li><li>Name the file after the grouping that contains the behaviors — not the behavior itself.</li><li>Name the class using the exact behavior name from the source — no abbreviation, no summarisation.</li><li>Add to an existing area file rather than creating a new one when the file already exists.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Name the file after the individual behavior — use the parent grouping.</li><li>Abbreviate or genericise the class name.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Consistent Vocabulary</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Use the same verb for the same operation everywhere.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Mix synonyms for the same concept.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Cover All Behavior Paths</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Write separate tests for normal, edge, and failure scenarios.</li><li>Make every test independent — no shared mutable state across test methods.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Test only the happy path and leave edge and failure behavior unspecified.</li><li>Combine multiple behaviors in one test method.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Create Parameterized Tests for Scenarios</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Map each Examples column to a parametrize parameter.</li><li>Name the combined test so the parameter values appear in the test ID.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Hardcode a single example when the specification has a table.</li><li>Create one test method per row.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Define Fixtures in Test File</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Declare fixtures at the top of the test file, after helpers.</li><li>Keep them focused on what the tests in that file need.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Create a new conftest.py for agent- or sub-epic-specific fixtures.</li><li>Create shared files before there is an explicit, demonstrated need.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Design API Through Failing Tests</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Call the real expected class and method even when they do not exist yet.</li><li>Set up real test data (real files, real paths via tmp_path) rather than mock objects.</li><li>Assert real expected behavior so the test verifies something meaningful once implemented.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Use placeholder values (None, &#x27;TODO&#x27;, {}) that hide the real API.</li><li>Skip the RED phase by implementing first, then writing a test that passes.</li><li>Write vacuous tests that assert nothing meaningful.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Domain-Oriented Test Inheritance</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>At small scale: keep related tests together in one class.</li><li>At scale: use abstract base classes for shared assertion logic; place shared base files at the appropriate hierarchy level (sub-epic or epic).</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Copy assertion logic across classes instead of using a base class.</li><li>Create shared files before there is an explicit, demonstrated need.</li><li>Group tests by operation layer or technology rather than domain object.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Helper Extraction and Reuse</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Extract any setup or verification that appears in two or more tests.</li><li>Name helpers after their domain purpose (see consistent-vocabulary).</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Copy the same 10 lines of setup into every test method.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Match Specification Scenarios</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Use exact variable names from the specification (agent_name, workspace_root, config_path).</li><li>Assert only the outcomes the scenario explicitly states.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Use different terminology from the specification (name when spec says agent_name).</li><li>Assert internal state not mentioned in the scenario.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Mock Only Boundaries</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Mock external HTTP calls, remote APIs, or third-party services.</li><li>Use pytest&#x27;s tmp_path for real file operations instead of mocking the file system.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Mock the class under test.</li><li>Mock internal business logic or validation methods.</li><li>Mock file I/O when tmp_path works.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">No Defensive Code in Tests</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Assume correct setup; let the test fail if setup is not right.</li><li>Call code directly without wrapping in conditionals.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Wrap operations in if, try/except, or hasattr checks.</li><li>Add fallback paths to paper over setup problems.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Object-Oriented Test Helpers</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Use a test helper class (e.g. BotTestHelper) that builds a complete domain object in one call.</li><li>Assert against complete objects, not fragments.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Spread test setup across many primitive parameters in parametrize blocks.</li><li>Cherry-pick single values from a partial object.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Place Imports at Top</summary>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Place imports inside functions or after code.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Production Code Clean Functions</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Each function has a single, named purpose.</li><li>Functions compose to build complexity.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Write functions that load, validate, apply, and log in the same body.</li><li>Exceed 20 lines in a single function.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Production Code Explicit Dependencies</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Accept every dependency as a constructor parameter.</li><li>Assign to instance attributes immediately.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Create dependencies internally or access module-level singletons.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">pytest Orchestrator Pattern</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Test methods show the flow; helpers execute the details.</li><li>Use # Given, # When, # Then comment labels inside every test method.</li><li>Keep test methods under 20 lines; extract anything longer to a helper.</li><li>Keep helper functions under 20 lines each.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Use feature files or @given/@when/@then step decorators.</li><li>Inline 10+ lines of setup directly inside test methods.</li><li>Write test methods longer than 20 lines.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Self-Documenting Tests</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Let imports reveal which classes are needed.</li><li>Let constructors show the required parameters.</li><li>Let assertions show what is expected.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Add comments explaining that the test will fail or what API is needed — the code shows this.</li><li>Restate what constructors and assertions already communicate.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Standard Test Data Sets</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Define standard data once at the module level (or in a shared helpers module).</li><li>Reuse the same constants across tests in the file.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Create new ad-hoc config values per test.</li><li>Assert only one field from a complex object that has a matching standard.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Test Observable Behavior</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Assert on public properties and return values.</li><li>Verify the outcome a caller would see.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Assert on private attributes (_, __-prefixed).</li><li>Test internal data structures or intermediate state that is not part of the contract.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Use ASCII Only</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Use bracket labels for status indicators: [PASS], [FAIL], [ERROR], [SKIP].</li><li>Use -&gt; for arrows, != for not-equal, standard ASCII quotes.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Use Unicode symbols, emojis, or curly quotes anywhere in test code.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Use Domain Language</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Class names → domain entities/nouns from the model (e.g. GatherContextAction, BotConfig, Guardrails).</li><li>Method names → domain responsibilities/verbs (e.g. inject_questions_and_evidence, load_trigger_words).</li><li>Test names → plain-English story descriptions readable aloud (test_agent_loads_configuration_when_file_exists).</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Use generic technical terms not in the domain model.</li><li>Name classes after infrastructure roles (Loader, Manager, Handler, Service, StdioHandler).</li><li>Name methods with generic verbs that have no domain meaning (execute_with_guardrails, process, handle_request).</li><li>Write test names that describe implementation rather than behavior.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Use Domain Objects as Parameters</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Pass real domain objects (Cart, Order, User) — not IDs or plain data.</li><li>Name parameters after their business role (cart, product) — not their technical representation (cart_id, product_id).</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Pass IDs or primitives where domain objects belong — steps become unreadable as business scenarios.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Use Exact Variable Names</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Copy variable names verbatim from the scenario&#x27;s Given/When/Then terminology.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Shorten, abbreviate, or rename variables from the specification.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Use Given/When/Then Helpers</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Extract 4+ line inline blocks to named helpers.</li><li>Scope helpers to the level that needs them.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Leave 4+ line inline operations inside test methods.</li></ul></div>
+</details>
+</div></div>
+</div>
 
-<ul class="file-list file-list--root">
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>reference/</strong><span class="file-meta"> → Folder (2 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/reference/concepts.md" target="_blank" rel="noopener noreferrer"><strong>concepts.md</strong></a><span class="file-meta"> → Acceptance Test-Driven Development — Core Concepts</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/reference/examples.md" target="_blank" rel="noopener noreferrer"><strong>examples.md</strong></a><span class="file-meta"> → Acceptance Tests — Example and Shape</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/rules/assert-full-results.md" target="_blank" rel="noopener noreferrer"><strong>assert-full-results.md</strong></a><span class="file-meta"> → scanner: full_result_assertions_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/rules/bug-fix-test-first.md" target="_blank" rel="noopener noreferrer"><strong>bug-fix-test-first.md</strong></a><span class="file-meta"> → scanner: bug_fix_test_first_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/rules/call-production-code-directly.md" target="_blank" rel="noopener noreferrer"><strong>call-production-code-directly.md</strong></a><span class="file-meta"> → Rule: Call Production Code Directly</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/rules/class-based-test-organization.md" target="_blank" rel="noopener noreferrer"><strong>class-based-test-organization.md</strong></a><span class="file-meta"> → scanner: class_based_organization_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/rules/consistent-vocabulary.md" target="_blank" rel="noopener noreferrer"><strong>consistent-vocabulary.md</strong></a><span class="file-meta"> → scanner: consistent_vocabulary_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/rules/cover-all-behavior-paths.md" target="_blank" rel="noopener noreferrer"><strong>cover-all-behavior-paths.md</strong></a><span class="file-meta"> → scanner: cover_all_paths_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/rules/create-parameterized-tests.md" target="_blank" rel="noopener noreferrer"><strong>create-parameterized-tests.md</strong></a><span class="file-meta"> → Rule: Create Parameterized Tests for Scenarios</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/rules/define-fixtures-in-test-file.md" target="_blank" rel="noopener noreferrer"><strong>define-fixtures-in-test-file.md</strong></a><span class="file-meta"> → scanner: fixture_placement_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/rules/design-api-through-failing-tests.md" target="_blank" rel="noopener noreferrer"><strong>design-api-through-failing-tests.md</strong></a><span class="file-meta"> → scanner: failing_test_api_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/rules/domain-oriented-test-inheritance.md" target="_blank" rel="noopener noreferrer"><strong>domain-oriented-test-inheritance.md</strong></a><span class="file-meta"> → Rule: Domain-Oriented Test Inheritance</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/rules/helper-extraction-and-reuse.md" target="_blank" rel="noopener noreferrer"><strong>helper-extraction-and-reuse.md</strong></a><span class="file-meta"> → scanner: helper_extraction_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/rules/match-specification-scenarios.md" target="_blank" rel="noopener noreferrer"><strong>match-specification-scenarios.md</strong></a><span class="file-meta"> → scanner: specification_match_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/rules/mock-only-boundaries.md" target="_blank" rel="noopener noreferrer"><strong>mock-only-boundaries.md</strong></a><span class="file-meta"> → scanner: mock_boundaries_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/rules/no-defensive-code-in-tests.md" target="_blank" rel="noopener noreferrer"><strong>no-defensive-code-in-tests.md</strong></a><span class="file-meta"> → scanner: no_guard_clauses_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/rules/object-oriented-test-helpers.md" target="_blank" rel="noopener noreferrer"><strong>object-oriented-test-helpers.md</strong></a><span class="file-meta"> → scanner: object_oriented_helpers_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/rules/place-imports-at-top.md" target="_blank" rel="noopener noreferrer"><strong>place-imports-at-top.md</strong></a><span class="file-meta"> → scanner: import_placement_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/rules/production-code-clean-functions.md" target="_blank" rel="noopener noreferrer"><strong>production-code-clean-functions.md</strong></a><span class="file-meta"> → Rule: Production Code Clean Functions</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/rules/production-code-explicit-dependencies.md" target="_blank" rel="noopener noreferrer"><strong>production-code-explicit-dependencies.md</strong></a><span class="file-meta"> → scanner: explicit_dependencies_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/rules/pytest-orchestrator-pattern.md" target="_blank" rel="noopener noreferrer"><strong>pytest-orchestrator-pattern.md</strong></a><span class="file-meta"> → scanner: orchestrator_pattern_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/rules/self-documenting-tests.md" target="_blank" rel="noopener noreferrer"><strong>self-documenting-tests.md</strong></a><span class="file-meta"> → Rule: Self-Documenting Tests</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/rules/standard-test-data-sets.md" target="_blank" rel="noopener noreferrer"><strong>standard-test-data-sets.md</strong></a><span class="file-meta"> → scanner: standard_data_reuse_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/rules/test-observable-behavior.md" target="_blank" rel="noopener noreferrer"><strong>test-observable-behavior.md</strong></a><span class="file-meta"> → scanner: observable_behavior_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/rules/use-ascii-only.md" target="_blank" rel="noopener noreferrer"><strong>use-ascii-only.md</strong></a><span class="file-meta"> → scanner: ascii_only_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/rules/use-domain-language.md" target="_blank" rel="noopener noreferrer"><strong>use-domain-language.md</strong></a><span class="file-meta"> → scanner: business_readable_test_names_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/rules/use-domain-objects-as-parameters.md" target="_blank" rel="noopener noreferrer"><strong>use-domain-objects-as-parameters.md</strong></a><span class="file-meta"> → Rule: Use Domain Objects as Parameters</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/rules/use-exact-variable-names.md" target="_blank" rel="noopener noreferrer"><strong>use-exact-variable-names.md</strong></a><span class="file-meta"> → scanner: exact_variable_names_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/rules/use-given-when-then-helpers.md" target="_blank" rel="noopener noreferrer"><strong>use-given-when-then-helpers.md</strong></a><span class="file-meta"> → scanner: given_when_then_helpers_scanner.py</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>scanners/</strong><span class="file-meta"> → Folder (2 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>javascript/</strong><span class="file-meta"> → Folder (29 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/javascript/ascii_only_scanner.py" target="_blank" rel="noopener noreferrer"><strong>ascii_only_scanner.py</strong></a><span class="file-meta"> → ﻿&quot;&quot;&quot;Scanner for ASCII-only in JavaScript/TypeScript code (client and server).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/javascript/bug_fix_test_first_scanner.py" target="_blank" rel="noopener noreferrer"><strong>bug_fix_test_first_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner for bug-fix-test-first rule in JavaScript/TypeScript.</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/javascript/business_readable_test_names_scanner.py" target="_blank" rel="noopener noreferrer"><strong>business_readable_test_names_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner for business-readable test names in JavaScript/TypeScript.</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/javascript/class_based_organization_scanner.py" target="_blank" rel="noopener noreferrer"><strong>class_based_organization_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner for class-based test organization in JavaScript/TypeScript.</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/javascript/consistent_naming_scanner.py" target="_blank" rel="noopener noreferrer"><strong>consistent_naming_scanner.py</strong></a><span class="file-meta"> → ﻿&quot;&quot;&quot;Scanner for checking naming convention consistency in JavaScript.&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/javascript/consistent_vocabulary_scanner.py" target="_blank" rel="noopener noreferrer"><strong>consistent_vocabulary_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner for consistent vocabulary in JavaScript/TypeScript test files.</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/javascript/cover_all_paths_scanner.py" target="_blank" rel="noopener noreferrer"><strong>cover_all_paths_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner for cover-all-behavior-paths rule in JavaScript/TypeScript.</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/javascript/domain_language_code_scanner.py" target="_blank" rel="noopener noreferrer"><strong>domain_language_code_scanner.py</strong></a><span class="file-meta"> → ﻿&quot;&quot;&quot;Scanner for domain language in JavaScript/TypeScript code (client and server).</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/javascript/exact_variable_names_scanner.py" target="_blank" rel="noopener noreferrer"><strong>exact_variable_names_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner for exact variable names in JavaScript/TypeScript test files.</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/javascript/exception_handling_scanner.py" target="_blank" rel="noopener noreferrer"><strong>exception_handling_scanner.py</strong></a><span class="file-meta"> → ﻿&quot;&quot;&quot;Scanner for detecting improper exception handling in JavaScript.&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/javascript/explicit_dependencies_scanner.py" target="_blank" rel="noopener noreferrer"><strong>explicit_dependencies_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner for explicit dependencies in JavaScript/TypeScript.</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/javascript/failing_test_api_scanner.py" target="_blank" rel="noopener noreferrer"><strong>failing_test_api_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner for failing-test API surface in JavaScript/TypeScript.</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/javascript/fixture_placement_scanner.py" target="_blank" rel="noopener noreferrer"><strong>fixture_placement_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner for fixture placement in JavaScript/TypeScript test files.</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/javascript/full_result_assertions_scanner.py" target="_blank" rel="noopener noreferrer"><strong>full_result_assertions_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner for full result assertions in JavaScript/TypeScript test files.</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/javascript/function_size_scanner.py" target="_blank" rel="noopener noreferrer"><strong>function_size_scanner.py</strong></a><span class="file-meta"> → ﻿&quot;&quot;&quot;Scanner for detecting JavaScript functions that are too large.&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/javascript/given_when_then_helpers_scanner.py" target="_blank" rel="noopener noreferrer"><strong>given_when_then_helpers_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner for Given/When/Then helper extraction in JavaScript/TypeScript.</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/javascript/helper_extraction_scanner.py" target="_blank" rel="noopener noreferrer"><strong>helper_extraction_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner for detecting repeated setup/assertion patterns that should be extracted to helpers.&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/javascript/import_placement_scanner.py" target="_blank" rel="noopener noreferrer"><strong>import_placement_scanner.py</strong></a><span class="file-meta"> → ﻿&quot;&quot;&quot;Scanner for import/require placement in JavaScript/TypeScript (client and server).</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/javascript/js_code_scanner.py" target="_blank" rel="noopener noreferrer"><strong>js_code_scanner.py</strong></a><span class="file-meta"> → ﻿&quot;&quot;&quot;Base scanner for JavaScript code validation.&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/javascript/js_regex_analyzer.py" target="_blank" rel="noopener noreferrer"><strong>js_regex_analyzer.py</strong></a><span class="file-meta"> → ﻿&quot;&quot;&quot;Regex-based JavaScript analyzer for files that can&#x27;t be AST-parsed.&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/javascript/mock_boundaries_scanner.py" target="_blank" rel="noopener noreferrer"><strong>mock_boundaries_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner for detecting mocks of internal code rather than external boundaries.&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/javascript/no_fallbacks_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_fallbacks_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner for detecting silent fallback patterns in test code.&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/javascript/no_guard_clauses_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_guard_clauses_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner for detecting defensive guard clauses in test code.&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/javascript/object_oriented_helpers_scanner.py" target="_blank" rel="noopener noreferrer"><strong>object_oriented_helpers_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner for detecting test helpers with too many primitive parameters.&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/javascript/observable_behavior_scanner.py" target="_blank" rel="noopener noreferrer"><strong>observable_behavior_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner for detecting assertions on private/internal state in tests.&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/javascript/orchestrator_pattern_scanner.py" target="_blank" rel="noopener noreferrer"><strong>orchestrator_pattern_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner for detecting test functions that don&#x27;t follow the orchestrator pattern.&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/javascript/real_implementations_scanner.py" target="_blank" rel="noopener noreferrer"><strong>real_implementations_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner for verifying test files call real production code, not just mocks.&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/javascript/specification_match_scanner.py" target="_blank" rel="noopener noreferrer"><strong>specification_match_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner for detecting test names that don&#x27;t use specification/behavioral language.&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/javascript/standard_data_reuse_scanner.py" target="_blank" rel="noopener noreferrer"><strong>standard_data_reuse_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner for detecting duplicated inline test data that should be shared constants.&quot;&quot;&quot;</span></li>
-</ul></div></details></li>
-<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>python/</strong><span class="file-meta"> → Folder (26 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/python/ascii_only_scanner.py" target="_blank" rel="noopener noreferrer"><strong>ascii_only_scanner.py</strong></a><span class="file-meta"> → from typing import List, Dict, Any, Optional, TYPE_CHECKING</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/python/bug_fix_test_first_scanner.py" target="_blank" rel="noopener noreferrer"><strong>bug_fix_test_first_scanner.py</strong></a><span class="file-meta"> → ﻿&quot;&quot;&quot;Scanner for bug_fix_test_first rule.</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/python/business_readable_test_names_scanner.py" target="_blank" rel="noopener noreferrer"><strong>business_readable_test_names_scanner.py</strong></a><span class="file-meta"> → from typing import List, Dict, Any, Optional, TYPE_CHECKING</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/python/class_based_organization_scanner.py" target="_blank" rel="noopener noreferrer"><strong>class_based_organization_scanner.py</strong></a><span class="file-meta"> → from typing import List, Dict, Any, Optional, TYPE_CHECKING</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/python/code_scanner.py" target="_blank" rel="noopener noreferrer"><strong>code_scanner.py</strong></a><span class="file-meta"> → from abc import abstractmethod</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/python/consistent_vocabulary_scanner.py" target="_blank" rel="noopener noreferrer"><strong>consistent_vocabulary_scanner.py</strong></a><span class="file-meta"> → from typing import List, Dict, Any, Optional, TYPE_CHECKING</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/python/cover_all_paths_scanner.py" target="_blank" rel="noopener noreferrer"><strong>cover_all_paths_scanner.py</strong></a><span class="file-meta"> → from typing import List, Dict, Any, Optional, TYPE_CHECKING</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/python/domain_language_code_scanner.py" target="_blank" rel="noopener noreferrer"><strong>domain_language_code_scanner.py</strong></a><span class="file-meta"> → from typing import List, Dict, Any, Optional, TYPE_CHECKING</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/python/exact_variable_names_scanner.py" target="_blank" rel="noopener noreferrer"><strong>exact_variable_names_scanner.py</strong></a><span class="file-meta"> → from typing import List, Dict, Any, Optional, TYPE_CHECKING</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/python/explicit_dependencies_scanner.py" target="_blank" rel="noopener noreferrer"><strong>explicit_dependencies_scanner.py</strong></a><span class="file-meta"> → from typing import List, Dict, Any, Optional, TYPE_CHECKING</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/python/failing_test_api_scanner.py" target="_blank" rel="noopener noreferrer"><strong>failing_test_api_scanner.py</strong></a><span class="file-meta"> → ﻿&quot;&quot;&quot;Scanner for design_api_through_failing_tests rule.</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/python/fixture_placement_scanner.py" target="_blank" rel="noopener noreferrer"><strong>fixture_placement_scanner.py</strong></a><span class="file-meta"> → from typing import List, Dict, Any, Optional, TYPE_CHECKING</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/python/full_result_assertions_scanner.py" target="_blank" rel="noopener noreferrer"><strong>full_result_assertions_scanner.py</strong></a><span class="file-meta"> → from typing import List, Dict, Any, Optional, Set, TYPE_CHECKING</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/python/given_when_then_helpers_scanner.py" target="_blank" rel="noopener noreferrer"><strong>given_when_then_helpers_scanner.py</strong></a><span class="file-meta"> → from typing import List, Dict, Any, Optional, Set, Tuple, TYPE_CHECKING</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/python/helper_extraction_scanner.py" target="_blank" rel="noopener noreferrer"><strong>helper_extraction_scanner.py</strong></a><span class="file-meta"> → ﻿&quot;&quot;&quot;Scanner for helper_extraction_and_reuse rule.</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/python/import_placement_scanner.py" target="_blank" rel="noopener noreferrer"><strong>import_placement_scanner.py</strong></a><span class="file-meta"> → from typing import List, Dict, Any, Optional</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/python/mock_boundaries_scanner.py" target="_blank" rel="noopener noreferrer"><strong>mock_boundaries_scanner.py</strong></a><span class="file-meta"> → from typing import List, Dict, Any, Optional, TYPE_CHECKING</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/python/no_fallbacks_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_fallbacks_scanner.py</strong></a><span class="file-meta"> → from typing import List, Dict, Any, Optional, TYPE_CHECKING</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/python/no_guard_clauses_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_guard_clauses_scanner.py</strong></a><span class="file-meta"> → from typing import List, Dict, Any, Optional, TYPE_CHECKING</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/python/object_oriented_helpers_scanner.py" target="_blank" rel="noopener noreferrer"><strong>object_oriented_helpers_scanner.py</strong></a><span class="file-meta"> → from typing import List, Dict, Any, Optional, TYPE_CHECKING</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/python/observable_behavior_scanner.py" target="_blank" rel="noopener noreferrer"><strong>observable_behavior_scanner.py</strong></a><span class="file-meta"> → from typing import List, Dict, Any, Optional, TYPE_CHECKING</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/python/orchestrator_pattern_scanner.py" target="_blank" rel="noopener noreferrer"><strong>orchestrator_pattern_scanner.py</strong></a><span class="file-meta"> → ﻿&quot;&quot;&quot;Scanner for pytest_bdd_orchestrator_pattern rule.</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/python/real_implementations_scanner.py" target="_blank" rel="noopener noreferrer"><strong>real_implementations_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner for call-production-code-directly rule.</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/python/specification_match_scanner.py" target="_blank" rel="noopener noreferrer"><strong>specification_match_scanner.py</strong></a><span class="file-meta"> → from typing import List, Dict, Any, Optional, Tuple, TYPE_CHECKING</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/python/standard_data_reuse_scanner.py" target="_blank" rel="noopener noreferrer"><strong>standard_data_reuse_scanner.py</strong></a><span class="file-meta"> → from typing import List, Dict, Any, Optional, Set, TYPE_CHECKING</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/scanners/python/test_scanner.py" target="_blank" rel="noopener noreferrer"><strong>test_scanner.py</strong></a><span class="file-meta"> → ﻿&quot;&quot;&quot;Base TestScanner class for validating test files.&quot;&quot;&quot;</span></li>
-</ul></div></details></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/templates/acceptance-tests.java" target="_blank" rel="noopener noreferrer"><strong>acceptance-tests.java</strong></a><span class="file-meta"> → * ## Instructions (for skill maintainers — do NOT paste this block into project test files)</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/templates/acceptance-tests.js" target="_blank" rel="noopener noreferrer"><strong>acceptance-tests.js</strong></a><span class="file-meta"> → * ## Instructions (for skill maintainers — do NOT paste this block into project test files)</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/templates/acceptance-tests.py" target="_blank" rel="noopener noreferrer"><strong>acceptance-tests.py</strong></a><span class="file-meta"> → Instructions (for skill maintainers — do NOT paste this block into project test files)</span></li>
-</ul></div></details></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/corrections-log.md" target="_blank" rel="noopener noreferrer"><strong>corrections-log.md</strong></a><span class="file-meta"> →    C o r r e c t i o n s   l o g </span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-acceptance-test/SKILL.md" target="_blank" rel="noopener noreferrer"><strong>SKILL.md</strong></a><span class="file-meta"> → name: abd-story-acceptance-test</span></li>
-</ul>
+
+
 
 </div>
 </div>

@@ -471,7 +471,22 @@ html[data-abd-theme="executive"] .catalog-body code {
 }
 
 .page-hero--detail {
-  padding-top: 48px;
+  padding-top: 20px;
+  padding-bottom: 16px;
+}
+.page-hero--detail .page-headline {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 4px 0 6px;
+}
+.page-headline .skill-name-prefix,
+.cap-card__title .skill-name-prefix {
+  color: var(--accent);
+}
+.page-hero--detail .body-lead {
+  font-size: 0.9rem;
+  margin: 0;
+  color: var(--muted);
 }
 
 .page-hero--detail .back-link {
@@ -731,8 +746,18 @@ a.cap-card:hover .cap-card__more {
   color: #b8b8c2;
   margin: 0 0 18px;
 }
+.skill-detail-page .skill-hero-img-wrap + .install-block {
+  margin-top: 18px;
+}
+.skill-detail-page .install-block + .skill-cr-grid,
+.skill-detail-page .install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block {
+  margin-top: 0;
+}
 .install-block {
-  margin: 22px 0 0;
+  margin: 20px 0 0;
   padding: 16px 18px;
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid var(--border-muted);
@@ -1041,8 +1066,603 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 .plugin-slots h3:first-child { margin-top: 0; }
 .cap-grid--plugin-slot { margin-bottom: 8px; }
 
+/* ── Skill detail: family kanban stage nav (matches hub column headings) ── */
+.skill-kanban-nav {
+  --fam-sdd: #6bcb77;
+  --fam-ddd: #6c5ce7;
+  --fam-uxd: #e84393;
+  --fam-arc: #4fc3f7;
+  --fam-idea: var(--accent);
+  --abd-accent: var(--accent);
+  --abd-accent-glow: var(--accent-soft, var(--accent));
+  --abd-raised: var(--raised);
+  --abd-bg: var(--bg);
+  --abd-border: var(--border);
+  --abd-text: var(--text);
+  --abd-muted: var(--muted);
+  background: var(--raised);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0 16px;
+}
+.skill-kanban-nav .wrap {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.skill-kanban-nav__board {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  gap: 6px 8px;
+  align-items: start;
+}
+.skill-kanban-nav__practice-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  margin: 0;
+  padding: 0 8px;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-left-width: 3px;
+  border-radius: 4px;
+  line-height: 1.25;
+  box-sizing: border-box;
+  transition: box-shadow 120ms, border-color 120ms;
+  color: inherit;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card:hover {
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--sdd {
+  border-left-color: var(--fam-sdd);
+  color: var(--fam-sdd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--ddd {
+  border-left-color: var(--fam-ddd);
+  color: var(--fam-ddd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--uxd {
+  border-left-color: var(--fam-uxd);
+  color: var(--fam-uxd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--arc {
+  border-left-color: var(--fam-arc);
+  color: var(--fam-arc);
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap {
+  position: relative;
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip.kb-col-shape-tooltip {
+  min-width: 10rem;
+  max-width: 22rem;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:hover .kb-skill-tooltip,
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:focus-within .kb-skill-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.skill-kanban-nav__stages {
+  display: grid;
+  grid-template-columns: repeat(var(--skill-kanban-cols, 5), minmax(0, 1fr));
+  gap: 0 8px;
+  min-width: 0;
+}
+.skill-kanban-nav__col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.skill-kanban-nav__tickets {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.skill-kanban-nav .kb-col-head {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 8px 6px 7px;
+  font-family: var(--font-mono);
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.skill-kanban-nav .kb-col-head--static {
+  cursor: default;
+}
+.skill-kanban-nav a.kb-col-head {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav a.kb-col-head:hover {
+  border-color: rgba(229, 83, 26, 0.35);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.15);
+}
+.skill-kanban-nav .kb-col-head--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-col-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+}
+.skill-kanban-nav .kb-col-scope-shape {
+  flex-shrink: 0;
+  border: 2px solid var(--abd-accent);
+  border-radius: 2px;
+}
+.skill-kanban-nav__stages .kb-col-shape-tooltip,
+.skill-kanban-nav__stages .kb-skill-tooltip-wrap .kb-col-shape-tooltip {
+  display: none !important;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 8px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 7px 9px;
+  font-family: var(--font-mono);
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid rgba(229, 83, 26, 0.45);
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 14px;
+  border: 5px solid transparent;
+  border-bottom-color: rgba(229, 83, 26, 0.45);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__name {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--abd-accent-glow);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__bullets {
+  font-size: 8px;
+  line-height: 1.45;
+  color: var(--abd-text);
+  white-space: pre-line;
+}
+.skill-kanban-nav .kb-col-scope-shape--solution { width: 36px; height: 12px; }
+.skill-kanban-nav .kb-col-scope-shape--increment { width: 24px; height: 16px; }
+.skill-kanban-nav .kb-col-scope-shape--sprint { width: 16px; height: 22px; }
+.skill-kanban-nav .kb-col-scope-shape--story { width: 11px; height: 28px; }
+.skill-kanban-nav .kb-col-head-title {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--abd-text);
+}
+.skill-kanban-nav .kb-col-head-title > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.skill-kanban-nav .kb-col-num {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--abd-text);
+  background: var(--abd-bg);
+  border: 1px solid var(--abd-border);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+.skill-kanban-nav .kb-ticket {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  background: var(--abd-raised);
+  color: var(--abd-text);
+  padding: 5px 6px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  border-left-width: 3px;
+  border-left-color: var(--abd-muted);
+  line-height: 1.25;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav .kb-ticket:hover {
+  border-color: var(--abd-border);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.2);
+}
+.skill-kanban-nav .kb-ticket.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-ticket.aad-fam-sdd { border-left-color: var(--fam-sdd); }
+.skill-kanban-nav .kb-ticket.aad-fam-ddd { border-left-color: var(--fam-ddd); }
+.skill-kanban-nav .kb-ticket.aad-fam-uxd { border-left-color: var(--fam-uxd); }
+.skill-kanban-nav .kb-ticket.aad-fam-arc { border-left-color: var(--fam-arc); }
+.skill-kanban-nav .kb-ticket.aad-fam-idea { border-left-color: var(--fam-idea); }
+@media (max-width: 960px) {
+  .skill-kanban-nav__board {
+    grid-template-columns: 1fr;
+  }
+  .skill-kanban-nav__stages {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
+
+/* ── Skill detail: full-width hero image / embedded viewer ── */
+.skill-hero-img-wrap {
+  margin: 24px 0 0;
+}
+.skill-hero-img-wrap:empty { display: none; }
+.skill-hero-img-wrap img,
+.skill-hero-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--raised);
+}
+
+/* HTML prototype iframe (reference/example/index.html) */
+.skill-prototype-wrap {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-prototype-frame {
+  display: block;
+  width: 100%;
+  min-height: 540px;
+  height: 71vh;
+  max-height: 810px;
+  border: 0;
+  background: #fff;
+}
+.skill-prototype-open {
+  margin: 0;
+  padding: 8px 14px;
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+  background: var(--raised);
+}
+.skill-prototype-open a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.skill-prototype-open a:hover { text-decoration: underline; }
+
+/* draw.io embedded viewer */
+.skill-drawio-wrap {
+  position: relative;
+  width: 100%;
+  height: min(71vh, 680px);
+  min-height: 340px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-drawio-wrap .mxgraph {
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+}
+.skill-drawio-wrap .geToolbarContainer {
+  z-index: 4;
+}
+
+/* code file preview */
+.skill-code-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--raised);
+  font-size: 13px;
+}
+.skill-code-lang {
+  padding: 6px 14px;
+  font-family: var(--mono, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.skill-code-preview pre {
+  margin: 0;
+  padding: 16px;
+  overflow-x: auto;
+  max-height: 420px;
+}
+.skill-code-preview code {
+  font-family: var(--mono, 'JetBrains Mono', monospace);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+/* rendered markdown preview */
+.skill-hero-img-wrap .skill-md-preview {
+  max-height: min(71vh, 610px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.skill-md-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px 24px;
+  background: var(--surface);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.skill-md-preview h1 { font-size: 18px; font-weight: 700; margin: 0 0 12px; }
+.skill-md-preview h2 { font-size: 15px; font-weight: 600; margin: 16px 0 8px;
+  border-bottom: 1px solid var(--border); padding-bottom: 3px; }
+.skill-md-preview h3 { font-size: 13px; font-weight: 600; margin: 12px 0 6px; }
+.skill-md-preview h4 { font-size: 12px; font-weight: 600; margin: 10px 0 4px; color: var(--muted); }
+.skill-md-preview p  { margin: 0 0 10px; }
+.skill-md-preview .spec-steps { margin: 0 0 14px; }
+.skill-md-preview p.spec-step { margin: 0 0 4px; line-height: 1.55; }
+.skill-md-preview .md-table-wrap { overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview .md-table { border-collapse: collapse; width: 100%; }
+.skill-md-preview ul, .skill-md-preview ol { margin: 0 0 10px; padding-left: 20px; }
+.skill-md-preview li { margin-bottom: 3px; }
+.skill-md-preview code { background: var(--raised); border-radius: 3px;
+  padding: 1px 5px; font-family: var(--mono, monospace); font-size: 12px; }
+.skill-md-preview pre { background: var(--raised); border-radius: 5px;
+  padding: 12px; overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview table { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
+.skill-md-preview th, .skill-md-preview td {
+  border: 1px solid var(--border); padding: 6px 10px; }
+.skill-md-preview th { background: var(--raised); font-weight: 600; }
+
+/* ── Skill detail: concepts | rules two-column grid ── */
+.skill-cr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin: 24px 0 0;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .skill-cr-grid { grid-template-columns: 1fr; }
+}
+.skill-cr-col { min-width: 0; }
+.skill-cr-single { margin: 24px 0 0; }
+
+/* Glossary example hero — term blocks without heavy HR dividers */
+.skill-md-preview--glossary h1 {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 10px;
+  border: 0;
+  padding: 0;
+}
+.skill-md-preview--glossary h2 {
+  font-size: 16px;
+  margin-top: 0;
+}
+.skill-md-preview--glossary h3 {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 14px 0 6px;
+  padding: 6px 8px;
+  background: var(--raised);
+  border-radius: 4px;
+  border-left: 3px solid var(--accent);
+}
+.skill-md-preview--glossary hr {
+  display: none;
+}
+.skill-md-preview--glossary ul {
+  margin-top: 0;
+}
+
+/* ── Skill detail: full-width content below ── */
+.skill-detail-content-col { margin-top: 32px; }
+.skill-detail-page .skill-cr-grid,
+.skill-detail-page .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-single,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-single {
+  margin-top: 0;
+}
+
+/* ── Skill detail: concepts (expandable) ── */
+.skill-hero-img-wrap + .install-block {
+  margin-top: 16px;
+}
+.install-block + .skill-cr-grid,
+.install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-concepts {
+  margin: 0 0 20px;
+}
+.skill-concepts-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 8px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-concept {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-concept summary {
+  padding: 8px 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  user-select: none;
+}
+.skill-concept summary::-webkit-details-marker { display: none; }
+.skill-concept summary::marker { content: ""; }
+.skill-concept summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-concept[open] summary::before { content: "\2212"; }
+.skill-concept-body {
+  padding: 6px 4px 10px 1.9rem;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.skill-concept-body p { margin: 0 0 8px; }
+.skill-concept-body p:last-child { margin-bottom: 0; }
+.skill-concept-body ul { margin: 0 0 8px 1.1em; padding: 0; }
+.skill-concept-body li { margin: 3px 0; }
+
+/* ── Skill detail: rules (DO / DON'T) ── */
+.skill-rules {
+  margin: 0 0 20px;
+}
+.skill-rules-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 12px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-rule {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule[open] > .skill-rule-header {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule-header {
+  padding: 8px 10px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  background: var(--raised);
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+.skill-rule-header::-webkit-details-marker { display: none; }
+.skill-rule-header::marker { content: ""; }
+.skill-rule-header::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-rule[open] > .skill-rule-header::before {
+  content: "\2212";
+}
+.skill-rule-section {
+  padding: 8px 12px;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+.skill-rule-section--do {
+  border-left: 3px solid #2d8a4e;
+}
+.skill-rule-section--dont {
+  border-left: 3px solid #c0392b;
+}
+.skill-rule-section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+  color: var(--muted);
+}
+.skill-rule-section--do .skill-rule-section-label { color: #2d8a4e; }
+.skill-rule-section--dont .skill-rule-section-label { color: #c0392b; }
+.skill-rule-section ul { margin: 0; padding: 0 0 0 1.1em; }
+.skill-rule-section li { margin: 2px 0; color: var(--text); }
+
 </style>
-<script src="../../../../commons/catalog-nav.js?v=foundry-8"></script>
+<script src="../../../../commons/catalog-nav.js?v=foundry-9"></script>
 </head>
 <body data-nav-prefix="../../../../" data-nav-current="skills" data-nav-site-base="../../../../../../abd-works-website/">
 <main id="main-content">
@@ -1051,6 +1671,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
   <div class="wrap">
     <a class="back-link" href="../../../../skill/abd-domain-specification.html">← class-model</a>
     <p class="s-name">Markdown</p>
+
     <h1 class="page-headline">reference/concepts.md</h1>
     <p class="body-lead">Class Model � Concepts</p>
   </div>
@@ -1061,21 +1682,21 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 
 <h2>Content</h2>
 <div class="rule-prose"><h1>Class Model � Concepts</h1>
-<p>For OO fundamentals (what is a class, decomposing responsibilities, relationships, inheritance and subtypes), read <a href="../../../reference/oo-concepts.html">`../../../reference/oo-concepts.md`</a> in full before proceeding. The sections below cover what is specific to class-model fidelity: typed notation and relationship flavors.</p>
+<p>For OO fundamentals (what is a class, decomposing responsibilities, relationships, inheritance and subtypes), read <a href="../../../reference/oo-concepts.html"><code>../../../reference/oo-concepts.md</code></a> in full before proceeding. The sections below cover what is specific to class-model fidelity: typed notation and relationship flavors.</p>
 <h2>Properties</h2>
-<p>Write each property as `+ propertyName: Type`. Type it where the domain makes the type obvious (`String`, `Boolean`, `Money`, `List&lt;Item&gt;`, etc.); leave it untyped only when the domain is genuinely ambiguous. Typed constants and enum-like value sets (`UPPER_CASE` names) are grouped under a named constant block.</p>
+<p>Write each property as <code>+ propertyName: Type</code>. Type it where the domain makes the type obvious (<code>String</code>, <code>Boolean</code>, <code>Money</code>, <code>List&lt;Item&gt;</code>, etc.); leave it untyped only when the domain is genuinely ambiguous. Typed constants and enum-like value sets (<code>UPPER_CASE</code> names) are grouped under a named constant block.</p>
 <h2>Operations</h2>
-<p>Write each operation as `+ methodName(param: Type): ReturnType`. Parameters come from the information the method needs but does not already hold as a property; the return type reflects what the caller expects back. Keep signatures at the domain level: no infrastructure, no UI, no framework types. Omit the return type only when the operation is genuinely void.</p>
-<p>Use `+` for public operations that external collaborators call. Use `-` for private helpers that are only called internally by the class itself � extracted sub-logic, tie-breakers, guard checks, etc.</p>
-<p><strong>When the right name is unclear, name it after the invariant.</strong> If an operation&#x27;s invariant says &quot;incoming supersedes existing&quot;, the operation is `incomingSupersedes`. The invariant is already the correct domain statement � the name should match it directly rather than inventing a separate label.</p>
+<p>Write each operation as <code>+ methodName(param: Type): ReturnType</code>. Parameters come from the information the method needs but does not already hold as a property; the return type reflects what the caller expects back. Keep signatures at the domain level: no infrastructure, no UI, no framework types. Omit the return type only when the operation is genuinely void.</p>
+<p>Use <code>+</code> for public operations that external collaborators call. Use <code>-</code> for private helpers that are only called internally by the class itself � extracted sub-logic, tie-breakers, guard checks, etc.</p>
+<p><strong>When the right name is unclear, name it after the invariant.</strong> If an operation&#x27;s invariant says &quot;incoming supersedes existing&quot;, the operation is <code>incomingSupersedes</code>. The invariant is already the correct domain statement � the name should match it directly rather than inventing a separate label.</p>
 <h2>Object initialisation</h2>
 <p>For every class, determine how its objects are initialised. Choose from the following approaches based on scenario and context:</p>
-<p><strong>Constructor injection</strong> � pass a dependency in when the class references but does not own it (association), or when a required value must be present for the object to be valid. Write as `+ ClassName(param: Type, ...)`. Include only what is needed to bootstrap a fully valid object; never leave an object half-initialised. Write multiple constructors when different valid bootstrap configurations exist in the domain.</p>
+<p><strong>Constructor injection</strong> � pass a dependency in when the class references but does not own it (association), or when a required value must be present for the object to be valid. Write as <code>+ ClassName(param: Type, ...)</code>. Include only what is needed to bootstrap a fully valid object; never leave an object half-initialised. Write multiple constructors when different valid bootstrap configurations exist in the domain.</p>
 <p><strong>Internal initialisation</strong> � create or derive it inside the class when the class owns the thing (composition) or when the value is derived from properties the object already holds. The caller should not be responsible for assembling parts the class owns.</p>
-<p><strong>Factory method</strong> � use a static factory <em>on the class itself</em> when construction is complex, can fail gracefully, or needs to return different subtypes based on input. The factory method replaces `new` for callers � it is a named static operation on the class.</p>
+<p><strong>Factory method</strong> � use a static factory <em>on the class itself</em> when construction is complex, can fail gracefully, or needs to return different subtypes based on input. The factory method replaces <code>new</code> for callers � it is a named static operation on the class.</p>
 <p><strong>Factory object</strong> � delegate construction entirely to a separate domain object when the assembly logic is itself a domain concern, when multiple unrelated callers need the same complex build, or when the assembled object requires coordinating many collaborators the caller should not know about.</p>
 <h2>Relationships</h2>
-<p>The three questions in `oo-concepts.md` (`## Relationships`) determine the dependency nature. At this level of fidelity, each answer maps to a named type of relationship:</p>
+<p>The three questions in <code>oo-concepts.md</code> (<code>## Relationships</code>) determine the dependency nature. At this level of fidelity, each answer maps to a named type of relationship:</p>
 <ul>
 <li><strong>Aggregation</strong> � the parent exists to collect or group its children; the parent has no identity without them.</li>
 <li><strong>Composition</strong> � the child has no identity without the parent; the parent owns the child&#x27;s lifecycle.</li>
@@ -1084,40 +1705,44 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <p><strong>Association is the default</strong> � no annotation needed. Mark composition and aggregation directly on the property with a stereotype; no separate relationship line is required.</p>
 <pre><code>+ &lt;&lt; composition &gt;&gt; stages: List&lt;DifficultyStage&gt;   ? ownership is on the property
 + linkedTrait: Trait                                 ? plain association; no stereotype</code></pre>
-<p>The property type already implies cardinality direction: a single type is 1..1; `List&lt;T&gt;` or `Dictionary&lt;K,T&gt;` is one-to-many. Use an invariant on the property when the cardinality constraint needs to be made explicit.</p>
+<p>The property type already implies cardinality direction: a single type is 1..1; <code>List&lt;T&gt;</code> or <code>Dictionary&lt;K,T&gt;</code> is one-to-many. Use an invariant on the property when the cardinality constraint needs to be made explicit.</p>
 <h2>Collections</h2>
-<p>When a class holds multiple instances of another class, type the property using one of two generic forms:</p>
+<div class="spec-steps">
+<p class="spec-step">When a class holds multiple instances of another class, type the property using one of two generic forms:</p>
+</div>
 <ul>
-<li><strong>`List&lt;ClassName&gt;`</strong> � an ordered or unordered set where you iterate or process all members. No key needed.</li>
-<li><strong>`Dictionary&lt;KeyType, ClassName&gt;`</strong> � a keyed set where you need to look up a specific member directly.</li>
+<li><strong><code>List&lt;ClassName&gt;</code></strong> � an ordered or unordered set where you iterate or process all members. No key needed.</li>
+<li><strong><code>Dictionary&lt;KeyType, ClassName&gt;</code></strong> � a keyed set where you need to look up a specific member directly.</li>
 </ul>
-<p>The name of the property should reflect the domain collection concept, not the data structure � `appliedConditions`, not `conditionList`. When the collection itself has unique behavior, introduce a named collection class.</p>
+<p>The name of the property should reflect the domain collection concept, not the data structure � <code>appliedConditions</code>, not <code>conditionList</code>. When the collection itself has unique behavior, introduce a named collection class.</p>
 <h2>Inheritance</h2>
-<p>Use `ChildClass : ParentClass` on the class heading. The child block contains only delta members � typed properties, operations, and relationships that add or override the parent. Inherited members are never repeated.</p>
-<p>Mark each class with its stereotype on the heading � see `### Entities and Value Objects` below.</p>
+<p>Use <code>ChildClass : ParentClass</code> on the class heading. The child block contains only delta members � typed properties, operations, and relationships that add or override the parent. Inherited members are never repeated.</p>
+<p>Mark each class with its stereotype on the heading � see <code>### Entities and Value Objects</code> below.</p>
 <h2>Invariants</h2>
-<p>Write each invariant as a single tab-indented line directly under the property or operation it constrains: `	Invariant: ...`. Keep it declarative � &quot;must&quot;, &quot;cannot&quot;, &quot;only if&quot;. One line per constraint.</p>
+<p>Write each invariant as a single tab-indented line directly under the property or operation it constrains: <code>	Invariant: ...</code>. Keep it declarative � &quot;must&quot;, &quot;cannot&quot;, &quot;only if&quot;. One line per constraint.</p>
 <h2>Interactions</h2>
-<p>When an operation has inherent complexity or interesting interactions � it coordinates multiple collaborators, produces a result through a chain of internal steps, or branches in a way not captured by the signature and invariants alone � write a tab-indented `Interaction:` block directly after the operation&#x27;s invariants. Each step is a flat, non-nested pseudocode line using the scenario-walkthrough notation.</p>
+<div class="spec-steps">
+<p class="spec-step">When an operation has inherent complexity or interesting interactions � it coordinates multiple collaborators, produces a result through a chain of internal steps, or branches in a way not captured by the signature and invariants alone � write a tab-indented <code>Interaction:</code> block directly after the operation&#x27;s invariants. Each step is a flat, non-nested pseudocode line using the scenario-walkthrough notation.</p>
+</div>
 <p><strong>When to omit:</strong> Simple delegations with a single step, pure queries that return a property directly, or operations whose entire behavior is self-evident from the return type and invariants alone.</p>
-<p><strong>Design smell � invariants without interactions:</strong> If an operation carries several invariants but no `Interaction:` block, that is almost always wrong. Invariants state <em>what must be true</em>; they cannot replace the step-chain that <em>makes it true</em>.</p>
-<p><strong>Extract complex sub-logic into named operations.</strong> An `Interaction:` block is not pseudocode � it traces the key collaborations. When a branch or calculation is non-trivial, give it a name, extract it as a separate operation, and describe its rule as an invariant.</p>
+<p><strong>Design smell � invariants without interactions:</strong> If an operation carries several invariants but no <code>Interaction:</code> block, that is almost always wrong. Invariants state <em>what must be true</em>; they cannot replace the step-chain that <em>makes it true</em>.</p>
+<p><strong>Extract complex sub-logic into named operations.</strong> An <code>Interaction:</code> block is not pseudocode � it traces the key collaborations. When a branch or calculation is non-trivial, give it a name, extract it as a separate operation, and describe its rule as an invariant.</p>
 <p><strong>Format rules:</strong></p>
 <ul>
-<li>`	Interaction:` is tab-indented under the operation, same level as `Invariant:`</li>
+<li><code>	Interaction:</code> is tab-indented under the operation, same level as <code>Invariant:</code></li>
 <li>Each step inside is a further-indented flat line � <strong>no nesting</strong></li>
-<li>Use typed pseudocode: `variableName: Type = expression`</li>
-<li>Method calls: `object.method(param: value)`</li>
-<li>Construction: `variable: Type = new ClassName(param: Type)`</li>
-<li>Return: `return variable`</li>
-<li><strong>Variable names must use domain language</strong> � `roll`, `margin`, `throwingDistanceMeasure`, not `r`, `temp`, `measureA`. Trace the right name up the chain: domain model ? Domain Language ? source references.</li>
+<li>Use typed pseudocode: <code>variableName: Type = expression</code></li>
+<li>Method calls: <code>object.method(param: value)</code></li>
+<li>Construction: <code>variable: Type = new ClassName(param: Type)</code></li>
+<li>Return: <code>return variable</code></li>
+<li><strong>Variable names must use domain language</strong> � <code>roll</code>, <code>margin</code>, <code>throwingDistanceMeasure</code>, not <code>r</code>, <code>temp</code>, <code>measureA</code>. Trace the right name up the chain: domain model ? Domain Language ? source references.</li>
 </ul>
 <h2>Entities and Value Objects</h2>
 <p>Domain objects carry one of several stereotypes depending on their role. The two most common are Entity and Value Object.</p>
-<p><strong>Entity</strong> � an object distinguished by identity, not by its attributes. Two entities with identical attributes are still different things. An entity has a continuous lifecycle: it is created, changes over time, and eventually ends. Mark with `&lt;&lt; Entity &gt;&gt;`.</p>
-<p><strong>Value Object</strong> � an object defined entirely by its attributes, with no meaningful identity of its own. Two value objects with the same attributes are interchangeable. Value objects are immutable: never modify one in place; replace it with a new instance. Mark with `&lt;&lt; ValueObject &gt;&gt;`.</p>
+<p><strong>Entity</strong> � an object distinguished by identity, not by its attributes. Two entities with identical attributes are still different things. An entity has a continuous lifecycle: it is created, changes over time, and eventually ends. Mark with <code>&lt;&lt; Entity &gt;&gt;</code>.</p>
+<p><strong>Value Object</strong> � an object defined entirely by its attributes, with no meaningful identity of its own. Two value objects with the same attributes are interchangeable. Value objects are immutable: never modify one in place; replace it with a new instance. Mark with <code>&lt;&lt; ValueObject &gt;&gt;</code>.</p>
 <p><strong>The deciding question:</strong> <em>Does this thing need to be tracked as an individual over time, or does only the combination of its values matter?</em></p>
-<p>Other stereotypes exist (`&lt;&lt; Service &gt;&gt;`, `&lt;&lt; Factory &gt;&gt;`, `&lt;&lt; Repository &gt;&gt;`, `&lt;&lt; Domain Event &gt;&gt;`, boundary types, etc.) and are applied when the class clearly plays that role.</p>
+<p>Other stereotypes exist (<code>&lt;&lt; Service &gt;&gt;</code>, <code>&lt;&lt; Factory &gt;&gt;</code>, <code>&lt;&lt; Repository &gt;&gt;</code>, <code>&lt;&lt; Domain Event &gt;&gt;</code>, boundary types, etc.) and are applied when the class clearly plays that role.</p>
 <hr>
 <h2>Consistent shape</h2>
 <pre><code>## **{{KAName}}**
@@ -1151,7 +1776,7 @@ Extract: whole
 <pre><code>
 ### decisions made                                   ? one per KA, peer to classes
 - decision rationale</code></pre>
-<p>The Boundary Domain is one flat group with shared `### references` and `### decisions made`.</p></div>
+<p>The Boundary Domain is one flat group with shared <code>### references</code> and <code>### decisions made</code>.</p></div>
 
 </div>
 </div>

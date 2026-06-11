@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Foundry — skill · abd-impact-mapping</title>
+<title>Foundry — skill · abd-ux-user-impact-map</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -471,7 +471,22 @@ html[data-abd-theme="executive"] .catalog-body code {
 }
 
 .page-hero--detail {
-  padding-top: 48px;
+  padding-top: 20px;
+  padding-bottom: 16px;
+}
+.page-hero--detail .page-headline {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 4px 0 6px;
+}
+.page-headline .skill-name-prefix,
+.cap-card__title .skill-name-prefix {
+  color: var(--accent);
+}
+.page-hero--detail .body-lead {
+  font-size: 0.9rem;
+  margin: 0;
+  color: var(--muted);
 }
 
 .page-hero--detail .back-link {
@@ -731,8 +746,18 @@ a.cap-card:hover .cap-card__more {
   color: #b8b8c2;
   margin: 0 0 18px;
 }
+.skill-detail-page .skill-hero-img-wrap + .install-block {
+  margin-top: 18px;
+}
+.skill-detail-page .install-block + .skill-cr-grid,
+.skill-detail-page .install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block {
+  margin-top: 0;
+}
 .install-block {
-  margin: 22px 0 0;
+  margin: 20px 0 0;
   padding: 16px 18px;
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid var(--border-muted);
@@ -1041,115 +1066,790 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 .plugin-slots h3:first-child { margin-top: 0; }
 .cap-grid--plugin-slot { margin-bottom: 8px; }
 
+/* ── Skill detail: family kanban stage nav (matches hub column headings) ── */
+.skill-kanban-nav {
+  --fam-sdd: #6bcb77;
+  --fam-ddd: #6c5ce7;
+  --fam-uxd: #e84393;
+  --fam-arc: #4fc3f7;
+  --fam-idea: var(--accent);
+  --abd-accent: var(--accent);
+  --abd-accent-glow: var(--accent-soft, var(--accent));
+  --abd-raised: var(--raised);
+  --abd-bg: var(--bg);
+  --abd-border: var(--border);
+  --abd-text: var(--text);
+  --abd-muted: var(--muted);
+  background: var(--raised);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0 16px;
+}
+.skill-kanban-nav .wrap {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.skill-kanban-nav__board {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  gap: 6px 8px;
+  align-items: start;
+}
+.skill-kanban-nav__practice-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  margin: 0;
+  padding: 0 8px;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-left-width: 3px;
+  border-radius: 4px;
+  line-height: 1.25;
+  box-sizing: border-box;
+  transition: box-shadow 120ms, border-color 120ms;
+  color: inherit;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card:hover {
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--sdd {
+  border-left-color: var(--fam-sdd);
+  color: var(--fam-sdd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--ddd {
+  border-left-color: var(--fam-ddd);
+  color: var(--fam-ddd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--uxd {
+  border-left-color: var(--fam-uxd);
+  color: var(--fam-uxd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--arc {
+  border-left-color: var(--fam-arc);
+  color: var(--fam-arc);
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap {
+  position: relative;
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip.kb-col-shape-tooltip {
+  min-width: 10rem;
+  max-width: 22rem;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:hover .kb-skill-tooltip,
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:focus-within .kb-skill-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.skill-kanban-nav__stages {
+  display: grid;
+  grid-template-columns: repeat(var(--skill-kanban-cols, 5), minmax(0, 1fr));
+  gap: 0 8px;
+  min-width: 0;
+}
+.skill-kanban-nav__col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.skill-kanban-nav__tickets {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.skill-kanban-nav .kb-col-head {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 8px 6px 7px;
+  font-family: var(--font-mono);
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.skill-kanban-nav .kb-col-head--static {
+  cursor: default;
+}
+.skill-kanban-nav a.kb-col-head {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav a.kb-col-head:hover {
+  border-color: rgba(229, 83, 26, 0.35);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.15);
+}
+.skill-kanban-nav .kb-col-head--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-col-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+}
+.skill-kanban-nav .kb-col-scope-shape {
+  flex-shrink: 0;
+  border: 2px solid var(--abd-accent);
+  border-radius: 2px;
+}
+.skill-kanban-nav__stages .kb-col-shape-tooltip,
+.skill-kanban-nav__stages .kb-skill-tooltip-wrap .kb-col-shape-tooltip {
+  display: none !important;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 8px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 7px 9px;
+  font-family: var(--font-mono);
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid rgba(229, 83, 26, 0.45);
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 14px;
+  border: 5px solid transparent;
+  border-bottom-color: rgba(229, 83, 26, 0.45);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__name {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--abd-accent-glow);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__bullets {
+  font-size: 8px;
+  line-height: 1.45;
+  color: var(--abd-text);
+  white-space: pre-line;
+}
+.skill-kanban-nav .kb-col-scope-shape--solution { width: 36px; height: 12px; }
+.skill-kanban-nav .kb-col-scope-shape--increment { width: 24px; height: 16px; }
+.skill-kanban-nav .kb-col-scope-shape--sprint { width: 16px; height: 22px; }
+.skill-kanban-nav .kb-col-scope-shape--story { width: 11px; height: 28px; }
+.skill-kanban-nav .kb-col-head-title {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--abd-text);
+}
+.skill-kanban-nav .kb-col-head-title > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.skill-kanban-nav .kb-col-num {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--abd-text);
+  background: var(--abd-bg);
+  border: 1px solid var(--abd-border);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+.skill-kanban-nav .kb-ticket {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  background: var(--abd-raised);
+  color: var(--abd-text);
+  padding: 5px 6px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  border-left-width: 3px;
+  border-left-color: var(--abd-muted);
+  line-height: 1.25;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav .kb-ticket:hover {
+  border-color: var(--abd-border);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.2);
+}
+.skill-kanban-nav .kb-ticket.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-ticket.aad-fam-sdd { border-left-color: var(--fam-sdd); }
+.skill-kanban-nav .kb-ticket.aad-fam-ddd { border-left-color: var(--fam-ddd); }
+.skill-kanban-nav .kb-ticket.aad-fam-uxd { border-left-color: var(--fam-uxd); }
+.skill-kanban-nav .kb-ticket.aad-fam-arc { border-left-color: var(--fam-arc); }
+.skill-kanban-nav .kb-ticket.aad-fam-idea { border-left-color: var(--fam-idea); }
+@media (max-width: 960px) {
+  .skill-kanban-nav__board {
+    grid-template-columns: 1fr;
+  }
+  .skill-kanban-nav__stages {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
+
+/* ── Skill detail: full-width hero image / embedded viewer ── */
+.skill-hero-img-wrap {
+  margin: 24px 0 0;
+}
+.skill-hero-img-wrap:empty { display: none; }
+.skill-hero-img-wrap img,
+.skill-hero-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--raised);
+}
+
+/* HTML prototype iframe (reference/example/index.html) */
+.skill-prototype-wrap {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-prototype-frame {
+  display: block;
+  width: 100%;
+  min-height: 540px;
+  height: 71vh;
+  max-height: 810px;
+  border: 0;
+  background: #fff;
+}
+.skill-prototype-open {
+  margin: 0;
+  padding: 8px 14px;
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+  background: var(--raised);
+}
+.skill-prototype-open a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.skill-prototype-open a:hover { text-decoration: underline; }
+
+/* draw.io embedded viewer */
+.skill-drawio-wrap {
+  position: relative;
+  width: 100%;
+  height: min(71vh, 680px);
+  min-height: 340px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-drawio-wrap .mxgraph {
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+}
+.skill-drawio-wrap .geToolbarContainer {
+  z-index: 4;
+}
+
+/* code file preview */
+.skill-code-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--raised);
+  font-size: 13px;
+}
+.skill-code-lang {
+  padding: 6px 14px;
+  font-family: var(--mono, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.skill-code-preview pre {
+  margin: 0;
+  padding: 16px;
+  overflow-x: auto;
+  max-height: 420px;
+}
+.skill-code-preview code {
+  font-family: var(--mono, 'JetBrains Mono', monospace);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+/* rendered markdown preview */
+.skill-hero-img-wrap .skill-md-preview {
+  max-height: min(71vh, 610px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.skill-md-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px 24px;
+  background: var(--surface);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.skill-md-preview h1 { font-size: 18px; font-weight: 700; margin: 0 0 12px; }
+.skill-md-preview h2 { font-size: 15px; font-weight: 600; margin: 16px 0 8px;
+  border-bottom: 1px solid var(--border); padding-bottom: 3px; }
+.skill-md-preview h3 { font-size: 13px; font-weight: 600; margin: 12px 0 6px; }
+.skill-md-preview h4 { font-size: 12px; font-weight: 600; margin: 10px 0 4px; color: var(--muted); }
+.skill-md-preview p  { margin: 0 0 10px; }
+.skill-md-preview .spec-steps { margin: 0 0 14px; }
+.skill-md-preview p.spec-step { margin: 0 0 4px; line-height: 1.55; }
+.skill-md-preview .md-table-wrap { overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview .md-table { border-collapse: collapse; width: 100%; }
+.skill-md-preview ul, .skill-md-preview ol { margin: 0 0 10px; padding-left: 20px; }
+.skill-md-preview li { margin-bottom: 3px; }
+.skill-md-preview code { background: var(--raised); border-radius: 3px;
+  padding: 1px 5px; font-family: var(--mono, monospace); font-size: 12px; }
+.skill-md-preview pre { background: var(--raised); border-radius: 5px;
+  padding: 12px; overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview table { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
+.skill-md-preview th, .skill-md-preview td {
+  border: 1px solid var(--border); padding: 6px 10px; }
+.skill-md-preview th { background: var(--raised); font-weight: 600; }
+
+/* ── Skill detail: concepts | rules two-column grid ── */
+.skill-cr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin: 24px 0 0;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .skill-cr-grid { grid-template-columns: 1fr; }
+}
+.skill-cr-col { min-width: 0; }
+.skill-cr-single { margin: 24px 0 0; }
+
+/* Glossary example hero — term blocks without heavy HR dividers */
+.skill-md-preview--glossary h1 {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 10px;
+  border: 0;
+  padding: 0;
+}
+.skill-md-preview--glossary h2 {
+  font-size: 16px;
+  margin-top: 0;
+}
+.skill-md-preview--glossary h3 {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 14px 0 6px;
+  padding: 6px 8px;
+  background: var(--raised);
+  border-radius: 4px;
+  border-left: 3px solid var(--accent);
+}
+.skill-md-preview--glossary hr {
+  display: none;
+}
+.skill-md-preview--glossary ul {
+  margin-top: 0;
+}
+
+/* ── Skill detail: full-width content below ── */
+.skill-detail-content-col { margin-top: 32px; }
+.skill-detail-page .skill-cr-grid,
+.skill-detail-page .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-single,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-single {
+  margin-top: 0;
+}
+
+/* ── Skill detail: concepts (expandable) ── */
+.skill-hero-img-wrap + .install-block {
+  margin-top: 16px;
+}
+.install-block + .skill-cr-grid,
+.install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-concepts {
+  margin: 0 0 20px;
+}
+.skill-concepts-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 8px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-concept {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-concept summary {
+  padding: 8px 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  user-select: none;
+}
+.skill-concept summary::-webkit-details-marker { display: none; }
+.skill-concept summary::marker { content: ""; }
+.skill-concept summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-concept[open] summary::before { content: "\2212"; }
+.skill-concept-body {
+  padding: 6px 4px 10px 1.9rem;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.skill-concept-body p { margin: 0 0 8px; }
+.skill-concept-body p:last-child { margin-bottom: 0; }
+.skill-concept-body ul { margin: 0 0 8px 1.1em; padding: 0; }
+.skill-concept-body li { margin: 3px 0; }
+
+/* ── Skill detail: rules (DO / DON'T) ── */
+.skill-rules {
+  margin: 0 0 20px;
+}
+.skill-rules-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 12px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-rule {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule[open] > .skill-rule-header {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule-header {
+  padding: 8px 10px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  background: var(--raised);
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+.skill-rule-header::-webkit-details-marker { display: none; }
+.skill-rule-header::marker { content: ""; }
+.skill-rule-header::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-rule[open] > .skill-rule-header::before {
+  content: "\2212";
+}
+.skill-rule-section {
+  padding: 8px 12px;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+.skill-rule-section--do {
+  border-left: 3px solid #2d8a4e;
+}
+.skill-rule-section--dont {
+  border-left: 3px solid #c0392b;
+}
+.skill-rule-section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+  color: var(--muted);
+}
+.skill-rule-section--do .skill-rule-section-label { color: #2d8a4e; }
+.skill-rule-section--dont .skill-rule-section-label { color: #c0392b; }
+.skill-rule-section ul { margin: 0; padding: 0 0 0 1.1em; }
+.skill-rule-section li { margin: 2px 0; color: var(--text); }
+
 </style>
-<script src="../commons/catalog-nav.js?v=foundry-8"></script>
+<script src="../commons/catalog-nav.js?v=foundry-9"></script>
 </head>
 <body data-nav-prefix="../" data-nav-current="skills" data-nav-site-base="../../../abd-works-website/">
 <main id="main-content">
 
+<div class="skill-kanban-nav">
+<div class="wrap">
+<div class="skill-kanban-nav__board">
+    <div class="skill-kanban-nav__practice-col" aria-label="Practice families">
+      <a class="foundry-practice-col__card foundry-perspective-label--sdd aad-skill aad-fam-sdd has-skill-tooltip" href="abd-story-mapping.html"><span class="kb-skill-tooltip-wrap">story-driven-delivery<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">story-driven-delivery</span><span class="kb-col-shape-tooltip__bullets">Given/When/Then scenarios with real example data</span></span></span></a>
+      <a class="foundry-practice-col__card foundry-perspective-label--ddd aad-skill aad-fam-ddd has-skill-tooltip" href="abd-domain-glossary.html"><span class="kb-skill-tooltip-wrap">domain-driven-design<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">domain-driven-design</span><span class="kb-col-shape-tooltip__bullets">Typed terms + relationships (a schema), not prose definitions</span></span></span></a>
+      <a class="foundry-practice-col__card foundry-perspective-label--uxd aad-skill aad-fam-uxd kb-ticket--current has-skill-tooltip" href="abd-ux-user-impact-map.html"><span class="kb-skill-tooltip-wrap">user-experience-design<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">user-experience-design</span><span class="kb-col-shape-tooltip__bullets">Component spec with named states &amp; rules, not a static picture</span></span></span></a>
+      <a class="foundry-practice-col__card foundry-perspective-label--arc aad-skill aad-fam-arc has-skill-tooltip" href="abd-architecture-outline.html"><span class="kb-skill-tooltip-wrap">architecture-centric-engineering<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture-centric-engineering</span><span class="kb-col-shape-tooltip__bullets">Interface contracts / templates the engine can follow</span></span></span></a>
+    </div>
+<nav class="skill-kanban-nav__stages" style="--skill-kanban-cols: 4" aria-label="Practice stages">
+      <div class="skill-kanban-nav__col" data-stage="shaping">
+        <a class="kb-col-head kb-col-head--link kb-col-head--current" data-stage="shaping" href="abd-ux-user-impact-map.html" title="Whole solution. wide / shallow. outcomes, scope, boundaries">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--solution" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Shaping</span><span class="kb-col-num">1</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-uxd kb-ticket--current" href="abd-ux-user-impact-map.html" title="Impact mapping is a strategic discovery technique that links broader goals to finer-grained goals, then to actors, their observable behaviour changes, and deliverable options (often epics or features) that could create those behaviours. It keeps discussion outcome-first: you see why an option might matter before debating build order.
+
+The map answers four questions in order: Why are we doing this? Who can help or hinder? How should behaviour change? What could we do to support that change? Good maps surface assumptions, limit scope creep by tying ideas to impacts, and support shared ownership when business and delivery build them together.">user impact map</a>
+        </div>
+      </div>
+      <div class="skill-kanban-nav__col" data-stage="discovery">
+        <a class="kb-col-head kb-col-head--link" data-stage="discovery" href="abd-ux-information-architecture.html" title="Increment. medium. interactions, experience, structure">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--increment" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Discovery</span><span class="kb-col-num">2</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-uxd" href="abd-ux-information-architecture.html" title="Doing IA work early — before detailed design or development — flushes out gaps in functional and domain understanding, surfaces disagreements about scope, naming, and navigation when they are cheap to resolve, and gives the team a concrete picture to challenge and confirm before committing to wireframes or implementation. Functional requirements and stories written against a named screen inventory and content model become more precise: they reference agreed surfaces by name, missing coverage shows up as absent nodes, and edge-case states are identified before anyone has built against the wrong assumption.">information architecture</a>
+        </div>
+      </div>
+      <div class="skill-kanban-nav__col" data-stage="exploration">
+        <a class="kb-col-head kb-col-head--link" data-stage="exploration" href="abd-ux-mockup.html" title="Sprint. narrow / deeper. behaviour, design, logic">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--sprint" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Exploration</span><span class="kb-col-num">3</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-uxd" href="abd-ux-mockup.html" title="The initial IA established the screen inventory, regions, and story coverage. The lo-fi mockup is the next precision pass: it locks down exactly which control renders each field, exactly what interactions are available in each state, and exactly what the user sees and does — without yet committing to visual design. Every input becomes a specific control type (text field, dropdown, checkbox). Every action becomes a positioned button with a primary/secondary weight. Every conditional state (validation error, empty list, disabled control) is explicitly placed. This skill packages that pass: take one IA screen, resolve its AC and domain terms, build a drawio-mockup.mjs state file, generate the .drawio wireframe, and save it — so interaction decisions are made deliberately and traceable, not invented during implementation.">ux mockup</a>
+        </div>
+      </div>
+      <div class="skill-kanban-nav__col" data-stage="specification">
+        <a class="kb-col-head kb-col-head--link" data-stage="specification" href="abd-ux-specification.html" title="Story. narrow / executable. examples, design, templates">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--story" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Specification</span><span class="kb-col-num">4</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-uxd" href="abd-ux-specification.html" title="Lo-fi mockups lock controls and states. The specification stage turns those decisions into something people can click through — not production code. The deliverable is a hi-fi prototype built from real HTML, CSS, and JavaScript (or the host project&#x27;s static/preview stack): design tokens, typography, colour, spacing, and components that match the approved visual direction, with navigation and state transitions wired so flows feel real. Backend calls, validation rules, auth, and persistence are stubbed or faked — fixture data, timed delays, hard-coded branches, and local state only where needed to demonstrate behaviour. Acceptance criteria are demonstrated, not fully implemented; ubiquitous-language labels stay verbatim from upstream artifacts.">ux specification</a>
+        </div>
+      </div>
+</nav>
+</div>
+</div>
+</div>
+
+
 <div class="page-hero page-hero--detail">
   <div class="wrap">
-    <a class="back-link" href="../plugin/user-experience-design.html">← User Experience Design</a>
-    <p class="s-name">Skill</p>
-    <h1 class="page-headline">abd-impact-mapping</h1>
+    <a class="back-link" href="../index.html">← The ABD Foundry</a>
+    
+    <h1 class="page-headline"><span class="skill-name-prefix">abd-</span>ux-user-impact-map</h1>
     <p class="body-lead">Strategic impact maps: hierarchy view, ASCII wall map, and hypothesis sentences from discovery sources.</p>
   </div>
 </div>
 
 <div class="catalog-body">
-<div class="wrap">
+<div class="wrap skill-detail-page">
 
-<h2>Description</h2>
-<div class="entry-prose">Impact mapping is a strategic discovery technique that links broader goals to finer-grained goals, then to actors, their observable behaviour changes, and deliverable options (often epics or features) that could create those behaviours. It keeps discussion outcome-first: you see why an option might matter before debating build order.<br>
-<br>
-The map answers four questions in order: Why are we doing this? Who can help or hinder? How should behaviour change? What could we do to support that change? Good maps surface assumptions, limit scope creep by tying ideas to impacts, and support shared ownership when business and delivery build them together.<br>
-<br>
----</div>
+<div class="skill-hero-img-wrap">
+<div class='skill-md-preview'><h1>Impact Mapping — Examples</h1>
+<h2>Worked example (live-ops product)</h2>
+<p>Read as a <strong>hierarchy</strong>. Each <code>Goal</code> line carries its <strong>goal metric</strong> in angle brackets. Nested goals roll up. Under the finest goal, each <code>|- Actor</code> branch lists <strong>impacts</strong>; after <code>--</code>, <strong>Q1 / Q2 / …</strong> (or M1 / M2, quarters, months — name the convention once) are scheduled options for <em>that</em> impact only. Every feature still ties to one actor-and-behaviour path.</p>
+<pre><code>Strengthen recurring revenue and engagement in the flagship title &lt;net revenue retention; live-ops engagement targets for the title&gt;
+|- Grow monthly active players &lt;verified MAU +20% vs baseline; week-over-week return among onboarded&gt;
+     |- Existing players (returning, past onboarding)
+          Share run highlights to social &lt;share attempts per weekly active player; target cadence at least weekly&gt; -- Q1: One-tap share sheet with clip, Q2: Seasonal tournament badge, Q3: Friend-invite deep link from post-match
+          Complete ranked matches regularly &lt;ranked matches per active player per week; target at least three per week&gt; -- Q1: Queue-time fairness pass, Q2: Streak bonus for consistent ranked play
+     |- New players (first fourteen days after install)
+          Finish onboarding and first ranked match in the first session &lt;session-one ranked completion rate&gt; -- Q1: Guided tutorial path with fewer dead ends, Q2: Optional skip for experienced players on a new device (abuse guardrails TBD)</code></pre>
+<p>Q1 / Q2 / Q3 here mean calendar quarters for the illustration; use whatever timeboxes the room agrees. Options on a line are different bets on the <strong>same</strong> impact, sequenced by timebox — not a second map.</p></div>
+
+</div>
 
 <section class="install-block" aria-labelledby="install-npx-heading">
   <h2 id="install-npx-heading">Install with npx</h2>
   <p class="install-hint">Install this package from <a href="https://github.com/abd-works/abd-skills">https://github.com/abd-works/abd-skills</a> into your project or global agent skills directory (see <a href="https://skills.sh/">skills.sh</a> / Open Agent Skills).</p>
-  <pre class="install-snippet"><code>npx skills add abd-works/abd-skills@abd-impact-mapping -y</code></pre>
+  <pre class="install-snippet"><code>npx skills add abd-works/abd-skills@abd-ux-user-impact-map -y</code></pre>
 </section>
 
 
-<hr class="entry-divider">
-
-
-
-<hr class="entry-divider">
-
-<h2 id="entry-contents">Contents</h2>
-<details class="entry-md-section" id="md-overview"><summary class="entry-md-section__summary">Overview</summary><div class="entry-md-section__body"><p>﻿--- name: abd-impact-mapping catalog_garden_tier: practice catalog_garden_order: 15 catalogue_one_liner: &gt;- Strategic impact maps: hierarchy view, ASCII wall map, and hypothesis sentences from discovery sources. description: &gt;- Teaches collaborative impact mapping — layered goals, actors, observable impacts, and deliverable options. Emits six template outputs (hierarchy, ASCII map, and BUILD/OUTCOME hypotheses, each in Markdown and plain text). Use when connecting organisational outcomes to scope, facilitating discovery, or replacing feature-first backlogs.</p>
-<hr>
-<h1>abd-impact-mapping</h1></div></details>
-<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p>Impact mapping is a strategic discovery technique that links broader goals to finer-grained goals, then to actors, their observable behaviour changes, and deliverable options (often epics or features) that could create those behaviours. It keeps discussion outcome-first: you see <em>why</em> an option might matter before debating build order.</p>
-<p>The map answers four questions in order: <em>Why are we doing this?</em> <em>Who can help or hinder?</em> <em>How should behaviour change?</em> <em>What could we do to support that change?</em> Good maps surface assumptions, limit scope creep by tying ideas to impacts, and support shared ownership when business and delivery build them together.</p>
-<hr></div></details>
-<details class="entry-md-section" id="output-file"><summary class="entry-md-section__summary">Output file</summary><div class="entry-md-section__body"><p><strong>Deliverables folder:</strong> see `../agent-protocol.md` — Output file resolution.</p>
-<p><strong>File name:</strong> `impact-map.md` (and paired outputs). Add a `&lt;name&gt;-` prefix only when disambiguation is needed.</p>
-<hr></div></details>
-<details class="entry-md-section" id="agent-instructions"><summary class="entry-md-section__summary">Agent Instructions</summary><div class="entry-md-section__body"><p>&gt; <strong>MANDATORY — read `../agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.</strong></p>
-<h3>1. Read context</h3>
-<p>Read these files:</p>
+<div class="skill-cr-grid">
+<div class="skill-cr-col"><div class="skill-concepts">
+<h2 class="skill-concepts-heading">Concepts</h2>
+<details class="skill-concept"><summary>What is an impact map?</summary><div class="skill-concept-body"><p>An impact map is a layered picture of cause and intent, read in a fixed order:</p>
+<p>1. <strong>Goal</strong> — Broader organisational outcomes connect to finer-grained outcomes (why). You pick the level you are mapping in detail; actors and behaviour hang off that focus. 2. <strong>Actors</strong> — People, teams, or roles that can help or obstruct (who). 3. <strong>Impacts</strong> — Observable changes in behaviour for each actor (how behaviour should move). 4. <strong>Deliverables</strong> — Hypotheses about what we could build or do to enable those behaviours (what).</p>
+<p>It is not a story map, a WBS, or a prioritised backlog by itself. It feeds those artifacts by clarifying how candidate scope links back to outcomes and behaviour. For delivery planning, you can add a phased backlog over named timeboxes (months, quarters, or another convention): each scheduled option still points at one behaviour path on the map so ordering stays tied to outcomes, not to a separate feature list.</p>
+<h3>Why use it?</h3>
 <ul>
-<li><strong>`reference/concepts.md`</strong> — what an impact map is, goal/actor/impact/deliverable definitions, goal and impact metrics, assumptions (build and outcome types), phased backlogs, and the shape of a good map.</li>
-<li><strong>`reference/examples.md`</strong> — a worked hierarchy example (live-ops product) showing nested goals, actors, impacts with metrics, and phased deliverables.</li>
+<li><strong>Assumptions visible</strong> — Gaps and guesses show on the map instead of hiding in documents.</li>
+<li><strong>Scope discipline</strong> — Orphan features are obvious when they are not tied to a behaviour you care about.</li>
+<li><strong>Cross-functional alignment</strong> — Shared picture for product, delivery, and domain voices (when run collaboratively).</li>
 </ul>
-<h3>2. Generate</h3>
-<p>Read every file in <strong>`rules/`</strong>; author to those rules.</p>
-<p><strong>Produce output from every template:</strong></p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th><th></th><th></th><th></th></tr></thead><tbody><tr><td>`templates/impact-map.md`</td><td>Hierarchy view: broader to finer `GOAL:` levels, then ACTOR / IMPACT / DELIVERABLE; optional `METRIC:` under goals and impacts; optional phased table.</td><td></td><td></td><td></td></tr><tr><td>`templates/impact-map.txt`</td><td>Same hierarchy tree and phased TSV (if any) as plain text.</td><td></td><td></td><td></td></tr><tr><td>`templates/impact-map-ascii.md`</td><td>ASCII wall sketch (four columns): OBJECTIVE (Why?) \</td><td>PERSONA (Who?) \</td><td>IMPACT (How?) \</td><td>INITIATIVE (What?).</td></tr><tr><td>`templates/impact-map-ascii.txt`</td><td>Same four-column table as plain text.</td><td></td><td></td><td></td></tr><tr><td>`templates/impact-map-hypotheses.md`</td><td>Build and outcome hypothesis sentences: same facts as the tree. `Then` clause uses goal as verb phrase with metric.</td><td></td><td></td><td></td></tr><tr><td>`templates/impact-map-hypotheses.txt`</td><td>Same hypothesis shape as plain text.</td><td></td><td></td><td></td></tr></tbody></table></div>
-<p><strong>Parity:</strong> Within each pair (hierarchy, ASCII, hypotheses), the `.md` and `.txt` versions match. Across all six files — same goal stack, actors, impacts, deliverables, and phased items. Impacts stay behavioural; each deliverable supports one impact; hypothesis lines use the same names as the hierarchy view.</p>
-<p><strong>Quality bar:</strong> Match the concepts in `reference/concepts.md` for structure. Use `rules/*.md` for generative wording (goal, impact, actor, deliverable, assumptions, phased backlog Actor / impact column).</p>
-<p><strong>Depth:</strong> Do not emit only Markdown or only plain text unless the user explicitly asks for a single format.</p>
-<h3>3. Validate</h3>
-<p>Run the scanners:</p>
-<pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/abd-impact-mapping \
-  --workspace &lt;path-to-output&gt;</code></pre>
-<p>Then emit per-rule verdicts per `../agent-protocol.md`.</p>
 <hr></div></details>
-<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Inspect the map as a product owner, developer, and facilitator would.</p>
+<details class="skill-concept"><summary>Goal</summary><div class="skill-concept-body"><p>The goal is why you are doing the work: the business outcome the organisation wants — the stakes in play (market, revenue, risk, adoption, compliance, cost, reliability, and similar). Broader outcomes decompose into finer outcomes that roll up to them. The finest-grained outcome on the map is often workshop-sized (about a quarter or less when you timebox).</p>
+<p>Phrase each level as an outcome in the world: direction and stakes in language about results (growth, reliability, risk posture, adoption, retention, margin), not shipping labels. Examples: <em>Grow monthly actives</em>; <em>Achieve reliable same-day completion for domestic orders</em>; <em>Grow net revenue retention in the enterprise segment</em>. Put numeric proof on <code>METRIC:</code> lines indented under that <code>GOAL:</code> (e.g. verified MAU lift), not in the <code>GOAL:</code> headline when using this skill&#x27;s templates. Deliverables hold candidate things to build or ship once behaviour is clear under impacts.</p>
+<p>Clear organisational outcomes are specific enough that the team can identify the actors that are necessary to achieving it. Who will help us achieve our outcome?; How should behaviour change?; What could we do to support that impact? Good goals are often nested, starting major (wide intent) narrowing to tactical. They stay customer- and stakeholder-driven toward outcomes in the world. Actors and impacts tie the mapped outcome to who and observable behaviour; deliverables carry what you might ship.</p></div></details>
+<details class="skill-concept"><summary>Goal metrics (METRIC: under each GOAL:)</summary><div class="skill-concept-body"><p>Lagging proof tied to outcomes: economic (revenue, margin, unit cost) or strategic (adoption, share, compliance, risk). Attach each at the goal level it measures — numeric bars, percent targets, thresholds, and counts that show the organisation moved.</p>
+<p>Example: <em>Grow monthly actives</em> with proof on <code>METRIC:</code> <em>verified MAU +20% this quarter vs baseline</em>; <em>Achieve reliable same-day completion for domestic orders</em> with proof <em>ninety percent same-day</em>; <em>Grow net revenue retention in the enterprise segment</em> with proof <em>NRR above 110% this fiscal year</em>.</p>
+<hr></div></details>
+<details class="skill-concept"><summary>Actors</summary><div class="skill-concept-body"><p>An actor is someone who can help or block the outcome in the goal hierarchy: a person, team, or organisation. For each actor, be clear which people or teams you mean and what about their situation matters here (for example new versus returning, channel or market, a lifecycle stage, contract timing, or a stressful moment such as renewal or outage). Words like customer, operator, or partner are fine to start, but you need to make them more specific.</p>
+<p>Never cast a product, service, system, or platform as an actor, even when a brief talks that way. Name who actually helps or blocks and put the system under deliverables.</p>
+<p>If you only name a vague who (&quot;all customers,&quot; &quot;partners,&quot; one bucket of &quot;users&quot;) but the impacts you list are really about different groups or moments with different behaviour, you are mixing actors. Narrow the situation, name the moment, or split into separate actors so each who matches one coherent narrative.</p>
+<p>Every actor on the map should have at least one impact — something you want that actor to do or stop doing. If there is nothing to say about behaviour for that who, merge them with another actor or stop treating them as separate.</p>
+<hr></div></details>
+<details class="skill-concept"><summary>Impacts</summary><div class="skill-concept-body"><p>An impact is the behaviour change you want from a given actor toward those outcomes: what they should start doing, do more of, do less of, or stop doing. It answers <em>how should this person or team behave differently?</em> — not <em>what are we building?</em> and not <em>what is the business outcome?</em> (that lives in the goal hierarchy above).</p>
+<p>Good impacts are specific enough to recognise in the world. Someone could watch, read a transcript, pull a metric, or walk a journey and say whether it is happening. They usually lead with a verb the actor performs: completes, submits, shares, invites, triages, opts in, returns, finishes, escalates. In this skill&#x27;s <strong>shipped hierarchy templates</strong>, keep each <code>IMPACT:</code> line to observable behaviour <strong>without</strong> embedded cadence targets, deadlines, SLA timing, or numeric bars — put those on <code>METRIC:</code> lines indented under that <code>IMPACT:</code> (and in hypotheses after <code>by</code> with the impact metric). In live facilitation you may still talk in tighter cadence; when writing the tree, move quotas to metric lines.</p>
+<p>One impact is one movement of behaviour. If you mix two behaviours, split them. Do not treat a component, project name, epic title, or system as the impact — that belongs under deliverables (or under engineering planning), not as the behaviour itself. Do not stop at slogans like &quot;better onboarding&quot; with no observable picture.</p>
+<p>Contrast: &quot;Submits the order without calling support&quot; describes behaviour; &quot;New checkout microservice&quot; describes a build. &quot;Shares run highlights to social&quot; is an impact headline; weekly share rate belongs on a <code>METRIC:</code> line under that impact; &quot;Share sheet v2&quot; is not an impact.</p></div></details>
+<details class="skill-concept"><summary>Impact metrics (METRIC: under each IMPACT:)</summary><div class="skill-concept-body"><p>Behaviour and usage proxies (e.g. weekly share rate, D7 retention, hours watched) that should move before goal-level <code>METRIC:</code> lines respond. They make each behaviour change testable on its own.</p>
+<p>Example: <em>Shares run highlight to a social channel</em> with metric <em>share events per weekly active user</em>; <em>Finishes tutorial and first ranked match in the first session</em> with metrics <em>D1 ranked-match completion rate</em>; <em>Opens abuse report quickly</em> with metric <em>median hours to first moderator action</em>.</p>
+<hr></div></details>
+<details class="skill-concept"><summary>Deliverables</summary><div class="skill-concept-body"><p>Deliverables are candidate things to build, ship, or run that might help produce an impact. They are options and bets — useful for roadmap and prioritisation — not promises and not a substitute for naming behaviour. Phrase them at roadmap granularity: a capability, epic, experiment, or policy change someone could schedule, not a ten-year vision sentence.</p>
+<p>Several deliverables under the same impact means different ways you might achieve that one behaviour change. Keep each option one clear idea; split merged features. A deliverable should not restate the goal, duplicate goal metric lines, or copy the impact sentence (&quot;User posts weekly&quot;) — those stay where they belong.</p>
+<p>Do not hide a grab-bag in one deliverable (&quot;Everything for sharing&quot;); do not use empty words like &quot;Success&quot; as if they were shippable work. If you cannot name a plausible thing to try, you probably need a sharper impact first.</p>
+<p>Contrast: under an impact about sharing to social, &quot;One-tap share sheet with clip&quot; and &quot;Seasonal badge asset pack&quot; are deliverables — different bets on the same behaviour. &quot;Grow monthly active players&quot; is goal territory; share rate and cadence sit in metrics, not in the <code>IMPACT:</code> headline when using this skill&#x27;s templates.</p>
+<hr></div></details>
+<details class="skill-concept"><summary>Assumptions</summary><div class="skill-concept-body"><p>An impact map carries two kinds of assumption, and both are already visible in the hypotheses templates:</p>
 <ul>
-<li><strong>Goal</strong> — Broader to finer `GOAL:` hierarchy; actors attach under the mapped `GOAL:`.</li>
-<li><strong>Actors</strong> — Situational who (segment, moment, context); everyone who can help or block the goal.</li>
-<li><strong>Impacts</strong> — Observable behaviour for each actor; verb-led, one movement per line.</li>
-<li><strong>Deliverables</strong> — Each deliverable sits under an impact it serves; phased backlog rows each name an impact on this map.</li>
-<li><strong>Metrics</strong> — `METRIC:` under a `GOAL:` holds lagging proof; `METRIC:` under an `IMPACT:` holds behaviour proxies.</li>
-<li><strong>Cross-artifact parity</strong> — Hierarchy `.md` and `.txt` match; ASCII pair matches; hypotheses pair matches; all six align on goals, actors, impacts, and deliverables.</li>
-<li><strong>Rules pass</strong> — Generated maps meet each `rules/*.md`.</li>
-<li><strong>No bundle markers</strong> — `SKILL.md` has no `&lt;!-- execute_rules:bundle_rules --&gt;` markers.</li>
+<li><strong>Build assumption</strong> — If we build this deliverable, the target actor will be impacted in a specific way (e.g. their behaviour), measurable by the impact metric. This is a bet on delivery causing behaviour change.</li>
+<li><strong>Outcome assumption</strong> — If the impact metric moves, the goal metric will follow. This is a bet on the behaviour change mattering to the outcome.</li>
 </ul>
+<p>Teams use a validated learning approach to confirm or refute each belief and update the map as they learn — keeping evidence and learning visible. The shared Plan / Validate / Learn loop is defined once in <a href="../../../reference/validated-learning.html"><code>../../../reference/validated-learning.md</code></a>.</p>
+<p>The <code>templates/impact-map-hypotheses.md</code> (and <code>.txt</code>) already phrase both assumption types as testable sentences — they are the natural starting point. Use <strong>abd-simple-validated-learning</strong> to turn those sentences into a prioritised backlog of experiments with owners and explicit failure conditions when the team needs to validate before committing to build.</p>
 <hr></div></details>
+<details class="skill-concept"><summary>Phased feature backlog</summary><div class="skill-concept-body"><div class="spec-steps">
+<p class="spec-step">When delivery needs a time horizon, you extend the same map with a phased backlog: a sequence of timeboxes (months, quarters, or another convention you name once). Each phase holds scheduled options — concrete things you might ship or run. Every option stays tied to exactly one impact path on the map: the same actor and the same behaviour change that option is meant to support. That keeps sequencing honest: order is about <em>when</em> you might try something, not a separate story from <em>why</em> that something mattered. Orphan work shows up when an option does not link to a behaviour you care about.</p>
+</div>
+<hr></div></details>
+<details class="skill-concept"><summary>The shape of a good impact map</summary><div class="skill-concept-body"><p>In substance: an outcome hierarchy (broad to the level you are mapping), then for that focus the actors who matter, the observable behaviour you want from each, and the deliverable options that might produce those behaviours. Optional goal metrics sit with the goal level they measure; optional behaviour proxies sit with the impacts (<code>METRIC:</code> under each <strong><code>IMPACT:</code></strong> on the prefix map). A phased backlog, when you need one, orders those deliverable options across timeboxes while preserving the same one-to-one link from each scheduled option to one impact path on the map.</p></div></details>
+</div></div>
+<div class="skill-cr-col"><div class="skill-rules">
+<h2 class="skill-rules-heading">Rules</h2>
+<details class="skill-rule">
+<summary class="skill-rule-header">Multi-actor maps record assumptions or explicit none</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>When the tree has two or more distinct ACTOR: lines, include at least one ASSUMPTION: line that states a testable belief, dependency, or conflict across those branches.</li><li>When no cross-branch assumption is needed, record that explicitly on one line.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Omit ASSUMPTION: entirely when two or more ACTOR: lines appear in the same file.</li><li>Emit DELIVERABLE: lines that are not under a GOAL: with ACTOR: and IMPACT: ancestors in the same file.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Deliverables are shippable options under impacts</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Phrase each DELIVERABLE: as a roadmap-sized option that might create the parent impact.</li><li>Use several DELIVERABLE: lines under one impact when they are different bets on the same behaviour.</li><li>Keep one shippable idea per line; split merged features.</li><li>Mirror the same deliverable names in hypotheses and ASCII outputs when those formats ship for the same engagement.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Put outcome language, behaviour sentences, or goal numeric proof in DELIVERABLE: that belong under GOAL:, IMPACT:, or on a METRIC: line under a GOAL:.</li><li>Use a vague grab-bag label instead of concrete options.</li><li>Use empty success labels as if they were work.</li><li>Park observable behaviour under DELIVERABLE: instead of under IMPACT:.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Goals read as business outcomes with METRIC lines for lagging proof</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Model goals as a hierarchy: broader organisational outcomes decompose into finer outcomes that roll up; use one GOAL: per level you need.</li><li>Keep the finest mapped GOAL: at a workshop-friendly horizon (often about a quarter or less when you timebox).</li><li>Phrase each GOAL: as a business outcome (grow, reduce, achieve, strengthen) with clear object; put lagging proof on METRIC: under that level.</li><li>Keep each GOAL: line a directional headline at its altitude; express proof you moved on METRIC: where you measure.</li><li>Anchor stakes readers recognise: revenue, adoption, risk, compliance, cost, market position, operational reliability.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Headline the GOAL: as build, ship, implement, or launch when the real measure is behaviour, revenue, or risk (put the build under DELIVERABLE:).</li><li>Name an output or project as the goal when the goal is the outcome that output is meant to serve.</li><li>Use launch metaphors as the goal instead of the stakeholder outcome.</li><li>Put numeric bars in the GOAL: headline when this skill expects them on METRIC: under that outcome.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Actors are situational people or organisations tied to the goal</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Name actors by situation: segment, lifecycle moment, channel, or context that matters for this goal, not the abstract category alone.</li><li>Make the situation visible in the label (cohort, geography, tenure, stress moment, contract window).</li><li>Split when situations imply different behaviours under the same broad label.</li><li>Keep labels short while still showing who and why the situation matters for the goal.</li><li>Give every ACTOR: at least one IMPACT:; merge or drop actors with nothing behavioural to say.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Use bare categories with no situation when the map needs distinct behaviours.</li><li>Cast a product, service, system, or platform as the actor.</li><li>Collapse incompatible situations into ACTOR: Users when impacts assume different groups or moments.</li><li>Use component names where a person or organisation is what helps or blocks.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Impact lines name observable behaviour for the actor</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Answer how this actor&#x27;s behaviour should change in terms a reviewer could witness without opening a backlog tool.</li><li>Lead with a verb the actor performs (completes, submits, shares, invites, triages, opts in, returns, finishes).</li><li>Keep the IMPACT: headline free of cadence quotas, day-N deadlines, SLA timing, and numeric bars; put those on METRIC: under that IMPACT:.</li><li>State one behaviour movement per IMPACT:; split when two behaviours are mixed.</li><li>Keep channel or qualitative guardrails in the impact phrase when they are not numeric bars (for example without calling support).</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Put system names, epic codes, or feature titles alone in IMPACT: with no behaviour clause.</li><li>Use a component or tool name as if it were behaviour.</li><li>Ship slogans with no observable picture.</li><li>Mix two incompatible behaviours in one IMPACT: line.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Phased backlog rows name the same actor and impact as the tree</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>For each phased row, fill the Actor / impact column so it matches one ACTOR: + IMPACT: path in that file.</li><li>Use one timebox convention per file (for example M1..M4 or Q1..Q4) and record it in NOTE: once.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>List a feature whose Actor / impact cell does not match any actor-and-impact branch in the tree.</li><li>Switch timebox schemes row by row without stating the convention.</li></ul></div>
+</details>
+</div></div>
+</div>
 
-<ul class="file-list file-list--root">
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>inputs/</strong><span class="file-meta"> → Folder (2 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-user-impact-map/inputs/abd-answers-retrieval.md" target="_blank" rel="noopener noreferrer"><strong>abd-answers-retrieval.md</strong></a><span class="file-meta"> → Canonical RAG input for the target practice skill.</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-user-impact-map/inputs/README.md" target="_blank" rel="noopener noreferrer"><strong>README.md</strong></a><span class="file-meta"> → abd-answers-retrieval.md — filled by abd-query-practice-sources; prefer ### Kept chunk N sections with verbatim hub body in a fenced block (see Format (preferred) in that file) so authoring does not need a second query. Optional summary table is extra, not a …</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>reference/</strong><span class="file-meta"> → Folder (2 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-user-impact-map/reference/concepts.md" target="_blank" rel="noopener noreferrer"><strong>concepts.md</strong></a><span class="file-meta"> → Impact Mapping — Concepts</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-user-impact-map/reference/examples.md" target="_blank" rel="noopener noreferrer"><strong>examples.md</strong></a><span class="file-meta"> → Impact Mapping — Examples</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-user-impact-map/rules/impact-map-assumptions-scope.md" target="_blank" rel="noopener noreferrer"><strong>impact-map-assumptions-scope.md</strong></a><span class="file-meta"> → Rule: Multi-actor maps record assumptions or explicit none</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-user-impact-map/rules/impact-map-deliverable-hypotheses.md" target="_blank" rel="noopener noreferrer"><strong>impact-map-deliverable-hypotheses.md</strong></a><span class="file-meta"> → Rule: Deliverables are shippable options under impacts</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-user-impact-map/rules/impact-map-goal-outcome-phrasing.md" target="_blank" rel="noopener noreferrer"><strong>impact-map-goal-outcome-phrasing.md</strong></a><span class="file-meta"> → Rule: Goals read as business outcomes with METRIC lines for lagging proof</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-user-impact-map/rules/impact-map-goal-related-actors.md" target="_blank" rel="noopener noreferrer"><strong>impact-map-goal-related-actors.md</strong></a><span class="file-meta"> → Rule: Actors are situational people or organisations tied to the goal</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-user-impact-map/rules/impact-map-impact-observable-behaviour.md" target="_blank" rel="noopener noreferrer"><strong>impact-map-impact-observable-behaviour.md</strong></a><span class="file-meta"> → Rule: Impact lines name observable behaviour for the actor</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-user-impact-map/rules/impact-map-phased-backlog-actor-impact.md" target="_blank" rel="noopener noreferrer"><strong>impact-map-phased-backlog-actor-impact.md</strong></a><span class="file-meta"> → Rule: Phased backlog rows name the same actor and impact as the tree</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-user-impact-map/templates/impact-map-ascii.md" target="_blank" rel="noopener noreferrer"><strong>impact-map-ascii.md</strong></a><span class="file-meta"> → Impact map — ASCII wall sketch (markdown)</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-user-impact-map/templates/impact-map-ascii.txt" target="_blank" rel="noopener noreferrer"><strong>impact-map-ascii.txt</strong></a><span class="file-meta"> → Impact map — ASCII wall sketch (plain text)</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-user-impact-map/templates/impact-map-hypotheses.md" target="_blank" rel="noopener noreferrer"><strong>impact-map-hypotheses.md</strong></a><span class="file-meta"> → Impact map — hypotheses (markdown)</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-user-impact-map/templates/impact-map-hypotheses.txt" target="_blank" rel="noopener noreferrer"><strong>impact-map-hypotheses.txt</strong></a><span class="file-meta"> → Impact map — hypotheses (plain text)</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-user-impact-map/templates/impact-map.md" target="_blank" rel="noopener noreferrer"><strong>impact-map.md</strong></a><span class="file-meta"> → Impact map (markdown)</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-user-impact-map/templates/impact-map.txt" target="_blank" rel="noopener noreferrer"><strong>impact-map.txt</strong></a><span class="file-meta"> → Impact map (plain text)</span></li>
-</ul></div></details></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-user-impact-map/SKILL.md" target="_blank" rel="noopener noreferrer"><strong>SKILL.md</strong></a><span class="file-meta"> → name: abd-impact-mapping</span></li>
-</ul>
+
+
 
 </div>
 </div>

@@ -69,8 +69,8 @@ Five stages × four practice families (DDD · SDD · UXD · ARC). Full skill ord
 | **Shaping** | [shaping.md](practices/kanban/reference/stages/shaping.md) | `abd-domain-glossary`, `abd-story-mapping` (outline), `abd-impact-mapping`, `abd-architecture-outline` |
 | **Discovery** | [discovery.md](practices/kanban/reference/stages/discovery.md) | `abd-story-mapping` (full), `abd-domain-language`, `abd-information-architecture`, `abd-architecture-blueprint`, `abd-thin-slicing` |
 | **Exploration** | [exploration.md](practices/kanban/reference/stages/exploration.md) | `abd-domain-model`, `abd-story-acceptance-criteria`, `abd-ux-mockup`, `abd-architecture-specification` (document) |
-| **Specification** | [specification.md](practices/kanban/reference/stages/specification.md) | `abd-domain-specification`, `abd-story-specification`, `abd-ux-specification` (spec), `abd-architecture-specification` (template) |
-| **Engineering** | [engineering.md](practices/kanban/reference/stages/engineering.md) | `abd-ux-specification` (impl), `abd-domain-code`, `abd-story-acceptance-test`, `abd-architecture-code` |
+| **Specification** | [specification.md](practices/kanban/reference/stages/specification.md) | `abd-domain-specification`, `abd-story-specification`, `abd-ux-specification` (clickable prototype), `abd-architecture-specification` (template) |
+| **Engineering** | [engineering.md](practices/kanban/reference/stages/engineering.md) | `abd-domain-code`, `abd-story-acceptance-test`, `abd-architecture-code` |
 
 Stage extras (supplemental strip): `abd-clean-code`, `abd-secure-code` (engineering); discovery may add `abd-code-research`, `abd-service-level-objectives` from `stages/`.
 
@@ -143,8 +143,7 @@ Also used in shaping (stage-tier): `abd-impact-mapping` — [`stages/idea-shapin
 | `abd-information-architecture` | Site map, navigation, content model |
 | `abd-ux-information-architecture` | IA variant aligned to UX plugin layout |
 | `abd-ux-mockup` | Lo-fi Draw.io wireframes |
-| `abd-ux-specification` | Interface spec (authoring) and runnable UI (engineering pass) |
-| `abd-ux-design` | Production UX implementation helper |
+| `abd-ux-specification` | Clickable hi-fi prototype — real HTML/CSS/JS, stubbed logic |
 | `abd-ux-user-impact-map` | Impact mapping from UX practice family |
 
 ### Architecture-centric engineering — `practices/architecture-centric-engineering/`

@@ -471,7 +471,22 @@ html[data-abd-theme="executive"] .catalog-body code {
 }
 
 .page-hero--detail {
-  padding-top: 48px;
+  padding-top: 20px;
+  padding-bottom: 16px;
+}
+.page-hero--detail .page-headline {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 4px 0 6px;
+}
+.page-headline .skill-name-prefix,
+.cap-card__title .skill-name-prefix {
+  color: var(--accent);
+}
+.page-hero--detail .body-lead {
+  font-size: 0.9rem;
+  margin: 0;
+  color: var(--muted);
 }
 
 .page-hero--detail .back-link {
@@ -731,8 +746,18 @@ a.cap-card:hover .cap-card__more {
   color: #b8b8c2;
   margin: 0 0 18px;
 }
+.skill-detail-page .skill-hero-img-wrap + .install-block {
+  margin-top: 18px;
+}
+.skill-detail-page .install-block + .skill-cr-grid,
+.skill-detail-page .install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block {
+  margin-top: 0;
+}
 .install-block {
-  margin: 22px 0 0;
+  margin: 20px 0 0;
   padding: 16px 18px;
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid var(--border-muted);
@@ -1041,85 +1066,687 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 .plugin-slots h3:first-child { margin-top: 0; }
 .cap-grid--plugin-slot { margin-bottom: 8px; }
 
+/* ── Skill detail: family kanban stage nav (matches hub column headings) ── */
+.skill-kanban-nav {
+  --fam-sdd: #6bcb77;
+  --fam-ddd: #6c5ce7;
+  --fam-uxd: #e84393;
+  --fam-arc: #4fc3f7;
+  --fam-idea: var(--accent);
+  --abd-accent: var(--accent);
+  --abd-accent-glow: var(--accent-soft, var(--accent));
+  --abd-raised: var(--raised);
+  --abd-bg: var(--bg);
+  --abd-border: var(--border);
+  --abd-text: var(--text);
+  --abd-muted: var(--muted);
+  background: var(--raised);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0 16px;
+}
+.skill-kanban-nav .wrap {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.skill-kanban-nav__board {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  gap: 6px 8px;
+  align-items: start;
+}
+.skill-kanban-nav__practice-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  margin: 0;
+  padding: 0 8px;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-left-width: 3px;
+  border-radius: 4px;
+  line-height: 1.25;
+  box-sizing: border-box;
+  transition: box-shadow 120ms, border-color 120ms;
+  color: inherit;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card:hover {
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--sdd {
+  border-left-color: var(--fam-sdd);
+  color: var(--fam-sdd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--ddd {
+  border-left-color: var(--fam-ddd);
+  color: var(--fam-ddd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--uxd {
+  border-left-color: var(--fam-uxd);
+  color: var(--fam-uxd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--arc {
+  border-left-color: var(--fam-arc);
+  color: var(--fam-arc);
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap {
+  position: relative;
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip.kb-col-shape-tooltip {
+  min-width: 10rem;
+  max-width: 22rem;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:hover .kb-skill-tooltip,
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:focus-within .kb-skill-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.skill-kanban-nav__stages {
+  display: grid;
+  grid-template-columns: repeat(var(--skill-kanban-cols, 5), minmax(0, 1fr));
+  gap: 0 8px;
+  min-width: 0;
+}
+.skill-kanban-nav__col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.skill-kanban-nav__tickets {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.skill-kanban-nav .kb-col-head {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 8px 6px 7px;
+  font-family: var(--font-mono);
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.skill-kanban-nav .kb-col-head--static {
+  cursor: default;
+}
+.skill-kanban-nav a.kb-col-head {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav a.kb-col-head:hover {
+  border-color: rgba(229, 83, 26, 0.35);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.15);
+}
+.skill-kanban-nav .kb-col-head--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-col-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+}
+.skill-kanban-nav .kb-col-scope-shape {
+  flex-shrink: 0;
+  border: 2px solid var(--abd-accent);
+  border-radius: 2px;
+}
+.skill-kanban-nav__stages .kb-col-shape-tooltip,
+.skill-kanban-nav__stages .kb-skill-tooltip-wrap .kb-col-shape-tooltip {
+  display: none !important;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 8px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 7px 9px;
+  font-family: var(--font-mono);
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid rgba(229, 83, 26, 0.45);
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 14px;
+  border: 5px solid transparent;
+  border-bottom-color: rgba(229, 83, 26, 0.45);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__name {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--abd-accent-glow);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__bullets {
+  font-size: 8px;
+  line-height: 1.45;
+  color: var(--abd-text);
+  white-space: pre-line;
+}
+.skill-kanban-nav .kb-col-scope-shape--solution { width: 36px; height: 12px; }
+.skill-kanban-nav .kb-col-scope-shape--increment { width: 24px; height: 16px; }
+.skill-kanban-nav .kb-col-scope-shape--sprint { width: 16px; height: 22px; }
+.skill-kanban-nav .kb-col-scope-shape--story { width: 11px; height: 28px; }
+.skill-kanban-nav .kb-col-head-title {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--abd-text);
+}
+.skill-kanban-nav .kb-col-head-title > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.skill-kanban-nav .kb-col-num {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--abd-text);
+  background: var(--abd-bg);
+  border: 1px solid var(--abd-border);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+.skill-kanban-nav .kb-ticket {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  background: var(--abd-raised);
+  color: var(--abd-text);
+  padding: 5px 6px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  border-left-width: 3px;
+  border-left-color: var(--abd-muted);
+  line-height: 1.25;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav .kb-ticket:hover {
+  border-color: var(--abd-border);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.2);
+}
+.skill-kanban-nav .kb-ticket.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-ticket.aad-fam-sdd { border-left-color: var(--fam-sdd); }
+.skill-kanban-nav .kb-ticket.aad-fam-ddd { border-left-color: var(--fam-ddd); }
+.skill-kanban-nav .kb-ticket.aad-fam-uxd { border-left-color: var(--fam-uxd); }
+.skill-kanban-nav .kb-ticket.aad-fam-arc { border-left-color: var(--fam-arc); }
+.skill-kanban-nav .kb-ticket.aad-fam-idea { border-left-color: var(--fam-idea); }
+@media (max-width: 960px) {
+  .skill-kanban-nav__board {
+    grid-template-columns: 1fr;
+  }
+  .skill-kanban-nav__stages {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
+
+/* ── Skill detail: full-width hero image / embedded viewer ── */
+.skill-hero-img-wrap {
+  margin: 24px 0 0;
+}
+.skill-hero-img-wrap:empty { display: none; }
+.skill-hero-img-wrap img,
+.skill-hero-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--raised);
+}
+
+/* HTML prototype iframe (reference/example/index.html) */
+.skill-prototype-wrap {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-prototype-frame {
+  display: block;
+  width: 100%;
+  min-height: 540px;
+  height: 71vh;
+  max-height: 810px;
+  border: 0;
+  background: #fff;
+}
+.skill-prototype-open {
+  margin: 0;
+  padding: 8px 14px;
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+  background: var(--raised);
+}
+.skill-prototype-open a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.skill-prototype-open a:hover { text-decoration: underline; }
+
+/* draw.io embedded viewer */
+.skill-drawio-wrap {
+  position: relative;
+  width: 100%;
+  height: min(71vh, 680px);
+  min-height: 340px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-drawio-wrap .mxgraph {
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+}
+.skill-drawio-wrap .geToolbarContainer {
+  z-index: 4;
+}
+
+/* code file preview */
+.skill-code-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--raised);
+  font-size: 13px;
+}
+.skill-code-lang {
+  padding: 6px 14px;
+  font-family: var(--mono, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.skill-code-preview pre {
+  margin: 0;
+  padding: 16px;
+  overflow-x: auto;
+  max-height: 420px;
+}
+.skill-code-preview code {
+  font-family: var(--mono, 'JetBrains Mono', monospace);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+/* rendered markdown preview */
+.skill-hero-img-wrap .skill-md-preview {
+  max-height: min(71vh, 610px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.skill-md-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px 24px;
+  background: var(--surface);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.skill-md-preview h1 { font-size: 18px; font-weight: 700; margin: 0 0 12px; }
+.skill-md-preview h2 { font-size: 15px; font-weight: 600; margin: 16px 0 8px;
+  border-bottom: 1px solid var(--border); padding-bottom: 3px; }
+.skill-md-preview h3 { font-size: 13px; font-weight: 600; margin: 12px 0 6px; }
+.skill-md-preview h4 { font-size: 12px; font-weight: 600; margin: 10px 0 4px; color: var(--muted); }
+.skill-md-preview p  { margin: 0 0 10px; }
+.skill-md-preview .spec-steps { margin: 0 0 14px; }
+.skill-md-preview p.spec-step { margin: 0 0 4px; line-height: 1.55; }
+.skill-md-preview .md-table-wrap { overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview .md-table { border-collapse: collapse; width: 100%; }
+.skill-md-preview ul, .skill-md-preview ol { margin: 0 0 10px; padding-left: 20px; }
+.skill-md-preview li { margin-bottom: 3px; }
+.skill-md-preview code { background: var(--raised); border-radius: 3px;
+  padding: 1px 5px; font-family: var(--mono, monospace); font-size: 12px; }
+.skill-md-preview pre { background: var(--raised); border-radius: 5px;
+  padding: 12px; overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview table { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
+.skill-md-preview th, .skill-md-preview td {
+  border: 1px solid var(--border); padding: 6px 10px; }
+.skill-md-preview th { background: var(--raised); font-weight: 600; }
+
+/* ── Skill detail: concepts | rules two-column grid ── */
+.skill-cr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin: 24px 0 0;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .skill-cr-grid { grid-template-columns: 1fr; }
+}
+.skill-cr-col { min-width: 0; }
+.skill-cr-single { margin: 24px 0 0; }
+
+/* Glossary example hero — term blocks without heavy HR dividers */
+.skill-md-preview--glossary h1 {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 10px;
+  border: 0;
+  padding: 0;
+}
+.skill-md-preview--glossary h2 {
+  font-size: 16px;
+  margin-top: 0;
+}
+.skill-md-preview--glossary h3 {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 14px 0 6px;
+  padding: 6px 8px;
+  background: var(--raised);
+  border-radius: 4px;
+  border-left: 3px solid var(--accent);
+}
+.skill-md-preview--glossary hr {
+  display: none;
+}
+.skill-md-preview--glossary ul {
+  margin-top: 0;
+}
+
+/* ── Skill detail: full-width content below ── */
+.skill-detail-content-col { margin-top: 32px; }
+.skill-detail-page .skill-cr-grid,
+.skill-detail-page .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-single,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-single {
+  margin-top: 0;
+}
+
+/* ── Skill detail: concepts (expandable) ── */
+.skill-hero-img-wrap + .install-block {
+  margin-top: 16px;
+}
+.install-block + .skill-cr-grid,
+.install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-concepts {
+  margin: 0 0 20px;
+}
+.skill-concepts-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 8px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-concept {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-concept summary {
+  padding: 8px 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  user-select: none;
+}
+.skill-concept summary::-webkit-details-marker { display: none; }
+.skill-concept summary::marker { content: ""; }
+.skill-concept summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-concept[open] summary::before { content: "\2212"; }
+.skill-concept-body {
+  padding: 6px 4px 10px 1.9rem;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.skill-concept-body p { margin: 0 0 8px; }
+.skill-concept-body p:last-child { margin-bottom: 0; }
+.skill-concept-body ul { margin: 0 0 8px 1.1em; padding: 0; }
+.skill-concept-body li { margin: 3px 0; }
+
+/* ── Skill detail: rules (DO / DON'T) ── */
+.skill-rules {
+  margin: 0 0 20px;
+}
+.skill-rules-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 12px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-rule {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule[open] > .skill-rule-header {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule-header {
+  padding: 8px 10px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  background: var(--raised);
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+.skill-rule-header::-webkit-details-marker { display: none; }
+.skill-rule-header::marker { content: ""; }
+.skill-rule-header::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-rule[open] > .skill-rule-header::before {
+  content: "\2212";
+}
+.skill-rule-section {
+  padding: 8px 12px;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+.skill-rule-section--do {
+  border-left: 3px solid #2d8a4e;
+}
+.skill-rule-section--dont {
+  border-left: 3px solid #c0392b;
+}
+.skill-rule-section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+  color: var(--muted);
+}
+.skill-rule-section--do .skill-rule-section-label { color: #2d8a4e; }
+.skill-rule-section--dont .skill-rule-section-label { color: #c0392b; }
+.skill-rule-section ul { margin: 0; padding: 0 0 0 1.1em; }
+.skill-rule-section li { margin: 2px 0; color: var(--text); }
+
 </style>
-<script src="../commons/catalog-nav.js?v=foundry-8"></script>
+<script src="../commons/catalog-nav.js?v=foundry-9"></script>
 </head>
 <body data-nav-prefix="../" data-nav-current="agents" data-nav-site-base="../../../abd-works-website/">
 <main id="main-content">
+
+
 
 <div class="page-hero page-hero--detail">
   <div class="wrap">
     <a class="back-link" href="../index.html">← Foundry home</a>
     <p class="s-name">Agent</p>
+
     <h1 class="page-headline">abd-practice-skill-builder</h1>
     <p class="body-lead">Goal: Produce practice skills under the agilebydesign-skills repository, in skills/&lt;skill-name&gt;/, grounded in abd-answers (Pinecone RAG): retrieve evidence, author the package (SKILL.md starter from abd-author-practice-skill template + *rules/.md), optional scanners, abd-skill-catalog, then an HTML …</p>
   </div>
 </div>
 
 <div class="catalog-body">
-<div class="wrap">
+<div class="wrap skill-detail-page">
 
+<div class="skill-hero-img-wrap">
+
+</div>
+
+
+
+
+
+<div class="skill-detail-content-col">
 <h2>Description</h2>
 <div class="entry-prose"><p>Goal: Produce practice skills under the agilebydesign-skills repository, in skills/&lt;skill-name&gt;/, grounded in abd-answers (Pinecone RAG): retrieve evidence, author the package (SKILL.md starter from abd-author-practice-skill template + *rules/.md), optional scanners, abd-skill-catalog, then an HTML manual (vendored shell assets in abd-practice-skill-manual).</p>
 <p>Orchestrate using the agent-local packages in skills/ under this agent (same idea as abd-context-to-memory routing to nested skills/abd-/SKILL.md*).</p>
 <p>---</p></div>
-
-
-
 <hr class="entry-divider">
-
 <h2>How it fits together</h2>
 <pre class="ascii-diagram" role="img" aria-label="How it fits together">user / workspace
         |
         v
   this agent (entry doc) -----&gt; artifacts + handoffs</pre>
 
-
 <hr class="entry-divider">
-
 <h2 id="entry-contents">Contents</h2>
 <details class="entry-md-section" id="md-overview"><summary class="entry-md-section__summary">Overview</summary><div class="entry-md-section__body"><h1>AGENTS — abd-practice-skill-builder</h1>
-<p>Edit <strong>`AGENTS.md`</strong> for normative agent prose. Rules live only in <strong>`rules/*.md`</strong> — there is no bundle step and no inlined block here.</p>
+<p>Edit <strong><code>AGENTS.md</code></strong> for normative agent prose. Rules live only in <strong><code>rules/*.md</code></strong> — there is no bundle step and no inlined block here.</p>
 <hr></div></details>
-<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Produce <strong>practice skills</strong> under the <strong>agilebydesign-skills</strong> repository, in <strong>`skills/&lt;skill-name&gt;/`</strong>, grounded in <strong>abd-answers</strong> (Pinecone RAG): <strong>retrieve</strong> evidence, <strong>author</strong> the package (<strong>SKILL.md</strong> starter from <strong>abd-author-practice-skill</strong> template + <strong>`rules/*.md`</strong>), optional <strong>scanners</strong>, <strong>abd-skill-catalog</strong>, then an <strong>HTML manual</strong> (vendored shell assets in <strong>abd-practice-skill-manual</strong>).</p>
-<p>Orchestrate using the agent-local packages in <strong>`skills/`</strong> under this agent (same idea as <strong>abd-context-to-memory</strong> routing to nested <strong>`skills/abd-*/SKILL.md`</strong>).</p>
+<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Produce <strong>practice skills</strong> under the <strong>agilebydesign-skills</strong> repository, in <strong><code>skills/&lt;skill-name&gt;/</code></strong>, grounded in <strong>abd-answers</strong> (Pinecone RAG): <strong>retrieve</strong> evidence, <strong>author</strong> the package (<strong>SKILL.md</strong> starter from <strong>abd-author-practice-skill</strong> template + <strong><code>rules/*.md</code></strong>), optional <strong>scanners</strong>, <strong>abd-skill-catalog</strong>, then an <strong>HTML manual</strong> (vendored shell assets in <strong>abd-practice-skill-manual</strong>).</p>
+<p>Orchestrate using the agent-local packages in <strong><code>skills/</code></strong> under this agent (same idea as <strong>abd-context-to-memory</strong> routing to nested <strong><code>skills/abd-*/SKILL.md</code></strong>).</p>
 <hr></div></details>
-<details class="entry-md-section" id="agent-instructions"><summary class="entry-md-section__summary">Agent Instructions</summary><div class="entry-md-section__body"><p>You run the <strong>practice skill builder</strong> pipeline. Before each stage, read that stage&#x27;s <strong>`SKILL.md`</strong> and every file in its <strong>`rules/`</strong> and <strong>`reference/`</strong> folders. Rules live only in <strong>`rules/*.md`</strong> — there is no bundle step; do not run or reference `bundle_rules_into_skill_md.py`. For validating output and scanner commands, use <strong>`skill-helpers/skills/execute-skill-using-skills-rules/SKILL.md`</strong> (<strong>Commands</strong> section).</p>
-<p><strong>Stage boundary (retrieve vs author):</strong> During <strong>abd-query-practice-sources</strong>, you only work under <strong>`skills/&lt;skill-name&gt;/inputs/`</strong> — mainly <strong>`abd-answers-retrieval.md`</strong>. <strong>Do not</strong> create or edit the target&#x27;s <strong>`rules/*.md`</strong>, <strong>`SKILL.md`</strong>, <strong>`templates/`</strong>, or run <strong>`bundle_rules_into_skill_md.py`</strong> on the target in that step. Normative rules and <strong>SKILL.md</strong> prose come from <strong>abd-author-practice-skill</strong> using the retrieval log as evidence. If you mixed stages, run the corrections workflow below: fix <strong>`inputs/`</strong> first and log it; do <strong>not</strong> jump to editing maintainer <strong>SKILL.md</strong> to justify bad output.</p>
-<p><strong>Teaching voice:</strong> In the <strong>target</strong> <strong>`SKILL.md`</strong>, teach the method with <strong>concepts and how they relate</strong> (outcomes, who, behaviour change, options). Keep <strong>diagram symbols, map placement, indentation-as-meaning, file prefix labels, and template positioning</strong> (which line or field holds what) in <strong>templates</strong>, the <strong>Agent Instructions</strong> table, <strong>Build</strong>, <strong>Validate</strong>, and <strong>`rules/*.md`</strong> — see <strong>abd-author-practice-skill</strong> (bundled <strong>Core sections teach ideas before file prefixes and diagram notation</strong>). Do <strong>not</strong> pad body prose with provenance throat-clearing (for example &quot;from the training wording&quot;, &quot;training-aligned&quot;, &quot;tightened for this notation&quot;); use <strong>`Source:`</strong> on <strong>rules</strong> when lineage must be auditable (bundled <strong>Clear English in every skill section</strong>).</p>
+<details class="entry-md-section" id="agent-instructions"><summary class="entry-md-section__summary">Agent Instructions</summary><div class="entry-md-section__body"><p>You run the <strong>practice skill builder</strong> pipeline. Before each stage, read that stage&#x27;s <strong><code>SKILL.md</code></strong> and every file in its <strong><code>rules/</code></strong> and <strong><code>reference/</code></strong> folders. Rules live only in <strong><code>rules/*.md</code></strong> — there is no bundle step; do not run or reference <code>bundle_rules_into_skill_md.py</code>. For validating output and scanner commands, use <strong><code>skill-helpers/skills/execute-skill-using-skills-rules/SKILL.md</code></strong> (<strong>Commands</strong> section).</p>
+<p><strong>Stage boundary (retrieve vs author):</strong> During <strong>abd-query-practice-sources</strong>, you only work under <strong><code>skills/&lt;skill-name&gt;/inputs/</code></strong> — mainly <strong><code>abd-answers-retrieval.md</code></strong>. <strong>Do not</strong> create or edit the target&#x27;s <strong><code>rules/*.md</code></strong>, <strong><code>SKILL.md</code></strong>, <strong><code>templates/</code></strong>, or run <strong><code>bundle_rules_into_skill_md.py</code></strong> on the target in that step. Normative rules and <strong>SKILL.md</strong> prose come from <strong>abd-author-practice-skill</strong> using the retrieval log as evidence. If you mixed stages, run the corrections workflow below: fix <strong><code>inputs/</code></strong> first and log it; do <strong>not</strong> jump to editing maintainer <strong>SKILL.md</strong> to justify bad output.</p>
+<p><strong>Teaching voice:</strong> In the <strong>target</strong> <strong><code>SKILL.md</code></strong>, teach the method with <strong>concepts and how they relate</strong> (outcomes, who, behaviour change, options). Keep <strong>diagram symbols, map placement, indentation-as-meaning, file prefix labels, and template positioning</strong> (which line or field holds what) in <strong>templates</strong>, the <strong>Agent Instructions</strong> table, <strong>Build</strong>, <strong>Validate</strong>, and <strong><code>rules/*.md</code></strong> — see <strong>abd-author-practice-skill</strong> (bundled <strong>Core sections teach ideas before file prefixes and diagram notation</strong>). Do <strong>not</strong> pad body prose with provenance throat-clearing (for example &quot;from the training wording&quot;, &quot;training-aligned&quot;, &quot;tightened for this notation&quot;); use <strong><code>Source:</code></strong> on <strong>rules</strong> when lineage must be auditable (bundled <strong>Clear English in every skill section</strong>).</p>
 <h3>Corrections workflow (mandatory)</h3>
-<p>When any deliverable is wrong, a rule was missed, or stages were mixed, you <strong>follow execute-skill-using-skills-rules item 4 in full</strong> — read <strong>`skill-helpers/skills/execute-skill-using-skills-rules/SKILL.md`</strong> ( <strong>What you can do</strong>, item <strong>4</strong> ) and use the field table and markdown shape in <strong>`skill-helpers/skills/execute-skill-using-skills-rules/templates/corrections-log.md`</strong>. <strong>No shortcuts:</strong> you do not skip the log or go straight to editing <strong>`rules/`</strong> / <strong>`SKILL.md`</strong> / this agent&#x27;s sources.</p>
-<p><strong>Log location:</strong> Under the engagement or project tree ( <strong>`active_skill_workspace`</strong> when <strong>`skill-config.json`</strong> sets <strong>`workspace`</strong> ), e.g. <strong>`logs/corrections-log.md`</strong>, <strong>`progress/corrections-log.md`</strong>, or <strong>`.skill-builder/corrections-log.md`</strong>. <strong>Not</strong> inside <strong>`agents/abd-practice-skill-builder/`</strong> or an installed skill package as the canonical log.</p>
+<div class="spec-steps">
+<p class="spec-step">When any deliverable is wrong, a rule was missed, or stages were mixed, you <strong>follow execute-skill-using-skills-rules item 4 in full</strong> — read <strong><code>skill-helpers/skills/execute-skill-using-skills-rules/SKILL.md</code></strong> ( <strong>What you can do</strong>, item <strong>4</strong> ) and use the field table and markdown shape in <strong><code>skill-helpers/skills/execute-skill-using-skills-rules/templates/corrections-log.md</code></strong>. <strong>No shortcuts:</strong> you do not skip the log or go straight to editing <strong><code>rules/</code></strong> / <strong><code>SKILL.md</code></strong> / this agent&#x27;s sources.</p>
+</div>
+<p><strong>Log location:</strong> Under the engagement or project tree ( <strong><code>active_skill_workspace</code></strong> when <strong><code>skill-config.json</code></strong> sets <strong><code>workspace</code></strong> ), e.g. <strong><code>logs/corrections-log.md</code></strong>, <strong><code>progress/corrections-log.md</code></strong>, or <strong><code>.skill-builder/corrections-log.md</code></strong>. <strong>Not</strong> inside <strong><code>agents/abd-practice-skill-builder/</code></strong> or an installed skill package as the canonical log.</p>
 <p><strong>Fix the output only</strong> (complete all of these before <strong>Fix the skill</strong>):</p>
-<p>1. <strong>Identify</strong> — Note the problem; <strong>open or create</strong> the corrections log file. 2. <strong>Log (initial)</strong> — Add an entry: <strong>Rule</strong>, <strong>Affects</strong> (include <strong>`stage:`</strong> using practice-builder stages: <strong>`retrieve`</strong>, <strong>`author`</strong>, <strong>`scanners`</strong>, <strong>`catalog`</strong>, <strong>`manual`</strong>, or <strong>`*`</strong> when cross-cutting), <strong>DO / DO NOT</strong>, <strong>Example (wrong)</strong>; leave <strong>Example (correct)</strong> blank and <strong>Status: open</strong>. <strong>DO / DO NOT</strong> must state <strong>altered behavior</strong> (what to do next); the mistake lives in <strong>Example (wrong)</strong> — see <strong>`skill-helpers/skills/execute-skill-using-skills-rules/templates/corrections-log.md`</strong> <strong>Phrasing</strong>. 3. <strong>Re-generate</strong> — Fix the <strong>artifact on disk</strong> (retrieval log, <strong>SKILL.md</strong>, rules, manual, etc.) per the violated rule; expect <strong>multiple</strong> iterations. 4. <strong>Review</strong> — Repeat until the deliverable is <strong>actually</strong> acceptable, not after one quick edit. 5. <strong>Confirm</strong> — Fill <strong>Example (correct)</strong>; set <strong>Status: confirmed</strong> for that entry.</p>
-<p><strong>Fix the skill</strong> — only <strong>after</strong> the output steps above for that issue, or when the user <strong>explicitly</strong> asks to change maintainer sources. Then follow item 4 <strong>Fix the skill</strong> substeps <strong>a</strong> through <strong>f</strong> in <strong>`skill-helpers/skills/execute-skill-using-skills-rules/SKILL.md`</strong> (read log as a set, root causes, propose and agree, edit <strong>`rules/*.md`</strong> directly, validate with per-rule verdicts + scanner pass, archive).</p>
+<p>1. <strong>Identify</strong> — Note the problem; <strong>open or create</strong> the corrections log file. 2. <strong>Log (initial)</strong> — Add an entry: <strong>Rule</strong>, <strong>Affects</strong> (include <strong><code>stage:</code></strong> using practice-builder stages: <strong><code>retrieve</code></strong>, <strong><code>author</code></strong>, <strong><code>scanners</code></strong>, <strong><code>catalog</code></strong>, <strong><code>manual</code></strong>, or <strong><code>*</code></strong> when cross-cutting), <strong>DO / DO NOT</strong>, <strong>Example (wrong)</strong>; leave <strong>Example (correct)</strong> blank and <strong>Status: open</strong>. <strong>DO / DO NOT</strong> must state <strong>altered behavior</strong> (what to do next); the mistake lives in <strong>Example (wrong)</strong> — see <strong><code>skill-helpers/skills/execute-skill-using-skills-rules/templates/corrections-log.md</code></strong> <strong>Phrasing</strong>. 3. <strong>Re-generate</strong> — Fix the <strong>artifact on disk</strong> (retrieval log, <strong>SKILL.md</strong>, rules, manual, etc.) per the violated rule; expect <strong>multiple</strong> iterations. 4. <strong>Review</strong> — Repeat until the deliverable is <strong>actually</strong> acceptable, not after one quick edit. 5. <strong>Confirm</strong> — Fill <strong>Example (correct)</strong>; set <strong>Status: confirmed</strong> for that entry.</p>
+<p><strong>Fix the skill</strong> — only <strong>after</strong> the output steps above for that issue, or when the user <strong>explicitly</strong> asks to change maintainer sources. Then follow item 4 <strong>Fix the skill</strong> substeps <strong>a</strong> through <strong>f</strong> in <strong><code>skill-helpers/skills/execute-skill-using-skills-rules/SKILL.md</code></strong> (read log as a set, root causes, propose and agree, edit <strong><code>rules/*.md</code></strong> directly, validate with per-rule verdicts + scanner pass, archive).</p>
 <ul>
-<li>Use the <strong>track_task</strong> skill; track steps in <strong>`progress/`</strong> per <strong>track_task</strong>.</li>
-<li>Example layout references: `abd-clean-code`, `abd-story-mapping`, `abd-story-acceptance-criteria`, `abd-story-specification`, `abd-thin-slicing`, `abd-story-acceptance-test`.</li>
+<li>Use the <strong>track_task</strong> skill; track steps in <strong><code>progress/</code></strong> per <strong>track_task</strong>.</li>
+<li>Example layout references: <code>abd-clean-code</code>, <code>abd-story-mapping</code>, <code>abd-story-acceptance-criteria</code>, <code>abd-story-specification</code>, <code>abd-thin-slicing</code>, <code>abd-story-acceptance-test</code>.</li>
 </ul>
 <p>Keep <strong>one canonical narrative</strong> in the new skill and manual; RAG hits are <strong>evidence</strong>, not a second master.</p>
 <h3>Commands (repo root)</h3>
 <pre><code>python skill-helpers/skills/execute-skill-using-skills-rules/scripts/run_scanners.py --skill-root skills/&lt;skill-name&gt; --workspace &lt;path-to-output-or-folder&gt;</code></pre></div></details>
 <details class="entry-md-section" id="pipeline"><summary class="entry-md-section__summary">Pipeline</summary><div class="entry-md-section__body"><p>Typical order (adjust per engagement):</p>
-<p>1. <strong>Retrieve</strong> — <strong>abd-query-practice-sources</strong> — read that skill first; <strong>`inputs/`</strong> only on the target package (no <strong>`rules/`</strong> or <strong>SKILL.md</strong> here); structured queries against abd-answers (`npm run rag:query` from <strong>`agents/abd-answers/`</strong> in this repo, or a standalone <strong>abd-answers</strong> clone); ensure <strong>`skills/&lt;name&gt;/`</strong> and <strong>`inputs/`</strong> exist; write <strong>`inputs/abd-answers-retrieval.md`</strong> with <strong>Kept chunks</strong> (verbatim fenced bodies) per <strong>abd-query-practice-sources</strong> template — not summary-only tables. 2. <strong>Author SKILL + rules</strong> — <strong>abd-author-practice-skill</strong> — read that skill first; if <strong>`SKILL.md`</strong> is missing, copy <strong>`templates/SKILL_template.md`</strong> from that skill, add <strong>Manual:</strong> line and bundle markers, ensure <strong>`rules/`</strong> and <strong>`templates/`</strong>; fill <strong>`SKILL.md`</strong> from <strong>`inputs/abd-answers-retrieval.md`</strong>, write <strong>`rules/*.md`</strong>, run <strong>`bundle_rules_into_skill_md.py`</strong> on the <strong>new</strong> skill (no scanners in this step). 3. <strong>Scanners</strong> — <strong>abd-build-practice-scanners</strong> — read that skill first; optional <strong>`scanners/*.py`</strong>, <strong>`scanner:`</strong> on rules; <strong>`run_scanners.py`</strong> when scanners exist (per <strong>execute-skill-using-skills-rules</strong>). 4. <strong>AI Garden site</strong> — <strong>abd-skill-catalog</strong> — maintain <strong>`skills/&lt;name&gt;/README.md`</strong> AI Garden card copy (`catalogue_summary`, <strong>`## Overview`</strong>, optional <strong>`## How it fits together`</strong> + ascii); from <strong>agilebydesign-skills</strong> repo root run <strong>`python skill-builder/skills/abd-skill-catalog/scripts/generate_abd_catalog.py`</strong>. 5. <strong>Manual</strong> — <strong>abd-practice-skill-manual</strong> — <strong>`manual/&lt;skill-name&gt;/`</strong> HTML, link from <strong>`SKILL.md`</strong> top and in-body section refs.</p>
+<p>1. <strong>Retrieve</strong> — <strong>abd-query-practice-sources</strong> — read that skill first; <strong><code>inputs/</code></strong> only on the target package (no <strong><code>rules/</code></strong> or <strong>SKILL.md</strong> here); structured queries against abd-answers (<code>npm run rag:query</code> from <strong><code>agents/abd-answers/</code></strong> in this repo, or a standalone <strong>abd-answers</strong> clone); ensure <strong><code>skills/&lt;name&gt;/</code></strong> and <strong><code>inputs/</code></strong> exist; write <strong><code>inputs/abd-answers-retrieval.md</code></strong> with <strong>Kept chunks</strong> (verbatim fenced bodies) per <strong>abd-query-practice-sources</strong> template — not summary-only tables. 2. <strong>Author SKILL + rules</strong> — <strong>abd-author-practice-skill</strong> — read that skill first; if <strong><code>SKILL.md</code></strong> is missing, copy <strong><code>templates/SKILL_template.md</code></strong> from that skill, add <strong>Manual:</strong> line and bundle markers, ensure <strong><code>rules/</code></strong> and <strong><code>templates/</code></strong>; fill <strong><code>SKILL.md</code></strong> from <strong><code>inputs/abd-answers-retrieval.md</code></strong>, write <strong><code>rules/*.md</code></strong>, run <strong><code>bundle_rules_into_skill_md.py</code></strong> on the <strong>new</strong> skill (no scanners in this step). 3. <strong>Scanners</strong> — <strong>abd-build-practice-scanners</strong> — read that skill first; optional <strong><code>scanners/*.py</code></strong>, <strong><code>scanner:</code></strong> on rules; <strong><code>run_scanners.py</code></strong> when scanners exist (per <strong>execute-skill-using-skills-rules</strong>). 4. <strong>AI Garden site</strong> — <strong>abd-skill-catalog</strong> — maintain <strong><code>skills/&lt;name&gt;/README.md</code></strong> AI Garden card copy (<code>catalogue_summary</code>, <strong><code>## Overview</code></strong>, optional <strong><code>## How it fits together</code></strong> + ascii); from <strong>agilebydesign-skills</strong> repo root run <strong><code>python skill-builder/skills/abd-skill-catalog/scripts/generate_abd_catalog.py</code></strong>. 5. <strong>Manual</strong> — <strong>abd-practice-skill-manual</strong> — <strong><code>manual/&lt;skill-name&gt;/</code></strong> HTML, link from <strong><code>SKILL.md</code></strong> top and in-body section refs.</p>
 <p><strong>Skill index (this agent):</strong></p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Skill</th><th>Path</th></tr></thead><tbody><tr><td>Query sources</td><td><a href="../../skill-builder/skills/abd-query-practice-sources/SKILL.html">skill-builder/skills/abd-query-practice-sources/SKILL.md</a></td></tr><tr><td>Author SKILL + rules</td><td><a href="../../skill-builder/skills/abd-author-practice-skill/SKILL.html">skill-builder/skills/abd-author-practice-skill/SKILL.md</a></td></tr><tr><td>Scanners</td><td><a href="../../skill-builder/skills/abd-build-practice-scanners/SKILL.html">skill-builder/skills/abd-build-practice-scanners/SKILL.md</a></td></tr><tr><td>AI Garden (`abd-skill-catalog`)</td><td><a href="../../skill-builder/skills/abd-skill-catalog/SKILL.html">skill-builder/skills/abd-skill-catalog/SKILL.md</a></td></tr><tr><td>HTML manual</td><td><a href="../../skill-builder/skills/abd-practice-skill-manual/SKILL.html">skill-builder/skills/abd-practice-skill-manual/SKILL.md</a></td></tr><tr><td>execute-skill-using-skills-rules (quality + corrections)</td><td><a href="../../skill-helpers/skills/execute-skill-using-skills-rules/SKILL.html">../../skill-helpers/skills/execute-skill-using-skills-rules/SKILL</a></td></tr><tr><td>track_task</td><td><a href="../../skill-helpers/skills/track_task/SKILL.html">../../skill-helpers/skills/track_task/SKILL</a></td></tr></tbody></table></div>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Skill</th><th>Path</th></tr></thead><tbody><tr><td>Query sources</td><td><a href="../../skill-builder/skills/abd-query-practice-sources/SKILL.html">skill-builder/skills/abd-query-practice-sources/SKILL.md</a></td></tr><tr><td>Author SKILL + rules</td><td><a href="../../skill-builder/skills/abd-author-practice-skill/SKILL.html">skill-builder/skills/abd-author-practice-skill/SKILL.md</a></td></tr><tr><td>Scanners</td><td><a href="../../skill-builder/skills/abd-build-practice-scanners/SKILL.html">skill-builder/skills/abd-build-practice-scanners/SKILL.md</a></td></tr><tr><td>AI Garden (<code>abd-skill-catalog</code>)</td><td><a href="../../skill-builder/skills/abd-skill-catalog/SKILL.html">skill-builder/skills/abd-skill-catalog/SKILL.md</a></td></tr><tr><td>HTML manual</td><td><a href="../../skill-builder/skills/abd-practice-skill-manual/SKILL.html">skill-builder/skills/abd-practice-skill-manual/SKILL.md</a></td></tr><tr><td>execute-skill-using-skills-rules (quality + corrections)</td><td><a href="../../skill-helpers/skills/execute-skill-using-skills-rules/SKILL.html">../../skill-helpers/skills/execute-skill-using-skills-rules/SKILL</a></td></tr><tr><td>track_task</td><td><a href="../../skill-helpers/skills/track_task/SKILL.html">../../skill-helpers/skills/track_task/SKILL</a></td></tr></tbody></table></div>
 <hr></div></details>
-<details class="entry-md-section" id="workspace"><summary class="entry-md-section__summary">Workspace</summary><div class="entry-md-section__body"><p><strong>Delivery target is always the agilebydesign-skills repo:</strong> new and updated practice skills live in <strong>`agilebydesign-skills/skills/&lt;skill-name&gt;/`</strong>, not only under this agent folder. This agent holds orchestration SKILLS and templates; generated packages are real repo skills.</p>
+<details class="entry-md-section" id="workspace"><summary class="entry-md-section__summary">Workspace</summary><div class="entry-md-section__body"><p><strong>Delivery target is always the agilebydesign-skills repo:</strong> new and updated practice skills live in <strong><code>agilebydesign-skills/skills/&lt;skill-name&gt;/</code></strong>, not only under this agent folder. This agent holds orchestration SKILLS and templates; generated packages are real repo skills.</p>
 <ul>
-<li><strong>agilebydesign-skills</strong> repo — outputs under <strong>`skills/&lt;skill-name&gt;/`</strong>; canonical <strong>`SKILL.md`</strong> skeleton: <strong>`skill-builder/skills/abd-author-practice-skill/templates/SKILL_template.md`</strong>.</li>
-<li><strong>abd-answers</strong> repo — <strong>`npm run rag:query`</strong> (see <strong>abd-query-practice-sources</strong>); <strong>`conf/.secrets`</strong> per abd-answers docs.</li>
+<li><strong>agilebydesign-skills</strong> repo — outputs under <strong><code>skills/&lt;skill-name&gt;/</code></strong>; canonical <strong><code>SKILL.md</code></strong> skeleton: <strong><code>skill-builder/skills/abd-author-practice-skill/templates/SKILL_template.md</code></strong>.</li>
+<li><strong>abd-answers</strong> repo — <strong><code>npm run rag:query</code></strong> (see <strong>abd-query-practice-sources</strong>); <strong><code>conf/.secrets</code></strong> per abd-answers docs.</li>
 </ul></div></details>
-<details class="entry-md-section" id="cursor-workspace-local"><summary class="entry-md-section__summary">Cursor (workspace-local)</summary><div class="entry-md-section__body"><p>Use a <strong>Windows directory junction</strong> (not a symlink): this agent is linked into <strong>`&lt;repo&gt;\.cursor\agents\abd-practice-skill-builder\`</strong> so <strong>`AGENTS.md`</strong> and the nested <strong>`skills/`</strong> tree resolve from this workspace with no duplicate copy. From this agent root:</p>
+<details class="entry-md-section" id="cursor-workspace-local"><summary class="entry-md-section__summary">Cursor (workspace-local)</summary><div class="entry-md-section__body"><p>Use a <strong>Windows directory junction</strong> (not a symlink): this agent is linked into <strong><code>&lt;repo&gt;\.cursor\agents\abd-practice-skill-builder\</code></strong> so <strong><code>AGENTS.md</code></strong> and the nested <strong><code>skills/</code></strong> tree resolve from this workspace with no duplicate copy. From this agent root:</p>
 <pre><code>.\scripts\Deploy-AgentToCursor.ps1 -Force</code></pre>
-<p>Pipeline <strong>skills</strong> use the same mechanism under <strong>`&lt;repo&gt;\.cursor\skills\`</strong> via <strong>`skill-helpers/skills/deploy-skill-to-cursor/scripts/Deploy-SkillToCursor.ps1`</strong> and <strong>`-SkillSourcePath`</strong> (see <strong>deploy-skill-to-cursor</strong>).</p>
+<p>Pipeline <strong>skills</strong> use the same mechanism under <strong><code>&lt;repo&gt;\.cursor\skills\</code></strong> via <strong><code>skill-helpers/skills/deploy-skill-to-cursor/scripts/Deploy-SkillToCursor.ps1</code></strong> and <strong><code>-SkillSourcePath</code></strong> (see <strong>deploy-skill-to-cursor</strong>).</p>
 <hr></div></details>
 <details class="entry-md-section" id="process"><summary class="entry-md-section__summary">Process</summary><div class="entry-md-section__body"><h3>End-to-end</h3>
-<p>1. Confirm <strong>topic</strong> and <strong>skill name</strong> (kebab-case under <strong>`agilebydesign-skills/skills/`</strong>). 2. Run <strong>abd-query-practice-sources</strong> — read that skill first; <strong>`inputs/`</strong> only (no target <strong>`rules/`</strong> or <strong>SKILL.md</strong>); structured query plan; ensure <strong>`skills/&lt;skill-name&gt;/`</strong> and <strong>`inputs/`</strong>; write <strong>`inputs/abd-answers-retrieval.md`</strong> using <strong>`skill-builder/skills/abd-query-practice-sources/templates/abd-answers-retrieval-input.md`</strong> (<strong>Kept chunks</strong> with verbatim bodies). If the log is wrong, run <strong>Corrections workflow</strong> (log + fix <strong>`inputs/`</strong> through <strong>Confirm</strong>) before authoring rules from it. 3. Run <strong>abd-author-practice-skill</strong> — read that skill first; if needed, copy <strong>`abd-author-practice-skill/templates/SKILL_template.md`</strong> to <strong>`SKILL.md`</strong>, ensure <strong>`rules/`</strong>, <strong>`reference/`</strong>, <strong>`templates/`</strong>; fill <strong>SKILL.md</strong> as a thin router, write <strong>`rules/*.md`</strong>, move concept/example prose to <strong>`reference/`</strong> (no scanners, no bundling). 4. Run <strong>abd-build-practice-scanners</strong> (optional) — <strong>`scanners/*.py`</strong>, <strong>`scanner:`</strong> on rules; <strong>`run_scanners.py`</strong> when applicable. 5. Run <strong>abd-skill-catalog</strong> — <strong>`skills/&lt;skill-name&gt;/README.md`</strong> for the AI Garden; from repo root <strong>`python skill-builder/skills/abd-skill-catalog/scripts/generate_abd_catalog.py`</strong>. 6. Run <strong>abd-practice-skill-manual</strong> — copy <strong>`assets/`</strong> from <strong>abd-practice-skill-manual</strong> into <strong>`manual/&lt;skill-name&gt;/`</strong>; HTML sections; <strong>SKILL.md</strong> <strong>Manual:</strong> links.</p>
+<p>1. Confirm <strong>topic</strong> and <strong>skill name</strong> (kebab-case under <strong><code>agilebydesign-skills/skills/</code></strong>). 2. Run <strong>abd-query-practice-sources</strong> — read that skill first; <strong><code>inputs/</code></strong> only (no target <strong><code>rules/</code></strong> or <strong>SKILL.md</strong>); structured query plan; ensure <strong><code>skills/&lt;skill-name&gt;/</code></strong> and <strong><code>inputs/</code></strong>; write <strong><code>inputs/abd-answers-retrieval.md</code></strong> using <strong><code>skill-builder/skills/abd-query-practice-sources/templates/abd-answers-retrieval-input.md</code></strong> (<strong>Kept chunks</strong> with verbatim bodies). If the log is wrong, run <strong>Corrections workflow</strong> (log + fix <strong><code>inputs/</code></strong> through <strong>Confirm</strong>) before authoring rules from it. 3. Run <strong>abd-author-practice-skill</strong> — read that skill first; if needed, copy <strong><code>abd-author-practice-skill/templates/SKILL_template.md</code></strong> to <strong><code>SKILL.md</code></strong>, ensure <strong><code>rules/</code></strong>, <strong><code>reference/</code></strong>, <strong><code>templates/</code></strong>; fill <strong>SKILL.md</strong> as a thin router, write <strong><code>rules/*.md</code></strong>, move concept/example prose to <strong><code>reference/</code></strong> (no scanners, no bundling). 4. Run <strong>abd-build-practice-scanners</strong> (optional) — <strong><code>scanners/*.py</code></strong>, <strong><code>scanner:</code></strong> on rules; <strong><code>run_scanners.py</code></strong> when applicable. 5. Run <strong>abd-skill-catalog</strong> — <strong><code>skills/&lt;skill-name&gt;/README.md</code></strong> for the AI Garden; from repo root <strong><code>python skill-builder/skills/abd-skill-catalog/scripts/generate_abd_catalog.py</code></strong>. 6. Run <strong>abd-practice-skill-manual</strong> — copy <strong><code>assets/</code></strong> from <strong>abd-practice-skill-manual</strong> into <strong><code>manual/&lt;skill-name&gt;/</code></strong>; HTML sections; <strong>SKILL.md</strong> <strong>Manual:</strong> links.</p>
 <h3>When hub content changes</h3>
-<p>Re-run retrieval; update <strong>`inputs/abd-answers-retrieval.md`</strong>, rules, <strong>README.md</strong>, <strong>catalog/</strong> if needed, then manual; bump <strong>Revision</strong> in the manual footer.</p>
+<p>Re-run retrieval; update <strong><code>inputs/abd-answers-retrieval.md</code></strong>, rules, <strong>README.md</strong>, <strong>catalog/</strong> if needed, then manual; bump <strong>Revision</strong> in the manual footer.</p>
 <hr></div></details>
-
 <ul class="file-list file-list--root">
 <li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>scripts/</strong><span class="file-meta"> → Build, catalogue, validation, or packaging automation.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../foundational/skill-builder/agents/abd-practice-skill-builder/scripts/build.py" target="_blank" rel="noopener noreferrer"><strong>build.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
@@ -1129,6 +1756,8 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../foundational/skill-builder/agents/abd-practice-skill-builder/README.md" target="_blank" rel="noopener noreferrer"><strong>README.md</strong></a><span class="file-meta"> → catalogue_summary: &quot;Goal: Produce practice skills under the agilebydesign-skills repository, in skills/&lt;skill-name&gt;/, grounded in abd-answers (Pinecone RAG): retrieve evidence, author the package (SKILL.md starter from abd-author-practice-skill template + …</span></li>
 <li class="file-tree__file"><a class="file-tree__file-link" href="../../foundational/skill-builder/agents/abd-practice-skill-builder/skill-config.json" target="_blank" rel="noopener noreferrer"><strong>skill-config.json</strong></a><span class="file-meta"> → &quot;name&quot;: &quot;abd-practice-skill-builder&quot;,</span></li>
 </ul>
+</div>
+
 
 </div>
 </div>

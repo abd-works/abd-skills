@@ -44,7 +44,8 @@ Do **not** invent a predetermined folder name. Tests follow the host project's c
 
 Read these files:
 - **`reference/concepts.md`** — what ATDD is, test organization, orchestrator pattern, TDD cycle, domain language.
-- **`reference/examples.md`** — worked example (Python/pytest) showing the expected file shape.
+- **`reference/examples.md`** — shape notes + what to notice (same domain as `abd-story-specification` examples).
+- **`templates/acceptance-tests-example.py`** — filled Python/pytest example (order + discount outline).
 
 ### 2. Generate
 
@@ -62,7 +63,8 @@ Read every file in **`rules/`**; author to those rules.
 
 | Template | What to produce |
 | --- | --- |
-| `templates/acceptance-tests.py` | Python/pytest test file following orchestrator pattern |
+| `templates/acceptance-tests.py` | Python/pytest scaffold following orchestrator pattern |
+| `templates/acceptance-tests-example.py` | Filled Python/pytest example (see `abd-story-specification` examples) |
 | `templates/acceptance-tests.js` | JS/TS test file following orchestrator pattern |
 | `templates/acceptance-tests.java` | Java/JUnit5 test file following orchestrator pattern |
 

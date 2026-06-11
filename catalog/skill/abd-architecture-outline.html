@@ -471,7 +471,22 @@ html[data-abd-theme="executive"] .catalog-body code {
 }
 
 .page-hero--detail {
-  padding-top: 48px;
+  padding-top: 20px;
+  padding-bottom: 16px;
+}
+.page-hero--detail .page-headline {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 4px 0 6px;
+}
+.page-headline .skill-name-prefix,
+.cap-card__title .skill-name-prefix {
+  color: var(--accent);
+}
+.page-hero--detail .body-lead {
+  font-size: 0.9rem;
+  margin: 0;
+  color: var(--muted);
 }
 
 .page-hero--detail .back-link {
@@ -731,8 +746,18 @@ a.cap-card:hover .cap-card__more {
   color: #b8b8c2;
   margin: 0 0 18px;
 }
+.skill-detail-page .skill-hero-img-wrap + .install-block {
+  margin-top: 18px;
+}
+.skill-detail-page .install-block + .skill-cr-grid,
+.skill-detail-page .install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block {
+  margin-top: 0;
+}
 .install-block {
-  margin: 22px 0 0;
+  margin: 20px 0 0;
   padding: 16px 18px;
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid var(--border-muted);
@@ -1041,28 +1066,733 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 .plugin-slots h3:first-child { margin-top: 0; }
 .cap-grid--plugin-slot { margin-bottom: 8px; }
 
+/* ── Skill detail: family kanban stage nav (matches hub column headings) ── */
+.skill-kanban-nav {
+  --fam-sdd: #6bcb77;
+  --fam-ddd: #6c5ce7;
+  --fam-uxd: #e84393;
+  --fam-arc: #4fc3f7;
+  --fam-idea: var(--accent);
+  --abd-accent: var(--accent);
+  --abd-accent-glow: var(--accent-soft, var(--accent));
+  --abd-raised: var(--raised);
+  --abd-bg: var(--bg);
+  --abd-border: var(--border);
+  --abd-text: var(--text);
+  --abd-muted: var(--muted);
+  background: var(--raised);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0 16px;
+}
+.skill-kanban-nav .wrap {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.skill-kanban-nav__board {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  gap: 6px 8px;
+  align-items: start;
+}
+.skill-kanban-nav__practice-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  margin: 0;
+  padding: 0 8px;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-left-width: 3px;
+  border-radius: 4px;
+  line-height: 1.25;
+  box-sizing: border-box;
+  transition: box-shadow 120ms, border-color 120ms;
+  color: inherit;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card:hover {
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--sdd {
+  border-left-color: var(--fam-sdd);
+  color: var(--fam-sdd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--ddd {
+  border-left-color: var(--fam-ddd);
+  color: var(--fam-ddd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--uxd {
+  border-left-color: var(--fam-uxd);
+  color: var(--fam-uxd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--arc {
+  border-left-color: var(--fam-arc);
+  color: var(--fam-arc);
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap {
+  position: relative;
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip.kb-col-shape-tooltip {
+  min-width: 10rem;
+  max-width: 22rem;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:hover .kb-skill-tooltip,
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:focus-within .kb-skill-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.skill-kanban-nav__stages {
+  display: grid;
+  grid-template-columns: repeat(var(--skill-kanban-cols, 5), minmax(0, 1fr));
+  gap: 0 8px;
+  min-width: 0;
+}
+.skill-kanban-nav__col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.skill-kanban-nav__tickets {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.skill-kanban-nav .kb-col-head {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 8px 6px 7px;
+  font-family: var(--font-mono);
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.skill-kanban-nav .kb-col-head--static {
+  cursor: default;
+}
+.skill-kanban-nav a.kb-col-head {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav a.kb-col-head:hover {
+  border-color: rgba(229, 83, 26, 0.35);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.15);
+}
+.skill-kanban-nav .kb-col-head--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-col-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+}
+.skill-kanban-nav .kb-col-scope-shape {
+  flex-shrink: 0;
+  border: 2px solid var(--abd-accent);
+  border-radius: 2px;
+}
+.skill-kanban-nav__stages .kb-col-shape-tooltip,
+.skill-kanban-nav__stages .kb-skill-tooltip-wrap .kb-col-shape-tooltip {
+  display: none !important;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 8px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 7px 9px;
+  font-family: var(--font-mono);
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid rgba(229, 83, 26, 0.45);
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 14px;
+  border: 5px solid transparent;
+  border-bottom-color: rgba(229, 83, 26, 0.45);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__name {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--abd-accent-glow);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__bullets {
+  font-size: 8px;
+  line-height: 1.45;
+  color: var(--abd-text);
+  white-space: pre-line;
+}
+.skill-kanban-nav .kb-col-scope-shape--solution { width: 36px; height: 12px; }
+.skill-kanban-nav .kb-col-scope-shape--increment { width: 24px; height: 16px; }
+.skill-kanban-nav .kb-col-scope-shape--sprint { width: 16px; height: 22px; }
+.skill-kanban-nav .kb-col-scope-shape--story { width: 11px; height: 28px; }
+.skill-kanban-nav .kb-col-head-title {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--abd-text);
+}
+.skill-kanban-nav .kb-col-head-title > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.skill-kanban-nav .kb-col-num {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--abd-text);
+  background: var(--abd-bg);
+  border: 1px solid var(--abd-border);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+.skill-kanban-nav .kb-ticket {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  background: var(--abd-raised);
+  color: var(--abd-text);
+  padding: 5px 6px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  border-left-width: 3px;
+  border-left-color: var(--abd-muted);
+  line-height: 1.25;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav .kb-ticket:hover {
+  border-color: var(--abd-border);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.2);
+}
+.skill-kanban-nav .kb-ticket.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-ticket.aad-fam-sdd { border-left-color: var(--fam-sdd); }
+.skill-kanban-nav .kb-ticket.aad-fam-ddd { border-left-color: var(--fam-ddd); }
+.skill-kanban-nav .kb-ticket.aad-fam-uxd { border-left-color: var(--fam-uxd); }
+.skill-kanban-nav .kb-ticket.aad-fam-arc { border-left-color: var(--fam-arc); }
+.skill-kanban-nav .kb-ticket.aad-fam-idea { border-left-color: var(--fam-idea); }
+@media (max-width: 960px) {
+  .skill-kanban-nav__board {
+    grid-template-columns: 1fr;
+  }
+  .skill-kanban-nav__stages {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
+
+/* ── Skill detail: full-width hero image / embedded viewer ── */
+.skill-hero-img-wrap {
+  margin: 24px 0 0;
+}
+.skill-hero-img-wrap:empty { display: none; }
+.skill-hero-img-wrap img,
+.skill-hero-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--raised);
+}
+
+/* HTML prototype iframe (reference/example/index.html) */
+.skill-prototype-wrap {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-prototype-frame {
+  display: block;
+  width: 100%;
+  min-height: 540px;
+  height: 71vh;
+  max-height: 810px;
+  border: 0;
+  background: #fff;
+}
+.skill-prototype-open {
+  margin: 0;
+  padding: 8px 14px;
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+  background: var(--raised);
+}
+.skill-prototype-open a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.skill-prototype-open a:hover { text-decoration: underline; }
+
+/* draw.io embedded viewer */
+.skill-drawio-wrap {
+  position: relative;
+  width: 100%;
+  height: min(71vh, 680px);
+  min-height: 340px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-drawio-wrap .mxgraph {
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+}
+.skill-drawio-wrap .geToolbarContainer {
+  z-index: 4;
+}
+
+/* code file preview */
+.skill-code-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--raised);
+  font-size: 13px;
+}
+.skill-code-lang {
+  padding: 6px 14px;
+  font-family: var(--mono, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.skill-code-preview pre {
+  margin: 0;
+  padding: 16px;
+  overflow-x: auto;
+  max-height: 420px;
+}
+.skill-code-preview code {
+  font-family: var(--mono, 'JetBrains Mono', monospace);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+/* rendered markdown preview */
+.skill-hero-img-wrap .skill-md-preview {
+  max-height: min(71vh, 610px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.skill-md-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px 24px;
+  background: var(--surface);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.skill-md-preview h1 { font-size: 18px; font-weight: 700; margin: 0 0 12px; }
+.skill-md-preview h2 { font-size: 15px; font-weight: 600; margin: 16px 0 8px;
+  border-bottom: 1px solid var(--border); padding-bottom: 3px; }
+.skill-md-preview h3 { font-size: 13px; font-weight: 600; margin: 12px 0 6px; }
+.skill-md-preview h4 { font-size: 12px; font-weight: 600; margin: 10px 0 4px; color: var(--muted); }
+.skill-md-preview p  { margin: 0 0 10px; }
+.skill-md-preview .spec-steps { margin: 0 0 14px; }
+.skill-md-preview p.spec-step { margin: 0 0 4px; line-height: 1.55; }
+.skill-md-preview .md-table-wrap { overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview .md-table { border-collapse: collapse; width: 100%; }
+.skill-md-preview ul, .skill-md-preview ol { margin: 0 0 10px; padding-left: 20px; }
+.skill-md-preview li { margin-bottom: 3px; }
+.skill-md-preview code { background: var(--raised); border-radius: 3px;
+  padding: 1px 5px; font-family: var(--mono, monospace); font-size: 12px; }
+.skill-md-preview pre { background: var(--raised); border-radius: 5px;
+  padding: 12px; overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview table { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
+.skill-md-preview th, .skill-md-preview td {
+  border: 1px solid var(--border); padding: 6px 10px; }
+.skill-md-preview th { background: var(--raised); font-weight: 600; }
+
+/* ── Skill detail: concepts | rules two-column grid ── */
+.skill-cr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin: 24px 0 0;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .skill-cr-grid { grid-template-columns: 1fr; }
+}
+.skill-cr-col { min-width: 0; }
+.skill-cr-single { margin: 24px 0 0; }
+
+/* Glossary example hero — term blocks without heavy HR dividers */
+.skill-md-preview--glossary h1 {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 10px;
+  border: 0;
+  padding: 0;
+}
+.skill-md-preview--glossary h2 {
+  font-size: 16px;
+  margin-top: 0;
+}
+.skill-md-preview--glossary h3 {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 14px 0 6px;
+  padding: 6px 8px;
+  background: var(--raised);
+  border-radius: 4px;
+  border-left: 3px solid var(--accent);
+}
+.skill-md-preview--glossary hr {
+  display: none;
+}
+.skill-md-preview--glossary ul {
+  margin-top: 0;
+}
+
+/* ── Skill detail: full-width content below ── */
+.skill-detail-content-col { margin-top: 32px; }
+.skill-detail-page .skill-cr-grid,
+.skill-detail-page .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-single,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-single {
+  margin-top: 0;
+}
+
+/* ── Skill detail: concepts (expandable) ── */
+.skill-hero-img-wrap + .install-block {
+  margin-top: 16px;
+}
+.install-block + .skill-cr-grid,
+.install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-concepts {
+  margin: 0 0 20px;
+}
+.skill-concepts-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 8px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-concept {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-concept summary {
+  padding: 8px 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  user-select: none;
+}
+.skill-concept summary::-webkit-details-marker { display: none; }
+.skill-concept summary::marker { content: ""; }
+.skill-concept summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-concept[open] summary::before { content: "\2212"; }
+.skill-concept-body {
+  padding: 6px 4px 10px 1.9rem;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.skill-concept-body p { margin: 0 0 8px; }
+.skill-concept-body p:last-child { margin-bottom: 0; }
+.skill-concept-body ul { margin: 0 0 8px 1.1em; padding: 0; }
+.skill-concept-body li { margin: 3px 0; }
+
+/* ── Skill detail: rules (DO / DON'T) ── */
+.skill-rules {
+  margin: 0 0 20px;
+}
+.skill-rules-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 12px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-rule {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule[open] > .skill-rule-header {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule-header {
+  padding: 8px 10px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  background: var(--raised);
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+.skill-rule-header::-webkit-details-marker { display: none; }
+.skill-rule-header::marker { content: ""; }
+.skill-rule-header::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-rule[open] > .skill-rule-header::before {
+  content: "\2212";
+}
+.skill-rule-section {
+  padding: 8px 12px;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+.skill-rule-section--do {
+  border-left: 3px solid #2d8a4e;
+}
+.skill-rule-section--dont {
+  border-left: 3px solid #c0392b;
+}
+.skill-rule-section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+  color: var(--muted);
+}
+.skill-rule-section--do .skill-rule-section-label { color: #2d8a4e; }
+.skill-rule-section--dont .skill-rule-section-label { color: #c0392b; }
+.skill-rule-section ul { margin: 0; padding: 0 0 0 1.1em; }
+.skill-rule-section li { margin: 2px 0; color: var(--text); }
+
 </style>
-<script src="../commons/catalog-nav.js?v=foundry-8"></script>
+<script src="../commons/catalog-nav.js?v=foundry-9"></script>
 </head>
 <body data-nav-prefix="../" data-nav-current="skills" data-nav-site-base="../../../abd-works-website/">
 <main id="main-content">
 
+<div class="skill-kanban-nav">
+<div class="wrap">
+<div class="skill-kanban-nav__board">
+    <div class="skill-kanban-nav__practice-col" aria-label="Practice families">
+      <a class="foundry-practice-col__card foundry-perspective-label--sdd aad-skill aad-fam-sdd has-skill-tooltip" href="abd-story-mapping.html"><span class="kb-skill-tooltip-wrap">story-driven-delivery<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">story-driven-delivery</span><span class="kb-col-shape-tooltip__bullets">Given/When/Then scenarios with real example data</span></span></span></a>
+      <a class="foundry-practice-col__card foundry-perspective-label--ddd aad-skill aad-fam-ddd has-skill-tooltip" href="abd-domain-glossary.html"><span class="kb-skill-tooltip-wrap">domain-driven-design<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">domain-driven-design</span><span class="kb-col-shape-tooltip__bullets">Typed terms + relationships (a schema), not prose definitions</span></span></span></a>
+      <a class="foundry-practice-col__card foundry-perspective-label--uxd aad-skill aad-fam-uxd has-skill-tooltip" href="abd-ux-user-impact-map.html"><span class="kb-skill-tooltip-wrap">user-experience-design<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">user-experience-design</span><span class="kb-col-shape-tooltip__bullets">Component spec with named states &amp; rules, not a static picture</span></span></span></a>
+      <a class="foundry-practice-col__card foundry-perspective-label--arc aad-skill aad-fam-arc kb-ticket--current has-skill-tooltip" href="abd-architecture-outline.html"><span class="kb-skill-tooltip-wrap">architecture-centric-engineering<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture-centric-engineering</span><span class="kb-col-shape-tooltip__bullets">Interface contracts / templates the engine can follow</span></span></span></a>
+    </div>
+<nav class="skill-kanban-nav__stages" style="--skill-kanban-cols: 4" aria-label="Practice stages">
+      <div class="skill-kanban-nav__col" data-stage="shaping">
+        <a class="kb-col-head kb-col-head--link kb-col-head--current" data-stage="shaping" href="abd-architecture-outline.html" title="Whole solution. wide / shallow. outcomes, scope, boundaries">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--solution" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Shaping</span><span class="kb-col-num">1</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-arc kb-ticket--current" href="abd-architecture-outline.html" title="A team that cannot draw its system on one page also cannot agree on what to build next. Outlines fix that. This skill produces the first architecture artifact for a system — short on prose, heavy on diagrams — so engineers, product, and stakeholders share a single picture of the platform, the layers, the neighbours, the deployment topology, and the principles in force. When the outline is in place, deeper architecture work (blueprint, reference, mechanisms) can start without re-litigating what the system is.">architecture outline</a>
+        </div>
+      </div>
+      <div class="skill-kanban-nav__col" data-stage="discovery">
+        <a class="kb-col-head kb-col-head--link" data-stage="discovery" href="abd-architecture-blueprint.html" title="Increment. medium. interactions, experience, structure">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--increment" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Discovery</span><span class="kb-col-num">2</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-arc" href="abd-architecture-blueprint.html" title="The outline shows what a system is; the blueprint shows what it is made of. A blueprint is the document a tech lead opens to answer &quot;where does the order code live? what does it depend on? how does it talk to the catalogue?&quot; without yet drilling into the implementation patterns. It names every architectural component in a paragraph or two, catalogues every cross-cutting concern as an architecture mechanism, shows the data architecture at the model level, captures the common testing strategy, and lists the decisions taken at this level. When the blueprint is in place, the architecture reference can go deep on one mechanism at a time without re-explaining the system to its reader.">architecture blueprint</a>
+        </div>
+      </div>
+      <div class="skill-kanban-nav__col" data-stage="exploration">
+        <a class="kb-col-head kb-col-head--link" data-stage="exploration" href="abd-architecture-specification.html" title="Sprint. narrow / deeper. behaviour, design, logic">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--sprint" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Exploration</span><span class="kb-col-num">3</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-arc" href="abd-architecture-specification.html" title="An architecture specification tells engineers exactly how domain concepts and stories become code in a chosen stack — which files, classes, interactions, and tests implement each entity, operation, and scenario. The specification is one artifact: documentation and working template code stay aligned; each mechanism is documented once and reused; later runs extend only what is missing.">architecture specification document</a>
+        </div>
+      </div>
+      <div class="skill-kanban-nav__col" data-stage="specification">
+        <a class="kb-col-head kb-col-head--link" data-stage="specification" href="abd-architecture-specification.html" title="Story. narrow / executable. examples, design, templates">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--story" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Specification</span><span class="kb-col-num">4</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-arc" href="abd-architecture-specification.html" title="An architecture specification tells engineers exactly how domain concepts and stories become code in a chosen stack — which files, classes, interactions, and tests implement each entity, operation, and scenario. The specification is one artifact: documentation and working template code stay aligned; each mechanism is documented once and reused; later runs extend only what is missing.">architecture specification template</a>
+        </div>
+      </div>
+</nav>
+</div>
+</div>
+</div>
+
+
 <div class="page-hero page-hero--detail">
   <div class="wrap">
-    <a class="back-link" href="../plugin/architecture-centric-engineering.html">← Architecture Centric Engineering</a>
-    <p class="s-name">Skill</p>
-    <h1 class="page-headline">abd-architecture-outline</h1>
+    <a class="back-link" href="../index.html">← The ABD Foundry</a>
+    
+    <h1 class="page-headline"><span class="skill-name-prefix">abd-</span>architecture-outline</h1>
     <p class="body-lead">First architecture artifact — four diagrams, principles, tech stack, major systems, and ADRs on one page.</p>
   </div>
 </div>
 
 <div class="catalog-body">
-<div class="wrap">
+<div class="wrap skill-detail-page">
 
-<h2>Description</h2>
-<div class="entry-prose">A team that cannot draw its system on one page also cannot agree on what to build next. Outlines fix that. This skill produces the first architecture artifact for a system — short on prose, heavy on diagrams — so engineers, product, and stakeholders share a single picture of the platform, the layers, the neighbours, the deployment topology, and the principles in force. When the outline is in place, deeper architecture work (blueprint, reference, mechanisms) can start without re-litigating what the system is.<br>
-<br>
----</div>
+<div class="skill-hero-img-wrap">
+<div class='skill-md-preview'><h1>Architecture Outline — Examples</h1>
+<h2>Typical outline for a web-plus-API SaaS</h2>
+<pre><code>{SystemName} — Architecture Outline
+├── 1. Platform diagram          ← React SPA + Node API + Postgres + Redis
+├── 2. Layered architecture      ← Presentation / Application / Domain / Infra
+├── 3. System context            ← actors + 3 external systems
+├── 4. Deployment topology       ← AWS: CloudFront → ALB → ECS → RDS
+├── 5. Guiding principles        ← &quot;Domain never imports infrastructure&quot;, etc.
+├── 6. Technology stack          ← runtime + framework + library + tool per layer
+├── 7. Major systems catalogue   ← 5 named subsystems, 1 line each
+└── 8. Decision records          ← 3 ADRs (platform, style, deployment)</code></pre>
+<hr>
+<h2>The shape of a good outline</h2>
+<pre><code>{Title} — Architecture Outline
+
+1. Platform Diagram
+   {diagram}
+   {≤2 sentence caption}
+
+2. Layered Architecture
+   {diagram}
+   {≤3 sentence caption naming dependency direction}
+
+3. System Context
+   {diagram}
+   {≤2 sentence caption naming actors and external systems}
+
+4. Deployment Topology
+   {diagram}
+   {≤3 sentence caption naming environments and hosts}
+
+5. Guiding Principles
+   - {Principle 1, one sentence, decidable}
+   - {Principle 2, one sentence, decidable}
+   - ... (5–10 total)
+
+6. Technology Stack
+   | Layer | Technology | Version | Purpose |
+   |---|---|---|---|
+   | ... |
+
+7. Major Systems
+   | System | One-line description | Primary owner / module |
+   |---|---|---|
+   | ... |
+
+8. Decision Records
+   - ADR-001: {chosen platform} — {one-line consequence}
+   - ADR-002: {chosen architectural style}
+   - ADR-003: {chosen deployment model}
+   (each ADR is a separate file under docs/architecture/decisions/)</code></pre></div>
+
+</div>
 
 <section class="install-block" aria-labelledby="install-npx-heading">
   <h2 id="install-npx-heading">Install with npx</h2>
@@ -1071,97 +1801,63 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 </section>
 
 
-<hr class="entry-divider">
-
-
-
-<hr class="entry-divider">
-
-<h2 id="entry-contents">Contents</h2>
-<details class="entry-md-section" id="md-overview"><summary class="entry-md-section__summary">Overview</summary><div class="entry-md-section__body"><p>﻿--- catalog_garden_tier: practice catalog_garden_order: 10 name: abd-architecture-outline catalogue_one_liner: &gt;- First architecture artifact — four diagrams, principles, tech stack, major systems, and ADRs on one page. description: &gt;- Produce the first architecture artifact for a new or unfamiliar system — a mostly-diagrams document that fixes platform, layering, system context, deployment topology, guiding principles, technology stack, and a brief catalogue of major systems with decision records. The outline answers &quot;what is this thing made of and what does it sit next to?&quot; before any deeper architecture work begins. Use when kicking off a new project, onboarding needs a canonical picture, choosing a platform, settling system ownership, or preparing for an architecture review.</p>
-<hr>
-<h1>abd-architecture-outline</h1></div></details>
-<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p>A team that cannot draw its system on one page also cannot agree on what to build next. Outlines fix that. This skill produces the first architecture artifact for a system — short on prose, heavy on diagrams — so engineers, product, and stakeholders share a single picture of the platform, the layers, the neighbours, the deployment topology, and the principles in force. When the outline is in place, deeper architecture work (blueprint, reference, mechanisms) can start without re-litigating what the system <em>is</em>.</p>
+<div class="skill-cr-grid">
+<div class="skill-cr-col"><div class="skill-concepts">
+<h2 class="skill-concepts-heading">Concepts</h2>
+<details class="skill-concept"><summary>What is an architecture outline?</summary><div class="skill-concept-body"><p>An <strong>architecture outline</strong> is the <em>one-page</em> answer to &quot;what is this system?&quot;. It is built around a small set of diagrams — platform, layered architecture, system context, deployment topology — supplemented by a consolidated list of guiding principles, the technology stack, and a one-line description of every major system or subsystem. It is <strong>deliberately shallow</strong>: it shows the system&#x27;s silhouette and neighbours but explicitly defers internal mechanisms, component contracts, data models, and patterns to the <strong>blueprint</strong> and <strong>reference</strong> skills that come after it.</p>
+<p>This skill ships <strong>paired outputs</strong>: a markdown file that humans read, and four <code>.drawio</code> sources that the team edits. The markdown embeds rendered PNGs (or links the <code>.drawio</code> files directly); the <code>.drawio</code> files are the source of truth that anyone can open in <a href="https://www.drawio.com/">draw.io Desktop</a> or <a href="https://app.diagrams.net/">app.diagrams.net</a> without checking out the repository. The CLI helper at <code>scripts/arch-drawio.ps1</code> initialises the four templates, exports PNGs, and verifies that every diagram in the markdown has a matching <code>.drawio</code> source.</p>
+<p>The outline carries <strong>decision records</strong> for the choices visible at this level (chosen platform, chosen architectural style, chosen deployment model). Decisions below this level — how error handling works, which caching pattern, which test tier owns what — live with the blueprint or reference document that introduces them.</p>
 <hr></div></details>
-<details class="entry-md-section" id="output-file"><summary class="entry-md-section__summary">Output file</summary><div class="entry-md-section__body"><p><strong>Deliverables folder:</strong> see `../agent-protocol.md` — Output file resolution.</p>
-<p><strong>File name:</strong> `architecture-outline.md`. Add a `&lt;name&gt;-` prefix only when disambiguation is needed.</p>
+<details class="skill-concept"><summary>The four diagrams</summary><div class="skill-concept-body"><p>Every architecture outline contains four diagrams. Each one answers a different question and a reviewer should be able to point at the answer without reading prose.</p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Diagram</th><th>Question it answers</th><th>Notation</th></tr></thead><tbody><tr><td><strong>Platform diagram</strong></td><td>What kind of system is this? (web app, mobile + API, desktop client, embedded device, distributed pipeline, etc.)</td><td>Block diagram or simple grouping; logo-level technology badges acceptable</td></tr><tr><td><strong>Layered architecture diagram</strong></td><td>What are the logical layers and what is the dependency direction between them?</td><td>Stacked-boxes diagram; arrows always point one way</td></tr><tr><td><strong>System context diagram</strong></td><td>Who and what does the system talk to?</td><td>C4 System Context, or a simple actor + neighbouring-system box diagram</td></tr><tr><td><strong>Deployment topology diagram</strong></td><td>Where does each part run, and what runtime container hosts it?</td><td>C4 Deployment, or boxes-inside-boxes (environment → host → process)</td></tr></tbody></table></div>
 <hr></div></details>
-<details class="entry-md-section" id="agent-instructions"><summary class="entry-md-section__summary">Agent Instructions</summary><div class="entry-md-section__body"><p>&gt; <strong>MANDATORY — read `../agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.</strong></p>
-<h3>1. Read context</h3>
-<p>Read these files:</p>
+<details class="skill-concept"><summary>Guiding principles</summary><div class="skill-concept-body"><p>A <strong>guiding principle</strong> is a one-sentence stance the system takes that constrains future decisions. Good principles are <strong>decidable</strong>, <strong>directional</strong>, and <strong>traceable to a real trade-off</strong> the team has accepted. They are pulled together in the outline so that everyone working on the system can see them in one place — even if the principles originate in deeper documents (the reference, the blueprint, or an ADR).</p>
+<hr></div></details>
+<details class="skill-concept"><summary>Major systems catalogue</summary><div class="skill-concept-body"><p>The outline names every <strong>major system or subsystem</strong> the architecture distinguishes and gives each one a single line of description. Internal organisation, components, interfaces, and patterns are <em>not</em> in scope here — they belong in the blueprint and reference. The catalogue exists so a reader can map any feature request, bug, or operations alert to a named owner-system within minutes.</p>
+<hr></div></details>
+<details class="skill-concept"><summary>Decision records</summary><div class="skill-concept-body"><p>A <strong>decision record (ADR)</strong> captures <em>why</em> a choice was made — context, options considered, consequences. The outline carries ADRs for choices visible at the outline level: platform, architectural style, deployment model, major external integrations. Decisions about internals (which caching pattern, which test tier) live with the document that introduces them.</p>
+<hr></div></details>
+<details class="skill-concept"><summary>What the outline does NOT contain</summary><div class="skill-concept-body"><p>These live in <code>abd-architecture-blueprint</code> and <code>abd-architecture-specification</code>:</p>
 <ul>
-<li><strong>`reference/concepts.md`</strong> — what an outline is, the four diagrams, guiding principles, major systems catalogue, decision records, and what the outline does NOT contain.</li>
-<li><strong>`reference/examples.md`</strong> — a typical outline tree and the shape of a good outline.</li>
-</ul>
-<h3>2. Generate</h3>
-<p>Read every file in <strong>`rules/`</strong>; author to those rules.</p>
-<p><strong>Produce output from every template:</strong></p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td>`templates/architecture-outline.md`</td><td>The outline document — four diagrams with captions, guiding principles, tech stack table, major systems table, and ADR list.</td></tr><tr><td>`templates/decision-record.md`</td><td>One ADR file per outline-level decision under `docs/architecture/decisions/`.</td></tr></tbody></table></div>
-<p><strong>Diagram workflow:</strong></p>
-<p>1. Seed diagrams: `.\scripts\arch-drawio.ps1 init -ProjectRoot &lt;target-project-root&gt;` 2. Fill placeholders in each `.drawio` file with real system components. 3. Export PNGs: `.\scripts\arch-drawio.ps1 export -ProjectRoot &lt;target-project-root&gt;` 4. Reference the PNGs from the outline markdown.</p>
-<p><strong>Quality bar:</strong> Four diagrams present (platform, layered, context, deployment), each with a caption of three sentences or fewer. Principles are decidable one-sentence stances (5–10 total). Major systems are one line each. ADRs exist on disk.</p>
-<h3>3. Validate</h3>
-<p>Run the scanners:</p>
-<pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/abd-architecture-outline \
-  --workspace &lt;path-to-output&gt;</code></pre>
-<p>Then verify diagrams:</p>
-<pre><code>.\scripts\arch-drawio.ps1 verify -ProjectRoot &lt;target-project-root&gt;</code></pre>
-<p>Then emit per-rule verdicts per `../agent-protocol.md`.</p>
-<hr></div></details>
-<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Inspect what was built — read the artifacts as reviewers.</p>
-<ul>
-<li><strong>Four diagrams present</strong> — platform, layered, system context, deployment topology — each with a caption of three sentences or fewer.</li>
-<li><strong>Each diagram has a paired `.drawio` source</strong> — `.\scripts\arch-drawio.ps1 verify` prints PASS.</li>
-<li><strong>Canonical filenames used</strong> — `platform-architecture.drawio`, `layered-architecture.drawio`, `system-context.drawio`, `deployment-architecture.drawio`.</li>
-<li><strong>Layered diagram shows dependency direction</strong> — arrows are one-way, no cycles drawn.</li>
-<li><strong>Principles are decidable</strong> — every principle is one sentence and could be applied to a real code change.</li>
-<li><strong>Technology stack is a table</strong> — Layer / Technology / Version / Purpose; no narrative paragraphs.</li>
-<li><strong>Major systems are one line each</strong> — no internal component descriptions.</li>
-<li><strong>ADRs exist on disk</strong> — every ADR named in the outline has a matching file under `docs/architecture/decisions/`.</li>
-<li><strong>No mechanism detail</strong> — auth, error handling, logging, caching are <em>named</em> if at all, never explained.</li>
-<li><strong>No data model</strong> — entity relationships and persistence schemas are absent.</li>
-<li><strong>No bundle markers</strong> — `SKILL.md` has no `&lt;!-- execute_rules:bundle_rules --&gt;` markers.</li>
-</ul>
-<hr></div></details>
+<li>Component-by-component descriptions</li>
+<li>Cross-cutting concern implementations (auth, error handling, logging — those are <a href="../../../reference/architecture-mechanism.html"><em>architecture mechanisms</em></a>)</li>
+<li>Data models or entity relationships</li>
+<li>Code-level patterns</li>
+<li>Detailed testing strategy beyond a one-liner stating where tests live</li>
+</ul></div></details>
+</div></div>
+<div class="skill-cr-col"><div class="skill-rules">
+<h2 class="skill-rules-heading">Rules</h2>
+<details class="skill-rule">
+<summary class="skill-rule-header">Decision records are named and live on disk</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>List ADRs in the outline as a table or numbered list with ID, decision, and a one-line consequence; each ID links to the actual ADR file.</li><li>Use the decision-record.md template in this skill&#x27;s templates/ folder for every ADR file.</li><li>Keep the ADR list in the outline to outline-level decisions only (platform, style, deployment, major external integrations).</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Embed a multi-paragraph rationale for a decision directly in the outline.</li><li>Reference an ADR by name without an actual file existing under docs/architecture/decisions/.</li><li>Number ADRs inconsistently or restart numbering per document.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Every diagram ships paired markdown reference and drawio source</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Place every diagram source as docs/architecture/diagrams/&lt;name&gt;.drawio and reference either the rendered &lt;name&gt;.png or the &lt;name&gt;.drawio file directly from the markdown.</li><li>Use the canonical filenames for the four outline diagrams so the verify command can confirm all four are present.</li><li>Initialise a fresh project&#x27;s diagrams folder by running .\scripts\arch-drawio.ps1 init -ProjectRoot &lt;path&gt; from this skill, which copies the four templates without overwriting existing diagrams (unless -Force).</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Embed a screenshot or PNG in the markdown with no matching .drawio source on disk.</li><li>Inline a mermaid diagram for the four canonical diagrams in place of a .drawio source.</li><li>Rename the canonical diagrams so the verify step cannot find them.</li><li>Ship a .drawio source that the markdown never references.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Major systems stay at one line</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Render the major systems as a table with three columns: System, One-line description, Primary owner/module.</li><li>Make the one-line description a role-in-the-system statement, not a feature list.</li><li>Defer all &quot;how&quot; questions about a system to the blueprint or reference document linked from the outline.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Expand a major system&#x27;s description into a paragraph about its internal components.</li><li>List endpoints, classes, database tables, or message topics in the outline.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Outline leads with the four diagrams</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Put the platform diagram, layered diagram, system context diagram, and deployment topology diagram as the first four numbered sections of the outline, each with its own heading.</li><li>Limit every caption under a diagram to three sentences or fewer, naming what the reader should see.</li><li>Pick one diagram notation and stay consistent inside one outline (all mermaid, or all drawio links, or all PNGs).</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Open the outline with a prose-only &quot;Introduction&quot; or &quot;Background&quot; section before the diagrams appear.</li><li>Ship the outline with three diagrams (e.g. missing the deployment topology) on the grounds that &quot;we will add it later&quot;.</li><li>Caption a diagram with a multi-paragraph essay about the history of the choice.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Principles are decidable one-sentence stances</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>State each principle as one declarative sentence naming the constraint and the thing constrained.</li><li>Give every principle a verifiable surface: a layer, a folder, a code path, or a build-time check.</li><li>Keep the principles list to 5–10 entries. If a candidate cannot fit alongside the others as a peer, it is probably not outline-level.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Write a principle as a value statement or slogan that cannot be applied to a code change.</li><li>Use multi-paragraph principles that read like a mini essay.</li><li>Mix principles with implementation rules.</li></ul></div>
+</details>
+</div></div>
+</div>
 
-<ul class="file-list file-list--root">
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>reference/</strong><span class="file-meta"> → Folder (2 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-architecture-outline/reference/concepts.md" target="_blank" rel="noopener noreferrer"><strong>concepts.md</strong></a><span class="file-meta"> → ﻿# Architecture Outline — Concepts</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-architecture-outline/reference/examples.md" target="_blank" rel="noopener noreferrer"><strong>examples.md</strong></a><span class="file-meta"> → Architecture Outline — Examples</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-architecture-outline/rules/decision-records-named-and-on-disk.md" target="_blank" rel="noopener noreferrer"><strong>decision-records-named-and-on-disk.md</strong></a><span class="file-meta"> → Rule: Decision records are named and live on disk</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-architecture-outline/rules/every-diagram-ships-paired-markdown-and-drawio.md" target="_blank" rel="noopener noreferrer"><strong>every-diagram-ships-paired-markdown-and-drawio.md</strong></a><span class="file-meta"> → Rule: Every diagram ships paired markdown reference and drawio source</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-architecture-outline/rules/major-systems-stay-at-one-line.md" target="_blank" rel="noopener noreferrer"><strong>major-systems-stay-at-one-line.md</strong></a><span class="file-meta"> → Rule: Major systems stay at one line</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-architecture-outline/rules/outline-leads-with-the-four-diagrams.md" target="_blank" rel="noopener noreferrer"><strong>outline-leads-with-the-four-diagrams.md</strong></a><span class="file-meta"> → Rule: Outline leads with the four diagrams</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-architecture-outline/rules/principles-are-decidable-one-sentence-stances.md" target="_blank" rel="noopener noreferrer"><strong>principles-are-decidable-one-sentence-stances.md</strong></a><span class="file-meta"> → Rule: Principles are decidable one-sentence stances</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>scanner-report/</strong><span class="file-meta"> → Folder (1 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-architecture-outline/scanner-report/abd-author-practice-skill.md" target="_blank" rel="noopener noreferrer"><strong>abd-author-practice-skill.md</strong></a><span class="file-meta"> → Scanner Report — abd-author-practice-skill</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>scanners/</strong><span class="file-meta"> → Folder (1 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-architecture-outline/scanners/README.md" target="_blank" rel="noopener noreferrer"><strong>README.md</strong></a><span class="file-meta"> → Scanners — abd-architecture-outline</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>scripts/</strong><span class="file-meta"> → Build, catalogue, validation, or packaging automation.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-architecture-outline/scripts/arch-drawio.ps1" target="_blank" rel="noopener noreferrer"><strong>arch-drawio.ps1</strong></a><span class="file-meta"> → .SYNOPSIS</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-architecture-outline/templates/architecture-outline.md" target="_blank" rel="noopener noreferrer"><strong>architecture-outline.md</strong></a><span class="file-meta"> → {SystemName} — Architecture Outline</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-architecture-outline/templates/decision-record.md" target="_blank" rel="noopener noreferrer"><strong>decision-record.md</strong></a><span class="file-meta"> → ADR-{NNN}: {short title — the decision in five words or fewer}</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-architecture-outline/templates/deployment-architecture.drawio" target="_blank" rel="noopener noreferrer"><strong>deployment-architecture.drawio</strong></a><span class="file-meta"> → &lt;mxfile host=&quot;65bd71144e&quot;&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-architecture-outline/templates/layered-architecture.drawio" target="_blank" rel="noopener noreferrer"><strong>layered-architecture.drawio</strong></a><span class="file-meta"> → &lt;mxfile host=&quot;65bd71144e&quot;&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-architecture-outline/templates/platform-architecture.drawio" target="_blank" rel="noopener noreferrer"><strong>platform-architecture.drawio</strong></a><span class="file-meta"> → &lt;mxfile host=&quot;65bd71144e&quot;&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-architecture-outline/templates/system-context.drawio" target="_blank" rel="noopener noreferrer"><strong>system-context.drawio</strong></a><span class="file-meta"> → &lt;mxfile host=&quot;65bd71144e&quot;&gt;</span></li>
-</ul></div></details></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-architecture-outline/corrections-log.md" target="_blank" rel="noopener noreferrer"><strong>corrections-log.md</strong></a><span class="file-meta"> → ��#   C o r r e c t i o n s   l o g   �� �   a b d - a r c h i t e c t u r e - o u t l i n e </span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-architecture-outline/deployment-architecture.png" target="_blank" rel="noopener noreferrer"><strong>deployment-architecture.png</strong></a><span class="file-meta"> → IHDR  *  ~   ��1�   sRGB ��</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-architecture-outline/layered-architecture.png" target="_blank" rel="noopener noreferrer"><strong>layered-architecture.png</strong></a><span class="file-meta"> → IHDR  �  X   L��P   sRGB ��</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-architecture-outline/platform-architecture.png" target="_blank" rel="noopener noreferrer"><strong>platform-architecture.png</strong></a><span class="file-meta"> → IHDR  (  4   P�   sRGB ��</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-architecture-outline/process.docx" target="_blank" rel="noopener noreferrer"><strong>process.docx</strong></a><span class="file-meta"> → PK     ! ��</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-architecture-outline/SKILL.md" target="_blank" rel="noopener noreferrer"><strong>SKILL.md</strong></a><span class="file-meta"> → catalog_garden_tier: practice</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/architecture-centric-engineering/skills/abd-architecture-outline/system-context.png" target="_blank" rel="noopener noreferrer"><strong>system-context.png</strong></a><span class="file-meta"> → IHDR    Y   ݸ��   sRGB ��</span></li>
-</ul>
+
+
 
 </div>
 </div>

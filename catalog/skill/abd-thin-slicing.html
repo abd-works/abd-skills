@@ -471,7 +471,22 @@ html[data-abd-theme="executive"] .catalog-body code {
 }
 
 .page-hero--detail {
-  padding-top: 48px;
+  padding-top: 20px;
+  padding-bottom: 16px;
+}
+.page-hero--detail .page-headline {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 4px 0 6px;
+}
+.page-headline .skill-name-prefix,
+.cap-card__title .skill-name-prefix {
+  color: var(--accent);
+}
+.page-hero--detail .body-lead {
+  font-size: 0.9rem;
+  margin: 0;
+  color: var(--muted);
 }
 
 .page-hero--detail .back-link {
@@ -731,8 +746,18 @@ a.cap-card:hover .cap-card__more {
   color: #b8b8c2;
   margin: 0 0 18px;
 }
+.skill-detail-page .skill-hero-img-wrap + .install-block {
+  margin-top: 18px;
+}
+.skill-detail-page .install-block + .skill-cr-grid,
+.skill-detail-page .install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block {
+  margin-top: 0;
+}
 .install-block {
-  margin: 22px 0 0;
+  margin: 20px 0 0;
   padding: 16px 18px;
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid var(--border-muted);
@@ -1041,28 +1066,699 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 .plugin-slots h3:first-child { margin-top: 0; }
 .cap-grid--plugin-slot { margin-bottom: 8px; }
 
+/* ── Skill detail: family kanban stage nav (matches hub column headings) ── */
+.skill-kanban-nav {
+  --fam-sdd: #6bcb77;
+  --fam-ddd: #6c5ce7;
+  --fam-uxd: #e84393;
+  --fam-arc: #4fc3f7;
+  --fam-idea: var(--accent);
+  --abd-accent: var(--accent);
+  --abd-accent-glow: var(--accent-soft, var(--accent));
+  --abd-raised: var(--raised);
+  --abd-bg: var(--bg);
+  --abd-border: var(--border);
+  --abd-text: var(--text);
+  --abd-muted: var(--muted);
+  background: var(--raised);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0 16px;
+}
+.skill-kanban-nav .wrap {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.skill-kanban-nav__board {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  gap: 6px 8px;
+  align-items: start;
+}
+.skill-kanban-nav__practice-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  margin: 0;
+  padding: 0 8px;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-left-width: 3px;
+  border-radius: 4px;
+  line-height: 1.25;
+  box-sizing: border-box;
+  transition: box-shadow 120ms, border-color 120ms;
+  color: inherit;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card:hover {
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--sdd {
+  border-left-color: var(--fam-sdd);
+  color: var(--fam-sdd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--ddd {
+  border-left-color: var(--fam-ddd);
+  color: var(--fam-ddd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--uxd {
+  border-left-color: var(--fam-uxd);
+  color: var(--fam-uxd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--arc {
+  border-left-color: var(--fam-arc);
+  color: var(--fam-arc);
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap {
+  position: relative;
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip.kb-col-shape-tooltip {
+  min-width: 10rem;
+  max-width: 22rem;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:hover .kb-skill-tooltip,
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:focus-within .kb-skill-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.skill-kanban-nav__stages {
+  display: grid;
+  grid-template-columns: repeat(var(--skill-kanban-cols, 5), minmax(0, 1fr));
+  gap: 0 8px;
+  min-width: 0;
+}
+.skill-kanban-nav__col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.skill-kanban-nav__tickets {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.skill-kanban-nav .kb-col-head {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 8px 6px 7px;
+  font-family: var(--font-mono);
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.skill-kanban-nav .kb-col-head--static {
+  cursor: default;
+}
+.skill-kanban-nav a.kb-col-head {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav a.kb-col-head:hover {
+  border-color: rgba(229, 83, 26, 0.35);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.15);
+}
+.skill-kanban-nav .kb-col-head--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-col-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+}
+.skill-kanban-nav .kb-col-scope-shape {
+  flex-shrink: 0;
+  border: 2px solid var(--abd-accent);
+  border-radius: 2px;
+}
+.skill-kanban-nav__stages .kb-col-shape-tooltip,
+.skill-kanban-nav__stages .kb-skill-tooltip-wrap .kb-col-shape-tooltip {
+  display: none !important;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 8px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 7px 9px;
+  font-family: var(--font-mono);
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid rgba(229, 83, 26, 0.45);
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 14px;
+  border: 5px solid transparent;
+  border-bottom-color: rgba(229, 83, 26, 0.45);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__name {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--abd-accent-glow);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__bullets {
+  font-size: 8px;
+  line-height: 1.45;
+  color: var(--abd-text);
+  white-space: pre-line;
+}
+.skill-kanban-nav .kb-col-scope-shape--solution { width: 36px; height: 12px; }
+.skill-kanban-nav .kb-col-scope-shape--increment { width: 24px; height: 16px; }
+.skill-kanban-nav .kb-col-scope-shape--sprint { width: 16px; height: 22px; }
+.skill-kanban-nav .kb-col-scope-shape--story { width: 11px; height: 28px; }
+.skill-kanban-nav .kb-col-head-title {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--abd-text);
+}
+.skill-kanban-nav .kb-col-head-title > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.skill-kanban-nav .kb-col-num {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--abd-text);
+  background: var(--abd-bg);
+  border: 1px solid var(--abd-border);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+.skill-kanban-nav .kb-ticket {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  background: var(--abd-raised);
+  color: var(--abd-text);
+  padding: 5px 6px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  border-left-width: 3px;
+  border-left-color: var(--abd-muted);
+  line-height: 1.25;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav .kb-ticket:hover {
+  border-color: var(--abd-border);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.2);
+}
+.skill-kanban-nav .kb-ticket.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-ticket.aad-fam-sdd { border-left-color: var(--fam-sdd); }
+.skill-kanban-nav .kb-ticket.aad-fam-ddd { border-left-color: var(--fam-ddd); }
+.skill-kanban-nav .kb-ticket.aad-fam-uxd { border-left-color: var(--fam-uxd); }
+.skill-kanban-nav .kb-ticket.aad-fam-arc { border-left-color: var(--fam-arc); }
+.skill-kanban-nav .kb-ticket.aad-fam-idea { border-left-color: var(--fam-idea); }
+@media (max-width: 960px) {
+  .skill-kanban-nav__board {
+    grid-template-columns: 1fr;
+  }
+  .skill-kanban-nav__stages {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
+
+/* ── Skill detail: full-width hero image / embedded viewer ── */
+.skill-hero-img-wrap {
+  margin: 24px 0 0;
+}
+.skill-hero-img-wrap:empty { display: none; }
+.skill-hero-img-wrap img,
+.skill-hero-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--raised);
+}
+
+/* HTML prototype iframe (reference/example/index.html) */
+.skill-prototype-wrap {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-prototype-frame {
+  display: block;
+  width: 100%;
+  min-height: 540px;
+  height: 71vh;
+  max-height: 810px;
+  border: 0;
+  background: #fff;
+}
+.skill-prototype-open {
+  margin: 0;
+  padding: 8px 14px;
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+  background: var(--raised);
+}
+.skill-prototype-open a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.skill-prototype-open a:hover { text-decoration: underline; }
+
+/* draw.io embedded viewer */
+.skill-drawio-wrap {
+  position: relative;
+  width: 100%;
+  height: min(71vh, 680px);
+  min-height: 340px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-drawio-wrap .mxgraph {
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+}
+.skill-drawio-wrap .geToolbarContainer {
+  z-index: 4;
+}
+
+/* code file preview */
+.skill-code-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--raised);
+  font-size: 13px;
+}
+.skill-code-lang {
+  padding: 6px 14px;
+  font-family: var(--mono, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.skill-code-preview pre {
+  margin: 0;
+  padding: 16px;
+  overflow-x: auto;
+  max-height: 420px;
+}
+.skill-code-preview code {
+  font-family: var(--mono, 'JetBrains Mono', monospace);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+/* rendered markdown preview */
+.skill-hero-img-wrap .skill-md-preview {
+  max-height: min(71vh, 610px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.skill-md-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px 24px;
+  background: var(--surface);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.skill-md-preview h1 { font-size: 18px; font-weight: 700; margin: 0 0 12px; }
+.skill-md-preview h2 { font-size: 15px; font-weight: 600; margin: 16px 0 8px;
+  border-bottom: 1px solid var(--border); padding-bottom: 3px; }
+.skill-md-preview h3 { font-size: 13px; font-weight: 600; margin: 12px 0 6px; }
+.skill-md-preview h4 { font-size: 12px; font-weight: 600; margin: 10px 0 4px; color: var(--muted); }
+.skill-md-preview p  { margin: 0 0 10px; }
+.skill-md-preview .spec-steps { margin: 0 0 14px; }
+.skill-md-preview p.spec-step { margin: 0 0 4px; line-height: 1.55; }
+.skill-md-preview .md-table-wrap { overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview .md-table { border-collapse: collapse; width: 100%; }
+.skill-md-preview ul, .skill-md-preview ol { margin: 0 0 10px; padding-left: 20px; }
+.skill-md-preview li { margin-bottom: 3px; }
+.skill-md-preview code { background: var(--raised); border-radius: 3px;
+  padding: 1px 5px; font-family: var(--mono, monospace); font-size: 12px; }
+.skill-md-preview pre { background: var(--raised); border-radius: 5px;
+  padding: 12px; overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview table { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
+.skill-md-preview th, .skill-md-preview td {
+  border: 1px solid var(--border); padding: 6px 10px; }
+.skill-md-preview th { background: var(--raised); font-weight: 600; }
+
+/* ── Skill detail: concepts | rules two-column grid ── */
+.skill-cr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin: 24px 0 0;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .skill-cr-grid { grid-template-columns: 1fr; }
+}
+.skill-cr-col { min-width: 0; }
+.skill-cr-single { margin: 24px 0 0; }
+
+/* Glossary example hero — term blocks without heavy HR dividers */
+.skill-md-preview--glossary h1 {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 10px;
+  border: 0;
+  padding: 0;
+}
+.skill-md-preview--glossary h2 {
+  font-size: 16px;
+  margin-top: 0;
+}
+.skill-md-preview--glossary h3 {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 14px 0 6px;
+  padding: 6px 8px;
+  background: var(--raised);
+  border-radius: 4px;
+  border-left: 3px solid var(--accent);
+}
+.skill-md-preview--glossary hr {
+  display: none;
+}
+.skill-md-preview--glossary ul {
+  margin-top: 0;
+}
+
+/* ── Skill detail: full-width content below ── */
+.skill-detail-content-col { margin-top: 32px; }
+.skill-detail-page .skill-cr-grid,
+.skill-detail-page .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-single,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-single {
+  margin-top: 0;
+}
+
+/* ── Skill detail: concepts (expandable) ── */
+.skill-hero-img-wrap + .install-block {
+  margin-top: 16px;
+}
+.install-block + .skill-cr-grid,
+.install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-concepts {
+  margin: 0 0 20px;
+}
+.skill-concepts-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 8px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-concept {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-concept summary {
+  padding: 8px 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  user-select: none;
+}
+.skill-concept summary::-webkit-details-marker { display: none; }
+.skill-concept summary::marker { content: ""; }
+.skill-concept summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-concept[open] summary::before { content: "\2212"; }
+.skill-concept-body {
+  padding: 6px 4px 10px 1.9rem;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.skill-concept-body p { margin: 0 0 8px; }
+.skill-concept-body p:last-child { margin-bottom: 0; }
+.skill-concept-body ul { margin: 0 0 8px 1.1em; padding: 0; }
+.skill-concept-body li { margin: 3px 0; }
+
+/* ── Skill detail: rules (DO / DON'T) ── */
+.skill-rules {
+  margin: 0 0 20px;
+}
+.skill-rules-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 12px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-rule {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule[open] > .skill-rule-header {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule-header {
+  padding: 8px 10px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  background: var(--raised);
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+.skill-rule-header::-webkit-details-marker { display: none; }
+.skill-rule-header::marker { content: ""; }
+.skill-rule-header::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-rule[open] > .skill-rule-header::before {
+  content: "\2212";
+}
+.skill-rule-section {
+  padding: 8px 12px;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+.skill-rule-section--do {
+  border-left: 3px solid #2d8a4e;
+}
+.skill-rule-section--dont {
+  border-left: 3px solid #c0392b;
+}
+.skill-rule-section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+  color: var(--muted);
+}
+.skill-rule-section--do .skill-rule-section-label { color: #2d8a4e; }
+.skill-rule-section--dont .skill-rule-section-label { color: #c0392b; }
+.skill-rule-section ul { margin: 0; padding: 0 0 0 1.1em; }
+.skill-rule-section li { margin: 2px 0; color: var(--text); }
+
 </style>
-<script src="../commons/catalog-nav.js?v=foundry-8"></script>
+<script src="../commons/catalog-nav.js?v=foundry-9"></script>
 </head>
 <body data-nav-prefix="../" data-nav-current="skills" data-nav-site-base="../../../abd-works-website/">
 <main id="main-content">
 
+<div class="skill-kanban-nav">
+<div class="wrap">
+<div class="skill-kanban-nav__board">
+    <div class="skill-kanban-nav__practice-col" aria-label="Practice families">
+      <a class="foundry-practice-col__card foundry-perspective-label--sdd aad-skill aad-fam-sdd kb-ticket--current has-skill-tooltip" href="abd-story-mapping.html"><span class="kb-skill-tooltip-wrap">story-driven-delivery<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">story-driven-delivery</span><span class="kb-col-shape-tooltip__bullets">Given/When/Then scenarios with real example data</span></span></span></a>
+      <a class="foundry-practice-col__card foundry-perspective-label--ddd aad-skill aad-fam-ddd has-skill-tooltip" href="abd-domain-glossary.html"><span class="kb-skill-tooltip-wrap">domain-driven-design<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">domain-driven-design</span><span class="kb-col-shape-tooltip__bullets">Typed terms + relationships (a schema), not prose definitions</span></span></span></a>
+      <a class="foundry-practice-col__card foundry-perspective-label--uxd aad-skill aad-fam-uxd has-skill-tooltip" href="abd-ux-user-impact-map.html"><span class="kb-skill-tooltip-wrap">user-experience-design<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">user-experience-design</span><span class="kb-col-shape-tooltip__bullets">Component spec with named states &amp; rules, not a static picture</span></span></span></a>
+      <a class="foundry-practice-col__card foundry-perspective-label--arc aad-skill aad-fam-arc has-skill-tooltip" href="abd-architecture-outline.html"><span class="kb-skill-tooltip-wrap">architecture-centric-engineering<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture-centric-engineering</span><span class="kb-col-shape-tooltip__bullets">Interface contracts / templates the engine can follow</span></span></span></a>
+    </div>
+<nav class="skill-kanban-nav__stages" style="--skill-kanban-cols: 5" aria-label="Practice stages">
+      <div class="skill-kanban-nav__col" data-stage="shaping">
+        <a class="kb-col-head kb-col-head--link" data-stage="shaping" href="abd-story-mapping.html" title="Whole solution. wide / shallow. outcomes, scope, boundaries">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--solution" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Shaping</span><span class="kb-col-num">1</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-sdd" href="abd-story-mapping.html" title="Build a Patton-style story map per scope from source material — a single shared picture of the product as epics (broad capability areas), sub-epics (flows or feature areas), and stories (one observable user or system interaction each). Decompose requirements into outcomes and behaviors, not build tasks or source dumps, so product, delivery, and domain people share one structure. Name every epic, sub-epic, and story verb—noun; carry who acts in story_type, not in the title. Record context gaps inline where source material is thin.">story mapping outline</a>
+        </div>
+      </div>
+      <div class="skill-kanban-nav__col" data-stage="discovery">
+        <a class="kb-col-head kb-col-head--link" data-stage="discovery" href="abd-story-mapping.html" title="Increment. medium. interactions, experience, structure">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--increment" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Discovery</span><span class="kb-col-num">2</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-sdd" href="abd-story-mapping.html" title="Build a Patton-style story map per scope from source material — a single shared picture of the product as epics (broad capability areas), sub-epics (flows or feature areas), and stories (one observable user or system interaction each). Decompose requirements into outcomes and behaviors, not build tasks or source dumps, so product, delivery, and domain people share one structure. Name every epic, sub-epic, and story verb—noun; carry who acts in story_type, not in the title. Record context gaps inline where source material is thin.">story mapping</a>
+        </div>
+      </div>
+      <div class="skill-kanban-nav__col" data-stage="exploration">
+        <a class="kb-col-head kb-col-head--link" data-stage="exploration" href="abd-story-acceptance-criteria.html" title="Sprint. narrow / deeper. behaviour, design, logic">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--sprint" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Exploration</span><span class="kb-col-num">3</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-sdd" href="abd-story-acceptance-criteria.html" title="Build acceptance criteria per story, that explain what must be true when users and systems interact: observable triggers (WHEN), expected outcomes (THEN), chained effects (AND), and explicit negatives (BUT). These act as informal first-draft BDD-style steps that guide downstream scenario work. Focus on interactions using domain terms, avoid implementation detail unless the story is technical, and even then keep it minimal.">story acceptance criteria</a>
+        </div>
+      </div>
+      <div class="skill-kanban-nav__col" data-stage="specification">
+        <a class="kb-col-head kb-col-head--link" data-stage="specification" href="abd-story-specification.html" title="Story. narrow / executable. examples, design, templates">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--story" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Specification</span><span class="kb-col-num">4</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-sdd" href="abd-story-specification.html" title="Build specification scenarios per story that turn acceptance criteria and story intent into runnable examples: preconditions (Given), triggers (When), observable outcomes (Then), chained effects (And), and explicit negatives (But). Write multiple scenarios per story — at least one happy path plus edge and error cases implied by the story or its AC — each a complete example with realistic domain values, not placeholders. Ground every step in the domain model: use exact concept names, deliberate relationships in step language, and Examples tables whose columns reflect domain structure (not isolated field lists). When AC exist, use the main-flow AC as the spine (WHEN → When, THEN/AND → Then/And), then add Given preconditions and additional scenarios for failures, boundaries, and alternate flows. Focus on what users and systems do and what becomes observable; keep implementation detail out unless the story is explicitly technical.">story specification</a>
+        </div>
+      </div>
+      <div class="skill-kanban-nav__col" data-stage="engineering">
+        <a class="kb-col-head kb-col-head--link" data-stage="engineering" href="abd-story-acceptance-test.html" title="Story. narrowest / deep. tests, code, interface">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--story" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Engineering</span><span class="kb-col-num">5</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-sdd" href="abd-story-acceptance-test.html" title="Write tests first. Write code to pass them.
+
+This skill creates executable test files — in whatever language and framework the project uses — from whatever behavioral context is available: specification scenarios, acceptance criteria, stories, notes, or a rough description of what the system should do. The output is real test code that runs, fails, and drives what gets built.
+
+The workflow is test-driven: write a test that expresses the expected behavior, run it to confirm it fails (RED), then implement production code until the test passes (GREEN). Each test is a precise, runnable statement of what the system must do — test methods show the Given-When-Then flow and helper functions do the work.">story acceptance test</a>
+        </div>
+      </div>
+</nav>
+</div>
+</div>
+</div>
+
+
 <div class="page-hero page-hero--detail">
   <div class="wrap">
-    <a class="back-link" href="../plugin/story-driven-delivery.html">← Story Driven Delivery</a>
-    <p class="s-name">Skill</p>
-    <h1 class="page-headline">abd-thin-slicing</h1>
+    <a class="back-link" href="../index.html">← The ABD Foundry</a>
+    
+    <h1 class="page-headline"><span class="skill-name-prefix">abd-</span>thin-slicing</h1>
     <p class="body-lead">Thin-sliced MVIs and backlog order from a story map; writes thin-slicing templates.</p>
   </div>
 </div>
 
 <div class="catalog-body">
-<div class="wrap">
+<div class="wrap skill-detail-page">
 
-<h2>Description</h2>
-<div class="entry-prose">Define prioritized increments. Group stories in a story map (and any notes on risk, constraints, or learning goals) into prioritized increments that can be delivered together. Each increment includes its priority order, outcomes, slicing notes, and an ordered list of stories.<br>
-<br>
----</div>
+<div class="skill-hero-img-wrap">
+<!-- drawio-rev:1781139019 --><div class="skill-drawio-wrap" data-drawio-rev="1781139019"><div class="mxgraph" data-mxgraph="{&quot;highlight&quot;: &quot;#e5531a&quot;, &quot;nav&quot;: false, &quot;resize&quot;: true, &quot;zoom&quot;: 1.0, &quot;toolbar&quot;: &quot;zoom lightbox&quot;, &quot;xml&quot;: &quot;&lt;mxfile host=\&quot;65bd71144e\&quot;&gt;\n    &lt;diagram name=\&quot;Story Map\&quot; id=\&quot;story-map\&quot;&gt;\n        &lt;mxGraphModel dx=\&quot;3032\&quot; dy=\&quot;991\&quot; grid=\&quot;1\&quot; gridSize=\&quot;10\&quot; guides=\&quot;1\&quot; tooltips=\&quot;1\&quot; connect=\&quot;1\&quot; arrows=\&quot;1\&quot; fold=\&quot;1\&quot; page=\&quot;1\&quot; pageScale=\&quot;1\&quot; pageWidth=\&quot;1019\&quot; pageHeight=\&quot;542\&quot; math=\&quot;0\&quot; shadow=\&quot;0\&quot;&gt;\n            &lt;root&gt;\n                &lt;mxCell id=\&quot;0\&quot;/&gt;\n                &lt;mxCell id=\&quot;1\&quot; parent=\&quot;0\&quot;/&gt;\n                &lt;mxCell id=\&quot;2\&quot; value=\&quot;gk\&quot; style=\&quot;group\&quot; vertex=\&quot;1\&quot; connectable=\&quot;0\&quot; parent=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;-140\&quot; y=\&quot;481\&quot; width=\&quot;6150\&quot; height=\&quot;420\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/returning-customers---accounts,-history,-reorder\&quot; value=\&quot;\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#000000;fontSize=11;fontStyle=1;\&quot; parent=\&quot;2\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry width=\&quot;6150\&quot; height=\&quot;70\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/pay-your-way---multi-vendor-payment-with-retries\&quot; value=\&quot;\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#000000;fontSize=11;fontStyle=1;\&quot; parent=\&quot;2\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry y=\&quot;70\&quot; width=\&quot;6150\&quot; height=\&quot;70\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/pet-visits---gallery-and-in-store-appointments\&quot; value=\&quot;\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#000000;fontSize=11;fontStyle=1;\&quot; parent=\&quot;2\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry y=\&quot;140\&quot; width=\&quot;6150\&quot; height=\&quot;70\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/returns-and-refunds---close-the-loop\&quot; value=\&quot;\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#000000;fontSize=11;fontStyle=1;\&quot; parent=\&quot;2\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry y=\&quot;210\&quot; width=\&quot;6150\&quot; height=\&quot;70\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/marketing-engine---reviews,-alerts,-and-content\&quot; value=\&quot;\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#000000;fontSize=11;fontStyle=1;\&quot; parent=\&quot;2\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry y=\&quot;280\&quot; width=\&quot;6150\&quot; height=\&quot;70\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/power-ups---search,-personalization,-admin-polish\&quot; value=\&quot;\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#000000;fontSize=11;fontStyle=1;\&quot; parent=\&quot;2\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry y=\&quot;350\&quot; width=\&quot;6150\&quot; height=\&quot;70\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/walk-in-driver---find-the-store,-see-what&#x27;s-in-stock\&quot; value=\&quot;\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#000000;fontSize=11;fontStyle=1;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;-140\&quot; y=\&quot;271\&quot; width=\&quot;6150\&quot; height=\&quot;70\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/click-and-collect---buy-online,-pick-up-at-the-store\&quot; value=\&quot;\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#000000;fontSize=11;fontStyle=1;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;-140\&quot; y=\&quot;341\&quot; width=\&quot;6150\&quot; height=\&quot;70\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/ship-to-home---full-standard-delivery-e-commerce\&quot; value=\&quot;\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#000000;fontSize=11;fontStyle=1;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;-140\&quot; y=\&quot;411\&quot; width=\&quot;6150\&quot; height=\&quot;70\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;browse-product-catalog\&quot; value=\&quot;Browse Product Catalog\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#000000;fontSize=11;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;20\&quot; y=\&quot;120\&quot; width=\&quot;510\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;browse-product-catalog/search-and-filter-products\&quot; value=\&quot;Search and Filter Products\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;25\&quot; y=\&quot;195\&quot; width=\&quot;240\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;browse-product-catalog/view-product-details\&quot; value=\&quot;View Product Details\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;275\&quot; y=\&quot;195\&quot; width=\&quot;120\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;browse-product-catalog/review-products\&quot; value=\&quot;Review Products\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;405\&quot; y=\&quot;195\&quot; width=\&quot;120\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;browse-available-pets\&quot; value=\&quot;Browse Available Pets\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#000000;fontSize=11;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;540\&quot; y=\&quot;120\&quot; width=\&quot;320\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;browse-available-pets/explore-pet-gallery\&quot; value=\&quot;Explore Pet Gallery\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;545\&quot; y=\&quot;195\&quot; width=\&quot;180\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;browse-available-pets/manage-pet-listings\&quot; value=\&quot;Manage Pet Listings\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;735\&quot; y=\&quot;195\&quot; width=\&quot;120\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;book-pet-visit\&quot; value=\&quot;Book Pet Visit\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#000000;fontSize=11;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;870\&quot; y=\&quot;120\&quot; width=\&quot;690\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;book-pet-visit/schedule-visit\&quot; value=\&quot;Schedule Visit\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;875\&quot; y=\&quot;195\&quot; width=\&quot;240\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;book-pet-visit/manage-appointments\&quot; value=\&quot;Manage Appointments\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1125\&quot; y=\&quot;195\&quot; width=\&quot;180\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;book-pet-visit/track-visit-outcomes\&quot; value=\&quot;Track Visit Outcomes\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1315\&quot; y=\&quot;195\&quot; width=\&quot;240\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;find-store\&quot; value=\&quot;Find Store\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#000000;fontSize=11;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1570\&quot; y=\&quot;120\&quot; width=\&quot;380\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;find-store/locate-stores\&quot; value=\&quot;Locate Stores\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1575\&quot; y=\&quot;195\&quot; width=\&quot;240\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;find-store/personalize-store-experience\&quot; value=\&quot;Personalize Store Experience\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1825\&quot; y=\&quot;195\&quot; width=\&quot;120\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-customer-account\&quot; value=\&quot;Manage Customer Account\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#000000;fontSize=11;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1960\&quot; y=\&quot;120\&quot; width=\&quot;1110\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-customer-account/register-and-authenticate\&quot; value=\&quot;Register and Authenticate\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1965\&quot; y=\&quot;195\&quot; width=\&quot;420\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-customer-account/manage-profile\&quot; value=\&quot;Manage Profile\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2395\&quot; y=\&quot;195\&quot; width=\&quot;420\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-customer-account/track-activity\&quot; value=\&quot;Track Activity\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2825\&quot; y=\&quot;195\&quot; width=\&quot;240\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-customer-account/track-activity/view-appointment-history\&quot; value=\&quot;View Appointment History\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2890\&quot; y=\&quot;156\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;purchase-products\&quot; value=\&quot;Purchase Products\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#000000;fontSize=11;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3080\&quot; y=\&quot;120\&quot; width=\&quot;1300\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;purchase-products/manage-shopping-cart\&quot; value=\&quot;Manage Shopping Cart\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3085\&quot; y=\&quot;195\&quot; width=\&quot;240\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;purchase-products/manage-shopping-cart/persist-cart-across-devices\&quot; value=\&quot;Persist Cart Across Devices\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3270\&quot; y=\&quot;156\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;purchase-products/check-out\&quot; value=\&quot;Check Out\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3335\&quot; y=\&quot;195\&quot; width=\&quot;420\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;purchase-products/process-payment\&quot; value=\&quot;Process Payment\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3765\&quot; y=\&quot;195\&quot; width=\&quot;360\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;purchase-products/fulfill-order\&quot; value=\&quot;Fulfill Order\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4135\&quot; y=\&quot;195\&quot; width=\&quot;240\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;return-products\&quot; value=\&quot;Return Products\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#000000;fontSize=11;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4390\&quot; y=\&quot;120\&quot; width=\&quot;320\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;return-products/initiate-return\&quot; value=\&quot;Initiate Return\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4395\&quot; y=\&quot;195\&quot; width=\&quot;120\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;return-products/process-refund\&quot; value=\&quot;Process Refund\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4525\&quot; y=\&quot;195\&quot; width=\&quot;180\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-notifications\&quot; value=\&quot;Manage Notifications\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#000000;fontSize=11;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4720\&quot; y=\&quot;120\&quot; width=\&quot;870\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-notifications/send-transactional-notifications\&quot; value=\&quot;Send Transactional Notifications\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4725\&quot; y=\&quot;195\&quot; width=\&quot;420\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-notifications/send-marketing-notifications\&quot; value=\&quot;Send Marketing Notifications\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5155\&quot; y=\&quot;195\&quot; width=\&quot;300\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-notifications/manage-notification-preferences\&quot; value=\&quot;Manage Notification Preferences\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5465\&quot; y=\&quot;195\&quot; width=\&quot;120\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;publish-content\&quot; value=\&quot;Publish Content\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#000000;fontSize=11;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5600\&quot; y=\&quot;120\&quot; width=\&quot;100\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-store-operations\&quot; value=\&quot;Manage Store Operations\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#000000;fontSize=11;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5710\&quot; y=\&quot;120\&quot; width=\&quot;260\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-store-operations/manage-inventory\&quot; value=\&quot;Manage Inventory\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5715\&quot; y=\&quot;195\&quot; width=\&quot;120\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-store-operations/manage-order-fulfillment\&quot; value=\&quot;Manage Order Fulfillment\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5845\&quot; y=\&quot;195\&quot; width=\&quot;120\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-label/walk-in-driver---find-the-store,-see-what&#x27;s-in-stock\&quot; value=\&quot;Walk-in driver - find the store, see what&#x27;s in stock\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#000000;fontSize=11;fontStyle=1;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;-123\&quot; y=\&quot;281\&quot; width=\&quot;150\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/walk-in-driver---find-the-store,-see-what&#x27;s-in-stock/browse-product-catalog/search-and-filter-products/display-real-time-stock-availability\&quot; value=\&quot;Display Real-Time Stock Availability\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;150\&quot; y=\&quot;281\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/walk-in-driver---find-the-store,-see-what&#x27;s-in-stock/browse-product-catalog/view-product-details/view-product-details\&quot; value=\&quot;View Product Details\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;280\&quot; y=\&quot;281\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/walk-in-driver---find-the-store,-see-what&#x27;s-in-stock/find-store/locate-stores/view-store-map\&quot; value=\&quot;View Store Map\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1580\&quot; y=\&quot;281\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/walk-in-driver---find-the-store,-see-what&#x27;s-in-stock/find-store/locate-stores/view-store-list\&quot; value=\&quot;View Store List\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1640\&quot; y=\&quot;281\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/walk-in-driver---find-the-store,-see-what&#x27;s-in-stock/find-store/locate-stores/calculate-distance-to-store\&quot; value=\&quot;Calculate Distance to Store\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1760\&quot; y=\&quot;281\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/walk-in-driver---find-the-store,-see-what&#x27;s-in-stock/manage-store-operations/manage-inventory/update-product-stock-levels\&quot; value=\&quot;Update Product Stock Levels\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5720\&quot; y=\&quot;281\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-label/click-and-collect---buy-online,-pick-up-at-the-store\&quot; value=\&quot;Click-and-collect - buy online, pick up at the store\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#000000;fontSize=11;fontStyle=1;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;-123\&quot; y=\&quot;351\&quot; width=\&quot;150\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/click-and-collect---buy-online,-pick-up-at-the-store/purchase-products/manage-shopping-cart/add-product-to-cart\&quot; value=\&quot;Add Product to Cart\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3090\&quot; y=\&quot;351\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/click-and-collect---buy-online,-pick-up-at-the-store/purchase-products/manage-shopping-cart/update-cart-quantity\&quot; value=\&quot;Update Cart Quantity\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3150\&quot; y=\&quot;351\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/click-and-collect---buy-online,-pick-up-at-the-store/purchase-products/manage-shopping-cart/remove-product-from-cart\&quot; value=\&quot;Remove Product from Cart\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3210\&quot; y=\&quot;351\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/click-and-collect---buy-online,-pick-up-at-the-store/purchase-products/check-out/enter-billing-address\&quot; value=\&quot;Enter Billing Address\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3400\&quot; y=\&quot;351\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/click-and-collect---buy-online,-pick-up-at-the-store/purchase-products/check-out/select-click-and-collect-store\&quot; value=\&quot;Select Click-and-Collect Store\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3580\&quot; y=\&quot;351\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/click-and-collect---buy-online,-pick-up-at-the-store/purchase-products/check-out/check-out-as-guest\&quot; value=\&quot;Check Out as Guest\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3640\&quot; y=\&quot;351\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/click-and-collect---buy-online,-pick-up-at-the-store/purchase-products/process-payment/select-payment-method\&quot; value=\&quot;Select Payment Method\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3770\&quot; y=\&quot;351\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/click-and-collect---buy-online,-pick-up-at-the-store/purchase-products/process-payment/process-card-payment-via-stripewave\&quot; value=\&quot;Process Card Payment via StripeWave\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3890\&quot; y=\&quot;351\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/click-and-collect---buy-online,-pick-up-at-the-store/purchase-products/fulfill-order/confirm-order-and-send-confirmation-email\&quot; value=\&quot;Confirm Order and Send Confirmation Email\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4140\&quot; y=\&quot;351\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/click-and-collect---buy-online,-pick-up-at-the-store/purchase-products/fulfill-order/fulfill-click-and-collect-order\&quot; value=\&quot;Fulfill Click-and-Collect Order\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4260\&quot; y=\&quot;351\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/click-and-collect---buy-online,-pick-up-at-the-store/manage-store-operations/manage-order-fulfillment/prepare-click-and-collect-orders-for-pickup\&quot; value=\&quot;Prepare Click-and-Collect Orders for Pickup\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5910\&quot; y=\&quot;351\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-label/ship-to-home---full-standard-delivery-e-commerce\&quot; value=\&quot;Ship to home - full standard-delivery e-commerce\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#000000;fontSize=11;fontStyle=1;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;-123\&quot; y=\&quot;421\&quot; width=\&quot;150\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/ship-to-home---full-standard-delivery-e-commerce/purchase-products/check-out/enter-shipping-address\&quot; value=\&quot;Enter Shipping Address\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3340\&quot; y=\&quot;421\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/ship-to-home---full-standard-delivery-e-commerce/purchase-products/check-out/select-delivery-option\&quot; value=\&quot;Select Delivery Option\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3520\&quot; y=\&quot;421\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/ship-to-home---full-standard-delivery-e-commerce/purchase-products/fulfill-order/send-shipping-notification-with-tracking-number\&quot; value=\&quot;Send Shipping Notification with Tracking Number\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4200\&quot; y=\&quot;421\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/ship-to-home---full-standard-delivery-e-commerce/purchase-products/fulfill-order/track-order-status\&quot; value=\&quot;Track Order Status\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4320\&quot; y=\&quot;421\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/ship-to-home---full-standard-delivery-e-commerce/manage-store-operations/manage-order-fulfillment/view-and-process-incoming-orders\&quot; value=\&quot;View and Process Incoming Orders\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5850\&quot; y=\&quot;421\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-label/returning-customers---accounts,-history,-reorder\&quot; value=\&quot;Returning customers - accounts, history, reorder\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#000000;fontSize=11;fontStyle=1;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;-123\&quot; y=\&quot;491\&quot; width=\&quot;150\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/returning-customers---accounts,-history,-reorder/manage-customer-account/register-and-authenticate/register-account\&quot; value=\&quot;Register Account\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1970\&quot; y=\&quot;491\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/returning-customers---accounts,-history,-reorder/manage-customer-account/register-and-authenticate/send-email-verification\&quot; value=\&quot;Send Email Verification\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2030\&quot; y=\&quot;491\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/returning-customers---accounts,-history,-reorder/manage-customer-account/register-and-authenticate/verify-email-address\&quot; value=\&quot;Verify Email Address\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2090\&quot; y=\&quot;491\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/returning-customers---accounts,-history,-reorder/manage-customer-account/register-and-authenticate/log-in\&quot; value=\&quot;Log In\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2150\&quot; y=\&quot;491\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/returning-customers---accounts,-history,-reorder/manage-customer-account/register-and-authenticate/log-out\&quot; value=\&quot;Log Out\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2210\&quot; y=\&quot;491\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/returning-customers---accounts,-history,-reorder/manage-customer-account/register-and-authenticate/reset-password\&quot; value=\&quot;Reset Password\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2270\&quot; y=\&quot;491\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/returning-customers---accounts,-history,-reorder/manage-customer-account/register-and-authenticate/maintain-session-across-devices\&quot; value=\&quot;Maintain Session Across Devices\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2330\&quot; y=\&quot;491\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/returning-customers---accounts,-history,-reorder/manage-customer-account/manage-profile/save-delivery-address\&quot; value=\&quot;Save Delivery Address\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2400\&quot; y=\&quot;491\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/returning-customers---accounts,-history,-reorder/manage-customer-account/manage-profile/manage-saved-addresses\&quot; value=\&quot;Manage Saved Addresses\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2460\&quot; y=\&quot;491\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/returning-customers---accounts,-history,-reorder/manage-customer-account/manage-profile/save-payment-method\&quot; value=\&quot;Save Payment Method\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2520\&quot; y=\&quot;491\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/returning-customers---accounts,-history,-reorder/manage-customer-account/manage-profile/manage-saved-payment-methods\&quot; value=\&quot;Manage Saved Payment Methods\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2580\&quot; y=\&quot;491\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/returning-customers---accounts,-history,-reorder/manage-customer-account/track-activity/view-order-history\&quot; value=\&quot;View Order History\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2830\&quot; y=\&quot;491\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/returning-customers---accounts,-history,-reorder/manage-customer-account/track-activity/manage-wishlist\&quot; value=\&quot;Manage Wishlist\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2950\&quot; y=\&quot;491\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/returning-customers---accounts,-history,-reorder/manage-customer-account/track-activity/reorder-previous-purchase\&quot; value=\&quot;Reorder Previous Purchase\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3010\&quot; y=\&quot;491\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/returning-customers---accounts,-history,-reorder/purchase-products/check-out/select-saved-address-at-checkout\&quot; value=\&quot;Select Saved Address at Checkout\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3460\&quot; y=\&quot;491\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/returning-customers---accounts,-history,-reorder/purchase-products/process-payment/select-saved-payment-method-at-checkout\&quot; value=\&quot;Select Saved Payment Method at Checkout\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3830\&quot; y=\&quot;491\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-label/pay-your-way---multi-vendor-payment-with-retries\&quot; value=\&quot;Pay your way - multi-vendor payment with retries\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#000000;fontSize=11;fontStyle=1;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;-123\&quot; y=\&quot;561\&quot; width=\&quot;150\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/pay-your-way---multi-vendor-payment-with-retries/purchase-products/process-payment/process-digital-wallet-payment-via-paynova\&quot; value=\&quot;Process Digital Wallet Payment via PayNova\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3950\&quot; y=\&quot;561\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/pay-your-way---multi-vendor-payment-with-retries/purchase-products/process-payment/process-buy-now-pay-later-via-vaultpay\&quot; value=\&quot;Process Buy-Now-Pay-Later via VaultPay\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4010\&quot; y=\&quot;561\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/pay-your-way---multi-vendor-payment-with-retries/purchase-products/process-payment/retry-failed-payment\&quot; value=\&quot;Retry Failed Payment\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4070\&quot; y=\&quot;561\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-label/pet-visits---gallery-and-in-store-appointments\&quot; value=\&quot;Pet visits - gallery and in-store appointments\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#000000;fontSize=11;fontStyle=1;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;-123\&quot; y=\&quot;631\&quot; width=\&quot;150\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/pet-visits---gallery-and-in-store-appointments/browse-available-pets/explore-pet-gallery/browse-pets-by-species\&quot; value=\&quot;Browse Pets by Species\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;550\&quot; y=\&quot;631\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/pet-visits---gallery-and-in-store-appointments/browse-available-pets/explore-pet-gallery/view-pet-profile\&quot; value=\&quot;View Pet Profile\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;610\&quot; y=\&quot;631\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/pet-visits---gallery-and-in-store-appointments/browse-available-pets/explore-pet-gallery/view-pet-store-location-and-distance\&quot; value=\&quot;View Pet Store Location and Distance\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;670\&quot; y=\&quot;631\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/pet-visits---gallery-and-in-store-appointments/browse-available-pets/manage-pet-listings/update-pet-profile\&quot; value=\&quot;Update Pet Profile\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;740\&quot; y=\&quot;631\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/pet-visits---gallery-and-in-store-appointments/browse-available-pets/manage-pet-listings/mark-pet-as-adopted\&quot; value=\&quot;Mark Pet as Adopted\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;800\&quot; y=\&quot;631\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/pet-visits---gallery-and-in-store-appointments/book-pet-visit/schedule-visit/view-available-time-slots-at-store\&quot; value=\&quot;View Available Time Slots at Store\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;880\&quot; y=\&quot;631\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/pet-visits---gallery-and-in-store-appointments/book-pet-visit/schedule-visit/select-date-and-time-slot\&quot; value=\&quot;Select Date and Time Slot\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;940\&quot; y=\&quot;631\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/pet-visits---gallery-and-in-store-appointments/book-pet-visit/schedule-visit/add-visit-note\&quot; value=\&quot;Add Visit Note\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1000\&quot; y=\&quot;631\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/pet-visits---gallery-and-in-store-appointments/book-pet-visit/schedule-visit/confirm-appointment-booking\&quot; value=\&quot;Confirm Appointment Booking\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1060\&quot; y=\&quot;631\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/pet-visits---gallery-and-in-store-appointments/book-pet-visit/manage-appointments/view-upcoming-and-past-appointments\&quot; value=\&quot;View Upcoming and Past Appointments\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1130\&quot; y=\&quot;631\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/pet-visits---gallery-and-in-store-appointments/book-pet-visit/manage-appointments/cancel-or-rebook-appointment-after-pet-adoption\&quot; value=\&quot;Cancel or Rebook Appointment After Pet Adoption\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1190\&quot; y=\&quot;631\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/pet-visits---gallery-and-in-store-appointments/book-pet-visit/manage-appointments/view-incoming-appointments\&quot; value=\&quot;View Incoming Appointments\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1250\&quot; y=\&quot;631\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/pet-visits---gallery-and-in-store-appointments/book-pet-visit/track-visit-outcomes/check-in-customer\&quot; value=\&quot;Check In Customer\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1320\&quot; y=\&quot;631\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/pet-visits---gallery-and-in-store-appointments/book-pet-visit/track-visit-outcomes/record-visit-outcome\&quot; value=\&quot;Record Visit Outcome\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1380\&quot; y=\&quot;631\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/pet-visits---gallery-and-in-store-appointments/book-pet-visit/track-visit-outcomes/record-no-show\&quot; value=\&quot;Record No-Show\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1440\&quot; y=\&quot;631\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/pet-visits---gallery-and-in-store-appointments/book-pet-visit/track-visit-outcomes/set-follow-up-action\&quot; value=\&quot;Set Follow-Up Action\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1500\&quot; y=\&quot;631\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/pet-visits---gallery-and-in-store-appointments/manage-customer-account/manage-profile/update-pet-profile\&quot; value=\&quot;Update Pet Profile\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2700\&quot; y=\&quot;631\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/pet-visits---gallery-and-in-store-appointments/manage-notifications/send-transactional-notifications/send-appointment-reminder\&quot; value=\&quot;Send Appointment Reminder\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4850\&quot; y=\&quot;631\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/pet-visits---gallery-and-in-store-appointments/manage-notifications/send-transactional-notifications/send-pet-adopted-before-visit-notification\&quot; value=\&quot;Send Pet Adopted Before Visit Notification\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4910\&quot; y=\&quot;631\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/pet-visits---gallery-and-in-store-appointments/manage-notifications/send-transactional-notifications/send-visit-follow-up-notification\&quot; value=\&quot;Send Visit Follow-Up Notification\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5030\&quot; y=\&quot;631\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-label/returns-and-refunds---close-the-loop\&quot; value=\&quot;Returns and refunds - close the loop\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#000000;fontSize=11;fontStyle=1;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;-123\&quot; y=\&quot;701\&quot; width=\&quot;150\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/returns-and-refunds---close-the-loop/return-products/initiate-return/initiate-return-from-order-history\&quot; value=\&quot;Initiate Return from Order History\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4400\&quot; y=\&quot;701\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/returns-and-refunds---close-the-loop/return-products/initiate-return/generate-return-label-or-qr-code\&quot; value=\&quot;Generate Return Label or QR Code\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4460\&quot; y=\&quot;701\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/returns-and-refunds---close-the-loop/return-products/process-refund/route-refund-through-original-payment-vendor\&quot; value=\&quot;Route Refund through Original Payment Vendor\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4530\&quot; y=\&quot;701\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/returns-and-refunds---close-the-loop/return-products/process-refund/track-refund-status\&quot; value=\&quot;Track Refund Status\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4590\&quot; y=\&quot;701\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/returns-and-refunds---close-the-loop/return-products/process-refund/process-in-store-return\&quot; value=\&quot;Process In-Store Return\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4650\&quot; y=\&quot;701\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/returns-and-refunds---close-the-loop/manage-notifications/send-transactional-notifications/send-return-and-refund-status-update\&quot; value=\&quot;Send Return and Refund Status Update\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4970\&quot; y=\&quot;701\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-label/marketing-engine---reviews,-alerts,-and-content\&quot; value=\&quot;Marketing engine - reviews, alerts, and content\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#000000;fontSize=11;fontStyle=1;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;-123\&quot; y=\&quot;771\&quot; width=\&quot;150\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/marketing-engine---reviews,-alerts,-and-content/browse-product-catalog/view-product-details/read-customer-reviews\&quot; value=\&quot;Read Customer Reviews\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;340\&quot; y=\&quot;771\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/marketing-engine---reviews,-alerts,-and-content/browse-product-catalog/review-products/submit-written-review-with-star-rating\&quot; value=\&quot;Submit Written Review with Star Rating\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;410\&quot; y=\&quot;771\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/marketing-engine---reviews,-alerts,-and-content/browse-product-catalog/review-products/submit-photo-review\&quot; value=\&quot;Submit Photo Review\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;470\&quot; y=\&quot;771\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/marketing-engine---reviews,-alerts,-and-content/manage-customer-account/manage-profile/set-communication-preferences\&quot; value=\&quot;Set Communication Preferences\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2760\&quot; y=\&quot;771\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/marketing-engine---reviews,-alerts,-and-content/manage-notifications/send-transactional-notifications/send-order-confirmation\&quot; value=\&quot;Send Order Confirmation\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4730\&quot; y=\&quot;771\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/marketing-engine---reviews,-alerts,-and-content/manage-notifications/send-transactional-notifications/send-shipping-update-with-tracking\&quot; value=\&quot;Send Shipping Update with Tracking\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4790\&quot; y=\&quot;771\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/marketing-engine---reviews,-alerts,-and-content/manage-notifications/send-transactional-notifications/send-click-and-collect-ready-notification\&quot; value=\&quot;Send Click-and-Collect Ready Notification\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5090\&quot; y=\&quot;771\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/marketing-engine---reviews,-alerts,-and-content/manage-notifications/send-marketing-notifications/opt-in-to-marketing-email-list\&quot; value=\&quot;Opt In to Marketing Email List\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5160\&quot; y=\&quot;771\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/marketing-engine---reviews,-alerts,-and-content/manage-notifications/send-marketing-notifications/send-promotional-email\&quot; value=\&quot;Send Promotional Email\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5220\&quot; y=\&quot;771\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/marketing-engine---reviews,-alerts,-and-content/manage-notifications/send-marketing-notifications/send-personalized-recommendation\&quot; value=\&quot;Send Personalized Recommendation\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5280\&quot; y=\&quot;771\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/marketing-engine---reviews,-alerts,-and-content/manage-notifications/send-marketing-notifications/send-restock-alert\&quot; value=\&quot;Send Restock Alert\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5340\&quot; y=\&quot;771\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/marketing-engine---reviews,-alerts,-and-content/manage-notifications/send-marketing-notifications/send-in-store-event-notification\&quot; value=\&quot;Send In-Store Event Notification\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5400\&quot; y=\&quot;771\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/marketing-engine---reviews,-alerts,-and-content/manage-notifications/manage-notification-preferences/set-notification-preferences\&quot; value=\&quot;Set Notification Preferences\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5470\&quot; y=\&quot;771\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/marketing-engine---reviews,-alerts,-and-content/manage-notifications/manage-notification-preferences/unsubscribe-from-marketing-emails\&quot; value=\&quot;Unsubscribe from Marketing Emails\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5530\&quot; y=\&quot;771\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-label/power-ups---search,-personalization,-admin-polish\&quot; value=\&quot;Power-ups - search, personalization, admin polish\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#000000;fontSize=11;fontStyle=1;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;-123\&quot; y=\&quot;841\&quot; width=\&quot;150\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/power-ups---search,-personalization,-admin-polish/browse-product-catalog/search-and-filter-products/search-products-by-keyword\&quot; value=\&quot;Search Products by Keyword\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;36\&quot; y=\&quot;841\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/power-ups---search,-personalization,-admin-polish/browse-product-catalog/search-and-filter-products/filter-products\&quot; value=\&quot;Filter Products\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;96\&quot; y=\&quot;841\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/power-ups---search,-personalization,-admin-polish/browse-product-catalog/search-and-filter-products/display-low-stock-badge\&quot; value=\&quot;Display Low Stock Badge\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;210\&quot; y=\&quot;841\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/power-ups---search,-personalization,-admin-polish/find-store/locate-stores/filter-stores-by-availability-and-specialization\&quot; value=\&quot;Filter Stores by Availability and Specialization\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1700\&quot; y=\&quot;841\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/power-ups---search,-personalization,-admin-polish/find-store/personalize-store-experience/set-my-store-preference\&quot; value=\&quot;Set My Store Preference\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1830\&quot; y=\&quot;841\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/power-ups---search,-personalization,-admin-polish/find-store/personalize-store-experience/tailor-experience-to-preferred-store\&quot; value=\&quot;Tailor Experience to Preferred Store\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1890\&quot; y=\&quot;841\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/power-ups---search,-personalization,-admin-polish/manage-customer-account/manage-profile/create-pet-profile\&quot; value=\&quot;Create Pet Profile\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2640\&quot; y=\&quot;841\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/power-ups---search,-personalization,-admin-polish/purchase-products/check-out/allow-backorder-purchase\&quot; value=\&quot;Allow Backorder Purchase\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3700\&quot; y=\&quot;841\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;inc-lane/power-ups---search,-personalization,-admin-polish/manage-store-operations/manage-inventory/view-inventory-dashboard\&quot; value=\&quot;View Inventory Dashboard\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5780\&quot; y=\&quot;841\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n            &lt;/root&gt;\n        &lt;/mxGraphModel&gt;\n    &lt;/diagram&gt;\n&lt;/mxfile&gt;&quot;}"></div></div><script type="text/javascript" src="https://viewer.diagrams.net/js/viewer-static.min.js"></script>
+<script src="../commons/catalog-drawio.js?v=foundry-1"></script>
+
+</div>
 
 <section class="install-block" aria-labelledby="install-npx-heading">
   <h2 id="install-npx-heading">Install with npx</h2>
@@ -1071,79 +1767,55 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 </section>
 
 
-<hr class="entry-divider">
+<div class="skill-cr-grid">
+<div class="skill-cr-col"><div class="skill-concepts">
+<h2 class="skill-concepts-heading">Concepts</h2>
+<details class="skill-concept"><summary>What is a Story Map Increment?</summary><div class="skill-concept-body"><p>An increment is a <strong>named, ordered slice</strong> of the story map you plan to <strong>ship or learn from before</strong> the next slice. It groups <strong>existing stories</strong> (verb–noun, flow order) under one increment: a <strong>sequenced backlog grouping</strong>, not a new epic. This skill turns a story map into a map <strong>with increments</strong>.</p></div></details>
+<details class="skill-concept"><summary>What is thin slicing?</summary><div class="skill-concept-body"><p><strong>Thin slicing</strong> means choosing the <strong>smallest</strong> increment that still <strong>completes a meaningful journey</strong> (value, demo, or learning)—often by taking <strong>just enough</strong> from multiple areas to achieve end-to-end flow, rather than finishing one part in depth. Early increments often <strong>trade polish for speed</strong> (e.g., manual steps, stubs, just one data path) to ensure we get <strong>quick, concrete feedback</strong>.</p>
+<p>This approach is especially useful in AI-heavy work, where it&#x27;s easy to go down the wrong path. Thin slices act as &quot;early checkpoints&quot; — before an AI creates large output based on one or two erroneous assumptions. Running an initial thin slice can quickly expose mismatches, missing context, or learning gaps.</p>
+<p>Later slices then <strong>add quality, automation, or robustness</strong> — refining the same journey with better tech or user experience (for example, moving from &quot;Manual…&quot; to &quot;Automated…&quot;). The goal: visible, valuable progress <strong>with every slice</strong>.</p></div></details>
+<details class="skill-concept"><summary>Vertical vs horizontal slices</summary><div class="skill-concept-body"><ul>
+<li><strong>Vertical (preferred):</strong> The increment cuts <strong>across</strong> epics/features: a little of order entry, payment, storage, confirmation — enough to go <strong>end-to-end</strong> (input → processing → persistence/feedback → visible outcome) in one slice.</li>
+<li><strong>Horizontal (avoid):</strong> Finish <strong>all</strong> of Epic A, then <strong>all</strong> of Epic B — layers that <strong>cannot</strong> be exercised end-to-end until late increments.</li>
+</ul></div></details>
+</div></div>
+<div class="skill-cr-col"><div class="skill-rules">
+<h2 class="skill-rules-heading">Rules</h2>
+<details class="skill-rule">
+<summary class="skill-rule-header">Apply quality trade-offs for a minimal spine</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Start with manual ops, stubbed integrations, or hard-coded data when that keeps a full journey testable sooner.</li><li>Use bare-bones forms or flows in increment 1; add validation and UX depth later.</li><li>Name increments so quality level is obvious—not “Phase 1 / Phase 2” or “Basic / Advanced” without saying what got better.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Put full automation, dynamic pricing, validation, error handling, and polished UX all in the first increment “because we’re agile.”</li><li>Organize increments as horizontal layers (all of “order entry,” then all of “payment”)—that delays end-to-end learning.</li><li>Leave trade-offs unspoken—reviewers should see why the slice is thin.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Decision prompts for increments</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Tie Increment 1 to the riskiest or most informative uncertainty you can address in a short vertical slice.</li><li>State which dimension you sliced on when it helps stakeholders reason about scope.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Sequence increments only by component build order with no outcome or learning rationale.</li><li>Skip stakeholder-visible naming—prompts should surface in increment titles and outcomes, not stay in a private worksheet only.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Design vertical-slice increments</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Include the smallest set of behaviors that still demonstrates the journey, across whatever parts of the map touch that journey.</li><li>Show integration points early—even if crudely (manual handoff, file store, simple UI).</li><li>Make partial completion visible per epic when helpful (e.g. “Invoice epic2/5 in this increment”) so progress is honest.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Plan “Increment 1 = all of character creation, Increment 2 = all of storage” with no playable journey until late.</li><li>Ship an increment that stops mid-air (no persistence, no visible result) and call it “done.”</li><li>Optimize for component completeness over journey demonstrability.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Identify marketable increments</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Use titles like Basic phone activation, Self-service order portal, Automated invoicing—outcomes people can demo or buy.</li><li>Align story lists under each increment to that one headline outcome.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Name increments API endpoints, Database schema, React components, or Sprint 3 without a capability story.</li><li>Hide value behind internal milestones when an external outcome is understandable.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Map sequential spine vs optional paths</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Sequence mandatory steps in order; mark alternates (e.g. OAuth vs password) as optional so you do not serialize independent choices.</li><li>Treat dashboard customization, sharing, extra reports as enhancements after “user sees default dashboard” works.</li><li>Treat deep error/retry paths as optional relative to the first marketable happy path—still implement them, but not always in increment 1.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>List three login methods as three sequential spine steps when one suffices for the slice.</li><li>Elevate nice-to-haves to the same mandatory rank as “user can complete core task.”</li><li>Forget markers (optional, alternate, enhancement) on the map or in metadata—reviewers cannot slice what they cannot distinguish.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Prioritize architectural risk validation</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Pull the riskiest integration into Increment 1 with the simplest journey that still hits the real system (auth, response shape, limits).</li><li>Deploy something real to the target environment early; validate connectivity, config, and observability.</li><li>Size performance or data-volume tests to match early concerns (e.g. report with 10k rows if that is the fear).</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Spend increments 1–2 on perfect UI while payment, identity, or hosting stays mocked or unspecified.</li><li>Assume infrastructure “will be fine”—prove it with a thin feature on real infra.</li><li>Treat “we’ll swap the mock later” as risk reduction without a dated, vertical slice that uses the real dependency.</li></ul></div>
+</details>
+</div></div>
+</div>
 
 
 
-<hr class="entry-divider">
-
-<h2 id="entry-contents">Contents</h2>
-<details class="entry-md-section" id="md-overview"><summary class="entry-md-section__summary">Overview</summary><div class="entry-md-section__body"><p>﻿--- name: abd-thin-slicing catalog_garden_tier: practice catalog_garden_order: 20 catalogue_one_liner: &gt;- Thin-sliced MVIs and backlog order from a story map; writes thin-slicing templates. description: &gt;- Produces thin-sliced delivery increments — vertical MVIs, spine vs optional paths, quality trade-offs, marketable increment names, and early risk validation. Use when planning releases, MVIs, backlog order, or thin/vertical slices after story mapping.</p>
-<hr>
-<h1>abd-thin-slicing</h1></div></details>
-<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p><strong>Define prioritized increments.</strong> Group stories in a <strong>story map</strong> (and any notes on risk, constraints, or learning goals) into prioritized increments that can be delivered together. Each increment includes its priority order, outcomes, slicing notes, and an ordered list of stories.</p>
-<hr></div></details>
-<details class="entry-md-section" id="output-file"><summary class="entry-md-section__summary">Output file</summary><div class="entry-md-section__body"><p><strong>Deliverables folder:</strong> see `../agent-protocol.md` — Output file resolution.</p>
-<p><strong>File name:</strong> `thin-slicing.md`. Add a `&lt;name&gt;-` prefix only when disambiguation is needed.</p>
-<hr></div></details>
-<details class="entry-md-section" id="agent-instructions"><summary class="entry-md-section__summary">Agent Instructions</summary><div class="entry-md-section__body"><p>&gt; <strong>MANDATORY — read `../agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.</strong></p>
-<h3>1. Read context</h3>
-<p>Read these files:</p>
-<ul>
-<li><strong>`reference/concepts.md`</strong> — definitions of increments, thin slicing, and vertical vs horizontal slices.</li>
-<li><strong>`reference/examples.md`</strong> — output shape examples and weak patterns to avoid.</li>
-</ul>
-<h3>2. Generate</h3>
-<p>Read every file in <strong>`rules/`</strong>; author to those rules.</p>
-<p><strong>Produce the template:</strong></p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>Produce</th></tr></thead><tbody><tr><td>`templates/thin-slicing.md`</td><td>Increments: <strong>name</strong>, <strong>outcome</strong>, optional <strong>slicing notes</strong>, ordered <strong>story</strong> bullets (<em>italic</em> domain terms where helpful). Optional product/context at top. No template `## Instructions` in the deliverable.</td></tr></tbody></table></div>
-<p><strong>New files under `templates/` later</strong> → one deliverable per file.</p>
-<p><strong>Workflow steps:</strong></p>
-<p>1. <strong>Read inputs</strong> — story map / graph, PO or tech notes, known risks and dependencies. 2. <strong>Mark spine vs optional</strong> — mandatory core sequence vs alternates, enhancements, deep error paths (see `rules/map-sequential-spine-vs-optional-paths.md`). 3. <strong>Cut vertical slices</strong> — each increment is an <strong>end-to-end</strong> demonstrable path (even if manual/stubbed); avoid horizontal &quot;finish epic A, then epic B.&quot; 4. <strong>Name for value</strong> — increment titles = stakeholder-visible <strong>capability</strong>, not phase or stack labels. 5. <strong>Pull stories</strong> — under each increment, list <strong>verb-noun</strong> stories in <strong>flow order</strong>; don&#x27;t paste the whole map unless asked.</p>
-<p>&gt; <strong>Story names MUST be copied verbatim from `story-map.md` / `story-graph.json` — character-for-character, including every parenthetical qualifier.</strong> &gt; - `- Load FX Resource Catalog (FxRepo.data)` (correct — exact) &gt; - `- Load FX Resource Catalog` (WRONG — trimmed; creates an orphan; scanner will catch this) &gt; - `- System --&gt; Load Crowd from Repository` (WRONG — actor prefix; parser stores &quot;System&quot; as the name)</p>
-<p>6. <strong>Write the template file</strong> — fill <strong>`templates/thin-slicing.md`</strong> with the increments and stories (<em>italics</em> on domain terms where helpful). 7. <strong>Omit maintainer noise</strong> — do <strong>not</strong> copy the template&#x27;s `## Instructions` block into project deliverables.</p>
-<p><strong>Before:</strong> `abd-story-mapping` — produces the story map this skill slices. <strong>After:</strong> `abd-story-acceptance-criteria`, `abd-story-specification` — add story detail once priorities are set.</p>
-<h3>3. Validate</h3>
-<p>Run the story-name exact-match scanner first:</p>
-<pre><code>python skills/abd-thin-slicing/scanners/story-name-exact-match-scanner.py --workspace &lt;path-to-project&gt;</code></pre>
-<p>Exit code 1 means story name mismatches — <strong>do not proceed until it passes</strong>.</p>
-<p>Then run all scanners:</p>
-<pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py --skill-root skills/abd-thin-slicing --workspace &lt;path-to-project&gt;</code></pre>
-<p>Then emit per-rule verdicts per `../agent-protocol.md`.</p>
-<hr></div></details>
-<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><ul>
-<li>Each increment shows a vertical path (input → processing → outcome), not a layer.</li>
-<li>Increment names are stakeholder-visible capabilities, not internal milestones.</li>
-<li>Quality trade-offs are named (&quot;Manual…&quot; → &quot;Automated…&quot;), not hidden.</li>
-<li>Story names in `thin-slicing.md` are character-for-character identical to the source story map.</li>
-</ul>
-<hr></div></details>
-
-<ul class="file-list file-list--root">
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>reference/</strong><span class="file-meta"> → Folder (2 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/supporting/abd-thin-slicing/reference/concepts.md" target="_blank" rel="noopener noreferrer"><strong>concepts.md</strong></a><span class="file-meta"> → Thin Slicing — Core Concepts</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/supporting/abd-thin-slicing/reference/examples.md" target="_blank" rel="noopener noreferrer"><strong>examples.md</strong></a><span class="file-meta"> → Thin Slicing — Example Output Shape</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/supporting/abd-thin-slicing/rules/apply-quality-tradeoffs-for-minimal-spine.md" target="_blank" rel="noopener noreferrer"><strong>apply-quality-tradeoffs-for-minimal-spine.md</strong></a><span class="file-meta"> → Rule: Apply quality trade-offs for a minimal spine</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/supporting/abd-thin-slicing/rules/decision-prompts-for-increments.md" target="_blank" rel="noopener noreferrer"><strong>decision-prompts-for-increments.md</strong></a><span class="file-meta"> → Rule: Decision prompts for increments</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/supporting/abd-thin-slicing/rules/design-vertical-slice-increments.md" target="_blank" rel="noopener noreferrer"><strong>design-vertical-slice-increments.md</strong></a><span class="file-meta"> → Rule: Design vertical-slice increments</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/supporting/abd-thin-slicing/rules/identify-marketable-increments.md" target="_blank" rel="noopener noreferrer"><strong>identify-marketable-increments.md</strong></a><span class="file-meta"> → Rule: Identify marketable increments</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/supporting/abd-thin-slicing/rules/map-sequential-spine-vs-optional-paths.md" target="_blank" rel="noopener noreferrer"><strong>map-sequential-spine-vs-optional-paths.md</strong></a><span class="file-meta"> → Rule: Map sequential spine vs optional paths</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/supporting/abd-thin-slicing/rules/prioritize-architectural-risk-validation.md" target="_blank" rel="noopener noreferrer"><strong>prioritize-architectural-risk-validation.md</strong></a><span class="file-meta"> → Rule: Prioritize architectural risk validation</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>scanners/</strong><span class="file-meta"> → Folder (2 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/supporting/abd-thin-slicing/scanners/__init__.py" target="_blank" rel="noopener noreferrer"><strong>__init__.py</strong></a><span class="file-meta"> → No preview available.</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/supporting/abd-thin-slicing/scanners/story-name-exact-match-scanner.py" target="_blank" rel="noopener noreferrer"><strong>story-name-exact-match-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/supporting/abd-thin-slicing/templates/exemplar-thin-slicing.drawio" target="_blank" rel="noopener noreferrer"><strong>exemplar-thin-slicing.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&#x27;1.0&#x27; encoding=&#x27;utf-8&#x27;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/supporting/abd-thin-slicing/templates/exemplar-thin-slicing.md" target="_blank" rel="noopener noreferrer"><strong>exemplar-thin-slicing.md</strong></a><span class="file-meta"> → Thin slicing — PawPlace incremental backlog</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/supporting/abd-thin-slicing/templates/thin-slicing.md" target="_blank" rel="noopener noreferrer"><strong>thin-slicing.md</strong></a><span class="file-meta"> → ﻿# Thin slicing -- incremental backlog</span></li>
-</ul></div></details></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/supporting/abd-thin-slicing/corrections-log.md" target="_blank" rel="noopener noreferrer"><strong>corrections-log.md</strong></a><span class="file-meta"> → ﻿# Corrections log</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/supporting/abd-thin-slicing/SKILL.md" target="_blank" rel="noopener noreferrer"><strong>SKILL.md</strong></a><span class="file-meta"> → name: abd-thin-slicing</span></li>
-</ul>
 
 </div>
 </div>

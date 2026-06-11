@@ -21,7 +21,7 @@ Bootcamp stages — the stage files in `reference/stages/`. Check each stage inc
 - [ ] **Exploration** — UX mockups, architecture template *(opt in)*
 - [x] **Specification** — domain model, spec-by-example, interface design as needed *(default)*
 - [x] **Engineering** — Class Model, ATDD, production code *(default)*
-- [ ] **Engineering** — `abd-ux-specification` implementation pass *(opt in when UI-heavy)*
+- [ ] **Engineering** — production UI via `abd-architecture-code` *(opt in when UI-heavy; prototype already in Specification)*
 - [x] **Regression testing** *(default)*
 - [ ] **User testing / UAT** *(not default)*
 

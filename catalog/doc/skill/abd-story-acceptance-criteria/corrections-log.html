@@ -471,7 +471,22 @@ html[data-abd-theme="executive"] .catalog-body code {
 }
 
 .page-hero--detail {
-  padding-top: 48px;
+  padding-top: 20px;
+  padding-bottom: 16px;
+}
+.page-hero--detail .page-headline {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 4px 0 6px;
+}
+.page-headline .skill-name-prefix,
+.cap-card__title .skill-name-prefix {
+  color: var(--accent);
+}
+.page-hero--detail .body-lead {
+  font-size: 0.9rem;
+  margin: 0;
+  color: var(--muted);
 }
 
 .page-hero--detail .back-link {
@@ -731,8 +746,18 @@ a.cap-card:hover .cap-card__more {
   color: #b8b8c2;
   margin: 0 0 18px;
 }
+.skill-detail-page .skill-hero-img-wrap + .install-block {
+  margin-top: 18px;
+}
+.skill-detail-page .install-block + .skill-cr-grid,
+.skill-detail-page .install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block {
+  margin-top: 0;
+}
 .install-block {
-  margin: 22px 0 0;
+  margin: 20px 0 0;
   padding: 16px 18px;
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid var(--border-muted);
@@ -1041,8 +1066,603 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 .plugin-slots h3:first-child { margin-top: 0; }
 .cap-grid--plugin-slot { margin-bottom: 8px; }
 
+/* ── Skill detail: family kanban stage nav (matches hub column headings) ── */
+.skill-kanban-nav {
+  --fam-sdd: #6bcb77;
+  --fam-ddd: #6c5ce7;
+  --fam-uxd: #e84393;
+  --fam-arc: #4fc3f7;
+  --fam-idea: var(--accent);
+  --abd-accent: var(--accent);
+  --abd-accent-glow: var(--accent-soft, var(--accent));
+  --abd-raised: var(--raised);
+  --abd-bg: var(--bg);
+  --abd-border: var(--border);
+  --abd-text: var(--text);
+  --abd-muted: var(--muted);
+  background: var(--raised);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0 16px;
+}
+.skill-kanban-nav .wrap {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.skill-kanban-nav__board {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  gap: 6px 8px;
+  align-items: start;
+}
+.skill-kanban-nav__practice-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  margin: 0;
+  padding: 0 8px;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-left-width: 3px;
+  border-radius: 4px;
+  line-height: 1.25;
+  box-sizing: border-box;
+  transition: box-shadow 120ms, border-color 120ms;
+  color: inherit;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card:hover {
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--sdd {
+  border-left-color: var(--fam-sdd);
+  color: var(--fam-sdd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--ddd {
+  border-left-color: var(--fam-ddd);
+  color: var(--fam-ddd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--uxd {
+  border-left-color: var(--fam-uxd);
+  color: var(--fam-uxd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--arc {
+  border-left-color: var(--fam-arc);
+  color: var(--fam-arc);
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap {
+  position: relative;
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip.kb-col-shape-tooltip {
+  min-width: 10rem;
+  max-width: 22rem;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:hover .kb-skill-tooltip,
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:focus-within .kb-skill-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.skill-kanban-nav__stages {
+  display: grid;
+  grid-template-columns: repeat(var(--skill-kanban-cols, 5), minmax(0, 1fr));
+  gap: 0 8px;
+  min-width: 0;
+}
+.skill-kanban-nav__col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.skill-kanban-nav__tickets {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.skill-kanban-nav .kb-col-head {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 8px 6px 7px;
+  font-family: var(--font-mono);
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.skill-kanban-nav .kb-col-head--static {
+  cursor: default;
+}
+.skill-kanban-nav a.kb-col-head {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav a.kb-col-head:hover {
+  border-color: rgba(229, 83, 26, 0.35);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.15);
+}
+.skill-kanban-nav .kb-col-head--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-col-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+}
+.skill-kanban-nav .kb-col-scope-shape {
+  flex-shrink: 0;
+  border: 2px solid var(--abd-accent);
+  border-radius: 2px;
+}
+.skill-kanban-nav__stages .kb-col-shape-tooltip,
+.skill-kanban-nav__stages .kb-skill-tooltip-wrap .kb-col-shape-tooltip {
+  display: none !important;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 8px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 7px 9px;
+  font-family: var(--font-mono);
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid rgba(229, 83, 26, 0.45);
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 14px;
+  border: 5px solid transparent;
+  border-bottom-color: rgba(229, 83, 26, 0.45);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__name {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--abd-accent-glow);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__bullets {
+  font-size: 8px;
+  line-height: 1.45;
+  color: var(--abd-text);
+  white-space: pre-line;
+}
+.skill-kanban-nav .kb-col-scope-shape--solution { width: 36px; height: 12px; }
+.skill-kanban-nav .kb-col-scope-shape--increment { width: 24px; height: 16px; }
+.skill-kanban-nav .kb-col-scope-shape--sprint { width: 16px; height: 22px; }
+.skill-kanban-nav .kb-col-scope-shape--story { width: 11px; height: 28px; }
+.skill-kanban-nav .kb-col-head-title {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--abd-text);
+}
+.skill-kanban-nav .kb-col-head-title > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.skill-kanban-nav .kb-col-num {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--abd-text);
+  background: var(--abd-bg);
+  border: 1px solid var(--abd-border);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+.skill-kanban-nav .kb-ticket {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  background: var(--abd-raised);
+  color: var(--abd-text);
+  padding: 5px 6px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  border-left-width: 3px;
+  border-left-color: var(--abd-muted);
+  line-height: 1.25;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav .kb-ticket:hover {
+  border-color: var(--abd-border);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.2);
+}
+.skill-kanban-nav .kb-ticket.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-ticket.aad-fam-sdd { border-left-color: var(--fam-sdd); }
+.skill-kanban-nav .kb-ticket.aad-fam-ddd { border-left-color: var(--fam-ddd); }
+.skill-kanban-nav .kb-ticket.aad-fam-uxd { border-left-color: var(--fam-uxd); }
+.skill-kanban-nav .kb-ticket.aad-fam-arc { border-left-color: var(--fam-arc); }
+.skill-kanban-nav .kb-ticket.aad-fam-idea { border-left-color: var(--fam-idea); }
+@media (max-width: 960px) {
+  .skill-kanban-nav__board {
+    grid-template-columns: 1fr;
+  }
+  .skill-kanban-nav__stages {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
+
+/* ── Skill detail: full-width hero image / embedded viewer ── */
+.skill-hero-img-wrap {
+  margin: 24px 0 0;
+}
+.skill-hero-img-wrap:empty { display: none; }
+.skill-hero-img-wrap img,
+.skill-hero-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--raised);
+}
+
+/* HTML prototype iframe (reference/example/index.html) */
+.skill-prototype-wrap {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-prototype-frame {
+  display: block;
+  width: 100%;
+  min-height: 540px;
+  height: 71vh;
+  max-height: 810px;
+  border: 0;
+  background: #fff;
+}
+.skill-prototype-open {
+  margin: 0;
+  padding: 8px 14px;
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+  background: var(--raised);
+}
+.skill-prototype-open a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.skill-prototype-open a:hover { text-decoration: underline; }
+
+/* draw.io embedded viewer */
+.skill-drawio-wrap {
+  position: relative;
+  width: 100%;
+  height: min(71vh, 680px);
+  min-height: 340px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-drawio-wrap .mxgraph {
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+}
+.skill-drawio-wrap .geToolbarContainer {
+  z-index: 4;
+}
+
+/* code file preview */
+.skill-code-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--raised);
+  font-size: 13px;
+}
+.skill-code-lang {
+  padding: 6px 14px;
+  font-family: var(--mono, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.skill-code-preview pre {
+  margin: 0;
+  padding: 16px;
+  overflow-x: auto;
+  max-height: 420px;
+}
+.skill-code-preview code {
+  font-family: var(--mono, 'JetBrains Mono', monospace);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+/* rendered markdown preview */
+.skill-hero-img-wrap .skill-md-preview {
+  max-height: min(71vh, 610px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.skill-md-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px 24px;
+  background: var(--surface);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.skill-md-preview h1 { font-size: 18px; font-weight: 700; margin: 0 0 12px; }
+.skill-md-preview h2 { font-size: 15px; font-weight: 600; margin: 16px 0 8px;
+  border-bottom: 1px solid var(--border); padding-bottom: 3px; }
+.skill-md-preview h3 { font-size: 13px; font-weight: 600; margin: 12px 0 6px; }
+.skill-md-preview h4 { font-size: 12px; font-weight: 600; margin: 10px 0 4px; color: var(--muted); }
+.skill-md-preview p  { margin: 0 0 10px; }
+.skill-md-preview .spec-steps { margin: 0 0 14px; }
+.skill-md-preview p.spec-step { margin: 0 0 4px; line-height: 1.55; }
+.skill-md-preview .md-table-wrap { overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview .md-table { border-collapse: collapse; width: 100%; }
+.skill-md-preview ul, .skill-md-preview ol { margin: 0 0 10px; padding-left: 20px; }
+.skill-md-preview li { margin-bottom: 3px; }
+.skill-md-preview code { background: var(--raised); border-radius: 3px;
+  padding: 1px 5px; font-family: var(--mono, monospace); font-size: 12px; }
+.skill-md-preview pre { background: var(--raised); border-radius: 5px;
+  padding: 12px; overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview table { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
+.skill-md-preview th, .skill-md-preview td {
+  border: 1px solid var(--border); padding: 6px 10px; }
+.skill-md-preview th { background: var(--raised); font-weight: 600; }
+
+/* ── Skill detail: concepts | rules two-column grid ── */
+.skill-cr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin: 24px 0 0;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .skill-cr-grid { grid-template-columns: 1fr; }
+}
+.skill-cr-col { min-width: 0; }
+.skill-cr-single { margin: 24px 0 0; }
+
+/* Glossary example hero — term blocks without heavy HR dividers */
+.skill-md-preview--glossary h1 {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 10px;
+  border: 0;
+  padding: 0;
+}
+.skill-md-preview--glossary h2 {
+  font-size: 16px;
+  margin-top: 0;
+}
+.skill-md-preview--glossary h3 {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 14px 0 6px;
+  padding: 6px 8px;
+  background: var(--raised);
+  border-radius: 4px;
+  border-left: 3px solid var(--accent);
+}
+.skill-md-preview--glossary hr {
+  display: none;
+}
+.skill-md-preview--glossary ul {
+  margin-top: 0;
+}
+
+/* ── Skill detail: full-width content below ── */
+.skill-detail-content-col { margin-top: 32px; }
+.skill-detail-page .skill-cr-grid,
+.skill-detail-page .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-single,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-single {
+  margin-top: 0;
+}
+
+/* ── Skill detail: concepts (expandable) ── */
+.skill-hero-img-wrap + .install-block {
+  margin-top: 16px;
+}
+.install-block + .skill-cr-grid,
+.install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-concepts {
+  margin: 0 0 20px;
+}
+.skill-concepts-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 8px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-concept {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-concept summary {
+  padding: 8px 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  user-select: none;
+}
+.skill-concept summary::-webkit-details-marker { display: none; }
+.skill-concept summary::marker { content: ""; }
+.skill-concept summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-concept[open] summary::before { content: "\2212"; }
+.skill-concept-body {
+  padding: 6px 4px 10px 1.9rem;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.skill-concept-body p { margin: 0 0 8px; }
+.skill-concept-body p:last-child { margin-bottom: 0; }
+.skill-concept-body ul { margin: 0 0 8px 1.1em; padding: 0; }
+.skill-concept-body li { margin: 3px 0; }
+
+/* ── Skill detail: rules (DO / DON'T) ── */
+.skill-rules {
+  margin: 0 0 20px;
+}
+.skill-rules-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 12px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-rule {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule[open] > .skill-rule-header {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule-header {
+  padding: 8px 10px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  background: var(--raised);
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+.skill-rule-header::-webkit-details-marker { display: none; }
+.skill-rule-header::marker { content: ""; }
+.skill-rule-header::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-rule[open] > .skill-rule-header::before {
+  content: "\2212";
+}
+.skill-rule-section {
+  padding: 8px 12px;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+.skill-rule-section--do {
+  border-left: 3px solid #2d8a4e;
+}
+.skill-rule-section--dont {
+  border-left: 3px solid #c0392b;
+}
+.skill-rule-section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+  color: var(--muted);
+}
+.skill-rule-section--do .skill-rule-section-label { color: #2d8a4e; }
+.skill-rule-section--dont .skill-rule-section-label { color: #c0392b; }
+.skill-rule-section ul { margin: 0; padding: 0 0 0 1.1em; }
+.skill-rule-section li { margin: 2px 0; color: var(--text); }
+
 </style>
-<script src="../../../commons/catalog-nav.js?v=foundry-8"></script>
+<script src="../../../commons/catalog-nav.js?v=foundry-9"></script>
 </head>
 <body data-nav-prefix="../../../" data-nav-current="skills" data-nav-site-base="../../../../../abd-works-website/">
 <main id="main-content">
@@ -1051,6 +1671,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
   <div class="wrap">
     <a class="back-link" href="../../../skill/abd-story-acceptance-criteria.html">← abd-story-acceptance-criteria</a>
     <p class="s-name">Markdown</p>
+
     <h1 class="page-headline">corrections-log.md</h1>
     <p class="body-lead">﻿——#   C o r r e c t i o n s   l o g </p>
   </div>
@@ -1060,7 +1681,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <div class="wrap">
 
 <h2>Content</h2>
-<div class="rule-prose"><p>﻿——#   C o r r e c t i o n s   l o g         P r o j e c t :   a b d - a c c e p t a n c e - c r i t e r i a   s k i l l     S o u r c e :   a b d - a c c e p t a n c e - c r i t e r i a   s k i l l   ( p i p e l i n e   r u n s )         - - -         # #   E n t r y :   A C   i n v e n t e d   d o m a i n   t e r m   n o t   p r e s e n t   i n   U b i q u i t o u s   L a n g u a g e         -   <em> </em> S t a t u s : <em> </em>   c o n f i r m e d     -   <em> </em> C o n t e x t : <em> </em>   a b d - a c c e p t a n c e - c r i t e r i a      c h e c k - r e s o l u t i o n   m o d u l e ,   s t o r y   &quot; M a k e   R e s i s t a n c e   C h e c k   A g a i n s t   E f f e c t &quot;     -   <em> </em> D O : <em> </em>   O n l y   u s e   t e r m s   i n   ` # # # #   D o m a i n   t e r m s `   s e c t i o n s   t h a t   h a v e   a   c o r r e s p o n d i n g   c o n c e p t   b l o c k   i n   t h e   m o d u l e &#x27; s   U b i q u i t o u s   L a n g u a g e .   I f   a   c o n c e p t   i s   n e e d e d   b u t   m i s s i n g   f r o m   t h e   s k e t c h ,   a d d   t h e   c o n c e p t   b l o c k   t o   t h e   s k e t c h   f i r s t      d o   n o t   i n v e n t   a   t e r m   i n   t h e   A C   t o   f i l l   t h e   g a p .     -   <em> </em> E x a m p l e   ( w r o n g ) : <em> </em>         ` <em> C o n d i t i o n   T r a c k </em>      t h e   s e q u e n c e   o f   c o n d i t i o n s   t h e   e f f e c t   i m p o s e s   a t   e a c h   d e g r e e   o f   f a i l u r e `      t h i s   t e r m   h a d   n o   c o n c e p t   b l o c k   i n   t h e   U b i q u i t o u s   L a n g u a g e ;   i t   w a s   f a b r i c a t e d   t o   b r i d g e   a   m o d e l i n g   g a p .     -   <em> </em> E x a m p l e   ( c o r r e c t ) : <em> </em>         T h e   f a b r i c a t e d   t e r m   w a s   r e m o v e d .   T h e   r e l a t e d   c o n c e p t   ` <em> S u p e r s e s s i o n   C h a i n </em> `   w a s   e x t r a c t e d   i n t o   i t s   o w n   ` # # #   s u p e r s e s s i o n   c h a i n `   c o n c e p t   b l o c k   i n   t h e   U b i q u i t o u s   L a n g u a g e   b e f o r e   b e i n g   r e f e r e n c e d   i n   t h e   A C .     -   <em> </em> L i k e l y   s o u r c e : <em> </em>   p r o m p t   g a p      t h e   s k i l l   d o e s   n o t   r e q u i r e   c r o s s - c h e c k i n g   e v e r y   ` # # # #   D o m a i n   t e r m s `   e n t r y   a g a i n s t   a n   e x i s t i n g   c o n c e p t   b l o c k   i n   t h e   U b i q u i t o u s   L a n g u a g e   b e f o r e   w r i t i n g   i t .         - - -         # #   E n t r y :   A C   r e s t a t e s   a l r e a d y - s p e c i f i e d   m e c h a n i c   f r o m   a n o t h e r   s t o r y         -   <em> </em> S t a t u s : <em> </em>   c o n f i r m e d     -   <em> </em> C o n t e x t : <em> </em>   a b d - a c c e p t a n c e - c r i t e r i a      c h e c k - r e s o l u t i o n   m o d u l e ,   s t o r y   &quot; R o l l   R e s i s t a n c e   C h e c k   A g a i n s t   O n g o i n g   E f f e c t   t o   R e m o v e   C o n d i t i o n s &quot;     -   <em> </em> D O : <em> </em>   E a c h   A C   m u s t   s p e c i f y   b e h a v i o r   u n i q u e   t o   i t s   s t o r y &#x27; s   c o n t e x t .   D o   n o t   o p e n   w i t h   a n   A C   t h a t   r e s t a t e s   a   m e c h a n i c   a l r e a d y   f u l l y   s p e c i f i e d   i n   a   p r i o r   s t o r y      i t   a d d s   n o   b e h a v i o r a l   v a l u e   a n d   d i l u t e s   t h e   s p e c .     -   <em> </em> E x a m p l e   ( w r o n g ) : <em> </em>         A C   1 :   &quot; W H E N   a   c h a r a c t e r   m a k e s   a   R e s i s t a n c e   C h e c k   a g a i n s t   a n   O n g o i n g   E f f e c t   T H E N   t h e   s y s t e m   r e s o l v e s   t h e   c h e c k   a s   d 2 0   +   D e f e n s e   B o n u s   v s   E f f e c t   D C   ( 1 0   +   E f f e c t   R a n k ) &quot;      i d e n t i c a l   t o   t h e   m e c h a n i c   a l r e a d y   c o v e r e d   i n   &quot; M a k e   R e s i s t a n c e   C h e c k   A g a i n s t   E f f e c t &quot; .   S a y s   n o t h i n g   u n i q u e   t o   t h e   O n g o i n g   E f f e c t   s t o r y .     -   <em> </em> E x a m p l e   ( c o r r e c t ) : <em> </em>         A C   1   n o w   o p e n s   w i t h   w h a t   i s   s p e c i f i c   t o   t h i s   s t o r y :   t h e   e f f e c t   e n d i n g ,   a l l   i t s   c o n d i t i o n s   r e m o v e d ,   a n d   a n y   i n a c t i v e   c o n d i t i o n s   t h a t   w e r e   b l o c k e d   b y   t h o s e   r e m o v e d   c o n d i t i o n s   b e c o m i n g   a c t i v e .     -   <em> </em> L i k e l y   s o u r c e : <em> </em>   p r o m p t   g a p      t h e   s k i l l   d o e s   n o t   i n s t r u c t   c h e c k i n g   w h e t h e r   a   g i v e n   A C   a d d s   n e w   b e h a v i o r a l   s p e c i f i c i t y   v s   r e s t a t i n g   a   m e c h a n i c   c o v e r e d   i n   a   p r i o r   s t o r y .         - - -         - - -         # #   E n t r y :   E n g a g e m e n t   p r e f i x   o n   o u t p u t   f i l e n a m e   i s   o p t i o n a l         -   <em> </em> S t a t u s : <em> </em>   c o n f i r m e d     -   <em> </em> C o n t e x t : <em> </em>   s t o r y - d r i v e n   p h a s e   o u t p u t   f i l e n a m e     -   <em> </em> D O   /   D O   N O T : <em> </em>   D O   d e f a u l t   t o   t h e   t e m p l a t e   f i l e n a m e   ——  ` s t o r y - m a p . m d ` ,   ` t h i n - s l i c i n g . m d ` ,   ` a c c e p t a n c e - c r i t e r i a . m d ` ,   ` s p e c i f i c a t i o n - b y - e x a m p l e . m d `   ( a n d   t h e i r   ` . t x t `   p a r t n e r s   w h e r e   a p p l i c a b l e ) .   D O   a d d   a   ` &lt; n a m e &gt; - `   e n g a g e m e n t   p r e f i x   o n l y   w h e n   y o u   n e e d   d i s a m b i g u a t i o n :   m u l t i p l e   p r o d u c t s   i n   t h e   s a m e   w o r k s p a c e ,   m u l t i p l e   s t o r i e s   s h a r i n g   o n e   f o l d e r ,   o r   t h e   u s e r   a s k s   f o r   i t .   D O   N O T   m a n d a t e   t h e   p r e f i x   a s   t h e   o n l y   v a l i d   f o r m ,   a n d   D O   N O T   i n v e n t   a   s u b - f o l d e r   l i k e   ` s t o r i e s / ` ,   ` s p e c s / ` ,   ` s l i c e s / ` ,   ` d o c s / `   ——  w r i t e   n e x t   t o   o t h e r   e n g a g e m e n t   d e l i v e r a b l e s .     -   <em> </em> E x a m p l e   ( w r o n g ,   f o r c e d   p r e f i x   a n d   f o l d e r ) : <em> </em>   W r i t i n g   ` d o c s / p a w - p l a c e - t h i n - s l i c i n g . m d `   w h e n   t h e   e n g a g e m e n t   w o r k s p a c e   a l r e a d y   k e e p s   d e l i v e r a b l e s   i n   ` d o c s / `   a n d   o n l y   h o s t s   o n e   p r o d u c t .   T h e   ` p a w - p l a c e - `   p r e f i x   i s   n o i s e .     -   <em> </em> E x a m p l e   ( c o r r e c t ) : <em> </em>   D e f a u l t   t o   ` t h i n - s l i c i n g . m d `   w r i t t e n   n e x t   t o   e x i s t i n g   e n g a g e m e n t   d e l i v e r a b l e s .   A d d   a   p r e f i x   o n l y   w h e n   d i s a m b i g u a t i o n   i s   n e e d e d .     -   <em> </em> L i k e l y   s o u r c e : <em> </em>   e a r l i e r   i n   t h i s   s e s s i o n   t h e   s k i l l   e m i t t e d   ` &lt; n a m e &gt; - &lt; p h a s e &gt; . m d `   u n c o n d i t i o n a l l y ,   t h e n   w r i t i n g   i n t o   a   h a r d c o d e d   f o l d e r ;   t h e   u s e r   m o v e d   t h e   f i l e s   m a n u a l l y   a n d   a s k e d   t h a t   t h e   p r e f i x   b e   o p t i o n a l   a n d   t h e   f o l d e r   d r i v e n   b y   w h e r e   o t h e r   d e l i v e r a b l e s   a l r e a d y   l i v e .         - - -         # #   E n t r y :   D o m a i n   t e r m s   s e c t i o n   m u s t   b e   H 3   h e a d i n g ,   n o t   b o l d   t e x t         -   <em> </em> S t a t u s : <em> </em>   c o n f i r m e d     -   <em> </em> C o n t e x t : <em> </em>   a b d - a c c e p t a n c e - c r i t e r i a      p e r - s t o r y   D o m a i n   t e r m s   s e c t i o n     -   <em> </em> D O : <em> </em>   W r i t e   ` # # #   D o m a i n   t e r m s `   a s   a n   H 3   h e a d i n g   a b o v e   t h e   t e r m s   l i s t   f o r   e v e r y   s t o r y .     -   <em> </em> D O   N O T : <em> </em>   U s e   ` <em> </em> D o m a i n   t e r m s <em> </em> `   o r   ` <em> </em> D o m a i n   t e r m s : <em> </em> `   ( b o l d   t e x t )      t h e   s c a n n e r   r e g e x   ` ^ # # # \ s + D o m a i n   t e r m s `   w i l l   n o t   m a t c h   b o l d   a n d   t h e   d o m a i n - t e r m s - s o u r c e - s c a n n e r   w i l l   s i l e n t l y   s k i p   t h e   w h o l e   s t o r y .     -   <em> </em> E x a m p l e   ( w r o n g ) : <em> </em>         ` <em> </em> D o m a i n   t e r m s : <em> </em> `         ` -   <em> G a m e   P r o c e s s </em>      . . . `     -   <em> </em> E x a m p l e   ( c o r r e c t ) : <em> </em>         ` # # #   D o m a i n   t e r m s `         ` -   <em> G a m e   P r o c e s s </em>      . . . `     -   <em> </em> L i k e l y   s o u r c e : <em> </em>   p r o m p t   g a p      s k i l l   i n s t r u c t i o n s   d i d   n o t   e x p l i c i t l y   c a l l   o u t   h e a d i n g   l e v e l   v s   b o l d   f o r   t h e   D o m a i n   t e r m s   m a r k e r .     </p></div>
+<div class="rule-prose"><p>﻿——#   C o r r e c t i o n s   l o g         P r o j e c t :   a b d - a c c e p t a n c e - c r i t e r i a   s k i l l     S o u r c e :   a b d - a c c e p t a n c e - c r i t e r i a   s k i l l   ( p i p e l i n e   r u n s )         - - -         # #   E n t r y :   A C   i n v e n t e d   d o m a i n   t e r m   n o t   p r e s e n t   i n   U b i q u i t o u s   L a n g u a g e         -   <em> </em> S t a t u s : <em> </em>   c o n f i r m e d     -   <em> </em> C o n t e x t : <em> </em>   a b d - a c c e p t a n c e - c r i t e r i a      c h e c k - r e s o l u t i o n   m o d u l e ,   s t o r y   &quot; M a k e   R e s i s t a n c e   C h e c k   A g a i n s t   E f f e c t &quot;     -   <em> </em> D O : <em> </em>   O n l y   u s e   t e r m s   i n   <code> # # # #   D o m a i n   t e r m s </code>   s e c t i o n s   t h a t   h a v e   a   c o r r e s p o n d i n g   c o n c e p t   b l o c k   i n   t h e   m o d u l e &#x27; s   U b i q u i t o u s   L a n g u a g e .   I f   a   c o n c e p t   i s   n e e d e d   b u t   m i s s i n g   f r o m   t h e   s k e t c h ,   a d d   t h e   c o n c e p t   b l o c k   t o   t h e   s k e t c h   f i r s t      d o   n o t   i n v e n t   a   t e r m   i n   t h e   A C   t o   f i l l   t h e   g a p .     -   <em> </em> E x a m p l e   ( w r o n g ) : <em> </em>         <code> * C o n d i t i o n   T r a c k *      t h e   s e q u e n c e   o f   c o n d i t i o n s   t h e   e f f e c t   i m p o s e s   a t   e a c h   d e g r e e   o f   f a i l u r e </code>      t h i s   t e r m   h a d   n o   c o n c e p t   b l o c k   i n   t h e   U b i q u i t o u s   L a n g u a g e ;   i t   w a s   f a b r i c a t e d   t o   b r i d g e   a   m o d e l i n g   g a p .     -   <em> </em> E x a m p l e   ( c o r r e c t ) : <em> </em>         T h e   f a b r i c a t e d   t e r m   w a s   r e m o v e d .   T h e   r e l a t e d   c o n c e p t   <code> * S u p e r s e s s i o n   C h a i n * </code>   w a s   e x t r a c t e d   i n t o   i t s   o w n   <code> # # #   s u p e r s e s s i o n   c h a i n </code>   c o n c e p t   b l o c k   i n   t h e   U b i q u i t o u s   L a n g u a g e   b e f o r e   b e i n g   r e f e r e n c e d   i n   t h e   A C .     -   <em> </em> L i k e l y   s o u r c e : <em> </em>   p r o m p t   g a p      t h e   s k i l l   d o e s   n o t   r e q u i r e   c r o s s - c h e c k i n g   e v e r y   <code> # # # #   D o m a i n   t e r m s </code>   e n t r y   a g a i n s t   a n   e x i s t i n g   c o n c e p t   b l o c k   i n   t h e   U b i q u i t o u s   L a n g u a g e   b e f o r e   w r i t i n g   i t .         - - -         # #   E n t r y :   A C   r e s t a t e s   a l r e a d y - s p e c i f i e d   m e c h a n i c   f r o m   a n o t h e r   s t o r y         -   <em> </em> S t a t u s : <em> </em>   c o n f i r m e d     -   <em> </em> C o n t e x t : <em> </em>   a b d - a c c e p t a n c e - c r i t e r i a      c h e c k - r e s o l u t i o n   m o d u l e ,   s t o r y   &quot; R o l l   R e s i s t a n c e   C h e c k   A g a i n s t   O n g o i n g   E f f e c t   t o   R e m o v e   C o n d i t i o n s &quot;     -   <em> </em> D O : <em> </em>   E a c h   A C   m u s t   s p e c i f y   b e h a v i o r   u n i q u e   t o   i t s   s t o r y &#x27; s   c o n t e x t .   D o   n o t   o p e n   w i t h   a n   A C   t h a t   r e s t a t e s   a   m e c h a n i c   a l r e a d y   f u l l y   s p e c i f i e d   i n   a   p r i o r   s t o r y      i t   a d d s   n o   b e h a v i o r a l   v a l u e   a n d   d i l u t e s   t h e   s p e c .     -   <em> </em> E x a m p l e   ( w r o n g ) : <em> </em>         A C   1 :   &quot; W H E N   a   c h a r a c t e r   m a k e s   a   R e s i s t a n c e   C h e c k   a g a i n s t   a n   O n g o i n g   E f f e c t   T H E N   t h e   s y s t e m   r e s o l v e s   t h e   c h e c k   a s   d 2 0   +   D e f e n s e   B o n u s   v s   E f f e c t   D C   ( 1 0   +   E f f e c t   R a n k ) &quot;      i d e n t i c a l   t o   t h e   m e c h a n i c   a l r e a d y   c o v e r e d   i n   &quot; M a k e   R e s i s t a n c e   C h e c k   A g a i n s t   E f f e c t &quot; .   S a y s   n o t h i n g   u n i q u e   t o   t h e   O n g o i n g   E f f e c t   s t o r y .     -   <em> </em> E x a m p l e   ( c o r r e c t ) : <em> </em>         A C   1   n o w   o p e n s   w i t h   w h a t   i s   s p e c i f i c   t o   t h i s   s t o r y :   t h e   e f f e c t   e n d i n g ,   a l l   i t s   c o n d i t i o n s   r e m o v e d ,   a n d   a n y   i n a c t i v e   c o n d i t i o n s   t h a t   w e r e   b l o c k e d   b y   t h o s e   r e m o v e d   c o n d i t i o n s   b e c o m i n g   a c t i v e .     -   <em> </em> L i k e l y   s o u r c e : <em> </em>   p r o m p t   g a p      t h e   s k i l l   d o e s   n o t   i n s t r u c t   c h e c k i n g   w h e t h e r   a   g i v e n   A C   a d d s   n e w   b e h a v i o r a l   s p e c i f i c i t y   v s   r e s t a t i n g   a   m e c h a n i c   c o v e r e d   i n   a   p r i o r   s t o r y .         - - -         - - -         # #   E n t r y :   E n g a g e m e n t   p r e f i x   o n   o u t p u t   f i l e n a m e   i s   o p t i o n a l         -   <em> </em> S t a t u s : <em> </em>   c o n f i r m e d     -   <em> </em> C o n t e x t : <em> </em>   s t o r y - d r i v e n   p h a s e   o u t p u t   f i l e n a m e     -   <em> </em> D O   /   D O   N O T : <em> </em>   D O   d e f a u l t   t o   t h e   t e m p l a t e   f i l e n a m e   ——  <code> s t o r y - m a p . m d </code> ,   <code> t h i n - s l i c i n g . m d </code> ,   <code> a c c e p t a n c e - c r i t e r i a . m d </code> ,   <code> s p e c i f i c a t i o n - b y - e x a m p l e . m d </code>   ( a n d   t h e i r   <code> . t x t </code>   p a r t n e r s   w h e r e   a p p l i c a b l e ) .   D O   a d d   a   <code> &lt; n a m e &gt; - </code>   e n g a g e m e n t   p r e f i x   o n l y   w h e n   y o u   n e e d   d i s a m b i g u a t i o n :   m u l t i p l e   p r o d u c t s   i n   t h e   s a m e   w o r k s p a c e ,   m u l t i p l e   s t o r i e s   s h a r i n g   o n e   f o l d e r ,   o r   t h e   u s e r   a s k s   f o r   i t .   D O   N O T   m a n d a t e   t h e   p r e f i x   a s   t h e   o n l y   v a l i d   f o r m ,   a n d   D O   N O T   i n v e n t   a   s u b - f o l d e r   l i k e   <code> s t o r i e s / </code> ,   <code> s p e c s / </code> ,   <code> s l i c e s / </code> ,   <code> d o c s / </code>   ——  w r i t e   n e x t   t o   o t h e r   e n g a g e m e n t   d e l i v e r a b l e s .     -   <em> </em> E x a m p l e   ( w r o n g ,   f o r c e d   p r e f i x   a n d   f o l d e r ) : <em> </em>   W r i t i n g   <code> d o c s / p a w - p l a c e - t h i n - s l i c i n g . m d </code>   w h e n   t h e   e n g a g e m e n t   w o r k s p a c e   a l r e a d y   k e e p s   d e l i v e r a b l e s   i n   <code> d o c s / </code>   a n d   o n l y   h o s t s   o n e   p r o d u c t .   T h e   <code> p a w - p l a c e - </code>   p r e f i x   i s   n o i s e .     -   <em> </em> E x a m p l e   ( c o r r e c t ) : <em> </em>   D e f a u l t   t o   <code> t h i n - s l i c i n g . m d </code>   w r i t t e n   n e x t   t o   e x i s t i n g   e n g a g e m e n t   d e l i v e r a b l e s .   A d d   a   p r e f i x   o n l y   w h e n   d i s a m b i g u a t i o n   i s   n e e d e d .     -   <em> </em> L i k e l y   s o u r c e : <em> </em>   e a r l i e r   i n   t h i s   s e s s i o n   t h e   s k i l l   e m i t t e d   <code> &lt; n a m e &gt; - &lt; p h a s e &gt; . m d </code>   u n c o n d i t i o n a l l y ,   t h e n   w r i t i n g   i n t o   a   h a r d c o d e d   f o l d e r ;   t h e   u s e r   m o v e d   t h e   f i l e s   m a n u a l l y   a n d   a s k e d   t h a t   t h e   p r e f i x   b e   o p t i o n a l   a n d   t h e   f o l d e r   d r i v e n   b y   w h e r e   o t h e r   d e l i v e r a b l e s   a l r e a d y   l i v e .         - - -         # #   E n t r y :   D o m a i n   t e r m s   s e c t i o n   m u s t   b e   H 3   h e a d i n g ,   n o t   b o l d   t e x t         -   <em> </em> S t a t u s : <em> </em>   c o n f i r m e d     -   <em> </em> C o n t e x t : <em> </em>   a b d - a c c e p t a n c e - c r i t e r i a      p e r - s t o r y   D o m a i n   t e r m s   s e c t i o n     -   <em> </em> D O : <em> </em>   W r i t e   <code> # # #   D o m a i n   t e r m s </code>   a s   a n   H 3   h e a d i n g   a b o v e   t h e   t e r m s   l i s t   f o r   e v e r y   s t o r y .     -   <em> </em> D O   N O T : <em> </em>   U s e   <code> * * D o m a i n   t e r m s * * </code>   o r   <code> * * D o m a i n   t e r m s : * * </code>   ( b o l d   t e x t )      t h e   s c a n n e r   r e g e x   <code> ^ # # # \ s + D o m a i n   t e r m s </code>   w i l l   n o t   m a t c h   b o l d   a n d   t h e   d o m a i n - t e r m s - s o u r c e - s c a n n e r   w i l l   s i l e n t l y   s k i p   t h e   w h o l e   s t o r y .     -   <em> </em> E x a m p l e   ( w r o n g ) : <em> </em>         <code> * * D o m a i n   t e r m s : * * </code>         <code> -   * G a m e   P r o c e s s *      . . . </code>     -   <em> </em> E x a m p l e   ( c o r r e c t ) : <em> </em>         <code> # # #   D o m a i n   t e r m s </code>         <code> -   * G a m e   P r o c e s s *      . . . </code>     -   <em> </em> L i k e l y   s o u r c e : <em> </em>   p r o m p t   g a p      s k i l l   i n s t r u c t i o n s   d i d   n o t   e x p l i c i t l y   c a l l   o u t   h e a d i n g   l e v e l   v s   b o l d   f o r   t h e   D o m a i n   t e r m s   m a r k e r .     </p></div>
 
 </div>
 </div>

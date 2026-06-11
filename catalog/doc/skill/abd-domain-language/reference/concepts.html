@@ -471,7 +471,22 @@ html[data-abd-theme="executive"] .catalog-body code {
 }
 
 .page-hero--detail {
-  padding-top: 48px;
+  padding-top: 20px;
+  padding-bottom: 16px;
+}
+.page-hero--detail .page-headline {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 4px 0 6px;
+}
+.page-headline .skill-name-prefix,
+.cap-card__title .skill-name-prefix {
+  color: var(--accent);
+}
+.page-hero--detail .body-lead {
+  font-size: 0.9rem;
+  margin: 0;
+  color: var(--muted);
 }
 
 .page-hero--detail .back-link {
@@ -731,8 +746,18 @@ a.cap-card:hover .cap-card__more {
   color: #b8b8c2;
   margin: 0 0 18px;
 }
+.skill-detail-page .skill-hero-img-wrap + .install-block {
+  margin-top: 18px;
+}
+.skill-detail-page .install-block + .skill-cr-grid,
+.skill-detail-page .install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block {
+  margin-top: 0;
+}
 .install-block {
-  margin: 22px 0 0;
+  margin: 20px 0 0;
   padding: 16px 18px;
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid var(--border-muted);
@@ -1041,8 +1066,603 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 .plugin-slots h3:first-child { margin-top: 0; }
 .cap-grid--plugin-slot { margin-bottom: 8px; }
 
+/* ── Skill detail: family kanban stage nav (matches hub column headings) ── */
+.skill-kanban-nav {
+  --fam-sdd: #6bcb77;
+  --fam-ddd: #6c5ce7;
+  --fam-uxd: #e84393;
+  --fam-arc: #4fc3f7;
+  --fam-idea: var(--accent);
+  --abd-accent: var(--accent);
+  --abd-accent-glow: var(--accent-soft, var(--accent));
+  --abd-raised: var(--raised);
+  --abd-bg: var(--bg);
+  --abd-border: var(--border);
+  --abd-text: var(--text);
+  --abd-muted: var(--muted);
+  background: var(--raised);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0 16px;
+}
+.skill-kanban-nav .wrap {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.skill-kanban-nav__board {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  gap: 6px 8px;
+  align-items: start;
+}
+.skill-kanban-nav__practice-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  margin: 0;
+  padding: 0 8px;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-left-width: 3px;
+  border-radius: 4px;
+  line-height: 1.25;
+  box-sizing: border-box;
+  transition: box-shadow 120ms, border-color 120ms;
+  color: inherit;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card:hover {
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--sdd {
+  border-left-color: var(--fam-sdd);
+  color: var(--fam-sdd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--ddd {
+  border-left-color: var(--fam-ddd);
+  color: var(--fam-ddd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--uxd {
+  border-left-color: var(--fam-uxd);
+  color: var(--fam-uxd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--arc {
+  border-left-color: var(--fam-arc);
+  color: var(--fam-arc);
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap {
+  position: relative;
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip.kb-col-shape-tooltip {
+  min-width: 10rem;
+  max-width: 22rem;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:hover .kb-skill-tooltip,
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:focus-within .kb-skill-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.skill-kanban-nav__stages {
+  display: grid;
+  grid-template-columns: repeat(var(--skill-kanban-cols, 5), minmax(0, 1fr));
+  gap: 0 8px;
+  min-width: 0;
+}
+.skill-kanban-nav__col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.skill-kanban-nav__tickets {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.skill-kanban-nav .kb-col-head {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 8px 6px 7px;
+  font-family: var(--font-mono);
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.skill-kanban-nav .kb-col-head--static {
+  cursor: default;
+}
+.skill-kanban-nav a.kb-col-head {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav a.kb-col-head:hover {
+  border-color: rgba(229, 83, 26, 0.35);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.15);
+}
+.skill-kanban-nav .kb-col-head--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-col-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+}
+.skill-kanban-nav .kb-col-scope-shape {
+  flex-shrink: 0;
+  border: 2px solid var(--abd-accent);
+  border-radius: 2px;
+}
+.skill-kanban-nav__stages .kb-col-shape-tooltip,
+.skill-kanban-nav__stages .kb-skill-tooltip-wrap .kb-col-shape-tooltip {
+  display: none !important;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 8px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 7px 9px;
+  font-family: var(--font-mono);
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid rgba(229, 83, 26, 0.45);
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 14px;
+  border: 5px solid transparent;
+  border-bottom-color: rgba(229, 83, 26, 0.45);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__name {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--abd-accent-glow);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__bullets {
+  font-size: 8px;
+  line-height: 1.45;
+  color: var(--abd-text);
+  white-space: pre-line;
+}
+.skill-kanban-nav .kb-col-scope-shape--solution { width: 36px; height: 12px; }
+.skill-kanban-nav .kb-col-scope-shape--increment { width: 24px; height: 16px; }
+.skill-kanban-nav .kb-col-scope-shape--sprint { width: 16px; height: 22px; }
+.skill-kanban-nav .kb-col-scope-shape--story { width: 11px; height: 28px; }
+.skill-kanban-nav .kb-col-head-title {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--abd-text);
+}
+.skill-kanban-nav .kb-col-head-title > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.skill-kanban-nav .kb-col-num {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--abd-text);
+  background: var(--abd-bg);
+  border: 1px solid var(--abd-border);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+.skill-kanban-nav .kb-ticket {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  background: var(--abd-raised);
+  color: var(--abd-text);
+  padding: 5px 6px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  border-left-width: 3px;
+  border-left-color: var(--abd-muted);
+  line-height: 1.25;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav .kb-ticket:hover {
+  border-color: var(--abd-border);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.2);
+}
+.skill-kanban-nav .kb-ticket.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-ticket.aad-fam-sdd { border-left-color: var(--fam-sdd); }
+.skill-kanban-nav .kb-ticket.aad-fam-ddd { border-left-color: var(--fam-ddd); }
+.skill-kanban-nav .kb-ticket.aad-fam-uxd { border-left-color: var(--fam-uxd); }
+.skill-kanban-nav .kb-ticket.aad-fam-arc { border-left-color: var(--fam-arc); }
+.skill-kanban-nav .kb-ticket.aad-fam-idea { border-left-color: var(--fam-idea); }
+@media (max-width: 960px) {
+  .skill-kanban-nav__board {
+    grid-template-columns: 1fr;
+  }
+  .skill-kanban-nav__stages {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
+
+/* ── Skill detail: full-width hero image / embedded viewer ── */
+.skill-hero-img-wrap {
+  margin: 24px 0 0;
+}
+.skill-hero-img-wrap:empty { display: none; }
+.skill-hero-img-wrap img,
+.skill-hero-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--raised);
+}
+
+/* HTML prototype iframe (reference/example/index.html) */
+.skill-prototype-wrap {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-prototype-frame {
+  display: block;
+  width: 100%;
+  min-height: 540px;
+  height: 71vh;
+  max-height: 810px;
+  border: 0;
+  background: #fff;
+}
+.skill-prototype-open {
+  margin: 0;
+  padding: 8px 14px;
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+  background: var(--raised);
+}
+.skill-prototype-open a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.skill-prototype-open a:hover { text-decoration: underline; }
+
+/* draw.io embedded viewer */
+.skill-drawio-wrap {
+  position: relative;
+  width: 100%;
+  height: min(71vh, 680px);
+  min-height: 340px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-drawio-wrap .mxgraph {
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+}
+.skill-drawio-wrap .geToolbarContainer {
+  z-index: 4;
+}
+
+/* code file preview */
+.skill-code-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--raised);
+  font-size: 13px;
+}
+.skill-code-lang {
+  padding: 6px 14px;
+  font-family: var(--mono, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.skill-code-preview pre {
+  margin: 0;
+  padding: 16px;
+  overflow-x: auto;
+  max-height: 420px;
+}
+.skill-code-preview code {
+  font-family: var(--mono, 'JetBrains Mono', monospace);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+/* rendered markdown preview */
+.skill-hero-img-wrap .skill-md-preview {
+  max-height: min(71vh, 610px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.skill-md-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px 24px;
+  background: var(--surface);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.skill-md-preview h1 { font-size: 18px; font-weight: 700; margin: 0 0 12px; }
+.skill-md-preview h2 { font-size: 15px; font-weight: 600; margin: 16px 0 8px;
+  border-bottom: 1px solid var(--border); padding-bottom: 3px; }
+.skill-md-preview h3 { font-size: 13px; font-weight: 600; margin: 12px 0 6px; }
+.skill-md-preview h4 { font-size: 12px; font-weight: 600; margin: 10px 0 4px; color: var(--muted); }
+.skill-md-preview p  { margin: 0 0 10px; }
+.skill-md-preview .spec-steps { margin: 0 0 14px; }
+.skill-md-preview p.spec-step { margin: 0 0 4px; line-height: 1.55; }
+.skill-md-preview .md-table-wrap { overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview .md-table { border-collapse: collapse; width: 100%; }
+.skill-md-preview ul, .skill-md-preview ol { margin: 0 0 10px; padding-left: 20px; }
+.skill-md-preview li { margin-bottom: 3px; }
+.skill-md-preview code { background: var(--raised); border-radius: 3px;
+  padding: 1px 5px; font-family: var(--mono, monospace); font-size: 12px; }
+.skill-md-preview pre { background: var(--raised); border-radius: 5px;
+  padding: 12px; overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview table { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
+.skill-md-preview th, .skill-md-preview td {
+  border: 1px solid var(--border); padding: 6px 10px; }
+.skill-md-preview th { background: var(--raised); font-weight: 600; }
+
+/* ── Skill detail: concepts | rules two-column grid ── */
+.skill-cr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin: 24px 0 0;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .skill-cr-grid { grid-template-columns: 1fr; }
+}
+.skill-cr-col { min-width: 0; }
+.skill-cr-single { margin: 24px 0 0; }
+
+/* Glossary example hero — term blocks without heavy HR dividers */
+.skill-md-preview--glossary h1 {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 10px;
+  border: 0;
+  padding: 0;
+}
+.skill-md-preview--glossary h2 {
+  font-size: 16px;
+  margin-top: 0;
+}
+.skill-md-preview--glossary h3 {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 14px 0 6px;
+  padding: 6px 8px;
+  background: var(--raised);
+  border-radius: 4px;
+  border-left: 3px solid var(--accent);
+}
+.skill-md-preview--glossary hr {
+  display: none;
+}
+.skill-md-preview--glossary ul {
+  margin-top: 0;
+}
+
+/* ── Skill detail: full-width content below ── */
+.skill-detail-content-col { margin-top: 32px; }
+.skill-detail-page .skill-cr-grid,
+.skill-detail-page .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-single,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-single {
+  margin-top: 0;
+}
+
+/* ── Skill detail: concepts (expandable) ── */
+.skill-hero-img-wrap + .install-block {
+  margin-top: 16px;
+}
+.install-block + .skill-cr-grid,
+.install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-concepts {
+  margin: 0 0 20px;
+}
+.skill-concepts-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 8px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-concept {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-concept summary {
+  padding: 8px 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  user-select: none;
+}
+.skill-concept summary::-webkit-details-marker { display: none; }
+.skill-concept summary::marker { content: ""; }
+.skill-concept summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-concept[open] summary::before { content: "\2212"; }
+.skill-concept-body {
+  padding: 6px 4px 10px 1.9rem;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.skill-concept-body p { margin: 0 0 8px; }
+.skill-concept-body p:last-child { margin-bottom: 0; }
+.skill-concept-body ul { margin: 0 0 8px 1.1em; padding: 0; }
+.skill-concept-body li { margin: 3px 0; }
+
+/* ── Skill detail: rules (DO / DON'T) ── */
+.skill-rules {
+  margin: 0 0 20px;
+}
+.skill-rules-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 12px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-rule {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule[open] > .skill-rule-header {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule-header {
+  padding: 8px 10px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  background: var(--raised);
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+.skill-rule-header::-webkit-details-marker { display: none; }
+.skill-rule-header::marker { content: ""; }
+.skill-rule-header::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-rule[open] > .skill-rule-header::before {
+  content: "\2212";
+}
+.skill-rule-section {
+  padding: 8px 12px;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+.skill-rule-section--do {
+  border-left: 3px solid #2d8a4e;
+}
+.skill-rule-section--dont {
+  border-left: 3px solid #c0392b;
+}
+.skill-rule-section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+  color: var(--muted);
+}
+.skill-rule-section--do .skill-rule-section-label { color: #2d8a4e; }
+.skill-rule-section--dont .skill-rule-section-label { color: #c0392b; }
+.skill-rule-section ul { margin: 0; padding: 0 0 0 1.1em; }
+.skill-rule-section li { margin: 2px 0; color: var(--text); }
+
 </style>
-<script src="../../../../commons/catalog-nav.js?v=foundry-8"></script>
+<script src="../../../../commons/catalog-nav.js?v=foundry-9"></script>
 </head>
 <body data-nav-prefix="../../../../" data-nav-current="skills" data-nav-site-base="../../../../../../abd-works-website/">
 <main id="main-content">
@@ -1051,6 +1671,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
   <div class="wrap">
     <a class="back-link" href="../../../../skill/abd-domain-language.html">← abd-domain-language</a>
     <p class="s-name">Markdown</p>
+
     <h1 class="page-headline">reference/concepts.md</h1>
     <p class="body-lead">﻿# Domain Language — Concepts</p>
   </div>
@@ -1064,50 +1685,50 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <h2>Domain Language</h2>
 <p>The <strong>Domain Language</strong> is the single set of names, definitions, and rules a team uses everywhere — conversations, requirements, tests, code, and diagrams. It is not a glossary collected from many places; it is one curated vocabulary the team commits to and updates together. Each named concept carries its own purpose, its own behavior, and its own invariants, so anyone reading the file can challenge what is true and anyone writing downstream artifacts can re-use the same words without paraphrase.</p>
 <h2>Terms</h2>
-<p>A <strong>term</strong> is any named concept in the source that has behavior, rules, interactions, or distinct identity. The first pass of the skill extracts every term and assigns it a short plain-English definition and a placement decision: keep under a KA, move to boundary, or move out entirely. Terms appear as a flat list in the output file header — one bullet per term, definition only, no source references. A term&#x27;s placement decision is recorded there with a parenthetical note and fleshed out later in `### Decisions made`.</p>
+<p>A <strong>term</strong> is any named concept in the source that has behavior, rules, interactions, or distinct identity. The first pass of the skill extracts every term and assigns it a short plain-English definition and a placement decision: keep under a KA, move to boundary, or move out entirely. Terms appear as a flat list in the output file header — one bullet per term, definition only, no source references. A term&#x27;s placement decision is recorded there with a parenthetical note and fleshed out later in <code>### Decisions made</code>.</p>
 <h2>Key Abstraction (KA)</h2>
 <p>KAs act as <strong>centers of gravity</strong> — the named ideas domain experts reach for first when explaining the domain. Because of that, their intro paragraphs carry the richest treatment of all five aspects: role, boundary, relationships, responsibilities, and rules/invariants. Relationships to other KAs get particular weight, because that is how domain experts discuss them — &quot;<em>Check</em> depends on <em>Trait</em> for its modifier; <em>Trait</em> knows nothing about <em>Check</em>.&quot;</p>
 <p><strong>A KA must anchor at least 3–5 terms.</strong> A KA with only its own name is not a KA — it is a single concept. If a candidate KA has fewer than three terms including its subordinates, merge it under an existing KA or downgrade it to a subordinate concept.</p>
 <h2>Concept</h2>
 <p>These five aspects are not independent sections in the output — they are woven into the concept&#x27;s story as verb-led behavior bullets. Same format for every concept. The KA&#x27;s own concept block doubles as the term definition for the KA itself. How much any concept has to say is driven by the complexity of what the source actually says about it. Domain terms in bullets are <em>italicized</em> so the language stays visually precise.</p>
-<p>The first `### concept` listed under each `## KA` heading <strong>must be the KA&#x27;s own concept</strong> — the one whose name matches the KA. Other concepts grouped under the KA are subordinate.</p>
+<p>The first <code>### concept</code> listed under each <code>## KA</code> heading <strong>must be the KA&#x27;s own concept</strong> — the one whose name matches the KA. Other concepts grouped under the KA are subordinate.</p>
 <h2>Two tests and three outcomes for every term</h2>
-<p>One domain-language–specific refinement on the <strong>move to boundary</strong> outcome: if a boundary term is relevant to more than one KA, each KA records its own view — only the behaviors that KA actually depends on — as a concept stub inside that KA&#x27;s block. The `# Boundary Domain` entry is the canonical record; the per-KA stubs are scoped views, not duplicates.</p>
+<p>One domain-language–specific refinement on the <strong>move to boundary</strong> outcome: if a boundary term is relevant to more than one KA, each KA records its own view — only the behaviors that KA actually depends on — as a concept stub inside that KA&#x27;s block. The <code># Boundary Domain</code> entry is the canonical record; the per-KA stubs are scoped views, not duplicates.</p>
 <h2>Modeling each term: concept, subtype, property, instance, or invariant</h2>
 <p>Not every domain term deserves its own concept block. Before classifying, <strong>read the source material for that term</strong> and do proper object-oriented analysis on what the source actually says.</p>
 <p>A term becomes a <strong>concept</strong> when it has <strong>distinct identity</strong>, <strong>state</strong>, <strong>behavior</strong>, <strong>structure</strong>, or <strong>interactions</strong>. A term that is a <strong>specialized version</strong> of another concept and adds <strong>different behavior</strong> is a <strong>subtype</strong>. A term that differs from its siblings only by <strong>data values</strong> is an <strong>instance</strong> or <strong>type property</strong> on the parent. A term that is a <strong>value, slot, or attribute</strong> another concept carries is a <strong>property</strong>. A term that describes a <strong>rule that must always hold</strong> is an <strong>invariant</strong> on the concept it constrains.</p>
-<p>For typing decisions, see <strong>`### Inheritance and subtypes`</strong> in `../../../reference/oo-concepts.md`. Read it before classifying any term as a concept, subtype, property, or instance. <strong>Do not read or apply `### Decomposing responsibilities`</strong> — that section applies at domain model stage and beyond.</p>
+<p>For typing decisions, see <strong><code>### Inheritance and subtypes</code></strong> in <code>../../../reference/oo-concepts.md</code>. Read it before classifying any term as a concept, subtype, property, or instance. <strong>Do not read or apply <code>### Decomposing responsibilities</code></strong> — that section applies at domain model stage and beyond.</p>
 <p>Property and instance terms still get a stub heading with a one-line classification note — no term is silently dropped.</p>
 <h2>Subtypes</h2>
-<p>A subtype is one concept <strong>being a type of</strong> another. Write the heading in plain English (`### International Shipment <em>is a type of</em> Shipment`), not in code notation. Keep <strong>shared</strong> behavior on the <strong>base</strong>; the subtype block adds only <strong>delta</strong> behavior — what the subtype does differently or additionally.</p>
+<p>A subtype is one concept <strong>being a type of</strong> another. Write the heading in plain English (<code>### International Shipment *is a type of* Shipment</code>), not in code notation. Keep <strong>shared</strong> behavior on the <strong>base</strong>; the subtype block adds only <strong>delta</strong> behavior — what the subtype does differently or additionally.</p>
 <h2>Roles and actors</h2>
-<p>A role (gamemaster, administrator, operator, reviewer) <strong>is</strong> a domain concept if it has distinct identity, state, or behavior from the system&#x27;s perspective. A role that only performs tasks outside the system or the UI is a contextual label — note it in `### Decisions made`, do not model it as a concept.</p>
+<p>A role (gamemaster, administrator, operator, reviewer) <strong>is</strong> a domain concept if it has distinct identity, state, or behavior from the system&#x27;s perspective. A role that only performs tasks outside the system or the UI is a contextual label — note it in <code>### Decisions made</code>, do not model it as a concept.</p>
 <h2>Properties</h2>
-<p>A pure property — one with no independent behavior, invariants, or cross-concept interactions — is mentioned only as a bullet on its parent concept. It does <strong>not</strong> get its own `### heading`. A property earns a `### heading` only when it has at least one of: its own invariant, its own behavior, or its own cross-concept interaction. Record the typing call in `#### Decisions made` so nothing is silently dropped.</p>
+<p>A pure property — one with no independent behavior, invariants, or cross-concept interactions — is mentioned only as a bullet on its parent concept. It does <strong>not</strong> get its own <code>### heading</code>. A property earns a <code>### heading</code> only when it has at least one of: its own invariant, its own behavior, or its own cross-concept interaction. Record the typing call in <code>#### Decisions made</code> so nothing is silently dropped.</p>
 <h2>Italicized terms are the file&#x27;s connectors</h2>
-<p>Every `<em>italicized</em>` term in a behavior bullet, invariant, KA intro paragraph, or boundary stub must resolve to one of:</p>
+<p>Every <code>*italicized*</code> term in a behavior bullet, invariant, KA intro paragraph, or boundary stub must resolve to one of:</p>
 <ul>
-<li>a `### concept_name` block (in any KA, Core or Boundary, including the KA&#x27;s own concept),</li>
-<li>a `### Subtype <em>is a type of</em> Base` heading,</li>
-<li>a property / instance / type-property stub heading (e.g. `### rank` with first bullet `is a property of <em>trait</em>`),</li>
-<li>a `### boundary_term <em>(boundary)</em>` scoped stub under the KA, OR</li>
-<li>a parenthetical primitive description in plain text (e.g. `(integer)`, `(true or false)`, `(0–40)`) — the parenthetical itself is <strong>not</strong> italicized.</li>
+<li>a <code>### concept_name</code> block (in any KA, Core or Boundary, including the KA&#x27;s own concept),</li>
+<li>a <code>### Subtype *is a type of* Base</code> heading,</li>
+<li>a property / instance / type-property stub heading (e.g. <code>### rank</code> with first bullet <code>is a property of *trait*</code>),</li>
+<li>a <code>### boundary_term *(boundary)*</code> scoped stub under the KA, OR</li>
+<li>a parenthetical primitive description in plain text (e.g. <code>(integer)</code>, <code>(true or false)</code>, <code>(0–40)</code>) — the parenthetical itself is <strong>not</strong> italicized.</li>
 </ul>
-<p>This is what makes a Domain Language <strong>diagram-ready as a second pass</strong> for <a href="../drawio-domain-sync/SKILL.html">drawio-domain-sync</a>. Once every italicized term resolves to a heading, a renderer can treat each `### concept` as a card, each behavior bullet as a row, each subtype heading as an inheritance edge, and each unique cross-concept italicized reference as one association edge.</p>
+<p>This is what makes a Domain Language <strong>diagram-ready as a second pass</strong> for <a href="../drawio-domain-sync/SKILL.html">drawio-domain-sync</a>. Once every italicized term resolves to a heading, a renderer can treat each <code>### concept</code> as a card, each behavior bullet as a row, each subtype heading as an inheritance edge, and each unique cross-concept italicized reference as one association edge.</p>
 <p>To keep relationship types readable without labels, use stable verb families in bullets:</p>
 <ul>
-<li>`has`, `owns`, `is composed of`, `consists of` → composition / aggregation,</li>
-<li>`uses`, `references`, `supplies … to`, `depends on`, `is made against` → association,</li>
-<li>`produces`, `creates`, `yields` → dependency / creates,</li>
-<li>`is a type of` → inheritance (heading-level only),</li>
-<li>`is a property of`, `is an instance of` → property/instance stub heading.</li>
+<li><code>has</code>, <code>owns</code>, <code>is composed of</code>, <code>consists of</code> → composition / aggregation,</li>
+<li><code>uses</code>, <code>references</code>, <code>supplies … to</code>, <code>depends on</code>, <code>is made against</code> → association,</li>
+<li><code>produces</code>, <code>creates</code>, <code>yields</code> → dependency / creates,</li>
+<li><code>is a type of</code> → inheritance (heading-level only),</li>
+<li><code>is a property of</code>, <code>is an instance of</code> → property/instance stub heading.</li>
 </ul>
 <h2>Decisions made and References — per KA</h2>
-<p>Every KA carries one `#### Decisions made` list and one `#### References` section, placed <strong>after all of its concept blocks</strong>. This keeps the reasoning and evidence co-located with the KA they support. `#### Decisions made` records independence test results, scope-fit test results, typing calls, and any open questions for any concept in the KA. `#### References` lists every source passage that supports any concept in the KA. Do not bundle decisions or references per concept.</p>
+<p>Every KA carries one <code>#### Decisions made</code> list and one <code>#### References</code> section, placed <strong>after all of its concept blocks</strong>. This keeps the reasoning and evidence co-located with the KA they support. <code>#### Decisions made</code> records independence test results, scope-fit test results, typing calls, and any open questions for any concept in the KA. <code>#### References</code> lists every source passage that supports any concept in the KA. Do not bundle decisions or references per concept.</p>
 <h2>Three passes, one file</h2>
-<p>1. <strong>Terms</strong> — flat list of every named concept with a short plain-English definition and a placement decision (keep / boundary / moved out). No source references in the Terms list. 2. <strong>Key Abstractions</strong> — terms grouped under named KAs; each KA gets an intro paragraph that is its term definition. 3. <strong>Concept blocks</strong> — each KA&#x27;s concept blocks (KA&#x27;s own first, then subordinates, subtypes, property stubs), with verb-led behavior; <strong>one</strong> `### Decisions made` and <strong>one</strong> `### References` per KA, after all its concept blocks.</p>
+<p>1. <strong>Terms</strong> — flat list of every named concept with a short plain-English definition and a placement decision (keep / boundary / moved out). No source references in the Terms list. 2. <strong>Key Abstractions</strong> — terms grouped under named KAs; each KA gets an intro paragraph that is its term definition. 3. <strong>Concept blocks</strong> — each KA&#x27;s concept blocks (KA&#x27;s own first, then subordinates, subtypes, property stubs), with verb-led behavior; <strong>one</strong> <code>### Decisions made</code> and <strong>one</strong> <code>### References</code> per KA, after all its concept blocks.</p>
 <hr>
-<p>See `../templates/` for the canonical file shape.</p></div>
+<p>See <code>../templates/</code> for the canonical file shape.</p></div>
 
 </div>
 </div>

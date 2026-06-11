@@ -1,7 +1,7 @@
 ﻿---
 name: abd-domain-language
 catalog_garden_tier: practice
-catalog_garden_order: 3
+catalog_garden_order: 2
 catalogue_one_liner: >-
   Shared vocabulary with concept behavior in one file; terms, KAs, and concept blocks.
 description: >-

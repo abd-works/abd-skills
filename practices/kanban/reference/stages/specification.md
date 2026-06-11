@@ -5,7 +5,7 @@
 
 ## Purpose
 
-Translate exploration artifacts into typed **domain specification**, **concrete specification-by-example** scenarios, production-grade **UX specification**, and architecture specification **template** sections. Narrow scope — sprint-level depth.
+Translate exploration artifacts into typed **domain specification**, **concrete specification-by-example** scenarios, **clickable UX prototype** (hi-fi HTML/CSS/JS with stubbed logic), and architecture specification **template** sections. Narrow scope — sprint-level depth.
 
 ## Outcomes
 
@@ -26,7 +26,7 @@ Translate exploration artifacts into typed **domain specification**, **concrete 
 | 1b | **Domain-driven design** | `drawio-domain-sync` | | **Background** after domain specification — `class-model-class-diagram.drawio` |
 | 2 | **Story-driven delivery** | `abd-story-specification` | Product Owner | Given/When/Then with real values; tables name domain model concepts |
 | 2b | **Story-driven delivery** | `drawio-story-sync` | | **Background** after spec + graph scenario merge — refresh `acceptance-criteria.drawio` |
-| 3 | **User experience design** | `abd-ux-specification` | UX Designer | **Spec pass** — author `interface-design.md` from lo-fi mockups |
+| 3 | **User experience design** | `abd-ux-specification` | UX Designer | Clickable hi-fi prototype + `ux-specification.md` from lo-fi mockups and design reference |
 | 4 | **Architecture-centric engineering** | `abd-architecture-specification` | Engineer | **Template mode** — mechanism templates and file layout for engineering |
 
 ## Entry conditions
@@ -38,7 +38,7 @@ Translate exploration artifacts into typed **domain specification**, **concrete 
 
 Under **`docs/increments/<n>-<slug>/specification/`** (flat). One canonical file per type. See [artifact-layout.md](../artifact-layout.md).
 
-- `domain-specification.md`, `story-specification.md`, `interface-design.md`, architecture specification template sections when assigned.
+- `domain-specification.md`, `story-specification.md`, `ux-specification.md`, `prototype/` (HTML/CSS/JS), architecture specification template sections when assigned.
 - **`docs/end-to-end/discovery/stories/story-graph.json`** — `scenarios[]` / `scenario_outlines[]` populated on every in-scope story when spec-by-example ran (sync from `story-specification.md` via story-graph-ops; see [artifact-layout.md](../artifact-layout.md)).
 
 ## Exit gate
@@ -54,5 +54,5 @@ Under **`docs/increments/<n>-<slug>/specification/`** (flat). One canonical file
 
 Pass to [engineering.md](engineering.md):
 
-- Scenario paths, interface spec, domain specification paths, architecture reference when in scope.
+- Scenario paths, UX prototype + `ux-specification.md`, domain specification paths, architecture reference when in scope.
 - Test and implementation scope for the slice.

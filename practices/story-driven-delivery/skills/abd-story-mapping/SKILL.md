@@ -14,9 +14,7 @@ description: >-
 
 ## Purpose
 
-A **story map** is a **single shared picture** of the product: epics (broad capability areas), sub-epics (flows or feature areas), and stories (leaves: one observable user or system interaction each). The map is **not** a dump of source material or a list of build tasks; it is **outcomes and behaviors** — *what* happens in the product — so product, delivery, and domain people can read the same structure.
-
-**Naming** is part of the model: epics, sub-epics, and stories use **verb—noun** titles; **who** is acting is carried outside the name (in `story_type`), not stuffed into the title.
+Build a **Patton-style story map** per scope from source material — a **single shared picture** of the product as epics (broad capability areas), sub-epics (flows or feature areas), and stories (one observable user or system interaction each). Decompose requirements into **outcomes and behaviors**, not build tasks or source dumps, so product, delivery, and domain people share one structure. Name every epic, sub-epic, and story **verb—noun**; carry **who** acts in `story_type`, not in the title. Record context gaps inline where source material is thin.
 
 ---
 

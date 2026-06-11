@@ -41,6 +41,23 @@ _KEYWORD_BOLD_MD_RE = re.compile(
 _WHENTHEN_RE = re.compile(
     r"(?is)\bWHEN\b\s*(.+?)\s*\bTHEN\b\s*(.+)$")
 
+_MD_ITALIC_RE = re.compile(r"\*([^*]+)\*")
+_HTML_ITALIC_RE = re.compile(r"(?is)<i>(.*?)</i>")
+
+
+def escape_ac_fragment(text: str) -> str:
+    """Escape HTML in AC prose; convert markdown ``*term*`` to ``<i>term</i>``."""
+    if not text:
+        return ""
+    parts: list[str] = []
+    last = 0
+    for match in _MD_ITALIC_RE.finditer(text):
+        parts.append(html_escape.escape(text[last : match.start()]))
+        parts.append(f"<i>{html_escape.escape(match.group(1))}</i>")
+        last = match.end()
+    parts.append(html_escape.escape(text[last:]))
+    return "".join(parts)
+
 
 def strip_ordinal_prefix(s: str) -> str:
     return _ORDINAL_PREFIX_RE.sub("", (s or "").strip())
@@ -62,6 +79,7 @@ def plain_ac_from_cell_value(val: str) -> str:
 
     t = v.replace("<div>", "").replace("</div>", " ")
     t = re.sub(r"(?is)<br\s*/?>", " ", t)
+    t = _HTML_ITALIC_RE.sub(r"*\1*", t)
     t = _HTML_TAG_RE.sub("", t)
     for entity, ch in _HTML_ENTITY_MAP.items():
         t = t.replace(entity, ch)
@@ -84,7 +102,7 @@ def format_ac_diagram_html(raw: str) -> str:
 
     m = _WHENTHEN_RE.search(work)
     if not m:
-        return html_escape.escape(work)
+        return escape_ac_fragment(work)
 
     when_body = m.group(1).strip()
     then_rest = m.group(2).rstrip()
@@ -93,13 +111,13 @@ def format_ac_diagram_html(raw: str) -> str:
 
     out: list[str] = []
     out.append("<b>WHEN</b> ")
-    out.append(html_escape.escape(when_body))
+    out.append(escape_ac_fragment(when_body))
     out.append("<br/><b>THEN</b> ")
     if parts:
-        out.append(html_escape.escape(parts[0]))
+        out.append(escape_ac_fragment(parts[0]))
     for clause in parts[1:]:
         out.append("<br/><b>AND</b> ")
-        out.append(html_escape.escape(clause))
+        out.append(escape_ac_fragment(clause))
     return "".join(out)
 
 

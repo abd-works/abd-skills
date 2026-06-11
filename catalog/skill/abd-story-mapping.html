@@ -471,7 +471,22 @@ html[data-abd-theme="executive"] .catalog-body code {
 }
 
 .page-hero--detail {
-  padding-top: 48px;
+  padding-top: 20px;
+  padding-bottom: 16px;
+}
+.page-hero--detail .page-headline {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 4px 0 6px;
+}
+.page-headline .skill-name-prefix,
+.cap-card__title .skill-name-prefix {
+  color: var(--accent);
+}
+.page-hero--detail .body-lead {
+  font-size: 0.9rem;
+  margin: 0;
+  color: var(--muted);
 }
 
 .page-hero--detail .back-link {
@@ -731,8 +746,18 @@ a.cap-card:hover .cap-card__more {
   color: #b8b8c2;
   margin: 0 0 18px;
 }
+.skill-detail-page .skill-hero-img-wrap + .install-block {
+  margin-top: 18px;
+}
+.skill-detail-page .install-block + .skill-cr-grid,
+.skill-detail-page .install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block {
+  margin-top: 0;
+}
 .install-block {
-  margin: 22px 0 0;
+  margin: 20px 0 0;
   padding: 16px 18px;
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid var(--border-muted);
@@ -1041,30 +1066,699 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 .plugin-slots h3:first-child { margin-top: 0; }
 .cap-grid--plugin-slot { margin-bottom: 8px; }
 
+/* ── Skill detail: family kanban stage nav (matches hub column headings) ── */
+.skill-kanban-nav {
+  --fam-sdd: #6bcb77;
+  --fam-ddd: #6c5ce7;
+  --fam-uxd: #e84393;
+  --fam-arc: #4fc3f7;
+  --fam-idea: var(--accent);
+  --abd-accent: var(--accent);
+  --abd-accent-glow: var(--accent-soft, var(--accent));
+  --abd-raised: var(--raised);
+  --abd-bg: var(--bg);
+  --abd-border: var(--border);
+  --abd-text: var(--text);
+  --abd-muted: var(--muted);
+  background: var(--raised);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0 16px;
+}
+.skill-kanban-nav .wrap {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.skill-kanban-nav__board {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  gap: 6px 8px;
+  align-items: start;
+}
+.skill-kanban-nav__practice-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  margin: 0;
+  padding: 0 8px;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-left-width: 3px;
+  border-radius: 4px;
+  line-height: 1.25;
+  box-sizing: border-box;
+  transition: box-shadow 120ms, border-color 120ms;
+  color: inherit;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card:hover {
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--sdd {
+  border-left-color: var(--fam-sdd);
+  color: var(--fam-sdd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--ddd {
+  border-left-color: var(--fam-ddd);
+  color: var(--fam-ddd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--uxd {
+  border-left-color: var(--fam-uxd);
+  color: var(--fam-uxd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--arc {
+  border-left-color: var(--fam-arc);
+  color: var(--fam-arc);
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap {
+  position: relative;
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip.kb-col-shape-tooltip {
+  min-width: 10rem;
+  max-width: 22rem;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:hover .kb-skill-tooltip,
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:focus-within .kb-skill-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.skill-kanban-nav__stages {
+  display: grid;
+  grid-template-columns: repeat(var(--skill-kanban-cols, 5), minmax(0, 1fr));
+  gap: 0 8px;
+  min-width: 0;
+}
+.skill-kanban-nav__col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.skill-kanban-nav__tickets {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.skill-kanban-nav .kb-col-head {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 8px 6px 7px;
+  font-family: var(--font-mono);
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.skill-kanban-nav .kb-col-head--static {
+  cursor: default;
+}
+.skill-kanban-nav a.kb-col-head {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav a.kb-col-head:hover {
+  border-color: rgba(229, 83, 26, 0.35);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.15);
+}
+.skill-kanban-nav .kb-col-head--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-col-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+}
+.skill-kanban-nav .kb-col-scope-shape {
+  flex-shrink: 0;
+  border: 2px solid var(--abd-accent);
+  border-radius: 2px;
+}
+.skill-kanban-nav__stages .kb-col-shape-tooltip,
+.skill-kanban-nav__stages .kb-skill-tooltip-wrap .kb-col-shape-tooltip {
+  display: none !important;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 8px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 7px 9px;
+  font-family: var(--font-mono);
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid rgba(229, 83, 26, 0.45);
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 14px;
+  border: 5px solid transparent;
+  border-bottom-color: rgba(229, 83, 26, 0.45);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__name {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--abd-accent-glow);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__bullets {
+  font-size: 8px;
+  line-height: 1.45;
+  color: var(--abd-text);
+  white-space: pre-line;
+}
+.skill-kanban-nav .kb-col-scope-shape--solution { width: 36px; height: 12px; }
+.skill-kanban-nav .kb-col-scope-shape--increment { width: 24px; height: 16px; }
+.skill-kanban-nav .kb-col-scope-shape--sprint { width: 16px; height: 22px; }
+.skill-kanban-nav .kb-col-scope-shape--story { width: 11px; height: 28px; }
+.skill-kanban-nav .kb-col-head-title {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--abd-text);
+}
+.skill-kanban-nav .kb-col-head-title > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.skill-kanban-nav .kb-col-num {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--abd-text);
+  background: var(--abd-bg);
+  border: 1px solid var(--abd-border);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+.skill-kanban-nav .kb-ticket {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  background: var(--abd-raised);
+  color: var(--abd-text);
+  padding: 5px 6px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  border-left-width: 3px;
+  border-left-color: var(--abd-muted);
+  line-height: 1.25;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav .kb-ticket:hover {
+  border-color: var(--abd-border);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.2);
+}
+.skill-kanban-nav .kb-ticket.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-ticket.aad-fam-sdd { border-left-color: var(--fam-sdd); }
+.skill-kanban-nav .kb-ticket.aad-fam-ddd { border-left-color: var(--fam-ddd); }
+.skill-kanban-nav .kb-ticket.aad-fam-uxd { border-left-color: var(--fam-uxd); }
+.skill-kanban-nav .kb-ticket.aad-fam-arc { border-left-color: var(--fam-arc); }
+.skill-kanban-nav .kb-ticket.aad-fam-idea { border-left-color: var(--fam-idea); }
+@media (max-width: 960px) {
+  .skill-kanban-nav__board {
+    grid-template-columns: 1fr;
+  }
+  .skill-kanban-nav__stages {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
+
+/* ── Skill detail: full-width hero image / embedded viewer ── */
+.skill-hero-img-wrap {
+  margin: 24px 0 0;
+}
+.skill-hero-img-wrap:empty { display: none; }
+.skill-hero-img-wrap img,
+.skill-hero-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--raised);
+}
+
+/* HTML prototype iframe (reference/example/index.html) */
+.skill-prototype-wrap {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-prototype-frame {
+  display: block;
+  width: 100%;
+  min-height: 540px;
+  height: 71vh;
+  max-height: 810px;
+  border: 0;
+  background: #fff;
+}
+.skill-prototype-open {
+  margin: 0;
+  padding: 8px 14px;
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+  background: var(--raised);
+}
+.skill-prototype-open a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.skill-prototype-open a:hover { text-decoration: underline; }
+
+/* draw.io embedded viewer */
+.skill-drawio-wrap {
+  position: relative;
+  width: 100%;
+  height: min(71vh, 680px);
+  min-height: 340px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-drawio-wrap .mxgraph {
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+}
+.skill-drawio-wrap .geToolbarContainer {
+  z-index: 4;
+}
+
+/* code file preview */
+.skill-code-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--raised);
+  font-size: 13px;
+}
+.skill-code-lang {
+  padding: 6px 14px;
+  font-family: var(--mono, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.skill-code-preview pre {
+  margin: 0;
+  padding: 16px;
+  overflow-x: auto;
+  max-height: 420px;
+}
+.skill-code-preview code {
+  font-family: var(--mono, 'JetBrains Mono', monospace);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+/* rendered markdown preview */
+.skill-hero-img-wrap .skill-md-preview {
+  max-height: min(71vh, 610px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.skill-md-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px 24px;
+  background: var(--surface);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.skill-md-preview h1 { font-size: 18px; font-weight: 700; margin: 0 0 12px; }
+.skill-md-preview h2 { font-size: 15px; font-weight: 600; margin: 16px 0 8px;
+  border-bottom: 1px solid var(--border); padding-bottom: 3px; }
+.skill-md-preview h3 { font-size: 13px; font-weight: 600; margin: 12px 0 6px; }
+.skill-md-preview h4 { font-size: 12px; font-weight: 600; margin: 10px 0 4px; color: var(--muted); }
+.skill-md-preview p  { margin: 0 0 10px; }
+.skill-md-preview .spec-steps { margin: 0 0 14px; }
+.skill-md-preview p.spec-step { margin: 0 0 4px; line-height: 1.55; }
+.skill-md-preview .md-table-wrap { overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview .md-table { border-collapse: collapse; width: 100%; }
+.skill-md-preview ul, .skill-md-preview ol { margin: 0 0 10px; padding-left: 20px; }
+.skill-md-preview li { margin-bottom: 3px; }
+.skill-md-preview code { background: var(--raised); border-radius: 3px;
+  padding: 1px 5px; font-family: var(--mono, monospace); font-size: 12px; }
+.skill-md-preview pre { background: var(--raised); border-radius: 5px;
+  padding: 12px; overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview table { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
+.skill-md-preview th, .skill-md-preview td {
+  border: 1px solid var(--border); padding: 6px 10px; }
+.skill-md-preview th { background: var(--raised); font-weight: 600; }
+
+/* ── Skill detail: concepts | rules two-column grid ── */
+.skill-cr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin: 24px 0 0;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .skill-cr-grid { grid-template-columns: 1fr; }
+}
+.skill-cr-col { min-width: 0; }
+.skill-cr-single { margin: 24px 0 0; }
+
+/* Glossary example hero — term blocks without heavy HR dividers */
+.skill-md-preview--glossary h1 {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 10px;
+  border: 0;
+  padding: 0;
+}
+.skill-md-preview--glossary h2 {
+  font-size: 16px;
+  margin-top: 0;
+}
+.skill-md-preview--glossary h3 {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 14px 0 6px;
+  padding: 6px 8px;
+  background: var(--raised);
+  border-radius: 4px;
+  border-left: 3px solid var(--accent);
+}
+.skill-md-preview--glossary hr {
+  display: none;
+}
+.skill-md-preview--glossary ul {
+  margin-top: 0;
+}
+
+/* ── Skill detail: full-width content below ── */
+.skill-detail-content-col { margin-top: 32px; }
+.skill-detail-page .skill-cr-grid,
+.skill-detail-page .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-single,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-single {
+  margin-top: 0;
+}
+
+/* ── Skill detail: concepts (expandable) ── */
+.skill-hero-img-wrap + .install-block {
+  margin-top: 16px;
+}
+.install-block + .skill-cr-grid,
+.install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-concepts {
+  margin: 0 0 20px;
+}
+.skill-concepts-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 8px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-concept {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-concept summary {
+  padding: 8px 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  user-select: none;
+}
+.skill-concept summary::-webkit-details-marker { display: none; }
+.skill-concept summary::marker { content: ""; }
+.skill-concept summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-concept[open] summary::before { content: "\2212"; }
+.skill-concept-body {
+  padding: 6px 4px 10px 1.9rem;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.skill-concept-body p { margin: 0 0 8px; }
+.skill-concept-body p:last-child { margin-bottom: 0; }
+.skill-concept-body ul { margin: 0 0 8px 1.1em; padding: 0; }
+.skill-concept-body li { margin: 3px 0; }
+
+/* ── Skill detail: rules (DO / DON'T) ── */
+.skill-rules {
+  margin: 0 0 20px;
+}
+.skill-rules-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 12px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-rule {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule[open] > .skill-rule-header {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule-header {
+  padding: 8px 10px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  background: var(--raised);
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+.skill-rule-header::-webkit-details-marker { display: none; }
+.skill-rule-header::marker { content: ""; }
+.skill-rule-header::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-rule[open] > .skill-rule-header::before {
+  content: "\2212";
+}
+.skill-rule-section {
+  padding: 8px 12px;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+.skill-rule-section--do {
+  border-left: 3px solid #2d8a4e;
+}
+.skill-rule-section--dont {
+  border-left: 3px solid #c0392b;
+}
+.skill-rule-section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+  color: var(--muted);
+}
+.skill-rule-section--do .skill-rule-section-label { color: #2d8a4e; }
+.skill-rule-section--dont .skill-rule-section-label { color: #c0392b; }
+.skill-rule-section ul { margin: 0; padding: 0 0 0 1.1em; }
+.skill-rule-section li { margin: 2px 0; color: var(--text); }
+
 </style>
-<script src="../commons/catalog-nav.js?v=foundry-8"></script>
+<script src="../commons/catalog-nav.js?v=foundry-9"></script>
 </head>
 <body data-nav-prefix="../" data-nav-current="skills" data-nav-site-base="../../../abd-works-website/">
 <main id="main-content">
 
+<div class="skill-kanban-nav">
+<div class="wrap">
+<div class="skill-kanban-nav__board">
+    <div class="skill-kanban-nav__practice-col" aria-label="Practice families">
+      <a class="foundry-practice-col__card foundry-perspective-label--sdd aad-skill aad-fam-sdd kb-ticket--current has-skill-tooltip" href="abd-story-mapping.html"><span class="kb-skill-tooltip-wrap">story-driven-delivery<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">story-driven-delivery</span><span class="kb-col-shape-tooltip__bullets">Given/When/Then scenarios with real example data</span></span></span></a>
+      <a class="foundry-practice-col__card foundry-perspective-label--ddd aad-skill aad-fam-ddd has-skill-tooltip" href="abd-domain-glossary.html"><span class="kb-skill-tooltip-wrap">domain-driven-design<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">domain-driven-design</span><span class="kb-col-shape-tooltip__bullets">Typed terms + relationships (a schema), not prose definitions</span></span></span></a>
+      <a class="foundry-practice-col__card foundry-perspective-label--uxd aad-skill aad-fam-uxd has-skill-tooltip" href="abd-ux-user-impact-map.html"><span class="kb-skill-tooltip-wrap">user-experience-design<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">user-experience-design</span><span class="kb-col-shape-tooltip__bullets">Component spec with named states &amp; rules, not a static picture</span></span></span></a>
+      <a class="foundry-practice-col__card foundry-perspective-label--arc aad-skill aad-fam-arc has-skill-tooltip" href="abd-architecture-outline.html"><span class="kb-skill-tooltip-wrap">architecture-centric-engineering<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture-centric-engineering</span><span class="kb-col-shape-tooltip__bullets">Interface contracts / templates the engine can follow</span></span></span></a>
+    </div>
+<nav class="skill-kanban-nav__stages" style="--skill-kanban-cols: 5" aria-label="Practice stages">
+      <div class="skill-kanban-nav__col" data-stage="shaping">
+        <a class="kb-col-head kb-col-head--link kb-col-head--current" data-stage="shaping" href="abd-story-mapping.html" title="Whole solution. wide / shallow. outcomes, scope, boundaries">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--solution" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Shaping</span><span class="kb-col-num">1</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-sdd kb-ticket--current" href="abd-story-mapping.html" title="Build a Patton-style story map per scope from source material — a single shared picture of the product as epics (broad capability areas), sub-epics (flows or feature areas), and stories (one observable user or system interaction each). Decompose requirements into outcomes and behaviors, not build tasks or source dumps, so product, delivery, and domain people share one structure. Name every epic, sub-epic, and story verb—noun; carry who acts in story_type, not in the title. Record context gaps inline where source material is thin.">story mapping outline</a>
+        </div>
+      </div>
+      <div class="skill-kanban-nav__col" data-stage="discovery">
+        <a class="kb-col-head kb-col-head--link" data-stage="discovery" href="abd-story-mapping.html" title="Increment. medium. interactions, experience, structure">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--increment" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Discovery</span><span class="kb-col-num">2</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-sdd" href="abd-story-mapping.html" title="Build a Patton-style story map per scope from source material — a single shared picture of the product as epics (broad capability areas), sub-epics (flows or feature areas), and stories (one observable user or system interaction each). Decompose requirements into outcomes and behaviors, not build tasks or source dumps, so product, delivery, and domain people share one structure. Name every epic, sub-epic, and story verb—noun; carry who acts in story_type, not in the title. Record context gaps inline where source material is thin.">story mapping</a>
+        </div>
+      </div>
+      <div class="skill-kanban-nav__col" data-stage="exploration">
+        <a class="kb-col-head kb-col-head--link" data-stage="exploration" href="abd-story-acceptance-criteria.html" title="Sprint. narrow / deeper. behaviour, design, logic">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--sprint" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Exploration</span><span class="kb-col-num">3</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-sdd" href="abd-story-acceptance-criteria.html" title="Build acceptance criteria per story, that explain what must be true when users and systems interact: observable triggers (WHEN), expected outcomes (THEN), chained effects (AND), and explicit negatives (BUT). These act as informal first-draft BDD-style steps that guide downstream scenario work. Focus on interactions using domain terms, avoid implementation detail unless the story is technical, and even then keep it minimal.">story acceptance criteria</a>
+        </div>
+      </div>
+      <div class="skill-kanban-nav__col" data-stage="specification">
+        <a class="kb-col-head kb-col-head--link" data-stage="specification" href="abd-story-specification.html" title="Story. narrow / executable. examples, design, templates">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--story" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Specification</span><span class="kb-col-num">4</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-sdd" href="abd-story-specification.html" title="Build specification scenarios per story that turn acceptance criteria and story intent into runnable examples: preconditions (Given), triggers (When), observable outcomes (Then), chained effects (And), and explicit negatives (But). Write multiple scenarios per story — at least one happy path plus edge and error cases implied by the story or its AC — each a complete example with realistic domain values, not placeholders. Ground every step in the domain model: use exact concept names, deliberate relationships in step language, and Examples tables whose columns reflect domain structure (not isolated field lists). When AC exist, use the main-flow AC as the spine (WHEN → When, THEN/AND → Then/And), then add Given preconditions and additional scenarios for failures, boundaries, and alternate flows. Focus on what users and systems do and what becomes observable; keep implementation detail out unless the story is explicitly technical.">story specification</a>
+        </div>
+      </div>
+      <div class="skill-kanban-nav__col" data-stage="engineering">
+        <a class="kb-col-head kb-col-head--link" data-stage="engineering" href="abd-story-acceptance-test.html" title="Story. narrowest / deep. tests, code, interface">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--story" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Engineering</span><span class="kb-col-num">5</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-sdd" href="abd-story-acceptance-test.html" title="Write tests first. Write code to pass them.
+
+This skill creates executable test files — in whatever language and framework the project uses — from whatever behavioral context is available: specification scenarios, acceptance criteria, stories, notes, or a rough description of what the system should do. The output is real test code that runs, fails, and drives what gets built.
+
+The workflow is test-driven: write a test that expresses the expected behavior, run it to confirm it fails (RED), then implement production code until the test passes (GREEN). Each test is a precise, runnable statement of what the system must do — test methods show the Given-When-Then flow and helper functions do the work.">story acceptance test</a>
+        </div>
+      </div>
+</nav>
+</div>
+</div>
+</div>
+
+
 <div class="page-hero page-hero--detail">
   <div class="wrap">
-    <a class="back-link" href="../plugin/story-driven-delivery.html">← Story Driven Delivery</a>
-    <p class="s-name">Skill</p>
-    <h1 class="page-headline">abd-story-mapping</h1>
+    <a class="back-link" href="../index.html">← The ABD Foundry</a>
+    
+    <h1 class="page-headline"><span class="skill-name-prefix">abd-</span>story-mapping</h1>
     <p class="body-lead">Patton-style story maps (epics, stories, verb-noun naming); writes story-map templates from sources.</p>
   </div>
 </div>
 
 <div class="catalog-body">
-<div class="wrap">
+<div class="wrap skill-detail-page">
 
-<h2>Description</h2>
-<div class="entry-prose">A story map is a single shared picture of the product: epics (broad capability areas), sub-epics (flows or feature areas), and stories (leaves: one observable user or system interaction each). The map is not a dump of source material or a list of build tasks; it is outcomes and behaviors — what happens in the product — so product, delivery, and domain people can read the same structure.<br>
-<br>
-Naming is part of the model: epics, sub-epics, and stories use verb—noun titles; who is acting is carried outside the name (in story_type), not stuffed into the title.<br>
-<br>
----</div>
+<div class="skill-hero-img-wrap">
+<!-- drawio-rev:1781135779 --><div class="skill-drawio-wrap" data-drawio-rev="1781135779"><div class="mxgraph" data-mxgraph="{&quot;highlight&quot;: &quot;#e5531a&quot;, &quot;nav&quot;: false, &quot;resize&quot;: true, &quot;zoom&quot;: 1.0, &quot;toolbar&quot;: &quot;zoom lightbox&quot;, &quot;xml&quot;: &quot;&lt;mxfile host=\&quot;65bd71144e\&quot;&gt;\n    &lt;diagram name=\&quot;Story Map\&quot; id=\&quot;story-map\&quot;&gt;\n        &lt;mxGraphModel dx=\&quot;3020\&quot; dy=\&quot;1487\&quot; grid=\&quot;1\&quot; gridSize=\&quot;10\&quot; guides=\&quot;1\&quot; tooltips=\&quot;1\&quot; connect=\&quot;1\&quot; arrows=\&quot;1\&quot; fold=\&quot;1\&quot; page=\&quot;1\&quot; pageScale=\&quot;1\&quot; pageWidth=\&quot;1019\&quot; pageHeight=\&quot;542\&quot; math=\&quot;0\&quot; shadow=\&quot;0\&quot;&gt;\n            &lt;root&gt;\n                &lt;mxCell id=\&quot;0\&quot;/&gt;\n                &lt;mxCell id=\&quot;1\&quot; parent=\&quot;0\&quot;/&gt;\n                &lt;mxCell id=\&quot;browse-product-catalog\&quot; value=\&quot;Browse Product Catalog\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#000000;fontSize=11;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;20\&quot; y=\&quot;120\&quot; width=\&quot;510\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;browse-product-catalog/search-and-filter-products\&quot; value=\&quot;Search and Filter Products\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;25\&quot; y=\&quot;195\&quot; width=\&quot;240\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;browse-product-catalog/search-and-filter-products/search-products-by-keyword\&quot; value=\&quot;Search Products by Keyword\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;30\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;browse-product-catalog/search-and-filter-products/filter-products\&quot; value=\&quot;Filter Products\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;90\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;browse-product-catalog/search-and-filter-products/display-real-time-stock-availability\&quot; value=\&quot;Display Real-Time Stock Availability\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;150\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;browse-product-catalog/search-and-filter-products/display-low-stock-badge\&quot; value=\&quot;Display Low Stock Badge\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;210\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;browse-product-catalog/view-product-details\&quot; value=\&quot;View Product Details\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;275\&quot; y=\&quot;195\&quot; width=\&quot;120\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;browse-product-catalog/view-product-details/view-product-details\&quot; value=\&quot;View Product Details\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;280\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;browse-product-catalog/view-product-details/read-customer-reviews\&quot; value=\&quot;Read Customer Reviews\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;340\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;browse-product-catalog/review-products\&quot; value=\&quot;Review Products\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;405\&quot; y=\&quot;195\&quot; width=\&quot;120\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;browse-product-catalog/review-products/submit-written-review-with-star-rating\&quot; value=\&quot;Submit Written Review with Star Rating\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;410\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;browse-product-catalog/review-products/submit-photo-review\&quot; value=\&quot;Submit Photo Review\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;470\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;browse-available-pets\&quot; value=\&quot;Browse Available Pets\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#000000;fontSize=11;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;540\&quot; y=\&quot;120\&quot; width=\&quot;320\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;browse-available-pets/explore-pet-gallery\&quot; value=\&quot;Explore Pet Gallery\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;545\&quot; y=\&quot;195\&quot; width=\&quot;180\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;browse-available-pets/explore-pet-gallery/browse-pets-by-species\&quot; value=\&quot;Browse Pets by Species\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;550\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;browse-available-pets/explore-pet-gallery/view-pet-profile\&quot; value=\&quot;View Pet Profile\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;610\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;browse-available-pets/explore-pet-gallery/view-pet-store-location-and-distance\&quot; value=\&quot;View Pet Store Location and Distance\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;670\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;browse-available-pets/manage-pet-listings\&quot; value=\&quot;Manage Pet Listings\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;735\&quot; y=\&quot;195\&quot; width=\&quot;120\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;browse-available-pets/manage-pet-listings/update-pet-profile\&quot; value=\&quot;Update Pet Profile\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;740\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;browse-available-pets/manage-pet-listings/mark-pet-as-adopted\&quot; value=\&quot;Mark Pet as Adopted\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;800\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;book-pet-visit\&quot; value=\&quot;Book Pet Visit\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#000000;fontSize=11;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;870\&quot; y=\&quot;120\&quot; width=\&quot;690\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;book-pet-visit/schedule-visit\&quot; value=\&quot;Schedule Visit\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;875\&quot; y=\&quot;195\&quot; width=\&quot;240\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;book-pet-visit/schedule-visit/view-available-time-slots-at-store\&quot; value=\&quot;View Available Time Slots at Store\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;880\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;book-pet-visit/schedule-visit/select-date-and-time-slot\&quot; value=\&quot;Select Date and Time Slot\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;940\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;book-pet-visit/schedule-visit/add-visit-note\&quot; value=\&quot;Add Visit Note\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1000\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;book-pet-visit/schedule-visit/confirm-appointment-booking\&quot; value=\&quot;Confirm Appointment Booking\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1060\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;book-pet-visit/manage-appointments\&quot; value=\&quot;Manage Appointments\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1125\&quot; y=\&quot;195\&quot; width=\&quot;180\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;book-pet-visit/manage-appointments/view-upcoming-and-past-appointments\&quot; value=\&quot;View Upcoming and Past Appointments\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1130\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;book-pet-visit/manage-appointments/cancel-or-rebook-appointment-after-pet-adoption\&quot; value=\&quot;Cancel or Rebook Appointment After Pet Adoption\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1190\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;book-pet-visit/manage-appointments/view-incoming-appointments\&quot; value=\&quot;View Incoming Appointments\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1250\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;book-pet-visit/track-visit-outcomes\&quot; value=\&quot;Track Visit Outcomes\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1315\&quot; y=\&quot;195\&quot; width=\&quot;240\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;book-pet-visit/track-visit-outcomes/check-in-customer\&quot; value=\&quot;Check In Customer\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1320\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;book-pet-visit/track-visit-outcomes/record-visit-outcome\&quot; value=\&quot;Record Visit Outcome\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1380\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;book-pet-visit/track-visit-outcomes/record-no-show\&quot; value=\&quot;Record No-Show\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1440\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;book-pet-visit/track-visit-outcomes/set-follow-up-action\&quot; value=\&quot;Set Follow-Up Action\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1500\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;find-store\&quot; value=\&quot;Find Store\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#000000;fontSize=11;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1570\&quot; y=\&quot;120\&quot; width=\&quot;380\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;find-store/locate-stores\&quot; value=\&quot;Locate Stores\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1575\&quot; y=\&quot;195\&quot; width=\&quot;240\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;find-store/locate-stores/view-store-map\&quot; value=\&quot;View Store Map\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1580\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;find-store/locate-stores/view-store-list\&quot; value=\&quot;View Store List\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1640\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;find-store/locate-stores/filter-stores-by-availability-and-specialization\&quot; value=\&quot;Filter Stores by Availability and Specialization\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1700\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;find-store/locate-stores/calculate-distance-to-store\&quot; value=\&quot;Calculate Distance to Store\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1760\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;find-store/personalize-store-experience\&quot; value=\&quot;Personalize Store Experience\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1825\&quot; y=\&quot;195\&quot; width=\&quot;120\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;find-store/personalize-store-experience/set-my-store-preference\&quot; value=\&quot;Set My Store Preference\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1830\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;find-store/personalize-store-experience/tailor-experience-to-preferred-store\&quot; value=\&quot;Tailor Experience to Preferred Store\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1890\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-customer-account\&quot; value=\&quot;Manage Customer Account\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#000000;fontSize=11;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1960\&quot; y=\&quot;120\&quot; width=\&quot;1110\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-customer-account/register-and-authenticate\&quot; value=\&quot;Register and Authenticate\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1965\&quot; y=\&quot;195\&quot; width=\&quot;420\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-customer-account/register-and-authenticate/register-account\&quot; value=\&quot;Register Account\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1970\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-customer-account/register-and-authenticate/send-email-verification\&quot; value=\&quot;Send Email Verification\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2030\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-customer-account/register-and-authenticate/verify-email-address\&quot; value=\&quot;Verify Email Address\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2090\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-customer-account/register-and-authenticate/log-in\&quot; value=\&quot;Log In\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2150\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-customer-account/register-and-authenticate/log-out\&quot; value=\&quot;Log Out\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2210\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-customer-account/register-and-authenticate/reset-password\&quot; value=\&quot;Reset Password\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2270\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-customer-account/register-and-authenticate/maintain-session-across-devices\&quot; value=\&quot;Maintain Session Across Devices\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2330\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-customer-account/manage-profile\&quot; value=\&quot;Manage Profile\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2395\&quot; y=\&quot;195\&quot; width=\&quot;420\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-customer-account/manage-profile/save-delivery-address\&quot; value=\&quot;Save Delivery Address\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2400\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-customer-account/manage-profile/manage-saved-addresses\&quot; value=\&quot;Manage Saved Addresses\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2460\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-customer-account/manage-profile/save-payment-method\&quot; value=\&quot;Save Payment Method\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2520\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-customer-account/manage-profile/manage-saved-payment-methods\&quot; value=\&quot;Manage Saved Payment Methods\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2580\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-customer-account/manage-profile/create-customer-pet\&quot; value=\&quot;Create Customer Pet\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2640\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-customer-account/manage-profile/update-customer-pet\&quot; value=\&quot;Update Customer Pet\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2700\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-customer-account/manage-profile/set-communication-preferences\&quot; value=\&quot;Set Communication Preferences\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2760\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-customer-account/track-activity\&quot; value=\&quot;Track Activity\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2825\&quot; y=\&quot;195\&quot; width=\&quot;240\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-customer-account/track-activity/view-order-history\&quot; value=\&quot;View Order History\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2830\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-customer-account/track-activity/view-appointment-history\&quot; value=\&quot;View Appointment History\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2890\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-customer-account/track-activity/manage-wishlist\&quot; value=\&quot;Manage Wishlist\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2950\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-customer-account/track-activity/reorder-previous-purchase\&quot; value=\&quot;Reorder Previous Purchase\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3010\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;purchase-products\&quot; value=\&quot;Purchase Products\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#000000;fontSize=11;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3080\&quot; y=\&quot;120\&quot; width=\&quot;1300\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;purchase-products/manage-shopping-cart\&quot; value=\&quot;Manage Shopping Cart\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3085\&quot; y=\&quot;195\&quot; width=\&quot;240\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;purchase-products/manage-shopping-cart/add-product-to-cart\&quot; value=\&quot;Add Product to Cart\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3090\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;purchase-products/manage-shopping-cart/update-cart-quantity\&quot; value=\&quot;Update Cart Quantity\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3150\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;purchase-products/manage-shopping-cart/remove-product-from-cart\&quot; value=\&quot;Remove Product from Cart\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3210\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;purchase-products/manage-shopping-cart/persist-cart-across-devices\&quot; value=\&quot;Persist Cart Across Devices\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3270\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;purchase-products/check-out\&quot; value=\&quot;Check Out\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3335\&quot; y=\&quot;195\&quot; width=\&quot;420\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;purchase-products/check-out/enter-shipping-address\&quot; value=\&quot;Enter Shipping Address\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3340\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;purchase-products/check-out/enter-billing-address\&quot; value=\&quot;Enter Billing Address\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3400\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;purchase-products/check-out/select-saved-address-at-checkout\&quot; value=\&quot;Select Saved Address at Checkout\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3460\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;purchase-products/check-out/select-delivery-option\&quot; value=\&quot;Select Delivery Option\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3520\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;purchase-products/check-out/select-click-and-collect-store\&quot; value=\&quot;Select Click-and-Collect Store\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3580\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;purchase-products/check-out/check-out-as-guest\&quot; value=\&quot;Check Out as Guest\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3640\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;purchase-products/check-out/allow-backorder-purchase\&quot; value=\&quot;Allow Backorder Purchase\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3700\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;purchase-products/process-payment\&quot; value=\&quot;Process Payment\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3765\&quot; y=\&quot;195\&quot; width=\&quot;360\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;purchase-products/process-payment/select-payment-method\&quot; value=\&quot;Select Payment Method\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3770\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;purchase-products/process-payment/select-saved-payment-method-at-checkout\&quot; value=\&quot;Select Saved Payment Method at Checkout\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3830\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;purchase-products/process-payment/process-card-payment-via-stripewave\&quot; value=\&quot;Process Card Payment via StripeWave\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3890\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;purchase-products/process-payment/process-digital-wallet-payment-via-paynova\&quot; value=\&quot;Process Digital Wallet Payment via PayNova\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;3950\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;purchase-products/process-payment/process-buy-now-pay-later-via-vaultpay\&quot; value=\&quot;Process Buy-Now-Pay-Later via VaultPay\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4010\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;purchase-products/process-payment/retry-failed-payment\&quot; value=\&quot;Retry Failed Payment\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4070\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;purchase-products/fulfill-order\&quot; value=\&quot;Fulfill Order\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4135\&quot; y=\&quot;195\&quot; width=\&quot;240\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;purchase-products/fulfill-order/confirm-order-and-send-confirmation-email\&quot; value=\&quot;Confirm Order and Send Confirmation Email\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4140\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;purchase-products/fulfill-order/send-shipping-notification-with-tracking-number\&quot; value=\&quot;Send Shipping Notification with Tracking Number\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4200\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;purchase-products/fulfill-order/fulfill-click-and-collect-order\&quot; value=\&quot;Fulfill Click-and-Collect Order\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4260\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;purchase-products/fulfill-order/track-order-status\&quot; value=\&quot;Track Order Status\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4320\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;return-products\&quot; value=\&quot;Return Products\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#000000;fontSize=11;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4390\&quot; y=\&quot;120\&quot; width=\&quot;320\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;return-products/initiate-return\&quot; value=\&quot;Initiate Return\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4395\&quot; y=\&quot;195\&quot; width=\&quot;120\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;return-products/initiate-return/initiate-return-from-order-history\&quot; value=\&quot;Initiate Return from Order History\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4400\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;return-products/initiate-return/generate-return-label-or-qr-code\&quot; value=\&quot;Generate Return Label or QR Code\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4460\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;return-products/process-refund\&quot; value=\&quot;Process Refund\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4525\&quot; y=\&quot;195\&quot; width=\&quot;180\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;return-products/process-refund/route-refund-through-original-payment-vendor\&quot; value=\&quot;Route Refund through Original Payment Vendor\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4530\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;return-products/process-refund/track-refund-status\&quot; value=\&quot;Track Refund Status\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4590\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;return-products/process-refund/process-in-store-return\&quot; value=\&quot;Process In-Store Return\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4650\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-notifications\&quot; value=\&quot;Manage Notifications\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#000000;fontSize=11;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4720\&quot; y=\&quot;120\&quot; width=\&quot;870\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-notifications/send-transactional-notifications\&quot; value=\&quot;Send Transactional Notifications\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4725\&quot; y=\&quot;195\&quot; width=\&quot;420\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-notifications/send-transactional-notifications/send-order-confirmation\&quot; value=\&quot;Send Order Confirmation\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4730\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-notifications/send-transactional-notifications/send-shipping-update-with-tracking\&quot; value=\&quot;Send Shipping Update with Tracking\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4790\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-notifications/send-transactional-notifications/send-appointment-reminder\&quot; value=\&quot;Send Appointment Reminder\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4850\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-notifications/send-transactional-notifications/send-pet-adopted-before-visit-notification\&quot; value=\&quot;Send Pet Adopted Before Visit Notification\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4910\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-notifications/send-transactional-notifications/send-return-and-refund-status-update\&quot; value=\&quot;Send Return and Refund Status Update\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;4970\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-notifications/send-transactional-notifications/send-visit-follow-up-notification\&quot; value=\&quot;Send Visit Follow-Up Notification\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5030\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-notifications/send-transactional-notifications/send-click-and-collect-ready-notification\&quot; value=\&quot;Send Click-and-Collect Ready Notification\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5090\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-notifications/send-marketing-notifications\&quot; value=\&quot;Send Marketing Notifications\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5155\&quot; y=\&quot;195\&quot; width=\&quot;300\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-notifications/send-marketing-notifications/opt-in-to-marketing-email-list\&quot; value=\&quot;Opt In to Marketing Email List\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5160\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-notifications/send-marketing-notifications/send-promotional-email\&quot; value=\&quot;Send Promotional Email\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5220\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-notifications/send-marketing-notifications/send-personalized-recommendation\&quot; value=\&quot;Send Personalized Recommendation\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5280\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-notifications/send-marketing-notifications/send-restock-alert\&quot; value=\&quot;Send Restock Alert\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5340\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-notifications/send-marketing-notifications/send-in-store-event-notification\&quot; value=\&quot;Send In-Store Event Notification\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5400\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-notifications/manage-notification-preferences\&quot; value=\&quot;Manage Notification Preferences\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5465\&quot; y=\&quot;195\&quot; width=\&quot;120\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-notifications/manage-notification-preferences/set-notification-preferences\&quot; value=\&quot;Set Notification Preferences\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5470\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-notifications/manage-notification-preferences/unsubscribe-from-marketing-emails\&quot; value=\&quot;Unsubscribe from Marketing Emails\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5530\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;publish-content\&quot; value=\&quot;Publish Content\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#000000;fontSize=11;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5600\&quot; y=\&quot;120\&quot; width=\&quot;100\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-store-operations\&quot; value=\&quot;Manage Store Operations\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#000000;fontSize=11;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5710\&quot; y=\&quot;120\&quot; width=\&quot;260\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-store-operations/manage-inventory\&quot; value=\&quot;Manage Inventory\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5715\&quot; y=\&quot;195\&quot; width=\&quot;120\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-store-operations/manage-inventory/update-product-stock-levels\&quot; value=\&quot;Update Product Stock Levels\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5720\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-store-operations/manage-inventory/view-inventory-dashboard\&quot; value=\&quot;View Inventory Dashboard\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5780\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-store-operations/manage-order-fulfillment\&quot; value=\&quot;Manage Order Fulfillment\&quot; style=\&quot;rounded=1;whiteSpace=wrap;html=1;overflow=hidden;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5845\&quot; y=\&quot;195\&quot; width=\&quot;120\&quot; height=\&quot;60\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-store-operations/manage-order-fulfillment/view-and-process-incoming-orders\&quot; value=\&quot;View and Process Incoming Orders\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5850\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;manage-store-operations/manage-order-fulfillment/prepare-click-and-collect-orders-for-pickup\&quot; value=\&quot;Prepare Click-and-Collect Orders for Pickup\&quot; style=\&quot;whiteSpace=wrap;html=1;overflow=hidden;aspect=fixed;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=8;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;5910\&quot; y=\&quot;274\&quot; width=\&quot;50\&quot; height=\&quot;50\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n            &lt;/root&gt;\n        &lt;/mxGraphModel&gt;\n    &lt;/diagram&gt;\n&lt;/mxfile&gt;&quot;}"></div></div><script type="text/javascript" src="https://viewer.diagrams.net/js/viewer-static.min.js"></script>
+<script src="../commons/catalog-drawio.js?v=foundry-1"></script>
+
+</div>
 
 <section class="install-block" aria-labelledby="install-npx-heading">
   <h2 id="install-npx-heading">Install with npx</h2>
@@ -1073,93 +1767,180 @@ Naming is part of the model: epics, sub-epics, and stories use verb—noun title
 </section>
 
 
-<hr class="entry-divider">
-
-
-
-<hr class="entry-divider">
-
-<h2 id="entry-contents">Contents</h2>
-<details class="entry-md-section" id="md-overview"><summary class="entry-md-section__summary">Overview</summary><div class="entry-md-section__body"><p>﻿--- name: abd-story-mapping catalog_garden_tier: practice catalog_garden_order: 10 catalogue_one_liner: &gt;- Patton-style story maps (epics, stories, verb-noun naming); writes story-map templates from sources. description: &gt;- Produces Patton-style story maps — epics, sub-epics, stories, verb—noun naming, and actors. Use when structuring product discovery, decomposing user journeys, identifying epics and flows, story mapping, organizing requirements into a hierarchical map, or when the user mentions story maps, epics, sub-epics, or Jeff Patton—style backlog structure.</p>
-<hr>
-<h1>abd-story-mapping</h1></div></details>
-<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p>A <strong>story map</strong> is a <strong>single shared picture</strong> of the product: epics (broad capability areas), sub-epics (flows or feature areas), and stories (leaves: one observable user or system interaction each). The map is <strong>not</strong> a dump of source material or a list of build tasks; it is <strong>outcomes and behaviors</strong> — <em>what</em> happens in the product — so product, delivery, and domain people can read the same structure.</p>
-<p><strong>Naming</strong> is part of the model: epics, sub-epics, and stories use <strong>verb—noun</strong> titles; <strong>who</strong> is acting is carried outside the name (in `story_type`), not stuffed into the title.</p>
+<div class="skill-cr-grid">
+<div class="skill-cr-col"><div class="skill-concepts">
+<h2 class="skill-concepts-heading">Concepts</h2>
+<details class="skill-concept"><summary>What is a story map?</summary><div class="skill-concept-body"><p>A <strong>story map</strong> is a visual, hierarchical model of how users and systems interact with a product or service. It was popularized by Jeff Patton and is central to the abd.works approach to discovery.</p>
+<p>A story map answers three questions: 1. <strong>Who</strong> uses the system? (Actors) 2. <strong>What</strong> are the major capability areas? (Top Level Epics) 3. <strong>How</strong> do users move through those areas, step by step? (Lower Level Epics and Stories)</p>
+<p>Story maps are intentionally <strong>not implementation plans</strong>. They describe <em>outcomes and behaviors</em>, not tasks, tickets, or technical steps. A good story map can be understood by a product owner, a developer, and a domain expert — all at once.</p>
+<h3>Why story map?</h3>
+<p>A story map is a <strong>collaborative method</strong> to break work down. It provides a structure to guide collaborative thought in order to achieve <strong>shared understanding</strong> — alignment from more than one perspective: the engineering team, the product, and the stakeholders affected by the product. Story maps are useful when a project, initiative, or product is in discovery and the scope of functions, features, and goals needs to be fleshed out.</p>
 <hr></div></details>
-<details class="entry-md-section" id="output-file"><summary class="entry-md-section__summary">Output file</summary><div class="entry-md-section__body"><p><strong>Deliverables folder:</strong> see `../agent-protocol.md` — Output file resolution.</p>
-<p><strong>File name:</strong> `story-map.md`. Add a `&lt;name&gt;-` prefix only when disambiguation is needed.</p>
+<details class="skill-concept"><summary>Actors</summary><div class="skill-concept-body"><p>An <strong>actor</strong> is anyone (or anything) that interacts with the system. Actors are the <em>who</em> behind every story.</p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Actor type</th><th>Description</th><th>Examples</th></tr></thead><tbody><tr><td><strong>User</strong></td><td>A human who uses the system directly</td><td>Customer, Administrator, Agent</td></tr><tr><td><strong>System</strong></td><td>An external system or automated process</td><td>Payment gateway, Email service, Scheduler</td></tr></tbody></table></div>
+<p>Actors do NOT appear in story names — they are captured in the <code>story_type</code> field and optionally in <code>notes</code>. The name describes the <em>behavior</em>, not who does it.</p></div></details>
+<details class="skill-concept"><summary>Personas</summary><div class="skill-concept-body"><p>A <strong>persona</strong> is a representative description of a segment of customers or users. Before building the map, identify the personas from the available context. For each persona determine their goals and the activities they need to meet those goals — these drive the epics and stories below.</p>
+<p>In the story map, personas sit at the <strong>top layer</strong> — each persona&#x27;s goals drive the epics below them.</p>
 <hr></div></details>
-<details class="entry-md-section" id="agent-instructions"><summary class="entry-md-section__summary">Agent Instructions</summary><div class="entry-md-section__body"><p>&gt; <strong>MANDATORY — read `../agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.</strong></p>
-<h3>1. Read context</h3>
-<p>Read these files:</p>
+<details class="skill-concept"><summary>Epics</summary><div class="skill-concept-body"><p>An <strong>epic</strong> is a major <strong>capability area</strong> of the system — a broad theme that groups related user journeys together.</p>
+<p>Epics answer: <em>&quot;What is this area of the product responsible for?&quot;</em></p>
 <ul>
-<li><strong>`reference/concepts.md`</strong> — what story maps are, actors, personas, epics, stories, story types, pitfalls, gap recording, and depth levels.</li>
-<li><strong>`reference/examples.md`</strong> — a worked example of a story map showing epics, sub-epics, and stories.</li>
+<li>They are not <strong>user stories</strong> — they are containers for flows</li>
+<li>A medium-sized system typically has 3–8 top level epics</li>
+<li>Named in <strong>verb-noun format</strong>: <code>Manage Customer Orders</code>, <code>Track Fleet Vehicles</code>, <code>Process Payments</code></li>
 </ul>
-<h3>2. Generate</h3>
-<p>Read every file in <strong>`rules/`</strong>; author to those rules.</p>
-<p><strong>Produce output from every template:</strong></p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td>`templates/story-map.md`</td><td>The epic/sub-epic/story tree using that layout. Optional title or short context above the tree is fine. <strong>Do not</strong> paste the template&#x27;s notation / `## Instructions` section into generated project files.</td></tr></tbody></table></div>
-<p><strong>New files under `templates/` later</strong> → one deliverable per file.</p>
-<p><strong>Depth:</strong> Respect the depth level the user asks for (see `reference/concepts.md` <strong>Depth levels</strong>). At <strong>Story Map Outline</strong>, produce epics with confirming stories; do not apply the full rule set. At <strong>Level 2+</strong>, apply the full hierarchy and rules. Default to Level 2 when the user does not specify.</p>
-<p><strong>Consistency:</strong> Connectors (`or`, `opt`), nested `(AC)` lines, and actor/story lines must be complete and consistent throughout the `.md` artifact. Generated artifacts contain <strong>only</strong> the map; notation rules stay in this skill and in `templates/story-map.md`.</p>
-<p><strong>Quality bar:</strong> Match the naming and layout expectations in `reference/concepts.md` (verb-noun, actor in `story_type` not in name, stories are behaviors not tasks).</p>
-<p><strong>Where it lives:</strong> Write `story-map.md` alongside the other engagement deliverables for this scope.</p>
-<h3>3. Validate</h3>
-<p>Run the scanners:</p>
-<pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/abd-story-mapping \
-  --workspace &lt;path-to-output&gt;</code></pre>
-<p>Then emit per-rule verdicts per `../agent-protocol.md`.</p>
+<p><strong>Good:</strong> Manage Customer Orders, Process Online Payments. <strong>Weak:</strong> Orders, Backend, Admin.</p>
 <hr></div></details>
-<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Inspect what was built — read the artifacts as reviewers.</p>
+<details class="skill-concept"><summary>Epic Hierarchy</summary><div class="skill-concept-body"><p>Top level epics often have one or more layers of children epics, often called <strong>sub-epics</strong>. Each sub-epic is a <strong>flow or feature area</strong> within that epic — a coherent sequence of interactions that achieves a meaningful outcome.</p>
+<p>Sub-epics answer: <em>&quot;What are the distinct flows or phases within this capability area?&quot;</em></p>
 <ul>
-<li><strong>Hierarchy</strong> — epics → sub-epics → stories; <strong>verb—noun</strong> names; actors only in `story_type`, not in titles.</li>
-<li><strong>Story size</strong> — one observable behavior per story; flows grouped in sub-epics.</li>
-<li><strong>Intent</strong> — outcomes and behaviors, not implementation tasks or internal structure.</li>
-<li><strong>Context gaps</strong> — gaps recorded inline or in `## Context Gaps` section where context was absent.</li>
-<li><strong>No bundle markers</strong> — `SKILL.md` has no `&lt;!-- execute_rules:bundle_rules --&gt;` markers.</li>
+<li>Also named in <strong>verb-noun format</strong>: <code>Place New Order</code>, <code>Review Order History</code>, <code>Cancel Order</code></li>
+<li>Sub-epics can nest, but depth will likely be shallow — 1–2 levels usually enough.</li>
 </ul>
+<p><strong>Good:</strong> Place New Order, Review Order History. <strong>Weak:</strong> Order flow, Checkout stuff.</p>
 <hr></div></details>
-
-<ul class="file-list file-list--root">
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>reference/</strong><span class="file-meta"> → Folder (2 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/reference/concepts.md" target="_blank" rel="noopener noreferrer"><strong>concepts.md</strong></a><span class="file-meta"> → Story Mapping — Core Concepts</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/reference/examples.md" target="_blank" rel="noopener noreferrer"><strong>examples.md</strong></a><span class="file-meta"> → Story Mapping — Example</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/rules/active-business-and-behavioral-language.md" target="_blank" rel="noopener noreferrer"><strong>active-business-and-behavioral-language.md</strong></a><span class="file-meta"> → scanner: active-business-and-behavioral-language</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/rules/analyze-before-grouping.md" target="_blank" rel="noopener noreferrer"><strong>analyze-before-grouping.md</strong></a><span class="file-meta"> → Rule: Analyze before grouping</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/rules/brownfield-map-without-redesign.md" target="_blank" rel="noopener noreferrer"><strong>brownfield-map-without-redesign.md</strong></a><span class="file-meta"> → ﻿# Rule: Brownfield map without redesign</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/rules/consolidate-superficial-stories.md" target="_blank" rel="noopener noreferrer"><strong>consolidate-superficial-stories.md</strong></a><span class="file-meta"> → Rule: Consolidate Superficial Stories</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/rules/context-gaps-are-genuinely-missing-information.md" target="_blank" rel="noopener noreferrer"><strong>context-gaps-are-genuinely-missing-information.md</strong></a><span class="file-meta"> → Rule: Context gaps are genuinely missing information</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/rules/distinct-mechanics-have-distinct-stories.md" target="_blank" rel="noopener noreferrer"><strong>distinct-mechanics-have-distinct-stories.md</strong></a><span class="file-meta"> → Rule: Distinct mechanics have distinct stories</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/rules/lightweight-and-precise.md" target="_blank" rel="noopener noreferrer"><strong>lightweight-and-precise.md</strong></a><span class="file-meta"> → Rule: Lightweight and Precise</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/rules/map-system-application-behaviors.md" target="_blank" rel="noopener noreferrer"><strong>map-system-application-behaviors.md</strong></a><span class="file-meta"> → Rule: Map system and application behaviors</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/rules/outcome-oriented-language.md" target="_blank" rel="noopener noreferrer"><strong>outcome-oriented-language.md</strong></a><span class="file-meta"> → scanner: outcome-oriented-language</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/rules/review-and-expand-stories.md" target="_blank" rel="noopener noreferrer"><strong>review-and-expand-stories.md</strong></a><span class="file-meta"> → Rule: Review and Expand Stories</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/rules/scale-story-map-by-domain.md" target="_blank" rel="noopener noreferrer"><strong>scale-story-map-by-domain.md</strong></a><span class="file-meta"> → scanner: scale-story-map-by-domain</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/rules/small-and-testable.md" target="_blank" rel="noopener noreferrer"><strong>small-and-testable.md</strong></a><span class="file-meta"> → scanner: small-and-testable</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/rules/source-supported-mechanics-mapped-not-listed-as-deferred-gaps.md" target="_blank" rel="noopener noreferrer"><strong>source-supported-mechanics-mapped-not-listed-as-deferred-gaps.md</strong></a><span class="file-meta"> → Rule: Source-supported mechanics mapped not listed as deferred gaps</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/rules/story-map-existing-code.md" target="_blank" rel="noopener noreferrer"><strong>story-map-existing-code.md</strong></a><span class="file-meta"> → Rule: Story Map from Existing Code</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/rules/story-map-stays-within-user-requested-scope.md" target="_blank" rel="noopener noreferrer"><strong>story-map-stays-within-user-requested-scope.md</strong></a><span class="file-meta"> → Rule: Story map stays within user-requested scope</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/rules/story-traces-to-evidence.md" target="_blank" rel="noopener noreferrer"><strong>story-traces-to-evidence.md</strong></a><span class="file-meta"> → Rule: Story traces to evidence (brownfield)</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/rules/verb-noun-format.md" target="_blank" rel="noopener noreferrer"><strong>verb-noun-format.md</strong></a><span class="file-meta"> → scanner: verb-noun-format</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>scanners/</strong><span class="file-meta"> → Folder (6 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/scanners/__init__.py" target="_blank" rel="noopener noreferrer"><strong>__init__.py</strong></a><span class="file-meta"> → Story-map shape scanner implementations (verb–noun, outcome language, etc.).</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/scanners/active-business-and-behavioral-language-scanner.py" target="_blank" rel="noopener noreferrer"><strong>active-business-and-behavioral-language-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/scanners/outcome-oriented-language-scanner.py" target="_blank" rel="noopener noreferrer"><strong>outcome-oriented-language-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/scanners/scale-story-map-by-domain-scanner.py" target="_blank" rel="noopener noreferrer"><strong>scale-story-map-by-domain-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/scanners/small-and-testable-scanner.py" target="_blank" rel="noopener noreferrer"><strong>small-and-testable-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/scanners/verb-noun-format-scanner.py" target="_blank" rel="noopener noreferrer"><strong>verb-noun-format-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/templates/story-map.md" target="_blank" rel="noopener noreferrer"><strong>story-map.md</strong></a><span class="file-meta"> → &lt;!-- Pair required: also produce story-map.txt with the same tree. See SKILL.md → &quot;Use every template file (required)&quot;. --&gt;</span></li>
-</ul></div></details></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/corrections-log.md" target="_blank" rel="noopener noreferrer"><strong>corrections-log.md</strong></a><span class="file-meta"> →    C o r r e c t i o n s   l o g </span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-mapping/SKILL.md" target="_blank" rel="noopener noreferrer"><strong>SKILL.md</strong></a><span class="file-meta"> → name: abd-story-mapping</span></li>
+<details class="skill-concept"><summary>Stories</summary><div class="skill-concept-body"><p>A <strong>story</strong> is a <strong>discrete, observable behavior</strong> — a single thing a user or system does within a flow.</p>
+<p>Stories answer: <em>&quot;What is the specific action or interaction happening here?&quot;</em></p>
+<ul>
+<li>Stories are the leaves of the story map</li>
+<li>Each story should be independently testable in principle</li>
+<li><strong>Verb + noun</strong> (e.g. Place Order, Validate Payment). Put the actor in <code>story_type</code>, not in the title.</li>
+<li>Stories are behaviors, not tasks — &quot;call the payments API&quot; is a task; &quot;process payment&quot; is a story.</li>
 </ul>
+<p><strong>Good:</strong> Place Order, Select Delivery Address, Validate Payment. <strong>Weak:</strong> Customer Places Order; Payment Processing.</p>
+<p>Prefer what happens over how it is shown — <strong>Show order confirmation</strong> beats <strong>Displaying order confirmation</strong>.</p>
+<h3>Story types</h3>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th><code>story_type</code></th><th>Meaning</th><th>Style in diagram</th></tr></thead><tbody><tr><td><code>user</code></td><td>Human user</td><td>Yellow</td></tr><tr><td><code>system</code></td><td>External or automated system</td><td>Dark blue</td></tr><tr><td><code>technical</code></td><td>Infra, background jobs, non-visible</td><td>Black</td></tr></tbody></table></div>
+<p>Use <strong>user</strong> and <strong>system</strong> for normal product behavior. <strong>technical</strong> sparingly — only when someone explicitly wants that on the map.</p>
+<hr></div></details>
+<details class="skill-concept"><summary>Notes on context capture</summary><div class="skill-concept-body"><p>If useful detail does not fit a node name, put it in that node&#x27;s <code>notes</code> and cite the source (file, page, section, or <code>&quot;type&quot;: &quot;chat&quot;</code>). Check <code>notes</code> before re-reading raw sources when you continue work on the same map.</p>
+<hr></div></details>
+<details class="skill-concept"><summary>Pitfalls for agents</summary><div class="skill-concept-body"><p><strong>Assess context coverage and don&#x27;t fabricate to fill gaps.</strong> See <a href="../../../reference/handling-incomplete-context.html"><code>../../../reference/handling-incomplete-context.md</code></a> for the shared discipline on checking context coverage across dimensions and surfacing gaps honestly instead of inventing stories or structure.</p>
+<p><strong>Don&#x27;t defer analysis the source material supports.</strong> If the source describes how a workflow or entity type works, map it now — gaps are for missing information, not unfinished work.</p>
+<p><strong>Don&#x27;t add scope the user didn&#x27;t ask for.</strong> If the user describes one path (e.g., manual onboarding), don&#x27;t add a second without asking.</p>
+<hr></div></details>
+<details class="skill-concept"><summary>Recording context gaps in the story map</summary><div class="skill-concept-body"><p>Context gaps must be captured <strong>inside the story map output file</strong> (<code>story-map.md</code>) so they travel with the map.</p>
+<p><strong>Inline gaps</strong> — when a gap applies to a specific epic, sub-epic, or story, place a <code>* Gap:</code> line indented under that node:</p>
+<pre><code>(E) Direct Mob Combat
+    (E) Assign Mob Strategy
+        (S) GM --&gt; Select Mob Strategy
+        * Gap: Is the strategy list extensible by the GM, or fixed?
+    (E) Execute Mob Attack
+        (S) System --&gt; Resolve Melee Attack</code></pre>
+<p><strong>Map-level gaps</strong> — when a gap applies to the whole map or cuts across multiple areas, place a <code>## Context Gaps</code> section at the bottom of the file:</p></div></details>
+<details class="skill-concept"><summary>Context Gaps</summary><div class="skill-concept-body"><ul>
+<li>No technical input on Foundry VTT module API constraints.</li>
+<li>Single perspective (GM only); no QA or dev viewpoint yet.</li>
+</ul>
+<pre><code>
+---</code></pre></div></details>
+<details class="skill-concept"><summary>Iterating the map</summary><div class="skill-concept-body"><p>Do not treat the map as a one-shot deliverable. Deeper analysis will surface information that invalidates earlier structure — stories split, epics merge, flows reorder. This is expected.</p>
+<div class="spec-steps">
+<p class="spec-step">When new context arrives or downstream work (AC, scenarios, tests) exposes gaps, revise the map rather than working around stale structure.</p>
+</div>
+<h3>Depth levels</h3>
+<p><strong>Story Map Outline — Breadth pass (Idea Shaping)</strong></p>
+<p>Go wide, not deep. Produce <strong>epics</strong> and <strong>confirming stories</strong> — enough to prove each epic is real and the scope is right.</p>
+<p>A confirming story is a short verb-noun name that exercises the epic&#x27;s key domain nouns. Each epic needs at least two confirming stories.</p>
+<p>What you produce: top-level epics; 2+ confirming stories per epic; actors identified per epic; context gaps.</p>
+<p>What you do <strong>not</strong> produce: detailed flows, scenarios, or steps; full story decomposition.</p>
+<div class="spec-steps">
+<p class="spec-step">When to use: first contact with new context, early discovery, scope alignment, or when the user asks for &quot;just the epics&quot;, &quot;breadth pass&quot;, &quot;outline&quot;, or &quot;idea shaping.&quot;</p>
+</div>
+<p><strong>Level 2 — Increment discovery</strong></p>
+<p>Deepen selected epics into sub-epics and fully decomposed stories. Apply the full rule set. Leave epics the team will not build soon at outline depth.</p>
+<p><strong>Level 3 — Story refinement</strong></p>
+<p>Detail stories for the next delivery increment: acceptance-criteria hooks, failure modes, consolidation notes. Later increments stay at outline or Level 2.</p></div></details>
+</div></div>
+<div class="skill-cr-col"><div class="skill-rules">
+<h2 class="skill-rules-heading">Rules</h2>
+<details class="skill-rule">
+<summary class="skill-rule-header">Active Business and Behavioral Language</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Use active voice with business language and base verb forms (infinitive/imperative): e.g. User --&gt; submit order, System --&gt; validate payment, Customer --&gt; place order, Admin --&gt; approve request.</li><li>Prefer action verbs that describe behavior: submit, view, validate, send, display, place, edit, create, load, save, invoke, process, generate, update — as fits the story.</li><li>Prefer user/system stories over raw technical tasks. Rephrase technical wording into business behavior (e.g. System --&gt; store user data rather than “set up database schema”). When technical work is required, use story_type: technical and keep it minimal.</li><li>When technical stories are necessary, mark with story_type: technical and keep them focused.</li><li>When the domain has its own vocabulary (financial instruments, medical protocols, logistics terms, regulatory language), use the domain&#x27;s terms in story names instead of inventing generic application language.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Passive or vague: not “Order is submitted” — use User --&gt; submit order. Not “Payment gets validated” — use System --&gt; validate payment.</li><li>Implementation/task language as the main story: avoid “write code”, “create class”, “set up CI/CD”, “configure database” as the behavior — express business outcome instead where possible.</li><li>Development-task verbs for primary stories: implement feature, create module, refactor code, fix bug, build system — unless framed as real behavioral outcomes with story_type as appropriate.</li><li>Invent generic application language when the source material provides precise domain terms.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Analyze before grouping</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>For each entity type under a shared heading, document a brief configuration / validation / lifecycle summary before deciding whether to consolidate or split.</li><li>When the analysis reveals identical workflows, consolidate per Consolidate Superficial Stories.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Group entities into one story because they share a heading or category name in the source.</li><li>Skip the analysis step and group by intuition or label similarity.</li><li>Assume a generic &quot;configure + set level&quot; story covers an entity type whose configuration changes other derived attributes.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Brownfield map without redesign</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Map observed behavior only — including defects and quirks as stories or notes for AC (observed intent).</li><li>Split characterize slices from change slices in narrative or thin-slicing — e.g. &quot;Enter Game (as-built)&quot; before &quot;Enter Game (fix SQL cursor)&quot;.</li><li>Stop and hand off quirks to abd-story-acceptance-criteria with explicit observed wording.</li><li>Follow delivery strategy brownfield-current-state checkpoint: reviewer brownfield-boundary-gate before AC work.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Rename concepts in the map to &quot;clean&quot; domain language that does not match current UI/logs/code — use abd-domain-glossary if vocabulary needs curation.</li><li>Omit known bugs because they are embarrassing — they are documented behavior until a change slice approves a delta.</li><li>Combine mapping and implementation fix in one executor slot.</li><li>Add stories that describe target architecture (&quot;should use event bus&quot;) when the codebase does not do that today.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Consolidate Superficial Stories</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Merge stories that share the same validation logic but differ only by the value validated (e.g. six address fields → one Validate Address Field (street, city, …) story).</li><li>Merge stories that share the same calculation but differ only by attribute (e.g. multiple “calculate X tax” → Calculate Tax Withholdings).</li><li>Merge the same operation across entity types when only the type differs (e.g. create customer / vendor / partner → Create Business Entity (types…)).</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Enumerate every permutation when logic is identical and only data changes — use one parameterized story (e.g. one Validate Input Format for email, phone, postal code).</li><li>Split by data value when business rules are the same (e.g. separate add-book / add-electronics / add-clothing → Add Product).</li><li>One story per status when the workflow pattern is the same — prefer one Update Order Status story with allowed values.</li><li>Consolidate without leaving a trail. Parenthetical hints like (type A, type B, type C) inside story text are insufficient for downstream work — the AC author needs to know which variants have different validation, parameters, or outcomes.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Context gaps are genuinely missing information</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Before writing a gap, check: &quot;Does the source material answer this?&quot; If yes, finish the analysis — it is unfinished work, not a gap.</li><li>Write each gap in plain stakeholder language: what is unknown, what options exist, what depends on the answer.</li><li>Verification pass before finalising: After writing Context Gaps, search the source material for each gap phrase. If the source describes the mechanic, remove the gap and map stories instead.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Use gaps as a parking lot for analysis you haven&#x27;t done yet.</li><li>Flag domain-obvious answers as gaps.</li><li>Raise concerns outside the product scope unless the user asks.</li><li>Question something the user has already stated as a decision.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Distinct mechanics have distinct stories</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Compare entity-type mechanics before writing stories: for each type, identify what a user configures, what the system validates, and what outcomes are possible. Group by workflow pattern, not by name.</li><li>Perform the comparison across all lifecycle phases so the user never has to say &quot;go deeper.&quot;</li><li>Entities with different lifecycles (permanent vs sustained vs reactive) need separate stories even when they share a category.</li><li>When the source lists 5+ sub-types under one heading, enumerate each sub-type&#x27;s parameters before deciding whether to consolidate. If more than half have different parameter sets, default to separate stories.</li><li>When a story describes a state change that creates a new actor context (trapped, locked, held, escalated), check whether the source describes a separate resolution mechanic for exiting that state. If the exit has a different actor, different action type, or different check, it is a distinct story.</li><li>When the source describes a pipeline (request → validate → process → respond), map filtering or short-circuit steps that fire before the main processing step. Passive filters that prevent processing entirely are distinct stories, not implicit.</li><li>When an entity type has both a configuration phase and a runtime phase, check whether it appears in the runtime context even if it was initially categorized under configuration. An entity classified as &quot;setup-only&quot; may have distinct runtime resolution.</li><li>When the domain includes entities that may or may not have runtime behaviors, document the analysis in a Passive vs Active Runtime Analysis subsection of Consolidation Notes. For each entity type, state whether it is (a) static/configuration-only (no runtime story needed), (b) passively enforced at runtime (system filter — needs a runtime story), or (c) actively triggered at runtime (user action — needs a runtime story).</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Write one generic story for a domain with 10+ entity types without comparing their mechanics.</li><li>Assume entity names imply distinct stories when the mechanics are identical.</li><li>Cover only one lifecycle phase (e.g., configuration) while leaving runtime or reporting as a gap.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Lightweight and Precise</summary>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Detailed API specs</li><li>Database schema</li><li>UI mockups</li><li>Validation rules with detail</li><li>Technical implementation notes</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Map system and application behaviors</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>After mapping domain workflows, add an epic or sub-epic for application lifecycle behaviors: persistence and versioning of domain data, event logging and audit trail, session or process start/end with state carry-forward, data sync between components or connected systems, and role-based or privilege-based overrides.</li><li>When actors repeat a workflow with variations, map template management behaviors: clone from existing, save as reusable template, load from template, customize clone independently of original.</li><li>For system-to-system products, map behaviors that downstream systems depend on: guaranteed delivery, retry/dead-letter handling, schema versioning, health signalling, and contract enforcement.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Treat persistence, logging, sync, or session management as &quot;implementation details&quot; that belong only in engineering. If any actor — human or system — will observe versioned data, event history, live updates, or process state, these are product behaviors.</li><li>Omit system-to-system behaviors because &quot;no human sees them.&quot; If a downstream system depends on the behavior, it belongs on the map.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Outcome-Oriented Language</summary>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Showing results</li><li>Displaying information</li><li>Visualizing data</li><li>Presenting options</li><li>Providing settings</li><li>Enabling features</li><li>Allowing access</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Review and Expand Stories</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>With System / Technology / Infrastructure emphasis, split user stories into user action + system/component stories (e.g. User --&gt; submit order, System --&gt; reserve inventory, System --&gt; assign fulfilment warehouse).</li><li>Review existing stories and add component steps for payment, validation, inventory, etc., when the approach requires it.</li><li>Break flows into discrete system steps when the plan demands (e.g. validate payment → call payment gateway → persist transaction → confirm payment).</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Keep one user story when the approach requires visible component interactions.</li><li>Assume story count stays fixed after switching to a finer system/component approach — expect a larger map.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Scale Story Map by Domain</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>At small scale, keep related domain objects together when behavior is similar and story count is low.</li><li>As complexity grows, break out by domain with parallel structure (e.g. wire / ACH / check each with collect → validate → submit, plus domain-specific extras).</li><li>Scale along domain object first; operations are stories within each domain.</li><li>After component-level expansion, place stories under domain sub-epics, not under generic tech buckets.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Group primarily by operation or technology at scale (e.g. one “validate all payments” mixing domains; “database operations” as a layer).</li><li>Over-split early (many sub-epics for a handful of stories). Under-specify sub-epics as bare nouns — keep verb–noun flow names where they help (e.g. “Make Wire Payment” not just “Wire Transfer”).</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Small and Testable</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Have clear acceptance criteria</li><li>Be testable without parent context</li><li>Represent a complete enough behavior to verify</li><li>Be small enough to test quickly</li><li>Story: User --&gt; render diagram → Steps (not separate stories): generate XML, calculate positions, apply styles</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Create stories too small to test meaningfully</li><li>Turn implementation steps into stories</li><li>Serialize, deserialize, convert, transform, format</li><li>Calculate, compute, generate (technical artifacts)</li><li>Apply, set, configure (technical settings)</li><li>Save, write, store (without user context)</li><li>~~Add order button~~ (can&#x27;t test without full order flow)</li><li>~~Convert Diagram to StoryGraph Format~~ (implementation step)</li><li>~~Serialize Components to JSON~~ (not testable alone)</li><li>~~Calculate Component Positions~~ (no user outcome)</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Source-supported mechanics mapped not listed as deferred gaps</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>After reading the source, map mechanics the source already describes into the tree (split or consolidate per other rules) instead of parking them in Context Gaps as unfinished analysis.</li><li>Use Context Gaps only when information is actually missing from source and stakeholders (aligned with Context gaps are genuinely missing information).</li><li>When the source describes a distinct action type that consumes a resource (time, action, turn, API call, dispatch slot) differently from the default action, map it as a separate story even if the actor is the same.</li><li>Verification pass after drafting: Re-read each source section&#x27;s action/command list and confirm every named action appears as a story or is explicitly documented as consolidated into another story.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Record a map-level or inline gap that says an area is &quot;not yet mapped&quot; or &quot;TBD&quot; when the source material already spells out that workflow in enough detail to write stories.</li><li>Treat Context Gaps as a staging area for analysis you have not performed on available source text.</li><li>Map only the named or labeled actions from the source while ignoring the generic resolution mechanic that underlies them. If the source describes a general-purpose resolution path (e.g., &quot;any skill check,&quot; &quot;any API call,&quot; &quot;any form submission&quot;) that specific named actions are special cases of, the general path needs its own story.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Story Map from Existing Code</summary>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Start from internal classes or mirror class structure as epics.</li><li>Turn every method into a story.</li><li>Omit context (when/why/outcome) or elevate implementation detail as if it were user-visible behavior.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Story map stays within user-requested scope</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>When the user states one path (e.g. &quot;manual onboarding only&quot;, &quot;custom build only&quot;), map that path and treat other approaches as out of scope until the user expands scope.</li><li>When a real choice exists and the user has not decided, capture one gap naming the decision and options—not two full parallel backlogs.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Add a second major flow (e.g. self-service onboarding, quick-build archetype, alternate sales channel) as if it were in-scope when the user already chose or restricted to the other path.</li><li>Present unrequested alternatives as normal epics &quot;for completeness&quot; without asking.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Story traces to evidence (brownfield)</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Record evidence on each in-scope story using evidence in story-graph metadata and/or an Evidence: line in story-map.md companion notes for that story.</li><li>Accept evidence types: source file + locator (Source/Client/charselect.c:412), existing test (tests/test_enter_game.py::test_spawn), log excerpt (path + pattern), config key (server/bin/...), chunk id from context index (ourowiki/85-AccountServer__chunk_02).</li><li>Trace failure and alternate paths when code or logs show them — map as or stories or note for AC phase.</li><li>Use abd-semantic-context-chunker report to prioritize which files to read; confirm against code, not wiki alone.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Add stories inferred from class or function names alone without tracing the flow (Story Map from Existing Code rule).</li><li>Leave in-scope stories with no evidence when source code is available in the workspace.</li><li>Treat wiki or memory chunks as sufficient without confirming against code or runtime logs when code exists.</li><li>Put file:line citations in epic or sub-epic titles — evidence belongs in metadata or companion notes, not verb–noun names.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Verb–Noun Format</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Format: verb + noun [optional qualifiers]. Actor is separate. Use specific objects and context. Focus on what can be done, not what things are.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Actor in the name: e.g. not Customer Places Order → use Place Order and set actor in metadata. Same for OrderProcessor Validates Payment → Validate Payment; Cart Adds Product → Add Product.</li><li>Too generic or noun-only: e.g. Process Payment without context when specificity is needed; Payment Processing (noun-only); Order Management (capability, not a concrete action); Selects Items (wrong verb form for this rule → Select Items).</li><li>Capability / structure phrasing instead of actions: e.g. PaymentValidator Contains Validation Logic, Cart Hierarchy Foundation, Product Represents Item.</li><li>Transforming “capability” into action (examples from rule): Contains Logic → e.g. Generate XML, Render Diagram; Tracks Count → Read Count, Update Count; Represents X → Create X, Load X.</li></ul></div>
+</details>
+</div></div>
+</div>
+
+
+
 
 </div>
 </div>

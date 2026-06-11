@@ -471,7 +471,22 @@ html[data-abd-theme="executive"] .catalog-body code {
 }
 
 .page-hero--detail {
-  padding-top: 48px;
+  padding-top: 20px;
+  padding-bottom: 16px;
+}
+.page-hero--detail .page-headline {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 4px 0 6px;
+}
+.page-headline .skill-name-prefix,
+.cap-card__title .skill-name-prefix {
+  color: var(--accent);
+}
+.page-hero--detail .body-lead {
+  font-size: 0.9rem;
+  margin: 0;
+  color: var(--muted);
 }
 
 .page-hero--detail .back-link {
@@ -731,8 +746,18 @@ a.cap-card:hover .cap-card__more {
   color: #b8b8c2;
   margin: 0 0 18px;
 }
+.skill-detail-page .skill-hero-img-wrap + .install-block {
+  margin-top: 18px;
+}
+.skill-detail-page .install-block + .skill-cr-grid,
+.skill-detail-page .install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block {
+  margin-top: 0;
+}
 .install-block {
-  margin: 22px 0 0;
+  margin: 20px 0 0;
   padding: 16px 18px;
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid var(--border-muted);
@@ -1041,8 +1066,603 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 .plugin-slots h3:first-child { margin-top: 0; }
 .cap-grid--plugin-slot { margin-bottom: 8px; }
 
+/* ── Skill detail: family kanban stage nav (matches hub column headings) ── */
+.skill-kanban-nav {
+  --fam-sdd: #6bcb77;
+  --fam-ddd: #6c5ce7;
+  --fam-uxd: #e84393;
+  --fam-arc: #4fc3f7;
+  --fam-idea: var(--accent);
+  --abd-accent: var(--accent);
+  --abd-accent-glow: var(--accent-soft, var(--accent));
+  --abd-raised: var(--raised);
+  --abd-bg: var(--bg);
+  --abd-border: var(--border);
+  --abd-text: var(--text);
+  --abd-muted: var(--muted);
+  background: var(--raised);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0 16px;
+}
+.skill-kanban-nav .wrap {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.skill-kanban-nav__board {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  gap: 6px 8px;
+  align-items: start;
+}
+.skill-kanban-nav__practice-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  margin: 0;
+  padding: 0 8px;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-left-width: 3px;
+  border-radius: 4px;
+  line-height: 1.25;
+  box-sizing: border-box;
+  transition: box-shadow 120ms, border-color 120ms;
+  color: inherit;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card:hover {
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--sdd {
+  border-left-color: var(--fam-sdd);
+  color: var(--fam-sdd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--ddd {
+  border-left-color: var(--fam-ddd);
+  color: var(--fam-ddd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--uxd {
+  border-left-color: var(--fam-uxd);
+  color: var(--fam-uxd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--arc {
+  border-left-color: var(--fam-arc);
+  color: var(--fam-arc);
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap {
+  position: relative;
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip.kb-col-shape-tooltip {
+  min-width: 10rem;
+  max-width: 22rem;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:hover .kb-skill-tooltip,
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:focus-within .kb-skill-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.skill-kanban-nav__stages {
+  display: grid;
+  grid-template-columns: repeat(var(--skill-kanban-cols, 5), minmax(0, 1fr));
+  gap: 0 8px;
+  min-width: 0;
+}
+.skill-kanban-nav__col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.skill-kanban-nav__tickets {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.skill-kanban-nav .kb-col-head {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 8px 6px 7px;
+  font-family: var(--font-mono);
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.skill-kanban-nav .kb-col-head--static {
+  cursor: default;
+}
+.skill-kanban-nav a.kb-col-head {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav a.kb-col-head:hover {
+  border-color: rgba(229, 83, 26, 0.35);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.15);
+}
+.skill-kanban-nav .kb-col-head--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-col-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+}
+.skill-kanban-nav .kb-col-scope-shape {
+  flex-shrink: 0;
+  border: 2px solid var(--abd-accent);
+  border-radius: 2px;
+}
+.skill-kanban-nav__stages .kb-col-shape-tooltip,
+.skill-kanban-nav__stages .kb-skill-tooltip-wrap .kb-col-shape-tooltip {
+  display: none !important;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 8px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 7px 9px;
+  font-family: var(--font-mono);
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid rgba(229, 83, 26, 0.45);
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 14px;
+  border: 5px solid transparent;
+  border-bottom-color: rgba(229, 83, 26, 0.45);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__name {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--abd-accent-glow);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__bullets {
+  font-size: 8px;
+  line-height: 1.45;
+  color: var(--abd-text);
+  white-space: pre-line;
+}
+.skill-kanban-nav .kb-col-scope-shape--solution { width: 36px; height: 12px; }
+.skill-kanban-nav .kb-col-scope-shape--increment { width: 24px; height: 16px; }
+.skill-kanban-nav .kb-col-scope-shape--sprint { width: 16px; height: 22px; }
+.skill-kanban-nav .kb-col-scope-shape--story { width: 11px; height: 28px; }
+.skill-kanban-nav .kb-col-head-title {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--abd-text);
+}
+.skill-kanban-nav .kb-col-head-title > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.skill-kanban-nav .kb-col-num {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--abd-text);
+  background: var(--abd-bg);
+  border: 1px solid var(--abd-border);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+.skill-kanban-nav .kb-ticket {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  background: var(--abd-raised);
+  color: var(--abd-text);
+  padding: 5px 6px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  border-left-width: 3px;
+  border-left-color: var(--abd-muted);
+  line-height: 1.25;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav .kb-ticket:hover {
+  border-color: var(--abd-border);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.2);
+}
+.skill-kanban-nav .kb-ticket.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-ticket.aad-fam-sdd { border-left-color: var(--fam-sdd); }
+.skill-kanban-nav .kb-ticket.aad-fam-ddd { border-left-color: var(--fam-ddd); }
+.skill-kanban-nav .kb-ticket.aad-fam-uxd { border-left-color: var(--fam-uxd); }
+.skill-kanban-nav .kb-ticket.aad-fam-arc { border-left-color: var(--fam-arc); }
+.skill-kanban-nav .kb-ticket.aad-fam-idea { border-left-color: var(--fam-idea); }
+@media (max-width: 960px) {
+  .skill-kanban-nav__board {
+    grid-template-columns: 1fr;
+  }
+  .skill-kanban-nav__stages {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
+
+/* ── Skill detail: full-width hero image / embedded viewer ── */
+.skill-hero-img-wrap {
+  margin: 24px 0 0;
+}
+.skill-hero-img-wrap:empty { display: none; }
+.skill-hero-img-wrap img,
+.skill-hero-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--raised);
+}
+
+/* HTML prototype iframe (reference/example/index.html) */
+.skill-prototype-wrap {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-prototype-frame {
+  display: block;
+  width: 100%;
+  min-height: 540px;
+  height: 71vh;
+  max-height: 810px;
+  border: 0;
+  background: #fff;
+}
+.skill-prototype-open {
+  margin: 0;
+  padding: 8px 14px;
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+  background: var(--raised);
+}
+.skill-prototype-open a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.skill-prototype-open a:hover { text-decoration: underline; }
+
+/* draw.io embedded viewer */
+.skill-drawio-wrap {
+  position: relative;
+  width: 100%;
+  height: min(71vh, 680px);
+  min-height: 340px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-drawio-wrap .mxgraph {
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+}
+.skill-drawio-wrap .geToolbarContainer {
+  z-index: 4;
+}
+
+/* code file preview */
+.skill-code-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--raised);
+  font-size: 13px;
+}
+.skill-code-lang {
+  padding: 6px 14px;
+  font-family: var(--mono, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.skill-code-preview pre {
+  margin: 0;
+  padding: 16px;
+  overflow-x: auto;
+  max-height: 420px;
+}
+.skill-code-preview code {
+  font-family: var(--mono, 'JetBrains Mono', monospace);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+/* rendered markdown preview */
+.skill-hero-img-wrap .skill-md-preview {
+  max-height: min(71vh, 610px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.skill-md-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px 24px;
+  background: var(--surface);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.skill-md-preview h1 { font-size: 18px; font-weight: 700; margin: 0 0 12px; }
+.skill-md-preview h2 { font-size: 15px; font-weight: 600; margin: 16px 0 8px;
+  border-bottom: 1px solid var(--border); padding-bottom: 3px; }
+.skill-md-preview h3 { font-size: 13px; font-weight: 600; margin: 12px 0 6px; }
+.skill-md-preview h4 { font-size: 12px; font-weight: 600; margin: 10px 0 4px; color: var(--muted); }
+.skill-md-preview p  { margin: 0 0 10px; }
+.skill-md-preview .spec-steps { margin: 0 0 14px; }
+.skill-md-preview p.spec-step { margin: 0 0 4px; line-height: 1.55; }
+.skill-md-preview .md-table-wrap { overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview .md-table { border-collapse: collapse; width: 100%; }
+.skill-md-preview ul, .skill-md-preview ol { margin: 0 0 10px; padding-left: 20px; }
+.skill-md-preview li { margin-bottom: 3px; }
+.skill-md-preview code { background: var(--raised); border-radius: 3px;
+  padding: 1px 5px; font-family: var(--mono, monospace); font-size: 12px; }
+.skill-md-preview pre { background: var(--raised); border-radius: 5px;
+  padding: 12px; overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview table { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
+.skill-md-preview th, .skill-md-preview td {
+  border: 1px solid var(--border); padding: 6px 10px; }
+.skill-md-preview th { background: var(--raised); font-weight: 600; }
+
+/* ── Skill detail: concepts | rules two-column grid ── */
+.skill-cr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin: 24px 0 0;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .skill-cr-grid { grid-template-columns: 1fr; }
+}
+.skill-cr-col { min-width: 0; }
+.skill-cr-single { margin: 24px 0 0; }
+
+/* Glossary example hero — term blocks without heavy HR dividers */
+.skill-md-preview--glossary h1 {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 10px;
+  border: 0;
+  padding: 0;
+}
+.skill-md-preview--glossary h2 {
+  font-size: 16px;
+  margin-top: 0;
+}
+.skill-md-preview--glossary h3 {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 14px 0 6px;
+  padding: 6px 8px;
+  background: var(--raised);
+  border-radius: 4px;
+  border-left: 3px solid var(--accent);
+}
+.skill-md-preview--glossary hr {
+  display: none;
+}
+.skill-md-preview--glossary ul {
+  margin-top: 0;
+}
+
+/* ── Skill detail: full-width content below ── */
+.skill-detail-content-col { margin-top: 32px; }
+.skill-detail-page .skill-cr-grid,
+.skill-detail-page .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-single,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-single {
+  margin-top: 0;
+}
+
+/* ── Skill detail: concepts (expandable) ── */
+.skill-hero-img-wrap + .install-block {
+  margin-top: 16px;
+}
+.install-block + .skill-cr-grid,
+.install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-concepts {
+  margin: 0 0 20px;
+}
+.skill-concepts-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 8px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-concept {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-concept summary {
+  padding: 8px 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  user-select: none;
+}
+.skill-concept summary::-webkit-details-marker { display: none; }
+.skill-concept summary::marker { content: ""; }
+.skill-concept summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-concept[open] summary::before { content: "\2212"; }
+.skill-concept-body {
+  padding: 6px 4px 10px 1.9rem;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.skill-concept-body p { margin: 0 0 8px; }
+.skill-concept-body p:last-child { margin-bottom: 0; }
+.skill-concept-body ul { margin: 0 0 8px 1.1em; padding: 0; }
+.skill-concept-body li { margin: 3px 0; }
+
+/* ── Skill detail: rules (DO / DON'T) ── */
+.skill-rules {
+  margin: 0 0 20px;
+}
+.skill-rules-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 12px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-rule {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule[open] > .skill-rule-header {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule-header {
+  padding: 8px 10px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  background: var(--raised);
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+.skill-rule-header::-webkit-details-marker { display: none; }
+.skill-rule-header::marker { content: ""; }
+.skill-rule-header::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-rule[open] > .skill-rule-header::before {
+  content: "\2212";
+}
+.skill-rule-section {
+  padding: 8px 12px;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+.skill-rule-section--do {
+  border-left: 3px solid #2d8a4e;
+}
+.skill-rule-section--dont {
+  border-left: 3px solid #c0392b;
+}
+.skill-rule-section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+  color: var(--muted);
+}
+.skill-rule-section--do .skill-rule-section-label { color: #2d8a4e; }
+.skill-rule-section--dont .skill-rule-section-label { color: #c0392b; }
+.skill-rule-section ul { margin: 0; padding: 0 0 0 1.1em; }
+.skill-rule-section li { margin: 2px 0; color: var(--text); }
+
 </style>
-<script src="../../../../commons/catalog-nav.js?v=foundry-8"></script>
+<script src="../../../../commons/catalog-nav.js?v=foundry-9"></script>
 </head>
 <body data-nav-prefix="../../../../" data-nav-current="skills" data-nav-site-base="../../../../../../abd-works-website/">
 <main id="main-content">
@@ -1051,6 +1671,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
   <div class="wrap">
     <a class="back-link" href="../../../../skill/abd-architecture-blueprint.html">← abd-architecture-blueprint</a>
     <p class="s-name">Markdown</p>
+
     <h1 class="page-headline">templates/architecture-blueprint.md</h1>
     <p class="body-lead">{SystemName} — Architecture Blueprint</p>
   </div>
@@ -1061,60 +1682,60 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 
 <h2>Content</h2>
 <div class="rule-prose"><h1>{SystemName} — Architecture Blueprint</h1>
-<p>&gt; <strong>Status:</strong> Draft / Approved &gt; <strong>Owner:</strong> {team-or-person} &gt; <strong>Last updated:</strong> YYYY-MM-DD &gt; &gt; <strong>Purpose.</strong> Second-level architecture document for {SystemName}, building on `architecture-outline.md`. Names every architectural component, catalogues every cross-cutting concern as a typed <strong>architecture mechanism</strong>, sketches the data architecture, captures the common testing strategy, and records decisions. Deep mechanism walkthroughs live in `architecture-reference.md`.</p>
+<p>&gt; <strong>Status:</strong> Draft / Approved &gt; <strong>Owner:</strong> {team-or-person} &gt; <strong>Last updated:</strong> YYYY-MM-DD &gt; &gt; <strong>Purpose.</strong> Second-level architecture document for {SystemName}, building on <code>architecture-outline.md</code>. Names every architectural component, catalogues every cross-cutting concern as a typed <strong>architecture mechanism</strong>, sketches the data architecture, captures the common testing strategy, and records decisions. Deep mechanism walkthroughs live in <code>architecture-reference.md</code>.</p>
 <hr>
 <h2>1. Scope</h2>
-<p>This blueprint extends <a href="./architecture-outline.html">`architecture-outline.md`</a> by adding component-level descriptions and a mechanism catalogue. Deep mechanism walkthroughs — code, sequence diagrams, test code, file structures — defer to <a href="./architecture-reference.html">`architecture-reference.md`</a>. Outline-level concerns (platform diagram, deployment topology, technology stack, guiding principles, one-line major-systems catalogue) stay in the outline and are not repeated here.</p>
+<p>This blueprint extends <a href="./architecture-outline.html"><code>architecture-outline.md</code></a> by adding component-level descriptions and a mechanism catalogue. Deep mechanism walkthroughs — code, sequence diagrams, test code, file structures — defer to <a href="./architecture-reference.html"><code>architecture-reference.md</code></a>. Outline-level concerns (platform diagram, deployment topology, technology stack, guiding principles, one-line major-systems catalogue) stay in the outline and are not repeated here.</p>
 <hr>
 <h2>2. Components</h2>
 <p>Each subsection takes one major system from the outline and names its 2–4 components. Each component description is 1–2 paragraphs covering <strong>purpose</strong>, <strong>dependencies</strong>, and <strong>interactions</strong> — no internal structure, no class lists, no method tables.</p>
 <p>!<a href="./diagrams/component-overview.png">Component Overview</a></p>
-<p>&gt; Source: <a href="./diagrams/component-overview.drawio">`diagrams/component-overview.drawio`</a>. Edit in draw.io Desktop and re-export with `scripts\arch-drawio.ps1 export`. The diagram captures the same information as the subsections below; keep them in sync.</p>
+<p>&gt; Source: <a href="./diagrams/component-overview.drawio"><code>diagrams/component-overview.drawio</code></a>. Edit in draw.io Desktop and re-export with <code>scripts\arch-drawio.ps1 export</code>. The diagram captures the same information as the subsections below; keep them in sync.</p>
 <h3>2.1 Identity components</h3>
 <h4>IdentityService</h4>
 <p><strong>Purpose.</strong> Owns user authentication and token issuance for {SystemName}; the only component allowed to call the Auth0 SDK directly.</p>
-<p><strong>Dependencies.</strong> Receives the Auth0 SDK client through constructor injection; depends on `IClock` for token expiry calculations; depends on `IUserRepository` for the application-side user profile (Auth0 stores identity only, not preferences).</p>
-<p><strong>Interactions.</strong> Called by the API authentication middleware on every request to validate tokens. Publishes a `UserAuthenticated` domain event after a successful login so downstream components (Notifications, Analytics) can react without coupling to identity internals.</p>
+<p><strong>Dependencies.</strong> Receives the Auth0 SDK client through constructor injection; depends on <code>IClock</code> for token expiry calculations; depends on <code>IUserRepository</code> for the application-side user profile (Auth0 stores identity only, not preferences).</p>
+<p><strong>Interactions.</strong> Called by the API authentication middleware on every request to validate tokens. Publishes a <code>UserAuthenticated</code> domain event after a successful login so downstream components (Notifications, Analytics) can react without coupling to identity internals.</p>
 <h4>IdentityRepository</h4>
 <p><strong>Purpose.</strong> Application-side store of user profile data (display name, preferences, last-seen timestamp) keyed by the Auth0-issued subject ID.</p>
-<p><strong>Dependencies.</strong> Postgres connection pool, `IClock`.</p>
-<p><strong>Interactions.</strong> Called by `IdentityService` and the user-settings API. Not called from any other system directly — cross-system access goes through `IdentityService`.</p>
+<p><strong>Dependencies.</strong> Postgres connection pool, <code>IClock</code>.</p>
+<p><strong>Interactions.</strong> Called by <code>IdentityService</code> and the user-settings API. Not called from any other system directly — cross-system access goes through <code>IdentityService</code>.</p>
 <h3>2.2 Catalogue components</h3>
 <h4>CatalogueService</h4>
 <p><strong>Purpose.</strong> Read-mostly access to product data; the only component the rest of the system uses to look up products by SKU, search, or list catalogue entries.</p>
-<p><strong>Dependencies.</strong> `IProductRepository`, `IProductCache`, search index client.</p>
-<p><strong>Interactions.</strong> Heavily called by the Orders system at line-item validation time. Reads only — write paths (catalogue ingestion, price changes) go through `CatalogueAdminService` which is not part of the public surface.</p>
+<p><strong>Dependencies.</strong> <code>IProductRepository</code>, <code>IProductCache</code>, search index client.</p>
+<p><strong>Interactions.</strong> Heavily called by the Orders system at line-item validation time. Reads only — write paths (catalogue ingestion, price changes) go through <code>CatalogueAdminService</code> which is not part of the public surface.</p>
 <h3>2.3 Orders components</h3>
 <h4>OrderService</h4>
 <p><strong>Purpose.</strong> Owns the order lifecycle from cart to fulfilment. Canonical source of revenue events.</p>
-<p><strong>Dependencies.</strong> `IOrderRepository`, `ICatalogueClient` (for line-item validation against the Catalogue system), `IEventPublisher`, `IClock`.</p>
-<p><strong>Interactions.</strong> Called from the orders API; calls into the Catalogue system on validation, into the Notifications system through events, into the payment gateway through `IPaymentProvider`.</p>
+<p><strong>Dependencies.</strong> <code>IOrderRepository</code>, <code>ICatalogueClient</code> (for line-item validation against the Catalogue system), <code>IEventPublisher</code>, <code>IClock</code>.</p>
+<p><strong>Interactions.</strong> Called from the orders API; calls into the Catalogue system on validation, into the Notifications system through events, into the payment gateway through <code>IPaymentProvider</code>.</p>
 <h4>OrderRepository</h4>
-<p><strong>Purpose.</strong> Aggregate-root persistence for the `Order` entity. Implements the outbox pattern: order changes and outgoing events commit in a single transaction.</p>
-<p><strong>Dependencies.</strong> Postgres connection pool, `IClock`.</p>
-<p><strong>Interactions.</strong> Called only by `OrderService` (the rest of the codebase has no direct access to the orders schema).</p>
+<p><strong>Purpose.</strong> Aggregate-root persistence for the <code>Order</code> entity. Implements the outbox pattern: order changes and outgoing events commit in a single transaction.</p>
+<p><strong>Dependencies.</strong> Postgres connection pool, <code>IClock</code>.</p>
+<p><strong>Interactions.</strong> Called only by <code>OrderService</code> (the rest of the codebase has no direct access to the orders schema).</p>
 <h3>2.4 Notifications components</h3>
 <h4>NotificationDispatcher</h4>
 <p><strong>Purpose.</strong> Subscribes to domain events from across the system and routes them to the right outbound channel (email, push, webhook).</p>
-<p><strong>Dependencies.</strong> `IEmailProvider`, `IPushProvider`, `IWebhookDispatcher`, `INotificationTemplateRepository`.</p>
-<p><strong>Interactions.</strong> Listens to events published by `OrderService`, `IdentityService`. Does not call any other component synchronously; communication is purely event-driven.</p>
+<p><strong>Dependencies.</strong> <code>IEmailProvider</code>, <code>IPushProvider</code>, <code>IWebhookDispatcher</code>, <code>INotificationTemplateRepository</code>.</p>
+<p><strong>Interactions.</strong> Listens to events published by <code>OrderService</code>, <code>IdentityService</code>. Does not call any other component synchronously; communication is purely event-driven.</p>
 <hr>
 <h2>3. Architecture Mechanisms</h2>
-<p>Each mechanism below names a cross-cutting concern the architecture commits to. Description is 1–2 paragraphs: <strong>what concern it addresses</strong>, <strong>which components depend on it</strong>, <strong>how they interact with it</strong>. Deep walkthroughs live in `architecture-reference.md`.</p>
+<p>Each mechanism below names a cross-cutting concern the architecture commits to. Description is 1–2 paragraphs: <strong>what concern it addresses</strong>, <strong>which components depend on it</strong>, <strong>how they interact with it</strong>. Deep walkthroughs live in <code>architecture-reference.md</code>.</p>
 <h3>3.1 Security</h3>
-<p>The system delegates user identity to Auth0 and treats every API request as untrusted until `IdentityService` validates the bearer token. Authorization is role-based with role claims placed on the token at login time; per-request authorization decisions happen at the API edge (middleware) rather than inside domain services so the domain layer never reads request headers. Secrets (Auth0 client secret, DB password, payment provider keys) come from AWS Secrets Manager via the configuration mechanism, never from environment variables in code.</p>
-<p>Every component that performs an action on behalf of a user receives the authenticated `Principal` through method arguments — there is no ambient identity context. The Reference document covers the full Principal contract, the role-claim list, the middleware sequence, and the audit-log shape.</p>
+<p>The system delegates user identity to Auth0 and treats every API request as untrusted until <code>IdentityService</code> validates the bearer token. Authorization is role-based with role claims placed on the token at login time; per-request authorization decisions happen at the API edge (middleware) rather than inside domain services so the domain layer never reads request headers. Secrets (Auth0 client secret, DB password, payment provider keys) come from AWS Secrets Manager via the configuration mechanism, never from environment variables in code.</p>
+<p>Every component that performs an action on behalf of a user receives the authenticated <code>Principal</code> through method arguments — there is no ambient identity context. The Reference document covers the full Principal contract, the role-claim list, the middleware sequence, and the audit-log shape.</p>
 <h3>3.2 Error Handling &amp; Resilience</h3>
-<p>The Domain and Application layers return `Result&lt;T, DomainError&gt;` for all failure modes; exceptions are reserved for unexpected programmer errors (null where not allowed, contract violations). The API edge translates `DomainError` values into HTTP status codes via a single `ErrorTranslator` so no domain code knows about HTTP. External calls (Auth0, payment provider, Catalogue cross-system) are wrapped in a `Resilient&lt;T&gt;` decorator that adds retry with exponential backoff plus a circuit breaker per dependency.</p>
-<p>The mechanism reference covers the full `DomainError` taxonomy, the retry and circuit-breaker tuning, and the dead-letter handling for event publication failures.</p>
+<p>The Domain and Application layers return <code>Result&lt;T, DomainError&gt;</code> for all failure modes; exceptions are reserved for unexpected programmer errors (null where not allowed, contract violations). The API edge translates <code>DomainError</code> values into HTTP status codes via a single <code>ErrorTranslator</code> so no domain code knows about HTTP. External calls (Auth0, payment provider, Catalogue cross-system) are wrapped in a <code>Resilient&lt;T&gt;</code> decorator that adds retry with exponential backoff plus a circuit breaker per dependency.</p>
+<p>The mechanism reference covers the full <code>DomainError</code> taxonomy, the retry and circuit-breaker tuning, and the dead-letter handling for event publication failures.</p>
 <h3>3.3 Logging &amp; Observability</h3>
-<p>Structured JSON logging through Pino with a per-request correlation ID propagated as a W3C `traceparent` header. Every component logs at INFO on entry/exit of public methods and at WARN/ERROR when returning a non-success `Result`. Metrics emit through OpenTelemetry to CloudWatch; trace spans cover every cross-component call.</p>
+<p>Structured JSON logging through Pino with a per-request correlation ID propagated as a W3C <code>traceparent</code> header. Every component logs at INFO on entry/exit of public methods and at WARN/ERROR when returning a non-success <code>Result</code>. Metrics emit through OpenTelemetry to CloudWatch; trace spans cover every cross-component call.</p>
 <p>The mechanism reference details the log-shape contract, the metric naming conventions, and how to instrument a new component to participate.</p>
 <h3>3.4 Validation</h3>
-<p>Input validation runs at the API edge using Zod schemas; valid requests reach the application layer as parsed DTOs. Business-rule validation (inventory available, customer credit limit) runs inside domain services and returns `Result` failures, not exceptions.</p>
+<p>Input validation runs at the API edge using Zod schemas; valid requests reach the application layer as parsed DTOs. Business-rule validation (inventory available, customer credit limit) runs inside domain services and returns <code>Result</code> failures, not exceptions.</p>
 <p>The reference covers the schema-sharing strategy between API and clients, the business-rule helper conventions, and the error-detail shape returned to clients.</p>
 <h3>3.5 Configuration</h3>
-<p>Configuration is read <strong>once</strong> at application start by `Bootstrap.loadConfig()` and frozen into a `Config` object. After bootstrap, no code calls `process.env` directly. Secrets are pulled from AWS Secrets Manager at the same point; rotation is supported by re-deploying the container.</p>
+<p>Configuration is read <strong>once</strong> at application start by <code>Bootstrap.loadConfig()</code> and frozen into a <code>Config</code> object. After bootstrap, no code calls <code>process.env</code> directly. Secrets are pulled from AWS Secrets Manager at the same point; rotation is supported by re-deploying the container.</p>
 <p>The reference covers the per-environment config layering, the secret-rotation runbook, and how feature flags fit in.</p>
 <h3>3.6 Caching</h3>
 <p>Catalogue data is cached in Redis with a write-through pattern (catalogue admin writes invalidate the keys they touch). Identity data is cached at the API edge with a 60-second TTL keyed on the bearer token; rotation is opportunistic. No other component caches; ad-hoc caching is a code-review red flag.</p>
@@ -1126,29 +1747,29 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <h2>4. Data Architecture</h2>
 <h3>4.1 Entity overview</h3>
 <p>!<a href="./diagrams/entity-relationships.png">Entity Relationships</a></p>
-<p>&gt; Source: <a href="./diagrams/entity-relationships.drawio">`diagrams/entity-relationships.drawio`</a>. Each colour groups aggregates by owning component named in section 2. Schemas, indexes, and ORM mappings live with the persistence mechanism reference, not here.</p>
+<p>&gt; Source: <a href="./diagrams/entity-relationships.drawio"><code>diagrams/entity-relationships.drawio</code></a>. Each colour groups aggregates by owning component named in section 2. Schemas, indexes, and ORM mappings live with the persistence mechanism reference, not here.</p>
 <h3>4.2 Ownership boundaries</h3>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Aggregate</th><th>Owning component</th><th>Cross-aggregate access</th></tr></thead><tbody><tr><td>`User`</td><td>`IdentityRepository`</td><td>Read-only via `IdentityService.getById(userId)`</td></tr><tr><td>`Order` (root) + `LineItem`</td><td>`OrderRepository`</td><td>None — events propagate state</td></tr><tr><td>`Product` (read-only outside admin)</td><td>`CatalogueService`</td><td>`ICatalogueClient.lookup(sku)`</td></tr><tr><td>`NotificationTemplate`</td><td>`NotificationDispatcher`</td><td>Internal to Notifications</td></tr></tbody></table></div>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Aggregate</th><th>Owning component</th><th>Cross-aggregate access</th></tr></thead><tbody><tr><td><code>User</code></td><td><code>IdentityRepository</code></td><td>Read-only via <code>IdentityService.getById(userId)</code></td></tr><tr><td><code>Order</code> (root) + <code>LineItem</code></td><td><code>OrderRepository</code></td><td>None — events propagate state</td></tr><tr><td><code>Product</code> (read-only outside admin)</td><td><code>CatalogueService</code></td><td><code>ICatalogueClient.lookup(sku)</code></td></tr><tr><td><code>NotificationTemplate</code></td><td><code>NotificationDispatcher</code></td><td>Internal to Notifications</td></tr></tbody></table></div>
 <p>Cross-aggregate consistency is <strong>eventual</strong>, propagated through domain events, never through direct cross-aggregate writes.</p>
 <hr>
 <h2>5. Testing Architecture</h2>
 <p>Test tiers common to the whole system:</p>
 <div class="md-table-wrap"><table class="md-table"><thead><tr><th>Tier</th><th>Scope</th><th>Test doubles</th><th>Where it runs</th></tr></thead><tbody><tr><td><strong>Domain</strong></td><td>One aggregate, no infrastructure</td><td>Real domain objects, no doubles</td><td>In-process, no DB</td></tr><tr><td><strong>Application</strong></td><td>One use case end-to-end through the service layer</td><td>Fake repositories, fake providers</td><td>In-process, no DB</td></tr><tr><td><strong>Integration</strong></td><td>One component against real infrastructure</td><td>Real DB (testcontainer), fake external HTTP</td><td>CI, slower</td></tr><tr><td><strong>E2E</strong></td><td>One key user path through the deployed system</td><td>Real everything, against a staging env</td><td>Pre-prod</td></tr></tbody></table></div>
-<p>Common test doubles: `FakeClock`, `FakeEventPublisher`, `FakeEmailProvider`, `FakeCatalogueClient`. Per-mechanism testing (how Security tests verify Principal flow, how Resilience tests trigger circuit-breaker opens) lives in the architecture reference.</p>
+<p>Common test doubles: <code>FakeClock</code>, <code>FakeEventPublisher</code>, <code>FakeEmailProvider</code>, <code>FakeCatalogueClient</code>. Per-mechanism testing (how Security tests verify Principal flow, how Resilience tests trigger circuit-breaker opens) lives in the architecture reference.</p>
 <hr>
 <h2>6. Extension &amp; Evolution</h2>
-<p>The architecture has one documented extension seam: <strong>notification channels</strong>. New channels (Slack, SMS, in-app) implement `INotificationChannel` and register through `ChannelRegistry.register()` at startup. The contract, registration mechanism, and template requirements are documented in `architecture-reference.md` section 5.</p>
+<p>The architecture has one documented extension seam: <strong>notification channels</strong>. New channels (Slack, SMS, in-app) implement <code>INotificationChannel</code> and register through <code>ChannelRegistry.register()</code> at startup. The contract, registration mechanism, and template requirements are documented in <code>architecture-reference.md</code> section 5.</p>
 <p>No other parts of the architecture are pluggable; new behaviour lands as new components, not as plug-ins.</p>
 <hr>
 <h2>7. Decision Records</h2>
 <p>Blueprint-level decisions (continuing ADR numbering from the outline):</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>ID</th><th>Decision</th><th>One-line consequence</th></tr></thead><tbody><tr><td><a href="../decisions/ADR-005-result-types-not-exceptions.html">ADR-005</a></td><td>Domain returns `Result&lt;T, DomainError&gt;`, not exceptions</td><td>Failure handling is type-checked; the HTTP boundary is the only translator.</td></tr><tr><td><a href="../decisions/ADR-006-outbox-pattern-for-orders.html">ADR-006</a></td><td>Orders use the outbox pattern for events</td><td>At-least-once delivery without a 2PC; consumer idempotency is required.</td></tr><tr><td><a href="../decisions/ADR-007-write-through-cache-strategy.html">ADR-007</a></td><td>Catalogue cache is write-through, not cache-aside</td><td>Predictable freshness; admin writes do extra work.</td></tr><tr><td><a href="../decisions/ADR-008-four-test-tiers.html">ADR-008</a></td><td>Domain / Application / Integration / E2E test tiers</td><td>Most tests run with no infrastructure; integration is bounded.</td></tr></tbody></table></div>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>ID</th><th>Decision</th><th>One-line consequence</th></tr></thead><tbody><tr><td><a href="../decisions/ADR-005-result-types-not-exceptions.html">ADR-005</a></td><td>Domain returns <code>Result&lt;T, DomainError&gt;</code>, not exceptions</td><td>Failure handling is type-checked; the HTTP boundary is the only translator.</td></tr><tr><td><a href="../decisions/ADR-006-outbox-pattern-for-orders.html">ADR-006</a></td><td>Orders use the outbox pattern for events</td><td>At-least-once delivery without a 2PC; consumer idempotency is required.</td></tr><tr><td><a href="../decisions/ADR-007-write-through-cache-strategy.html">ADR-007</a></td><td>Catalogue cache is write-through, not cache-aside</td><td>Predictable freshness; admin writes do extra work.</td></tr><tr><td><a href="../decisions/ADR-008-four-test-tiers.html">ADR-008</a></td><td>Domain / Application / Integration / E2E test tiers</td><td>Most tests run with no infrastructure; integration is bounded.</td></tr></tbody></table></div>
 <hr>
 <h2>See also</h2>
 <ul>
-<li><a href="./architecture-outline.html">`architecture-outline.md`</a> — one-page outline (platform, layered, context, deployment, principles, tech stack, major systems).</li>
-<li><a href="./architecture-reference.html">`architecture-reference.md`</a> — deep-dive per mechanism (code walkthroughs, sequence diagrams, tests).</li>
-<li><a href="./service-level-objectives.html">`service-level-objectives.md`</a> — non-functional requirements per major system.</li>
+<li><a href="./architecture-outline.html"><code>architecture-outline.md</code></a> — one-page outline (platform, layered, context, deployment, principles, tech stack, major systems).</li>
+<li><a href="./architecture-reference.html"><code>architecture-reference.md</code></a> — deep-dive per mechanism (code walkthroughs, sequence diagrams, tests).</li>
+<li><a href="./service-level-objectives.html"><code>service-level-objectives.md</code></a> — non-functional requirements per major system.</li>
 </ul></div>
 
 </div>

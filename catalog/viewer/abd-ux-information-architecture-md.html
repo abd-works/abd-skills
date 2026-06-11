@@ -1,0 +1,69 @@
+<!DOCTYPE html><html><head><meta charset='utf-8'><style>
+body {font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; line-height: 1.65;
+  color: #1a1a1e; background: #fff; padding: 32px; max-width: 820px; margin: 0 auto;}
+h1 {font-size: 22px; font-weight: 700; margin: 0 0 16px; color: #111;}
+h2 {font-size: 17px; font-weight: 600; margin: 24px 0 10px; color: #111;
+    border-bottom: 1px solid #e0e0e0; padding-bottom: 4px;}
+h3 {font-size: 14px; font-weight: 600; margin: 16px 0 6px;}
+p {margin: 0 0 12px;} ul,ol {margin: 0 0 12px; padding-left: 24px;} li {margin-bottom: 4px;}
+code {background:#f4f4f6; border-radius:3px; padding:1px 5px; font-family:monospace; font-size:13px;}
+pre {background:#f4f4f6; border-radius:6px; padding:14px; overflow-x:auto; margin:0 0 14px;}
+pre code {background:none; padding:0;}
+table {border-collapse:collapse; width:100%; margin:0 0 14px;}
+th,td {border:1px solid #ddd; padding:7px 10px; text-align:left;}
+th {background:#f0f0f2; font-weight:600;}
+blockquote {border-left:3px solid #e5531a; margin:0 0 14px; padding:6px 14px; color:#555;}
+</style></head><body><h1>abd-information-architecture — Examples</h1>
+<h2>The shape of a good initial IA</h2>
+<p>The reference pattern — each tab state is its own screen, list regions show representative rows, actions are a verb row, chrome is named but not described, and each screen carries ~4 stories.</p>
+<pre><code>[ game directory prompt ]                          modal dialog
+  ┌─────────────────────────────┐
+  │ COH game directory          │  — label only
+  │ directory path · browse     │  — field labels only
+  │ validation feedback         │  — conditional region label
+  │ continue                    │  — action gate
+  └─────────────────────────────┘
+  Stories (~2): Validate Game Directory · Prompt if Invalid
+  Domain terms: COH game directory
+
+       │ submits valid path
+       ▼
+
+[ crowd manager — identities ]                     left panel + body
+  ┌────────────────┬────────────────────────────┐
+  │ crowd tree     │ [ Identities ] Abilities   │  ← inactive tabs greyed; crowd tree
+  │ (chrome,       │   Movements                │    uses --slot panel in sidebar layout
+  │ --slot panel)  ├────────────────────────────┤    so it renders beside body, not above
+  │                │ identity row: name · type  │  ← representative row 1
+  │                │   active / default         │
+  │                │ identity row: name · type  │  ← representative row 2
+  │                │   active / default         │
+  │                │ add · remove · set default │  ← verb row (light fill, black border)
+  │                │   set active · reorder     │
+  └────────────────┴────────────────────────────┘
+  Stories (~4): Add Identity · Set Default Identity · Set Active Identity · Remove Identity
+  Domain terms: identity · model identity · costume identity · active identity · default identity
+
+  ↓ selects Abilities tab                ↓ selects Movements tab
+
+[ crowd manager — abilities ]           [ crowd manager — movements ]
+  ┌────────────────┬──────────────────┐   ┌────────────────┬──────────────────┐
+  │ crowd tree     │ Identities       │   │ crowd tree     │ Identities       │
+  │ (--panel left, │ [Abilities]      │   │ (--panel left, │ Abilities        │
+  │  --dimmed)     │ Movements        │   │  --dimmed)     │ [Movements]      │
+  │                ├──────────────────┤   │                ├──────────────────┤
+  │                │ ability row      │   │                │ movement row     │
+  │                │ ability row      │   │                │ movement row     │
+  │                │ create · delete  │   │                │ add · remove     │
+  │                │ play · stop      │   │                │ set default      │
+  │                │ set key · edit   │   │                │ set key · edit   │
+  └────────────────┴──────────────────┘   └────────────────┴──────────────────┘
+  crowd tree dimmed (--dimmed) = grey fill    crowd tree dimmed (--dimmed) = grey fill
+  signals &quot;same chrome as primary screen&quot;     signals &quot;same chrome as primary screen&quot;
+
+  edit──► [ ability editor screen ]
+  Stories (~4): Create Animated Ability       Stories (~3): Add Movement
+    Delete · Set Key · Toggle Persistence       Edit Movement Parameters
+  Domain terms: animated ability              Domain terms: character movement
+</code></pre>
+<p>No screen carries toolbar actions, navigation content, acceptance criteria, controls, copy, or wireframe-level detail. If a screen has more than ~4 user stories, a tab state or edit screen is missing.</p></body></html>

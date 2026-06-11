@@ -1,5 +1,7 @@
 ﻿---
 name: abd-domain-code
+catalog_garden_tier: practice
+catalog_garden_order: 5
 catalogue_one_liner: Write domain-layer tests and production code from any domain context.
 description: >
   Implements pure domain code — classes, operations, invariants — from whatever domain

@@ -471,7 +471,22 @@ html[data-abd-theme="executive"] .catalog-body code {
 }
 
 .page-hero--detail {
-  padding-top: 48px;
+  padding-top: 20px;
+  padding-bottom: 16px;
+}
+.page-hero--detail .page-headline {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 4px 0 6px;
+}
+.page-headline .skill-name-prefix,
+.cap-card__title .skill-name-prefix {
+  color: var(--accent);
+}
+.page-hero--detail .body-lead {
+  font-size: 0.9rem;
+  margin: 0;
+  color: var(--muted);
 }
 
 .page-hero--detail .back-link {
@@ -731,8 +746,18 @@ a.cap-card:hover .cap-card__more {
   color: #b8b8c2;
   margin: 0 0 18px;
 }
+.skill-detail-page .skill-hero-img-wrap + .install-block {
+  margin-top: 18px;
+}
+.skill-detail-page .install-block + .skill-cr-grid,
+.skill-detail-page .install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block {
+  margin-top: 0;
+}
 .install-block {
-  margin: 22px 0 0;
+  margin: 20px 0 0;
   padding: 16px 18px;
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid var(--border-muted);
@@ -1041,8 +1066,603 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 .plugin-slots h3:first-child { margin-top: 0; }
 .cap-grid--plugin-slot { margin-bottom: 8px; }
 
+/* ── Skill detail: family kanban stage nav (matches hub column headings) ── */
+.skill-kanban-nav {
+  --fam-sdd: #6bcb77;
+  --fam-ddd: #6c5ce7;
+  --fam-uxd: #e84393;
+  --fam-arc: #4fc3f7;
+  --fam-idea: var(--accent);
+  --abd-accent: var(--accent);
+  --abd-accent-glow: var(--accent-soft, var(--accent));
+  --abd-raised: var(--raised);
+  --abd-bg: var(--bg);
+  --abd-border: var(--border);
+  --abd-text: var(--text);
+  --abd-muted: var(--muted);
+  background: var(--raised);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0 16px;
+}
+.skill-kanban-nav .wrap {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.skill-kanban-nav__board {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  gap: 6px 8px;
+  align-items: start;
+}
+.skill-kanban-nav__practice-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  margin: 0;
+  padding: 0 8px;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-left-width: 3px;
+  border-radius: 4px;
+  line-height: 1.25;
+  box-sizing: border-box;
+  transition: box-shadow 120ms, border-color 120ms;
+  color: inherit;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card:hover {
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--sdd {
+  border-left-color: var(--fam-sdd);
+  color: var(--fam-sdd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--ddd {
+  border-left-color: var(--fam-ddd);
+  color: var(--fam-ddd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--uxd {
+  border-left-color: var(--fam-uxd);
+  color: var(--fam-uxd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--arc {
+  border-left-color: var(--fam-arc);
+  color: var(--fam-arc);
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap {
+  position: relative;
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip.kb-col-shape-tooltip {
+  min-width: 10rem;
+  max-width: 22rem;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:hover .kb-skill-tooltip,
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:focus-within .kb-skill-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.skill-kanban-nav__stages {
+  display: grid;
+  grid-template-columns: repeat(var(--skill-kanban-cols, 5), minmax(0, 1fr));
+  gap: 0 8px;
+  min-width: 0;
+}
+.skill-kanban-nav__col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.skill-kanban-nav__tickets {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.skill-kanban-nav .kb-col-head {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 8px 6px 7px;
+  font-family: var(--font-mono);
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.skill-kanban-nav .kb-col-head--static {
+  cursor: default;
+}
+.skill-kanban-nav a.kb-col-head {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav a.kb-col-head:hover {
+  border-color: rgba(229, 83, 26, 0.35);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.15);
+}
+.skill-kanban-nav .kb-col-head--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-col-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+}
+.skill-kanban-nav .kb-col-scope-shape {
+  flex-shrink: 0;
+  border: 2px solid var(--abd-accent);
+  border-radius: 2px;
+}
+.skill-kanban-nav__stages .kb-col-shape-tooltip,
+.skill-kanban-nav__stages .kb-skill-tooltip-wrap .kb-col-shape-tooltip {
+  display: none !important;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 8px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 7px 9px;
+  font-family: var(--font-mono);
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid rgba(229, 83, 26, 0.45);
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 14px;
+  border: 5px solid transparent;
+  border-bottom-color: rgba(229, 83, 26, 0.45);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__name {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--abd-accent-glow);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__bullets {
+  font-size: 8px;
+  line-height: 1.45;
+  color: var(--abd-text);
+  white-space: pre-line;
+}
+.skill-kanban-nav .kb-col-scope-shape--solution { width: 36px; height: 12px; }
+.skill-kanban-nav .kb-col-scope-shape--increment { width: 24px; height: 16px; }
+.skill-kanban-nav .kb-col-scope-shape--sprint { width: 16px; height: 22px; }
+.skill-kanban-nav .kb-col-scope-shape--story { width: 11px; height: 28px; }
+.skill-kanban-nav .kb-col-head-title {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--abd-text);
+}
+.skill-kanban-nav .kb-col-head-title > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.skill-kanban-nav .kb-col-num {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--abd-text);
+  background: var(--abd-bg);
+  border: 1px solid var(--abd-border);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+.skill-kanban-nav .kb-ticket {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  background: var(--abd-raised);
+  color: var(--abd-text);
+  padding: 5px 6px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  border-left-width: 3px;
+  border-left-color: var(--abd-muted);
+  line-height: 1.25;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav .kb-ticket:hover {
+  border-color: var(--abd-border);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.2);
+}
+.skill-kanban-nav .kb-ticket.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-ticket.aad-fam-sdd { border-left-color: var(--fam-sdd); }
+.skill-kanban-nav .kb-ticket.aad-fam-ddd { border-left-color: var(--fam-ddd); }
+.skill-kanban-nav .kb-ticket.aad-fam-uxd { border-left-color: var(--fam-uxd); }
+.skill-kanban-nav .kb-ticket.aad-fam-arc { border-left-color: var(--fam-arc); }
+.skill-kanban-nav .kb-ticket.aad-fam-idea { border-left-color: var(--fam-idea); }
+@media (max-width: 960px) {
+  .skill-kanban-nav__board {
+    grid-template-columns: 1fr;
+  }
+  .skill-kanban-nav__stages {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
+
+/* ── Skill detail: full-width hero image / embedded viewer ── */
+.skill-hero-img-wrap {
+  margin: 24px 0 0;
+}
+.skill-hero-img-wrap:empty { display: none; }
+.skill-hero-img-wrap img,
+.skill-hero-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--raised);
+}
+
+/* HTML prototype iframe (reference/example/index.html) */
+.skill-prototype-wrap {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-prototype-frame {
+  display: block;
+  width: 100%;
+  min-height: 540px;
+  height: 71vh;
+  max-height: 810px;
+  border: 0;
+  background: #fff;
+}
+.skill-prototype-open {
+  margin: 0;
+  padding: 8px 14px;
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+  background: var(--raised);
+}
+.skill-prototype-open a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.skill-prototype-open a:hover { text-decoration: underline; }
+
+/* draw.io embedded viewer */
+.skill-drawio-wrap {
+  position: relative;
+  width: 100%;
+  height: min(71vh, 680px);
+  min-height: 340px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-drawio-wrap .mxgraph {
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+}
+.skill-drawio-wrap .geToolbarContainer {
+  z-index: 4;
+}
+
+/* code file preview */
+.skill-code-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--raised);
+  font-size: 13px;
+}
+.skill-code-lang {
+  padding: 6px 14px;
+  font-family: var(--mono, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.skill-code-preview pre {
+  margin: 0;
+  padding: 16px;
+  overflow-x: auto;
+  max-height: 420px;
+}
+.skill-code-preview code {
+  font-family: var(--mono, 'JetBrains Mono', monospace);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+/* rendered markdown preview */
+.skill-hero-img-wrap .skill-md-preview {
+  max-height: min(71vh, 610px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.skill-md-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px 24px;
+  background: var(--surface);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.skill-md-preview h1 { font-size: 18px; font-weight: 700; margin: 0 0 12px; }
+.skill-md-preview h2 { font-size: 15px; font-weight: 600; margin: 16px 0 8px;
+  border-bottom: 1px solid var(--border); padding-bottom: 3px; }
+.skill-md-preview h3 { font-size: 13px; font-weight: 600; margin: 12px 0 6px; }
+.skill-md-preview h4 { font-size: 12px; font-weight: 600; margin: 10px 0 4px; color: var(--muted); }
+.skill-md-preview p  { margin: 0 0 10px; }
+.skill-md-preview .spec-steps { margin: 0 0 14px; }
+.skill-md-preview p.spec-step { margin: 0 0 4px; line-height: 1.55; }
+.skill-md-preview .md-table-wrap { overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview .md-table { border-collapse: collapse; width: 100%; }
+.skill-md-preview ul, .skill-md-preview ol { margin: 0 0 10px; padding-left: 20px; }
+.skill-md-preview li { margin-bottom: 3px; }
+.skill-md-preview code { background: var(--raised); border-radius: 3px;
+  padding: 1px 5px; font-family: var(--mono, monospace); font-size: 12px; }
+.skill-md-preview pre { background: var(--raised); border-radius: 5px;
+  padding: 12px; overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview table { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
+.skill-md-preview th, .skill-md-preview td {
+  border: 1px solid var(--border); padding: 6px 10px; }
+.skill-md-preview th { background: var(--raised); font-weight: 600; }
+
+/* ── Skill detail: concepts | rules two-column grid ── */
+.skill-cr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin: 24px 0 0;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .skill-cr-grid { grid-template-columns: 1fr; }
+}
+.skill-cr-col { min-width: 0; }
+.skill-cr-single { margin: 24px 0 0; }
+
+/* Glossary example hero — term blocks without heavy HR dividers */
+.skill-md-preview--glossary h1 {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 10px;
+  border: 0;
+  padding: 0;
+}
+.skill-md-preview--glossary h2 {
+  font-size: 16px;
+  margin-top: 0;
+}
+.skill-md-preview--glossary h3 {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 14px 0 6px;
+  padding: 6px 8px;
+  background: var(--raised);
+  border-radius: 4px;
+  border-left: 3px solid var(--accent);
+}
+.skill-md-preview--glossary hr {
+  display: none;
+}
+.skill-md-preview--glossary ul {
+  margin-top: 0;
+}
+
+/* ── Skill detail: full-width content below ── */
+.skill-detail-content-col { margin-top: 32px; }
+.skill-detail-page .skill-cr-grid,
+.skill-detail-page .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-single,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-single {
+  margin-top: 0;
+}
+
+/* ── Skill detail: concepts (expandable) ── */
+.skill-hero-img-wrap + .install-block {
+  margin-top: 16px;
+}
+.install-block + .skill-cr-grid,
+.install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-concepts {
+  margin: 0 0 20px;
+}
+.skill-concepts-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 8px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-concept {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-concept summary {
+  padding: 8px 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  user-select: none;
+}
+.skill-concept summary::-webkit-details-marker { display: none; }
+.skill-concept summary::marker { content: ""; }
+.skill-concept summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-concept[open] summary::before { content: "\2212"; }
+.skill-concept-body {
+  padding: 6px 4px 10px 1.9rem;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.skill-concept-body p { margin: 0 0 8px; }
+.skill-concept-body p:last-child { margin-bottom: 0; }
+.skill-concept-body ul { margin: 0 0 8px 1.1em; padding: 0; }
+.skill-concept-body li { margin: 3px 0; }
+
+/* ── Skill detail: rules (DO / DON'T) ── */
+.skill-rules {
+  margin: 0 0 20px;
+}
+.skill-rules-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 12px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-rule {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule[open] > .skill-rule-header {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule-header {
+  padding: 8px 10px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  background: var(--raised);
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+.skill-rule-header::-webkit-details-marker { display: none; }
+.skill-rule-header::marker { content: ""; }
+.skill-rule-header::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-rule[open] > .skill-rule-header::before {
+  content: "\2212";
+}
+.skill-rule-section {
+  padding: 8px 12px;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+.skill-rule-section--do {
+  border-left: 3px solid #2d8a4e;
+}
+.skill-rule-section--dont {
+  border-left: 3px solid #c0392b;
+}
+.skill-rule-section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+  color: var(--muted);
+}
+.skill-rule-section--do .skill-rule-section-label { color: #2d8a4e; }
+.skill-rule-section--dont .skill-rule-section-label { color: #c0392b; }
+.skill-rule-section ul { margin: 0; padding: 0 0 0 1.1em; }
+.skill-rule-section li { margin: 2px 0; color: var(--text); }
+
 </style>
-<script src="../../../commons/catalog-nav.js?v=foundry-8"></script>
+<script src="../../../commons/catalog-nav.js?v=foundry-9"></script>
 </head>
 <body data-nav-prefix="../../../" data-nav-current="skills" data-nav-site-base="../../../../../abd-works-website/">
 <main id="main-content">
@@ -1051,6 +1671,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
   <div class="wrap">
     <a class="back-link" href="../../../skill/drawio-domain-sync.html">← drawio-domain-sync</a>
     <p class="s-name">Markdown</p>
+
     <h1 class="page-headline">diagrams.md</h1>
     <p class="body-lead">﻿&lt;!-- section: story_synthesizer.diagrams --&gt;</p>
   </div>
@@ -1062,84 +1683,97 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <h2>Content</h2>
 <div class="rule-prose"><p>﻿&lt;!-- section: story_synthesizer.diagrams --&gt;</p>
 <h1>Class Diagrams</h1>
-<p>When a run produces or modifies domain model concepts, render the changes to a DrawIO class diagram. One page per foundational model. The diagram is the visual representation of `domain-model.md` — they stay in sync.</p>
+<div class="spec-steps">
+<p class="spec-step">When a run produces or modifies domain model concepts, render the changes to a DrawIO class diagram. One page per foundational model. The diagram is the visual representation of <code>domain-model.md</code> — they stay in sync.</p>
+</div>
 <h2>Diagram File</h2>
-<p><strong>Path:</strong> `&lt;session&gt;/class diagram.drawio` (alongside `domain-model.md`)</p>
-<p>Each foundational model section in `domain-model.md` maps to one page in the diagram. Page names must match section names exactly (e.g., &quot;Resolution System&quot;, &quot;Combat System&quot;).</p>
+<p><strong>Path:</strong> <code>&lt;session&gt;/class diagram.drawio</code> (alongside <code>domain-model.md</code>)</p>
+<p>Each foundational model section in <code>domain-model.md</code> maps to one page in the diagram. Page names must match section names exactly (e.g., &quot;Resolution System&quot;, &quot;Combat System&quot;).</p>
 <h2>When to Render</h2>
 <ul>
 <li><strong>After producing domain model output</strong> in a run — render new/changed concepts to the diagram</li>
 <li><strong>After corrections that change domain model</strong> — update the diagram to match</li>
-<li><strong>After user edits the diagram in DrawIO</strong> — sync back to `domain-model.md` using `sync-to-model`</li>
+<li><strong>After user edits the diagram in DrawIO</strong> — sync back to <code>domain-model.md</code> using <code>sync-to-model</code></li>
 </ul>
 <h2>Tools</h2>
-<p>All tools are in `scripts/` in the synthesizer skill. Run from that directory.</p>
+<p>All tools are in <code>scripts/</code> in the synthesizer skill. Run from that directory.</p>
 <pre><code>cd skills/abd-story-synthesizer/scripts
 python drawio_class_cli.py &lt;command&gt; &lt;drawio-file&gt; [options]</code></pre>
 <h3>Diagram Management</h3>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Command</th><th>Usage</th></tr></thead><tbody><tr><td>`init`</td><td>`init &lt;file&gt; --page &lt;name&gt;` — create file or add page</td></tr><tr><td>`inspect`</td><td>`inspect &lt;file&gt; [--page &lt;name&gt;]` — JSON: classes, edges, overlaps</td></tr><tr><td>`sync-to-model`</td><td>`sync-to-model &lt;file&gt; [--page &lt;name&gt;] [--model &lt;md-path&gt;]` — sync diagram classes back to domain-model.md with diffs</td></tr></tbody></table></div>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Command</th><th>Usage</th></tr></thead><tbody><tr><td><code>init</code></td><td><code>init &lt;file&gt; --page &lt;name&gt;</code> — create file or add page</td></tr><tr><td><code>inspect</code></td><td><code>inspect &lt;file&gt; [--page &lt;name&gt;]</code> — JSON: classes, edges, overlaps</td></tr><tr><td><code>sync-to-model</code></td><td><code>sync-to-model &lt;file&gt; [--page &lt;name&gt;] [--model &lt;md-path&gt;]</code> — sync diagram classes back to domain-model.md with diffs</td></tr></tbody></table></div>
 <h3>Class CRUD</h3>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Command</th><th>Usage</th><th></th><th></th><th></th><th></th><th></th></tr></thead><tbody><tr><td>`add-class`</td><td>`add-class &lt;file&gt; --page &lt;page&gt; --name &lt;Name&gt; [--base &lt;Base&gt;] [--props &quot;p1\</td><td>p2&quot;] [--ops &quot;o1\</td><td>o2&quot;] [--invs &quot;i1\</td><td>i2&quot;] [--x N] [--y N]`</td><td></td><td></td></tr><tr><td>`update-class`</td><td>`update-class &lt;file&gt; --page &lt;page&gt; --name &lt;Name&gt; --add-prop &quot;...&quot; \</td><td>--remove-prop &quot;...&quot; \</td><td>--add-op &quot;...&quot; \</td><td>--remove-op &quot;...&quot; \</td><td>--add-inv &quot;...&quot; \</td><td>--set-base &lt;Base&gt;`</td></tr><tr><td>`delete-class`</td><td>`delete-class &lt;file&gt; --page &lt;page&gt; --name &lt;Name&gt;` — removes class and all its edges</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td>`move`</td><td>`move &lt;file&gt; --page &lt;page&gt; --name &lt;Name&gt; --x N --y N`</td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Command</th><th>Usage</th><th></th><th></th><th></th><th></th><th></th></tr></thead><tbody><tr><td><code>add-class</code></td><td>`add-class &lt;file&gt; --page &lt;page&gt; --name &lt;Name&gt; [--base &lt;Base&gt;] [--props &quot;p1\</td><td>p2&quot;] [--ops &quot;o1\</td><td>o2&quot;] [--invs &quot;i1\</td><td>i2&quot;] [--x N] [--y N]`</td><td></td><td></td></tr><tr><td><code>update-class</code></td><td>`update-class &lt;file&gt; --page &lt;page&gt; --name &lt;Name&gt; --add-prop &quot;...&quot; \</td><td>--remove-prop &quot;...&quot; \</td><td>--add-op &quot;...&quot; \</td><td>--remove-op &quot;...&quot; \</td><td>--add-inv &quot;...&quot; \</td><td>--set-base &lt;Base&gt;`</td></tr><tr><td><code>delete-class</code></td><td><code>delete-class &lt;file&gt; --page &lt;page&gt; --name &lt;Name&gt;</code> — removes class and all its edges</td><td></td><td></td><td></td><td></td><td></td></tr><tr><td><code>move</code></td><td><code>move &lt;file&gt; --page &lt;page&gt; --name &lt;Name&gt; --x N --y N</code></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table></div>
 <h3>Relationship CRUD</h3>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Command</th><th>Style</th><th>Usage</th></tr></thead><tbody><tr><td>`add-inheritance`</td><td>Hollow triangle (straight or orthogonal)</td><td>`--child &lt;Child&gt; --parent &lt;Parent&gt; [--orthogonal]`</td></tr><tr><td>`add-composition`</td><td>Filled diamond on owner (orthogonal)</td><td>`--owner &lt;Owner&gt; --part &lt;Part&gt; [--straight]`</td></tr><tr><td>`add-aggregation`</td><td>Hollow diamond on owner (orthogonal)</td><td>`--owner &lt;Owner&gt; --part &lt;Part&gt; [--straight]`</td></tr><tr><td>`add-association`</td><td>Open arrow (orthogonal)</td><td>`--from &lt;Source&gt; --to &lt;Target&gt; [--straight]`</td></tr><tr><td>`add-dependency`</td><td>Dashed open arrow (straight)</td><td>`--from &lt;Source&gt; --to &lt;Target&gt; [--label &lt;text&gt;]`</td></tr><tr><td>`delete-edge`</td><td>—</td><td>`--from &lt;Source&gt; --to &lt;Target&gt;`</td></tr></tbody></table></div>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Command</th><th>Style</th><th>Usage</th></tr></thead><tbody><tr><td><code>add-inheritance</code></td><td>Hollow triangle (straight or orthogonal)</td><td><code>--child &lt;Child&gt; --parent &lt;Parent&gt; [--orthogonal]</code></td></tr><tr><td><code>add-composition</code></td><td>Filled diamond on owner (orthogonal)</td><td><code>--owner &lt;Owner&gt; --part &lt;Part&gt; [--straight]</code></td></tr><tr><td><code>add-aggregation</code></td><td>Hollow diamond on owner (orthogonal)</td><td><code>--owner &lt;Owner&gt; --part &lt;Part&gt; [--straight]</code></td></tr><tr><td><code>add-association</code></td><td>Open arrow (orthogonal)</td><td><code>--from &lt;Source&gt; --to &lt;Target&gt; [--straight]</code></td></tr><tr><td><code>add-dependency</code></td><td>Dashed open arrow (straight)</td><td><code>--from &lt;Source&gt; --to &lt;Target&gt; [--label &lt;text&gt;]</code></td></tr><tr><td><code>delete-edge</code></td><td>—</td><td><code>--from &lt;Source&gt; --to &lt;Target&gt;</code></td></tr></tbody></table></div>
 <h2>Layout Guidelines</h2>
 <ul>
-<li><strong>Inheritance:</strong> Base on top, extensions below. Straight vertical lines preferred when parent and child are in the same column. Use `inheritance-orthogonal` when the child is in a different column from the parent — straight diagonal lines cut through intervening classes.</li>
+<li><strong>Inheritance:</strong> Base on top, extensions below. Straight vertical lines preferred when parent and child are in the same column. Use <code>inheritance-orthogonal</code> when the child is in a different column from the parent — straight diagonal lines cut through intervening classes.</li>
 <li><strong>Composition/aggregation:</strong> Orthogonal routing (right-angle corners). Diamond on the owner (parent) side.</li>
-<li><strong>Association:</strong> Orthogonal routing. Use `--straight` when classes are on the same row to avoid bends.</li>
-<li><strong>Dependency:</strong> Dashed line for creates/uses relationships (e.g., Rollable creates Check). Use `dependency-orthogonal` (right-angle routing) when any class sits between source and target — straight dashed lines cut through intervening classes. Default to orthogonal; use straight only when source and target are adjacent with nothing between them.</li>
+<li><strong>Association:</strong> Orthogonal routing. Use <code>--straight</code> when classes are on the same row to avoid bends.</li>
+<li><strong>Dependency:</strong> Dashed line for creates/uses relationships (e.g., Rollable creates Check). Use <code>dependency-orthogonal</code> (right-angle routing) when any class sits between source and target — straight dashed lines cut through intervening classes. Default to orthogonal; use straight only when source and target are adjacent with nothing between them.</li>
 <li><strong>Grid layout:</strong> Position classes in rows — parents row 0, children/dependents row 1+. Avoid all-on-one-row; aim for a square diagram.</li>
-<li><strong>No overlaps:</strong> After positioning, run `inspect` to check for overlapping classes. Use `move` to fix.</li>
+<li><strong>No overlaps:</strong> After positioning, run <code>inspect</code> to check for overlapping classes. Use <code>move</code> to fix.</li>
 <li><strong>No crossing edges:</strong> Position classes so edges don&#x27;t cross over other classes. Place related classes adjacent. After adding edges, visually trace each one — if it would pass through another class&#x27;s bounding box, either reposition the source/target class or switch to orthogonal routing.</li>
 </ul>
 <h2>UML Relationship Selection</h2>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Relationship</th><th>When to use</th><th>DrawIO style</th></tr></thead><tbody><tr><td><strong>Inheritance</strong></td><td>Concept extends another (e.g., Ability : Rollable)</td><td>Hollow triangle; `inheritance-orthogonal` when child is offset from parent column</td></tr><tr><td><strong>Composition</strong></td><td>Part cannot exist without whole; collection property (e.g., Character ◆→ Ability via Dictionary)</td><td>Filled diamond</td></tr><tr><td><strong>Aggregation</strong></td><td>Whole references part but part has independent lifecycle (e.g., Character ◇→ PowerLevel)</td><td>Hollow diamond</td></tr><tr><td><strong>Association</strong></td><td>Concept uses another in operations (e.g., Check → DC, Check → Degree)</td><td>Open arrow</td></tr><tr><td><strong>Dependency</strong></td><td>Concept creates instances of another (e.g., Rollable --creates-→ Check)</td><td>Dashed arrow (orthogonal routing default)</td></tr></tbody></table></div>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Relationship</th><th>When to use</th><th>DrawIO style</th></tr></thead><tbody><tr><td><strong>Inheritance</strong></td><td>Concept extends another (e.g., Ability : Rollable)</td><td>Hollow triangle; <code>inheritance-orthogonal</code> when child is offset from parent column</td></tr><tr><td><strong>Composition</strong></td><td>Part cannot exist without whole; collection property (e.g., Character ◆→ Ability via Dictionary)</td><td>Filled diamond</td></tr><tr><td><strong>Aggregation</strong></td><td>Whole references part but part has independent lifecycle (e.g., Character ◇→ PowerLevel)</td><td>Hollow diamond</td></tr><tr><td><strong>Association</strong></td><td>Concept uses another in operations (e.g., Check → DC, Check → Degree)</td><td>Open arrow</td></tr><tr><td><strong>Dependency</strong></td><td>Concept creates instances of another (e.g., Rollable --creates-→ Check)</td><td>Dashed arrow (orthogonal routing default)</td></tr></tbody></table></div>
 <h2>Cross-Model Imports</h2>
-<p>When a concept from one foundational model is referenced in another (e.g., Ability extends Rollable from Resolution System), mark it explicitly in both places.</p>
+<div class="spec-steps">
+<p class="spec-step">When a concept from one foundational model is referenced in another (e.g., Ability extends Rollable from Resolution System), mark it explicitly in both places.</p>
+</div>
 <h3>Domain Model Convention</h3>
-<p>Add `[from: Source Module]` after the base class:</p>
+<p>Add <code>[from: Source Module]</code> after the base class:</p>
 <pre><code>**Ability** : Rollable [from: Resolution System]
 **AttackCheck** : Check [from: Resolution System]</code></pre>
 <h3>Class Diagram Convention</h3>
-<p>Add the imported class using `--imported-from`:</p>
+<p>Add the imported class using <code>--imported-from</code>:</p>
 <pre><code>python drawio_class_cli.py add-class &lt;file&gt; --page &quot;Character Trait System&quot; --name Rollable --imported-from &quot;Resolution System&quot; --props &quot;Number modifier&quot; --x 40 --y 620</code></pre>
-<p>The imported class renders with a dashed border and a `«from: Module»` stereotype label above the name. Add inheritance edges from local classes to the import as normal.</p>
+<p>The imported class renders with a dashed border and a <code>«from: Module»</code> stereotype label above the name. Add inheritance edges from local classes to the import as normal.</p>
 <h3>Keeping Cross-Model References in Sync</h3>
-<p>When a concept changes in its home model: 1. Update the concept in the home model&#x27;s page and domain-model.md section 2. Update imported copies in other pages (properties may differ — imports typically show only the key properties) 3. Run `inspect` on pages that import the concept to verify edges still connect</p>
+<div class="spec-steps">
+<p class="spec-step">When a concept changes in its home model:</p>
+<p class="spec-step">1. Update the concept in the home model&#x27;s page and domain-model.md section</p>
+<p class="spec-step">2. Update imported copies in other pages (properties may differ — imports typically show only the key properties)</p>
+<p class="spec-step">3. Run <code>inspect</code> on pages that import the concept to verify edges still connect</p>
+</div>
 <p><strong>Imported classes are lightweight copies</strong> — they show the concept name, stereotype, and key properties only. They don&#x27;t need full operations or invariants (those live in the home model).</p>
 <h2>Domain Model Type Conventions</h2>
 <ul>
-<li><strong>Enum types</strong> for constrained options: `EnumType name {value1, value2, ...}` — not `String name (option1/option2)`</li>
-<li><strong>Derived properties</strong> with invariants: `Number cost` + `Invariant: cost = rank × 2` — not `calculate_cost() → Number`</li>
+<li><strong>Enum types</strong> for constrained options: <code>EnumType name {value1, value2, ...}</code> — not <code>String name (option1/option2)</code></li>
+<li><strong>Derived properties</strong> with invariants: <code>Number cost</code> + <code>Invariant: cost = rank × 2</code> — not <code>calculate_cost() → Number</code></li>
 <li><strong>Invariants</strong> for all rules, formulas, and constraints — not embedded in property descriptions or operation signatures</li>
 </ul>
 <h2>Class Diagram Rules</h2>
-<p>Rules tagged `class_diagram` in `rules/` govern diagram rendering conventions. These are injected when using the class diagram CLI tool — they are NOT part of synthesis run instructions. Apply them during the rendering workflow below.</p>
+<p>Rules tagged <code>class_diagram</code> in <code>rules/</code> govern diagram rendering conventions. These are injected when using the class diagram CLI tool — they are NOT part of synthesis run instructions. Apply them during the rendering workflow below.</p>
 <p>Key rules:</p>
 <ul>
-<li><strong>Hierarchy flow</strong> — base classes top, children below (`domain-ooa-diagram-hierarchy-flow.md`)</li>
-<li><strong>Cross-model imports</strong> — import base classes that establish ancestry context (`domain-ooa-diagram-cross-model-imports.md`)</li>
-<li><strong>Edge routing</strong> — explicit exit/entry points when multiple edges share a source (`domain-ooa-diagram-edge-routing.md`)</li>
+<li><strong>Hierarchy flow</strong> — base classes top, children below (<code>domain-ooa-diagram-hierarchy-flow.md</code>)</li>
+<li><strong>Cross-model imports</strong> — import base classes that establish ancestry context (<code>domain-ooa-diagram-cross-model-imports.md</code>)</li>
+<li><strong>Edge routing</strong> — explicit exit/entry points when multiple edges share a source (<code>domain-ooa-diagram-edge-routing.md</code>)</li>
 </ul>
 <h2>AI Workflow for Rendering</h2>
-<p><strong>Incremental first.</strong> If the `.drawio` file already exists, use `update-class`, `add-class`, `delete-class`, and edge commands to apply only what changed — do not regenerate the whole file. Full regeneration destroys manual layout adjustments. Use the full workflow below only when creating a diagram for the first time.</p>
+<p><strong>Incremental first.</strong> If the <code>.drawio</code> file already exists, use <code>update-class</code>, <code>add-class</code>, <code>delete-class</code>, and edge commands to apply only what changed — do not regenerate the whole file. Full regeneration destroys manual layout adjustments. Use the full workflow below only when creating a diagram for the first time.</p>
 <p>After producing domain model output for a slice:</p>
-<p>1. <strong>Review `class_diagram` rules</strong> — apply positioning and edge conventions from `rules/domain-ooa-diagram-<em>.md` 2. </em><em>Init</em><em> page if needed: `init &lt;file&gt; --page &quot;&lt;Model Name&gt;&quot;` 3. </em><em>Add classes</em><em> with rows and invariants at planned grid positions (base classes top, children below). </em><em>Always include collaborator types</em>* — every row must show its collaborators using `name : Collaborator` notation (e.g., `character : Character`, `resist : Character, Trait, Graded Check Result`). The source determines where the collaborators come from:</p>
+<p>1. <strong>Review <code>class_diagram</code> rules</strong> — apply positioning and edge conventions from <code>rules/domain-ooa-diagram-*.md</code> 2. <strong>Init</strong> page if needed: <code>init &lt;file&gt; --page &quot;&lt;Model Name&gt;&quot;</code> 3. <strong>Add classes</strong> with rows and invariants at planned grid positions (base classes top, children below). <strong>Always include collaborator types</strong> — every row must show its collaborators using <code>name : Collaborator</code> notation (e.g., <code>character : Character</code>, <code>resist : Character, Trait, Graded Check Result</code>). The source determines where the collaborators come from:</p>
 <ul>
-<li><strong>domain model source</strong> — the collaborator column after the pipe (`|`) becomes the type annotation on the row.</li>
-<li><strong>Domain Language source</strong> — each verb-led behavior bullet becomes one row. Row label = the bullet text with italic markers stripped; collaborators = the `<em>italicized</em>` terms in that bullet. `<strong>Invariant:</strong>` bullets render in the third compartment. `### Subtype <em>is a type of</em> Base` headings drive inheritance edges. `### term <em>(boundary)</em>` scoped stubs render as imported cards with `«boundary: OwningModule»` stereotype. See `rules/class-diagram-domain-language-bullets-become-rows.md`.</li>
-<li><strong>Class Model source</strong> — typed signatures (`+ name: Type`) become the row format.</li>
-<li>Primitives in any source use parenthetical notation: `status : (success or failure)`.</li>
+<li><strong>domain model source</strong> — the collaborator column after the pipe (<code>|</code>) becomes the type annotation on the row.</li>
+<li><strong>Domain Language source</strong> — each verb-led behavior bullet becomes one row. Row label = the bullet text with italic markers stripped; collaborators = the <code>*italicized*</code> terms in that bullet. <code>**Invariant:**</code> bullets render in the third compartment. <code>### Subtype *is a type of* Base</code> headings drive inheritance edges. <code>### term *(boundary)*</code> scoped stubs render as imported cards with <code>«boundary: OwningModule»</code> stereotype. See <code>rules/class-diagram-domain-language-bullets-become-rows.md</code>.</li>
+<li><strong>Class Model source</strong> — typed signatures (<code>+ name: Type</code>) become the row format.</li>
+<li>Primitives in any source use parenthetical notation: <code>status : (success or failure)</code>.</li>
 </ul>
-<p>4. <strong>Add edges</strong> — inheritance first (defines vertical structure), then composition/aggregation, then associations/dependencies. Use explicit exitX/exitY/entryX/entryY when multiple edges leave the same class. For ULL sources, <strong>fold duplicate cross-concept references</strong>: if three bullets on the same concept reference the same italicized target, emit one association edge, not three. 5. <strong>Audit</strong> — run `audit_diagram_report(path)` (from `drawio_tools.py`) and read all violations. Priority: (1) `class_overlap` = zero, (2) `edge_crosses_class` = zero, (3) minimize `edge_on_edge_overlap`, (4) minimize `shared_anchor`. 6. <strong>Iterate</strong> — fix violations by repositioning classes (`move`), switching edge styles (e.g., `inheritance` → `inheritance-orthogonal`), or adding explicit `exit_x/exit_y/entry_x/entry_y` anchors. Rerun audit after each fix. 7. <strong>Verify</strong> sync: `sync-to-model` should report &quot;no changes&quot; (diagram matches model). For ULL sources, sync covers added/deleted concepts and inheritance headings only — bullet-level edits do not round-trip; edit the markdown directly.</p>
+<p>4. <strong>Add edges</strong> — inheritance first (defines vertical structure), then composition/aggregation, then associations/dependencies. Use explicit exitX/exitY/entryX/entryY when multiple edges leave the same class. For ULL sources, <strong>fold duplicate cross-concept references</strong>: if three bullets on the same concept reference the same italicized target, emit one association edge, not three. 5. <strong>Audit</strong> — run <code>audit_diagram_report(path)</code> (from <code>drawio_tools.py</code>) and read all violations. Priority: (1) <code>class_overlap</code> = zero, (2) <code>edge_crosses_class</code> = zero, (3) minimize <code>edge_on_edge_overlap</code>, (4) minimize <code>shared_anchor</code>. 6. <strong>Iterate</strong> — fix violations by repositioning classes (<code>move</code>), switching edge styles (e.g., <code>inheritance</code> → <code>inheritance-orthogonal</code>), or adding explicit <code>exit_x/exit_y/entry_x/entry_y</code> anchors. Rerun audit after each fix. 7. <strong>Verify</strong> sync: <code>sync-to-model</code> should report &quot;no changes&quot; (diagram matches model). For ULL sources, sync covers added/deleted concepts and inheritance headings only — bullet-level edits do not round-trip; edit the markdown directly.</p>
 <h2>Persisting Module Build Scripts</h2>
-<p>When a full render produces a bespoke Python script that builds the diagram (all classes, edges, anchors, waypoints in one atomic pass), <strong>keep the script</strong> in the destination repo at `&lt;repo-root&gt;/scripts/build_&lt;name&gt;_diagram.py`. Do not delete it after the render succeeds.</p>
+<div class="spec-steps">
+<p class="spec-step">When a full render produces a bespoke Python script that builds the diagram (all classes, edges, anchors, waypoints in one atomic pass), <strong>keep the script</strong> in the destination repo at <code>&lt;repo-root&gt;/scripts/build_&lt;name&gt;_diagram.py</code>. Do not delete it after the render succeeds.</p>
+</div>
 <div class="md-table-wrap"><table class="md-table"><thead><tr><th>Property</th><th>Why it matters</th></tr></thead><tbody><tr><td><strong>Re-runnable</strong></td><td>Model evolves; re-run the script to regenerate without replaying layout reasoning</td></tr><tr><td><strong>Extendable</strong></td><td>New KA page, class, or edge is a small edit, not a from-scratch session</td></tr><tr><td><strong>Auditable</strong></td><td>Readable record of every layout decision (positions, widths, anchors, waypoints)</td></tr></tbody></table></div>
 <p>Each script should:</p>
-<p>1. Import `drawio_tools` from the skill&#x27;s `scripts/` directory. 2. Build atomically — create mxfile, add all pages/classes/edges, save once. 3. Run `audit_diagram_report()` at the end and print the result. 4. Be runnable standalone: `python scripts/build_&lt;name&gt;_diagram.py`. 5. Exit non-zero when audit fails.</p>
-<p>When the model changes incrementally, <strong>edit the existing build script</strong> rather than writing a new one.</p>
+<p>1. Import <code>drawio_tools</code> from the skill&#x27;s <code>scripts/</code> directory. 2. Build atomically — create mxfile, add all pages/classes/edges, save once. 3. Run <code>audit_diagram_report()</code> at the end and print the result. 4. Be runnable standalone: <code>python scripts/build_&lt;name&gt;_diagram.py</code>. 5. Exit non-zero when audit fails.</p>
+<div class="spec-steps">
+<p class="spec-step">When the model changes incrementally, <strong>edit the existing build script</strong> rather than writing a new one.</p>
+</div>
 <h2>When User Edits the Diagram in DrawIO</h2>
-<p>1. User saves the diagram 2. Run `sync-to-model` to see diffs and apply changes back to `domain-model.md`</p></div>
+<p>1. User saves the diagram 2. Run <code>sync-to-model</code> to see diffs and apply changes back to <code>domain-model.md</code></p></div>
 
 </div>
 </div>

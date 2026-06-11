@@ -1,0 +1,91 @@
+<!DOCTYPE html><html><head><meta charset='utf-8'><style>
+body {font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; line-height: 1.65;
+  color: #1a1a1e; background: #fff; padding: 32px; max-width: 820px; margin: 0 auto;}
+h1 {font-size: 22px; font-weight: 700; margin: 0 0 16px; color: #111;}
+h2 {font-size: 17px; font-weight: 600; margin: 24px 0 10px; color: #111;
+    border-bottom: 1px solid #e0e0e0; padding-bottom: 4px;}
+h3 {font-size: 14px; font-weight: 600; margin: 16px 0 6px;}
+p {margin: 0 0 12px;} ul,ol {margin: 0 0 12px; padding-left: 24px;} li {margin-bottom: 4px;}
+code {background:#f4f4f6; border-radius:3px; padding:1px 5px; font-family:monospace; font-size:13px;}
+pre {background:#f4f4f6; border-radius:6px; padding:14px; overflow-x:auto; margin:0 0 14px;}
+pre code {background:none; padding:0;}
+table {border-collapse:collapse; width:100%; margin:0 0 14px;}
+th,td {border:1px solid #ddd; padding:7px 10px; text-align:left;}
+th {background:#f0f0f2; font-weight:600;}
+blockquote {border-left:3px solid #e5531a; margin:0 0 14px; padding:6px 14px; color:#555;}
+</style></head><body><p>﻿# DDD Design Building Blocks — Examples</p>
+<h2>domain model before and after DDD building blocks</h2>
+<p><strong>Before</strong> — vanilla domain model from <code>abd-domain-model</code>:</p>
+<pre><code>#### **Order**
+place                              | Customer, OrderLine
+Order Lines                        | OrderLine, Product
+calculate total                    | OrderLine
+                                   |   invariant: total = sum of line amounts
+
+#### **OrderLine**
+hold quantity and price            | Product
+calculate line amount              | (quantity × product price)
+
+#### **Product**
+provide price                      | (decimal amount)
+provide description                | (name, category)
+
+#### **Customer**
+place orders                       | Order
+contact info              | Address
+</code></pre>
+<p><strong>After</strong> — the same model with DDD building blocks applied:</p>
+<pre><code>#### **Order** [Entity, Aggregate Root]
+identity: customer + order date + items (no two orders from the same customer with identical items on the same day) |
+place order                        | Customer (by ID), OrderLine
+order lines                        | OrderLine, Product (by ID)
+calculate total                    | OrderLine
+                                   |   invariant: total = sum of line amounts
+                                   |   invariant: status only advances (Draft→Confirmed→Fulfilled)
+                                   |   aggregate boundary: OrderLine, Money
+
+#### **OrderLine** [Value Object, within Order Aggregate]
+hold quantity and price            | Money
+calculate line amount              | (quantity × unit price)
+
+#### **Money** [Value Object]
+represent amount and currency      | (amount, currency)
+                                   |   invariant: immutable — arithmetic returns new instances
+
+#### **Product** [Entity, separate Aggregate Root]
+identity: SKU                      |
+provide price                      | (decimal amount)
+provide description                | (name, category)
+
+#### **Customer** [Entity, separate Aggregate Root]
+identity: email + phone number (no two customers share both) |
+place orders                       | Order (by ID)
+maintain contact info              | Address
+
+#### **Address** [Value Object]
+represent location                 | (street, city, province, postal code)
+                                   |   invariant: immutable — replaced, never mutated
+
+#### **OrderRepository** [Repository — added by DDD]
+add order                          | Order
+remove order                       | Order
+update order                       | Order
+find orders by customer            | Customer (by ID)
+find orders by status              | (status filter)
+
+#### **OrderConfirmed** [Domain Event — surfaced from place order]
+notify: payment, inventory         | Order (by ID), Customer (by ID)
+                                   |   payload: order ID, customer ID, lines, total, timestamp
+
+#### **OrderFactory** [Factory — extracted from complex creation]
+assemble Order with lines          | OrderLine, Product (by ID), Money
+                                   |   invariant: new Order always valid (at least one line, correct total)
+</code></pre>
+<p><strong>What changed:</strong>
+- <code>Order</code> gained stereotype annotations, aggregate boundary, and an identity rule
+- <code>Money</code> and <code>Address</code> were extracted as Value Objects (were implicit in "price" and "contact info")
+- <code>OrderRepository</code> was <strong>added</strong> — it didn't exist in the domain model
+- <code>OrderConfirmed</code> was <strong>surfaced</strong> from the "place order" operation as a Domain Event
+- <code>OrderFactory</code> was <strong>extracted</strong> because assembly has invariants worth protecting
+- Cross-aggregate references became <strong>by ID</strong> (Customer, Product) — no object graph coupling</p>
+<p>The business questions surface <strong>which transformations apply</strong> to each concept and <strong>what constraints</strong> each transformation carries.</p></body></html>

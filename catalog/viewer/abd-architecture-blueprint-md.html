@@ -1,0 +1,75 @@
+<!DOCTYPE html><html><head><meta charset='utf-8'><style>
+body {font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; line-height: 1.65;
+  color: #1a1a1e; background: #fff; padding: 32px; max-width: 820px; margin: 0 auto;}
+h1 {font-size: 22px; font-weight: 700; margin: 0 0 16px; color: #111;}
+h2 {font-size: 17px; font-weight: 600; margin: 24px 0 10px; color: #111;
+    border-bottom: 1px solid #e0e0e0; padding-bottom: 4px;}
+h3 {font-size: 14px; font-weight: 600; margin: 16px 0 6px;}
+p {margin: 0 0 12px;} ul,ol {margin: 0 0 12px; padding-left: 24px;} li {margin-bottom: 4px;}
+code {background:#f4f4f6; border-radius:3px; padding:1px 5px; font-family:monospace; font-size:13px;}
+pre {background:#f4f4f6; border-radius:6px; padding:14px; overflow-x:auto; margin:0 0 14px;}
+pre code {background:none; padding:0;}
+table {border-collapse:collapse; width:100%; margin:0 0 14px;}
+th,td {border:1px solid #ddd; padding:7px 10px; text-align:left;}
+th {background:#f0f0f2; font-weight:600;}
+blockquote {border-left:3px solid #e5531a; margin:0 0 14px; padding:6px 14px; color:#555;}
+</style></head><body><h1>Architecture Blueprint — Examples</h1>
+<h2>Typical blueprint for a SaaS platform</h2>
+<pre><code>docs/architecture/
+├── architecture-blueprint.md                  ← human-readable, embeds the two PNGs
+├── architecture-outline.md                    ← produced by abd-architecture-outline
+├── diagrams/
+│   ├── (the four outline diagrams from abd-architecture-outline)
+│   ├── component-overview.drawio              ← source (this skill)
+│   ├── component-overview.png                 ← rendered
+│   ├── entity-relationships.drawio            ← source (this skill)
+│   └── entity-relationships.png               ← rendered
+└── decisions/
+    ├── ADR-004-result-object-error-handling.md
+    ├── ADR-005-write-through-redis-cache.md
+    └── ADR-006-outbox-event-publishing.md
+</code></pre>
+<hr />
+<h2>The shape of a good blueprint</h2>
+<pre><code>{Title} — Architecture Blueprint
+
+1. Scope
+   Linked from the architecture outline. This blueprint adds component-level
+   description and mechanism catalogue. Mechanism walkthroughs live in
+   architecture-reference.md (one section per mechanism).
+
+2. Components
+   2.1 {System} components
+       - {Component name}
+         {1–2 paragraphs: purpose, dependencies, interactions. No internals.}
+       - {Next component …}
+   ...
+
+3. Architecture Mechanisms
+   3.1 Security
+       {1–2 paragraphs: what concern it addresses, which components depend
+       on it, how they interact with it. Defer mechanism internals to
+       architecture-reference.md.}
+   3.2 Error Handling &amp; Resilience
+       {1–2 paragraphs}
+   ...
+
+4. Data Architecture
+   {Entity overview diagram (mermaid classDiagram or ER). Ownership boundary
+   table: which component owns which aggregate.}
+
+5. Testing Architecture
+   {Common test tiers; common test doubles; framework of record. Mechanism-
+   specific testing detail defers to each mechanism's reference section.}
+
+6. Extension &amp; Evolution (if applicable)
+   {Only include when the system has real plug-in points: a documented
+   adapter contract, a registry-driven extension, a SaaS multi-tenancy
+   isolation seam.}
+
+7. Decision Records
+   | ID | Decision | One-line consequence |
+   |---|---|---|
+   | ADR-NNN | ... | ... |
+   (each ADR is a separate file under docs/architecture/decisions/)
+</code></pre></body></html>

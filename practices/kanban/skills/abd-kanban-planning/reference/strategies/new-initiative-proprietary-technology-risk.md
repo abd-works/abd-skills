@@ -34,7 +34,7 @@
 
 | Specification | sprint | abd-domain-model, abd-story-specification, abd-ux-specification, abd-architecture-reference |
 
-| Engineering | sprint | abd-ux-specification (UX), abd-domain-specification (BE), abd-story-acceptance-test (PO), abd-clean-code (EN) |
+| Engineering | sprint | abd-domain-code (BE), abd-story-acceptance-test (PO), abd-clean-code (EN), abd-architecture-code (conditional) |
 
 
 

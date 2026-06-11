@@ -1,6 +1,5 @@
 ﻿---
 name: bounded-context-map
-catalog_garden_tier: practice
 catalog_garden_order: 8
 catalogue_one_liner: >-
   Bounded context inventory with dependency arcs across three dimensions.

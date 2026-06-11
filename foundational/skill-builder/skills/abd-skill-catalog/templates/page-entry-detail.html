@@ -11,38 +11,34 @@
 <style>
 {{CSS}}
 </style>
-<script src="{{COMMONS_PREFIX}}catalog-nav.js?v=foundry-8"></script>
+<script src="{{COMMONS_PREFIX}}catalog-nav.js?v=foundry-9"></script>
 </head>
 <body data-nav-prefix="{{NAV_PREFIX}}" data-nav-current="{{NAV_CURRENT}}" data-nav-site-base="{{NAV_SITE_BASE}}">
 <main id="main-content">
 
+{{FAMILY_TAB_BAR}}
+
 <div class="page-hero page-hero--detail">
   <div class="wrap">
     <a class="back-link" href="{{BACK_HREF}}">{{BACK_LABEL}}</a>
-    <p class="s-name">{{BADGE}}</p>
+    {{BADGE_HTML}}
     <h1 class="page-headline">{{H1}}</h1>
     <p class="body-lead">{{TAGLINE}}</p>
   </div>
 </div>
 
 <div class="catalog-body">
-<div class="wrap">
+<div class="wrap skill-detail-page">
 
-<h2>Description</h2>
-<div class="entry-prose">{{DESCRIPTION}}</div>
+<div class="skill-hero-img-wrap">
+{{SKILL_IMAGE}}
+</div>
 
 {{INSTALL_BLOCK}}
 
-<hr class="entry-divider">
+{{SKILL_CR_SECTION}}
 
-{{HOW_IT_FITS_BLOCK}}
-
-<hr class="entry-divider">
-
-<h2 id="entry-contents">Contents</h2>
-{{ENTRY_MD_COLLAPSIBLE}}
-
-{{FILE_LIST}}
+{{LEGACY_DETAIL_SECTION}}
 
 </div>
 </div>

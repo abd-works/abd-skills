@@ -471,7 +471,22 @@ html[data-abd-theme="executive"] .catalog-body code {
 }
 
 .page-hero--detail {
-  padding-top: 48px;
+  padding-top: 20px;
+  padding-bottom: 16px;
+}
+.page-hero--detail .page-headline {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 4px 0 6px;
+}
+.page-headline .skill-name-prefix,
+.cap-card__title .skill-name-prefix {
+  color: var(--accent);
+}
+.page-hero--detail .body-lead {
+  font-size: 0.9rem;
+  margin: 0;
+  color: var(--muted);
 }
 
 .page-hero--detail .back-link {
@@ -731,8 +746,18 @@ a.cap-card:hover .cap-card__more {
   color: #b8b8c2;
   margin: 0 0 18px;
 }
+.skill-detail-page .skill-hero-img-wrap + .install-block {
+  margin-top: 18px;
+}
+.skill-detail-page .install-block + .skill-cr-grid,
+.skill-detail-page .install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block {
+  margin-top: 0;
+}
 .install-block {
-  margin: 22px 0 0;
+  margin: 20px 0 0;
   padding: 16px 18px;
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid var(--border-muted);
@@ -1041,28 +1066,718 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 .plugin-slots h3:first-child { margin-top: 0; }
 .cap-grid--plugin-slot { margin-bottom: 8px; }
 
+/* ── Skill detail: family kanban stage nav (matches hub column headings) ── */
+.skill-kanban-nav {
+  --fam-sdd: #6bcb77;
+  --fam-ddd: #6c5ce7;
+  --fam-uxd: #e84393;
+  --fam-arc: #4fc3f7;
+  --fam-idea: var(--accent);
+  --abd-accent: var(--accent);
+  --abd-accent-glow: var(--accent-soft, var(--accent));
+  --abd-raised: var(--raised);
+  --abd-bg: var(--bg);
+  --abd-border: var(--border);
+  --abd-text: var(--text);
+  --abd-muted: var(--muted);
+  background: var(--raised);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0 16px;
+}
+.skill-kanban-nav .wrap {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.skill-kanban-nav__board {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  gap: 6px 8px;
+  align-items: start;
+}
+.skill-kanban-nav__practice-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  margin: 0;
+  padding: 0 8px;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-left-width: 3px;
+  border-radius: 4px;
+  line-height: 1.25;
+  box-sizing: border-box;
+  transition: box-shadow 120ms, border-color 120ms;
+  color: inherit;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card:hover {
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--sdd {
+  border-left-color: var(--fam-sdd);
+  color: var(--fam-sdd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--ddd {
+  border-left-color: var(--fam-ddd);
+  color: var(--fam-ddd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--uxd {
+  border-left-color: var(--fam-uxd);
+  color: var(--fam-uxd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--arc {
+  border-left-color: var(--fam-arc);
+  color: var(--fam-arc);
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap {
+  position: relative;
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip.kb-col-shape-tooltip {
+  min-width: 10rem;
+  max-width: 22rem;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:hover .kb-skill-tooltip,
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:focus-within .kb-skill-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.skill-kanban-nav__stages {
+  display: grid;
+  grid-template-columns: repeat(var(--skill-kanban-cols, 5), minmax(0, 1fr));
+  gap: 0 8px;
+  min-width: 0;
+}
+.skill-kanban-nav__col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.skill-kanban-nav__tickets {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.skill-kanban-nav .kb-col-head {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 8px 6px 7px;
+  font-family: var(--font-mono);
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.skill-kanban-nav .kb-col-head--static {
+  cursor: default;
+}
+.skill-kanban-nav a.kb-col-head {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav a.kb-col-head:hover {
+  border-color: rgba(229, 83, 26, 0.35);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.15);
+}
+.skill-kanban-nav .kb-col-head--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-col-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+}
+.skill-kanban-nav .kb-col-scope-shape {
+  flex-shrink: 0;
+  border: 2px solid var(--abd-accent);
+  border-radius: 2px;
+}
+.skill-kanban-nav__stages .kb-col-shape-tooltip,
+.skill-kanban-nav__stages .kb-skill-tooltip-wrap .kb-col-shape-tooltip {
+  display: none !important;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 8px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 7px 9px;
+  font-family: var(--font-mono);
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid rgba(229, 83, 26, 0.45);
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 14px;
+  border: 5px solid transparent;
+  border-bottom-color: rgba(229, 83, 26, 0.45);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__name {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--abd-accent-glow);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__bullets {
+  font-size: 8px;
+  line-height: 1.45;
+  color: var(--abd-text);
+  white-space: pre-line;
+}
+.skill-kanban-nav .kb-col-scope-shape--solution { width: 36px; height: 12px; }
+.skill-kanban-nav .kb-col-scope-shape--increment { width: 24px; height: 16px; }
+.skill-kanban-nav .kb-col-scope-shape--sprint { width: 16px; height: 22px; }
+.skill-kanban-nav .kb-col-scope-shape--story { width: 11px; height: 28px; }
+.skill-kanban-nav .kb-col-head-title {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--abd-text);
+}
+.skill-kanban-nav .kb-col-head-title > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.skill-kanban-nav .kb-col-num {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--abd-text);
+  background: var(--abd-bg);
+  border: 1px solid var(--abd-border);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+.skill-kanban-nav .kb-ticket {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  background: var(--abd-raised);
+  color: var(--abd-text);
+  padding: 5px 6px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  border-left-width: 3px;
+  border-left-color: var(--abd-muted);
+  line-height: 1.25;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav .kb-ticket:hover {
+  border-color: var(--abd-border);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.2);
+}
+.skill-kanban-nav .kb-ticket.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-ticket.aad-fam-sdd { border-left-color: var(--fam-sdd); }
+.skill-kanban-nav .kb-ticket.aad-fam-ddd { border-left-color: var(--fam-ddd); }
+.skill-kanban-nav .kb-ticket.aad-fam-uxd { border-left-color: var(--fam-uxd); }
+.skill-kanban-nav .kb-ticket.aad-fam-arc { border-left-color: var(--fam-arc); }
+.skill-kanban-nav .kb-ticket.aad-fam-idea { border-left-color: var(--fam-idea); }
+@media (max-width: 960px) {
+  .skill-kanban-nav__board {
+    grid-template-columns: 1fr;
+  }
+  .skill-kanban-nav__stages {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
+
+/* ── Skill detail: full-width hero image / embedded viewer ── */
+.skill-hero-img-wrap {
+  margin: 24px 0 0;
+}
+.skill-hero-img-wrap:empty { display: none; }
+.skill-hero-img-wrap img,
+.skill-hero-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--raised);
+}
+
+/* HTML prototype iframe (reference/example/index.html) */
+.skill-prototype-wrap {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-prototype-frame {
+  display: block;
+  width: 100%;
+  min-height: 540px;
+  height: 71vh;
+  max-height: 810px;
+  border: 0;
+  background: #fff;
+}
+.skill-prototype-open {
+  margin: 0;
+  padding: 8px 14px;
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+  background: var(--raised);
+}
+.skill-prototype-open a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.skill-prototype-open a:hover { text-decoration: underline; }
+
+/* draw.io embedded viewer */
+.skill-drawio-wrap {
+  position: relative;
+  width: 100%;
+  height: min(71vh, 680px);
+  min-height: 340px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-drawio-wrap .mxgraph {
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+}
+.skill-drawio-wrap .geToolbarContainer {
+  z-index: 4;
+}
+
+/* code file preview */
+.skill-code-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--raised);
+  font-size: 13px;
+}
+.skill-code-lang {
+  padding: 6px 14px;
+  font-family: var(--mono, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.skill-code-preview pre {
+  margin: 0;
+  padding: 16px;
+  overflow-x: auto;
+  max-height: 420px;
+}
+.skill-code-preview code {
+  font-family: var(--mono, 'JetBrains Mono', monospace);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+/* rendered markdown preview */
+.skill-hero-img-wrap .skill-md-preview {
+  max-height: min(71vh, 610px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.skill-md-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px 24px;
+  background: var(--surface);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.skill-md-preview h1 { font-size: 18px; font-weight: 700; margin: 0 0 12px; }
+.skill-md-preview h2 { font-size: 15px; font-weight: 600; margin: 16px 0 8px;
+  border-bottom: 1px solid var(--border); padding-bottom: 3px; }
+.skill-md-preview h3 { font-size: 13px; font-weight: 600; margin: 12px 0 6px; }
+.skill-md-preview h4 { font-size: 12px; font-weight: 600; margin: 10px 0 4px; color: var(--muted); }
+.skill-md-preview p  { margin: 0 0 10px; }
+.skill-md-preview .spec-steps { margin: 0 0 14px; }
+.skill-md-preview p.spec-step { margin: 0 0 4px; line-height: 1.55; }
+.skill-md-preview .md-table-wrap { overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview .md-table { border-collapse: collapse; width: 100%; }
+.skill-md-preview ul, .skill-md-preview ol { margin: 0 0 10px; padding-left: 20px; }
+.skill-md-preview li { margin-bottom: 3px; }
+.skill-md-preview code { background: var(--raised); border-radius: 3px;
+  padding: 1px 5px; font-family: var(--mono, monospace); font-size: 12px; }
+.skill-md-preview pre { background: var(--raised); border-radius: 5px;
+  padding: 12px; overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview table { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
+.skill-md-preview th, .skill-md-preview td {
+  border: 1px solid var(--border); padding: 6px 10px; }
+.skill-md-preview th { background: var(--raised); font-weight: 600; }
+
+/* ── Skill detail: concepts | rules two-column grid ── */
+.skill-cr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin: 24px 0 0;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .skill-cr-grid { grid-template-columns: 1fr; }
+}
+.skill-cr-col { min-width: 0; }
+.skill-cr-single { margin: 24px 0 0; }
+
+/* Glossary example hero — term blocks without heavy HR dividers */
+.skill-md-preview--glossary h1 {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 10px;
+  border: 0;
+  padding: 0;
+}
+.skill-md-preview--glossary h2 {
+  font-size: 16px;
+  margin-top: 0;
+}
+.skill-md-preview--glossary h3 {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 14px 0 6px;
+  padding: 6px 8px;
+  background: var(--raised);
+  border-radius: 4px;
+  border-left: 3px solid var(--accent);
+}
+.skill-md-preview--glossary hr {
+  display: none;
+}
+.skill-md-preview--glossary ul {
+  margin-top: 0;
+}
+
+/* ── Skill detail: full-width content below ── */
+.skill-detail-content-col { margin-top: 32px; }
+.skill-detail-page .skill-cr-grid,
+.skill-detail-page .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-single,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-single {
+  margin-top: 0;
+}
+
+/* ── Skill detail: concepts (expandable) ── */
+.skill-hero-img-wrap + .install-block {
+  margin-top: 16px;
+}
+.install-block + .skill-cr-grid,
+.install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-concepts {
+  margin: 0 0 20px;
+}
+.skill-concepts-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 8px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-concept {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-concept summary {
+  padding: 8px 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  user-select: none;
+}
+.skill-concept summary::-webkit-details-marker { display: none; }
+.skill-concept summary::marker { content: ""; }
+.skill-concept summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-concept[open] summary::before { content: "\2212"; }
+.skill-concept-body {
+  padding: 6px 4px 10px 1.9rem;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.skill-concept-body p { margin: 0 0 8px; }
+.skill-concept-body p:last-child { margin-bottom: 0; }
+.skill-concept-body ul { margin: 0 0 8px 1.1em; padding: 0; }
+.skill-concept-body li { margin: 3px 0; }
+
+/* ── Skill detail: rules (DO / DON'T) ── */
+.skill-rules {
+  margin: 0 0 20px;
+}
+.skill-rules-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 12px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-rule {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule[open] > .skill-rule-header {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule-header {
+  padding: 8px 10px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  background: var(--raised);
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+.skill-rule-header::-webkit-details-marker { display: none; }
+.skill-rule-header::marker { content: ""; }
+.skill-rule-header::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-rule[open] > .skill-rule-header::before {
+  content: "\2212";
+}
+.skill-rule-section {
+  padding: 8px 12px;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+.skill-rule-section--do {
+  border-left: 3px solid #2d8a4e;
+}
+.skill-rule-section--dont {
+  border-left: 3px solid #c0392b;
+}
+.skill-rule-section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+  color: var(--muted);
+}
+.skill-rule-section--do .skill-rule-section-label { color: #2d8a4e; }
+.skill-rule-section--dont .skill-rule-section-label { color: #c0392b; }
+.skill-rule-section ul { margin: 0; padding: 0 0 0 1.1em; }
+.skill-rule-section li { margin: 2px 0; color: var(--text); }
+
 </style>
-<script src="../commons/catalog-nav.js?v=foundry-8"></script>
+<script src="../commons/catalog-nav.js?v=foundry-9"></script>
 </head>
 <body data-nav-prefix="../" data-nav-current="skills" data-nav-site-base="../../../abd-works-website/">
 <main id="main-content">
 
+<div class="skill-kanban-nav">
+<div class="wrap">
+<div class="skill-kanban-nav__board">
+    <div class="skill-kanban-nav__practice-col" aria-label="Practice families">
+      <a class="foundry-practice-col__card foundry-perspective-label--sdd aad-skill aad-fam-sdd kb-ticket--current has-skill-tooltip" href="abd-story-specification.html"><span class="kb-skill-tooltip-wrap">story-driven-delivery<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">story-driven-delivery</span><span class="kb-col-shape-tooltip__bullets">Given/When/Then scenarios with real example data</span></span></span></a>
+      <a class="foundry-practice-col__card foundry-perspective-label--ddd aad-skill aad-fam-ddd has-skill-tooltip" href="abd-domain-specification.html"><span class="kb-skill-tooltip-wrap">domain-driven-design<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">domain-driven-design</span><span class="kb-col-shape-tooltip__bullets">Typed terms + relationships (a schema), not prose definitions</span></span></span></a>
+      <a class="foundry-practice-col__card foundry-perspective-label--uxd aad-skill aad-fam-uxd has-skill-tooltip" href="abd-ux-specification.html"><span class="kb-skill-tooltip-wrap">user-experience-design<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">user-experience-design</span><span class="kb-col-shape-tooltip__bullets">Component spec with named states &amp; rules, not a static picture</span></span></span></a>
+      <a class="foundry-practice-col__card foundry-perspective-label--arc aad-skill aad-fam-arc has-skill-tooltip" href="abd-architecture-specification.html"><span class="kb-skill-tooltip-wrap">architecture-centric-engineering<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture-centric-engineering</span><span class="kb-col-shape-tooltip__bullets">Interface contracts / templates the engine can follow</span></span></span></a>
+    </div>
+<nav class="skill-kanban-nav__stages" style="--skill-kanban-cols: 5" aria-label="Practice stages">
+      <div class="skill-kanban-nav__col" data-stage="shaping">
+        <a class="kb-col-head kb-col-head--link" data-stage="shaping" href="abd-story-mapping.html" title="Whole solution. wide / shallow. outcomes, scope, boundaries">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--solution" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Shaping</span><span class="kb-col-num">1</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-sdd" href="abd-story-mapping.html" title="Build a Patton-style story map per scope from source material — a single shared picture of the product as epics (broad capability areas), sub-epics (flows or feature areas), and stories (one observable user or system interaction each). Decompose requirements into outcomes and behaviors, not build tasks or source dumps, so product, delivery, and domain people share one structure. Name every epic, sub-epic, and story verb—noun; carry who acts in story_type, not in the title. Record context gaps inline where source material is thin.">story mapping outline</a>
+        </div>
+      </div>
+      <div class="skill-kanban-nav__col" data-stage="discovery">
+        <a class="kb-col-head kb-col-head--link" data-stage="discovery" href="abd-story-mapping.html" title="Increment. medium. interactions, experience, structure">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--increment" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Discovery</span><span class="kb-col-num">2</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-sdd" href="abd-story-mapping.html" title="Build a Patton-style story map per scope from source material — a single shared picture of the product as epics (broad capability areas), sub-epics (flows or feature areas), and stories (one observable user or system interaction each). Decompose requirements into outcomes and behaviors, not build tasks or source dumps, so product, delivery, and domain people share one structure. Name every epic, sub-epic, and story verb—noun; carry who acts in story_type, not in the title. Record context gaps inline where source material is thin.">story mapping</a>
+        </div>
+      </div>
+      <div class="skill-kanban-nav__col" data-stage="exploration">
+        <a class="kb-col-head kb-col-head--link" data-stage="exploration" href="abd-story-acceptance-criteria.html" title="Sprint. narrow / deeper. behaviour, design, logic">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--sprint" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Exploration</span><span class="kb-col-num">3</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-sdd" href="abd-story-acceptance-criteria.html" title="Build acceptance criteria per story, that explain what must be true when users and systems interact: observable triggers (WHEN), expected outcomes (THEN), chained effects (AND), and explicit negatives (BUT). These act as informal first-draft BDD-style steps that guide downstream scenario work. Focus on interactions using domain terms, avoid implementation detail unless the story is technical, and even then keep it minimal.">story acceptance criteria</a>
+        </div>
+      </div>
+      <div class="skill-kanban-nav__col" data-stage="specification">
+        <a class="kb-col-head kb-col-head--link kb-col-head--current" data-stage="specification" href="abd-story-specification.html" title="Story. narrow / executable. examples, design, templates">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--story" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Specification</span><span class="kb-col-num">4</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-sdd kb-ticket--current" href="abd-story-specification.html" title="Build specification scenarios per story that turn acceptance criteria and story intent into runnable examples: preconditions (Given), triggers (When), observable outcomes (Then), chained effects (And), and explicit negatives (But). Write multiple scenarios per story — at least one happy path plus edge and error cases implied by the story or its AC — each a complete example with realistic domain values, not placeholders. Ground every step in the domain model: use exact concept names, deliberate relationships in step language, and Examples tables whose columns reflect domain structure (not isolated field lists). When AC exist, use the main-flow AC as the spine (WHEN → When, THEN/AND → Then/And), then add Given preconditions and additional scenarios for failures, boundaries, and alternate flows. Focus on what users and systems do and what becomes observable; keep implementation detail out unless the story is explicitly technical.">story specification</a>
+        </div>
+      </div>
+      <div class="skill-kanban-nav__col" data-stage="engineering">
+        <a class="kb-col-head kb-col-head--link" data-stage="engineering" href="abd-story-acceptance-test.html" title="Story. narrowest / deep. tests, code, interface">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--story" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Engineering</span><span class="kb-col-num">5</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-sdd" href="abd-story-acceptance-test.html" title="Write tests first. Write code to pass them.
+
+This skill creates executable test files — in whatever language and framework the project uses — from whatever behavioral context is available: specification scenarios, acceptance criteria, stories, notes, or a rough description of what the system should do. The output is real test code that runs, fails, and drives what gets built.
+
+The workflow is test-driven: write a test that expresses the expected behavior, run it to confirm it fails (RED), then implement production code until the test passes (GREEN). Each test is a precise, runnable statement of what the system must do — test methods show the Given-When-Then flow and helper functions do the work.">story acceptance test</a>
+        </div>
+      </div>
+</nav>
+</div>
+</div>
+</div>
+
+
 <div class="page-hero page-hero--detail">
   <div class="wrap">
-    <a class="back-link" href="../plugin/story-driven-delivery.html">← Story Driven Delivery</a>
-    <p class="s-name">Skill</p>
-    <h1 class="page-headline">abd-story-specification</h1>
+    <a class="back-link" href="../index.html">← The ABD Foundry</a>
+    
+    <h1 class="page-headline"><span class="skill-name-prefix">abd-</span>story-specification</h1>
     <p class="body-lead">Given/When/Then scenarios with real domain values; plain or outline (data tables) templates.</p>
   </div>
 </div>
 
 <div class="catalog-body">
-<div class="wrap">
+<div class="wrap skill-detail-page">
 
-<h2>Description</h2>
-<div class="entry-prose">Write Given/When/Then scenarios that make a story&#x27;s expected behavior concrete and testable, using real domain values and named outcomes so the team can verify what the system must do.<br>
-<br>
----</div>
+<div class="skill-hero-img-wrap">
+<div class='skill-md-preview'><h2>Story: <code>Update Cart Quantity</code></h2>
+<h3>Scenario Outline 1: <code>Quantity change recalculates line price and subtotal</code></h3>
+<div class="spec-steps">
+<p class="spec-step">Given the <strong>Shopping Cart</strong> contains a <strong>Cart Item</strong> with <strong>product in cart</strong> <em>{sku}</em>, <strong>quantity</strong> <em>{initial_qty}</em>, <strong>unit price at time of adding</strong> <em>{unit_price}</em></p>
+<p class="spec-step">And the <strong>Shopping Cart</strong> has <strong>cart subtotal</strong> <em>{initial_subtotal}</em></p>
+<p class="spec-step">When the customer changes <strong>quantity</strong> on <strong>Cart Item</strong> <em>{sku}</em> to <em>{new_qty}</em></p>
+<p class="spec-step">Then <strong>Cart Item</strong> <em>{sku}</em> has <strong>quantity</strong> <em>{new_qty}</em> and <strong>line price</strong> <em>{expected_line_price}</em></p>
+<p class="spec-step">And the <strong>Shopping Cart</strong> has <strong>cart subtotal</strong> <em>{expected_subtotal}</em></p>
+<p class="spec-step">And the visible item count indicator shows <em>{expected_badge_count}</em></p>
+</div>
+<h4>Examples:</h4>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>scenario</th><th>sku</th><th>unit_price</th><th>initial_qty</th><th>initial_subtotal</th><th>new_qty</th><th>expected_line_price</th><th>expected_subtotal</th><th>expected_badge_count</th></tr></thead><tbody><tr><td>1</td><td>PET-HAR-001</td><td>Â£34.99</td><td>2</td><td>Â£69.98</td><td>3</td><td>Â£104.97</td><td>Â£104.97</td><td>3</td></tr><tr><td>2</td><td>PET-HAR-001</td><td>Â£34.99</td><td>2</td><td>Â£69.98</td><td>1</td><td>Â£34.99</td><td>Â£34.99</td><td>1</td></tr></tbody></table></div>
+<h3>Scenario 2: <code>Quantity set to zero removes item from cart</code></h3>
+<div class="spec-steps">
+<p class="spec-step">Given the <strong>Shopping Cart</strong> contains a <strong>Cart Item</strong> with <strong>product in cart</strong> <em>PET-TRT-042</em>, <strong>quantity</strong> <em>1</em>, <strong>unit price at time of adding</strong> <em>Â£4.99</em></p>
+<p class="spec-step">And the <strong>Shopping Cart</strong> has <strong>cart subtotal</strong> <em>Â£4.99</em></p>
+<p class="spec-step">When the customer sets <strong>quantity</strong> on <strong>Cart Item</strong> <em>PET-TRT-042</em> to <em>0</em></p>
+<p class="spec-step">Then <strong>Cart Item</strong> <em>PET-TRT-042</em> is removed from the <strong>Shopping Cart</strong></p>
+<p class="spec-step">And the <strong>Shopping Cart</strong> has <strong>cart subtotal</strong> <em>Â£0.00</em></p>
+<p class="spec-step">And the visible item count indicator shows <em>0</em></p>
+</div></div>
+
+</div>
 
 <section class="install-block" aria-labelledby="install-npx-heading">
   <h2 id="install-npx-heading">Install with npx</h2>
@@ -1071,110 +1786,142 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 </section>
 
 
-<hr class="entry-divider">
-
-
-
-<hr class="entry-divider">
-
-<h2 id="entry-contents">Contents</h2>
-<details class="entry-md-section" id="md-overview"><summary class="entry-md-section__summary">Overview</summary><div class="entry-md-section__body"><p>﻿--- name: abd-story-specification catalog_garden_tier: practice catalog_garden_order: 40 catalogue_one_liner: &gt;- Given/When/Then scenarios with real domain values; plain or outline (data tables) templates. description: &gt;- Produces Given/When/Then specification scenarios with real domain values. Use when writing BDD scenarios, refining acceptance criteria into specs, or making story behavior concrete.</p>
-<hr>
-<h1>abd-story-specification</h1></div></details>
-<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p>Write <strong>Given/When/Then</strong> scenarios that make a story&#x27;s expected behavior concrete and testable, using real domain values and named outcomes so the team can verify what the system must do.</p>
+<div class="skill-cr-grid">
+<div class="skill-cr-col"><div class="skill-concepts">
+<h2 class="skill-concepts-heading">Concepts</h2>
+<details class="skill-concept"><summary>What is specification by example?</summary><div class="skill-concept-body"><p><strong>Specification by example</strong> is a practice where we create specifications for stories through <strong>concrete scenarios</strong> demonstrated through <strong>examples</strong>. Spec scenarios include preconditions (<strong>Given</strong>), the triggering action (<strong>When</strong>), and an observable outcome (<strong>Then</strong>).</p>
+<p><strong>Inputs:</strong> Scenarios are often created from <strong>acceptance criteria</strong> (WHEN/THEN statements in a story). When AC exist, start from the main-flow AC, add Given steps until the flow is concrete, then add scenarios for failures, edges, and alternate flows. The same quality rules apply when the only inputs are a story name, bullet notes, or shared understanding.</p>
+<p><strong>Living documentation:</strong> Specifications by example are not throwaway analysis artifacts. They become <strong>executable requirements</strong> — testable without translation — captured in <strong>live documentation</strong> that stays current as the system evolves.</p>
+<p><strong>Multiple perspectives, not solo work.</strong> Ensure context covers business, technical, and testing perspectives; flag a missing perspective as an unknown rather than inventing plausible-sounding scenarios. See <a href="../../../reference/handling-incomplete-context.html"><code>../../../reference/handling-incomplete-context.md</code></a> for the shared discipline.</p>
 <hr></div></details>
-<details class="entry-md-section" id="output-file"><summary class="entry-md-section__summary">Output file</summary><div class="entry-md-section__body"><p><strong>Deliverables folder:</strong> see `../agent-protocol.md` — Output file resolution.</p>
-<p><strong>File name:</strong> `specification-by-example.md` — a single file for all stories in the module. Add a `&lt;name&gt;-` prefix only when disambiguation is needed.</p>
+<details class="skill-concept"><summary>Given, When, Then (and And)</summary><div class="skill-concept-body"><ul>
+<li><strong>Given</strong> — preconditions: data and state that exist before the behavior. Use Background for setup shared by three or more scenarios.</li>
+<li><strong>When</strong> — an action or event under test. A scenario may have <strong>multiple</strong> When/Then beats when the behaviour is a sequence of interactions. Each new When starts the next beat.</li>
+<li><strong>Then</strong> — observable outcomes to assert after the preceding When.</li>
+<li><strong>And</strong> — continues a Given, When, or Then block with another line of the same kind. Start a new <strong>When</strong> when the actor or trigger changes — do not chain unrelated actions with And.</li>
+</ul></div></details>
+<details class="skill-concept"><summary>Formatting convention</summary><div class="skill-concept-body"><p>In <code>.md</code> artifacts, use <strong>bold</strong> for domain concept names and <em>italics</em> for their actual values — for example <strong>User</strong> <em>Jane Doe</em>, <strong>Enterprise</strong> <em>Acme Corp</em>, <strong>Payment Amount</strong> <em>$1,000.00 USD</em>.</p></div></details>
+<details class="skill-concept"><summary>Working from acceptance criteria</summary><div class="skill-concept-body"><p>If the story has AC (WHEN/THEN from abd-story-acceptance-criteria), use the main-flow AC as the spine: convert WHEN to When, THEN/AND to Then/And, then add Given preconditions to make it runnable. Remaining AC become additional scenarios (failures, edges, alternate flows). The mapping is rarely one-to-one, but readers should see the relationship.</p></div></details>
+<details class="skill-concept"><summary>Scenarios vs Scenario Outlines</summary><div class="skill-concept-body"><ul>
+<li><strong>Scenario</strong> (plain) — one path, all values inline. Use for distinct flows: happy path, rejection, edge case.</li>
+<li><strong>Scenario Outline</strong> (parameterized) — same steps, varying data rows. Values use <code>{column_name}</code> tokens bound to an <strong>Examples</strong> block. Use only when variation is real and the steps are genuinely identical.</li>
+</ul></div></details>
+<details class="skill-concept"><summary>Background</summary><div class="skill-concept-body"><p>Use Background only when three or more scenarios share identical starting state. Given and And only — no When or Then.</p></div></details>
+<details class="skill-concept"><summary>Domain concept grounding</summary><div class="skill-concept-body"><p>Specification by example works at two levels simultaneously: it specifies <em>behavior</em> and it confirms <em>the domain model</em>. When domain model content — an Class Model, domain model, or domain language glossary — is available, the scenarios are its behavioral proof. Concept names must match exactly.</p>
+<div class="spec-steps">
+<p class="spec-step">When no domain model exists, the scenarios themselves reveal the model. The deliberate way a step names a concept and connects it to another documents the model for the team.</p>
+</div>
+<p><strong>This is exactly the same job the example tables do in Scenario Outlines.</strong> A table column set of <code>customer_name | dda_account_number | payment_product_name</code> grounds the data in the domain relational structure. Tables that show only one concept&#x27;s fields in isolation lose the relationships that make the domain model legible.</p></div></details>
+<details class="skill-concept"><summary>Specification level</summary><div class="skill-concept-body"><p>The default level is the <strong>story</strong> — each story gets its own scenarios. But specifications can be written at any level of the story map:</p>
+<ul>
+<li><strong>Epic or sub-epic level</strong> — a specification that describes the end-to-end flow across its child stories.</li>
+<li><strong>Story level</strong> (default) — scenarios for one discrete behaviour.</li>
+<li><strong>Cross-story</strong> — when a scenario naturally spans multiple stories in sequence.</li>
+</ul>
+<p>Higher-level specifications help answer: &quot;when these stories are all done, is the feature actually complete?&quot;</p>
 <hr></div></details>
-<details class="entry-md-section" id="agent-instructions"><summary class="entry-md-section__summary">Agent Instructions</summary><div class="entry-md-section__body"><p>&gt; <strong>MANDATORY — read `../agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.</strong></p>
-<h3>1. Read context</h3>
-<p>Read these files:</p>
-<ul>
-<li><strong>`reference/concepts.md`</strong> — what specification by example is, Given/When/Then, scenarios vs outlines, domain concept grounding, quick checklist.</li>
-<li><strong>`reference/examples.md`</strong> — worked examples showing plain Scenarios, Scenario Outlines with relationship-based tables, and Background.</li>
-</ul>
-<p>Also check whether any of the following domain model content exists in the workspace:</p>
-<ul>
-<li><strong>Class Model</strong> — typed classes with attributes and typed relationships. Use it first.</li>
-<li><strong>domain model</strong> — each concept listed with responsibilities and collaborators. Use when no Class Model exists.</li>
-<li><strong>Domain language or key abstractions</strong> — a glossary, list of defined terms. Use as fallback.</li>
-</ul>
-<p>Check for `domain.json` in the workspace. If it does not exist and a domain model markdown file is present, produce `domain.json` before running the scanner.</p>
-<h3>2. Generate</h3>
-<p>Read every file in <strong>`rules/`</strong>; author to those rules.</p>
-<p><strong>Choose notation first:</strong></p>
-<ul>
-<li><strong>Scenarios</strong> (plain): each scenario has distinct context; all values inline. Use for main flow, failure, edge cases.</li>
-<li><strong>Scenario Outlines</strong>: same Given/When/Then steps across multiple data rows; `{column_name}` tokens bound to an <strong>Examples</strong> block. Use only when steps are genuinely identical across every row.</li>
-</ul>
-<p>If not specified, determine based on the nature of the requirements and confirm with the user.</p>
-<p><strong>Produce the template:</strong></p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td>`templates/specification-by-example.md`</td><td>Given/When/Then scenarios for each story, using the chosen notation. No template `## Instructions` in deliverables.</td></tr></tbody></table></div>
-<p><strong>While writing:</strong></p>
-<ul>
-<li>Use <strong>Background</strong> when three or more scenarios share identical starting state (Given/And only).</li>
-<li>Name each scenario by its <strong>outcome</strong>, not its action.</li>
-<li>Cover at least one happy path, one failure or rejection, and any edge cases implied by the story.</li>
-<li>If <em>Acceptance Criteria</em> exist, use the main-flow AC as your spine: convert WHEN → When, THEN → Then, add Given preconditions.</li>
-<li>If you find yourself writing the same steps three or more times with only values changing, switch to <strong>Scenario Outlines</strong>.</li>
-</ul>
-<p><strong>Domain grounding:</strong></p>
-<ul>
-<li>Use exact concept names from the domain model source; do not paraphrase, abbreviate, or rename.</li>
-<li>Make relationships deliberate in step language and table column sets.</li>
-</ul>
-<p>Generated artifacts contain only scenario content; template instructions stay in `templates/` for maintainers.</p>
-<h3>3. Validate</h3>
-<p>Run the scanners:</p>
-<pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/abd-story-specification \
-  --workspace &lt;path-to-output&gt;</code></pre>
-<p>Then emit per-rule verdicts per `../agent-protocol.md`.</p>
-<hr></div></details>
-<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Inspect what was built — read the artifacts as reviewers.</p>
-<ul>
-<li><strong>Given/When/Then structure</strong> — correct keywords; Background is state-only; multiple When/Then beats where the flow requires.</li>
-<li><strong>Domain emphasis</strong> — domain-significant terms use <em>italics</em> consistently; concept names match the domain model exactly.</li>
-<li><strong>Scenario vs Outline choice</strong> — Outlines used only when steps are genuinely identical across all rows.</li>
-<li><strong>Coverage</strong> — happy path, failure path, and edge cases implied by story or AC are visible.</li>
-<li><strong>Domain model grounding</strong> — `domain.json` matches or has been produced if a domain model file exists.</li>
-<li><strong>No bundle markers</strong> — `SKILL.md` has no `&lt;!-- execute_rules:bundle_rules --&gt;` markers.</li>
+<details class="skill-concept"><summary>Quick checklist</summary><div class="skill-concept-body"><ul>
+<li><strong>Given</strong> is state-only; <strong>When</strong> is an action or trigger; <strong>Then</strong> asserts outcomes. Multiple <strong>When/Then</strong> beats are fine for multi-step journeys.</li>
+<li><strong>{Concept}</strong> ↔ tables <strong>both ways</strong>; domain words sit beside each <code>{Concept}</code>.</li>
+<li>Happy, edge, and error paths implied by the story, notes, or AC are <strong>visible</strong> in scenarios or outlines.</li>
+<li>Outlines used only when <strong>variation</strong> is real, not ceremonial.</li>
+<li><strong>Domain emphasis:</strong> in Markdown scenario artifacts, domain-significant terms use <em>italics</em> consistently.</li>
 </ul>
 <hr></div></details>
+<details class="skill-concept"><summary>Example: epic-level specification</summary><div class="skill-concept-body"><pre><code># Epic-level: Manage Customer Orders
+Scenario: Customer places and tracks a new order
+  Given a Customer with an active account
+  When the Customer adds items to the cart and submits the order
+  Then the order is confirmed with a tracking number
+  When the Customer views the active orders for their account
+  Then that order is displayed along with any other active orders
+  And the status for that order is displayed as Processing
+  When the order is dispatched
+  Then the Customer receives a shipment notification
+  And the order status changes to Shipped</code></pre></div></details>
+</div></div>
+<div class="skill-cr-col"><div class="skill-rules">
+<h2 class="skill-rules-heading">Rules</h2>
+<details class="skill-rule">
+<summary class="skill-rule-header">Background vs scenario setup</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Model shared state once in Background when many scenarios need the same starting world.</li><li>Keep Background free of actions; the first behavior under test belongs in When inside each scenario.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Put When / Then in Background, or encode actions inside Given lines.</li><li>Duplicate a Background Given inside a scenario&#x27;s own steps.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Emphasize domain-significant terms (scenarios)</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Wrap domain-significant terms in italics in markdown scenario artifacts and in story-graph step strings when you use markdown there.</li><li>Use title-style capitalization inside those phrases for multi-word concepts (e.g. Wire Payment, Export Job Progress, Beneficiary Bank). Keep acronyms and product names in their normal form (e.g. PDF).</li><li>Apply emphasis consistently for the same concept across scenarios on a story.</li><li>Prefer this pattern over exact quoted UI copy unless the literal string is required for a contract or compliance check.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Italicize filler or purely grammatical words, or entire sentences.</li><li>Use emphasis as decoration on every line — only mark terms that carry domain meaning.</li><li>Replace behavioral clarity with a wall of highlighted words; if everything is emphasized, nothing is.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Example tables use domain language (outline template)</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Name each table after a domain concept; columns are attributes of that concept, not UI labels.</li><li>Use domain terminology consistent with the model — exact names, not synonyms.</li><li>Keep tables relationship-based — one table per concept. When the domain has relationships (one-to-many, many-to-many, inheritance), model them as separate tables with foreign-key columns that reference rows in the related table. Never flatten two concepts into a single wide table. If an Account has many Owners, you need an Account table, an Owner table, and a column in one that references the other — not one table with account_name, owner_1_name, owner_2_name.</li><li>Omit surrogate ID columns when they add no specification value.</li><li>When the scenario computes a report or aggregate, show the inputs that justify the output — not just counts.</li><li>Before writing tables, read the domain model and confirm every table name and column name exists in it.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Use any table name that does not correspond to a concept in the domain model.</li><li>Use any column name that is not an attribute of that concept (or inherited from a parent concept) in the domain model.</li><li>Denormalize relationships into a flat table. This is the single most common mistake. When a scenario involves two or more concepts that have a relationship, you MUST use separate tables — one per concept — linked by a foreign-key column. Never widen a single table to hold columns from multiple unrelated concepts. Never use numbered suffixes (owner_1_name, owner_2_name) to represent a one-to-many relationship — that is a row in a related table, not extra columns. If the domain model shows a relationship, the example tables must show that relationship structurally.</li><li>Build tables around UI controls (button_enabled, modal_visible) when the story is about domain outcomes.</li><li>Encode only aggregated outputs (renames_count: 1) for the scenario responsible for producing that aggregate — show the underlying entities.</li><li>Invent a field that is not in the domain model. If a table needs a column not in the model, the agent MUST NOT silently add it. Instead:</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Given describes state, not actions</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Phrase Given as state: the User is logged in, the Account is active, the Entitlement is granted.</li><li>Move verbs like clicks, invokes, submits to When.</li><li>When you need prior actions, express the resulting state, not the past action.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Use Given for UI navigation (&quot;user is on Payment Details step&quot;) when you can state domain state.</li><li>Put past-tense actions in Given (&quot;user has clicked Continue&quot;).</li><li>Describe the functionality you are trying to prove inside Given instead of Then.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Ground scenarios in domain model content when available</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Read any available domain model content before naming any concept in a step — Class Model first, then domain model, then domain language.</li><li>Use the exact term the model defines.</li><li>In Scenario Outlines, structure example tables using the same language and cardinality as the domain model — a one-to-many relationship in the model means a separate table with a linking key, not repeated columns; a joining concept in the model means its own table with references to what it joins.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Use a synonym or informal shorthand for a concept the domain model has formally named.</li><li>Rename or paraphrase concept names even when the formal name feels long or unfamiliar.</li><li>Denormalize by repeating names across tables instead of linking through IDs — this hides ownership and breaks when a Customer has more than one Account or an Agreement covers more than one Product.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Keep scenarios consistent across connected domains</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Reuse the same Given / When / Then skeleton for sibling concepts (e.g. {WirePayment} vs {ACHPayment}) when the business flow matches.</li><li>Add extra scenarios only for real differences (e.g. intermediary bank required for wire only).</li><li>Parameterize with {Concept} and tables instead of copy-pasting eight steps with only the product name changed.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Give one rail a six-step specification and a sibling rail a three-step soup for the “same” operation without justification.</li><li>Fork scenarios by duplicating hard-coded values instead of shared structure + {Concept} tables.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Map table columns to scenario parameters (outline template)</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Match {token} spelling exactly to the table column header.</li><li>Keep tables minimal — only the columns the scenario actually references.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Leave orphan tables (columns never referenced in steps) or {tokens} with no matching table.</li><li>Use &lt;angle_bracket&gt; placeholders in step prose — use {column_name} for outline steps.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Mention the domain concept beside the placeholder (outline template)</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Use a short English cue before or after the brace: e.g. a User {user_name}, activation status {activation_status}, Payment Amount of {amount} {currency}.</li><li>Apply the same pattern in Background (Given/And) and in scenario steps.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Use a bare {token} with no surrounding domain words — prefer the User {user_name}.</li><li>Repeat the brace twice ({user_name} User …) — one natural phrase is enough.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Prefer key examples over exhaustive enumeration</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Pick examples that illustrate the rule, not every permutation of it.</li><li>Cover happy path, one or two boundaries, and the key failure — enough that the pattern is unambiguous.</li><li>Use a Scenario Outline with a focused Examples table when you need breadth, rather than writing dozens of near-identical plain scenarios.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Enumerate every data permutation when the underlying rule is the same — three rows that prove the formula beat thirty that restate it.</li><li>Write exhaustive scenarios &quot;just in case&quot; — if you cannot articulate what a new row proves that existing rows do not, it is noise.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Scenario language matches the domain</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Name entities the way the domain does (“WirePayment is created with status pending”).</li><li>Use When for domain operations (“User selects Recipient”), not low-level driver events.</li><li>Use Then for domain-visible effects and messages users or integrators care about.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Anchor Given in pages, modals, or control names (“recipient list page is loaded”) when state can be said in domain terms.</li><li>Use generic placeholders (“items”, “thing”) when real types exist.</li><li>Misplace concepts: if something lives in StoryMap, say {Epic} / {SubEpic} there; reserve diagram-specific types for steps about the diagram.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Scenarios cover all cases implied by the story</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Include at least one success path with realistic data.</li><li>Add boundary or rule-adjacent cases when limits, optional fields, or transitions are stated.</li><li>Add failure paths with the observable error or prevention behavior (message, status, no persistence).</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Ship only &quot;everything works&quot; scenarios when failures or edge cases are known.</li><li>Describe errors abstractly (&quot;invalid data&quot;) without the concrete violating example.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Scenarios belong in the story graph (canonical persistence)</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Treat epics → features → stories → scenarios as the stable hierarchy in JSON when the bot or pipeline expects it.</li><li>Keep scenario names stable enough to link to tests or automation IDs where your process requires it.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Create standalone markdown specs whose scenarios are not reflected in story-graph.json when that file is authoritative for the workspace.</li><li>Fork the same scenario under multiple unofficial paths (harder diffing, drift).</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Use real data over invented examples</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Use real customer names, product codes, amounts, and dates from the domain wherever possible.</li><li>When real data is sensitive, create realistic synthetic data that preserves the structure and edge characteristics of production data (lengths, formats, special characters).</li><li>On data-driven projects, pull sample rows from actual source systems rather than inventing them.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Use abstract entities like &quot;customer A&quot; or &quot;order 123&quot; when a concrete example would expose ambiguity (does the format include leading zeros? is the name unicode-safe?).</li><li>Assume consistency in legacy data — invented examples based on expected rules will miss the inconsistencies that real data contains.</li><li>Use yes/no answers in examples without separately illustrating the underlying concept.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Use scenario outline when the story needs data variation</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Outline formula-like or table-driven behavior (inputs → outputs) with a concise Examples block.</li><li>Keep placeholders in steps consistent with Examples column headers.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Wrap a single concrete path in an outline with one Examples row—use a normal Scenario.</li><li>Use outlines when scenarios need different Given contexts that are clearer as separate scenarios.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Write concrete scenarios with real values</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>For plain scenarios: use real values directly in steps — domain concept bold, values italic.</li><li>For outlines: name {tokens} after the domain field and keep the readable concept name beside the brace.</li><li>Trace dependencies: payment needs account, account needs enterprise, user needs entitlements.</li><li>Use collaboration language (&quot;validates against&quot;, &quot;owned by&quot;, &quot;marked as&quot;), not jammed placeholders.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Mix approaches: don&#x27;t use {column_name} tokens in a plain scenario or hard-code values in every row of an outline.</li><li>Use generic placeholders (&lt;the_user&gt;, {some_value}) instead of real names (plain) or domain field names (outline).</li><li>Describe UI state as Given when domain state suffices (&quot;on Payment Details step&quot; vs Payment Details awaits Account selection).</li></ul></div>
+</details>
+</div></div>
+</div>
 
-<ul class="file-list file-list--root">
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>reference/</strong><span class="file-meta"> → Folder (2 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-specification/reference/concepts.md" target="_blank" rel="noopener noreferrer"><strong>concepts.md</strong></a><span class="file-meta"> → ﻿# Specification by Example — Core Concepts</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-specification/reference/examples.md" target="_blank" rel="noopener noreferrer"><strong>examples.md</strong></a><span class="file-meta"> → Specification by Example — Examples</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-specification/rules/background-vs-scenario-setup.md" target="_blank" rel="noopener noreferrer"><strong>background-vs-scenario-setup.md</strong></a><span class="file-meta"> → Rule: Background vs scenario setup</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-specification/rules/emphasize-domain-significant-terms-scenarios.md" target="_blank" rel="noopener noreferrer"><strong>emphasize-domain-significant-terms-scenarios.md</strong></a><span class="file-meta"> → scanner: emphasize-domain-terms-scenario</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-specification/rules/example-tables-use-domain-language.md" target="_blank" rel="noopener noreferrer"><strong>example-tables-use-domain-language.md</strong></a><span class="file-meta"> → scanner: example-tables-domain</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-specification/rules/given-describes-state-not-actions.md" target="_blank" rel="noopener noreferrer"><strong>given-describes-state-not-actions.md</strong></a><span class="file-meta"> → Rule: Given describes state, not actions</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-specification/rules/ground-scenarios-in-ddd-outputs.md" target="_blank" rel="noopener noreferrer"><strong>ground-scenarios-in-ddd-outputs.md</strong></a><span class="file-meta"> → ﻿# Rule: Ground scenarios in domain model content when available</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-specification/rules/keep-scenarios-consistent-across-connected-domains.md" target="_blank" rel="noopener noreferrer"><strong>keep-scenarios-consistent-across-connected-domains.md</strong></a><span class="file-meta"> → Rule: Keep scenarios consistent across connected domains</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-specification/rules/map-table-columns-to-scenario-parameters.md" target="_blank" rel="noopener noreferrer"><strong>map-table-columns-to-scenario-parameters.md</strong></a><span class="file-meta"> → Rule: Map table columns to scenario parameters (outline template)</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-specification/rules/mention-domain-concept-beside-placeholder.md" target="_blank" rel="noopener noreferrer"><strong>mention-domain-concept-beside-placeholder.md</strong></a><span class="file-meta"> → Rule: Mention the domain concept beside the placeholder (outline template)</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-specification/rules/prefer-key-examples-over-exhaustive-enumeration.md" target="_blank" rel="noopener noreferrer"><strong>prefer-key-examples-over-exhaustive-enumeration.md</strong></a><span class="file-meta"> → Rule: Prefer key examples over exhaustive enumeration</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-specification/rules/scenario-language-matches-domain.md" target="_blank" rel="noopener noreferrer"><strong>scenario-language-matches-domain.md</strong></a><span class="file-meta"> → Rule: Scenario language matches the domain</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-specification/rules/scenarios-cover-all-cases.md" target="_blank" rel="noopener noreferrer"><strong>scenarios-cover-all-cases.md</strong></a><span class="file-meta"> → Rule: Scenarios cover all cases implied by the story</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-specification/rules/scenarios-on-story-graph.md" target="_blank" rel="noopener noreferrer"><strong>scenarios-on-story-graph.md</strong></a><span class="file-meta"> → Rule: Scenarios belong in the story graph (canonical persistence)</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-specification/rules/use-real-data-over-invented-examples.md" target="_blank" rel="noopener noreferrer"><strong>use-real-data-over-invented-examples.md</strong></a><span class="file-meta"> → Rule: Use real data over invented examples</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-specification/rules/use-scenario-outline-when-needed.md" target="_blank" rel="noopener noreferrer"><strong>use-scenario-outline-when-needed.md</strong></a><span class="file-meta"> → Rule: Use scenario outline when the story needs data variation</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-specification/rules/write-concrete-scenarios.md" target="_blank" rel="noopener noreferrer"><strong>write-concrete-scenarios.md</strong></a><span class="file-meta"> → Rule: Write concrete scenarios with real values</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>scanners/</strong><span class="file-meta"> → Folder (3 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-specification/scanners/__init__.py" target="_blank" rel="noopener noreferrer"><strong>__init__.py</strong></a><span class="file-meta"> → Specification-by-example scanner implementations (scenario emphasis, …).</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-specification/scanners/emphasize-domain-terms-scenario-scanner.py" target="_blank" rel="noopener noreferrer"><strong>emphasize-domain-terms-scenario-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-specification/scanners/example-tables-domain-scanner.py" target="_blank" rel="noopener noreferrer"><strong>example-tables-domain-scanner.py</strong></a><span class="file-meta"> → ﻿#!/usr/bin/env python3</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-specification/templates/specification-by-example.md" target="_blank" rel="noopener noreferrer"><strong>specification-by-example.md</strong></a><span class="file-meta"> → ﻿# Specification by Example — &lt;Module Name&gt;</span></li>
-</ul></div></details></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-specification/corrections-log.md" target="_blank" rel="noopener noreferrer"><strong>corrections-log.md</strong></a><span class="file-meta"> →    C o r r e c t i o n s   l o g </span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/story-driven-delivery/skills/abd-story-specification/SKILL.md" target="_blank" rel="noopener noreferrer"><strong>SKILL.md</strong></a><span class="file-meta"> → name: abd-story-specification</span></li>
-</ul>
+
+
 
 </div>
 </div>

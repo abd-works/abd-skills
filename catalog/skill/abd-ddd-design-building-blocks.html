@@ -471,7 +471,22 @@ html[data-abd-theme="executive"] .catalog-body code {
 }
 
 .page-hero--detail {
-  padding-top: 48px;
+  padding-top: 20px;
+  padding-bottom: 16px;
+}
+.page-hero--detail .page-headline {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 4px 0 6px;
+}
+.page-headline .skill-name-prefix,
+.cap-card__title .skill-name-prefix {
+  color: var(--accent);
+}
+.page-hero--detail .body-lead {
+  font-size: 0.9rem;
+  margin: 0;
+  color: var(--muted);
 }
 
 .page-hero--detail .back-link {
@@ -731,8 +746,18 @@ a.cap-card:hover .cap-card__more {
   color: #b8b8c2;
   margin: 0 0 18px;
 }
+.skill-detail-page .skill-hero-img-wrap + .install-block {
+  margin-top: 18px;
+}
+.skill-detail-page .install-block + .skill-cr-grid,
+.skill-detail-page .install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block {
+  margin-top: 0;
+}
 .install-block {
-  margin: 22px 0 0;
+  margin: 20px 0 0;
   padding: 16px 18px;
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid var(--border-muted);
@@ -1041,30 +1066,784 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 .plugin-slots h3:first-child { margin-top: 0; }
 .cap-grid--plugin-slot { margin-bottom: 8px; }
 
+/* ── Skill detail: family kanban stage nav (matches hub column headings) ── */
+.skill-kanban-nav {
+  --fam-sdd: #6bcb77;
+  --fam-ddd: #6c5ce7;
+  --fam-uxd: #e84393;
+  --fam-arc: #4fc3f7;
+  --fam-idea: var(--accent);
+  --abd-accent: var(--accent);
+  --abd-accent-glow: var(--accent-soft, var(--accent));
+  --abd-raised: var(--raised);
+  --abd-bg: var(--bg);
+  --abd-border: var(--border);
+  --abd-text: var(--text);
+  --abd-muted: var(--muted);
+  background: var(--raised);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0 16px;
+}
+.skill-kanban-nav .wrap {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.skill-kanban-nav__board {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  gap: 6px 8px;
+  align-items: start;
+}
+.skill-kanban-nav__practice-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  margin: 0;
+  padding: 0 8px;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-left-width: 3px;
+  border-radius: 4px;
+  line-height: 1.25;
+  box-sizing: border-box;
+  transition: box-shadow 120ms, border-color 120ms;
+  color: inherit;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card:hover {
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--sdd {
+  border-left-color: var(--fam-sdd);
+  color: var(--fam-sdd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--ddd {
+  border-left-color: var(--fam-ddd);
+  color: var(--fam-ddd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--uxd {
+  border-left-color: var(--fam-uxd);
+  color: var(--fam-uxd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--arc {
+  border-left-color: var(--fam-arc);
+  color: var(--fam-arc);
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap {
+  position: relative;
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip.kb-col-shape-tooltip {
+  min-width: 10rem;
+  max-width: 22rem;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:hover .kb-skill-tooltip,
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:focus-within .kb-skill-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.skill-kanban-nav__stages {
+  display: grid;
+  grid-template-columns: repeat(var(--skill-kanban-cols, 5), minmax(0, 1fr));
+  gap: 0 8px;
+  min-width: 0;
+}
+.skill-kanban-nav__col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.skill-kanban-nav__tickets {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.skill-kanban-nav .kb-col-head {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 8px 6px 7px;
+  font-family: var(--font-mono);
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.skill-kanban-nav .kb-col-head--static {
+  cursor: default;
+}
+.skill-kanban-nav a.kb-col-head {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav a.kb-col-head:hover {
+  border-color: rgba(229, 83, 26, 0.35);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.15);
+}
+.skill-kanban-nav .kb-col-head--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-col-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+}
+.skill-kanban-nav .kb-col-scope-shape {
+  flex-shrink: 0;
+  border: 2px solid var(--abd-accent);
+  border-radius: 2px;
+}
+.skill-kanban-nav__stages .kb-col-shape-tooltip,
+.skill-kanban-nav__stages .kb-skill-tooltip-wrap .kb-col-shape-tooltip {
+  display: none !important;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 8px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 7px 9px;
+  font-family: var(--font-mono);
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid rgba(229, 83, 26, 0.45);
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 14px;
+  border: 5px solid transparent;
+  border-bottom-color: rgba(229, 83, 26, 0.45);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__name {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--abd-accent-glow);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__bullets {
+  font-size: 8px;
+  line-height: 1.45;
+  color: var(--abd-text);
+  white-space: pre-line;
+}
+.skill-kanban-nav .kb-col-scope-shape--solution { width: 36px; height: 12px; }
+.skill-kanban-nav .kb-col-scope-shape--increment { width: 24px; height: 16px; }
+.skill-kanban-nav .kb-col-scope-shape--sprint { width: 16px; height: 22px; }
+.skill-kanban-nav .kb-col-scope-shape--story { width: 11px; height: 28px; }
+.skill-kanban-nav .kb-col-head-title {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--abd-text);
+}
+.skill-kanban-nav .kb-col-head-title > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.skill-kanban-nav .kb-col-num {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--abd-text);
+  background: var(--abd-bg);
+  border: 1px solid var(--abd-border);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+.skill-kanban-nav .kb-ticket {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  background: var(--abd-raised);
+  color: var(--abd-text);
+  padding: 5px 6px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  border-left-width: 3px;
+  border-left-color: var(--abd-muted);
+  line-height: 1.25;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav .kb-ticket:hover {
+  border-color: var(--abd-border);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.2);
+}
+.skill-kanban-nav .kb-ticket.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-ticket.aad-fam-sdd { border-left-color: var(--fam-sdd); }
+.skill-kanban-nav .kb-ticket.aad-fam-ddd { border-left-color: var(--fam-ddd); }
+.skill-kanban-nav .kb-ticket.aad-fam-uxd { border-left-color: var(--fam-uxd); }
+.skill-kanban-nav .kb-ticket.aad-fam-arc { border-left-color: var(--fam-arc); }
+.skill-kanban-nav .kb-ticket.aad-fam-idea { border-left-color: var(--fam-idea); }
+@media (max-width: 960px) {
+  .skill-kanban-nav__board {
+    grid-template-columns: 1fr;
+  }
+  .skill-kanban-nav__stages {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
+
+/* ── Skill detail: full-width hero image / embedded viewer ── */
+.skill-hero-img-wrap {
+  margin: 24px 0 0;
+}
+.skill-hero-img-wrap:empty { display: none; }
+.skill-hero-img-wrap img,
+.skill-hero-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--raised);
+}
+
+/* HTML prototype iframe (reference/example/index.html) */
+.skill-prototype-wrap {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-prototype-frame {
+  display: block;
+  width: 100%;
+  min-height: 540px;
+  height: 71vh;
+  max-height: 810px;
+  border: 0;
+  background: #fff;
+}
+.skill-prototype-open {
+  margin: 0;
+  padding: 8px 14px;
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+  background: var(--raised);
+}
+.skill-prototype-open a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.skill-prototype-open a:hover { text-decoration: underline; }
+
+/* draw.io embedded viewer */
+.skill-drawio-wrap {
+  position: relative;
+  width: 100%;
+  height: min(71vh, 680px);
+  min-height: 340px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-drawio-wrap .mxgraph {
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+}
+.skill-drawio-wrap .geToolbarContainer {
+  z-index: 4;
+}
+
+/* code file preview */
+.skill-code-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--raised);
+  font-size: 13px;
+}
+.skill-code-lang {
+  padding: 6px 14px;
+  font-family: var(--mono, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.skill-code-preview pre {
+  margin: 0;
+  padding: 16px;
+  overflow-x: auto;
+  max-height: 420px;
+}
+.skill-code-preview code {
+  font-family: var(--mono, 'JetBrains Mono', monospace);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+/* rendered markdown preview */
+.skill-hero-img-wrap .skill-md-preview {
+  max-height: min(71vh, 610px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.skill-md-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px 24px;
+  background: var(--surface);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.skill-md-preview h1 { font-size: 18px; font-weight: 700; margin: 0 0 12px; }
+.skill-md-preview h2 { font-size: 15px; font-weight: 600; margin: 16px 0 8px;
+  border-bottom: 1px solid var(--border); padding-bottom: 3px; }
+.skill-md-preview h3 { font-size: 13px; font-weight: 600; margin: 12px 0 6px; }
+.skill-md-preview h4 { font-size: 12px; font-weight: 600; margin: 10px 0 4px; color: var(--muted); }
+.skill-md-preview p  { margin: 0 0 10px; }
+.skill-md-preview .spec-steps { margin: 0 0 14px; }
+.skill-md-preview p.spec-step { margin: 0 0 4px; line-height: 1.55; }
+.skill-md-preview .md-table-wrap { overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview .md-table { border-collapse: collapse; width: 100%; }
+.skill-md-preview ul, .skill-md-preview ol { margin: 0 0 10px; padding-left: 20px; }
+.skill-md-preview li { margin-bottom: 3px; }
+.skill-md-preview code { background: var(--raised); border-radius: 3px;
+  padding: 1px 5px; font-family: var(--mono, monospace); font-size: 12px; }
+.skill-md-preview pre { background: var(--raised); border-radius: 5px;
+  padding: 12px; overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview table { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
+.skill-md-preview th, .skill-md-preview td {
+  border: 1px solid var(--border); padding: 6px 10px; }
+.skill-md-preview th { background: var(--raised); font-weight: 600; }
+
+/* ── Skill detail: concepts | rules two-column grid ── */
+.skill-cr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin: 24px 0 0;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .skill-cr-grid { grid-template-columns: 1fr; }
+}
+.skill-cr-col { min-width: 0; }
+.skill-cr-single { margin: 24px 0 0; }
+
+/* Glossary example hero — term blocks without heavy HR dividers */
+.skill-md-preview--glossary h1 {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 10px;
+  border: 0;
+  padding: 0;
+}
+.skill-md-preview--glossary h2 {
+  font-size: 16px;
+  margin-top: 0;
+}
+.skill-md-preview--glossary h3 {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 14px 0 6px;
+  padding: 6px 8px;
+  background: var(--raised);
+  border-radius: 4px;
+  border-left: 3px solid var(--accent);
+}
+.skill-md-preview--glossary hr {
+  display: none;
+}
+.skill-md-preview--glossary ul {
+  margin-top: 0;
+}
+
+/* ── Skill detail: full-width content below ── */
+.skill-detail-content-col { margin-top: 32px; }
+.skill-detail-page .skill-cr-grid,
+.skill-detail-page .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-single,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-single {
+  margin-top: 0;
+}
+
+/* ── Skill detail: concepts (expandable) ── */
+.skill-hero-img-wrap + .install-block {
+  margin-top: 16px;
+}
+.install-block + .skill-cr-grid,
+.install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-concepts {
+  margin: 0 0 20px;
+}
+.skill-concepts-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 8px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-concept {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-concept summary {
+  padding: 8px 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  user-select: none;
+}
+.skill-concept summary::-webkit-details-marker { display: none; }
+.skill-concept summary::marker { content: ""; }
+.skill-concept summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-concept[open] summary::before { content: "\2212"; }
+.skill-concept-body {
+  padding: 6px 4px 10px 1.9rem;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.skill-concept-body p { margin: 0 0 8px; }
+.skill-concept-body p:last-child { margin-bottom: 0; }
+.skill-concept-body ul { margin: 0 0 8px 1.1em; padding: 0; }
+.skill-concept-body li { margin: 3px 0; }
+
+/* ── Skill detail: rules (DO / DON'T) ── */
+.skill-rules {
+  margin: 0 0 20px;
+}
+.skill-rules-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 12px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-rule {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule[open] > .skill-rule-header {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule-header {
+  padding: 8px 10px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  background: var(--raised);
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+.skill-rule-header::-webkit-details-marker { display: none; }
+.skill-rule-header::marker { content: ""; }
+.skill-rule-header::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-rule[open] > .skill-rule-header::before {
+  content: "\2212";
+}
+.skill-rule-section {
+  padding: 8px 12px;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+.skill-rule-section--do {
+  border-left: 3px solid #2d8a4e;
+}
+.skill-rule-section--dont {
+  border-left: 3px solid #c0392b;
+}
+.skill-rule-section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+  color: var(--muted);
+}
+.skill-rule-section--do .skill-rule-section-label { color: #2d8a4e; }
+.skill-rule-section--dont .skill-rule-section-label { color: #c0392b; }
+.skill-rule-section ul { margin: 0; padding: 0 0 0 1.1em; }
+.skill-rule-section li { margin: 2px 0; color: var(--text); }
+
 </style>
-<script src="../commons/catalog-nav.js?v=foundry-8"></script>
+<script src="../commons/catalog-nav.js?v=foundry-9"></script>
 </head>
 <body data-nav-prefix="../" data-nav-current="skills" data-nav-site-base="../../../abd-works-website/">
 <main id="main-content">
 
+<div class="skill-kanban-nav">
+<div class="wrap">
+<div class="skill-kanban-nav__board">
+    <div class="skill-kanban-nav__practice-col" aria-label="Practice families">
+      <a class="foundry-practice-col__card foundry-perspective-label--sdd aad-skill aad-fam-sdd has-skill-tooltip" href="abd-story-mapping.html"><span class="kb-skill-tooltip-wrap">story-driven-delivery<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">story-driven-delivery</span><span class="kb-col-shape-tooltip__bullets">Given/When/Then scenarios with real example data</span></span></span></a>
+      <a class="foundry-practice-col__card foundry-perspective-label--ddd aad-skill aad-fam-ddd kb-ticket--current has-skill-tooltip" href="abd-domain-glossary.html"><span class="kb-skill-tooltip-wrap">domain-driven-design<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">domain-driven-design</span><span class="kb-col-shape-tooltip__bullets">Typed terms + relationships (a schema), not prose definitions</span></span></span></a>
+      <a class="foundry-practice-col__card foundry-perspective-label--uxd aad-skill aad-fam-uxd has-skill-tooltip" href="abd-ux-user-impact-map.html"><span class="kb-skill-tooltip-wrap">user-experience-design<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">user-experience-design</span><span class="kb-col-shape-tooltip__bullets">Component spec with named states &amp; rules, not a static picture</span></span></span></a>
+      <a class="foundry-practice-col__card foundry-perspective-label--arc aad-skill aad-fam-arc has-skill-tooltip" href="abd-architecture-outline.html"><span class="kb-skill-tooltip-wrap">architecture-centric-engineering<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture-centric-engineering</span><span class="kb-col-shape-tooltip__bullets">Interface contracts / templates the engine can follow</span></span></span></a>
+    </div>
+<nav class="skill-kanban-nav__stages" style="--skill-kanban-cols: 5" aria-label="Practice stages">
+      <div class="skill-kanban-nav__col" data-stage="shaping">
+        <a class="kb-col-head kb-col-head--link" data-stage="shaping" href="abd-domain-glossary.html" title="Whole solution. wide / shallow. outcomes, scope, boundaries">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--solution" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Shaping</span><span class="kb-col-num">1</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-ddd" href="abd-domain-glossary.html" title="Produce a structured domain glossary — terms grouped by Key Abstraction, Key Abstractions grouped into modules by shared concern — so that every downstream artifact (domain language, acceptance criteria, specification, code) draws from a single agreed vocabulary.
+
+The primary output is a glossary, not a boundary diagram. Modules are the organizing container: a module groups the KAs and terms that share a core concern and can be understood together. Each module file contains:
+
+— Key Abstractions — named building blocks that own a cluster of related terms
+— Terms per KA — behavioral bullets and source references (exact file + location) per term
+— Boundary terms — concepts this module depends on but does not own
+— Scope — what region of the domain this module covers (emerges from the terms, not the other way around)">domain glossary</a>
+        </div>
+      </div>
+      <div class="skill-kanban-nav__col" data-stage="discovery">
+        <a class="kb-col-head kb-col-head--link" data-stage="discovery" href="abd-domain-language.html" title="Increment. medium. interactions, experience, structure">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--increment" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Discovery</span><span class="kb-col-num">2</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-ddd" href="abd-domain-language.html" title="Build a shared, rigorous vocabulary for the scope you are modeling so that domain experts and modelers agree on what each term means, what each concept does, and which rules must always hold — and capture that agreement in one living document the whole team uses without translation. The scope of one run can be a single module, several modules, or a whole-system sweep; the skill and its output shape stay the same.
+
+This is a three-pass skill. It reads source, extracts terms with definitions, groups them into Key Abstractions, sketches each concept&#x27;s behavior and properties, and writes one file. The final output is a robust domain model that describes domain concepts in a structured, plain-English form — before anyone commits to classes, methods, or properties.">domain language</a>
+        </div>
+      </div>
+      <div class="skill-kanban-nav__col" data-stage="exploration">
+        <a class="kb-col-head kb-col-head--link" data-stage="exploration" href="abd-domain-model.html" title="Sprint. narrow / deeper. behaviour, design, logic">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--sprint" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Exploration</span><span class="kb-col-num">3</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-ddd" href="abd-domain-model.html" title="This skill takes domain concepts from a completed Domain Language and produces a typed domain model: for each concept, a constructor, typed properties, method signatures with collaborators and invariants. The result is a standalone file with ### Class blocks under each Key Abstraction.
+
+The format sits between domain model and a full Class Model — it uses typed notation (constructors, property types, method signatures) but avoids class-model embellishments (no &lt;&lt; stereotypes &gt;&gt;, no List&lt;T&gt; or Dictionary&lt;K,V&gt;, no Interaction: blocks, no + visibility prefixes, no param names in method signatures).">domain model</a>
+        </div>
+      </div>
+      <div class="skill-kanban-nav__col" data-stage="specification">
+        <a class="kb-col-head kb-col-head--link" data-stage="specification" href="abd-domain-specification.html" title="Story. narrow / executable. examples, design, templates">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--story" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Specification</span><span class="kb-col-num">4</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-ddd" href="abd-domain-specification.html" title="Build a typed Class Model for a module. When a domain model exists it is the primary input � the skill converts that behavioral model into a typed domain surface with far less effort. Without a domain model the skill can still produce an Class Model directly from domain knowledge.">domain specification</a>
+        </div>
+      </div>
+      <div class="skill-kanban-nav__col" data-stage="engineering">
+        <a class="kb-col-head kb-col-head--link" data-stage="engineering" href="abd-domain-code.html" title="Story. narrowest / deep. tests, code, interface">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--story" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Engineering</span><span class="kb-col-num">5</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-ddd" href="abd-domain-code.html" title="Turn whatever domain context exists into running, tested domain code.
+
+— Tests first (RED) → production code (GREEN) → clean up (REFACTOR).
+— Only the domain layer: classes, value objects, operations, invariants, domain events.
+— No database, no HTTP, no framework coupling.">domain code</a>
+        </div>
+      </div>
+</nav>
+</div>
+</div>
+</div>
+
+
 <div class="page-hero page-hero--detail">
   <div class="wrap">
-    <a class="back-link" href="../plugin/domain-driven-design.html">← Domain Driven Design</a>
-    <p class="s-name">Skill</p>
+    <a class="back-link" href="../index.html">← The ABD Foundry</a>
+    
     <h1 class="page-headline">ddd-design-building-blocks</h1>
     <p class="body-lead">DDD stereotypes (Entity, VO, Aggregate, Service, Event) from domain model artifacts.</p>
   </div>
 </div>
 
 <div class="catalog-body">
-<div class="wrap">
+<div class="wrap skill-detail-page">
 
-<h2>Description</h2>
-<div class="entry-prose">This skill works through a domain model concept by concept, identifying the right technical constraints through a set of questions that — while technical in framing — can only be answered by business requirements. For example: if two patients have the same name and date of birth, should we consider them the same patient? If a product changes, when do we update the inventory system?<br>
-<br>
-Every DDD building block — Entity, Value Object, Aggregate, Service, Domain Event — looks technical but exposes a question only the business can answer. This skill models these elements by understanding business requirements for identity semantics, consistency boundaries, immutability guarantees, and integration contracts across business concepts and systems.<br>
-<br>
----</div>
+<div class="skill-hero-img-wrap">
+<div class='skill-md-preview'><h1>DDD Design Building Blocks — Examples</h1>
+<h2>domain model before and after DDD building blocks</h2>
+<p><strong>Before</strong> — vanilla domain model from <code>abd-domain-model</code>:</p>
+<pre><code>#### **Order**
+place                              | Customer, OrderLine
+Order Lines                        | OrderLine, Product
+calculate total                    | OrderLine
+                                   |   invariant: total = sum of line amounts
+
+#### **OrderLine**
+hold quantity and price            | Product
+calculate line amount              | (quantity × product price)
+
+#### **Product**
+provide price                      | (decimal amount)
+provide description                | (name, category)
+
+#### **Customer**
+place orders                       | Order
+contact info              | Address</code></pre>
+<p><strong>After</strong> — the same model with DDD building blocks applied:</p>
+<pre><code>#### **Order** [Entity, Aggregate Root]
+identity: customer + order date + items (no two orders from the same customer with identical items on the same day) |
+place order                        | Customer (by ID), OrderLine
+order lines                        | OrderLine, Product (by ID)
+calculate total                    | OrderLine
+                                   |   invariant: total = sum of line amounts
+                                   |   invariant: status only advances (Draft→Confirmed→Fulfilled)
+                                   |   aggregate boundary: OrderLine, Money
+
+#### **OrderLine** [Value Object, within Order Aggregate]
+hold quantity and price            | Money
+calculate line amount              | (quantity × unit price)
+
+#### **Money** [Value Object]
+represent amount and currency      | (amount, currency)
+                                   |   invariant: immutable — arithmetic returns new instances
+
+#### **Product** [Entity, separate Aggregate Root]
+identity: SKU                      |
+provide price                      | (decimal amount)
+provide description                | (name, category)
+
+#### **Customer** [Entity, separate Aggregate Root]
+identity: email + phone number (no two customers share both) |
+place orders                       | Order (by ID)
+maintain contact info              | Address
+
+#### **Address** [Value Object]
+represent location                 | (street, city, province, postal code)
+                                   |   invariant: immutable — replaced, never mutated
+
+#### **OrderRepository** [Repository — added by DDD]
+add order                          | Order
+remove order                       | Order
+update order                       | Order
+find orders by customer            | Customer (by ID)
+find orders by status              | (status filter)
+
+#### **OrderConfirmed** [Domain Event — surfaced from place order]
+notify: payment, inventory         | Order (by ID), Customer (by ID)
+                                   |   payload: order ID, customer ID, lines, total, timestamp
+
+#### **OrderFactory** [Factory — extracted from complex creation]
+assemble Order with lines          | OrderLine, Product (by ID), Money
+                                   |   invariant: new Order always valid (at least one line, correct total)</code></pre>
+<p><strong>What changed:</strong></p>
+<ul>
+<li><code>Order</code> gained stereotype annotations, aggregate boundary, and an identity rule</li>
+<li><code>Money</code> and <code>Address</code> were extracted as Value Objects (were implicit in &quot;price&quot; and &quot;contact info&quot;)</li>
+<li><code>OrderRepository</code> was <strong>added</strong> — it didn&#x27;t exist in the domain model</li>
+<li><code>OrderConfirmed</code> was <strong>surfaced</strong> from the &quot;place order&quot; operation as a Domain Event</li>
+<li><code>OrderFactory</code> was <strong>extracted</strong> because assembly has invariants worth protecting</li>
+<li>Cross-aggregate references became <strong>by ID</strong> (Customer, Product) — no object graph coupling</li>
+</ul>
+<p>The business questions surface <strong>which transformations apply</strong> to each concept and <strong>what constraints</strong> each transformation carries.</p></div>
+
+</div>
 
 <section class="install-block" aria-labelledby="install-npx-heading">
   <h2 id="install-npx-heading">Install with npx</h2>
@@ -1073,78 +1852,155 @@ Every DDD building block — Entity, Value Object, Aggregate, Service, Domain Ev
 </section>
 
 
-<hr class="entry-divider">
-
-
-
-<hr class="entry-divider">
-
-<h2 id="entry-contents">Contents</h2>
-<details class="entry-md-section" id="md-overview"><summary class="entry-md-section__summary">Overview</summary><div class="entry-md-section__body"><p>﻿--- name: ddd-design-building-blocks catalog_garden_tier: practice catalog_garden_order: 7 catalogue_one_liner: &gt;- DDD stereotypes (Entity, VO, Aggregate, Service, Event) from domain model artifacts. description: &gt;- Surface the business questions that DDD building block stereotypes encode — identity, consistency boundaries, ownership, and integration — and classify each domain concept (Entity, Value Object, Aggregate, Service, Domain Event) from a domain model, Class Model, or Domain Language. Use when refining a domain model with DDD stereotypes, answering identity or consistency questions, or when the user asks to &quot;apply DDD building blocks&quot; or &quot;classify domain concepts.&quot;</p>
-<hr>
-<h1>abd-ddd-design-building-blocks</h1></div></details>
-<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p>This skill works through a domain model concept by concept, identifying the right technical constraints through a set of questions that — while technical in framing — can only be answered by business requirements. For example: if two patients have the same name and date of birth, should we consider them the same patient? If a product changes, when do we update the inventory system?</p>
-<p>Every DDD building block — Entity, Value Object, Aggregate, Service, Domain Event — looks technical but <strong>exposes a question only the business can answer</strong>. This skill models these elements by understanding business requirements for identity semantics, consistency boundaries, immutability guarantees, and integration contracts across business concepts and systems.</p>
-<hr></div></details>
-<details class="entry-md-section" id="output-file"><summary class="entry-md-section__summary">Output file</summary><div class="entry-md-section__body"><p><strong>Deliverables folder:</strong> see `../agent-protocol.md` — Output file resolution.</p>
-<p><strong>File name:</strong> `ddd-building-blocks.md`. Add a `&lt;name&gt;-` prefix only when disambiguation is needed. Placed beside the source model artifact.</p>
-<hr></div></details>
-<details class="entry-md-section" id="agent-instructions"><summary class="entry-md-section__summary">Agent Instructions</summary><div class="entry-md-section__body"><p>&gt; <strong>MANDATORY — read `../agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.</strong></p>
-<h3>1. Read context</h3>
-<p>Read these files:</p>
+<div class="skill-cr-grid">
+<div class="skill-cr-col"><div class="skill-concepts">
+<h2 class="skill-concepts-heading">Concepts</h2>
+<div class="skill-concept-body"><p>&gt; <strong>Note:</strong> The purpose of this skill is <em>not</em> to perform a detailed object-oriented analysis and design (OOAD) for every domain concept. Instead, use the <strong>Domain Language</strong> (<code>abd-domain-language</code>), <strong>domain model cards</strong> (<code>abd-domain-model</code>), or an <strong>Class Model</strong> (<code>abd-domain-specification</code>) skill as appropriate to your current level of domain discovery. This skill extends the domain model by layering in the DDD building blocks, highlighting the architectural roles and stereotypes required to implement the concept � not replacing existing analysis methods, but enriching them.</p></div>
+<details class="skill-concept"><summary>Building block stereotypes</summary><div class="skill-concept-body"><p>Domain concepts are <strong>implemented through</strong> DDD building block stereotypes. When you apply DDD to a domain model, the concepts you already have get <strong>refined and extended</strong>:</p>
 <ul>
-<li><strong>`reference/concepts.md`</strong> — all building block stereotypes (Entity, Value Object, Aggregate, Repository, Factory, Service, Domain Event, Specification), cross-aggregate consistency, the business questions each stereotype surfaces, and source-fidelity guidance.</li>
-<li><strong>`reference/examples.md`</strong> — a worked domain model before-and-after example showing building blocks applied to an Order domain.</li>
+<li>Domain objects become <strong>Entities</strong> or <strong>Value Objects</strong> (identity decision)</li>
+<li>Entities and Value Objects get allocated to <strong>Aggregates</strong> and a <strong>Root</strong> is chosen (consistency boundary)</li>
+<li><strong>Repositories</strong> are added to abstract persistence behind a collection-style interface � add, remove, update, find (persistence)</li>
+<li>Some operations get moved to <strong>Services</strong> (homeless cross-cutting behavior)</li>
+<li>Some operations surface <strong>Domain Events</strong> (significant moments others react to)</li>
+<li>Complex creation logic gets extracted into <strong>Factories</strong> (assembly concern)</li>
 </ul>
-<h3>2. Generate</h3>
-<p>Read every file in <strong>`rules/`</strong>; author to those rules.</p>
-<p><strong>Produce output from every template:</strong></p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td>`templates/ddd-building-blocks-template.md`</td><td>The building-blocks portrait for every concept — stereotypes, identity rules, aggregate boundaries, events, services, with business questions and rationale.</td></tr></tbody></table></div>
-<p><strong>Quality bar:</strong> Every concept from the input model appears with at least one stereotype facet or an explicit Unresolved note. Every stereotype records the business question asked and the answer given. Concepts may express multiple stereotypes (Entity + Aggregate Root + emits Events). Write at the same fidelity as the input source (domain model notation, typed notation, or plain-English concept blocks). Include the source model and show DDD annotations layered on top.</p>
-<h3>3. Validate</h3>
-<p>Run the scanners:</p>
-<pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/abd-ddd-design-building-blocks \
-  --workspace &lt;path-to-output&gt;</code></pre>
-<p>Then emit per-rule verdicts per `../agent-protocol.md`.</p>
-<hr></div></details>
-<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Inspect the building-blocks portrait as a domain expert and architect would.</p>
+<p>This is a <strong>transformation</strong> of the domain model, not a labeling exercise. New classes appear (Repositories, Factories, Events). Existing classes gain new constraints (aggregate boundaries, identity rules). Some operations move to new homes.</p></div></details>
+<details class="skill-concept"><summary>Entity � &quot;Can we tell them apart?&quot;</summary><div class="skill-concept-body"><p>An Entity is primarily defined by its <strong>identity</strong> � a thread of continuity that persists regardless of changes to its attributes. Two instances with identical attribute values are still different objects if they have different identities.</p>
+<p><strong>Business questions only the domain expert can answer:</strong></p>
 <ul>
-<li><strong>Business questions surfaced</strong> — every stereotype facet records the question asked and answer given.</li>
-<li><strong>Multi-faceted portraits</strong> — concepts that are Entities AND Aggregate Roots AND emit Events show all facets.</li>
-<li><strong>Domain expert check</strong> — every concept named in domain language from the source model; no technical jargon introduced.</li>
-<li><strong>Complete coverage</strong> — every concept from the input model appears with at least one stereotype or an explicit Unresolved note.</li>
-<li><strong>Identity test applied</strong> — Entity vs Value Object decisions cite the identity question with a domain-grounded answer.</li>
-<li><strong>Aggregate boundaries defensible</strong> — each aggregate names its root, lists boundary members, and states protected invariants.</li>
-<li><strong>Services genuinely homeless</strong> — no service could be more naturally placed on an existing Entity or Value Object.</li>
-<li><strong>Events belong to their Aggregate</strong> — every Domain Event names the raising Aggregate, uses past-tense, and names consumers.</li>
-<li><strong>No premature infrastructure</strong> — no database tables, message queues, or framework classes prescribed.</li>
-<li><strong>No bundle markers</strong> — `SKILL.md` has no `&lt;!-- execute_rules:bundle_rules --&gt;` markers.</li>
+<li>If two instances of this thing have the same name, are they automatically the same thing?</li>
+<li>What attributes or rules do we use to <strong>establish or verify</strong> the identity of this thing?</li>
+<li>If two instances have different attribute values but the same identity � are they still the same thing? How will we manage this?</li>
+<li>Does this concept need to be <strong>tracked over time</strong> as it changes state?</li>
 </ul>
-<hr></div></details>
+<p>If the answer is &quot;yes, we need to track this as &#x27;that one&#x27; regardless of data changes,&quot; it is an Entity.</p></div></details>
+<details class="skill-concept"><summary>Value Object � &quot;Is it just fancy data?&quot;</summary><div class="skill-concept-body"><p>A Value Object describes an aspect of the domain and has <strong>no identity</strong>. It is distinguishable only by the state of its properties � two Value Objects with the same attribute values are interchangeable. Value Objects should be <strong>immutable</strong>: created once, never modified.</p>
+<p><strong>Business questions only the domain expert can answer:</strong></p>
+<ul>
+<li>Is this concept <strong>fully described by its attribute values</strong> with nothing else to say about &quot;which one&quot;?</li>
+<li>If two instances have identical properties, does the business treat them as <strong>the same thing</strong>?</li>
+<li>When this thing changes, do we <strong>update it in place</strong> (Entity signal) or <strong>replace it</strong> with a new version?</li>
+</ul>
+<p>If the answer is &quot;it&#x27;s just data � two with the same values are the same thing,&quot; it is a Value Object.</p></div></details>
+<details class="skill-concept"><summary>Aggregate � &quot;What must be consistent together?&quot;</summary><div class="skill-concept-body"><p>An Aggregate is a cluster of associated objects treated as a <strong>single unit for data changes</strong>. Every Aggregate has a <strong>root</strong> (a single Entity) and a <strong>boundary</strong>. The root is the only member that outside objects may hold persistent references to.</p>
+<p><strong>Business questions only the domain expert can answer:</strong></p>
+<ul>
+<li>What <strong>must</strong> be consistent in a single transaction?</li>
+<li>What <strong>can tolerate a moment of inconsistency</strong>?</li>
+<li>What is the <strong>cost to the business</strong> if this information is briefly out of date?</li>
+<li>Who is the <strong>single access point</strong> that protects the rules? <em>(the root)</em></li>
+</ul></div></details>
+<details class="skill-concept"><summary>Cross-aggregate consistency � &quot;What happens over there when this changes here?&quot;</summary><div class="skill-concept-body"><div class="spec-steps">
+<p class="spec-step">When two aggregates reference each other (by ID), every relationship crossing that boundary needs an explicit consistency decision. These are the questions developers will silently answer wrong if nobody asks them:</p>
+</div>
+<ul>
+<li><strong>When a Customer&#x27;s address changes, what happens to their open Orders?</strong></li>
+<li><strong>When a Product&#x27;s price changes, what happens to Orders that reference that Product?</strong></li>
+<li><strong>When a Customer is deactivated, what happens to their pending Orders?</strong></li>
+</ul>
+<p>For each cross-aggregate relationship, ask:</p>
+<p>1. <strong>&quot;If A changes, does B need to know � and how soon?&quot;</strong> � immediately (should be same aggregate), within seconds (eventual consistency via event), or never (B keeps a snapshot). 2. <strong>&quot;Does B keep a copy of A&#x27;s data, or just a reference?&quot;</strong> � if B copied A&#x27;s price at order time, a later price change doesn&#x27;t affect B. If B holds a live reference, it does. 3. <strong>&quot;What does the business do today when this happens?&quot;</strong> � often there is already a manual process. That process IS the consistency rule.</p>
+<p>These decisions become Domain Events, eventual-consistency policies, or snapshot-vs-reference design choices in the model.</p>
+<p>Design constraints flow from those answers:</p>
+<ul>
+<li>Code outside the boundary can only load, save, delete, or create the aggregate through its root Entity.</li>
+<li>Entities within the boundary have local identity only � meaningful inside the aggregate, not globally.</li>
+<li>Keep aggregates small: one root, the minimum set of objects needed to enforce the business&#x27;s stated invariants.</li>
+</ul></div></details>
+<details class="skill-concept"><summary>Repository � &quot;How does the business store, find, and retire this?&quot;</summary><div class="skill-concept-body"><p>A Repository abstracts persistence behind a <strong>collection-style interface</strong> � add, remove, update, find. From the domain&#x27;s perspective, it looks like a collection of aggregates you can put things into and take things out of. The implementation (database, file system, API) is hidden; the domain only sees the collection operations.</p>
+<p><strong>Business questions only the domain expert can answer:</strong></p>
+<ul>
+<li>How does the business <strong>find</strong> this thing?</li>
+<li>When is this thing <strong>done</strong> � and what does &quot;retire&quot; or &quot;archive&quot; mean for it?</li>
+<li>Does the business need to <strong>search</strong> across these things, and by what criteria?</li>
+</ul>
+<p>At class-model fidelity, a Repository should implement a collection type. At domain model or UL fidelity, it is expressed as responsibilities (add, remove, find by...).</p></div></details>
+<details class="skill-concept"><summary>Factory � &quot;How are new instances born?&quot;</summary><div class="skill-concept-body"><p>A Factory handles the <strong>creation</strong> of complex objects or aggregates � when construction requires assembling multiple parts, enforcing invariants at birth, or choosing between subtypes. If a simple constructor suffices, no Factory is needed.</p>
+<p><strong>Business questions only the domain expert can answer:</strong></p>
+<ul>
+<li>Is there a <strong>business process</strong> for creating this thing?</li>
+<li>What must be <strong>true the moment it&#x27;s born</strong>?</li>
+<li>Is there a <strong>choice</strong> at creation time about what kind of thing gets made?</li>
+</ul></div></details>
+<details class="skill-concept"><summary>Service � &quot;Who owns this action?&quot;</summary><div class="skill-concept-body"><p>A Service represents a domain operation that does <strong>not naturally belong</strong> to any Entity or Value Object. If forcing the operation onto a concept would distort that concept&#x27;s definition, it belongs in a Service.</p>
+<p><strong>Business questions only the domain expert can answer:</strong></p>
+<ul>
+<li>When the business describes this action, do they name <strong>one</strong> thing that does it � or does it span several?</li>
+<li>Would adding this responsibility to an existing concept <strong>change what that concept is</strong>?</li>
+<li>Is this action a <strong>named domain activity</strong> that business people would recognise?</li>
+</ul>
+<p>Services are typically <strong>stateless</strong> � they coordinate work across domain objects without holding their own state between calls.</p></div></details>
+<details class="skill-concept"><summary>Domain Event � &quot;What are the significant moments?&quot;</summary><div class="skill-concept-body"><p>A Domain Event captures <strong>something that happened</strong> � a significant state change in the domain, named in <strong>past tense</strong> using domain language. Events carry enough data for interested parties to react without calling back.</p>
+<p>Domain Events are the <strong>preferred</strong> mechanism for synchronising across aggregate boundaries � but they are not the only one. The cross-aggregate consistency questions determine <strong>how</strong> synchronisation happens: some systems use events, others use batch processes, scheduled jobs, or direct remote calls. The Domain Event building block identifies <strong>what</strong> the significant moments are and who reacts; the consistency approach decides the transport.</p>
+<p><strong>Business questions only the domain expert can answer:</strong></p>
+<ul>
+<li>What are the <strong>significant moments</strong> in this thing&#x27;s life that others care about?</li>
+<li>When this thing happens, <strong>who else in the business reacts</strong>?</li>
+<li>If we missed notifying someone about this, <strong>what would break</strong>?</li>
+<li>What past-tense phrase would a domain expert use to describe this moment?</li>
+</ul>
+<p>If other parts of the system, outside this aggregate, must react to a state change � that change is a Domain Event regardless of whether it&#x27;s delivered via an event bus, a batch file, or a method call.</p></div></details>
+<details class="skill-concept"><summary>Specification � &quot;Can we express this rule as a reusable question?&quot;</summary><div class="skill-concept-body"><p>A Specification is a business rule or condition expressed as a <strong>first-class object</strong> � a predicate you can pass around, compose, and reuse. Instead of burying a complex eligibility check or search filter inside an operation, you extract it into its own named concept that can be used for:</p>
+<ul>
+<li><strong>Querying</strong> � &quot;find all overdue invoices&quot;</li>
+<li><strong>Validating</strong> � &quot;is this order eligible for express shipping?&quot;</li>
+<li><strong>Constructing / Specifying</strong> � &quot;take this Person and produce an Adult that satisfies the adult spec&quot;</li>
+</ul>
+<p><strong>Business questions only the domain expert can answer:</strong></p>
+<ul>
+<li>Is there a <strong>named business rule</strong> that gets applied in multiple places or contexts?</li>
+<li>Can the business <strong>describe this condition</strong> without referring to how it&#x27;s implemented?</li>
+<li>Does this rule <strong>compose</strong> with others?</li>
+</ul>
+<p>If a rule is named, reusable, and expressible as a true/false question the business can articulate, it is a Specification.</p></div></details>
+<details class="skill-concept"><summary>Source fidelity</summary><div class="skill-concept-body"><p>Write the DDD building blocks at the <strong>same level of fidelity</strong> as the input source:</p>
+<ul>
+<li>From a <strong>domain model</strong> ? use domain model notation: class blocks with responsibilities, collaborators, invariants, and stereotype annotations.</li>
+<li>From an <strong>Class Model</strong> ? use typed notation: properties, operation signatures, relationships, and stereotype annotations.</li>
+<li>From a <strong>Domain Language</strong> ? use structured concept blocks: intent, behaviors, collaborations, and stereotype annotations.</li>
+<li>From <strong>Domain Terms</strong> ? use plain-language concept descriptions with stereotype annotations.</li>
+<li>From <strong>no formal source</strong> ? use plain language and produce domain terms as part of the output.</li>
+</ul>
+<p>The building-blocks document <strong>extends</strong> the source model � include the original classes/concepts and show the DDD annotations layered on top.</p></div></details>
+</div></div>
+<div class="skill-cr-col"><div class="skill-rules">
+<h2 class="skill-rules-heading">Rules</h2>
+<details class="skill-rule">
+<summary class="skill-rule-header">Aggregate boundary protects stated invariants</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Name the root Entity explicitly — it is the single external access point and the invariant enforcer.</li><li>List boundary members and explain why each one is inside rather than a separate aggregate referenced by ID.</li><li>State at least one invariant that requires the boundary members to be modified atomically with the root.</li><li>Keep aggregates small — the minimum cluster needed for invariant enforcement.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Draw an aggregate boundary around &quot;everything that is related&quot; without stating what invariant requires atomicity.</li><li>Omit the root or list multiple roots.</li><li>State invariants that are actually cross-aggregate eventual-consistency rules as if they required a single boundary.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Domain Events named in past tense with trigger and consumers</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Name every Domain Event in past tense using domain vocabulary.</li><li>State the trigger: what state change in which aggregate causes this event to fire.</li><li>Name at least one consumer that reacts to the event — another aggregate, bounded context, or external system.</li><li>Include a payload summary — the key data the event carries, enough for consumers to react without calling back.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Name events as commands or present-tense verbs.</li><li>Declare a Domain Event with no consumer identified.</li><li>Use technical or infrastructure names instead of domain language.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Every concept classified with explicit rationale</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Identify all stereotype facets that apply to each concept — do not force one-label-per-concept.</li><li>Support each stereotype annotation with model content that makes it self-evident.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Leave any source-model concept unaccounted for in the output (even if it is Unresolved, it must appear).</li><li>Annotate a stereotype with no supporting model content.</li><li>Force each concept into exactly one stereotype when it naturally expresses several.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Identity test drives Entity vs Value Object</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Classify as Entity when the concept must be tracked as &quot;that one&quot; over time, even if all attributes change.</li><li>Classify as Value Object when two instances with identical properties are interchangeable — no &quot;which one&quot; question exists.</li><li>Prefer Value Object as the default — select Entity only when the concept genuinely requires tracked identity.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Default to Entity because the concept &quot;feels important&quot; or &quot;is a noun&quot; without applying the identity test.</li><li>Classify as Value Object without confirming immutability and replaceability.</li><li>Use &quot;it has attributes&quot; as the reason for Value Object — all concepts have attributes; the question is whether identity exists beyond them.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">No premature infrastructure in building-blocks output</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Use domain language and DDD pattern vocabulary only: Entity, Value Object, Aggregate root, boundary, invariant, Domain Event, Service.</li><li>Describe lifecycle in terms of domain state transitions, not persistence mechanisms.</li><li>Describe event contracts in terms of trigger, payload, and consumer — not transport mechanisms.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Name database tables, columns, or storage engines in the building-blocks output.</li><li>Prescribe message queue topics, REST endpoints, or framework annotations.</li><li>Add implementation patterns (Repository, Factory, DTO, Controller) to the stereotype classification — those come later.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Service is genuinely homeless operation</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Explain which concepts the operation spans and why none of them can own it alone.</li><li>Confirm the Service is stateless (or explain why state is domain-justified if it is not).</li><li>Name the Service using domain language — the operation it performs, not a technical pattern name.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Create a Service for an operation that clearly belongs on one Entity just because &quot;services are easier to test.&quot;</li><li>Use Service as a catch-all for &quot;I don&#x27;t know where this goes.&quot;</li><li>Name Services with infrastructure terms instead of domain language.</li></ul></div>
+</details>
+</div></div>
+</div>
 
-<ul class="file-list file-list--root">
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>ide-files/</strong><span class="file-meta"> → Folder (2 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/supporting/abd-ddd-design-building-blocks/ide-files/ddd-building-blocks-fidelity-upgrade.instructions.md" target="_blank" rel="noopener noreferrer"><strong>ddd-building-blocks-fidelity-upgrade.instructions.md</strong></a><span class="file-meta"> → ddd-building-blocks fidelity upgrade</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/supporting/abd-ddd-design-building-blocks/ide-files/ddd-building-blocks-fidelity-upgrade.mdc" target="_blank" rel="noopener noreferrer"><strong>ddd-building-blocks-fidelity-upgrade.mdc</strong></a><span class="file-meta"> → description: When a domain model advances in fidelity and a DDD building blocks document already exists, prompt the user to update it.</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>reference/</strong><span class="file-meta"> → Folder (2 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/supporting/abd-ddd-design-building-blocks/reference/concepts.md" target="_blank" rel="noopener noreferrer"><strong>concepts.md</strong></a><span class="file-meta"> → DDD Design Building Blocks � Concepts</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/supporting/abd-ddd-design-building-blocks/reference/examples.md" target="_blank" rel="noopener noreferrer"><strong>examples.md</strong></a><span class="file-meta"> → ﻿# DDD Design Building Blocks — Examples</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/supporting/abd-ddd-design-building-blocks/rules/aggregate-boundary-protects-stated-invariants.md" target="_blank" rel="noopener noreferrer"><strong>aggregate-boundary-protects-stated-invariants.md</strong></a><span class="file-meta"> → scanner:</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/supporting/abd-ddd-design-building-blocks/rules/domain-events-past-tense-with-trigger-and-consumers.md" target="_blank" rel="noopener noreferrer"><strong>domain-events-past-tense-with-trigger-and-consumers.md</strong></a><span class="file-meta"> → scanner:</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/supporting/abd-ddd-design-building-blocks/rules/every-concept-classified-with-rationale.md" target="_blank" rel="noopener noreferrer"><strong>every-concept-classified-with-rationale.md</strong></a><span class="file-meta"> → scanner:</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/supporting/abd-ddd-design-building-blocks/rules/identity-test-drives-entity-vs-value-object.md" target="_blank" rel="noopener noreferrer"><strong>identity-test-drives-entity-vs-value-object.md</strong></a><span class="file-meta"> → scanner:</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/supporting/abd-ddd-design-building-blocks/rules/no-premature-infrastructure.md" target="_blank" rel="noopener noreferrer"><strong>no-premature-infrastructure.md</strong></a><span class="file-meta"> → scanner:</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/supporting/abd-ddd-design-building-blocks/rules/service-is-genuinely-homeless-operation.md" target="_blank" rel="noopener noreferrer"><strong>service-is-genuinely-homeless-operation.md</strong></a><span class="file-meta"> → scanner:</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/supporting/abd-ddd-design-building-blocks/templates/ddd-building-blocks-template.md" target="_blank" rel="noopener noreferrer"><strong>ddd-building-blocks-template.md</strong></a><span class="file-meta"> → ﻿# DDD Building Blocks — {{MODULE_NAME}}</span></li>
-</ul></div></details></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/supporting/abd-ddd-design-building-blocks/SKILL.md" target="_blank" rel="noopener noreferrer"><strong>SKILL.md</strong></a><span class="file-meta"> → name: ddd-design-building-blocks</span></li>
-</ul>
+
+
 
 </div>
 </div>

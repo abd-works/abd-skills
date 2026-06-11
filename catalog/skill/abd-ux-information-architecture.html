@@ -471,7 +471,22 @@ html[data-abd-theme="executive"] .catalog-body code {
 }
 
 .page-hero--detail {
-  padding-top: 48px;
+  padding-top: 20px;
+  padding-bottom: 16px;
+}
+.page-hero--detail .page-headline {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 4px 0 6px;
+}
+.page-headline .skill-name-prefix,
+.cap-card__title .skill-name-prefix {
+  color: var(--accent);
+}
+.page-hero--detail .body-lead {
+  font-size: 0.9rem;
+  margin: 0;
+  color: var(--muted);
 }
 
 .page-hero--detail .back-link {
@@ -731,8 +746,18 @@ a.cap-card:hover .cap-card__more {
   color: #b8b8c2;
   margin: 0 0 18px;
 }
+.skill-detail-page .skill-hero-img-wrap + .install-block {
+  margin-top: 18px;
+}
+.skill-detail-page .install-block + .skill-cr-grid,
+.skill-detail-page .install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block {
+  margin-top: 0;
+}
 .install-block {
-  margin: 22px 0 0;
+  margin: 20px 0 0;
   padding: 16px 18px;
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid var(--border-muted);
@@ -1041,28 +1066,686 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 .plugin-slots h3:first-child { margin-top: 0; }
 .cap-grid--plugin-slot { margin-bottom: 8px; }
 
+/* ── Skill detail: family kanban stage nav (matches hub column headings) ── */
+.skill-kanban-nav {
+  --fam-sdd: #6bcb77;
+  --fam-ddd: #6c5ce7;
+  --fam-uxd: #e84393;
+  --fam-arc: #4fc3f7;
+  --fam-idea: var(--accent);
+  --abd-accent: var(--accent);
+  --abd-accent-glow: var(--accent-soft, var(--accent));
+  --abd-raised: var(--raised);
+  --abd-bg: var(--bg);
+  --abd-border: var(--border);
+  --abd-text: var(--text);
+  --abd-muted: var(--muted);
+  background: var(--raised);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0 16px;
+}
+.skill-kanban-nav .wrap {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.skill-kanban-nav__board {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  gap: 6px 8px;
+  align-items: start;
+}
+.skill-kanban-nav__practice-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  margin: 0;
+  padding: 0 8px;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-left-width: 3px;
+  border-radius: 4px;
+  line-height: 1.25;
+  box-sizing: border-box;
+  transition: box-shadow 120ms, border-color 120ms;
+  color: inherit;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card:hover {
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--sdd {
+  border-left-color: var(--fam-sdd);
+  color: var(--fam-sdd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--ddd {
+  border-left-color: var(--fam-ddd);
+  color: var(--fam-ddd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--uxd {
+  border-left-color: var(--fam-uxd);
+  color: var(--fam-uxd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--arc {
+  border-left-color: var(--fam-arc);
+  color: var(--fam-arc);
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap {
+  position: relative;
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip.kb-col-shape-tooltip {
+  min-width: 10rem;
+  max-width: 22rem;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:hover .kb-skill-tooltip,
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:focus-within .kb-skill-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.skill-kanban-nav__stages {
+  display: grid;
+  grid-template-columns: repeat(var(--skill-kanban-cols, 5), minmax(0, 1fr));
+  gap: 0 8px;
+  min-width: 0;
+}
+.skill-kanban-nav__col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.skill-kanban-nav__tickets {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.skill-kanban-nav .kb-col-head {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 8px 6px 7px;
+  font-family: var(--font-mono);
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.skill-kanban-nav .kb-col-head--static {
+  cursor: default;
+}
+.skill-kanban-nav a.kb-col-head {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav a.kb-col-head:hover {
+  border-color: rgba(229, 83, 26, 0.35);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.15);
+}
+.skill-kanban-nav .kb-col-head--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-col-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+}
+.skill-kanban-nav .kb-col-scope-shape {
+  flex-shrink: 0;
+  border: 2px solid var(--abd-accent);
+  border-radius: 2px;
+}
+.skill-kanban-nav__stages .kb-col-shape-tooltip,
+.skill-kanban-nav__stages .kb-skill-tooltip-wrap .kb-col-shape-tooltip {
+  display: none !important;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 8px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 7px 9px;
+  font-family: var(--font-mono);
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid rgba(229, 83, 26, 0.45);
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 14px;
+  border: 5px solid transparent;
+  border-bottom-color: rgba(229, 83, 26, 0.45);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__name {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--abd-accent-glow);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__bullets {
+  font-size: 8px;
+  line-height: 1.45;
+  color: var(--abd-text);
+  white-space: pre-line;
+}
+.skill-kanban-nav .kb-col-scope-shape--solution { width: 36px; height: 12px; }
+.skill-kanban-nav .kb-col-scope-shape--increment { width: 24px; height: 16px; }
+.skill-kanban-nav .kb-col-scope-shape--sprint { width: 16px; height: 22px; }
+.skill-kanban-nav .kb-col-scope-shape--story { width: 11px; height: 28px; }
+.skill-kanban-nav .kb-col-head-title {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--abd-text);
+}
+.skill-kanban-nav .kb-col-head-title > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.skill-kanban-nav .kb-col-num {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--abd-text);
+  background: var(--abd-bg);
+  border: 1px solid var(--abd-border);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+.skill-kanban-nav .kb-ticket {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  background: var(--abd-raised);
+  color: var(--abd-text);
+  padding: 5px 6px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  border-left-width: 3px;
+  border-left-color: var(--abd-muted);
+  line-height: 1.25;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav .kb-ticket:hover {
+  border-color: var(--abd-border);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.2);
+}
+.skill-kanban-nav .kb-ticket.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-ticket.aad-fam-sdd { border-left-color: var(--fam-sdd); }
+.skill-kanban-nav .kb-ticket.aad-fam-ddd { border-left-color: var(--fam-ddd); }
+.skill-kanban-nav .kb-ticket.aad-fam-uxd { border-left-color: var(--fam-uxd); }
+.skill-kanban-nav .kb-ticket.aad-fam-arc { border-left-color: var(--fam-arc); }
+.skill-kanban-nav .kb-ticket.aad-fam-idea { border-left-color: var(--fam-idea); }
+@media (max-width: 960px) {
+  .skill-kanban-nav__board {
+    grid-template-columns: 1fr;
+  }
+  .skill-kanban-nav__stages {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
+
+/* ── Skill detail: full-width hero image / embedded viewer ── */
+.skill-hero-img-wrap {
+  margin: 24px 0 0;
+}
+.skill-hero-img-wrap:empty { display: none; }
+.skill-hero-img-wrap img,
+.skill-hero-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--raised);
+}
+
+/* HTML prototype iframe (reference/example/index.html) */
+.skill-prototype-wrap {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-prototype-frame {
+  display: block;
+  width: 100%;
+  min-height: 540px;
+  height: 71vh;
+  max-height: 810px;
+  border: 0;
+  background: #fff;
+}
+.skill-prototype-open {
+  margin: 0;
+  padding: 8px 14px;
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+  background: var(--raised);
+}
+.skill-prototype-open a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.skill-prototype-open a:hover { text-decoration: underline; }
+
+/* draw.io embedded viewer */
+.skill-drawio-wrap {
+  position: relative;
+  width: 100%;
+  height: min(71vh, 680px);
+  min-height: 340px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-drawio-wrap .mxgraph {
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+}
+.skill-drawio-wrap .geToolbarContainer {
+  z-index: 4;
+}
+
+/* code file preview */
+.skill-code-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--raised);
+  font-size: 13px;
+}
+.skill-code-lang {
+  padding: 6px 14px;
+  font-family: var(--mono, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.skill-code-preview pre {
+  margin: 0;
+  padding: 16px;
+  overflow-x: auto;
+  max-height: 420px;
+}
+.skill-code-preview code {
+  font-family: var(--mono, 'JetBrains Mono', monospace);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+/* rendered markdown preview */
+.skill-hero-img-wrap .skill-md-preview {
+  max-height: min(71vh, 610px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.skill-md-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px 24px;
+  background: var(--surface);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.skill-md-preview h1 { font-size: 18px; font-weight: 700; margin: 0 0 12px; }
+.skill-md-preview h2 { font-size: 15px; font-weight: 600; margin: 16px 0 8px;
+  border-bottom: 1px solid var(--border); padding-bottom: 3px; }
+.skill-md-preview h3 { font-size: 13px; font-weight: 600; margin: 12px 0 6px; }
+.skill-md-preview h4 { font-size: 12px; font-weight: 600; margin: 10px 0 4px; color: var(--muted); }
+.skill-md-preview p  { margin: 0 0 10px; }
+.skill-md-preview .spec-steps { margin: 0 0 14px; }
+.skill-md-preview p.spec-step { margin: 0 0 4px; line-height: 1.55; }
+.skill-md-preview .md-table-wrap { overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview .md-table { border-collapse: collapse; width: 100%; }
+.skill-md-preview ul, .skill-md-preview ol { margin: 0 0 10px; padding-left: 20px; }
+.skill-md-preview li { margin-bottom: 3px; }
+.skill-md-preview code { background: var(--raised); border-radius: 3px;
+  padding: 1px 5px; font-family: var(--mono, monospace); font-size: 12px; }
+.skill-md-preview pre { background: var(--raised); border-radius: 5px;
+  padding: 12px; overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview table { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
+.skill-md-preview th, .skill-md-preview td {
+  border: 1px solid var(--border); padding: 6px 10px; }
+.skill-md-preview th { background: var(--raised); font-weight: 600; }
+
+/* ── Skill detail: concepts | rules two-column grid ── */
+.skill-cr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin: 24px 0 0;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .skill-cr-grid { grid-template-columns: 1fr; }
+}
+.skill-cr-col { min-width: 0; }
+.skill-cr-single { margin: 24px 0 0; }
+
+/* Glossary example hero — term blocks without heavy HR dividers */
+.skill-md-preview--glossary h1 {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 10px;
+  border: 0;
+  padding: 0;
+}
+.skill-md-preview--glossary h2 {
+  font-size: 16px;
+  margin-top: 0;
+}
+.skill-md-preview--glossary h3 {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 14px 0 6px;
+  padding: 6px 8px;
+  background: var(--raised);
+  border-radius: 4px;
+  border-left: 3px solid var(--accent);
+}
+.skill-md-preview--glossary hr {
+  display: none;
+}
+.skill-md-preview--glossary ul {
+  margin-top: 0;
+}
+
+/* ── Skill detail: full-width content below ── */
+.skill-detail-content-col { margin-top: 32px; }
+.skill-detail-page .skill-cr-grid,
+.skill-detail-page .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-single,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-single {
+  margin-top: 0;
+}
+
+/* ── Skill detail: concepts (expandable) ── */
+.skill-hero-img-wrap + .install-block {
+  margin-top: 16px;
+}
+.install-block + .skill-cr-grid,
+.install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-concepts {
+  margin: 0 0 20px;
+}
+.skill-concepts-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 8px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-concept {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-concept summary {
+  padding: 8px 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  user-select: none;
+}
+.skill-concept summary::-webkit-details-marker { display: none; }
+.skill-concept summary::marker { content: ""; }
+.skill-concept summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-concept[open] summary::before { content: "\2212"; }
+.skill-concept-body {
+  padding: 6px 4px 10px 1.9rem;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.skill-concept-body p { margin: 0 0 8px; }
+.skill-concept-body p:last-child { margin-bottom: 0; }
+.skill-concept-body ul { margin: 0 0 8px 1.1em; padding: 0; }
+.skill-concept-body li { margin: 3px 0; }
+
+/* ── Skill detail: rules (DO / DON'T) ── */
+.skill-rules {
+  margin: 0 0 20px;
+}
+.skill-rules-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 12px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-rule {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule[open] > .skill-rule-header {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule-header {
+  padding: 8px 10px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  background: var(--raised);
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+.skill-rule-header::-webkit-details-marker { display: none; }
+.skill-rule-header::marker { content: ""; }
+.skill-rule-header::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-rule[open] > .skill-rule-header::before {
+  content: "\2212";
+}
+.skill-rule-section {
+  padding: 8px 12px;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+.skill-rule-section--do {
+  border-left: 3px solid #2d8a4e;
+}
+.skill-rule-section--dont {
+  border-left: 3px solid #c0392b;
+}
+.skill-rule-section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+  color: var(--muted);
+}
+.skill-rule-section--do .skill-rule-section-label { color: #2d8a4e; }
+.skill-rule-section--dont .skill-rule-section-label { color: #c0392b; }
+.skill-rule-section ul { margin: 0; padding: 0 0 0 1.1em; }
+.skill-rule-section li { margin: 2px 0; color: var(--text); }
+
 </style>
-<script src="../commons/catalog-nav.js?v=foundry-8"></script>
+<script src="../commons/catalog-nav.js?v=foundry-9"></script>
 </head>
 <body data-nav-prefix="../" data-nav-current="skills" data-nav-site-base="../../../abd-works-website/">
 <main id="main-content">
 
+<div class="skill-kanban-nav">
+<div class="wrap">
+<div class="skill-kanban-nav__board">
+    <div class="skill-kanban-nav__practice-col" aria-label="Practice families">
+      <a class="foundry-practice-col__card foundry-perspective-label--sdd aad-skill aad-fam-sdd has-skill-tooltip" href="abd-story-mapping.html"><span class="kb-skill-tooltip-wrap">story-driven-delivery<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">story-driven-delivery</span><span class="kb-col-shape-tooltip__bullets">Given/When/Then scenarios with real example data</span></span></span></a>
+      <a class="foundry-practice-col__card foundry-perspective-label--ddd aad-skill aad-fam-ddd has-skill-tooltip" href="abd-domain-language.html"><span class="kb-skill-tooltip-wrap">domain-driven-design<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">domain-driven-design</span><span class="kb-col-shape-tooltip__bullets">Typed terms + relationships (a schema), not prose definitions</span></span></span></a>
+      <a class="foundry-practice-col__card foundry-perspective-label--uxd aad-skill aad-fam-uxd kb-ticket--current has-skill-tooltip" href="abd-ux-information-architecture.html"><span class="kb-skill-tooltip-wrap">user-experience-design<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">user-experience-design</span><span class="kb-col-shape-tooltip__bullets">Component spec with named states &amp; rules, not a static picture</span></span></span></a>
+      <a class="foundry-practice-col__card foundry-perspective-label--arc aad-skill aad-fam-arc has-skill-tooltip" href="abd-architecture-blueprint.html"><span class="kb-skill-tooltip-wrap">architecture-centric-engineering<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture-centric-engineering</span><span class="kb-col-shape-tooltip__bullets">Interface contracts / templates the engine can follow</span></span></span></a>
+    </div>
+<nav class="skill-kanban-nav__stages" style="--skill-kanban-cols: 4" aria-label="Practice stages">
+      <div class="skill-kanban-nav__col" data-stage="shaping">
+        <a class="kb-col-head kb-col-head--link" data-stage="shaping" href="abd-ux-user-impact-map.html" title="Whole solution. wide / shallow. outcomes, scope, boundaries">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--solution" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Shaping</span><span class="kb-col-num">1</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-uxd" href="abd-ux-user-impact-map.html" title="Impact mapping is a strategic discovery technique that links broader goals to finer-grained goals, then to actors, their observable behaviour changes, and deliverable options (often epics or features) that could create those behaviours. It keeps discussion outcome-first: you see why an option might matter before debating build order.
+
+The map answers four questions in order: Why are we doing this? Who can help or hinder? How should behaviour change? What could we do to support that change? Good maps surface assumptions, limit scope creep by tying ideas to impacts, and support shared ownership when business and delivery build them together.">user impact map</a>
+        </div>
+      </div>
+      <div class="skill-kanban-nav__col" data-stage="discovery">
+        <a class="kb-col-head kb-col-head--link kb-col-head--current" data-stage="discovery" href="abd-ux-information-architecture.html" title="Increment. medium. interactions, experience, structure">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--increment" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Discovery</span><span class="kb-col-num">2</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-uxd kb-ticket--current" href="abd-ux-information-architecture.html" title="Doing IA work early — before detailed design or development — flushes out gaps in functional and domain understanding, surfaces disagreements about scope, naming, and navigation when they are cheap to resolve, and gives the team a concrete picture to challenge and confirm before committing to wireframes or implementation. Functional requirements and stories written against a named screen inventory and content model become more precise: they reference agreed surfaces by name, missing coverage shows up as absent nodes, and edge-case states are identified before anyone has built against the wrong assumption.">information architecture</a>
+        </div>
+      </div>
+      <div class="skill-kanban-nav__col" data-stage="exploration">
+        <a class="kb-col-head kb-col-head--link" data-stage="exploration" href="abd-ux-mockup.html" title="Sprint. narrow / deeper. behaviour, design, logic">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--sprint" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Exploration</span><span class="kb-col-num">3</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-uxd" href="abd-ux-mockup.html" title="The initial IA established the screen inventory, regions, and story coverage. The lo-fi mockup is the next precision pass: it locks down exactly which control renders each field, exactly what interactions are available in each state, and exactly what the user sees and does — without yet committing to visual design. Every input becomes a specific control type (text field, dropdown, checkbox). Every action becomes a positioned button with a primary/secondary weight. Every conditional state (validation error, empty list, disabled control) is explicitly placed. This skill packages that pass: take one IA screen, resolve its AC and domain terms, build a drawio-mockup.mjs state file, generate the .drawio wireframe, and save it — so interaction decisions are made deliberately and traceable, not invented during implementation.">ux mockup</a>
+        </div>
+      </div>
+      <div class="skill-kanban-nav__col" data-stage="specification">
+        <a class="kb-col-head kb-col-head--link" data-stage="specification" href="abd-ux-specification.html" title="Story. narrow / executable. examples, design, templates">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--story" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Specification</span><span class="kb-col-num">4</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-uxd" href="abd-ux-specification.html" title="Lo-fi mockups lock controls and states. The specification stage turns those decisions into something people can click through — not production code. The deliverable is a hi-fi prototype built from real HTML, CSS, and JavaScript (or the host project&#x27;s static/preview stack): design tokens, typography, colour, spacing, and components that match the approved visual direction, with navigation and state transitions wired so flows feel real. Backend calls, validation rules, auth, and persistence are stubbed or faked — fixture data, timed delays, hard-coded branches, and local state only where needed to demonstrate behaviour. Acceptance criteria are demonstrated, not fully implemented; ubiquitous-language labels stay verbatim from upstream artifacts.">ux specification</a>
+        </div>
+      </div>
+</nav>
+</div>
+</div>
+</div>
+
+
 <div class="page-hero page-hero--detail">
   <div class="wrap">
-    <a class="back-link" href="../plugin/user-experience-design.html">← User Experience Design</a>
-    <p class="s-name">Skill</p>
-    <h1 class="page-headline">abd-information-architecture</h1>
+    <a class="back-link" href="../index.html">← The ABD Foundry</a>
+    
+    <h1 class="page-headline"><span class="skill-name-prefix">abd-</span>information-architecture</h1>
     <p class="body-lead">Produce a first-pass information architecture for a solution scope — a site map of screens and transitions, the navigational components that connect them, and a content model (types, hierarchy, labels, tags, key actions) for what lives on each screen — saved as a structured markdown spec and a …</p>
   </div>
 </div>
 
 <div class="catalog-body">
-<div class="wrap">
+<div class="wrap skill-detail-page">
 
-<h2>Description</h2>
-<div class="entry-prose">Doing IA work early — before detailed design or development — flushes out gaps in functional and domain understanding, surfaces disagreements about scope, naming, and navigation when they are cheap to resolve, and gives the team a concrete picture to challenge and confirm before committing to wireframes or implementation. Functional requirements and stories written against a named screen inventory and content model become more precise: they reference agreed surfaces by name, missing coverage shows up as absent nodes, and edge-case states are identified before anyone has built against the wrong assumption.<br>
-<br>
----</div>
+<div class="skill-hero-img-wrap">
+<!-- drawio-rev:1781153013 --><div class="skill-drawio-wrap" data-drawio-rev="1781153013"><div class="mxgraph" data-mxgraph="{&quot;highlight&quot;: &quot;#e5531a&quot;, &quot;nav&quot;: false, &quot;resize&quot;: true, &quot;zoom&quot;: 1.0, &quot;toolbar&quot;: &quot;zoom lightbox&quot;, &quot;xml&quot;: &quot;&lt;mxfile host=\&quot;65bd71144e\&quot;&gt;\n    &lt;diagram id=\&quot;ia-diagram\&quot; name=\&quot;Page-1\&quot;&gt;\n        &lt;mxGraphModel dx=\&quot;3020\&quot; dy=\&quot;1487\&quot; grid=\&quot;1\&quot; gridSize=\&quot;10\&quot; guides=\&quot;1\&quot; tooltips=\&quot;1\&quot; connect=\&quot;1\&quot; arrows=\&quot;1\&quot; fold=\&quot;1\&quot; page=\&quot;1\&quot; pageScale=\&quot;1\&quot; pageWidth=\&quot;3300\&quot; pageHeight=\&quot;2550\&quot; math=\&quot;0\&quot; shadow=\&quot;0\&quot;&gt;\n            &lt;root&gt;\n                &lt;mxCell id=\&quot;0\&quot;/&gt;\n                &lt;mxCell id=\&quot;1\&quot; parent=\&quot;0\&quot;/&gt;\n                &lt;mxCell id=\&quot;2\&quot; value=\&quot;product catalog\&quot; style=\&quot;rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2;fontStyle=1;fontSize=13;verticalAlign=top;align=center;fontColor=#100f0f;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;50\&quot; y=\&quot;200\&quot; width=\&quot;720\&quot; height=\&quot;240\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;7\&quot; value=\&quot;header\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1;fontStyle=2;fontSize=11;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;2\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;12\&quot; y=\&quot;44\&quot; width=\&quot;696\&quot; height=\&quot;28\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;8\&quot; value=\&quot;primary navigation\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1;fontStyle=2;fontSize=11;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;2\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;12\&quot; y=\&quot;72\&quot; width=\&quot;696\&quot; height=\&quot;28\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;9\&quot; value=\&quot;&amp;lt;b&amp;gt;category filter&amp;lt;/b&amp;gt;\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1;fontStyle=1;fontSize=11;verticalAlign=top;align=left;fontColor=#100f0f;\&quot; parent=\&quot;2\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;12\&quot; y=\&quot;100\&quot; width=\&quot;240\&quot; height=\&quot;88\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;10\&quot; value=\&quot;select category\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#000000;strokeWidth=1;fontStyle=0;fontSize=10;verticalAlign=top;align=left;fontColor=#100f0f;\&quot; parent=\&quot;2\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;16\&quot; y=\&quot;120\&quot; width=\&quot;232\&quot; height=\&quot;24\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;11\&quot; value=\&quot;category name \u00b7 product count\&quot; style=\&quot;whiteSpace=nowrap;html=1;overflow=hidden;fillColor=#ffffff;strokeColor=none;strokeWidth=0;fontSize=10;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;2\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;16\&quot; y=\&quot;144\&quot; width=\&quot;232\&quot; height=\&quot;22\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;12\&quot; value=\&quot;category name \u00b7 product count\&quot; style=\&quot;whiteSpace=nowrap;html=1;overflow=hidden;fillColor=#ffffff;strokeColor=none;strokeWidth=0;fontSize=10;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;2\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;16\&quot; y=\&quot;166\&quot; width=\&quot;232\&quot; height=\&quot;22\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;13\&quot; value=\&quot;&amp;lt;b&amp;gt;product grid&amp;lt;/b&amp;gt;\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1;fontStyle=1;fontSize=11;verticalAlign=top;align=left;fontColor=#100f0f;\&quot; parent=\&quot;2\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;262\&quot; y=\&quot;100\&quot; width=\&quot;446\&quot; height=\&quot;88\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;14\&quot; value=\&quot;select product\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#000000;strokeWidth=1;fontStyle=0;fontSize=10;verticalAlign=top;align=left;fontColor=#100f0f;\&quot; parent=\&quot;2\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;266\&quot; y=\&quot;120\&quot; width=\&quot;438\&quot; height=\&quot;24\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;15\&quot; value=\&quot;product name \u00b7 category \u00b7 thumbnail\&quot; style=\&quot;whiteSpace=nowrap;html=1;overflow=hidden;fillColor=#ffffff;strokeColor=none;strokeWidth=0;fontSize=10;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;2\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;266\&quot; y=\&quot;144\&quot; width=\&quot;438\&quot; height=\&quot;22\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;16\&quot; value=\&quot;product name \u00b7 category \u00b7 thumbnail\&quot; style=\&quot;whiteSpace=nowrap;html=1;overflow=hidden;fillColor=#ffffff;strokeColor=none;strokeWidth=0;fontSize=10;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;2\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;266\&quot; y=\&quot;166\&quot; width=\&quot;438\&quot; height=\&quot;22\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;17\&quot; value=\&quot;footer\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1;fontStyle=2;fontSize=11;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;2\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;12\&quot; y=\&quot;200\&quot; width=\&quot;696\&quot; height=\&quot;28\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;18\&quot; value=\&quot;&amp;lt;b&amp;gt;Domain terms:&amp;lt;/b&amp;gt; product catalog \u00b7 category \u00b7 product\&quot; style=\&quot;text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;overflow=hidden;fontSize=10;fontColor=#100f0f;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;50\&quot; y=\&quot;446\&quot; width=\&quot;720\&quot; height=\&quot;52\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;3\&quot; value=\&quot;product detail page\&quot; style=\&quot;rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2;fontStyle=1;fontSize=13;verticalAlign=top;align=center;fontColor=#100f0f;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;890\&quot; y=\&quot;200\&quot; width=\&quot;720\&quot; height=\&quot;568\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;19\&quot; value=\&quot;header\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1;fontStyle=2;fontSize=11;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;3\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;12\&quot; y=\&quot;44\&quot; width=\&quot;696\&quot; height=\&quot;28\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;20\&quot; value=\&quot;primary navigation\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1;fontStyle=2;fontSize=11;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;3\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;12\&quot; y=\&quot;72\&quot; width=\&quot;696\&quot; height=\&quot;28\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;21\&quot; value=\&quot;breadcrumb\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1;fontStyle=2;fontSize=11;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;3\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;12\&quot; y=\&quot;100\&quot; width=\&quot;696\&quot; height=\&quot;28\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;22\&quot; value=\&quot;&amp;lt;b&amp;gt;product header&amp;lt;/b&amp;gt;\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1;fontStyle=1;fontSize=11;verticalAlign=top;align=left;fontColor=#100f0f;\&quot; parent=\&quot;3\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;12\&quot; y=\&quot;128\&quot; width=\&quot;696\&quot; height=\&quot;88\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;23\&quot; value=\&quot;\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#000000;strokeWidth=1;fontStyle=0;fontSize=10;verticalAlign=top;align=left;fontColor=#100f0f;\&quot; parent=\&quot;3\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;16\&quot; y=\&quot;148\&quot; width=\&quot;688\&quot; height=\&quot;24\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;24\&quot; value=\&quot;product name \u00b7 category\&quot; style=\&quot;whiteSpace=nowrap;html=1;overflow=hidden;fillColor=#ffffff;strokeColor=none;strokeWidth=0;fontSize=10;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;3\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;16\&quot; y=\&quot;172\&quot; width=\&quot;688\&quot; height=\&quot;22\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;25\&quot; value=\&quot;product name \u00b7 category\&quot; style=\&quot;whiteSpace=nowrap;html=1;overflow=hidden;fillColor=#ffffff;strokeColor=none;strokeWidth=0;fontSize=10;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;3\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;16\&quot; y=\&quot;194\&quot; width=\&quot;688\&quot; height=\&quot;22\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;26\&quot; value=\&quot;&amp;lt;b&amp;gt;image gallery&amp;lt;/b&amp;gt;\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1;fontStyle=1;fontSize=11;verticalAlign=top;align=left;fontColor=#100f0f;\&quot; parent=\&quot;3\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;12\&quot; y=\&quot;228\&quot; width=\&quot;696\&quot; height=\&quot;88\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;27\&quot; value=\&quot;previous image \u00b7 next image \u00b7 select thumbnail\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#000000;strokeWidth=1;fontStyle=0;fontSize=10;verticalAlign=top;align=left;fontColor=#100f0f;\&quot; parent=\&quot;3\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;16\&quot; y=\&quot;248\&quot; width=\&quot;688\&quot; height=\&quot;24\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;28\&quot; value=\&quot;product image \u00b7 alt text \u00b7 display order\&quot; style=\&quot;whiteSpace=nowrap;html=1;overflow=hidden;fillColor=#ffffff;strokeColor=none;strokeWidth=0;fontSize=10;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;3\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;16\&quot; y=\&quot;272\&quot; width=\&quot;688\&quot; height=\&quot;22\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;29\&quot; value=\&quot;product image \u00b7 alt text \u00b7 display order\&quot; style=\&quot;whiteSpace=nowrap;html=1;overflow=hidden;fillColor=#ffffff;strokeColor=none;strokeWidth=0;fontSize=10;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;3\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;16\&quot; y=\&quot;294\&quot; width=\&quot;688\&quot; height=\&quot;22\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;30\&quot; value=\&quot;&amp;lt;b&amp;gt;description&amp;lt;/b&amp;gt;\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1;fontStyle=1;fontSize=11;verticalAlign=top;align=left;fontColor=#100f0f;\&quot; parent=\&quot;3\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;12\&quot; y=\&quot;328\&quot; width=\&quot;696\&quot; height=\&quot;88\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;31\&quot; value=\&quot;\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#000000;strokeWidth=1;fontStyle=0;fontSize=10;verticalAlign=top;align=left;fontColor=#100f0f;\&quot; parent=\&quot;3\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;16\&quot; y=\&quot;348\&quot; width=\&quot;688\&quot; height=\&quot;24\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;32\&quot; value=\&quot;description \u00b7 weight \u00b7 dimensions\&quot; style=\&quot;whiteSpace=nowrap;html=1;overflow=hidden;fillColor=#ffffff;strokeColor=none;strokeWidth=0;fontSize=10;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;3\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;16\&quot; y=\&quot;372\&quot; width=\&quot;688\&quot; height=\&quot;22\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;33\&quot; value=\&quot;description \u00b7 weight \u00b7 dimensions\&quot; style=\&quot;whiteSpace=nowrap;html=1;overflow=hidden;fillColor=#ffffff;strokeColor=none;strokeWidth=0;fontSize=10;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;3\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;16\&quot; y=\&quot;394\&quot; width=\&quot;688\&quot; height=\&quot;22\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;34\&quot; value=\&quot;&amp;lt;b&amp;gt;stock availability by store&amp;lt;/b&amp;gt;\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1;fontStyle=1;fontSize=11;verticalAlign=top;align=left;fontColor=#100f0f;\&quot; parent=\&quot;3\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;12\&quot; y=\&quot;428\&quot; width=\&quot;696\&quot; height=\&quot;88\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;35\&quot; value=\&quot;select store link\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#000000;strokeWidth=1;fontStyle=0;fontSize=10;verticalAlign=top;align=left;fontColor=#100f0f;\&quot; parent=\&quot;3\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;16\&quot; y=\&quot;448\&quot; width=\&quot;688\&quot; height=\&quot;24\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;36\&quot; value=\&quot;store name \u00b7 stock availability \u00b7 distance\&quot; style=\&quot;whiteSpace=nowrap;html=1;overflow=hidden;fillColor=#ffffff;strokeColor=none;strokeWidth=0;fontSize=10;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;3\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;16\&quot; y=\&quot;472\&quot; width=\&quot;688\&quot; height=\&quot;22\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;37\&quot; value=\&quot;store name \u00b7 stock availability \u00b7 distance\&quot; style=\&quot;whiteSpace=nowrap;html=1;overflow=hidden;fillColor=#ffffff;strokeColor=none;strokeWidth=0;fontSize=10;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;3\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;16\&quot; y=\&quot;494\&quot; width=\&quot;688\&quot; height=\&quot;22\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;38\&quot; value=\&quot;footer\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1;fontStyle=2;fontSize=11;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;3\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;12\&quot; y=\&quot;528\&quot; width=\&quot;696\&quot; height=\&quot;28\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;39\&quot; value=\&quot;&amp;lt;b&amp;gt;Stories:&amp;lt;/b&amp;gt; View Product Details \u00b7 Display Real-Time Stock Availability&amp;lt;br&amp;gt;&amp;lt;b&amp;gt;Domain terms:&amp;lt;/b&amp;gt; product \u00b7 product image \u00b7 category \u00b7 stock availability \u00b7 store\&quot; style=\&quot;text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;overflow=hidden;fontSize=10;fontColor=#100f0f;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;890\&quot; y=\&quot;774\&quot; width=\&quot;720\&quot; height=\&quot;52\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;4\&quot; value=\&quot;store locator \u2014 map view\&quot; style=\&quot;rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2;fontStyle=1;fontSize=13;verticalAlign=top;align=center;fontColor=#100f0f;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1820\&quot; y=\&quot;200\&quot; width=\&quot;720\&quot; height=\&quot;280\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;40\&quot; value=\&quot;header\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1;fontStyle=2;fontSize=11;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;4\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;12\&quot; y=\&quot;44\&quot; width=\&quot;696\&quot; height=\&quot;28\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;41\&quot; value=\&quot;primary navigation\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1;fontStyle=2;fontSize=11;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;4\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;12\&quot; y=\&quot;72\&quot; width=\&quot;696\&quot; height=\&quot;28\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;42\&quot; value=\&quot;tab bar\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1;fontStyle=2;fontSize=11;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;4\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;12\&quot; y=\&quot;100\&quot; width=\&quot;696\&quot; height=\&quot;28\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;43\&quot; value=\&quot;&amp;lt;b&amp;gt;location entry&amp;lt;/b&amp;gt;\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1;fontStyle=1;fontSize=11;verticalAlign=top;align=left;fontColor=#100f0f;\&quot; parent=\&quot;4\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;12\&quot; y=\&quot;128\&quot; width=\&quot;169\&quot; height=\&quot;100\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;44\&quot; value=\&quot;enter postcode \u00b7 share location \u00b7 clear location\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#000000;strokeWidth=1;fontStyle=0;fontSize=10;verticalAlign=top;align=left;fontColor=#100f0f;\&quot; parent=\&quot;4\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;16\&quot; y=\&quot;148\&quot; width=\&quot;161\&quot; height=\&quot;36\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;45\&quot; value=\&quot;postcode \u00b7 share location \u00b7 distance\&quot; style=\&quot;whiteSpace=nowrap;html=1;overflow=hidden;fillColor=#ffffff;strokeColor=none;strokeWidth=0;fontSize=10;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;4\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;16\&quot; y=\&quot;184\&quot; width=\&quot;161\&quot; height=\&quot;22\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;46\&quot; value=\&quot;postcode \u00b7 share location \u00b7 distance\&quot; style=\&quot;whiteSpace=nowrap;html=1;overflow=hidden;fillColor=#ffffff;strokeColor=none;strokeWidth=0;fontSize=10;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;4\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;16\&quot; y=\&quot;206\&quot; width=\&quot;161\&quot; height=\&quot;22\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;47\&quot; value=\&quot;&amp;lt;b&amp;gt;map view&amp;lt;/b&amp;gt;\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1;fontStyle=1;fontSize=11;verticalAlign=top;align=left;fontColor=#100f0f;\&quot; parent=\&quot;4\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;191\&quot; y=\&quot;128\&quot; width=\&quot;338\&quot; height=\&quot;88\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;48\&quot; value=\&quot;select store point\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#000000;strokeWidth=1;fontStyle=0;fontSize=10;verticalAlign=top;align=left;fontColor=#100f0f;\&quot; parent=\&quot;4\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;195\&quot; y=\&quot;148\&quot; width=\&quot;330\&quot; height=\&quot;24\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;49\&quot; value=\&quot;store name \u00b7 geo-coordinates \u00b7 distance\&quot; style=\&quot;whiteSpace=nowrap;html=1;overflow=hidden;fillColor=#ffffff;strokeColor=none;strokeWidth=0;fontSize=10;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;4\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;195\&quot; y=\&quot;172\&quot; width=\&quot;330\&quot; height=\&quot;22\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;50\&quot; value=\&quot;store name \u00b7 geo-coordinates \u00b7 distance\&quot; style=\&quot;whiteSpace=nowrap;html=1;overflow=hidden;fillColor=#ffffff;strokeColor=none;strokeWidth=0;fontSize=10;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;4\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;195\&quot; y=\&quot;194\&quot; width=\&quot;330\&quot; height=\&quot;22\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;51\&quot; value=\&quot;&amp;lt;b&amp;gt;store detail panel&amp;lt;/b&amp;gt;\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1;fontStyle=1;fontSize=11;verticalAlign=top;align=left;fontColor=#100f0f;\&quot; parent=\&quot;4\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;539\&quot; y=\&quot;128\&quot; width=\&quot;169\&quot; height=\&quot;88\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;52\&quot; value=\&quot;close panel\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#000000;strokeWidth=1;fontStyle=0;fontSize=10;verticalAlign=top;align=left;fontColor=#100f0f;\&quot; parent=\&quot;4\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;543\&quot; y=\&quot;148\&quot; width=\&quot;161\&quot; height=\&quot;24\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;53\&quot; value=\&quot;address \u00b7 operating hours \u00b7 contact details \u00b7 distance\&quot; style=\&quot;whiteSpace=nowrap;html=1;overflow=hidden;fillColor=#ffffff;strokeColor=none;strokeWidth=0;fontSize=10;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;4\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;543\&quot; y=\&quot;172\&quot; width=\&quot;161\&quot; height=\&quot;22\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;54\&quot; value=\&quot;address \u00b7 operating hours \u00b7 contact details \u00b7 distance\&quot; style=\&quot;whiteSpace=nowrap;html=1;overflow=hidden;fillColor=#ffffff;strokeColor=none;strokeWidth=0;fontSize=10;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;4\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;543\&quot; y=\&quot;194\&quot; width=\&quot;161\&quot; height=\&quot;22\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;55\&quot; value=\&quot;footer\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1;fontStyle=2;fontSize=11;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;4\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;12\&quot; y=\&quot;228\&quot; width=\&quot;696\&quot; height=\&quot;28\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;56\&quot; value=\&quot;&amp;lt;b&amp;gt;Stories:&amp;lt;/b&amp;gt; View Store Map \u00b7 Calculate Distance to Store&amp;lt;br&amp;gt;&amp;lt;b&amp;gt;Domain terms:&amp;lt;/b&amp;gt; store \u00b7 store locator \u00b7 distance\&quot; style=\&quot;text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;overflow=hidden;fontSize=10;fontColor=#100f0f;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1820\&quot; y=\&quot;486\&quot; width=\&quot;720\&quot; height=\&quot;52\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;5\&quot; value=\&quot;store locator \u2014 list view\&quot; style=\&quot;rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2;fontStyle=1;fontSize=13;verticalAlign=top;align=center;fontColor=#100f0f;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1810\&quot; y=\&quot;580\&quot; width=\&quot;720\&quot; height=\&quot;280\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;57\&quot; value=\&quot;header\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;strokeWidth=1;fontStyle=2;fontSize=11;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;5\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;12\&quot; y=\&quot;44\&quot; width=\&quot;696\&quot; height=\&quot;28\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;58\&quot; value=\&quot;primary navigation\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;strokeWidth=1;fontStyle=2;fontSize=11;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;5\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;12\&quot; y=\&quot;72\&quot; width=\&quot;696\&quot; height=\&quot;28\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;59\&quot; value=\&quot;tab bar\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;strokeWidth=1;fontStyle=2;fontSize=11;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;5\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;12\&quot; y=\&quot;100\&quot; width=\&quot;696\&quot; height=\&quot;28\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;60\&quot; value=\&quot;&amp;lt;b&amp;gt;location entry&amp;lt;/b&amp;gt;\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1;fontStyle=1;fontSize=11;verticalAlign=top;align=left;fontColor=#100f0f;\&quot; parent=\&quot;5\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;12\&quot; y=\&quot;128\&quot; width=\&quot;169\&quot; height=\&quot;100\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;61\&quot; value=\&quot;enter postcode \u00b7 share location \u00b7 clear location\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#000000;strokeWidth=1;fontStyle=0;fontSize=10;verticalAlign=top;align=left;fontColor=#100f0f;\&quot; parent=\&quot;5\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;16\&quot; y=\&quot;148\&quot; width=\&quot;161\&quot; height=\&quot;36\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;62\&quot; value=\&quot;postcode \u00b7 share location \u00b7 distance\&quot; style=\&quot;whiteSpace=nowrap;html=1;overflow=hidden;fillColor=#ffffff;strokeColor=none;strokeWidth=0;fontSize=10;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;5\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;16\&quot; y=\&quot;184\&quot; width=\&quot;161\&quot; height=\&quot;22\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;63\&quot; value=\&quot;postcode \u00b7 share location \u00b7 distance\&quot; style=\&quot;whiteSpace=nowrap;html=1;overflow=hidden;fillColor=#ffffff;strokeColor=none;strokeWidth=0;fontSize=10;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;5\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;16\&quot; y=\&quot;206\&quot; width=\&quot;161\&quot; height=\&quot;22\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;64\&quot; value=\&quot;&amp;lt;b&amp;gt;list view&amp;lt;/b&amp;gt;\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1;fontStyle=1;fontSize=11;verticalAlign=top;align=left;fontColor=#100f0f;\&quot; parent=\&quot;5\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;191\&quot; y=\&quot;128\&quot; width=\&quot;338\&quot; height=\&quot;88\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;65\&quot; value=\&quot;select store row\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#000000;strokeWidth=1;fontStyle=0;fontSize=10;verticalAlign=top;align=left;fontColor=#100f0f;\&quot; parent=\&quot;5\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;195\&quot; y=\&quot;148\&quot; width=\&quot;330\&quot; height=\&quot;24\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;66\&quot; value=\&quot;store name \u00b7 address \u00b7 distance\&quot; style=\&quot;whiteSpace=nowrap;html=1;overflow=hidden;fillColor=#ffffff;strokeColor=none;strokeWidth=0;fontSize=10;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;5\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;195\&quot; y=\&quot;172\&quot; width=\&quot;330\&quot; height=\&quot;22\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;67\&quot; value=\&quot;store name \u00b7 address \u00b7 distance\&quot; style=\&quot;whiteSpace=nowrap;html=1;overflow=hidden;fillColor=#ffffff;strokeColor=none;strokeWidth=0;fontSize=10;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;5\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;195\&quot; y=\&quot;194\&quot; width=\&quot;330\&quot; height=\&quot;22\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;68\&quot; value=\&quot;&amp;lt;b&amp;gt;store detail panel&amp;lt;/b&amp;gt;\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1;fontStyle=1;fontSize=11;verticalAlign=top;align=left;fontColor=#100f0f;\&quot; parent=\&quot;5\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;539\&quot; y=\&quot;128\&quot; width=\&quot;169\&quot; height=\&quot;88\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;69\&quot; value=\&quot;close panel\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#f0f0f0;strokeColor=#000000;strokeWidth=1;fontStyle=0;fontSize=10;verticalAlign=top;align=left;fontColor=#100f0f;\&quot; parent=\&quot;5\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;543\&quot; y=\&quot;148\&quot; width=\&quot;161\&quot; height=\&quot;24\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;70\&quot; value=\&quot;address \u00b7 operating hours \u00b7 contact details \u00b7 distance\&quot; style=\&quot;whiteSpace=nowrap;html=1;overflow=hidden;fillColor=#ffffff;strokeColor=none;strokeWidth=0;fontSize=10;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;5\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;543\&quot; y=\&quot;172\&quot; width=\&quot;161\&quot; height=\&quot;22\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;71\&quot; value=\&quot;address \u00b7 operating hours \u00b7 contact details \u00b7 distance\&quot; style=\&quot;whiteSpace=nowrap;html=1;overflow=hidden;fillColor=#ffffff;strokeColor=none;strokeWidth=0;fontSize=10;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;5\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;543\&quot; y=\&quot;194\&quot; width=\&quot;161\&quot; height=\&quot;22\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;72\&quot; value=\&quot;footer\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#cccccc;strokeWidth=1;fontStyle=2;fontSize=11;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;5\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;12\&quot; y=\&quot;228\&quot; width=\&quot;696\&quot; height=\&quot;28\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;73\&quot; value=\&quot;&amp;lt;b&amp;gt;Stories:&amp;lt;/b&amp;gt; View Store List \u00b7 Calculate Distance to Store&amp;lt;br&amp;gt;&amp;lt;b&amp;gt;Domain terms:&amp;lt;/b&amp;gt; store \u00b7 address \u00b7 distance\&quot; style=\&quot;text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;overflow=hidden;fontSize=10;fontColor=#100f0f;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1800\&quot; y=\&quot;870\&quot; width=\&quot;720\&quot; height=\&quot;52\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;6\&quot; value=\&quot;admin dashboard \u2014 stock levels\&quot; style=\&quot;rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2;fontStyle=1;fontSize=13;verticalAlign=top;align=center;fontColor=#100f0f;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2570\&quot; y=\&quot;200\&quot; width=\&quot;720\&quot; height=\&quot;248\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;74\&quot; value=\&quot;staff header\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1;fontStyle=2;fontSize=11;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;6\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;12\&quot; y=\&quot;44\&quot; width=\&quot;696\&quot; height=\&quot;28\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;75\&quot; value=\&quot;&amp;lt;b&amp;gt;stock levels form&amp;lt;/b&amp;gt;\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1;fontStyle=1;fontSize=11;verticalAlign=top;align=left;fontColor=#100f0f;\&quot; parent=\&quot;6\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;12\&quot; y=\&quot;72\&quot; width=\&quot;696\&quot; height=\&quot;152\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;76\&quot; value=\&quot;store\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=none;strokeWidth=0;fontSize=10;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;6\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;16\&quot; y=\&quot;92\&quot; width=\&quot;688\&quot; height=\&quot;22\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;77\&quot; value=\&quot;product\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=none;strokeWidth=0;fontSize=10;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;6\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;16\&quot; y=\&quot;114\&quot; width=\&quot;688\&quot; height=\&quot;22\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;78\&quot; value=\&quot;stock quantity\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=none;strokeWidth=0;fontSize=10;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;6\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;16\&quot; y=\&quot;136\&quot; width=\&quot;688\&quot; height=\&quot;22\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;79\&quot; value=\&quot;validation feedback\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=none;strokeWidth=0;fontSize=10;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;6\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;16\&quot; y=\&quot;158\&quot; width=\&quot;688\&quot; height=\&quot;22\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;80\&quot; value=\&quot;save\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=none;strokeWidth=0;fontSize=10;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;6\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;16\&quot; y=\&quot;180\&quot; width=\&quot;688\&quot; height=\&quot;22\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;81\&quot; value=\&quot;cancel\&quot; style=\&quot;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=none;strokeWidth=0;fontSize=10;verticalAlign=middle;align=left;fontColor=#100f0f;\&quot; parent=\&quot;6\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;16\&quot; y=\&quot;202\&quot; width=\&quot;688\&quot; height=\&quot;22\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;82\&quot; value=\&quot;&amp;lt;b&amp;gt;Stories:&amp;lt;/b&amp;gt; Update Product Stock Levels&amp;lt;br&amp;gt;&amp;lt;b&amp;gt;Domain terms:&amp;lt;/b&amp;gt; store \u00b7 product \u00b7 stock availability\&quot; style=\&quot;text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;overflow=hidden;fontSize=10;fontColor=#100f0f;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;2570\&quot; y=\&quot;454\&quot; width=\&quot;720\&quot; height=\&quot;52\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;83\&quot; value=\&quot;selects product\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;endArrow=block;endFill=1;fontSize=10;fontColor=#100f0f;\&quot; parent=\&quot;1\&quot; source=\&quot;2\&quot; target=\&quot;3\&quot; edge=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;&gt;\n                        &lt;Array as=\&quot;points\&quot;&gt;\n                            &lt;mxPoint x=\&quot;450\&quot; y=\&quot;540\&quot;/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;84\&quot; value=\&quot;selects back to catalog\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;endArrow=block;endFill=1;fontSize=10;fontColor=#100f0f;\&quot; parent=\&quot;1\&quot; source=\&quot;3\&quot; target=\&quot;2\&quot; edge=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;&gt;\n                        &lt;Array as=\&quot;points\&quot;&gt;\n                            &lt;mxPoint x=\&quot;830\&quot; y=\&quot;484\&quot;/&gt;\n                            &lt;mxPoint x=\&quot;830\&quot; y=\&quot;430\&quot;/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;85\&quot; value=\&quot;selects find stores\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;endArrow=block;endFill=1;fontSize=10;fontColor=#100f0f;\&quot; parent=\&quot;1\&quot; source=\&quot;2\&quot; target=\&quot;4\&quot; edge=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;&gt;\n                        &lt;Array as=\&quot;points\&quot;&gt;\n                            &lt;mxPoint x=\&quot;570\&quot; y=\&quot;170\&quot;/&gt;\n                            &lt;mxPoint x=\&quot;1940\&quot; y=\&quot;170\&quot;/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;86\&quot; value=\&quot;selects shop supplies\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;endArrow=block;endFill=1;fontSize=10;fontColor=#100f0f;\&quot; parent=\&quot;1\&quot; source=\&quot;4\&quot; target=\&quot;2\&quot; edge=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;&gt;\n                        &lt;Array as=\&quot;points\&quot;&gt;\n                            &lt;mxPoint x=\&quot;2090\&quot; y=\&quot;140\&quot;/&gt;\n                            &lt;mxPoint x=\&quot;410\&quot; y=\&quot;140\&quot;/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;87\&quot; value=\&quot;selects shop supplies\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;endArrow=block;endFill=1;fontSize=10;fontColor=#100f0f;\&quot; parent=\&quot;1\&quot; source=\&quot;5\&quot; target=\&quot;2\&quot; edge=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;&gt;\n                        &lt;Array as=\&quot;points\&quot;&gt;\n                            &lt;mxPoint x=\&quot;410\&quot; y=\&quot;840\&quot;/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;88\&quot; value=\&quot;selects list view tab\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;html=1;dashed=1;strokeColor=#000000;endArrow=open;endFill=0;fontSize=10;exitX=-0.003;exitY=0.71;exitDx=0;exitDy=0;entryX=0;entryY=0;entryDx=0;entryDy=0;fontColor=#100f0f;exitPerimeter=0;\&quot; parent=\&quot;1\&quot; source=\&quot;4\&quot; target=\&quot;5\&quot; edge=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;&gt;\n                        &lt;Array as=\&quot;points\&quot;&gt;\n                            &lt;mxPoint x=\&quot;1700\&quot; y=\&quot;399\&quot;/&gt;\n                            &lt;mxPoint x=\&quot;1700\&quot; y=\&quot;580\&quot;/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;89\&quot; value=\&quot;selects map view tab\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;html=1;dashed=1;strokeColor=#000000;endArrow=open;endFill=0;fontSize=10;exitX=0;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0;entryDx=0;entryDy=0;fontColor=#100f0f;\&quot; parent=\&quot;1\&quot; source=\&quot;5\&quot; target=\&quot;4\&quot; edge=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;0.5873\&quot; y=\&quot;-20\&quot; relative=\&quot;1\&quot; as=\&quot;geometry\&quot;&gt;\n                        &lt;Array as=\&quot;points\&quot;&gt;\n                            &lt;mxPoint x=\&quot;1670\&quot; y=\&quot;650\&quot;/&gt;\n                            &lt;mxPoint x=\&quot;1670\&quot; y=\&quot;200\&quot;/&gt;\n                        &lt;/Array&gt;\n                        &lt;mxPoint as=\&quot;offset\&quot;/&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;90\&quot; value=\&quot;selects store link from stock row\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;endArrow=block;endFill=1;fontSize=10;fontColor=#100f0f;\&quot; parent=\&quot;1\&quot; source=\&quot;3\&quot; target=\&quot;4\&quot; edge=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;0.1818\&quot; relative=\&quot;1\&quot; as=\&quot;geometry\&quot;&gt;\n                        &lt;Array as=\&quot;points\&quot;&gt;\n                            &lt;mxPoint x=\&quot;1715\&quot; y=\&quot;330\&quot;/&gt;\n                            &lt;mxPoint x=\&quot;1715\&quot; y=\&quot;340\&quot;/&gt;\n                        &lt;/Array&gt;\n                        &lt;mxPoint as=\&quot;offset\&quot;/&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n            &lt;/root&gt;\n        &lt;/mxGraphModel&gt;\n    &lt;/diagram&gt;\n&lt;/mxfile&gt;&quot;}"></div></div><script type="text/javascript" src="https://viewer.diagrams.net/js/viewer-static.min.js"></script>
+<script src="../commons/catalog-drawio.js?v=foundry-1"></script>
+
+</div>
 
 <section class="install-block" aria-labelledby="install-npx-heading">
   <h2 id="install-npx-heading">Install with npx</h2>
@@ -1071,183 +1754,105 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 </section>
 
 
-<hr class="entry-divider">
-
-
-
-<hr class="entry-divider">
-
-<h2 id="entry-contents">Contents</h2>
-<details class="entry-md-section" id="md-overview"><summary class="entry-md-section__summary">Overview</summary><div class="entry-md-section__body"><p>﻿--- catalog_garden_tier: practice catalog_garden_order: 10 name: abd-information-architecture description: &gt;- Produce a first-pass information architecture for a solution scope — a site map of screens and transitions, the navigational components that connect them, and a content model (types, hierarchy, labels, tags, key actions) for what lives on each screen — saved as a structured markdown spec and a draw.io diagram. Use when starting work that involves user interaction changes, when the team needs a shared picture of screens and navigation, or when scoping effort before wireframes or stories exist.</p>
-<hr>
-<h1>abd-information-architecture</h1></div></details>
-<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p>Doing IA work early — before detailed design or development — flushes out gaps in functional and domain understanding, surfaces disagreements about scope, naming, and navigation when they are cheap to resolve, and gives the team a concrete picture to challenge and confirm before committing to wireframes or implementation. Functional requirements and stories written against a named screen inventory and content model become more precise: they reference agreed surfaces by name, missing coverage shows up as absent nodes, and edge-case states are identified before anyone has built against the wrong assumption.</p>
-<hr></div></details>
-<details class="entry-md-section" id="output-file"><summary class="entry-md-section__summary">Output file</summary><div class="entry-md-section__body"><p><strong>Deliverables folder:</strong> see `../agent-protocol.md` — Output file resolution.</p>
-<p><strong>File names:</strong> `initial-ia.md` (structured spec) and `initial-ia.drawio` (diagram), typically in `docs/ux/`.</p>
-<hr></div></details>
-<details class="entry-md-section" id="agent-instructions"><summary class="entry-md-section__summary">Agent Instructions</summary><div class="entry-md-section__body"><p>&gt; <strong>MANDATORY — read `../agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.</strong></p>
-<h3>1. Read context</h3>
-<p>Read these files:</p>
+<div class="skill-cr-grid">
+<div class="skill-cr-col"><div class="skill-concepts">
+<h2 class="skill-concepts-heading">Concepts</h2>
+<details class="skill-concept"><summary>What is information architecture?</summary><div class="skill-concept-body"><p><strong>Information architecture (IA)</strong> is the practice of structuring, organizing, and labeling the surfaces and content of a solution so users can find what they need and understand where they are. It covers two dimensions — <strong>navigation</strong> (how a user moves through the solution and the components that carry that movement) and <strong>content</strong> (what lives on each surface, how it is grouped, what it is called, and what users can do with it).</p>
+<p>A <strong>site map</strong> — the inventory of screens and the directed transitions between them — is one component of the IA: the navigation backbone. This skill produces it alongside the rest of the IA in a single low-fidelity pass.</p></div></details>
+<details class="skill-concept"><summary>Core outputs</summary><div class="skill-concept-body"><p>The IA is captured on a single canvas covering two dimensions.</p>
+<h3>Navigation</h3>
 <ul>
-<li><strong>`reference/concepts.md`</strong> — core IA dimensions (navigation + content), screen/transition/layout/tab-state definitions, content types, story and domain term traceability rules, mental model alignment, canvas layout convention, and CLI layout templates.</li>
-<li><strong>`reference/examples.md`</strong> — worked example of a good initial IA showing tab-state decomposition, representative rows, verb rows, chrome conventions, and story budget.</li>
+<li><strong>Site map</strong> — screens as named boxes, with directed transitions between them showing how users flow from one screen to the next. There should be a simple, obvious mapping from stories to this layer: in-scope stories live on screens, and the events in those stories drive the transitions.</li>
+<li><strong>Per-screen layout</strong> — for each screen, the standard layout template it follows in conventional terms (e.g. <code>header + body + footer</code>, <code>header + left panel + body (2-column)</code>, <code>header + 3-column body</code>, <code>header + body grid (2 columns × 2 rows)</code>, <code>modal dialog</code>). The layout names the slots; the regions (next bullet) name what fills each slot.</li>
+<li><strong>Navigational components</strong> — each screen has an initial description and approximate layout of the persistent surfaces that carry navigation: menus, primary navigation, sidebars, headers, footers, breadcrumbs, link groups. Named regions only, no controls, no styling.</li>
 </ul>
-<h3>2. Generate</h3>
-<p>Read every file in <strong>`rules/`</strong>; author to those rules.</p>
-<p><strong>Produce output from every template:</strong></p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td>`templates/initial-ia.md`</td><td>Structured spec: scope, source paths, screens (regions, content types, actions, stories, domain terms), transitions, navigational components, content-type details.</td></tr></tbody></table></div>
-<p><strong>Method (13-step build):</strong></p>
-<p>1. Resolve inputs: story map, scope filter, Domain Language file. 2. Filter story map by scope; read the Domain Language. 3. Identify screens by tab state (N tabs = N screens). Check ~4 story budget per screen. 4. Walk every story — produce a <strong>story trace table</strong> (story → screen → region → action/trigger). Every cell must be filled before proceeding. 5. Walk every in-scope domain term — produce a <strong>domain term trace table</strong> (term → appears as → on screen → in region). 6. Identify transitions with labeled triggers. 7. Identify navigational components in UX terms. 8. Identify content types with hierarchy, collections, key actions. 9. Lay out content per screen as rows (representative data rows + verb row), not prose. 10. Draft labels and tags. 11. Author `docs/ux/initial-ia.md` from the template. 12. Run the completeness test from `rules/tab-states-and-domain-traceability.md` — fix gaps before touching the canvas. 13. Choose output mode (Mode A: `drawio-ux` CLI; Mode B: filled prompt for external AI) and produce `initial-ia.drawio`.</p>
-<p><strong>CLI (Mode A — from skill&#x27;s scripts/):</strong></p>
-<pre><code>node scripts/drawio-ux.mjs open docs/ux/initial-ia.drawio
-node scripts/drawio-ux.mjs add-screen &quot;screen name&quot; --layout sidebar --col 0 --row 0
-node scripts/drawio-ux.mjs add-list &quot;screen name&quot; &quot;region&quot; --slot body --fields &quot;...&quot; --actions &quot;...&quot;
-node scripts/drawio-ux.mjs connect &quot;source&quot; &quot;target&quot; --label &quot;trigger&quot;
-node scripts/drawio-ux.mjs save</code></pre>
-<h3>3. Validate</h3>
-<p>Run the scanners:</p>
-<pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/abd-information-architecture \
-  --workspace &lt;path-to-output&gt;</code></pre>
-<p>Then emit per-rule verdicts per `../agent-protocol.md`.</p>
-<hr></div></details>
-<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Read the saved IA as reviewers, not a second authoring pass.</p>
+<h3>Content</h3>
 <ul>
-<li><strong>Cross-artifact parity</strong> — `initial-ia.md` and `initial-ia.drawio` describe the same IA — same screens, transitions, components, content types, and actions.</li>
-<li><strong>Every screen</strong> has a name and linked source (domain concept or story).</li>
-<li><strong>Every transition</strong> has a labeled trigger and clear direction.</li>
-<li><strong>Every navigational component</strong> is named in UX terms with what it links to.</li>
-<li><strong>Every content type</strong> carries a name (linked), hierarchy/collection, and key-actions list.</li>
-<li><strong>Tab states decomposed</strong> — each tab is a separate screen node, not a sub-region.</li>
-<li><strong>Chrome regions</strong> are named only — no action lists; empty chrome omitted.</li>
-<li><strong>Left-panel chrome</strong> renders beside the body (`--slot panel`), not stacked above.</li>
-<li><strong>Grey = repeated sibling chrome only</strong> — `--dimmed` used exclusively for tab-sibling chrome.</li>
-<li><strong>List regions</strong> show representative rows; actions appear as a verb row below.</li>
-<li><strong>Every &quot;edit&quot; action</strong> connects to a named detail screen via a transition arrow.</li>
-<li><strong>Domain terms per screen</strong> are visible-only — no internal model terms, no wholesale KA hierarchy.</li>
-<li><strong>Story budget</strong> — every screen has ~4 user stories; more signals missing decomposition.</li>
-<li><strong>No system story has its own screen</strong> — each is grouped with a user-visible screen.</li>
-<li><strong>No acceptance criteria, controls, copy, or wireframe detail</strong> on any screen.</li>
-<li><strong>No bundle markers</strong> — `SKILL.md` has no `&lt;!-- execute_rules:bundle_rules --&gt;` markers.</li>
+<li><strong>Content types</strong> — the kinds of things users read, create, or act on; where the context provides domain terms, concepts, or classes, a content type is typically one of those. Capture the hierarchy of each content type and any collections it belongs to.</li>
+<li><strong>Per-screen content layout</strong> — for each screen, a categorized layout of what content lives there, visually depicting high-level relationships (hierarchy, collection) and the key navigation between content.</li>
+<li><strong>Labels and tags</strong> — preliminary labels and tags needed to identify content elements on the canvas.</li>
+<li><strong>Key actions per content type</strong> — the headline things a user can do with each content type (browse, create, edit, archive, share, …). There should be a simple, obvious mapping from stories to actions: each in-scope story that acts on a content type contributes an action to that type. No controls, no copy.</li>
+</ul></div></details>
+<details class="skill-concept"><summary>Stories and domain as sources</summary><div class="skill-concept-body"><p>The story map and the Domain Language are <strong>sources</strong> for this skill, not its subjects. They feed the IA but are not what it speaks in.</p>
+<ul>
+<li>Use <strong>UX terms</strong> on UX output — <em>screen</em>, <em>region</em>, <em>navigation</em>, <em>sidebar</em>, <em>header</em>, <em>footer</em>, <em>content type</em>, <em>action</em>, <em>label</em>, <em>tag</em>.</li>
+<li>When a story or a domain concept appears on the canvas, include only its <strong>name</strong> — the story title or the domain term — and a link to the full source. No acceptance criteria, no full definitions, no behavioral detail on the IA artifact.</li>
+<li>Stories and domain concepts in scope must be <strong>referenceable</strong> from the IA: every in-scope <em>user</em> story is reachable from a screen (as a story name listed on it, or as a transition trigger); every in-scope domain concept that the user perceives appears as a screen, content type, label, or action.</li>
+</ul></div></details>
+<details class="skill-concept"><summary>Scope</summary><div class="skill-concept-body"><p>The slice of the solution this IA covers — typically one <strong>increment</strong>, one <strong>epic</strong>, or one <strong>sprint</strong>. Only stories and domain concepts inside the scope contribute screens, navigation, content types, and labels.</p></div></details>
+<details class="skill-concept"><summary>Screen</summary><div class="skill-concept-body"><p>A <strong>screen</strong> is a distinct user-visible state — what the user sees and acts on when one set of stories is active. Two states that differ only in transient data are the same screen; states that differ in which regions exist, which navigational components are present, or which actions are available are different screens.</p>
+<p><strong>Story budget signal:</strong> a screen should carry ~4 user stories. Consistently more than ~4 almost always means a tab state, a detail/edit screen, or a mode has not been separated out. Each story on a screen must be directly and visibly satisfied by a region or action on that screen — not by a region on a sibling or ancestor screen.</p></div></details>
+<details class="skill-concept"><summary>Transition</summary><div class="skill-concept-body"><p>A <strong>transition</strong> is a directed move from one screen to another. Its label names the <strong>trigger</strong> — the user action or system event that causes the move — using a UX term when the trigger is structural (e.g. <em>opens primary nav</em>) or a domain concept name when the trigger is domain-specific (e.g. <em>submits valid path</em>), with a link to the source story or term.</p></div></details>
+<details class="skill-concept"><summary>Layout templates</summary><div class="skill-concept-body"><p>Use <code>node $DUXCLI templates</code> to print the full list with ASCII diagrams. Available templates and their slots:</p>
+<pre><code>stack        — single column                          slot: body
+modal        — centered overlay dialog (rounded)      slot: body
+form         — single-column form (stacked inputs)    slot: body
+sidebar      — left panel + right workspace           slots: panel | body
+split-screen — two equal columns                      slots: left | right
+flyout       — main content + contextual side panel   slots: body | panel
+holy-grail   — header + nav + body + aside + footer   slots: header, nav, body, aside, footer</code></pre>
+<p><code>header</code> and <code>footer</code> slots always render as full-width bands above and below the column section, regardless of template. Any region assigned an unknown slot falls through to <code>body</code> (or the first defined column).</p></div></details>
+<details class="skill-concept"><summary>Navigational component</summary><div class="skill-concept-body"><p>A <strong>navigational component</strong> is a persistent surface that carries navigation across screens — menus, primary navigation, sidebars, headers, footers, breadcrumbs, link groups. Components are listed and named in UX terms, with the screens or content types they link to. They are not styled and they do not name controls.</p></div></details>
+<details class="skill-concept"><summary>Canvas layout convention</summary><div class="skill-concept-body"><p>The diagram uses a <strong>column × row grid</strong>. Every screen gets a <code>--col</code> (horizontal) and <code>--row</code> (vertical) when added. <strong>Both are required — never rely on insertion order.</strong></p>
+<p><strong>Decision rule — linear vs option (be aggressive):</strong></p>
+<ul>
+<li><strong>No — always visited:</strong> linear. Put it in row 0, increment col.</li>
+<li><strong>Yes — sometimes visited:</strong> option. Keep col the same as its trigger, increment row.</li>
 </ul>
-<hr></div></details>
+<p>If in doubt, call it an option. Placing an optional screen in the linear row causes its column to push everything right, creating overlapping connections.</p></div></details>
+<details class="skill-concept"><summary>Tab state</summary><div class="skill-concept-body"><p>A <strong>panel with N tabs generates N separate screens on the site map.</strong> Each tab state is a full screen node — named <code>{{parent screen}} — {{tab label}}</code>. The inactive tabs are shown as greyed labels in the tab bar of each sibling screen. The transition between tab states is an arrow labeled &quot;selects {{tab}} tab&quot;.</p>
+<p>The outer chrome of a multi-tab screen is shared across all tab-state screens. On the canvas this chrome is drawn once on each sibling screen box but described only in the primary screen block in the spec — sibling blocks note <code>chrome: same as {{parent screen}}</code>.</p>
+<p>On the diagram, sibling-screen chrome is drawn with <code>add-chrome --dimmed</code>, which fills it with light grey (<code>#f5f5f5</code>). <strong>Grey is used only for this purpose</strong> — to de-emphasise chrome that repeats unchanged across sibling tab screens. Data rows and form fields are never grey.</p>
+<p><strong>Red flag:</strong> treating a tabbed panel as one screen with sub-regions is wrong. If you find yourself writing &quot;character detail panel — tab: Identities … tab: Abilities … tab: Movements&quot; inside one screen block, stop — each tab is a separate screen.</p></div></details>
+<details class="skill-concept"><summary>Content type</summary><div class="skill-concept-body"><p>A <strong>content type</strong> is a kind of thing a user interacts with — typically a domain concept the user reads, edits, or acts on. Each content type carries a hierarchy, collections, labels and tags, and a small set of key actions.</p></div></details>
+<details class="skill-concept"><summary>User story vs system story</summary><div class="skill-concept-body"><p>A <strong>user story</strong> has a user-visible interaction. Each in-scope user story lives on at least one screen and contributes affordances and actions to that screen. On the IA a user story appears by <strong>name</strong> with a <strong>link</strong> — never by full text or acceptance criteria.</p>
+<p>A <strong>system story</strong> has no user-visible interaction. It does not get its own screen — it is grouped (by name, with a link) with the closest user-visible screen whose interaction surfaces it.</p></div></details>
+<details class="skill-concept"><summary>Domain term / concept / class</summary><div class="skill-concept-body"><p>A domain term appears on a screen only if it names something the user can see or directly interact with — a data field label, a list row type name, a region name, or a screen name. Internal model concepts that do not appear as visible text are excluded. The full sub-concept hierarchy of a KA is never listed wholesale; list only the sub-concepts that appear as named items in the UI.</p></div></details>
+<details class="skill-concept"><summary>Mental model alignment</summary><div class="skill-concept-body"><p>Screen names, content type names, navigational component names, and the IA as a whole reflect the user&#x27;s mental model of the solution rather than the technical decomposition. Prefer the term the product owner, domain expert, or user uses unprompted in conversation. If you are reaching for a system or framework name, stop and pick a domain or UX term instead.</p></div></details>
+<details class="skill-concept"><summary>Card sorting (informally)</summary><div class="skill-concept-body"><p>Before drawing per-screen content layouts and per-component link groupings, candidate labels are grouped by affinity — what reads as one surface or one cluster to a user. The resulting groups become the named regions, content groupings, and component link sets.</p></div></details>
+</div></div>
+<div class="skill-cr-col"><div class="skill-rules">
+<h2 class="skill-rules-heading">Rules</h2>
+<details class="skill-rule">
+<summary class="skill-rule-header">IA per screen lists named regions only — no controls</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>List regions as a flat, separator-delimited row of UL terms.</li><li>Stop at the level of &quot;named container a user perceives as a distinct surface&quot;.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Name a control as if it were a region.</li><li>Embed copy strings or labels-as-content.</li><li>Indicate ordering, sizing, or layout.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Screen names use domain terms verbatim</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Use the exact term from the UL file as the screen label.</li><li>When the UL does not yet name a screen the stories require, stop and ask for a UL term to be added before drawing.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Invent a label that is not in the UL file.</li><li>Paraphrase or abbreviate a UL term.</li><li>Substitute a technical name for a domain name.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Story budget, list rows, and edit creates a new screen</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Assign each story to the screen where its primary interaction takes place. If two stories share a screen, verify that both are directly satisfied by a visible region and action on that screen.</li><li>When a screen reaches 5+ stories, stop and look for the missed decomposition before proceeding.</li><li>Show 2–3 representative rows with field names. Add a verb row below.</li><li>On the canvas: each row is a small horizontal box; the verb row is a strip directly below the last row.</li><li>Add a transition arrow from the list screen to a named detail screen.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Dump all stories that touch a domain concept onto one screen.</li><li>Describe the list in prose form.</li><li>Write &quot;per item: …&quot; to enumerate fields.</li><li>Leave &quot;edit&quot; as an action with no destination screen.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">System stories group with the closest visible-trigger user story</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Attach the system story to the screen whose visible interaction surfaces its result.</li><li>When a system story&#x27;s result is split across multiple user-visible screens, group it with the earliest one.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Give a system story its own screen box.</li><li>Make a system story an arrow target.</li><li>Hide a system story entirely.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Tab states are separate screens; domain terms are visible-only</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Create a separate #### crowd manager — identities, #### crowd manager — abilities, and #### crowd manager — movements screen block in the spec. Connect them with tab-switch arrows on the canvas.</li><li>On the canvas, draw each tab state as a separate screen box. Show the inactive tab names as greyed labels in the tab bar inside the box.</li><li>List only the terms that label a row field, a row type, or a region on this screen.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Describe a tabbed panel as one screen with sub-region blocks per tab.</li><li>Use &quot;tabs: X, Y, Z&quot; shorthand in a single screen block.</li><li>Copy the full KA concept list into the domain terms annotation.</li><li>Include internal model terms that never appear as visible UI text.</li><li>[ ] Every tab-bearing panel is represented as N separate screen blocks (one per tab state), not as one block with sub-regions.</li><li>[ ] Every tab-state screen block has: inactive tabs listed, chrome noted by reference, ~4 user stories, domain terms (visible only).</li><li>[ ] The canvas shows each tab state as a separate screen box with greyed inactive tab labels and tab-switch arrows between siblings.</li><li>[ ] A story trace table (build step 4a) exists with every GM story mapped to screen, region, action/trigger — no empty cells.</li><li>[ ] A domain term trace table (build step 4b) exists with every term mapped to screen and visible element — no &quot;annotation only&quot; entries without justification.</li><li>[ ] Every &quot;edit&quot; action in a verb row has a corresponding transition to a named detail/editor screen.</li><li>[ ] No screen carries more than ~4 user stories without a documented reason.</li><li>[ ] Domain terms per screen are limited to visible field labels and row type names (max ~5).</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Labels are clear, single-purpose, and consistently named</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Use the same label for the same screen everywhere on the canvas, including inside grouped-story notes.</li><li>Use short trigger phrases for transitions — one user action or one system event in domain terms.</li><li>When two stories share a screen, use one screen name; do not split the screen for readability.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Use two different labels for the same screen.</li><li>Reuse one label for two different screens.</li><li>Write transition labels that combine multiple triggers.</li><li>Pad labels with adjectives that are not in the UL.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Screens and IA reflect the user&#x27;s mental model, not the technical decomposition</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Anchor every label in the UL file and check it reads naturally to a domain expert.</li><li>When the technical name and the domain name differ, pick the domain name.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Name screens after services, classes, view models, modules, or durable objects.</li><li>Name regions after technical layers (presenter, view-model, store).</li><li>Organize screens around code modules rather than around user goals.</li></ul></div>
+</details>
+</div></div>
+</div>
 
-<ul class="file-list file-list--root">
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>reference/</strong><span class="file-meta"> → Folder (2 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/reference/concepts.md" target="_blank" rel="noopener noreferrer"><strong>concepts.md</strong></a><span class="file-meta"> → ﻿# abd-information-architecture — Concepts</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/reference/examples.md" target="_blank" rel="noopener noreferrer"><strong>examples.md</strong></a><span class="file-meta"> → abd-information-architecture — Examples</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/rules/ia-named-regions-only.md" target="_blank" rel="noopener noreferrer"><strong>ia-named-regions-only.md</strong></a><span class="file-meta"> → ﻿# Rule: IA per screen lists named regions only — no controls</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/rules/markdown-spec-stays-in-sync.md" target="_blank" rel="noopener noreferrer"><strong>markdown-spec-stays-in-sync.md</strong></a><span class="file-meta"> → docs/ux/initial-ia.md stays in sync with the canvas</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/rules/screen-names-use-domain-terms.md" target="_blank" rel="noopener noreferrer"><strong>screen-names-use-domain-terms.md</strong></a><span class="file-meta"> → ﻿# Rule: Screen names use domain terms verbatim</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/rules/screen-story-budget-and-list-rows.md" target="_blank" rel="noopener noreferrer"><strong>screen-story-budget-and-list-rows.md</strong></a><span class="file-meta"> → Rule: Story budget, list rows, and edit creates a new screen</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/rules/system-stories-group-with-visible-trigger.md" target="_blank" rel="noopener noreferrer"><strong>system-stories-group-with-visible-trigger.md</strong></a><span class="file-meta"> → Rule: System stories group with the closest visible-trigger user story</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/rules/tab-states-and-domain-traceability.md" target="_blank" rel="noopener noreferrer"><strong>tab-states-and-domain-traceability.md</strong></a><span class="file-meta"> → Rule: Tab states are separate screens; domain terms are visible-only</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/rules/ucd-label-clarity.md" target="_blank" rel="noopener noreferrer"><strong>ucd-label-clarity.md</strong></a><span class="file-meta"> → ﻿# Rule: Labels are clear, single-purpose, and consistently named</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/rules/ucd-screens-reflect-user-mental-models.md" target="_blank" rel="noopener noreferrer"><strong>ucd-screens-reflect-user-mental-models.md</strong></a><span class="file-meta"> → ﻿# Rule: Screens and IA reflect the user&#x27;s mental model, not the technical decomposition</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>screen-templates/</strong><span class="file-meta"> → Folder (86 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/accordion.drawio" target="_blank" rel="noopener noreferrer"><strong>accordion.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/accordion.md" target="_blank" rel="noopener noreferrer"><strong>accordion.md</strong></a><span class="file-meta"> → Accordion</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/asymmetrical.drawio" target="_blank" rel="noopener noreferrer"><strong>asymmetrical.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/asymmetrical.md" target="_blank" rel="noopener noreferrer"><strong>asymmetrical.md</strong></a><span class="file-meta"> → Asymmetrical</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/bottom-bar.drawio" target="_blank" rel="noopener noreferrer"><strong>bottom-bar.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/bottom-bar.md" target="_blank" rel="noopener noreferrer"><strong>bottom-bar.md</strong></a><span class="file-meta"> → Bottom Bar</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/breadcrumb.drawio" target="_blank" rel="noopener noreferrer"><strong>breadcrumb.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/breadcrumb.md" target="_blank" rel="noopener noreferrer"><strong>breadcrumb.md</strong></a><span class="file-meta"> → Breadcrumb</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/card-based.drawio" target="_blank" rel="noopener noreferrer"><strong>card-based.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/card-based.md" target="_blank" rel="noopener noreferrer"><strong>card-based.md</strong></a><span class="file-meta"> → Card Based</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/carousel-slider.drawio" target="_blank" rel="noopener noreferrer"><strong>carousel-slider.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/carousel-slider.md" target="_blank" rel="noopener noreferrer"><strong>carousel-slider.md</strong></a><span class="file-meta"> → Carousel Slider</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/coachmarks-walkthrough.drawio" target="_blank" rel="noopener noreferrer"><strong>coachmarks-walkthrough.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/coachmarks-walkthrough.md" target="_blank" rel="noopener noreferrer"><strong>coachmarks-walkthrough.md</strong></a><span class="file-meta"> → Coachmarks Walkthrough</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/comparison-matrix.drawio" target="_blank" rel="noopener noreferrer"><strong>comparison-matrix.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/comparison-matrix.md" target="_blank" rel="noopener noreferrer"><strong>comparison-matrix.md</strong></a><span class="file-meta"> → Comparison Matrix</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/dashboard.drawio" target="_blank" rel="noopener noreferrer"><strong>dashboard.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/dashboard.md" target="_blank" rel="noopener noreferrer"><strong>dashboard.md</strong></a><span class="file-meta"> → Dashboard</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/drawer-hamburger.drawio" target="_blank" rel="noopener noreferrer"><strong>drawer-hamburger.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/drawer-hamburger.md" target="_blank" rel="noopener noreferrer"><strong>drawer-hamburger.md</strong></a><span class="file-meta"> → Drawer Hamburger</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/empty-state.drawio" target="_blank" rel="noopener noreferrer"><strong>empty-state.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/empty-state.md" target="_blank" rel="noopener noreferrer"><strong>empty-state.md</strong></a><span class="file-meta"> → Empty State</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/f-pattern.drawio" target="_blank" rel="noopener noreferrer"><strong>f-pattern.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/f-pattern.md" target="_blank" rel="noopener noreferrer"><strong>f-pattern.md</strong></a><span class="file-meta"> → F Pattern</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/fab-menu.drawio" target="_blank" rel="noopener noreferrer"><strong>fab-menu.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/fab-menu.md" target="_blank" rel="noopener noreferrer"><strong>fab-menu.md</strong></a><span class="file-meta"> → Fab Menu</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/feed.drawio" target="_blank" rel="noopener noreferrer"><strong>feed.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/feed.md" target="_blank" rel="noopener noreferrer"><strong>feed.md</strong></a><span class="file-meta"> → Category: Screen &amp; Core Page Skeletons</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/flyout-panel.drawio" target="_blank" rel="noopener noreferrer"><strong>flyout-panel.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/flyout-panel.md" target="_blank" rel="noopener noreferrer"><strong>flyout-panel.md</strong></a><span class="file-meta"> → Flyout Panel</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/form.drawio" target="_blank" rel="noopener noreferrer"><strong>form.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/form.md" target="_blank" rel="noopener noreferrer"><strong>form.md</strong></a><span class="file-meta"> → Category: User Actions &amp; Overlays</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/full-screen-media.drawio" target="_blank" rel="noopener noreferrer"><strong>full-screen-media.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/full-screen-media.md" target="_blank" rel="noopener noreferrer"><strong>full-screen-media.md</strong></a><span class="file-meta"> → Full Screen Media</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/grid.drawio" target="_blank" rel="noopener noreferrer"><strong>grid.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/grid.md" target="_blank" rel="noopener noreferrer"><strong>grid.md</strong></a><span class="file-meta"> → Category: Content &amp; Data Organization</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/hero-banner.drawio" target="_blank" rel="noopener noreferrer"><strong>hero-banner.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/hero-banner.md" target="_blank" rel="noopener noreferrer"><strong>hero-banner.md</strong></a><span class="file-meta"> → Hero Banner</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/holy-grail.drawio" target="_blank" rel="noopener noreferrer"><strong>holy-grail.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/holy-grail.md" target="_blank" rel="noopener noreferrer"><strong>holy-grail.md</strong></a><span class="file-meta"> → Holy Grail</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/infinite-canvas.drawio" target="_blank" rel="noopener noreferrer"><strong>infinite-canvas.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/infinite-canvas.md" target="_blank" rel="noopener noreferrer"><strong>infinite-canvas.md</strong></a><span class="file-meta"> → Infinite Canvas</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/kanban-board.drawio" target="_blank" rel="noopener noreferrer"><strong>kanban-board.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/kanban-board.md" target="_blank" rel="noopener noreferrer"><strong>kanban-board.md</strong></a><span class="file-meta"> → Kanban Board</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/list.drawio" target="_blank" rel="noopener noreferrer"><strong>list.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/list.md" target="_blank" rel="noopener noreferrer"><strong>list.md</strong></a><span class="file-meta"> → Category: Content &amp; Data Organization</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/magazine-editorial.drawio" target="_blank" rel="noopener noreferrer"><strong>magazine-editorial.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/magazine-editorial.md" target="_blank" rel="noopener noreferrer"><strong>magazine-editorial.md</strong></a><span class="file-meta"> → Magazine Editorial</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/masonry.drawio" target="_blank" rel="noopener noreferrer"><strong>masonry.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/masonry.md" target="_blank" rel="noopener noreferrer"><strong>masonry.md</strong></a><span class="file-meta"> → Category: Content &amp; Data Organization</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/mega-menu.drawio" target="_blank" rel="noopener noreferrer"><strong>mega-menu.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/mega-menu.md" target="_blank" rel="noopener noreferrer"><strong>mega-menu.md</strong></a><span class="file-meta"> → Mega Menu</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/modal-dialog.drawio" target="_blank" rel="noopener noreferrer"><strong>modal-dialog.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/modal-dialog.md" target="_blank" rel="noopener noreferrer"><strong>modal-dialog.md</strong></a><span class="file-meta"> → Modal Dialog</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/parallax.drawio" target="_blank" rel="noopener noreferrer"><strong>parallax.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/parallax.md" target="_blank" rel="noopener noreferrer"><strong>parallax.md</strong></a><span class="file-meta"> → Parallax</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/rail-navigation.drawio" target="_blank" rel="noopener noreferrer"><strong>rail-navigation.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/rail-navigation.md" target="_blank" rel="noopener noreferrer"><strong>rail-navigation.md</strong></a><span class="file-meta"> → Rail Navigation</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/search-filter.drawio" target="_blank" rel="noopener noreferrer"><strong>search-filter.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/search-filter.md" target="_blank" rel="noopener noreferrer"><strong>search-filter.md</strong></a><span class="file-meta"> → Search Filter</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/sidebar.drawio" target="_blank" rel="noopener noreferrer"><strong>sidebar.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/sidebar.md" target="_blank" rel="noopener noreferrer"><strong>sidebar.md</strong></a><span class="file-meta"> → Category: Navigation &amp; Navigation Housing</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/single-page-spa.drawio" target="_blank" rel="noopener noreferrer"><strong>single-page-spa.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/single-page-spa.md" target="_blank" rel="noopener noreferrer"><strong>single-page-spa.md</strong></a><span class="file-meta"> → Single Page Spa</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/skeleton-loading.drawio" target="_blank" rel="noopener noreferrer"><strong>skeleton-loading.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/skeleton-loading.md" target="_blank" rel="noopener noreferrer"><strong>skeleton-loading.md</strong></a><span class="file-meta"> → Skeleton Loading</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/split-screen.drawio" target="_blank" rel="noopener noreferrer"><strong>split-screen.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/split-screen.md" target="_blank" rel="noopener noreferrer"><strong>split-screen.md</strong></a><span class="file-meta"> → Split Screen</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/spreadsheet.drawio" target="_blank" rel="noopener noreferrer"><strong>spreadsheet.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/spreadsheet.md" target="_blank" rel="noopener noreferrer"><strong>spreadsheet.md</strong></a><span class="file-meta"> → Spreadsheet</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/tabbed.drawio" target="_blank" rel="noopener noreferrer"><strong>tabbed.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/tabbed.md" target="_blank" rel="noopener noreferrer"><strong>tabbed.md</strong></a><span class="file-meta"> → Category: Navigation &amp; Navigation Housing</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/timeline.drawio" target="_blank" rel="noopener noreferrer"><strong>timeline.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/timeline.md" target="_blank" rel="noopener noreferrer"><strong>timeline.md</strong></a><span class="file-meta"> → Timeline</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/toast-snackbar.drawio" target="_blank" rel="noopener noreferrer"><strong>toast-snackbar.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/toast-snackbar.md" target="_blank" rel="noopener noreferrer"><strong>toast-snackbar.md</strong></a><span class="file-meta"> → Toast Snackbar</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/tooltip-popover.drawio" target="_blank" rel="noopener noreferrer"><strong>tooltip-popover.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/tooltip-popover.md" target="_blank" rel="noopener noreferrer"><strong>tooltip-popover.md</strong></a><span class="file-meta"> → Tooltip Popover</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/top-header.drawio" target="_blank" rel="noopener noreferrer"><strong>top-header.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/top-header.md" target="_blank" rel="noopener noreferrer"><strong>top-header.md</strong></a><span class="file-meta"> → Top Header</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/tree-navigation.drawio" target="_blank" rel="noopener noreferrer"><strong>tree-navigation.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/tree-navigation.md" target="_blank" rel="noopener noreferrer"><strong>tree-navigation.md</strong></a><span class="file-meta"> → Tree Navigation</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/wizard-stepper.drawio" target="_blank" rel="noopener noreferrer"><strong>wizard-stepper.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/wizard-stepper.md" target="_blank" rel="noopener noreferrer"><strong>wizard-stepper.md</strong></a><span class="file-meta"> → Wizard Stepper</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/z-pattern.drawio" target="_blank" rel="noopener noreferrer"><strong>z-pattern.drawio</strong></a><span class="file-meta"> → &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/screen-templates/z-pattern.md" target="_blank" rel="noopener noreferrer"><strong>z-pattern.md</strong></a><span class="file-meta"> → Z Pattern</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>scripts/</strong><span class="file-meta"> → Build, catalogue, validation, or packaging automation.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/scripts/drawio-ux.mjs" target="_blank" rel="noopener noreferrer"><strong>drawio-ux.mjs</strong></a><span class="file-meta"> → !/usr/bin/env node</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/scripts/generate-screen-templates.mjs" target="_blank" rel="noopener noreferrer"><strong>generate-screen-templates.mjs</strong></a><span class="file-meta"> → !/usr/bin/env node</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/scripts/ia-story-check.mjs" target="_blank" rel="noopener noreferrer"><strong>ia-story-check.mjs</strong></a><span class="file-meta"> → !/usr/bin/env node</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/templates/initial-ia-prompt.md" target="_blank" rel="noopener noreferrer"><strong>initial-ia-prompt.md</strong></a><span class="file-meta"> → initial-ia external prompt template</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/templates/initial-ia.md" target="_blank" rel="noopener noreferrer"><strong>initial-ia.md</strong></a><span class="file-meta"> → ﻿# Initial information architecture — {{SCOPE}}</span></li>
-</ul></div></details></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/corrections-log.md" target="_blank" rel="noopener noreferrer"><strong>corrections-log.md</strong></a><span class="file-meta"> → abd-information-architecture — corrections log</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/user-experience-design/skills/abd-ux-information-architecture/SKILL.md" target="_blank" rel="noopener noreferrer"><strong>SKILL.md</strong></a><span class="file-meta"> → catalog_garden_tier: practice</span></li>
-</ul>
+
+
 
 </div>
 </div>

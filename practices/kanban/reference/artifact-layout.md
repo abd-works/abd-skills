@@ -132,7 +132,7 @@ Merge increment exploration content into the matching subfolder when increment e
 | --- | --- |
 | `class-model.md` | **One** whole-solution typed class model |
 | `specification-by-example.md` | **One** whole-solution spec file |
-| `interface-design.md` | **One** whole-solution interface spec |
+| `ux-specification.md`, `prototype/` | **One** whole-solution UX spec + clickable hi-fi prototype assets |
 | `architecture-reference.md`, `architecture-reference-assignment.md` | Whole-solution arch reference |
 
 ### end-to-end/engineering/ (filled from increment roll-up)
@@ -185,7 +185,7 @@ docs/increments/8-marketing-engine/
 | --- | --- |
 | `abd-domain-specification` | `class-model.md` |
 | `abd-story-specification` | `specification-by-example.md` |
-| `abd-ux-specification` (spec pass) | `interface-design.md` |
+| `abd-ux-specification` | `ux-specification.md`, `prototype/` (HTML/CSS/JS) |
 | `abd-architecture-specification` | `architecture-reference.md`, `architecture-reference-assignment.md` |
 
 #### increments/…/engineering/
@@ -193,7 +193,7 @@ docs/increments/8-marketing-engine/
 | Skill | File(s) |
 | --- | --- |
 | `abd-domain-code` | `src/` (domain classes + tests, TDD) |
-| ATDD, clean-code, interface impl | `src/` |
+| ATDD, clean-code, architecture-code (incl. production UI) | `src/` |
 
 ### Story graph — canonical structured store (mandatory sync)
 

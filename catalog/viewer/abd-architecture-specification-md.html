@@ -1,0 +1,90 @@
+<!DOCTYPE html><html><head><meta charset='utf-8'><style>
+body {font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; line-height: 1.65;
+  color: #1a1a1e; background: #fff; padding: 32px; max-width: 820px; margin: 0 auto;}
+h1 {font-size: 22px; font-weight: 700; margin: 0 0 16px; color: #111;}
+h2 {font-size: 17px; font-weight: 600; margin: 24px 0 10px; color: #111;
+    border-bottom: 1px solid #e0e0e0; padding-bottom: 4px;}
+h3 {font-size: 14px; font-weight: 600; margin: 16px 0 6px;}
+p {margin: 0 0 12px;} ul,ol {margin: 0 0 12px; padding-left: 24px;} li {margin-bottom: 4px;}
+code {background:#f4f4f6; border-radius:3px; padding:1px 5px; font-family:monospace; font-size:13px;}
+pre {background:#f4f4f6; border-radius:6px; padding:14px; overflow-x:auto; margin:0 0 14px;}
+pre code {background:none; padding:0;}
+table {border-collapse:collapse; width:100%; margin:0 0 14px;}
+th,td {border:1px solid #ddd; padding:7px 10px; text-align:left;}
+th {background:#f0f0f2; font-weight:600;}
+blockquote {border-left:3px solid #e5531a; margin:0 0 14px; padding:6px 14px; color:#555;}
+</style></head><body><h1>Architecture Template (Reference Document) — Examples</h1>
+<h2>Per-mechanism mode (4+ mechanisms)</h2>
+<pre><code># &lt;ArchitectureName&gt; Architecture Reference
+
+## Table of Contents
+- [Overview](#overview)
+- [Architecture Flow](#architecture-flow)
+- [Instantiating the Domain](#instantiating-the-domain)
+- [Mechanism: Error Handling](#mechanism-error-handling)
+- [Mechanism: Caching](#mechanism-caching)
+- [Mechanism: Persistence](#mechanism-persistence)
+- [Testing Architecture](#testing-architecture)
+- [References](#references)
+
+## Overview
+One paragraph: name the architecture, the guiding principles, the mechanisms covered.
+
+## Architecture Flow
+Reuse the flow diagram and tech table from the architecture's source of truth.
+
+## Instantiating the Domain
+Domain-to-code mapping — module layout, shared core, naming contract. Common section shape; content differs by stack.
+
+## Mechanism: Error Handling
+### Principles &amp; Patterns
+- Principle: errors raised at the boundary, never swallowed.
+- Pattern: Result&lt;T, DomainException&gt;; controller maps to HTTP status.
+### File Structure
+packages/&lt;domain&gt;/shared/Errors.ts
+packages/&lt;domain&gt;/server/error-mapper.ts
+### Participants  (class diagram)
+[Mermaid classDiagram]
+### Flow  (sequence diagram)
+[Mermaid sequenceDiagram]
+### Walkthrough Example
+1. Repository fails to parse a Mongo doc...
+2. Service catches with .mapErr(...)
+3. Controller maps DomainException -&gt; 422
+   (code sample follows the project's coding standard)
+   (test sample follows the project's testing standard)
+### Testing the mechanism
+- Domain tier: every application-service method has one failure scenario.
+
+## Mechanism: Caching
+... same shape ...
+</code></pre>
+<hr />
+<h2>The shape of a good mechanism section</h2>
+<pre><code>## Mechanism: &lt;Name&gt;
+
+### Principles &amp; Patterns
+- Principle: &lt;one sentence the architecture refuses to break&gt;
+- Pattern: &lt;named, repeatable shape that satisfies the principle&gt;
+
+### File Structure
+&lt;fenced folder tree showing where this mechanism's code lives&gt;
+
+### Participants
+&lt;Mermaid classDiagram OR a Markdown table&gt;
+| Class / Module | Layer | Responsibility | Collaborators |
+
+### Flow
+&lt;Mermaid sequenceDiagram for ONE representative scenario&gt;
+
+### Walkthrough Example
+1. &lt;step naming participant&gt;
+2. &lt;step naming participant&gt;
+...
+```code (follows the project's coding standard)```
+```test (follows the project's testing standard)```
+
+### Testing the mechanism
+- Tier: &lt;project's tier name&gt;
+- Doubles / helpers: &lt;which test doubles verify it&gt;
+</code></pre></body></html>

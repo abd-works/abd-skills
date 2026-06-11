@@ -471,7 +471,22 @@ html[data-abd-theme="executive"] .catalog-body code {
 }
 
 .page-hero--detail {
-  padding-top: 48px;
+  padding-top: 20px;
+  padding-bottom: 16px;
+}
+.page-hero--detail .page-headline {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 4px 0 6px;
+}
+.page-headline .skill-name-prefix,
+.cap-card__title .skill-name-prefix {
+  color: var(--accent);
+}
+.page-hero--detail .body-lead {
+  font-size: 0.9rem;
+  margin: 0;
+  color: var(--muted);
 }
 
 .page-hero--detail .back-link {
@@ -731,8 +746,18 @@ a.cap-card:hover .cap-card__more {
   color: #b8b8c2;
   margin: 0 0 18px;
 }
+.skill-detail-page .skill-hero-img-wrap + .install-block {
+  margin-top: 18px;
+}
+.skill-detail-page .install-block + .skill-cr-grid,
+.skill-detail-page .install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block {
+  margin-top: 0;
+}
 .install-block {
-  margin: 22px 0 0;
+  margin: 20px 0 0;
   padding: 16px 18px;
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid var(--border-muted);
@@ -1041,28 +1066,624 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 .plugin-slots h3:first-child { margin-top: 0; }
 .cap-grid--plugin-slot { margin-bottom: 8px; }
 
+/* ── Skill detail: family kanban stage nav (matches hub column headings) ── */
+.skill-kanban-nav {
+  --fam-sdd: #6bcb77;
+  --fam-ddd: #6c5ce7;
+  --fam-uxd: #e84393;
+  --fam-arc: #4fc3f7;
+  --fam-idea: var(--accent);
+  --abd-accent: var(--accent);
+  --abd-accent-glow: var(--accent-soft, var(--accent));
+  --abd-raised: var(--raised);
+  --abd-bg: var(--bg);
+  --abd-border: var(--border);
+  --abd-text: var(--text);
+  --abd-muted: var(--muted);
+  background: var(--raised);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0 16px;
+}
+.skill-kanban-nav .wrap {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.skill-kanban-nav__board {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  gap: 6px 8px;
+  align-items: start;
+}
+.skill-kanban-nav__practice-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  margin: 0;
+  padding: 0 8px;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-left-width: 3px;
+  border-radius: 4px;
+  line-height: 1.25;
+  box-sizing: border-box;
+  transition: box-shadow 120ms, border-color 120ms;
+  color: inherit;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card:hover {
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--sdd {
+  border-left-color: var(--fam-sdd);
+  color: var(--fam-sdd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--ddd {
+  border-left-color: var(--fam-ddd);
+  color: var(--fam-ddd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--uxd {
+  border-left-color: var(--fam-uxd);
+  color: var(--fam-uxd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--arc {
+  border-left-color: var(--fam-arc);
+  color: var(--fam-arc);
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap {
+  position: relative;
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip.kb-col-shape-tooltip {
+  min-width: 10rem;
+  max-width: 22rem;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:hover .kb-skill-tooltip,
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:focus-within .kb-skill-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.skill-kanban-nav__stages {
+  display: grid;
+  grid-template-columns: repeat(var(--skill-kanban-cols, 5), minmax(0, 1fr));
+  gap: 0 8px;
+  min-width: 0;
+}
+.skill-kanban-nav__col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.skill-kanban-nav__tickets {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.skill-kanban-nav .kb-col-head {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 8px 6px 7px;
+  font-family: var(--font-mono);
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.skill-kanban-nav .kb-col-head--static {
+  cursor: default;
+}
+.skill-kanban-nav a.kb-col-head {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav a.kb-col-head:hover {
+  border-color: rgba(229, 83, 26, 0.35);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.15);
+}
+.skill-kanban-nav .kb-col-head--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-col-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+}
+.skill-kanban-nav .kb-col-scope-shape {
+  flex-shrink: 0;
+  border: 2px solid var(--abd-accent);
+  border-radius: 2px;
+}
+.skill-kanban-nav__stages .kb-col-shape-tooltip,
+.skill-kanban-nav__stages .kb-skill-tooltip-wrap .kb-col-shape-tooltip {
+  display: none !important;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 8px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 7px 9px;
+  font-family: var(--font-mono);
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid rgba(229, 83, 26, 0.45);
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 14px;
+  border: 5px solid transparent;
+  border-bottom-color: rgba(229, 83, 26, 0.45);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__name {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--abd-accent-glow);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__bullets {
+  font-size: 8px;
+  line-height: 1.45;
+  color: var(--abd-text);
+  white-space: pre-line;
+}
+.skill-kanban-nav .kb-col-scope-shape--solution { width: 36px; height: 12px; }
+.skill-kanban-nav .kb-col-scope-shape--increment { width: 24px; height: 16px; }
+.skill-kanban-nav .kb-col-scope-shape--sprint { width: 16px; height: 22px; }
+.skill-kanban-nav .kb-col-scope-shape--story { width: 11px; height: 28px; }
+.skill-kanban-nav .kb-col-head-title {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--abd-text);
+}
+.skill-kanban-nav .kb-col-head-title > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.skill-kanban-nav .kb-col-num {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--abd-text);
+  background: var(--abd-bg);
+  border: 1px solid var(--abd-border);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+.skill-kanban-nav .kb-ticket {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  background: var(--abd-raised);
+  color: var(--abd-text);
+  padding: 5px 6px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  border-left-width: 3px;
+  border-left-color: var(--abd-muted);
+  line-height: 1.25;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav .kb-ticket:hover {
+  border-color: var(--abd-border);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.2);
+}
+.skill-kanban-nav .kb-ticket.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-ticket.aad-fam-sdd { border-left-color: var(--fam-sdd); }
+.skill-kanban-nav .kb-ticket.aad-fam-ddd { border-left-color: var(--fam-ddd); }
+.skill-kanban-nav .kb-ticket.aad-fam-uxd { border-left-color: var(--fam-uxd); }
+.skill-kanban-nav .kb-ticket.aad-fam-arc { border-left-color: var(--fam-arc); }
+.skill-kanban-nav .kb-ticket.aad-fam-idea { border-left-color: var(--fam-idea); }
+@media (max-width: 960px) {
+  .skill-kanban-nav__board {
+    grid-template-columns: 1fr;
+  }
+  .skill-kanban-nav__stages {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
+
+/* ── Skill detail: full-width hero image / embedded viewer ── */
+.skill-hero-img-wrap {
+  margin: 24px 0 0;
+}
+.skill-hero-img-wrap:empty { display: none; }
+.skill-hero-img-wrap img,
+.skill-hero-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--raised);
+}
+
+/* HTML prototype iframe (reference/example/index.html) */
+.skill-prototype-wrap {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-prototype-frame {
+  display: block;
+  width: 100%;
+  min-height: 540px;
+  height: 71vh;
+  max-height: 810px;
+  border: 0;
+  background: #fff;
+}
+.skill-prototype-open {
+  margin: 0;
+  padding: 8px 14px;
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+  background: var(--raised);
+}
+.skill-prototype-open a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.skill-prototype-open a:hover { text-decoration: underline; }
+
+/* draw.io embedded viewer */
+.skill-drawio-wrap {
+  position: relative;
+  width: 100%;
+  height: min(71vh, 680px);
+  min-height: 340px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-drawio-wrap .mxgraph {
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+}
+.skill-drawio-wrap .geToolbarContainer {
+  z-index: 4;
+}
+
+/* code file preview */
+.skill-code-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--raised);
+  font-size: 13px;
+}
+.skill-code-lang {
+  padding: 6px 14px;
+  font-family: var(--mono, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.skill-code-preview pre {
+  margin: 0;
+  padding: 16px;
+  overflow-x: auto;
+  max-height: 420px;
+}
+.skill-code-preview code {
+  font-family: var(--mono, 'JetBrains Mono', monospace);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+/* rendered markdown preview */
+.skill-hero-img-wrap .skill-md-preview {
+  max-height: min(71vh, 610px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.skill-md-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px 24px;
+  background: var(--surface);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.skill-md-preview h1 { font-size: 18px; font-weight: 700; margin: 0 0 12px; }
+.skill-md-preview h2 { font-size: 15px; font-weight: 600; margin: 16px 0 8px;
+  border-bottom: 1px solid var(--border); padding-bottom: 3px; }
+.skill-md-preview h3 { font-size: 13px; font-weight: 600; margin: 12px 0 6px; }
+.skill-md-preview h4 { font-size: 12px; font-weight: 600; margin: 10px 0 4px; color: var(--muted); }
+.skill-md-preview p  { margin: 0 0 10px; }
+.skill-md-preview .spec-steps { margin: 0 0 14px; }
+.skill-md-preview p.spec-step { margin: 0 0 4px; line-height: 1.55; }
+.skill-md-preview .md-table-wrap { overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview .md-table { border-collapse: collapse; width: 100%; }
+.skill-md-preview ul, .skill-md-preview ol { margin: 0 0 10px; padding-left: 20px; }
+.skill-md-preview li { margin-bottom: 3px; }
+.skill-md-preview code { background: var(--raised); border-radius: 3px;
+  padding: 1px 5px; font-family: var(--mono, monospace); font-size: 12px; }
+.skill-md-preview pre { background: var(--raised); border-radius: 5px;
+  padding: 12px; overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview table { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
+.skill-md-preview th, .skill-md-preview td {
+  border: 1px solid var(--border); padding: 6px 10px; }
+.skill-md-preview th { background: var(--raised); font-weight: 600; }
+
+/* ── Skill detail: concepts | rules two-column grid ── */
+.skill-cr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin: 24px 0 0;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .skill-cr-grid { grid-template-columns: 1fr; }
+}
+.skill-cr-col { min-width: 0; }
+.skill-cr-single { margin: 24px 0 0; }
+
+/* Glossary example hero — term blocks without heavy HR dividers */
+.skill-md-preview--glossary h1 {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 10px;
+  border: 0;
+  padding: 0;
+}
+.skill-md-preview--glossary h2 {
+  font-size: 16px;
+  margin-top: 0;
+}
+.skill-md-preview--glossary h3 {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 14px 0 6px;
+  padding: 6px 8px;
+  background: var(--raised);
+  border-radius: 4px;
+  border-left: 3px solid var(--accent);
+}
+.skill-md-preview--glossary hr {
+  display: none;
+}
+.skill-md-preview--glossary ul {
+  margin-top: 0;
+}
+
+/* ── Skill detail: full-width content below ── */
+.skill-detail-content-col { margin-top: 32px; }
+.skill-detail-page .skill-cr-grid,
+.skill-detail-page .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-single,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-single {
+  margin-top: 0;
+}
+
+/* ── Skill detail: concepts (expandable) ── */
+.skill-hero-img-wrap + .install-block {
+  margin-top: 16px;
+}
+.install-block + .skill-cr-grid,
+.install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-concepts {
+  margin: 0 0 20px;
+}
+.skill-concepts-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 8px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-concept {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-concept summary {
+  padding: 8px 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  user-select: none;
+}
+.skill-concept summary::-webkit-details-marker { display: none; }
+.skill-concept summary::marker { content: ""; }
+.skill-concept summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-concept[open] summary::before { content: "\2212"; }
+.skill-concept-body {
+  padding: 6px 4px 10px 1.9rem;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.skill-concept-body p { margin: 0 0 8px; }
+.skill-concept-body p:last-child { margin-bottom: 0; }
+.skill-concept-body ul { margin: 0 0 8px 1.1em; padding: 0; }
+.skill-concept-body li { margin: 3px 0; }
+
+/* ── Skill detail: rules (DO / DON'T) ── */
+.skill-rules {
+  margin: 0 0 20px;
+}
+.skill-rules-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 12px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-rule {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule[open] > .skill-rule-header {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule-header {
+  padding: 8px 10px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  background: var(--raised);
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+.skill-rule-header::-webkit-details-marker { display: none; }
+.skill-rule-header::marker { content: ""; }
+.skill-rule-header::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-rule[open] > .skill-rule-header::before {
+  content: "\2212";
+}
+.skill-rule-section {
+  padding: 8px 12px;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+.skill-rule-section--do {
+  border-left: 3px solid #2d8a4e;
+}
+.skill-rule-section--dont {
+  border-left: 3px solid #c0392b;
+}
+.skill-rule-section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+  color: var(--muted);
+}
+.skill-rule-section--do .skill-rule-section-label { color: #2d8a4e; }
+.skill-rule-section--dont .skill-rule-section-label { color: #c0392b; }
+.skill-rule-section ul { margin: 0; padding: 0 0 0 1.1em; }
+.skill-rule-section li { margin: 2px 0; color: var(--text); }
+
 </style>
-<script src="../commons/catalog-nav.js?v=foundry-8"></script>
+<script src="../commons/catalog-nav.js?v=foundry-9"></script>
 </head>
 <body data-nav-prefix="../" data-nav-current="skills" data-nav-site-base="../../../abd-works-website/">
 <main id="main-content">
 
+
+
 <div class="page-hero page-hero--detail">
   <div class="wrap">
-    <a class="back-link" href="../index.html">← Foundry home</a>
-    <p class="s-name">Skill</p>
-    <h1 class="page-headline">abd-code-research</h1>
+    <a class="back-link" href="../index.html">← The ABD Foundry</a>
+    
+    <h1 class="page-headline"><span class="skill-name-prefix">abd-</span>code-research</h1>
     <p class="body-lead">Survey any codebase in two passes — Explorer and Deep Dive — to produce structured research that primes the architecture skill family.</p>
   </div>
 </div>
 
 <div class="catalog-body">
-<div class="wrap">
+<div class="wrap skill-detail-page">
 
-<h2>Description</h2>
-<div class="entry-prose">Walking into an unfamiliar codebase without a map turns architecture work into guesswork. This skill makes the survey systematic: a first pass spans the codebase breadth-first, naming every meaningful research path and capturing raw source evidence; a second pass follows each path to the depth that architecture documentation needs. The two passes produce structured outputs that feed directly into abd-architecture-outline, abd-architecture-blueprint, and abd-architecture-specification, so those downstream skills start with evidence rather than assumptions. The skill works for any codebase — compiled or interpreted, monolith or modular, documented or bare — and scales from a 500-line script to a 200-file enterprise system.<br>
-<br>
----</div>
+<div class="skill-hero-img-wrap">
+
+</div>
 
 <section class="install-block" aria-labelledby="install-npx-heading">
   <h2 id="install-npx-heading">Install with npx</h2>
@@ -1071,245 +1692,32 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 </section>
 
 
-<hr class="entry-divider">
+<div class="skill-cr-single"><div class="skill-rules">
+<h2 class="skill-rules-heading">Rules</h2>
+<details class="skill-rule">
+<summary class="skill-rule-header">Deep-dive files follow the five-part shape</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Use exactly the five section headings listed above as level-2 headings (##).</li><li>Place sections in order: Principles &amp; Patterns → File Structure → Participants → Flow → Walkthrough Example.</li><li>Write stub content (&quot;TBD — needs further reading&quot;) rather than omitting a section entirely.</li><li>Name the file in kebab-case matching the research path name (e.g. path Entity Lifecycle → entity-lifecycle.md).</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Do not omit any of the five sections, even when evidence is thin.</li><li>Do not rename sections (e.g. &quot;Design Principles&quot; instead of &quot;Principles &amp; Patterns&quot;).</li><li>Do not place Walkthrough Example before Flow.</li><li>Do not use a different file naming convention than the kebab-case path name.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Research path count is bounded</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Aim for 6–8 paths as the working target for most codebases of any size.</li><li>Group closely related mechanisms under one path name with a parenthetical note (e.g. Entity State Sync (covers both read and write paths)).</li><li>Include a path for each layer boundary, major mechanism, and cross-cutting concern that the downstream architecture skills will need to document.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Do not produce fewer than 5 paths for any codebase larger than 500 lines.</li><li>Do not produce more than 10 top-level paths without grouping — Pass 2 becomes unmanageable with more than 10 deep dives.</li><li>Do not create a path that duplicates a concern already covered by another path.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Research paths cite real file evidence</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Name specific files with paths relative to the project root.</li><li>Include line numbers or line ranges when the concern is localized to a section of a file.</li><li>When an entire file is relevant, write the path without line numbers — that is acceptable.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Do not create a research path that names only a folder or module without a concrete file.</li><li>Do not reference files that have not been opened and verified to exist on disk.</li><li>Do not describe the architectural concern in abstract terms without pointing to where in the codebase it is visible.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Sources are verbatim excerpts with location</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Copy type definitions, function signatures, constant declarations, and comment text exactly as they appear in the source.</li><li>Include a file path and line range on every excerpt.</li><li>Add a brief factual observation line below an excerpt when a fact needs flagging (e.g. &quot;P/Invoke at ViewModel level — no adapter&quot;).</li><li>Keep observation lines short and factual; save interpretation and pattern naming for the deep-dive file.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Do not paraphrase code in plain English as a source note (e.g. writing &quot;the method reads memory&quot; instead of showing the actual signature).</li><li>Do not omit the file path and line range from any excerpt.</li><li>Do not include inferred pattern names or architectural judgments in the source note body — those belong in the deep-dive.</li></ul></div>
+</details>
+</div></div>
 
 
 
-<hr class="entry-divider">
-
-<h2 id="entry-contents">Contents</h2>
-<details class="entry-md-section" id="md-overview"><summary class="entry-md-section__summary">Overview</summary><div class="entry-md-section__body"><p>﻿--- name: abd-code-research description: &gt;- Survey any codebase in two passes — Explorer and Deep Dive — to produce structured research that primes the architecture skill family.</p>
-<hr>
-<h1>abd-code-research</h1></div></details>
-<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p>Walking into an unfamiliar codebase without a map turns architecture work into guesswork. This skill makes the survey systematic: a first pass spans the codebase breadth-first, naming every meaningful research path and capturing raw source evidence; a second pass follows each path to the depth that architecture documentation needs. The two passes produce structured outputs that feed directly into `abd-architecture-outline`, `abd-architecture-blueprint`, and `abd-architecture-specification`, so those downstream skills start with evidence rather than assumptions. The skill works for any codebase — compiled or interpreted, monolith or modular, documented or bare — and scales from a 500-line script to a 200-file enterprise system.</p>
-<hr></div></details>
-<details class="entry-md-section" id="when-to-use-this-skill"><summary class="entry-md-section__summary">When to use this skill</summary><div class="entry-md-section__body"><p>Load this skill when <strong>any</strong> of the following apply:</p>
-<ul>
-<li>You are about to produce an architecture outline, blueprint, or reference for a codebase and <strong>have not yet read it systematically</strong>.</li>
-<li>The team disagrees about &quot;how the system actually works&quot; and you need <strong>evidence from the code</strong>, not memory or hearsay.</li>
-<li>A new engineer is onboarding and you want to <strong>map the system before writing documentation</strong> so the docs match reality.</li>
-<li>You are reverse-engineering a system that <strong>has no architecture documentation</strong> and you need a defensible starting point.</li>
-<li>A codebase has grown significantly since it was last documented and you want to <strong>identify what changed</strong> before updating any architecture artifact.</li>
-</ul>
-<hr></div></details>
-<details class="entry-md-section" id="what-is-a-code-research-survey"><summary class="entry-md-section__summary">What is a code research survey?</summary><div class="entry-md-section__body"><p>A <strong>code research survey</strong> is a two-pass reading of a codebase that produces structured notes an architecture practitioner can use immediately, without re-reading the source.</p>
-<p><strong>Pass 1 — Explorer</strong> walks the codebase breadth-first: entry points, folder structure, key dependencies, configuration, and any existing documentation. It identifies <em>research paths</em> — named, scoped lines of inquiry tied to specific files where meaningful architecture decisions are visible — and captures <em>raw source notes</em> for each: what the code says, not what the reader infers. Pass 1 outputs feed `abd-architecture-outline` and `abd-architecture-blueprint`.</p>
-<p><strong>Pass 2 — Deep Dive</strong> follows each research path from Pass 1 in depth: reading the implementation, extracting mechanisms, documenting participants, tracing flows, and naming patterns. Each path produces one deep-dive file. Pass 2 outputs feed `abd-architecture-specification`.</p>
-<p>The two passes stay separated so a reviewer can inspect the Explorer output, challenge the research paths chosen, and redirect the Deep Dive before time is spent on the wrong question.</p>
-<hr></div></details>
-<details class="entry-md-section" id="core-concepts"><summary class="entry-md-section__summary">Core concepts</summary><div class="entry-md-section__body"><h3>Research path</h3>
-<p>A <strong>research path</strong> is a named, scoped line of inquiry into one area of the codebase where an architecture decision, pattern, or mechanism is likely to be visible. A path names:</p>
-<ul>
-<li>A <strong>name</strong> — short noun phrase identifying the architectural concern (e.g. <em>Entity Lifecycle</em>, <em>Error Propagation</em>, <em>Cache Strategy</em>, <em>Auth Boundary</em>)</li>
-<li>A <strong>concern kind</strong> — one of: Layer, Mechanism, Component, Cross-Cutting, Pattern, or Boundary</li>
-<li>A <strong>technology</strong> — the language, framework, or runtime visible at this path</li>
-<li><strong>File evidence</strong> — the specific files (or file clusters) where this concern is most legible</li>
-<li>A <strong>feeds</strong> line — which downstream skill(s) this path primes</li>
-</ul>
-<p>Research paths are the unit of work for Pass 2. A good path is narrow enough to deep-dive in one sitting and important enough that architecture documentation depends on it.</p>
-<h3>Source notes</h3>
-<p><strong>Source notes</strong> are raw observations from the code — close-to-verbatim excerpts, type names, function signatures, constant values, comment text — with file paths and line numbers. They are the evidence layer: what the code says, not what the researcher infers. Inferences and pattern names go in the research path or deep-dive file, not in source notes.</p>
-<h3>Deep-dive file</h3>
-<p>A <strong>deep-dive file</strong> covers one research path from Pass 1. It is structured in the same five-part shape that `abd-architecture-specification` expects — Principles &amp; Patterns, File Structure, Participants, Flow, and Walkthrough Example — so the deep-dive can be promoted to a full mechanism reference section with minimal re-reading.</p>
-<h3>Output folders</h3>
-<p>By convention, outputs live in a `code-research/` folder at the project root:</p>
-<pre><code>&lt;project-root&gt;/code-research/
-├── agent-1-explorer/
-│   ├── research-paths.md      ← Pass 1 primary output
-│   └── sources.md             ← Pass 1 raw source notes
-└── agent-2-deep-dive/
-    ├── &lt;path-name&gt;.md         ← one file per research path
-    └── ...</code></pre>
-<p>The folder name `code-research/` is the default. Teams with a different convention (e.g. `coh-research/`, `arch-notes/`) should agree on a name at the start of the session and keep it consistent across both passes.</p>
-<h3>Downstream handoff</h3>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Pass 1 output</th><th>Downstream skill</th></tr></thead><tbody><tr><td>`research-paths.md`</td><td>`abd-architecture-outline` — layers, guiding principles, major systems</td></tr><tr><td>`research-paths.md` + `sources.md`</td><td>`abd-architecture-blueprint` — components, mechanisms catalogue</td></tr><tr><td>`agent-2-deep-dive/&lt;path&gt;.md`</td><td>`abd-architecture-specification` — mechanism section (Principles &amp; Patterns, File Structure, Participants, Flow, Walkthrough)</td></tr></tbody></table></div>
-<hr></div></details>
-<details class="entry-md-section" id="example"><summary class="entry-md-section__summary">Example</summary><div class="entry-md-section__body"><h3>research-paths.md excerpt</h3></div></details>
-<details class="entry-md-section" id="research-path-coh-bridge-seam"><summary class="entry-md-section__summary">Research Path: COH Bridge Seam</summary><div class="entry-md-section__body"><p>Concern kind: Boundary / Mechanism Technology: C# P/Invoke + Win32 memory API Files:</p>
-<ul>
-<li>src/Crowds/CharacterExplorerViewModel.cs (lines 1–120)</li>
-<li>src/Identities/Camera.cs</li>
-<li>src/Roster/CharacterActivator.cs</li>
-</ul>
-<p>Summary: The app reads/writes COH process memory via ReadProcessMemory / WriteProcessMemory. The seam between managed C# and unmanaged COH state is the primary cross-cutting concern for the entire desktop client.</p>
-<p>Feeds: abd-architecture-outline (COH Bridge Seam as guiding principle), abd-architecture-specification (COH Bridge Seam mechanism section)</p>
-<pre><code>
-### sources.md excerpt
-</code></pre></div></details>
-<details class="entry-md-section" id="path-coh-bridge-seam-source-notes"><summary class="entry-md-section__summary">Path: COH Bridge Seam — Source notes</summary><div class="entry-md-section__body"><h3>src/Crowds/CharacterExplorerViewModel.cs  lines 42–58</h3>
-<pre><code>[DllImport(&quot;kernel32.dll&quot;)]
-static extern bool ReadProcessMemory(
-    IntPtr hProcess, IntPtr lpBaseAddress,
-    [Out] byte[] lpBuffer, int nSize, out int lpNumberOfBytesRead);</code></pre>
-<p>Observation: P/Invoke declaration at ViewModel level — no infrastructure adapter layer.</p>
-<h3>src/Identities/Camera.cs  lines 11–19</h3>
-<pre><code>private static readonly IntPtr CameraOffset = new IntPtr(0x00AC3F10);</code></pre>
-<p>Observation: Hardcoded memory offset. Address versioning not visible here.</p>
-<pre><code>
-### deep-dive file excerpt (agent-2-deep-dive/coh-bridge-seam.md)
-</code></pre>
-<h1>Deep Dive: COH Bridge Seam</h1></div></details>
-<details class="entry-md-section" id="principles-patterns"><summary class="entry-md-section__summary">Principles &amp; Patterns</summary><div class="entry-md-section__body"><ul>
-<li>Direct memory coupling — no adapter layer wraps the P/Invoke boundary</li>
-<li>Offset table strategy: offsets declared as constants, no runtime discovery</li>
-<li>Read/write parity: every address written must be readable at the same offset</li>
-</ul></div></details>
-<details class="entry-md-section" id="file-structure"><summary class="entry-md-section__summary">File Structure</summary><div class="entry-md-section__body"><p>src/ Crowds/CharacterExplorerViewModel.cs    ← primary P/Invoke caller Identities/Camera.cs                   ← per-entity offset constants Roster/CharacterActivator.cs           ← writes entity activation state</p></div></details>
-<details class="entry-md-section" id="participants"><summary class="entry-md-section__summary">Participants</summary><div class="entry-md-section__body"><div class="md-table-wrap"><table class="md-table"><thead><tr><th>Class</th><th>Layer</th><th>Role</th></tr></thead><tbody><tr><td>CharacterExplorerViewModel</td><td>Presentation</td><td>Orchestrates memory read/write calls</td></tr><tr><td>Camera</td><td>Domain</td><td>Holds camera offset constant</td></tr><tr><td>CharacterActivator</td><td>Domain</td><td>Writes activation state to COH memory</td></tr></tbody></table></div></div></details>
-<details class="entry-md-section" id="flow"><summary class="entry-md-section__summary">Flow</summary><div class="entry-md-section__body"><p>1. User action triggers ViewModel command 2. ViewModel calls ReadProcessMemory at entity offset 3. Value decoded to domain type 4. Domain mutation applied to COH memory via WriteProcessMemory</p></div></details>
-<details class="entry-md-section" id="walkthrough-example"><summary class="entry-md-section__summary">Walkthrough Example</summary><div class="entry-md-section__body"><p>Activating a character: CharacterActivator.Activate(entity) writes the entity&#x27;s activation flag at offset CameraOffset + 0x04 via WriteProcessMemory, then signals the UI binding.</p>
-<pre><code>
----</code></pre></div></details>
-<details class="entry-md-section" id="build"><summary class="entry-md-section__summary">Build</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Run the two-pass survey and produce structured research outputs that are directly usable by the architecture skill family.</p>
-<h3>Pass 1 — Explorer</h3>
-<p>1. <strong>Map the folder structure.</strong> List the top-level directories and identify the language(s), runtime, and build system. Open any existing documentation files (`README.md`, `ARCHITECTURE.md`, `AGENTS.md`, `CLAUDE.md`, `docs/`) first — they often name the architecture the team intended, which you will verify or contradict with the code.</p>
-<p>2. <strong>Identify entry points.</strong> Find the main program entry (e.g. `WinMain()`, `main()`, `Program.cs`, `index.ts`, `app.py`) and the primary bootstrapping path. Note what gets wired at startup — this reveals the dependency injection strategy, the layer topology, and the first cross-cutting concerns.</p>
-<p>3. <strong>Scan the most significant files.</strong> Start with the 50–100 files that are largest by line count, most referenced by other files, or inside directories whose names suggest cross-cutting concerns (e.g. `services/`, `domain/`, `infrastructure/`, `middleware/`, `adapters/`). For each file, record the file path, the primary types/classes/functions it exports, and a one-line observation about its role.</p>
-<p>4. <strong>Identify research paths.</strong> From the scan, name 5–10 research paths using the template at `templates/research-paths.md`. Every path must be tied to specific files and must name the architectural concern it exposes. If the codebase seems bigger than 10 natural research paths, group related mechanisms into one path and note the grouping.</p>
-<p>5. <strong>Capture source notes for each path.</strong> For each research path, copy 3–10 representative excerpts from the code: type definitions, function signatures, key constant values, comment text. Every excerpt must carry its file path and line range. Do not paraphrase — if the code says `ProcessMemory(handle, addr, len)`, write that verbatim.</p>
-<p>6. <strong>Write `agent-1-explorer/research-paths.md`</strong> using the template at `templates/research-paths.md`.</p>
-<p>7. <strong>Write `agent-1-explorer/sources.md`</strong> using the template at `templates/sources.md`.</p>
-<h3>Pass 2 — Deep Dive</h3>
-<p>8. <strong>For each research path in `research-paths.md`</strong>, read the named files in depth. Identify: the principle the code enforces (whether explicitly or implicitly), the named pattern (if one exists), the participants and their layers, the call flow, and one representative scenario that shows the mechanism in action end-to-end.</p>
-<p>9. <strong>Write `agent-2-deep-dive/&lt;path-name&gt;.md`</strong> for each path using the template at `templates/deep-dive.md`. Use the kebab-case version of the path name as the filename (e.g. path <em>COH Bridge Seam</em> → `coh-bridge-seam.md`). The five-part shape matches `abd-architecture-specification` sections so it can be promoted with minimal re-work.</p>
-<p>10. <strong>Apply the rules.</strong> Walk each rule in `rules/` against the produced files. Fix violations before handing off to any downstream architecture skill.</p>
-<ul>
-<li><strong>Outputs:</strong> `code-research/agent-1-explorer/research-paths.md`, `code-research/agent-1-explorer/sources.md`, and one `code-research/agent-2-deep-dive/&lt;path-name&gt;.md` per research path.</li>
-<li><strong>While writing:</strong> Every source excerpt carries file path + line range. Every research path names a concern kind, technology, and file evidence. Deep-dive files follow the five-part shape so `abd-architecture-specification` can promote them without re-reading the source.</li>
-</ul>
-<hr></div></details>
-<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Inspect the produced research files as a reviewer — check coverage and traceability, not prose style.</p>
-<ul>
-<li><strong>Who is checking:</strong> Architecture Reviewer (are the research paths the right ones for this system?), Tech Lead (does source evidence match what the code actually says?), Downstream Author (can I open `research-paths.md` and start `abd-architecture-outline` immediately?).</li>
-<li><strong>Cross-artifact parity:</strong> Every research path named in `research-paths.md` has a matching deep-dive file in `agent-2-deep-dive/`.</li>
-</ul>
-<p>Checklist:</p>
-<ul>
-<li>[ ] `research-paths.md` contains 5–10 paths — not fewer (coverage gaps), not more than 10 top-level entries (over-partitioned).</li>
-<li>[ ] Each path has <strong>concern kind</strong>, <strong>technology</strong>, and <strong>file evidence</strong> pointing to real files on disk.</li>
-<li>[ ] Each path has a <strong>Feeds</strong> line naming at least one downstream architecture skill.</li>
-<li>[ ] `sources.md` has verbatim excerpts — file path and line range present on every excerpt, no paraphrased summaries.</li>
-<li>[ ] One deep-dive file exists per research path, filename matches the kebab-case path name.</li>
-<li>[ ] Each deep-dive has all five sections: <strong>Principles &amp; Patterns</strong>, <strong>File Structure</strong>, <strong>Participants</strong>, <strong>Flow</strong>, <strong>Walkthrough Example</strong> (stubs with &quot;TBD&quot; are acceptable for sections that need more reading).</li>
-<li>[ ] No source citation references a file that does not exist on disk — spot-check at least three citations.</li>
-<li>[ ] `research-paths.md` and `sources.md` are in `agent-1-explorer/`; deep-dive files are in `agent-2-deep-dive/`.</li>
-</ul>
-<hr></div></details>
-<details class="entry-md-section" id="deploy"><summary class="entry-md-section__summary">Deploy</summary><div class="entry-md-section__body"><p>This skill ships IDE-deployable files under `ide-files/`. Deploy to any project:</p>
-<pre><code>&amp; &quot;c:\dev\agilebydesign-skills\scripts\deploy-skills.ps1&quot; -Force -DeployRoot &quot;&lt;project-root&gt;&quot;</code></pre>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>File</th><th>Deploy target</th></tr></thead><tbody><tr><td>`ide-files/abd-code-research.mdc`</td><td>`.cursor/rules/` (Cursor always-on rule)</td></tr><tr><td>`ide-files/abd-code-research.prompt.md`</td><td>`.cursor/commands/`</td></tr></tbody></table></div>
-<hr>
-<p>&lt;!-- execute_rules:bundle_rules:begin --&gt; &lt;!-- Rule prose is generated from rules/*.md — edit rules, then run: python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root practices/architecture-centric-engineering/skills/abd-code-research --&gt;</p></div></details>
-<details class="entry-md-section" id="rule-research-paths-cite-real-file-evidence"><summary class="entry-md-section__summary">Rule: Research paths cite real file evidence</summary><div class="entry-md-section__body"><p>Every research path in `research-paths.md` must name at least one file that exists on disk and must specify where in that file the architectural concern is visible.</p>
-<h3>DO</h3>
-<ul>
-<li>Name specific files with paths relative to the project root.</li>
-<li>Include line numbers or line ranges when the concern is localized.</li>
-<li>When an entire file is relevant, write the path without line numbers.</li>
-</ul>
-<h3>DO NOT</h3>
-<ul>
-<li>Do not create a research path that names only a folder or module without a concrete file.</li>
-<li>Do not reference files that have not been opened and verified to exist.</li>
-<li>Do not describe the concern without pointing to where in the codebase it is visible.</li>
-</ul>
-<h3>Examples</h3>
-<p><strong>DO</strong> — ties concern to a specific file and line range:</p>
-<pre><code>Files:
-  - src/Crowds/CharacterExplorerViewModel.cs (lines 42–58)
-  - src/Identities/Camera.cs</code></pre>
-<p><strong>DO NOT</strong> — names only a directory, no file evidence:</p>
-<pre><code>Files: src/Crowds/ (all ViewModel files)</code></pre>
-<hr></div></details>
-<details class="entry-md-section" id="rule-sources-are-verbatim-excerpts-with-location"><summary class="entry-md-section__summary">Rule: Sources are verbatim excerpts with location</summary><div class="entry-md-section__body"><p>Every entry in `sources.md` must be a verbatim (or close-to-verbatim) excerpt from the code — the actual text the code contains — accompanied by the file path and line range. Inferences and pattern-name labels belong in the research path or deep-dive, not in source notes.</p>
-<h3>DO</h3>
-<ul>
-<li>Copy type definitions, function signatures, constant declarations, and comment text exactly as they appear in the source.</li>
-<li>Include a file path and line range on every excerpt.</li>
-<li>Add a brief observation line below an excerpt when a fact needs flagging (e.g. &quot;P/Invoke at ViewModel level — no adapter&quot;).</li>
-<li>Keep observations short and factual; save interpretation for the deep-dive.</li>
-</ul>
-<h3>DO NOT</h3>
-<ul>
-<li>Do not paraphrase code in plain English as a source note (e.g. &quot;the method reads memory&quot; instead of showing the actual signature).</li>
-<li>Do not omit file path and line range.</li>
-<li>Do not include inferred pattern names or architectural judgments in the source note body.</li>
-</ul>
-<h3>Examples</h3>
-<p><strong>DO</strong> — verbatim excerpt with location and brief factual observation:</p>
-<pre><code>### src/Crowds/CharacterExplorerViewModel.cs  lines 42–47</code></pre>
-<p>[DllImport(&quot;kernel32.dll&quot;)] static extern bool ReadProcessMemory( IntPtr hProcess, IntPtr lpBaseAddress, [Out] byte[] lpBuffer, int nSize, out int lpNumberOfBytesRead);</p>
-<pre><code>Observation: P/Invoke declaration at ViewModel level — no adapter layer.</code></pre>
-<p><strong>DO NOT</strong> — paraphrase without code, no line range:</p>
-<pre><code>### CharacterExplorerViewModel
-The class reads memory from the COH process using Windows kernel functions.</code></pre>
-<hr></div></details>
-<details class="entry-md-section" id="rule-deep-dive-files-follow-the-five-part-shape"><summary class="entry-md-section__summary">Rule: Deep-dive files follow the five-part shape</summary><div class="entry-md-section__body"><p>Every deep-dive file under `agent-2-deep-dive/` must contain all five sections in order: <strong>Principles &amp; Patterns</strong>, <strong>File Structure</strong>, <strong>Participants</strong>, <strong>Flow</strong>, and <strong>Walkthrough Example</strong>. Sections may be stubs marked &quot;TBD — needs further reading&quot; when the research is incomplete, but they must be present.</p>
-<h3>DO</h3>
-<ul>
-<li>Use exactly the five section headings listed above (level 2 headings `##`).</li>
-<li>Place sections in order: Principles &amp; Patterns → File Structure → Participants → Flow → Walkthrough Example.</li>
-<li>Write stub content (&quot;TBD — needs further reading&quot;) rather than omitting a section.</li>
-<li>Name files in kebab-case matching the research path name (e.g. path <em>Entity Lifecycle</em> → `entity-lifecycle.md`).</li>
-</ul>
-<h3>DO NOT</h3>
-<ul>
-<li>Do not omit any of the five sections even when evidence is thin.</li>
-<li>Do not rename sections (e.g. &quot;Design Principles&quot; instead of &quot;Principles &amp; Patterns&quot;).</li>
-<li>Do not place Walkthrough Example before Flow.</li>
-</ul>
-<h3>Examples</h3>
-<p><strong>DO</strong> — correct five-part shape with stub:</p></div></details>
-<details class="entry-md-section" id="principles-patterns-2"><summary class="entry-md-section__summary">Principles &amp; Patterns</summary><div class="entry-md-section__body"><p>Direct memory coupling — no adapter layer. Offset-table strategy.</p></div></details>
-<details class="entry-md-section" id="file-structure-2"><summary class="entry-md-section__summary">File Structure</summary><div class="entry-md-section__body"><p>src/Crowds/CharacterExplorerViewModel.cs  ← P/Invoke caller</p></div></details>
-<details class="entry-md-section" id="participants-2"><summary class="entry-md-section__summary">Participants</summary><div class="entry-md-section__body"><div class="md-table-wrap"><table class="md-table"><thead><tr><th>Class</th><th>Layer</th><th>Role</th></tr></thead><tbody><tr><td>CharacterExplorerViewModel</td><td>Presentation</td><td>Reads/writes COH memory</td></tr></tbody></table></div></div></details>
-<details class="entry-md-section" id="flow-2"><summary class="entry-md-section__summary">Flow</summary><div class="entry-md-section__body"><p>1. User action triggers ViewModel command 2. ViewModel calls ReadProcessMemory at entity offset</p></div></details>
-<details class="entry-md-section" id="walkthrough-example-2"><summary class="entry-md-section__summary">Walkthrough Example</summary><div class="entry-md-section__body"><p>TBD — needs further reading of CharacterActivator.cs</p>
-<pre><code>
-**DO NOT** — missing sections, renamed heading:</code></pre></div></details>
-<details class="entry-md-section" id="design-principles"><summary class="entry-md-section__summary">Design Principles</summary><div class="entry-md-section__body"><p>Direct memory coupling.</p></div></details>
-<details class="entry-md-section" id="flow-3"><summary class="entry-md-section__summary">Flow</summary><div class="entry-md-section__body"><p>1. ViewModel calls ReadProcessMemory</p>
-<pre><code>
----</code></pre></div></details>
-<details class="entry-md-section" id="rule-research-path-count-is-bounded"><summary class="entry-md-section__summary">Rule: Research path count is bounded</summary><div class="entry-md-section__body"><p>`research-paths.md` must contain between 5 and 10 research paths. Fewer than 5 indicates under-coverage of the codebase. More than 10 top-level paths indicates over-partitioning; related mechanisms should be grouped.</p>
-<h3>DO</h3>
-<ul>
-<li>Aim for 6–8 paths as the working target for most codebases.</li>
-<li>Group closely related mechanisms under one path name with a note (e.g. <em>Entity State Sync (covers both read and write paths)</em>).</li>
-<li>Add a path for each layer boundary, major mechanism, and cross-cutting concern that the downstream architecture skills will need to document.</li>
-</ul>
-<h3>DO NOT</h3>
-<ul>
-<li>Do not produce fewer than 5 paths for any codebase larger than 500 lines.</li>
-<li>Do not produce more than 10 top-level paths without grouping; the Deep Dive phase becomes unmanageable.</li>
-<li>Do not create a path that duplicates a concern already covered by another path.</li>
-</ul>
-<h3>Examples</h3>
-<p><strong>DO</strong> — 7 paths covering the key concerns of a WPF desktop client: 1. MVVM Binding 2. ViewModel Coordination 3. COH Bridge Seam 4. Entity State Sync 5. Costume Loading 6. Command Dispatch 7. Crowd / Roster Management</p>
-<p><strong>DO NOT</strong> — 14 micro-paths that should be grouped: 1. Memory Read 2. Memory Write 3. Offset Table 4. P/Invoke Declarations 5. Handle Management ... (all 5 belong under one <em>COH Bridge Seam</em> path)</p>
-<p>&lt;!-- execute_rules:bundle_rules:end --&gt;</p></div></details>
-
-<ul class="file-list file-list--root">
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>ide-files/</strong><span class="file-meta"> → Folder (2 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/discovery/abd-code-research/ide-files/abd-code-research.mdc" target="_blank" rel="noopener noreferrer"><strong>abd-code-research.mdc</strong></a><span class="file-meta"> → description: Survey any codebase in two passes — Explorer then Deep Dive — to produce structured research that primes abd-architecture-outline, abd-architecture-blueprint, and abd-architecture-template.</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/discovery/abd-code-research/ide-files/abd-code-research.prompt.md" target="_blank" rel="noopener noreferrer"><strong>abd-code-research.prompt.md</strong></a><span class="file-meta"> → name: abd-code-research</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>prompts/</strong><span class="file-meta"> → Folder (1 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/discovery/abd-code-research/prompts/abd-code-research.prompt.md" target="_blank" rel="noopener noreferrer"><strong>abd-code-research.prompt.md</strong></a><span class="file-meta"> → name: abd-code-research</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/discovery/abd-code-research/rules/deep-dive-has-five-part-shape.md" target="_blank" rel="noopener noreferrer"><strong>deep-dive-has-five-part-shape.md</strong></a><span class="file-meta"> → Rule: Deep-dive files follow the five-part shape</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/discovery/abd-code-research/rules/research-path-count-is-bounded.md" target="_blank" rel="noopener noreferrer"><strong>research-path-count-is-bounded.md</strong></a><span class="file-meta"> → Rule: Research path count is bounded</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/discovery/abd-code-research/rules/research-paths-cite-file-evidence.md" target="_blank" rel="noopener noreferrer"><strong>research-paths-cite-file-evidence.md</strong></a><span class="file-meta"> → Rule: Research paths cite real file evidence</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/discovery/abd-code-research/rules/sources-are-verbatim-with-location.md" target="_blank" rel="noopener noreferrer"><strong>sources-are-verbatim-with-location.md</strong></a><span class="file-meta"> → Rule: Sources are verbatim excerpts with location</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/discovery/abd-code-research/templates/deep-dive.md" target="_blank" rel="noopener noreferrer"><strong>deep-dive.md</strong></a><span class="file-meta"> → ﻿# Deep Dive: &lt;!-- Research Path Name — e.g. COH Bridge Seam --&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/discovery/abd-code-research/templates/research-paths.md" target="_blank" rel="noopener noreferrer"><strong>research-paths.md</strong></a><span class="file-meta"> → ﻿# Code Research — Explorer Pass</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/discovery/abd-code-research/templates/sources.md" target="_blank" rel="noopener noreferrer"><strong>sources.md</strong></a><span class="file-meta"> → Code Research — Explorer Pass</span></li>
-</ul></div></details></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/discovery/abd-code-research/SKILL.md" target="_blank" rel="noopener noreferrer"><strong>SKILL.md</strong></a><span class="file-meta"> → name: abd-code-research</span></li>
-</ul>
 
 </div>
 </div>

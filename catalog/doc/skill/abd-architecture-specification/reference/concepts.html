@@ -471,7 +471,22 @@ html[data-abd-theme="executive"] .catalog-body code {
 }
 
 .page-hero--detail {
-  padding-top: 48px;
+  padding-top: 20px;
+  padding-bottom: 16px;
+}
+.page-hero--detail .page-headline {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 4px 0 6px;
+}
+.page-headline .skill-name-prefix,
+.cap-card__title .skill-name-prefix {
+  color: var(--accent);
+}
+.page-hero--detail .body-lead {
+  font-size: 0.9rem;
+  margin: 0;
+  color: var(--muted);
 }
 
 .page-hero--detail .back-link {
@@ -731,8 +746,18 @@ a.cap-card:hover .cap-card__more {
   color: #b8b8c2;
   margin: 0 0 18px;
 }
+.skill-detail-page .skill-hero-img-wrap + .install-block {
+  margin-top: 18px;
+}
+.skill-detail-page .install-block + .skill-cr-grid,
+.skill-detail-page .install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block {
+  margin-top: 0;
+}
 .install-block {
-  margin: 22px 0 0;
+  margin: 20px 0 0;
   padding: 16px 18px;
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid var(--border-muted);
@@ -1041,8 +1066,603 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 .plugin-slots h3:first-child { margin-top: 0; }
 .cap-grid--plugin-slot { margin-bottom: 8px; }
 
+/* ── Skill detail: family kanban stage nav (matches hub column headings) ── */
+.skill-kanban-nav {
+  --fam-sdd: #6bcb77;
+  --fam-ddd: #6c5ce7;
+  --fam-uxd: #e84393;
+  --fam-arc: #4fc3f7;
+  --fam-idea: var(--accent);
+  --abd-accent: var(--accent);
+  --abd-accent-glow: var(--accent-soft, var(--accent));
+  --abd-raised: var(--raised);
+  --abd-bg: var(--bg);
+  --abd-border: var(--border);
+  --abd-text: var(--text);
+  --abd-muted: var(--muted);
+  background: var(--raised);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0 16px;
+}
+.skill-kanban-nav .wrap {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.skill-kanban-nav__board {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  gap: 6px 8px;
+  align-items: start;
+}
+.skill-kanban-nav__practice-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  margin: 0;
+  padding: 0 8px;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-left-width: 3px;
+  border-radius: 4px;
+  line-height: 1.25;
+  box-sizing: border-box;
+  transition: box-shadow 120ms, border-color 120ms;
+  color: inherit;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card:hover {
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--sdd {
+  border-left-color: var(--fam-sdd);
+  color: var(--fam-sdd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--ddd {
+  border-left-color: var(--fam-ddd);
+  color: var(--fam-ddd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--uxd {
+  border-left-color: var(--fam-uxd);
+  color: var(--fam-uxd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--arc {
+  border-left-color: var(--fam-arc);
+  color: var(--fam-arc);
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap {
+  position: relative;
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip.kb-col-shape-tooltip {
+  min-width: 10rem;
+  max-width: 22rem;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:hover .kb-skill-tooltip,
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:focus-within .kb-skill-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.skill-kanban-nav__stages {
+  display: grid;
+  grid-template-columns: repeat(var(--skill-kanban-cols, 5), minmax(0, 1fr));
+  gap: 0 8px;
+  min-width: 0;
+}
+.skill-kanban-nav__col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.skill-kanban-nav__tickets {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.skill-kanban-nav .kb-col-head {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 8px 6px 7px;
+  font-family: var(--font-mono);
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.skill-kanban-nav .kb-col-head--static {
+  cursor: default;
+}
+.skill-kanban-nav a.kb-col-head {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav a.kb-col-head:hover {
+  border-color: rgba(229, 83, 26, 0.35);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.15);
+}
+.skill-kanban-nav .kb-col-head--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-col-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+}
+.skill-kanban-nav .kb-col-scope-shape {
+  flex-shrink: 0;
+  border: 2px solid var(--abd-accent);
+  border-radius: 2px;
+}
+.skill-kanban-nav__stages .kb-col-shape-tooltip,
+.skill-kanban-nav__stages .kb-skill-tooltip-wrap .kb-col-shape-tooltip {
+  display: none !important;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 8px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 7px 9px;
+  font-family: var(--font-mono);
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid rgba(229, 83, 26, 0.45);
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 14px;
+  border: 5px solid transparent;
+  border-bottom-color: rgba(229, 83, 26, 0.45);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__name {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--abd-accent-glow);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__bullets {
+  font-size: 8px;
+  line-height: 1.45;
+  color: var(--abd-text);
+  white-space: pre-line;
+}
+.skill-kanban-nav .kb-col-scope-shape--solution { width: 36px; height: 12px; }
+.skill-kanban-nav .kb-col-scope-shape--increment { width: 24px; height: 16px; }
+.skill-kanban-nav .kb-col-scope-shape--sprint { width: 16px; height: 22px; }
+.skill-kanban-nav .kb-col-scope-shape--story { width: 11px; height: 28px; }
+.skill-kanban-nav .kb-col-head-title {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--abd-text);
+}
+.skill-kanban-nav .kb-col-head-title > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.skill-kanban-nav .kb-col-num {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--abd-text);
+  background: var(--abd-bg);
+  border: 1px solid var(--abd-border);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+.skill-kanban-nav .kb-ticket {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  background: var(--abd-raised);
+  color: var(--abd-text);
+  padding: 5px 6px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  border-left-width: 3px;
+  border-left-color: var(--abd-muted);
+  line-height: 1.25;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav .kb-ticket:hover {
+  border-color: var(--abd-border);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.2);
+}
+.skill-kanban-nav .kb-ticket.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-ticket.aad-fam-sdd { border-left-color: var(--fam-sdd); }
+.skill-kanban-nav .kb-ticket.aad-fam-ddd { border-left-color: var(--fam-ddd); }
+.skill-kanban-nav .kb-ticket.aad-fam-uxd { border-left-color: var(--fam-uxd); }
+.skill-kanban-nav .kb-ticket.aad-fam-arc { border-left-color: var(--fam-arc); }
+.skill-kanban-nav .kb-ticket.aad-fam-idea { border-left-color: var(--fam-idea); }
+@media (max-width: 960px) {
+  .skill-kanban-nav__board {
+    grid-template-columns: 1fr;
+  }
+  .skill-kanban-nav__stages {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
+
+/* ── Skill detail: full-width hero image / embedded viewer ── */
+.skill-hero-img-wrap {
+  margin: 24px 0 0;
+}
+.skill-hero-img-wrap:empty { display: none; }
+.skill-hero-img-wrap img,
+.skill-hero-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--raised);
+}
+
+/* HTML prototype iframe (reference/example/index.html) */
+.skill-prototype-wrap {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-prototype-frame {
+  display: block;
+  width: 100%;
+  min-height: 540px;
+  height: 71vh;
+  max-height: 810px;
+  border: 0;
+  background: #fff;
+}
+.skill-prototype-open {
+  margin: 0;
+  padding: 8px 14px;
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+  background: var(--raised);
+}
+.skill-prototype-open a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.skill-prototype-open a:hover { text-decoration: underline; }
+
+/* draw.io embedded viewer */
+.skill-drawio-wrap {
+  position: relative;
+  width: 100%;
+  height: min(71vh, 680px);
+  min-height: 340px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-drawio-wrap .mxgraph {
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+}
+.skill-drawio-wrap .geToolbarContainer {
+  z-index: 4;
+}
+
+/* code file preview */
+.skill-code-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--raised);
+  font-size: 13px;
+}
+.skill-code-lang {
+  padding: 6px 14px;
+  font-family: var(--mono, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.skill-code-preview pre {
+  margin: 0;
+  padding: 16px;
+  overflow-x: auto;
+  max-height: 420px;
+}
+.skill-code-preview code {
+  font-family: var(--mono, 'JetBrains Mono', monospace);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+/* rendered markdown preview */
+.skill-hero-img-wrap .skill-md-preview {
+  max-height: min(71vh, 610px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.skill-md-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px 24px;
+  background: var(--surface);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.skill-md-preview h1 { font-size: 18px; font-weight: 700; margin: 0 0 12px; }
+.skill-md-preview h2 { font-size: 15px; font-weight: 600; margin: 16px 0 8px;
+  border-bottom: 1px solid var(--border); padding-bottom: 3px; }
+.skill-md-preview h3 { font-size: 13px; font-weight: 600; margin: 12px 0 6px; }
+.skill-md-preview h4 { font-size: 12px; font-weight: 600; margin: 10px 0 4px; color: var(--muted); }
+.skill-md-preview p  { margin: 0 0 10px; }
+.skill-md-preview .spec-steps { margin: 0 0 14px; }
+.skill-md-preview p.spec-step { margin: 0 0 4px; line-height: 1.55; }
+.skill-md-preview .md-table-wrap { overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview .md-table { border-collapse: collapse; width: 100%; }
+.skill-md-preview ul, .skill-md-preview ol { margin: 0 0 10px; padding-left: 20px; }
+.skill-md-preview li { margin-bottom: 3px; }
+.skill-md-preview code { background: var(--raised); border-radius: 3px;
+  padding: 1px 5px; font-family: var(--mono, monospace); font-size: 12px; }
+.skill-md-preview pre { background: var(--raised); border-radius: 5px;
+  padding: 12px; overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview table { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
+.skill-md-preview th, .skill-md-preview td {
+  border: 1px solid var(--border); padding: 6px 10px; }
+.skill-md-preview th { background: var(--raised); font-weight: 600; }
+
+/* ── Skill detail: concepts | rules two-column grid ── */
+.skill-cr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin: 24px 0 0;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .skill-cr-grid { grid-template-columns: 1fr; }
+}
+.skill-cr-col { min-width: 0; }
+.skill-cr-single { margin: 24px 0 0; }
+
+/* Glossary example hero — term blocks without heavy HR dividers */
+.skill-md-preview--glossary h1 {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 10px;
+  border: 0;
+  padding: 0;
+}
+.skill-md-preview--glossary h2 {
+  font-size: 16px;
+  margin-top: 0;
+}
+.skill-md-preview--glossary h3 {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 14px 0 6px;
+  padding: 6px 8px;
+  background: var(--raised);
+  border-radius: 4px;
+  border-left: 3px solid var(--accent);
+}
+.skill-md-preview--glossary hr {
+  display: none;
+}
+.skill-md-preview--glossary ul {
+  margin-top: 0;
+}
+
+/* ── Skill detail: full-width content below ── */
+.skill-detail-content-col { margin-top: 32px; }
+.skill-detail-page .skill-cr-grid,
+.skill-detail-page .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-single,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-single {
+  margin-top: 0;
+}
+
+/* ── Skill detail: concepts (expandable) ── */
+.skill-hero-img-wrap + .install-block {
+  margin-top: 16px;
+}
+.install-block + .skill-cr-grid,
+.install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-concepts {
+  margin: 0 0 20px;
+}
+.skill-concepts-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 8px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-concept {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-concept summary {
+  padding: 8px 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  user-select: none;
+}
+.skill-concept summary::-webkit-details-marker { display: none; }
+.skill-concept summary::marker { content: ""; }
+.skill-concept summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-concept[open] summary::before { content: "\2212"; }
+.skill-concept-body {
+  padding: 6px 4px 10px 1.9rem;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.skill-concept-body p { margin: 0 0 8px; }
+.skill-concept-body p:last-child { margin-bottom: 0; }
+.skill-concept-body ul { margin: 0 0 8px 1.1em; padding: 0; }
+.skill-concept-body li { margin: 3px 0; }
+
+/* ── Skill detail: rules (DO / DON'T) ── */
+.skill-rules {
+  margin: 0 0 20px;
+}
+.skill-rules-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 12px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-rule {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule[open] > .skill-rule-header {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule-header {
+  padding: 8px 10px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  background: var(--raised);
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+.skill-rule-header::-webkit-details-marker { display: none; }
+.skill-rule-header::marker { content: ""; }
+.skill-rule-header::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-rule[open] > .skill-rule-header::before {
+  content: "\2212";
+}
+.skill-rule-section {
+  padding: 8px 12px;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+.skill-rule-section--do {
+  border-left: 3px solid #2d8a4e;
+}
+.skill-rule-section--dont {
+  border-left: 3px solid #c0392b;
+}
+.skill-rule-section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+  color: var(--muted);
+}
+.skill-rule-section--do .skill-rule-section-label { color: #2d8a4e; }
+.skill-rule-section--dont .skill-rule-section-label { color: #c0392b; }
+.skill-rule-section ul { margin: 0; padding: 0 0 0 1.1em; }
+.skill-rule-section li { margin: 2px 0; color: var(--text); }
+
 </style>
-<script src="../../../../commons/catalog-nav.js?v=foundry-8"></script>
+<script src="../../../../commons/catalog-nav.js?v=foundry-9"></script>
 </head>
 <body data-nav-prefix="../../../../" data-nav-current="skills" data-nav-site-base="../../../../../../abd-works-website/">
 <main id="main-content">
@@ -1051,6 +1671,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
   <div class="wrap">
     <a class="back-link" href="../../../../skill/abd-architecture-specification.html">← abd-architecture-specification</a>
     <p class="s-name">Markdown</p>
+
     <h1 class="page-headline">reference/concepts.md</h1>
     <p class="body-lead">Architecture Specification — Concepts</p>
   </div>
@@ -1077,29 +1698,33 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 </ul>
 <hr>
 <h2>Mechanism</h2>
-<p><strong>Architecture mechanism</strong> is a family-level concept — see <a href="../../../reference/architecture-mechanism.html">`reference/architecture-mechanism.md`</a> for the definition and the canonical categories. The specification document devotes one section (or file) to each mechanism the project has actually decided, and is the deepest-fidelity treatment: it gives each mechanism the full five-part shape below.</p>
+<p><strong>Architecture mechanism</strong> is a family-level concept — see <a href="../../../reference/architecture-mechanism.html"><code>reference/architecture-mechanism.md</code></a> for the definition and the canonical categories. The specification document devotes one section (or file) to each mechanism the project has actually decided, and is the deepest-fidelity treatment: it gives each mechanism the full five-part shape below.</p>
 <p><strong>Document once, assign later.</strong> After discovery (or the first run that creates a mechanism), later exploration, specification, and engineering <strong>assign</strong> the existing section. Only <strong>create</strong> when the scope needs a mechanism that has no complete section yet.</p>
 <hr>
 <h2>Assign vs create</h2>
-<p>Assignment is recorded on the <strong>story map</strong>, not in a separate mechanism table. Each node — <strong>system</strong>, <strong>epic</strong>, or <strong>sub-epic</strong> — carries an <strong>`architecture-spec`</strong> field: a list of specification directory paths. <strong>More than one spec may be assigned to the same node</strong> (e.g. stack baseline + scoped companion).</p>
+<p>Assignment is recorded on the <strong>story map</strong>, not in a separate mechanism table. Each node — <strong>system</strong>, <strong>epic</strong>, or <strong>sub-epic</strong> — carries an <strong><code>architecture-spec</code></strong> field: a list of specification directory paths. <strong>More than one spec may be assigned to the same node</strong> (e.g. stack baseline + scoped companion).</p>
 <div class="md-table-wrap"><table class="md-table"><thead><tr><th>Node level</th><th>Assign when</th><th>Create when</th></tr></thead><tbody><tr><td><strong>System</strong></td><td>Complete spec directory exists for this stack</td><td>Bootstrapping a new architecture</td></tr><tr><td><strong>Epic</strong></td><td>Spec(s) already document this epic&#x27;s mechanisms and patterns</td><td>Epic needs a new spec directory or mechanisms not in any assigned spec</td></tr><tr><td><strong>Sub-epic</strong></td><td>Assigned spec(s) already cover this sub-epic&#x27;s stories</td><td>Sub-epic needs new mechanism sections or template slices</td></tr></tbody></table></div>
-<p>Before writing anything, <strong>discover</strong> existing specification directories — skills repo (`specs/&lt;arch&gt;/`), project workspace, or `mechanism-registry.json`.</p>
+<p>Before writing anything, <strong>discover</strong> existing specification directories — skills repo (<code>specs/&lt;arch&gt;/</code>), project workspace, or <code>mechanism-registry.json</code>.</p>
 <p><strong>Workflow:</strong></p>
-<p>1. <strong>Locate the story map node</strong> for this run and read its current `architecture-spec` list. 2. <strong>Assign</strong> — add paths to existing complete spec directories; cite them on the node; do not rewrite their content. 3. <strong>Create</strong> — when no assigned spec covers the node, author a new spec directory or extend an assigned spec with missing mechanism sections only. 4. <strong>Inside each assigned spec</strong> — each mechanism is documented once: assign existing `## Mechanism: &lt;Name&gt;` sections; create only what is missing.</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Situation</th><th>Action</th></tr></thead><tbody><tr><td>Spec directory exists and covers this node</td><td><strong>Assign</strong> — add path to node&#x27;s `architecture-spec`</td></tr><tr><td>Node needs a second, scoped spec (integration, increment)</td><td><strong>Assign</strong> — add second path; node holds multiple specs</td></tr><tr><td>No spec covers this node</td><td><strong>Create</strong> — new spec directory; add path to `architecture-spec`</td></tr><tr><td>Mechanism missing inside an assigned spec</td><td><strong>Create</strong> — add or finish that section only</td></tr></tbody></table></div>
-<p><strong>Avoid:</strong> regenerating a full `architecture-specification.md` when only new mechanisms are needed; duplicating a mechanism under a different heading when an equivalent section exists; forking a full spec copy per epic when a companion spec suffices.</p>
-<p><strong>Example:</strong> Epic <em>Wire Payment</em> assigns `specs/mern/` (stack) and `docs/architecture/wire-transfer/` (companion). Sub-epic <em>Refund Processing</em> adds `docs/architecture/refunds/` (create). Mechanisms Error Handling and Persistence are assigned inside `specs/mern/`; Refund validation is created in the refunds companion.</p>
+<p>1. <strong>Locate the story map node</strong> for this run and read its current <code>architecture-spec</code> list. 2. <strong>Assign</strong> — add paths to existing complete spec directories; cite them on the node; do not rewrite their content. 3. <strong>Create</strong> — when no assigned spec covers the node, author a new spec directory or extend an assigned spec with missing mechanism sections only. 4. <strong>Inside each assigned spec</strong> — each mechanism is documented once: assign existing <code>## Mechanism: &lt;Name&gt;</code> sections; create only what is missing.</p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Situation</th><th>Action</th></tr></thead><tbody><tr><td>Spec directory exists and covers this node</td><td><strong>Assign</strong> — add path to node&#x27;s <code>architecture-spec</code></td></tr><tr><td>Node needs a second, scoped spec (integration, increment)</td><td><strong>Assign</strong> — add second path; node holds multiple specs</td></tr><tr><td>No spec covers this node</td><td><strong>Create</strong> — new spec directory; add path to <code>architecture-spec</code></td></tr><tr><td>Mechanism missing inside an assigned spec</td><td><strong>Create</strong> — add or finish that section only</td></tr></tbody></table></div>
+<p><strong>Avoid:</strong> regenerating a full <code>architecture-specification.md</code> when only new mechanisms are needed; duplicating a mechanism under a different heading when an equivalent section exists; forking a full spec copy per epic when a companion spec suffices.</p>
+<p><strong>Example:</strong> Epic <em>Wire Payment</em> assigns <code>specs/mern/</code> (stack) and <code>docs/architecture/wire-transfer/</code> (companion). Sub-epic <em>Refund Processing</em> adds <code>docs/architecture/refunds/</code> (create). Mechanisms Error Handling and Persistence are assigned inside <code>specs/mern/</code>; Refund validation is created in the refunds companion.</p>
 <hr>
 <h2>Kanban ticket run (quick pass vs long pass)</h2>
-<p>When pulled from a kanban board, <strong>always run this skill</strong> — kanban does not auto-skip.</p>
-<p>1. <strong>Locate the story map node</strong> and read its `architecture-spec` field. 2. <strong>Check</strong> assigned spec directories and mechanism sections inside them; consult `mechanism-registry.json` when present. 3. <strong>Quick pass</strong> — every needed spec is already assigned on the node and every mechanism inside those specs is complete → update story map links only; mark skill done. 4. <strong>Long pass</strong> — node needs a new spec path and/or mechanisms missing inside assigned specs → create only what is missing; add paths to `architecture-spec`; register creates in `mechanism-registry.json` when used.</p>
+<div class="spec-steps">
+<p class="spec-step">When pulled from a kanban board, <strong>always run this skill</strong> — kanban does not auto-skip.</p>
+</div>
+<p>1. <strong>Locate the story map node</strong> and read its <code>architecture-spec</code> field. 2. <strong>Check</strong> assigned spec directories and mechanism sections inside them; consult <code>mechanism-registry.json</code> when present. 3. <strong>Quick pass</strong> — every needed spec is already assigned on the node and every mechanism inside those specs is complete → update story map links only; mark skill done. 4. <strong>Long pass</strong> — node needs a new spec path and/or mechanisms missing inside assigned specs → create only what is missing; add paths to <code>architecture-spec</code>; register creates in <code>mechanism-registry.json</code> when used.</p>
 <hr>
 <h2>Run modes</h2>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Mode</th><th>Produces</th><th>When to use</th></tr></thead><tbody><tr><td><strong>document</strong></td><td>`architecture-specification.md`</td><td>Mechanism sections only; `template/` already exists on the assigned spec</td></tr><tr><td><strong>template</strong></td><td>`template/` runnable code, spec `templates/` scaffold, `rules/`, `scanners/`</td><td>Code-first; doc assigned separately or refreshed later</td></tr><tr><td><strong>both</strong> (default)</td><td>Full specification directory</td><td>New spec or full refresh — template slice first, then doc</td></tr></tbody></table></div>
-<p><strong>Document</strong> — write or update mechanism sections, diagrams, and walkthroughs. Walkthrough steps reference files under `template/` when present; otherwise use parameterized pattern comments pointing at `templates/`. Do not edit `template/` unless the user asks.</p>
-<p><strong>Template</strong> — produce the runnable slice under `template/` (domain spec, spec-by-example, tests, production code), mirror it in `templates/`, and bootstrap or update `rules/` and `scanners/`. Skip `architecture-specification.md`.</p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Mode</th><th>Produces</th><th>When to use</th></tr></thead><tbody><tr><td><strong>document</strong></td><td><code>architecture-specification.md</code></td><td>Mechanism sections only; <code>template/</code> already exists on the assigned spec</td></tr><tr><td><strong>template</strong></td><td><code>template/</code> runnable code, spec <code>templates/</code> scaffold, <code>rules/</code>, <code>scanners/</code></td><td>Code-first; doc assigned separately or refreshed later</td></tr><tr><td><strong>both</strong> (default)</td><td>Full specification directory</td><td>New spec or full refresh — template slice first, then doc</td></tr></tbody></table></div>
+<p><strong>Document</strong> — write or update mechanism sections, diagrams, and walkthroughs. Walkthrough steps reference files under <code>template/</code> when present; otherwise use parameterized pattern comments pointing at <code>templates/</code>. Do not edit <code>template/</code> unless the user asks.</p>
+<p><strong>Template</strong> — produce the runnable slice under <code>template/</code> (domain spec, spec-by-example, tests, production code), mirror it in <code>templates/</code>, and bootstrap or update <code>rules/</code> and <code>scanners/</code>. Skip <code>architecture-specification.md</code>.</p>
 <p><strong>Both</strong> — run template pass first (with human review before the document pass), then author the doc and validate both passes.</p>
-<p>When pulled from kanban without an explicit mode, default to <strong>both</strong>. When the ticket or user names only one deliverable (&quot;doc only&quot;, &quot;template only&quot;), honor that mode.</p>
+<div class="spec-steps">
+<p class="spec-step">When pulled from kanban without an explicit mode, default to <strong>both</strong>. When the ticket or user names only one deliverable (&quot;doc only&quot;, &quot;template only&quot;), honor that mode.</p>
+</div>
 <p><strong>Kanban stage defaults:</strong> Exploration → <strong>document</strong>; Specification → <strong>template</strong>.</p>
 <hr>
 <h2>Principle vs. pattern</h2>
@@ -1110,10 +1735,10 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <p><strong>Instantiating the Domain</strong> is the common section of every architecture reference. It has four sub-sections: <strong>Principles</strong> (naming rules, layer qualifiers), <strong>Architecture Flow</strong> (how one interaction traverses the tech stack — diagram + table), <strong>Module Layout</strong> (folder tree + shared artefact table), and <strong>Participants</strong> (class diagram showing inheritance, interface implementation, and delegation across tiers). <strong>Mechanisms</strong> cover each runtime concern (web client, app server, persistence, …) — content differs by stack.</p>
 <hr>
 <h2>Reference document structure</h2>
-<p>Every `architecture-specification.md` follows the skeleton in <strong>`templates/architecture-specification.md`</strong>. Summary:</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Section</th><th>Scope</th><th></th><th></th><th></th><th></th></tr></thead><tbody><tr><td>Overview</td><td>Architecture name, mechanism list, sources</td><td></td><td></td><td></td><td></td></tr><tr><td><strong>Instantiating the Domain</strong></td><td><strong>Common</strong> — four sub-sections: <strong>Principles</strong> (naming rules, layer qualifiers), <strong>Architecture Flow</strong> (diagram + `\</td><td>Tech \</td><td>File \</td><td>Instantiates from domain \</td><td>` table), <strong>Module Layout</strong> (folder tree), <strong>Participants</strong> (class diagram — inheritance, interface, delegation)</td></tr><tr><td>Mechanisms</td><td>Tech-specific — one section per runtime concern; five-part shape each (no testing subsection inside mechanisms)</td><td></td><td></td><td></td><td></td></tr><tr><td><strong>Testing Architecture</strong></td><td><strong>Common</strong> — four sub-sections: <strong>Principles</strong> (story instantiates tests; stub at tier boundary only), <strong>Testing Scope</strong> (4-layer diagram — domain unit / HTTP adapter / React adapter / browser; entry point, real, stubbed, asserts), <strong>Module Layout</strong> (domain unit tests beside domain classes; lowest sub-epic = file; story = `describe`; scenario = `it`), <strong>Participants</strong> (base helper = scenario vocabulary; tier helpers = adapter implementations; class diagram)</td><td></td><td></td><td></td><td></td></tr><tr><td>Example</td><td>`template/` pointer — runnable code, `specification-by-example.md`, `domain-spec.md`, tests</td><td></td><td></td><td></td><td></td></tr><tr><td>Rules and Validation</td><td>`rules/` + `scanners/` — one-row-per-rule table + run command</td><td></td><td></td><td></td><td></td></tr><tr><td>References</td><td>Worked example path, normative patterns, standards</td><td></td><td></td><td></td><td></td></tr></tbody></table></div>
+<p>Every <code>architecture-specification.md</code> follows the skeleton in <strong><code>templates/architecture-specification.md</code></strong>. Summary:</p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Section</th><th>Scope</th><th></th><th></th><th></th><th></th></tr></thead><tbody><tr><td>Overview</td><td>Architecture name, mechanism list, sources</td><td></td><td></td><td></td><td></td></tr><tr><td><strong>Instantiating the Domain</strong></td><td><strong>Common</strong> — four sub-sections: <strong>Principles</strong> (naming rules, layer qualifiers), <strong>Architecture Flow</strong> (diagram + `\</td><td>Tech \</td><td>File \</td><td>Instantiates from domain \</td><td>` table), <strong>Module Layout</strong> (folder tree), <strong>Participants</strong> (class diagram — inheritance, interface, delegation)</td></tr><tr><td>Mechanisms</td><td>Tech-specific — one section per runtime concern; five-part shape each (no testing subsection inside mechanisms)</td><td></td><td></td><td></td><td></td></tr><tr><td><strong>Testing Architecture</strong></td><td><strong>Common</strong> — four sub-sections: <strong>Principles</strong> (story instantiates tests; stub at tier boundary only), <strong>Testing Scope</strong> (4-layer diagram — domain unit / HTTP adapter / React adapter / browser; entry point, real, stubbed, asserts), <strong>Module Layout</strong> (domain unit tests beside domain classes; lowest sub-epic = file; story = <code>describe</code>; scenario = <code>it</code>), <strong>Participants</strong> (base helper = scenario vocabulary; tier helpers = adapter implementations; class diagram)</td><td></td><td></td><td></td><td></td></tr><tr><td>Example</td><td><code>template/</code> pointer — runnable code, <code>specification-by-example.md</code>, <code>domain-spec.md</code>, tests</td><td></td><td></td><td></td><td></td></tr><tr><td>Rules and Validation</td><td><code>rules/</code> + <code>scanners/</code> — one-row-per-rule table + run command</td><td></td><td></td><td></td><td></td></tr><tr><td>References</td><td>Worked example path, normative patterns, standards</td><td></td><td></td><td></td><td></td></tr></tbody></table></div>
 <p><strong>Architecture Flow</strong> is a sub-section of Instantiating the Domain — not a standalone top-level section.</p>
-<p><strong>Named spec directories</strong> (e.g. `specs/&lt;arch&gt;/`) are authoritative for their architecture. Assign; do not recreate.</p>
+<p><strong>Named spec directories</strong> (e.g. <code>specs/&lt;arch&gt;/</code>) are authoritative for their architecture. Assign; do not recreate.</p>
 <hr>
 <h2>The five-part shape</h2>
 <p>Every mechanism section has the same five-part shape:</p>
@@ -1121,21 +1746,21 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <p>Testing content belongs in the top-level <strong>Testing Architecture</strong> section — not inside individual mechanism sections.</p>
 <hr>
 <h2>Section organization</h2>
-<p>The reference is <strong>always one file</strong>: `architecture-specification.md`.</p>
+<p>The reference is <strong>always one file</strong>: <code>architecture-specification.md</code>.</p>
 <ul>
-<li><strong>Combined section</strong> — when there are only <strong>2–3 mechanisms</strong> and they are tightly related, use one `## Mechanisms` section that weaves the five-part shape across all of them.</li>
-<li><strong>One section per mechanism</strong> — the default for <strong>4+ mechanisms</strong>, and always allowed. Each mechanism gets its own `## Mechanism: &lt;Name&gt;` section.</li>
+<li><strong>Combined section</strong> — when there are only <strong>2–3 mechanisms</strong> and they are tightly related, use one <code>## Mechanisms</code> section that weaves the five-part shape across all of them.</li>
+<li><strong>One section per mechanism</strong> — the default for <strong>4+ mechanisms</strong>, and always allowed. Each mechanism gets its own <code>## Mechanism: &lt;Name&gt;</code> section.</li>
 </ul>
 <hr>
 <h2>Code and test standards</h2>
-<p>Code in walkthroughs follows the project&#x27;s coding standard (defaulting to `abd-clean-code` when in scope). Test snippets follow the project&#x27;s testing standard (defaulting to `abd-story-acceptance-test` when in scope).</p>
+<p>Code in walkthroughs follows the project&#x27;s coding standard (defaulting to <code>abd-clean-code</code> when in scope). Test snippets follow the project&#x27;s testing standard (defaulting to <code>abd-story-acceptance-test</code> when in scope).</p>
 <hr>
 <h2>Template code conventions</h2>
-<p>Every run that includes <strong>template</strong> mode produces a <strong>runnable template slice</strong> under `template/` alongside the reference doc (when mode is <strong>both</strong>). The template slice and the doc are a single artifact — they must stay in sync.</p>
+<p>Every run that includes <strong>template</strong> mode produces a <strong>runnable template slice</strong> under <code>template/</code> alongside the reference doc (when mode is <strong>both</strong>). The template slice and the doc are a single artifact — they must stay in sync.</p>
 <h3>Template domain artifacts</h3>
 <p>Alongside template code, produce two domain artifacts in the <strong>same folder</strong>:</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>File</th><th>Produced per</th></tr></thead><tbody><tr><td>`specification-by-example.md`</td><td>`abd-story-specification` — scenarios for the story the template implements</td></tr><tr><td>`domain-spec.md`</td><td>`abd-domain-specification` — typed domain specification</td></tr></tbody></table></div>
-<p><strong>Template layout</strong> (`template/`):</p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>File</th><th>Produced per</th></tr></thead><tbody><tr><td><code>specification-by-example.md</code></td><td><code>abd-story-specification</code> — scenarios for the story the template implements</td></tr><tr><td><code>domain-spec.md</code></td><td><code>abd-domain-specification</code> — typed domain specification</td></tr></tbody></table></div>
+<p><strong>Template layout</strong> (<code>template/</code>):</p>
 <pre><code>template/
 ├── specification-by-example.md      # Given/When/Then scenarios for the story
 ├── domain-spec.md                   # Typed domain spec for the example module
@@ -1171,13 +1796,15 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
             ├── &lt;sub-epic&gt;.client.ts      # vi.mock at API boundary; Testing Library
             └── &lt;sub-epic&gt;.e2e.ts         # Playwright page navigation</code></pre>
 <p><strong>File naming</strong> (real-story examples — all names derive from domain classes):</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Layer</th><th>Pattern</th><th>Example</th></tr></thead><tbody><tr><td>Shared entity</td><td>`&lt;Entity&gt;.ts`</td><td>`Recipient.ts`</td></tr><tr><td>Shared collection</td><td>`&lt;Entity&gt;s.ts`</td><td>`Recipients.ts`</td></tr><tr><td>Shared schema</td><td>`&lt;entity&gt;.schema.ts`</td><td>`recipient.schema.ts`</td></tr><tr><td>Shared repository interface</td><td>`&lt;Entity&gt;Repository.ts`</td><td>`RecipientRepository.ts`</td></tr><tr><td>Domain unit tests</td><td>`&lt;entity&gt;s.test.ts` in `shared/`</td><td>`recipients.test.ts`</td></tr><tr><td>Server collection</td><td>`&lt;Entity&gt;sServer.ts`</td><td>`RecipientsServer.ts`</td></tr><tr><td>Server router</td><td>`&lt;Entity&gt;Router.ts`</td><td>`RecipientRouter.ts`</td></tr><tr><td>Server repository impl</td><td>`&lt;Entity&gt;RepositoryServer.ts`</td><td>`RecipientRepositoryServer.ts`</td></tr><tr><td>Client entity</td><td>`&lt;Entity&gt;Client.ts`</td><td>`RecipientClient.ts`</td></tr><tr><td>Client collection</td><td>`&lt;Entity&gt;sClient.ts`</td><td>`RecipientsClient.ts`</td></tr><tr><td>Client API</td><td>`&lt;Entity&gt;.api.ts`</td><td>`Recipient.api.ts`</td></tr><tr><td>Client hook</td><td>`use&lt;Entity&gt;s.ts`</td><td>`useRecipients.ts`</td></tr><tr><td>Test file</td><td>`&lt;sub-epic&gt;_&lt;tier&gt;.test.ts`</td><td>`select-recipient_server.test.ts`</td></tr><tr><td>Base helper</td><td>`&lt;sub-epic&gt;.base.ts`</td><td>`select-recipient.base.ts`</td></tr><tr><td>Tier helper</td><td>`&lt;sub-epic&gt;.&lt;tier&gt;.ts`</td><td>`select-recipient.server.ts`</td></tr></tbody></table></div>
-<p>When assigning from a named spec, assign all three together — code, spec-by-example, and domain spec.</p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Layer</th><th>Pattern</th><th>Example</th></tr></thead><tbody><tr><td>Shared entity</td><td><code>&lt;Entity&gt;.ts</code></td><td><code>Recipient.ts</code></td></tr><tr><td>Shared collection</td><td><code>&lt;Entity&gt;s.ts</code></td><td><code>Recipients.ts</code></td></tr><tr><td>Shared schema</td><td><code>&lt;entity&gt;.schema.ts</code></td><td><code>recipient.schema.ts</code></td></tr><tr><td>Shared repository interface</td><td><code>&lt;Entity&gt;Repository.ts</code></td><td><code>RecipientRepository.ts</code></td></tr><tr><td>Domain unit tests</td><td><code>&lt;entity&gt;s.test.ts</code> in <code>shared/</code></td><td><code>recipients.test.ts</code></td></tr><tr><td>Server collection</td><td><code>&lt;Entity&gt;sServer.ts</code></td><td><code>RecipientsServer.ts</code></td></tr><tr><td>Server router</td><td><code>&lt;Entity&gt;Router.ts</code></td><td><code>RecipientRouter.ts</code></td></tr><tr><td>Server repository impl</td><td><code>&lt;Entity&gt;RepositoryServer.ts</code></td><td><code>RecipientRepositoryServer.ts</code></td></tr><tr><td>Client entity</td><td><code>&lt;Entity&gt;Client.ts</code></td><td><code>RecipientClient.ts</code></td></tr><tr><td>Client collection</td><td><code>&lt;Entity&gt;sClient.ts</code></td><td><code>RecipientsClient.ts</code></td></tr><tr><td>Client API</td><td><code>&lt;Entity&gt;.api.ts</code></td><td><code>Recipient.api.ts</code></td></tr><tr><td>Client hook</td><td><code>use&lt;Entity&gt;s.ts</code></td><td><code>useRecipients.ts</code></td></tr><tr><td>Test file</td><td><code>&lt;sub-epic&gt;_&lt;tier&gt;.test.ts</code></td><td><code>select-recipient_server.test.ts</code></td></tr><tr><td>Base helper</td><td><code>&lt;sub-epic&gt;.base.ts</code></td><td><code>select-recipient.base.ts</code></td></tr><tr><td>Tier helper</td><td><code>&lt;sub-epic&gt;.&lt;tier&gt;.ts</code></td><td><code>select-recipient.server.ts</code></td></tr></tbody></table></div>
+<div class="spec-steps">
+<p class="spec-step">When assigning from a named spec, assign all three together — code, spec-by-example, and domain spec.</p>
+</div>
 <h3>Template validation (mandatory)</h3>
 <p>Every run that <strong>creates or edits</strong> template code (modes <strong>template</strong> or <strong>both</strong>) must validate it against the <strong>architecture spec&#x27;s</strong> rules and scanners — not only this skill&#x27;s document rules.</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Pass</th><th>`--skill-root`</th><th>`--workspace`</th><th>What it checks</th></tr></thead><tbody><tr><td><strong>Doc</strong></td><td>`abd-architecture-specification/`</td><td>`architecture-specification.md`</td><td>Mechanism shape, TOC, diagrams, walkthroughs</td></tr><tr><td><strong>Template</strong></td><td>`specs/&lt;arch&gt;/` (or project&#x27;s spec copy)</td><td>`specs/&lt;arch&gt;/template/` or `template/`</td><td>Tier extensions, layer purity, tests, package layout</td></tr></tbody></table></div>
-<p>Workflow per <strong>`execute-skill-using-skills-rules`:</strong></p>
-<p>1. Read `specs/&lt;arch&gt;/rules/` before writing template code. 2. After authoring — AI pass: per-rule verdict on template code. 3. Run `run_scanners.py` with `--language` when applicable; fix all failures; re-run until green.</p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Pass</th><th><code>--skill-root</code></th><th><code>--workspace</code></th><th>What it checks</th></tr></thead><tbody><tr><td><strong>Doc</strong></td><td><code>abd-architecture-specification/</code></td><td><code>architecture-specification.md</code></td><td>Mechanism shape, TOC, diagrams, walkthroughs</td></tr><tr><td><strong>Template</strong></td><td><code>specs/&lt;arch&gt;/</code> (or project&#x27;s spec copy)</td><td><code>specs/&lt;arch&gt;/template/</code> or <code>template/</code></td><td>Tier extensions, layer purity, tests, package layout</td></tr></tbody></table></div>
+<p>Workflow per <strong><code>execute-skill-using-skills-rules</code>:</strong></p>
+<p>1. Read <code>specs/&lt;arch&gt;/rules/</code> before writing template code. 2. After authoring — AI pass: per-rule verdict on template code. 3. Run <code>run_scanners.py</code> with <code>--language</code> when applicable; fix all failures; re-run until green.</p>
 <p>Named spec reference command (MERN):</p>
 <pre><code>python foundational/skill-helpers/skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
   --skill-root practices/architecture-centric-engineering/specs/mern \
@@ -1200,7 +1827,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <h3>Non-negotiable rules</h3>
 <ul>
 <li>Every file runs immediately — no stubs, no placeholder bodies, no missing imports.</li>
-<li>Every Walkthrough step in the doc references a specific file by path (e.g. `template/error-handling/calculator.py`).</li>
+<li>Every Walkthrough step in the doc references a specific file by path (e.g. <code>template/error-handling/calculator.py</code>).</li>
 <li>When the doc changes, the template code changes in the <strong>same edit</strong>. When template code is fixed, the corresponding Walkthrough step is updated in the <strong>same edit</strong>.</li>
 <li>Tests are named after story scenarios or user-facing behaviors, not implementation details.</li>
 </ul></div>

@@ -73,8 +73,8 @@ Practice skills per stage — from `reference/stages/`. Background (`drawio-*`),
 - **Shaping** (scope: all) — `abd-domain-glossary`, `abd-story-mapping` (outline), `abd-impact-mapping`, `abd-architecture-outline`
 - **Discovery** (scope: all) — `abd-story-mapping` (full), `abd-domain-language`, `abd-information-architecture`, `abd-architecture-blueprint`
 - **Exploration** (scope: increment) — `abd-domain-model`, `abd-story-acceptance-criteria`, `abd-ux-mockup`, `abd-architecture-specification` document mode (conditional — when increment needs undocumented mechanisms)
-- **Specification** (scope: sprint) — `abd-domain-specification`, `abd-story-specification`, `abd-ux-specification` (spec pass), `abd-architecture-specification` template mode
-- **Engineering** (scope: sprint) — `abd-ux-specification` (implementation pass), `abd-domain-code`, `abd-story-acceptance-test`, `abd-clean-code`, `abd-architecture-code` (conditional — when a named architecture spec is assigned)
+- **Specification** (scope: sprint) — `abd-domain-specification`, `abd-story-specification`, `abd-ux-specification` (clickable prototype), `abd-architecture-specification` template mode
+- **Engineering** (scope: sprint) — `abd-domain-code`, `abd-story-acceptance-test`, `abd-clean-code`, `abd-architecture-code` (conditional — when a named architecture spec is assigned; production UI honours prototype)
 
 ## Tickets
 

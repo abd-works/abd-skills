@@ -471,7 +471,22 @@ html[data-abd-theme="executive"] .catalog-body code {
 }
 
 .page-hero--detail {
-  padding-top: 48px;
+  padding-top: 20px;
+  padding-bottom: 16px;
+}
+.page-hero--detail .page-headline {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 4px 0 6px;
+}
+.page-headline .skill-name-prefix,
+.cap-card__title .skill-name-prefix {
+  color: var(--accent);
+}
+.page-hero--detail .body-lead {
+  font-size: 0.9rem;
+  margin: 0;
+  color: var(--muted);
 }
 
 .page-hero--detail .back-link {
@@ -731,8 +746,18 @@ a.cap-card:hover .cap-card__more {
   color: #b8b8c2;
   margin: 0 0 18px;
 }
+.skill-detail-page .skill-hero-img-wrap + .install-block {
+  margin-top: 18px;
+}
+.skill-detail-page .install-block + .skill-cr-grid,
+.skill-detail-page .install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block {
+  margin-top: 0;
+}
 .install-block {
-  margin: 22px 0 0;
+  margin: 20px 0 0;
   padding: 16px 18px;
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid var(--border-muted);
@@ -1041,34 +1066,735 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 .plugin-slots h3:first-child { margin-top: 0; }
 .cap-grid--plugin-slot { margin-bottom: 8px; }
 
+/* ── Skill detail: family kanban stage nav (matches hub column headings) ── */
+.skill-kanban-nav {
+  --fam-sdd: #6bcb77;
+  --fam-ddd: #6c5ce7;
+  --fam-uxd: #e84393;
+  --fam-arc: #4fc3f7;
+  --fam-idea: var(--accent);
+  --abd-accent: var(--accent);
+  --abd-accent-glow: var(--accent-soft, var(--accent));
+  --abd-raised: var(--raised);
+  --abd-bg: var(--bg);
+  --abd-border: var(--border);
+  --abd-text: var(--text);
+  --abd-muted: var(--muted);
+  background: var(--raised);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0 16px;
+}
+.skill-kanban-nav .wrap {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.skill-kanban-nav__board {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  gap: 6px 8px;
+  align-items: start;
+}
+.skill-kanban-nav__practice-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  margin: 0;
+  padding: 0 8px;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-left-width: 3px;
+  border-radius: 4px;
+  line-height: 1.25;
+  box-sizing: border-box;
+  transition: box-shadow 120ms, border-color 120ms;
+  color: inherit;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card:hover {
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--sdd {
+  border-left-color: var(--fam-sdd);
+  color: var(--fam-sdd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--ddd {
+  border-left-color: var(--fam-ddd);
+  color: var(--fam-ddd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--uxd {
+  border-left-color: var(--fam-uxd);
+  color: var(--fam-uxd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--arc {
+  border-left-color: var(--fam-arc);
+  color: var(--fam-arc);
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap {
+  position: relative;
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip.kb-col-shape-tooltip {
+  min-width: 10rem;
+  max-width: 22rem;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:hover .kb-skill-tooltip,
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:focus-within .kb-skill-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.skill-kanban-nav__stages {
+  display: grid;
+  grid-template-columns: repeat(var(--skill-kanban-cols, 5), minmax(0, 1fr));
+  gap: 0 8px;
+  min-width: 0;
+}
+.skill-kanban-nav__col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.skill-kanban-nav__tickets {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.skill-kanban-nav .kb-col-head {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 8px 6px 7px;
+  font-family: var(--font-mono);
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.skill-kanban-nav .kb-col-head--static {
+  cursor: default;
+}
+.skill-kanban-nav a.kb-col-head {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav a.kb-col-head:hover {
+  border-color: rgba(229, 83, 26, 0.35);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.15);
+}
+.skill-kanban-nav .kb-col-head--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-col-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+}
+.skill-kanban-nav .kb-col-scope-shape {
+  flex-shrink: 0;
+  border: 2px solid var(--abd-accent);
+  border-radius: 2px;
+}
+.skill-kanban-nav__stages .kb-col-shape-tooltip,
+.skill-kanban-nav__stages .kb-skill-tooltip-wrap .kb-col-shape-tooltip {
+  display: none !important;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 8px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 7px 9px;
+  font-family: var(--font-mono);
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid rgba(229, 83, 26, 0.45);
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 14px;
+  border: 5px solid transparent;
+  border-bottom-color: rgba(229, 83, 26, 0.45);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__name {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--abd-accent-glow);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__bullets {
+  font-size: 8px;
+  line-height: 1.45;
+  color: var(--abd-text);
+  white-space: pre-line;
+}
+.skill-kanban-nav .kb-col-scope-shape--solution { width: 36px; height: 12px; }
+.skill-kanban-nav .kb-col-scope-shape--increment { width: 24px; height: 16px; }
+.skill-kanban-nav .kb-col-scope-shape--sprint { width: 16px; height: 22px; }
+.skill-kanban-nav .kb-col-scope-shape--story { width: 11px; height: 28px; }
+.skill-kanban-nav .kb-col-head-title {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--abd-text);
+}
+.skill-kanban-nav .kb-col-head-title > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.skill-kanban-nav .kb-col-num {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--abd-text);
+  background: var(--abd-bg);
+  border: 1px solid var(--abd-border);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+.skill-kanban-nav .kb-ticket {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  background: var(--abd-raised);
+  color: var(--abd-text);
+  padding: 5px 6px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  border-left-width: 3px;
+  border-left-color: var(--abd-muted);
+  line-height: 1.25;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav .kb-ticket:hover {
+  border-color: var(--abd-border);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.2);
+}
+.skill-kanban-nav .kb-ticket.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-ticket.aad-fam-sdd { border-left-color: var(--fam-sdd); }
+.skill-kanban-nav .kb-ticket.aad-fam-ddd { border-left-color: var(--fam-ddd); }
+.skill-kanban-nav .kb-ticket.aad-fam-uxd { border-left-color: var(--fam-uxd); }
+.skill-kanban-nav .kb-ticket.aad-fam-arc { border-left-color: var(--fam-arc); }
+.skill-kanban-nav .kb-ticket.aad-fam-idea { border-left-color: var(--fam-idea); }
+@media (max-width: 960px) {
+  .skill-kanban-nav__board {
+    grid-template-columns: 1fr;
+  }
+  .skill-kanban-nav__stages {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
+
+/* ── Skill detail: full-width hero image / embedded viewer ── */
+.skill-hero-img-wrap {
+  margin: 24px 0 0;
+}
+.skill-hero-img-wrap:empty { display: none; }
+.skill-hero-img-wrap img,
+.skill-hero-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--raised);
+}
+
+/* HTML prototype iframe (reference/example/index.html) */
+.skill-prototype-wrap {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-prototype-frame {
+  display: block;
+  width: 100%;
+  min-height: 540px;
+  height: 71vh;
+  max-height: 810px;
+  border: 0;
+  background: #fff;
+}
+.skill-prototype-open {
+  margin: 0;
+  padding: 8px 14px;
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+  background: var(--raised);
+}
+.skill-prototype-open a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.skill-prototype-open a:hover { text-decoration: underline; }
+
+/* draw.io embedded viewer */
+.skill-drawio-wrap {
+  position: relative;
+  width: 100%;
+  height: min(71vh, 680px);
+  min-height: 340px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-drawio-wrap .mxgraph {
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+}
+.skill-drawio-wrap .geToolbarContainer {
+  z-index: 4;
+}
+
+/* code file preview */
+.skill-code-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--raised);
+  font-size: 13px;
+}
+.skill-code-lang {
+  padding: 6px 14px;
+  font-family: var(--mono, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.skill-code-preview pre {
+  margin: 0;
+  padding: 16px;
+  overflow-x: auto;
+  max-height: 420px;
+}
+.skill-code-preview code {
+  font-family: var(--mono, 'JetBrains Mono', monospace);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+/* rendered markdown preview */
+.skill-hero-img-wrap .skill-md-preview {
+  max-height: min(71vh, 610px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.skill-md-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px 24px;
+  background: var(--surface);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.skill-md-preview h1 { font-size: 18px; font-weight: 700; margin: 0 0 12px; }
+.skill-md-preview h2 { font-size: 15px; font-weight: 600; margin: 16px 0 8px;
+  border-bottom: 1px solid var(--border); padding-bottom: 3px; }
+.skill-md-preview h3 { font-size: 13px; font-weight: 600; margin: 12px 0 6px; }
+.skill-md-preview h4 { font-size: 12px; font-weight: 600; margin: 10px 0 4px; color: var(--muted); }
+.skill-md-preview p  { margin: 0 0 10px; }
+.skill-md-preview .spec-steps { margin: 0 0 14px; }
+.skill-md-preview p.spec-step { margin: 0 0 4px; line-height: 1.55; }
+.skill-md-preview .md-table-wrap { overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview .md-table { border-collapse: collapse; width: 100%; }
+.skill-md-preview ul, .skill-md-preview ol { margin: 0 0 10px; padding-left: 20px; }
+.skill-md-preview li { margin-bottom: 3px; }
+.skill-md-preview code { background: var(--raised); border-radius: 3px;
+  padding: 1px 5px; font-family: var(--mono, monospace); font-size: 12px; }
+.skill-md-preview pre { background: var(--raised); border-radius: 5px;
+  padding: 12px; overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview table { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
+.skill-md-preview th, .skill-md-preview td {
+  border: 1px solid var(--border); padding: 6px 10px; }
+.skill-md-preview th { background: var(--raised); font-weight: 600; }
+
+/* ── Skill detail: concepts | rules two-column grid ── */
+.skill-cr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin: 24px 0 0;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .skill-cr-grid { grid-template-columns: 1fr; }
+}
+.skill-cr-col { min-width: 0; }
+.skill-cr-single { margin: 24px 0 0; }
+
+/* Glossary example hero — term blocks without heavy HR dividers */
+.skill-md-preview--glossary h1 {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 10px;
+  border: 0;
+  padding: 0;
+}
+.skill-md-preview--glossary h2 {
+  font-size: 16px;
+  margin-top: 0;
+}
+.skill-md-preview--glossary h3 {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 14px 0 6px;
+  padding: 6px 8px;
+  background: var(--raised);
+  border-radius: 4px;
+  border-left: 3px solid var(--accent);
+}
+.skill-md-preview--glossary hr {
+  display: none;
+}
+.skill-md-preview--glossary ul {
+  margin-top: 0;
+}
+
+/* ── Skill detail: full-width content below ── */
+.skill-detail-content-col { margin-top: 32px; }
+.skill-detail-page .skill-cr-grid,
+.skill-detail-page .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-single,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-single {
+  margin-top: 0;
+}
+
+/* ── Skill detail: concepts (expandable) ── */
+.skill-hero-img-wrap + .install-block {
+  margin-top: 16px;
+}
+.install-block + .skill-cr-grid,
+.install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-concepts {
+  margin: 0 0 20px;
+}
+.skill-concepts-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 8px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-concept {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-concept summary {
+  padding: 8px 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  user-select: none;
+}
+.skill-concept summary::-webkit-details-marker { display: none; }
+.skill-concept summary::marker { content: ""; }
+.skill-concept summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-concept[open] summary::before { content: "\2212"; }
+.skill-concept-body {
+  padding: 6px 4px 10px 1.9rem;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.skill-concept-body p { margin: 0 0 8px; }
+.skill-concept-body p:last-child { margin-bottom: 0; }
+.skill-concept-body ul { margin: 0 0 8px 1.1em; padding: 0; }
+.skill-concept-body li { margin: 3px 0; }
+
+/* ── Skill detail: rules (DO / DON'T) ── */
+.skill-rules {
+  margin: 0 0 20px;
+}
+.skill-rules-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 12px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-rule {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule[open] > .skill-rule-header {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule-header {
+  padding: 8px 10px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  background: var(--raised);
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+.skill-rule-header::-webkit-details-marker { display: none; }
+.skill-rule-header::marker { content: ""; }
+.skill-rule-header::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-rule[open] > .skill-rule-header::before {
+  content: "\2212";
+}
+.skill-rule-section {
+  padding: 8px 12px;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+.skill-rule-section--do {
+  border-left: 3px solid #2d8a4e;
+}
+.skill-rule-section--dont {
+  border-left: 3px solid #c0392b;
+}
+.skill-rule-section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+  color: var(--muted);
+}
+.skill-rule-section--do .skill-rule-section-label { color: #2d8a4e; }
+.skill-rule-section--dont .skill-rule-section-label { color: #c0392b; }
+.skill-rule-section ul { margin: 0; padding: 0 0 0 1.1em; }
+.skill-rule-section li { margin: 2px 0; color: var(--text); }
+
 </style>
-<script src="../commons/catalog-nav.js?v=foundry-8"></script>
+<script src="../commons/catalog-nav.js?v=foundry-9"></script>
 </head>
 <body data-nav-prefix="../" data-nav-current="skills" data-nav-site-base="../../../abd-works-website/">
 <main id="main-content">
 
+<div class="skill-kanban-nav">
+<div class="wrap">
+<div class="skill-kanban-nav__board">
+    <div class="skill-kanban-nav__practice-col" aria-label="Practice families">
+      <a class="foundry-practice-col__card foundry-perspective-label--sdd aad-skill aad-fam-sdd has-skill-tooltip" href="abd-story-mapping.html"><span class="kb-skill-tooltip-wrap">story-driven-delivery<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">story-driven-delivery</span><span class="kb-col-shape-tooltip__bullets">Given/When/Then scenarios with real example data</span></span></span></a>
+      <a class="foundry-practice-col__card foundry-perspective-label--ddd aad-skill aad-fam-ddd kb-ticket--current has-skill-tooltip" href="abd-domain-glossary.html"><span class="kb-skill-tooltip-wrap">domain-driven-design<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">domain-driven-design</span><span class="kb-col-shape-tooltip__bullets">Typed terms + relationships (a schema), not prose definitions</span></span></span></a>
+      <a class="foundry-practice-col__card foundry-perspective-label--uxd aad-skill aad-fam-uxd has-skill-tooltip" href="abd-ux-user-impact-map.html"><span class="kb-skill-tooltip-wrap">user-experience-design<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">user-experience-design</span><span class="kb-col-shape-tooltip__bullets">Component spec with named states &amp; rules, not a static picture</span></span></span></a>
+      <a class="foundry-practice-col__card foundry-perspective-label--arc aad-skill aad-fam-arc has-skill-tooltip" href="abd-architecture-outline.html"><span class="kb-skill-tooltip-wrap">architecture-centric-engineering<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture-centric-engineering</span><span class="kb-col-shape-tooltip__bullets">Interface contracts / templates the engine can follow</span></span></span></a>
+    </div>
+<nav class="skill-kanban-nav__stages" style="--skill-kanban-cols: 5" aria-label="Practice stages">
+      <div class="skill-kanban-nav__col" data-stage="shaping">
+        <a class="kb-col-head kb-col-head--link kb-col-head--current" data-stage="shaping" href="abd-domain-glossary.html" title="Whole solution. wide / shallow. outcomes, scope, boundaries">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--solution" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Shaping</span><span class="kb-col-num">1</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-ddd kb-ticket--current" href="abd-domain-glossary.html" title="Produce a structured domain glossary — terms grouped by Key Abstraction, Key Abstractions grouped into modules by shared concern — so that every downstream artifact (domain language, acceptance criteria, specification, code) draws from a single agreed vocabulary.
+
+The primary output is a glossary, not a boundary diagram. Modules are the organizing container: a module groups the KAs and terms that share a core concern and can be understood together. Each module file contains:
+
+— Key Abstractions — named building blocks that own a cluster of related terms
+— Terms per KA — behavioral bullets and source references (exact file + location) per term
+— Boundary terms — concepts this module depends on but does not own
+— Scope — what region of the domain this module covers (emerges from the terms, not the other way around)">domain glossary</a>
+        </div>
+      </div>
+      <div class="skill-kanban-nav__col" data-stage="discovery">
+        <a class="kb-col-head kb-col-head--link" data-stage="discovery" href="abd-domain-language.html" title="Increment. medium. interactions, experience, structure">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--increment" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Discovery</span><span class="kb-col-num">2</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-ddd" href="abd-domain-language.html" title="Build a shared, rigorous vocabulary for the scope you are modeling so that domain experts and modelers agree on what each term means, what each concept does, and which rules must always hold — and capture that agreement in one living document the whole team uses without translation. The scope of one run can be a single module, several modules, or a whole-system sweep; the skill and its output shape stay the same.
+
+This is a three-pass skill. It reads source, extracts terms with definitions, groups them into Key Abstractions, sketches each concept&#x27;s behavior and properties, and writes one file. The final output is a robust domain model that describes domain concepts in a structured, plain-English form — before anyone commits to classes, methods, or properties.">domain language</a>
+        </div>
+      </div>
+      <div class="skill-kanban-nav__col" data-stage="exploration">
+        <a class="kb-col-head kb-col-head--link" data-stage="exploration" href="abd-domain-model.html" title="Sprint. narrow / deeper. behaviour, design, logic">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--sprint" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Exploration</span><span class="kb-col-num">3</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-ddd" href="abd-domain-model.html" title="This skill takes domain concepts from a completed Domain Language and produces a typed domain model: for each concept, a constructor, typed properties, method signatures with collaborators and invariants. The result is a standalone file with ### Class blocks under each Key Abstraction.
+
+The format sits between domain model and a full Class Model — it uses typed notation (constructors, property types, method signatures) but avoids class-model embellishments (no &lt;&lt; stereotypes &gt;&gt;, no List&lt;T&gt; or Dictionary&lt;K,V&gt;, no Interaction: blocks, no + visibility prefixes, no param names in method signatures).">domain model</a>
+        </div>
+      </div>
+      <div class="skill-kanban-nav__col" data-stage="specification">
+        <a class="kb-col-head kb-col-head--link" data-stage="specification" href="abd-domain-specification.html" title="Story. narrow / executable. examples, design, templates">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--story" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Specification</span><span class="kb-col-num">4</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-ddd" href="abd-domain-specification.html" title="Build a typed Class Model for a module. When a domain model exists it is the primary input � the skill converts that behavioral model into a typed domain surface with far less effort. Without a domain model the skill can still produce an Class Model directly from domain knowledge.">domain specification</a>
+        </div>
+      </div>
+      <div class="skill-kanban-nav__col" data-stage="engineering">
+        <a class="kb-col-head kb-col-head--link" data-stage="engineering" href="abd-domain-code.html" title="Story. narrowest / deep. tests, code, interface">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--story" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Engineering</span><span class="kb-col-num">5</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-ddd" href="abd-domain-code.html" title="Turn whatever domain context exists into running, tested domain code.
+
+— Tests first (RED) → production code (GREEN) → clean up (REFACTOR).
+— Only the domain layer: classes, value objects, operations, invariants, domain events.
+— No database, no HTTP, no framework coupling.">domain code</a>
+        </div>
+      </div>
+</nav>
+</div>
+</div>
+</div>
+
+
 <div class="page-hero page-hero--detail">
   <div class="wrap">
-    <a class="back-link" href="../plugin/domain-driven-design.html">← Domain Driven Design</a>
-    <p class="s-name">Skill</p>
-    <h1 class="page-headline">abd-domain-glossary</h1>
+    <a class="back-link" href="../index.html">← The ABD Foundry</a>
+    
+    <h1 class="page-headline"><span class="skill-name-prefix">abd-</span>domain-glossary</h1>
     <p class="body-lead">Build an organized domain glossary — terms grouped by Key Abstraction, KAs grouped into modules by shared concern.</p>
   </div>
 </div>
 
 <div class="catalog-body">
-<div class="wrap">
+<div class="wrap skill-detail-page">
 
-<h2>Description</h2>
-<div class="entry-prose">Produce a structured domain glossary — terms grouped by Key Abstraction, Key Abstractions grouped into modules by shared concern — so that every downstream artifact (domain language, acceptance criteria, specification, code) draws from a single agreed vocabulary.<br>
-<br>
-The primary output is a glossary, not a boundary diagram. Modules are the organizing container: a module groups the KAs and terms that share a core concern and can be understood together. Each module file contains:<br>
-- Key Abstractions — named building blocks that own a cluster of related terms<br>
-- Terms per KA — behavioral bullets and source references (exact file + location) per term<br>
-- Boundary terms — concepts this module depends on but does not own<br>
-- Scope — what region of the domain this module covers (emerges from the terms, not the other way around)<br>
-<br>
----</div>
+<div class="skill-hero-img-wrap">
+<div class='skill-md-preview skill-md-preview--glossary'><h1>Core Domain</h1>
+<h2>Product Catalog</h2>
+<p><em>Product Catalog</em> is the browsable, searchable collection of pet supplies and the single source of truth for what is for sale. It owns <em>product</em> identity, <em>category</em> facets for navigation, the <em>customer review</em> and rating system, and real-time <em>stock availability</em>. No other KA duplicates product identity, stock truth, or review ownership.</p>
+<h3>product</h3>
+<ul>
+<li>A <em>product</em> is a pet supply item (food, toy, bed, leash, grooming product, aquarium gear) available for purchase.</li>
+<li>Every <em>product</em> has images, a description, and real-time <em>stock availability</em>.</li>
+</ul>
+<hr>
+<h3>category</h3>
+<ul>
+<li>A <em>category</em> organizes <em>product</em> for browsing — by product type, pet type, or brand.</li>
+<li>Customers narrow the catalog using <em>category</em> together with search and filters.</li>
+</ul>
+<hr>
+<h3>customer review</h3>
+<ul>
+<li>A <em>customer review</em> is a star rating with optional written text and optional photo attached to a <em>product</em>.</li>
+<li>Photo reviews show the pet using the <em>product</em>.</li>
+</ul>
+<hr>
+<h3>stock availability</h3>
+<ul>
+<li><em>Stock availability</em> is a real-time indicator of whether a <em>product</em> can be purchased.</li>
+<li>Checkout must not proceed when the <em>product</em> is backordered.</li>
+</ul>
+<hr></div>
+
+</div>
 
 <section class="install-block" aria-labelledby="install-npx-heading">
   <h2 id="install-npx-heading">Install with npx</h2>
@@ -1077,100 +1803,65 @@ The primary output is a glossary, not a boundary diagram. Modules are the organi
 </section>
 
 
-<hr class="entry-divider">
-
-
-
-<hr class="entry-divider">
-
-<h2 id="entry-contents">Contents</h2>
-<details class="entry-md-section" id="md-overview"><summary class="entry-md-section__summary">Overview</summary><div class="entry-md-section__body"><p>﻿--- name: abd-domain-glossary catalog_garden_tier: practice catalog_garden_order: 1 catalogue_one_liner: &gt;- Build an organized domain glossary — terms grouped by Key Abstraction, KAs grouped into modules by shared concern. description: &gt;- Build a domain glossary: terms grouped under Key Abstractions, KAs grouped into modules by shared concern. Use when the user asks to &quot;build a domain glossary&quot;, &quot;define domain terms&quot;, &quot;identify Key Abstractions&quot;, or needs agreed terminology before deeper modeling begins.</p>
-<hr>
-<h1>abd-domain-glossary</h1></div></details>
-<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p>Produce a <strong>structured domain glossary</strong> — terms grouped by Key Abstraction, Key Abstractions grouped into modules by shared concern — so that every downstream artifact (domain language, acceptance criteria, specification, code) draws from a single agreed vocabulary.</p>
-<p>The primary output is a glossary, not a boundary diagram. Modules are the organizing container: a module groups the KAs and terms that share a core concern and can be understood together. Each module file contains:</p>
+<div class="skill-cr-grid">
+<div class="skill-cr-col"><div class="skill-concepts">
+<h2 class="skill-concepts-heading">Concepts</h2>
+<div class="skill-concept-body"><p>A <strong>module</strong> groups Key Abstractions that belong together — because they share a core concern and can be understood as a unit without constantly crossing into other modules. Modules emerge from the KAs, not the other way around.</p></div>
+<details class="skill-concept"><summary>How to decide if KAs belong in the same module</summary><div class="skill-concept-body"><p>Ask: <em>Can a reader reason about these KAs together as a coherent subject, or do they pull in different directions?</em></p>
 <ul>
-<li><strong>Key Abstractions</strong> — named building blocks that own a cluster of related terms</li>
-<li><strong>Terms per KA</strong> — behavioral bullets and source references (exact file + location) per term</li>
-<li><strong>Boundary terms</strong> — concepts this module depends on but does not own</li>
-<li><strong>Scope</strong> — what region of the domain this module covers (emerges from the terms, not the other way around)</li>
-</ul>
-<hr></div></details>
-<details class="entry-md-section" id="output-file"><summary class="entry-md-section__summary">Output file</summary><div class="entry-md-section__body"><p><strong>Deliverables folder:</strong> `&lt;active_skill_workspace&gt;/domain/`</p>
-<p><strong>Single file</strong> (default): `domain/domain-glossary.md` — all modules, KAs, and terms in one file. Use this unless the system is large enough that one file becomes unnavigable.</p>
-<p><strong>Per-module files</strong> (large systems only): `domain/domain-glossary/&lt;module-name&gt;.md` — one file per module with its KAs and terms. Use when there are enough modules that a single file would be unwieldy.</p>
-<hr></div></details>
-<details class="entry-md-section" id="core-concepts"><summary class="entry-md-section__summary">Core concepts</summary><div class="entry-md-section__body"><p>A <strong>domain glossary</strong> is a structured vocabulary for the domain — terms grouped under Key Abstractions, Key Abstractions grouped into modules by shared concern. Every claim traces to an exact source file and location on disk.</p>
-<p>Read the supporting reference files before generating:</p>
-<ul>
-<li><strong>`reference/modules.md`</strong> — what a module is and how to decide boundaries</li>
-<li><strong>`reference/key-abstractions.md`</strong> — KA definition and the five aspects</li>
-<li><strong>`reference/terms.md`</strong> — domain terms, boundary terms, and placement decisions</li>
-<li><strong>`reference/source-references.md`</strong> — reference format and grouping rules</li>
-</ul>
-<hr></div></details>
-<details class="entry-md-section" id="agent-instructions"><summary class="entry-md-section__summary">Agent Instructions</summary><div class="entry-md-section__body"><h3>1. Read context</h3>
-<p>Read every file listed under <strong>Core concepts</strong> above.</p>
-<h3>2. Generate</h3>
-<p>Read every file in <strong>`rules/`</strong>; author to those rules.</p>
-<p><strong>Produce output from the template:</strong></p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td>`templates/module-file-template.md`</td><td>`domain/domain-glossary.md` (default) or one file per module under `domain/domain-glossary/` for large systems.</td></tr></tbody></table></div>
-<p><strong>Every `Source:` reference must point to a real file on disk at an exact location.</strong></p>
-<p><strong>Quality bar:</strong></p>
-<ul>
-<li>Single-noun module names, no kind-mixing</li>
-<li>Every KA intro opens with &quot;<em>KAName</em> is …&quot;</li>
-<li>`#### Decisions made` under each `## KA` — why these terms belong together</li>
-<li>Every `### term` has behavioral bullets; references at KA level under `### KA References`</li>
-<li>Boundary terms carry `<em>(owned by: Module)</em>`</li>
-<li>Domain terms <em>italicized</em> throughout</li>
-</ul>
-<h3>3. Validate</h3>
-<p>Run the scanners:</p>
-<pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/abd-domain-glossary \
-  --workspace &lt;path-to-output&gt;</code></pre>
-<p>Then emit per-rule verdicts for every rule in `rules/`.</p>
-<hr></div></details>
-<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Read the glossary as a vocabulary reviewer.</p>
-<ul>
-<li><strong>KA inventory</strong> — every KA intro paragraph opens with &quot;<em>KAName</em> is …&quot; and weaves role, responsibilities, relationships, and invariants.</li>
-<li><strong>Decisions under KA</strong> — `#### Decisions made` appears under each `## KA`, not under terms. Records why these terms belong together.</li>
-<li><strong>Terms have behavioral bullets</strong> — every `### term` has at least one behavioral bullet.</li>
-<li><strong>KA refs present</strong> — every KA has a `### KA References` section; every term in the KA is covered by at least one reference entry pointing to an exact file and location on disk.</li>
-<li><strong>Boundary terms have owners</strong> — every boundary term carries `<em>(owned by: Module)</em>`.</li>
-<li><strong>Domain terms italicized</strong> — throughout bullets and KA intro paragraphs.</li>
-<li><strong>No kind-mixing</strong> — each module is about one kind of thing.</li>
-</ul>
-<hr></div></details>
+<li>KAs that share vocabulary, rules, and invariants → same module.</li>
+<li>KAs that are only loosely related → separate modules.</li>
+</ul></div></details>
+<details class="skill-concept"><summary>Kind-mixing</summary><div class="skill-concept-body"><p>Ask of each module: <em>what kind of thing is this module about?</em> If the answer is more than one kind, split.</p></div></details>
+<details class="skill-concept"><summary>Naming</summary><div class="skill-concept-body"><p>Pick a single noun the source uses. If you reach for compounds or generic glue, the module likely covers two concerns — split.</p>
+<h1>Source References</h1>
+<p>References are grouped by KA — one <code>### KA References</code> section per KA, after all its terms. Every term must be covered by at least one reference entry. References point to an exact file and location on disk.</p></div></details>
+<details class="skill-concept"><summary>Format</summary><div class="skill-concept-body"><pre><code>**Ref — {{short title}}**
+Source: {{relative_path_to_source_file}}
+Locator: {{lines / chapter / page}}
+Extract: {{whole | partial}}</code></pre>
+<p>See <code>../templates/module-file-template.md</code> for the canonical file shape.</p>
+<h1>Domain Terms</h1>
+<p>A <strong>domain term</strong> is a named concept from the domain. For each term, capture behavioral bullets grounded in source material.</p></div></details>
+<details class="skill-concept"><summary>Deciding where a term belongs</summary><div class="skill-concept-body"><ul>
+<li><strong>Keep under a KA</strong> — term has clear meaning within this module.</li>
+<li><strong>Move to boundary</strong> — this module depends on it but doesn&#x27;t own it → <code># Boundary Domain</code> with <code>*(owned by: Module)*</code>.</li>
+<li><strong>Move to another module</strong> — term belongs elsewhere entirely.</li>
+</ul></div></details>
+<details class="skill-concept"><summary>Boundary terms</summary><div class="skill-concept-body"><p>A concept this module depends on but does not own. Appears under <code># Boundary Domain</code> as <code>### term *(owned by: Module)*</code>.</p></div></details>
+</div></div>
+<div class="skill-cr-col"><div class="skill-rules">
+<h2 class="skill-rules-heading">Rules</h2>
+<details class="skill-rule">
+<summary class="skill-rule-header">Boundary terms have owner — every boundary term must name its owning module</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Include ownership in the heading: ### term (owned by: ModuleName).</li><li>Name exactly one owning module per boundary term.</li><li>If you discover a boundary term is owned by multiple modules, move it to Core Domain as a base abstraction.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Omit the ownership annotation from any boundary term heading.</li><li>List multiple owning modules — that means it&#x27;s not a boundary term.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Full source coverage — every source file must appear in the partition</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Walk every file in the source directories (context/, corpus/, source/, data/) and confirm it appears in at least one Source: line across the module files.</li><li>Place files that don&#x27;t fit any module into unallocated.md with a Reason: line explaining the ambiguity.</li><li>Place out-of-scope files into rejected.md with a Reason: line explaining why they are excluded.</li><li>After the first pass, re-read the source directory listing and confirm full coverage.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Silently skip source files because they &quot;don&#x27;t seem important&quot; — every file gets an explicit allocation decision.</li><li>Leave source files unreferenced on the assumption they&#x27;ll be handled in a later pass — the partition is the single authoritative record of what&#x27;s in, what&#x27;s out, and what&#x27;s pending.</li><li>Assume a source file is covered because a nearby file from the same directory was included — each file must appear individually.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">KA and term count — modules must have 4–7 KAs, each KA must have 4–7 terms</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Target 4–7 ## KAName headings per module. If source supports fewer than 4, the module may be too narrow — consider merging with a neighbour. If source demands more than 7, the module may be too broad — consider splitting.</li><li>Target 4–7 ### term headings under each KA. If a KA has fewer than 4 terms, it may not justify its own KA — fold terms into a neighbouring KA. If a KA has more than 7 terms, it may cover two distinct concerns — split the KA.</li><li>Every ## KAName must have an intro paragraph opening with KAName is … — this paragraph is the KA&#x27;s term definition.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Create single-term KAs — a KA with only one ### term is not a grouping.</li><li>Create KAs with more than 7 terms without considering a split.</li><li>Count boundary terms toward any KA&#x27;s term count — boundary terms live under # Boundary Domain, not under a KA.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Refs per term — every term must carry at least one Ref entry</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Place #### References with Ref entries directly after the behavioral lines of each term.</li><li>Use the full format for every Ref: Ref — title, Source:, Locator:, Extract:.</li><li>Ensure every term — Core terms and boundary terms — has at least one Ref.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Collect Refs in a separate inventory section at the top or bottom of the file — they belong with the term they evidence.</li><li>Leave a term with behavioral lines but no Ref entry — every behavioral claim must be traceable.</li><li>Use an abbreviated inline format instead of the full format.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Source references only — no generated, reconstructed, or summarized content</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Reference source files that exist on disk (corpus chunks, scanned documents, user-supplied context files).</li><li>Use the exact relative file path in every Source: line so a reviewer can open the file and verify it exists.</li><li>Stop and tell the user when the source directory is empty or source files do not exist — the skill cannot run without readable source files.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Use telltale source markers like Source: domain-knowledge, Source: application-requirements, Source: user requirements, or any other non-file reference in Source: lines.</li><li>Reference files that do not exist on disk.</li><li>Proceed with scanning when no source files exist on disk — the correct action is to halt and inform the user.</li></ul></div>
+</details>
+</div></div>
+</div>
 
-<ul class="file-list file-list--root">
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>reference/</strong><span class="file-meta"> → Folder (4 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/abd-domain-glossary/reference/key-abstractions.md" target="_blank" rel="noopener noreferrer"><strong>key-abstractions.md</strong></a><span class="file-meta"> → Key Abstractions</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/abd-domain-glossary/reference/modules.md" target="_blank" rel="noopener noreferrer"><strong>modules.md</strong></a><span class="file-meta"> → A module groups Key Abstractions that belong together — because they share a core concern and can be understood as a unit without constantly crossing into other modules. Modules emerge from the KAs, not the other way around.</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/abd-domain-glossary/reference/source-references.md" target="_blank" rel="noopener noreferrer"><strong>source-references.md</strong></a><span class="file-meta"> → Source References</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/abd-domain-glossary/reference/terms.md" target="_blank" rel="noopener noreferrer"><strong>terms.md</strong></a><span class="file-meta"> → Domain Terms</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/abd-domain-glossary/rules/boundary-terms-have-owner.md" target="_blank" rel="noopener noreferrer"><strong>boundary-terms-have-owner.md</strong></a><span class="file-meta"> → scanner: boundary-terms-have-owner</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/abd-domain-glossary/rules/full-source-coverage.md" target="_blank" rel="noopener noreferrer"><strong>full-source-coverage.md</strong></a><span class="file-meta"> → scanner: full-source-coverage</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/abd-domain-glossary/rules/ka-term-count.md" target="_blank" rel="noopener noreferrer"><strong>ka-term-count.md</strong></a><span class="file-meta"> → scanner: ka-term-count</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/abd-domain-glossary/rules/refs-per-term.md" target="_blank" rel="noopener noreferrer"><strong>refs-per-term.md</strong></a><span class="file-meta"> → scanner: refs-per-term</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/abd-domain-glossary/rules/verbatim-source-only.md" target="_blank" rel="noopener noreferrer"><strong>verbatim-source-only.md</strong></a><span class="file-meta"> → scanner: verbatim-source-only</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>scanners/</strong><span class="file-meta"> → Folder (5 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/abd-domain-glossary/scanners/boundary-terms-have-owner-scanner.py" target="_blank" rel="noopener noreferrer"><strong>boundary-terms-have-owner-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/abd-domain-glossary/scanners/full-source-coverage-scanner.py" target="_blank" rel="noopener noreferrer"><strong>full-source-coverage-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/abd-domain-glossary/scanners/ka-term-count-scanner.py" target="_blank" rel="noopener noreferrer"><strong>ka-term-count-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/abd-domain-glossary/scanners/refs-per-term-scanner.py" target="_blank" rel="noopener noreferrer"><strong>refs-per-term-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/abd-domain-glossary/scanners/verbatim-source-only-scanner.py" target="_blank" rel="noopener noreferrer"><strong>verbatim-source-only-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/abd-domain-glossary/templates/module-file-template.md" target="_blank" rel="noopener noreferrer"><strong>module-file-template.md</strong></a><span class="file-meta"> → Domain Scan — per-module file (combined boundaries + KAs + terms + source refs).</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/abd-domain-glossary/templates/module-partition-template.md" target="_blank" rel="noopener noreferrer"><strong>module-partition-template.md</strong></a><span class="file-meta"> → Domain Scan — root index.</span></li>
-</ul></div></details></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/abd-domain-glossary/SKILL.md" target="_blank" rel="noopener noreferrer"><strong>SKILL.md</strong></a><span class="file-meta"> → name: abd-domain-glossary</span></li>
-</ul>
+
+
 
 </div>
 </div>

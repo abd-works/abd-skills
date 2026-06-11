@@ -1,7 +1,7 @@
 ---
 name: class-model
 catalog_garden_tier: practice
-catalog_garden_order: 6
+catalog_garden_order: 4
 catalogue_one_liner: >-
   Typed Class Model from the domain model; properties, operations, relationships, invariants.
 description: >-

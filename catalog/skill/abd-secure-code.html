@@ -471,7 +471,22 @@ html[data-abd-theme="executive"] .catalog-body code {
 }
 
 .page-hero--detail {
-  padding-top: 48px;
+  padding-top: 20px;
+  padding-bottom: 16px;
+}
+.page-hero--detail .page-headline {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 4px 0 6px;
+}
+.page-headline .skill-name-prefix,
+.cap-card__title .skill-name-prefix {
+  color: var(--accent);
+}
+.page-hero--detail .body-lead {
+  font-size: 0.9rem;
+  margin: 0;
+  color: var(--muted);
 }
 
 .page-hero--detail .back-link {
@@ -731,8 +746,18 @@ a.cap-card:hover .cap-card__more {
   color: #b8b8c2;
   margin: 0 0 18px;
 }
+.skill-detail-page .skill-hero-img-wrap + .install-block {
+  margin-top: 18px;
+}
+.skill-detail-page .install-block + .skill-cr-grid,
+.skill-detail-page .install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block {
+  margin-top: 0;
+}
 .install-block {
-  margin: 22px 0 0;
+  margin: 20px 0 0;
   padding: 16px 18px;
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid var(--border-muted);
@@ -1041,28 +1066,624 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 .plugin-slots h3:first-child { margin-top: 0; }
 .cap-grid--plugin-slot { margin-bottom: 8px; }
 
+/* ── Skill detail: family kanban stage nav (matches hub column headings) ── */
+.skill-kanban-nav {
+  --fam-sdd: #6bcb77;
+  --fam-ddd: #6c5ce7;
+  --fam-uxd: #e84393;
+  --fam-arc: #4fc3f7;
+  --fam-idea: var(--accent);
+  --abd-accent: var(--accent);
+  --abd-accent-glow: var(--accent-soft, var(--accent));
+  --abd-raised: var(--raised);
+  --abd-bg: var(--bg);
+  --abd-border: var(--border);
+  --abd-text: var(--text);
+  --abd-muted: var(--muted);
+  background: var(--raised);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0 16px;
+}
+.skill-kanban-nav .wrap {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.skill-kanban-nav__board {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  gap: 6px 8px;
+  align-items: start;
+}
+.skill-kanban-nav__practice-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  margin: 0;
+  padding: 0 8px;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-left-width: 3px;
+  border-radius: 4px;
+  line-height: 1.25;
+  box-sizing: border-box;
+  transition: box-shadow 120ms, border-color 120ms;
+  color: inherit;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card:hover {
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--sdd {
+  border-left-color: var(--fam-sdd);
+  color: var(--fam-sdd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--ddd {
+  border-left-color: var(--fam-ddd);
+  color: var(--fam-ddd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--uxd {
+  border-left-color: var(--fam-uxd);
+  color: var(--fam-uxd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--arc {
+  border-left-color: var(--fam-arc);
+  color: var(--fam-arc);
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap {
+  position: relative;
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip.kb-col-shape-tooltip {
+  min-width: 10rem;
+  max-width: 22rem;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:hover .kb-skill-tooltip,
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:focus-within .kb-skill-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.skill-kanban-nav__stages {
+  display: grid;
+  grid-template-columns: repeat(var(--skill-kanban-cols, 5), minmax(0, 1fr));
+  gap: 0 8px;
+  min-width: 0;
+}
+.skill-kanban-nav__col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.skill-kanban-nav__tickets {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.skill-kanban-nav .kb-col-head {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 8px 6px 7px;
+  font-family: var(--font-mono);
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.skill-kanban-nav .kb-col-head--static {
+  cursor: default;
+}
+.skill-kanban-nav a.kb-col-head {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav a.kb-col-head:hover {
+  border-color: rgba(229, 83, 26, 0.35);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.15);
+}
+.skill-kanban-nav .kb-col-head--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-col-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+}
+.skill-kanban-nav .kb-col-scope-shape {
+  flex-shrink: 0;
+  border: 2px solid var(--abd-accent);
+  border-radius: 2px;
+}
+.skill-kanban-nav__stages .kb-col-shape-tooltip,
+.skill-kanban-nav__stages .kb-skill-tooltip-wrap .kb-col-shape-tooltip {
+  display: none !important;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 8px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 7px 9px;
+  font-family: var(--font-mono);
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid rgba(229, 83, 26, 0.45);
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 14px;
+  border: 5px solid transparent;
+  border-bottom-color: rgba(229, 83, 26, 0.45);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__name {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--abd-accent-glow);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__bullets {
+  font-size: 8px;
+  line-height: 1.45;
+  color: var(--abd-text);
+  white-space: pre-line;
+}
+.skill-kanban-nav .kb-col-scope-shape--solution { width: 36px; height: 12px; }
+.skill-kanban-nav .kb-col-scope-shape--increment { width: 24px; height: 16px; }
+.skill-kanban-nav .kb-col-scope-shape--sprint { width: 16px; height: 22px; }
+.skill-kanban-nav .kb-col-scope-shape--story { width: 11px; height: 28px; }
+.skill-kanban-nav .kb-col-head-title {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--abd-text);
+}
+.skill-kanban-nav .kb-col-head-title > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.skill-kanban-nav .kb-col-num {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--abd-text);
+  background: var(--abd-bg);
+  border: 1px solid var(--abd-border);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+.skill-kanban-nav .kb-ticket {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  background: var(--abd-raised);
+  color: var(--abd-text);
+  padding: 5px 6px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  border-left-width: 3px;
+  border-left-color: var(--abd-muted);
+  line-height: 1.25;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav .kb-ticket:hover {
+  border-color: var(--abd-border);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.2);
+}
+.skill-kanban-nav .kb-ticket.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-ticket.aad-fam-sdd { border-left-color: var(--fam-sdd); }
+.skill-kanban-nav .kb-ticket.aad-fam-ddd { border-left-color: var(--fam-ddd); }
+.skill-kanban-nav .kb-ticket.aad-fam-uxd { border-left-color: var(--fam-uxd); }
+.skill-kanban-nav .kb-ticket.aad-fam-arc { border-left-color: var(--fam-arc); }
+.skill-kanban-nav .kb-ticket.aad-fam-idea { border-left-color: var(--fam-idea); }
+@media (max-width: 960px) {
+  .skill-kanban-nav__board {
+    grid-template-columns: 1fr;
+  }
+  .skill-kanban-nav__stages {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
+
+/* ── Skill detail: full-width hero image / embedded viewer ── */
+.skill-hero-img-wrap {
+  margin: 24px 0 0;
+}
+.skill-hero-img-wrap:empty { display: none; }
+.skill-hero-img-wrap img,
+.skill-hero-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--raised);
+}
+
+/* HTML prototype iframe (reference/example/index.html) */
+.skill-prototype-wrap {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-prototype-frame {
+  display: block;
+  width: 100%;
+  min-height: 540px;
+  height: 71vh;
+  max-height: 810px;
+  border: 0;
+  background: #fff;
+}
+.skill-prototype-open {
+  margin: 0;
+  padding: 8px 14px;
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+  background: var(--raised);
+}
+.skill-prototype-open a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.skill-prototype-open a:hover { text-decoration: underline; }
+
+/* draw.io embedded viewer */
+.skill-drawio-wrap {
+  position: relative;
+  width: 100%;
+  height: min(71vh, 680px);
+  min-height: 340px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-drawio-wrap .mxgraph {
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+}
+.skill-drawio-wrap .geToolbarContainer {
+  z-index: 4;
+}
+
+/* code file preview */
+.skill-code-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--raised);
+  font-size: 13px;
+}
+.skill-code-lang {
+  padding: 6px 14px;
+  font-family: var(--mono, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.skill-code-preview pre {
+  margin: 0;
+  padding: 16px;
+  overflow-x: auto;
+  max-height: 420px;
+}
+.skill-code-preview code {
+  font-family: var(--mono, 'JetBrains Mono', monospace);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+/* rendered markdown preview */
+.skill-hero-img-wrap .skill-md-preview {
+  max-height: min(71vh, 610px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.skill-md-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px 24px;
+  background: var(--surface);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.skill-md-preview h1 { font-size: 18px; font-weight: 700; margin: 0 0 12px; }
+.skill-md-preview h2 { font-size: 15px; font-weight: 600; margin: 16px 0 8px;
+  border-bottom: 1px solid var(--border); padding-bottom: 3px; }
+.skill-md-preview h3 { font-size: 13px; font-weight: 600; margin: 12px 0 6px; }
+.skill-md-preview h4 { font-size: 12px; font-weight: 600; margin: 10px 0 4px; color: var(--muted); }
+.skill-md-preview p  { margin: 0 0 10px; }
+.skill-md-preview .spec-steps { margin: 0 0 14px; }
+.skill-md-preview p.spec-step { margin: 0 0 4px; line-height: 1.55; }
+.skill-md-preview .md-table-wrap { overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview .md-table { border-collapse: collapse; width: 100%; }
+.skill-md-preview ul, .skill-md-preview ol { margin: 0 0 10px; padding-left: 20px; }
+.skill-md-preview li { margin-bottom: 3px; }
+.skill-md-preview code { background: var(--raised); border-radius: 3px;
+  padding: 1px 5px; font-family: var(--mono, monospace); font-size: 12px; }
+.skill-md-preview pre { background: var(--raised); border-radius: 5px;
+  padding: 12px; overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview table { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
+.skill-md-preview th, .skill-md-preview td {
+  border: 1px solid var(--border); padding: 6px 10px; }
+.skill-md-preview th { background: var(--raised); font-weight: 600; }
+
+/* ── Skill detail: concepts | rules two-column grid ── */
+.skill-cr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin: 24px 0 0;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .skill-cr-grid { grid-template-columns: 1fr; }
+}
+.skill-cr-col { min-width: 0; }
+.skill-cr-single { margin: 24px 0 0; }
+
+/* Glossary example hero — term blocks without heavy HR dividers */
+.skill-md-preview--glossary h1 {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 10px;
+  border: 0;
+  padding: 0;
+}
+.skill-md-preview--glossary h2 {
+  font-size: 16px;
+  margin-top: 0;
+}
+.skill-md-preview--glossary h3 {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 14px 0 6px;
+  padding: 6px 8px;
+  background: var(--raised);
+  border-radius: 4px;
+  border-left: 3px solid var(--accent);
+}
+.skill-md-preview--glossary hr {
+  display: none;
+}
+.skill-md-preview--glossary ul {
+  margin-top: 0;
+}
+
+/* ── Skill detail: full-width content below ── */
+.skill-detail-content-col { margin-top: 32px; }
+.skill-detail-page .skill-cr-grid,
+.skill-detail-page .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-single,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-single {
+  margin-top: 0;
+}
+
+/* ── Skill detail: concepts (expandable) ── */
+.skill-hero-img-wrap + .install-block {
+  margin-top: 16px;
+}
+.install-block + .skill-cr-grid,
+.install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-concepts {
+  margin: 0 0 20px;
+}
+.skill-concepts-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 8px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-concept {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-concept summary {
+  padding: 8px 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  user-select: none;
+}
+.skill-concept summary::-webkit-details-marker { display: none; }
+.skill-concept summary::marker { content: ""; }
+.skill-concept summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-concept[open] summary::before { content: "\2212"; }
+.skill-concept-body {
+  padding: 6px 4px 10px 1.9rem;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.skill-concept-body p { margin: 0 0 8px; }
+.skill-concept-body p:last-child { margin-bottom: 0; }
+.skill-concept-body ul { margin: 0 0 8px 1.1em; padding: 0; }
+.skill-concept-body li { margin: 3px 0; }
+
+/* ── Skill detail: rules (DO / DON'T) ── */
+.skill-rules {
+  margin: 0 0 20px;
+}
+.skill-rules-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 12px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-rule {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule[open] > .skill-rule-header {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule-header {
+  padding: 8px 10px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  background: var(--raised);
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+.skill-rule-header::-webkit-details-marker { display: none; }
+.skill-rule-header::marker { content: ""; }
+.skill-rule-header::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-rule[open] > .skill-rule-header::before {
+  content: "\2212";
+}
+.skill-rule-section {
+  padding: 8px 12px;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+.skill-rule-section--do {
+  border-left: 3px solid #2d8a4e;
+}
+.skill-rule-section--dont {
+  border-left: 3px solid #c0392b;
+}
+.skill-rule-section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+  color: var(--muted);
+}
+.skill-rule-section--do .skill-rule-section-label { color: #2d8a4e; }
+.skill-rule-section--dont .skill-rule-section-label { color: #c0392b; }
+.skill-rule-section ul { margin: 0; padding: 0 0 0 1.1em; }
+.skill-rule-section li { margin: 2px 0; color: var(--text); }
+
 </style>
-<script src="../commons/catalog-nav.js?v=foundry-8"></script>
+<script src="../commons/catalog-nav.js?v=foundry-9"></script>
 </head>
 <body data-nav-prefix="../" data-nav-current="skills" data-nav-site-base="../../../abd-works-website/">
 <main id="main-content">
 
+
+
 <div class="page-hero page-hero--detail">
   <div class="wrap">
-    <a class="back-link" href="../index.html">← Foundry home</a>
-    <p class="s-name">Skill</p>
-    <h1 class="page-headline">abd-secure-code</h1>
+    <a class="back-link" href="../index.html">← The ABD Foundry</a>
+    
+    <h1 class="page-headline"><span class="skill-name-prefix">abd-</span>secure-code</h1>
     <p class="body-lead">OWASP-aligned secure coding rules and Python/Java/JavaScript scanners — write and prove security-sensitive production code before merge.</p>
   </div>
 </div>
 
 <div class="catalog-body">
-<div class="wrap">
+<div class="wrap skill-detail-page">
 
-<h2>Description</h2>
-<div class="entry-prose">Engineers ship features faster than attackers find gaps — but only when secure defaults are explicit, reviewable, and mechanically checkable. This skill packages Secure Code Warrior guidance into concrete coding rules and automated scanners so teams and agents can write security-sensitive code and prove it meets the same bar before merge.<br>
-<br>
----</div>
+<div class="skill-hero-img-wrap">
+
+</div>
 
 <section class="install-block" aria-labelledby="install-npx-heading">
   <h2 id="install-npx-heading">Install with npx</h2>
@@ -1071,217 +1692,153 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 </section>
 
 
-<hr class="entry-divider">
-
-
-
-<hr class="entry-divider">
-
-<h2 id="entry-contents">Contents</h2>
-<details class="entry-md-section" id="md-overview"><summary class="entry-md-section__summary">Overview</summary><div class="entry-md-section__body"><p>﻿--- name: abd-secure-code catalog_garden_tier: practice catalog_garden_family: architecture-centric-engineering catalog_garden_order: 65 catalogue_one_liner: &gt;- OWASP-aligned secure coding rules and Python/Java/JavaScript scanners — write and prove security-sensitive production code before merge. description: &gt;- Generate and validate secure production code with OWASP-aligned rules and language-specific scanners for Python, Java, and JavaScript (Node.js and client-side). Use when implementing authentication, persistence, file handling, crypto, or user-rendered content; in the GREEN phase after acceptance tests; reviewing PRs for OWASP Top 10 categories; or when asked to fix injection, hash passwords, or run secure code scanners.</p>
-<hr>
-<h1>abd-secure-code</h1></div></details>
-<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p>Engineers ship features faster than attackers find gaps — but only when secure defaults are explicit, reviewable, and mechanically checkable. This skill packages Secure Code Warrior guidance into concrete coding rules and automated scanners so teams and agents can <strong>write</strong> security-sensitive code and <strong>prove</strong> it meets the same bar before merge.</p>
+<div class="skill-cr-grid">
+<div class="skill-cr-col"><div class="skill-concepts">
+<h2 class="skill-concepts-heading">Concepts</h2>
+<details class="skill-concept"><summary>Threat-informed defaults</summary><div class="skill-concept-body"><p>Each rule maps to a <strong>real failure mode</strong> from the Secure Code Warrior corpus (injection, cryptographic failure, unsafe deserialization, mass assignment, information disclosure). Secure code is not a separate checklist bolted on at the end — it is how you handle <strong>untrusted input</strong>, <strong>secrets</strong>, <strong>errors</strong>, and <strong>output encoding</strong> in normal production modules.</p>
 <hr></div></details>
-<details class="entry-md-section" id="output-file"><summary class="entry-md-section__summary">Output file</summary><div class="entry-md-section__body"><p><strong>Deliverables folder:</strong> see `../agent-protocol.md` — Output file resolution.</p>
-<p><strong>File name:</strong> Production source files in the target language. Additionally, `secure-code-review-checklist.md` per slice.</p>
+<details class="skill-concept"><summary>Parameterized data access</summary><div class="skill-concept-body"><p>Databases, shells, and HTML parsers must receive <strong>data as data</strong>. SQL uses bound parameters; shell invocation uses argument arrays; browser output uses escaping or sanitization. Concatenating or interpolating untrusted strings into executable contexts is the common root of injection flaws.</p>
 <hr></div></details>
-<details class="entry-md-section" id="agent-instructions"><summary class="entry-md-section__summary">Agent Instructions</summary><div class="entry-md-section__body"><p>&gt; <strong>MANDATORY — read `../agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.</strong></p>
-<h3>1. Read context</h3>
-<p>Read these files:</p>
-<ul>
-<li><strong>`reference/concepts.md`</strong> — threat-informed defaults, parameterized data access, secrets/verifiers, fail-safe errors, language stacks, rule map, and context corpus.</li>
-</ul>
-<h3>2. Generate</h3>
-<p>Read every file in <strong>`rules/`</strong>; author to those rules.</p>
-<p><strong>Produce output from every template:</strong></p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td>`templates/secure-code-review-checklist.md`</td><td>Per-slice checklist marking pass/fail per applicable rule</td></tr></tbody></table></div>
-<p><strong>Generation steps:</strong> 1. Confirm language — Python, Java, JavaScript/TypeScript, or combination. Default: detect from changed files. 2. Scope the change — list trust boundaries (HTTP input, files, third-party callbacks, admin-only fields). 3. Select rules — match story behavior to rule files using the OWASP theme table. 4. Author production code — apply DO patterns from each rule; avoid DO NOT anti-patterns. 5. Self-review (AI pass) — re-read output against each applicable rule before scanners. 6. Document residual risk — note rules marked n/a and manual-only controls.</p>
-<h3>3. Validate</h3>
-<p>Run the scanners per language:</p>
-<pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/abd-secure-code \
-  --workspace &lt;path-to-output&gt; \
-  --language python
-
-python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/abd-secure-code \
-  --workspace &lt;path-to-output&gt; \
-  --language javascript
-
-python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/abd-secure-code \
-  --workspace &lt;path-to-output&gt; \
-  --language java</code></pre>
-<p>Then emit per-rule verdicts per `../agent-protocol.md`.</p>
+<details class="skill-concept"><summary>Secrets and verifiers</summary><div class="skill-concept-body"><p><strong>Secrets</strong> (API keys, private keys) never belong in source control. <strong>Passwords</strong> are one-way verifiers — store adaptive hashes with salts, not plaintext or reversible encryption. <strong>Tokens</strong> and session identifiers require cryptographically secure randomness.</p>
 <hr></div></details>
-<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Inspect what was built — read the artifacts as reviewers.</p>
-<ul>
-<li><strong>Applicable rules read</strong> — production code matches DO / avoids DO NOT examples.</li>
-<li><strong>Scanners run</strong> — per language in scope; all pass.</li>
-<li><strong>Checklist filled</strong> — `templates/secure-code-review-checklist.md` completed for the slice.</li>
-<li><strong>Residual manual items documented</strong> — CSP, rate limits, dependency CVEs noted (out of scanner scope).</li>
-<li><strong>No bundle markers</strong> — `SKILL.md` has no `&lt;!-- execute_rules:bundle_rules --&gt;` markers.</li>
-</ul>
+<details class="skill-concept"><summary>Fail safe to users, verbose to logs</summary><div class="skill-concept-body"><p>Clients see generic errors with a correlation id. Operators see stack traces, query errors, and security events in protected logs — not in HTTP responses.</p>
 <hr></div></details>
+<details class="skill-concept"><summary>Rules and scanners</summary><div class="skill-concept-body"><p><strong><code>rules/*.md</code></strong> state pass/fail conditions grounded in <strong><code>context/</code></strong> sources. <strong><code>scanners/python/</code></strong>, <strong><code>scanners/java/</code></strong>, and <strong><code>scanners/javascript/</code></strong> enforce the same rule stems mechanically. Run every language folder that matches files in the engagement workspace.</p>
+<hr></div></details>
+<details class="skill-concept"><summary>Language stacks</summary><div class="skill-concept-body"><div class="md-table-wrap"><table class="md-table"><thead><tr><th>Stack</th><th>Scanner folder</th><th>Typical paths</th></tr></thead><tbody><tr><td>Python (Flask, Django, FastAPI)</td><td><code>scanners/python/</code></td><td><code>src/</code>, <code>server/</code>, <code>app/</code></td></tr><tr><td>Java (Spring, Jakarta EE, JDBC)</td><td><code>scanners/java/</code></td><td><code>src/main/java/</code>, <code>server/</code></td></tr><tr><td>Node.js / Express / Nest</td><td><code>scanners/javascript/</code></td><td><code>server/</code>, <code>packages/*/src/</code></td></tr><tr><td>Browser / React / Vue / Angular</td><td><code>scanners/javascript/</code></td><td><code>client/</code>, <code>src/</code></td></tr></tbody></table></div>
+<hr></div></details>
+<details class="skill-concept"><summary>Rule map (OWASP themes)</summary><div class="skill-concept-body"><div class="md-table-wrap"><table class="md-table"><thead><tr><th>Prefix</th><th>Theme</th><th>Rule files</th></tr></thead><tbody><tr><td><strong>if</strong></td><td>Injection — SQL</td><td><code>no-sql-string-concatenation.md</code></td></tr><tr><td><strong>if</strong></td><td>Injection — OS command</td><td><code>no-os-command-injection.md</code></td></tr><tr><td><strong>if</strong></td><td>Injection — XSS / script</td><td><code>no-dangerous-xss-sinks.md</code>, <code>no-eval-dynamic-code-execution.md</code></td></tr><tr><td><strong>if</strong></td><td>Injection — LDAP</td><td><code>no-ldap-filter-injection.md</code></td></tr><tr><td><strong>cf</strong></td><td>Cryptographic failures</td><td><code>no-plaintext-password-storage.md</code>, <code>no-plaintext-sensitive-data-at-rest.md</code>, <code>no-weak-crypto-algorithms.md</code>, <code>no-hardcoded-secrets.md</code></td></tr><tr><td><strong>af</strong></td><td>Authentication failures</td><td><code>no-predictable-session-token.md</code>, <code>no-insufficient-login-rate-limiting.md</code>, <code>no-client-side-auth-trust.md</code>, <code>no-jwt-none-algorithm.md</code></td></tr><tr><td><strong>df</strong></td><td>Integrity / supply chain</td><td><code>no-unsafe-deserialization.md</code>, <code>no-mass-assignment-from-request.md</code>, <code>no-untrusted-component-sources.md</code>, <code>no-xxe-unsafe-xml-parser.md</code></td></tr><tr><td><strong>id</strong></td><td>Insecure design</td><td><code>no-unsafe-file-upload-handling.md</code>, <code>no-path-traversal-in-paths.md</code>, <code>no-excessive-response-data.md</code></td></tr><tr><td><strong>ec</strong></td><td>Exceptional conditions</td><td><code>no-sensitive-error-disclosure.md</code>, <code>no-toctou-outside-lock.md</code></td></tr><tr><td><strong>lf</strong></td><td>Logging failures</td><td><code>no-secrets-in-log-output.md</code>, <code>no-missing-security-event-logging.md</code></td></tr></tbody></table></div>
+<p><strong>24 rules · 72 scanners</strong> (24 stems × 3 languages).</p>
+<hr></div></details>
+<details class="skill-concept"><summary>Context corpus</summary><div class="skill-concept-body"><p>Authoritative training material: <strong><code>secure-code-warrior</code></strong> repo <code>context/</code>. Regression fixtures under that repo&#x27;s <code>fixtures/</code>. Use <strong><code>context/green_belt_assessment/</code></strong> challenges when extending rules.</p></div></details>
+</div></div>
+<div class="skill-cr-col"><div class="skill-rules">
+<h2 class="skill-rules-heading">Rules</h2>
+<details class="skill-rule">
+<summary class="skill-rule-header">No client-side auth trust</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>DO keep session state in a server-side store keyed by a random, high-entropy session id.</li><li>DO use signed (and when needed, encrypted) cookies or JWTs with verified signatures and validated claims.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>DO NOT base64-encode a JSON user object into a cookie and treat it as authoritative on read.</li><li>DO NOT decode client cookies with atob / Base64.getDecoder() and trust embedded roles without signature verification.</li><li>DO NOT accept client-supplied isAdmin or role fields without server-side authorization checks.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">No dangerous XSS sinks</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>DO render user content through framework text nodes or escaped templates.</li><li>DO sanitize HTML with a maintained library (e.g. DOMPurify) when rich text is required, then assign to a controlled sink.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>DO NOT assign untrusted strings to innerHTML, outerHTML, or dangerouslySetInnerHTML.</li><li>DO NOT disable template auto-escaping without a documented sanitization step.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">No eval or dynamic code execution</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>DO parse structured data with JSON.parse, schema validators, or safe parsers — then branch on typed values.</li><li>DO use sandboxed expression engines only when absolutely required, with strict allow-lists and no filesystem/network.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>DO NOT call eval, exec, or new Function on request-derived strings.</li><li>DO NOT pass string callbacks to timer APIs.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">No excessive response data</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>DO map domain objects to DTOs, view models, or serializers with an explicit allow-list before responding.</li><li>DO use @JsonView, field exclusion annotations, or schema-driven serializers when returning nested graphs.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>DO NOT return the full persisted entity to HTTP clients.</li><li>DO NOT serialize ORM to_dict() / __dict__ output without filtering.</li><li>DO NOT send raw database rows or JPA entities in REST responses.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">No hardcoded secrets</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>DO load secrets from environment or a secret manager at runtime; fail fast when missing.</li><li>DO rotate credentials that were ever committed; treat the old value as compromised.</li><li>DO use short-lived tokens and workload identity (IAM roles, managed identities) instead of long-lived keys where the platform supports it.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>DO NOT assign real passwords, API keys, Stripe keys, or private key PEM blocks in source files.</li><li>DO NOT embed AWS access key ids, GitHub tokens, Slack tokens, or JWT signing secrets in repositories — including &quot;dev only&quot; branches.</li><li>DO NOT commit database connection strings with embedded passwords.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">No insufficient login rate limiting</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>DO enforce rate limits and progressive backoff on login, password reset, and MFA endpoints.</li><li>DO return generic errors (Invalid username or password) — same message for unknown user and bad password.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>DO NOT expose login endpoints with unlimited attempts and no monitoring.</li><li>DO NOT reveal account existence through different error messages or timing on login failure.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">No JWT none algorithm</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>DO verify JWTs with HMAC-SHA256/384/512 or asymmetric algorithms (RS256, ES256) and a configured secret or public key.</li><li>DO reject tokens whose header algorithm is not on the allow-list.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>DO NOT verify JWTs with algorithms: [&#x27;none&#x27;] or equivalent.</li><li>DO NOT decode JWT payload without signature verification for authentication decisions.</li><li>DO NOT sign tokens with algorithm: &#x27;none&#x27;.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">No LDAP filter injection</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>DO escape LDAP filter special characters (*, (, ), \, NUL) per RFC 4515 before substitution.</li><li>DO use library APIs that guarantee parameterized filter escaping — verify in docs, do not assume {0} templates escape automatically.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>DO NOT pass raw user input into MessageFormat-style LDAP filters without escaping.</li><li>DO NOT build LDAP filters via string concatenation with request parameters.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">No mass assignment from request</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>DO map allowed fields explicitly from DTO to entity.</li><li>DO use schema validation (Zod, Joi, pydantic) that strips or rejects unknown keys before persistence.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>DO NOT spread or assign entire req.body / request.json into ORM update/create.</li><li>DO NOT unpack request dicts into model constructors without filtering.</li><li>DO NOT bind entire request maps into entities without an allow-list.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">No missing security event logging</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>DO log authentication events with event type, actor identifier, outcome, and request correlation id — without credential material.</li><li>DO log authorization failures and privilege elevation with the same structured fields.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>DO NOT handle login or logout without any security audit log in the handler.</li><li>DO NOT return authentication failure to the client without recording the attempt.</li><li>DO NOT rely on generic application logs that omit event type and outcome for security flows.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">No OS command injection</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>DO use subprocess / spawn with an argument array and shell=False (default in Python 3).</li><li>DO validate and allow-list any value that still must influence command selection (host, format enum).</li><li>DO run with least privilege; log command invocations without secrets.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>DO NOT pass user input into shell=True subprocess calls or shell-wrapped exec.</li><li>DO NOT concatenate untrusted strings into os.system, child_process.exec, or Runtime.exec.</li><li>DO NOT rely on character blacklists to &quot;sanitize&quot; shell arguments — use structured argv or avoid shell entirely.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">No path traversal in paths</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>DO resolve paths under a fixed base directory and reject if the result escapes the base.</li><li>DO reject filenames containing path separators or .. before mapping to storage keys.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>DO NOT concatenate request parameters into filesystem paths without normalization.</li><li>DO NOT pass raw getParameter / req.params values to File, Paths.get, or fs.readFile.</li><li>DO NOT decode %2e%2e%2f once and skip further validation — normalize and compare to base.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">No plaintext password storage</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>DO hash passwords with Argon2id (preferred), scrypt, bcrypt, or PBKDF2-HMAC-SHA256 before persistence.</li><li>DO store algorithm identifier and cost parameters with each hash for future upgrades (PHC string or structured record).</li><li>DO re-hash on successful login when work factors are below current policy.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>DO NOT persist the registration password field as-is from the request body.</li><li>DO NOT log or echo submitted passwords during authentication flows.</li><li>DO NOT use MD5, SHA1, or single-round SHA256 without salt for password storage.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">No plaintext sensitive data at rest</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>DO encrypt or tokenize sensitive fields with envelope encryption or a KMS-backed data key before insert/update.</li><li>DO store algorithm, key id, and version metadata needed for rotation and decryption.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>DO NOT persist SSN, card numbers, or national ids from the request body without encryption.</li><li>DO NOT store reversible “encoding” (base64, hex) instead of cryptographic protection.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">No predictable session token</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>DO use the framework session manager or secrets / crypto.randomBytes / SecureRandom for session id generation.</li><li>DO rotate session id on login, privilege elevation, and logout; enforce idle and absolute timeouts server-side.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>DO NOT derive session ids from username, email, or numeric user id.</li><li>DO NOT use incrementing counters, small random ranges, or Math.random() for session tokens.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">No secrets in log output</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>DO log security events with structured fields: event type, actor id, outcome, request id — not credential material.</li><li>DO mask or omit token and session fields; hash session ids if correlation requires it.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>DO NOT log raw passwords, API keys, or Authorization header values.</li><li>DO NOT log full JWT or reset tokens in info-level production logs.</li><li>DO NOT print secrets to stdout/stderr in production code paths.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">No sensitive error disclosure</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>DO return a stable user message plus opaque reference id; log full diagnostics server-side.</li><li>DO disable framework debug pages in production deployments.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>DO NOT send err.stack, Python tracebacks, or SQL error text to clients.</li><li>DO NOT enable verbose SQL or ORM logging that echoes to API responses.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">No SQL string concatenation</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>DO use parameterized queries / prepared statements for every dynamic value in SQL.</li><li>DO allow-list dynamic identifiers (table, column, sort direction) when they cannot be bound.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>DO NOT concatenate or interpolate user input into SQL text.</li><li>DO NOT use ORM raw() / string SQL with embedded variables.</li><li>DO NOT build JDBC SQL with string concatenation or String.format.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">No TOCTOU outside lock</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>DO perform check and update inside the same lock, transaction, or atomic DB operation.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>DO NOT validate shared state outside a lock then modify inside it.</li><li>DO NOT use read-modify-write on shared balances without transactions or row-level locking.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">No unsafe deserialization</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>DO parse JSON (or similar text formats) into plain objects and map fields explicitly to domain types.</li><li>DO verify signatures or HMACs on serialized payloads before parsing when integrity matters.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>DO NOT call native deserializers on request bodies or message queue payloads.</li><li>DO NOT use yaml.load without SafeLoader on external input.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">No unsafe file upload handling</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>DO generate internal storage names (UUID) and map to metadata in the database.</li><li>DO enforce per-file and per-account size limits before reading the full stream.</li><li>DO scan uploads in an isolated worker; serve from a separate domain or signed URLs when possible.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>DO NOT persist uploads using the client-provided original filename or extension alone.</li><li>DO NOT allow uploads into web-root or executable directories.</li><li>DO NOT trust Content-Type or file extension without server-side magic-byte detection.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">No untrusted component sources</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>DO pin dependencies in lockfiles (package-lock.json, poetry.lock, Maven dependencyManagement) from official registries.</li><li>DO verify checksums/signatures in CI; scan with SBOM tools (Dependabot, Snyk, OWASP Dependency-Check).</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>DO NOT install packages directly from HTTP URLs or unverified git endpoints in production build scripts.</li><li>DO NOT load executable code from remote URLs at runtime without signature verification.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">No weak crypto algorithms</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>DO use Argon2id, scrypt, bcrypt, or PBKDF2 for password hashing — not general-purpose digests.</li><li>DO use AES-GCM or ChaCha20-Poly1305 for authenticated encryption at rest when encryption is required.</li><li>DO use secrets, crypto.randomBytes, or SecureRandom for session tokens, reset links, and CSRF secrets.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>DO NOT use MD5 or SHA1 for password storage or integrity protection of security artifacts.</li><li>DO NOT use Math.random(), random.randint(), or java.util.Random for session tokens or security nonces.</li><li>DO NOT accept JWT with alg: none or use SHA1withRSA in new signature code.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">No XXE in unsafe XML parser configuration</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>DO disable DTDs and external entity resolution on SAX/DOM/StAX parsers.</li><li>DO use defusedxml or equivalent hardening for Python; set XMLConstants.FEATURE_SECURE_PROCESSING where supported.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>DO NOT parse untrusted XML with default parser settings.</li><li>DO NOT enable external DTD or XInclude on parsers handling request bodies.</li></ul></div>
+</details>
+</div></div>
+</div>
 
-<ul class="file-list file-list--root">
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>inputs/</strong><span class="file-meta"> → Folder (5 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/inputs/batch-wiring.json" target="_blank" rel="noopener noreferrer"><strong>batch-wiring.json</strong></a><span class="file-meta"> → &quot;version&quot;: 1,</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/inputs/batch-wiring.md" target="_blank" rel="noopener noreferrer"><strong>batch-wiring.md</strong></a><span class="file-meta"> → Batch wiring — abd-secure-code</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/inputs/context-retrieval.md" target="_blank" rel="noopener noreferrer"><strong>context-retrieval.md</strong></a><span class="file-meta"> → Secure Code Warrior — context retrieval index</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/inputs/corpus-root.json" target="_blank" rel="noopener noreferrer"><strong>corpus-root.json</strong></a><span class="file-meta"> → &quot;description&quot;: &quot;Secure Code Warrior training corpus and regression fixtures (context + fixtures/).&quot;,</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/inputs/rules-index.json" target="_blank" rel="noopener noreferrer"><strong>rules-index.json</strong></a><span class="file-meta"> → &quot;categories&quot;: {</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>reference/</strong><span class="file-meta"> → Folder (1 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/reference/concepts.md" target="_blank" rel="noopener noreferrer"><strong>concepts.md</strong></a><span class="file-meta"> → Secure Code — Concepts</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/rules/no-client-side-auth-trust.md" target="_blank" rel="noopener noreferrer"><strong>no-client-side-auth-trust.md</strong></a><span class="file-meta"> → scanner: no_client_side_auth_trust_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/rules/no-dangerous-xss-sinks.md" target="_blank" rel="noopener noreferrer"><strong>no-dangerous-xss-sinks.md</strong></a><span class="file-meta"> → scanner: no_dangerous_xss_sinks_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/rules/no-eval-dynamic-code-execution.md" target="_blank" rel="noopener noreferrer"><strong>no-eval-dynamic-code-execution.md</strong></a><span class="file-meta"> → scanner: no_eval_dynamic_code_execution_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/rules/no-excessive-response-data.md" target="_blank" rel="noopener noreferrer"><strong>no-excessive-response-data.md</strong></a><span class="file-meta"> → scanner: no_excessive_response_data_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/rules/no-hardcoded-secrets.md" target="_blank" rel="noopener noreferrer"><strong>no-hardcoded-secrets.md</strong></a><span class="file-meta"> → scanner: no_hardcoded_secrets_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/rules/no-insufficient-login-rate-limiting.md" target="_blank" rel="noopener noreferrer"><strong>no-insufficient-login-rate-limiting.md</strong></a><span class="file-meta"> → scanner: no_insufficient_login_rate_limiting_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/rules/no-jwt-none-algorithm.md" target="_blank" rel="noopener noreferrer"><strong>no-jwt-none-algorithm.md</strong></a><span class="file-meta"> → scanner: no_jwt_none_algorithm_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/rules/no-ldap-filter-injection.md" target="_blank" rel="noopener noreferrer"><strong>no-ldap-filter-injection.md</strong></a><span class="file-meta"> → scanner: no_ldap_filter_injection_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/rules/no-mass-assignment-from-request.md" target="_blank" rel="noopener noreferrer"><strong>no-mass-assignment-from-request.md</strong></a><span class="file-meta"> → scanner: no_mass_assignment_from_request_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/rules/no-missing-security-event-logging.md" target="_blank" rel="noopener noreferrer"><strong>no-missing-security-event-logging.md</strong></a><span class="file-meta"> → scanner: no_missing_security_event_logging_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/rules/no-os-command-injection.md" target="_blank" rel="noopener noreferrer"><strong>no-os-command-injection.md</strong></a><span class="file-meta"> → scanner: no_os_command_injection_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/rules/no-path-traversal-in-paths.md" target="_blank" rel="noopener noreferrer"><strong>no-path-traversal-in-paths.md</strong></a><span class="file-meta"> → scanner: no_path_traversal_in_paths_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/rules/no-plaintext-password-storage.md" target="_blank" rel="noopener noreferrer"><strong>no-plaintext-password-storage.md</strong></a><span class="file-meta"> → scanner: no_plaintext_password_storage_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/rules/no-plaintext-sensitive-data-at-rest.md" target="_blank" rel="noopener noreferrer"><strong>no-plaintext-sensitive-data-at-rest.md</strong></a><span class="file-meta"> → scanner: no_plaintext_sensitive_data_at_rest_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/rules/no-predictable-session-token.md" target="_blank" rel="noopener noreferrer"><strong>no-predictable-session-token.md</strong></a><span class="file-meta"> → scanner: no_predictable_session_token_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/rules/no-secrets-in-log-output.md" target="_blank" rel="noopener noreferrer"><strong>no-secrets-in-log-output.md</strong></a><span class="file-meta"> → scanner: no_secrets_in_log_output_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/rules/no-sensitive-error-disclosure.md" target="_blank" rel="noopener noreferrer"><strong>no-sensitive-error-disclosure.md</strong></a><span class="file-meta"> → scanner: no_sensitive_error_disclosure_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/rules/no-sql-string-concatenation.md" target="_blank" rel="noopener noreferrer"><strong>no-sql-string-concatenation.md</strong></a><span class="file-meta"> → scanner: no_sql_string_concatenation_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/rules/no-toctou-outside-lock.md" target="_blank" rel="noopener noreferrer"><strong>no-toctou-outside-lock.md</strong></a><span class="file-meta"> → scanner: no_toctou_outside_lock_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/rules/no-unsafe-deserialization.md" target="_blank" rel="noopener noreferrer"><strong>no-unsafe-deserialization.md</strong></a><span class="file-meta"> → scanner: no_unsafe_deserialization_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/rules/no-unsafe-file-upload-handling.md" target="_blank" rel="noopener noreferrer"><strong>no-unsafe-file-upload-handling.md</strong></a><span class="file-meta"> → scanner: no_unsafe_file_upload_handling_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/rules/no-untrusted-component-sources.md" target="_blank" rel="noopener noreferrer"><strong>no-untrusted-component-sources.md</strong></a><span class="file-meta"> → scanner: no_untrusted_component_sources_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/rules/no-weak-crypto-algorithms.md" target="_blank" rel="noopener noreferrer"><strong>no-weak-crypto-algorithms.md</strong></a><span class="file-meta"> → scanner: no_weak_crypto_algorithms_scanner.py</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/rules/no-xxe-unsafe-xml-parser.md" target="_blank" rel="noopener noreferrer"><strong>no-xxe-unsafe-xml-parser.md</strong></a><span class="file-meta"> → scanner: no_xxe_unsafe_xml_parser_scanner.py</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>scanners/</strong><span class="file-meta"> → Folder (5 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>common/</strong><span class="file-meta"> → Folder (5 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>__pycache__/</strong><span class="file-meta"> → Folder (3 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/common/__pycache__/catalog_scanner.cpython-311.pyc" target="_blank" rel="noopener noreferrer"><strong>catalog_scanner.cpython-311.pyc</strong></a><span class="file-meta"> →     ��jn  �                  �&quot;  � d Z ddlmZ ddlZddlZddlmZ  ee�  �        �                    �   �         j	        Z</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/common/__pycache__/pattern_catalog.cpython-311.pyc" target="_blank" rel="noopener noreferrer"><strong>pattern_catalog.cpython-311.pyc</strong></a><span class="file-meta"> →     ��j֊  �                  �&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/common/__pycache__/scan_utils.cpython-311.pyc" target="_blank" rel="noopener noreferrer"><strong>scan_utils.cpython-311.pyc</strong></a><span class="file-meta"> →     d�jf</span></li>
-</ul></div></details></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/common/catalog_scanner.py" target="_blank" rel="noopener noreferrer"><strong>catalog_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Run pattern-catalog scans for a rule + language.&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/common/generate_scanners.py" target="_blank" rel="noopener noreferrer"><strong>generate_scanners.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Generate language scanner entrypoints from the pattern catalog.&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/common/pattern_catalog.py" target="_blank" rel="noopener noreferrer"><strong>pattern_catalog.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Central pattern catalog for abd-secure-code scanners (enterprise coverage).</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/common/scan_utils.py" target="_blank" rel="noopener noreferrer"><strong>scan_utils.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Shared utilities for abd-secure-code language scanners.&quot;&quot;&quot;</span></li>
-</ul></div></details></li>
-<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>java/</strong><span class="file-meta"> → Folder (26 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>__pycache__/</strong><span class="file-meta"> → Folder (1 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/java/__pycache__/java_code_scanner.cpython-311.pyc" target="_blank" rel="noopener noreferrer"><strong>java_code_scanner.cpython-311.pyc</strong></a><span class="file-meta"> →      �ji</span></li>
-</ul></div></details></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/java/java_code_scanner.py" target="_blank" rel="noopener noreferrer"><strong>java_code_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Base scanner for secure Java production code checks.&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/java/no_client_side_auth_trust_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_client_side_auth_trust_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Client Side Auth Trust (java).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/java/no_dangerous_xss_sinks_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_dangerous_xss_sinks_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Dangerous Xss Sinks (java).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/java/no_eval_dynamic_code_execution_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_eval_dynamic_code_execution_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Eval Dynamic Code Execution (java).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/java/no_excessive_response_data_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_excessive_response_data_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Excessive Response Data (java).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/java/no_hardcoded_secrets_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_hardcoded_secrets_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Hardcoded Secrets (java).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/java/no_insufficient_login_rate_limiting_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_insufficient_login_rate_limiting_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Insufficient Login Rate Limiting (java).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/java/no_jwt_none_algorithm_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_jwt_none_algorithm_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Jwt None Algorithm (java).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/java/no_ldap_filter_injection_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_ldap_filter_injection_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Ldap Filter Injection (java).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/java/no_mass_assignment_from_request_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_mass_assignment_from_request_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Mass Assignment From Request (java).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/java/no_missing_security_event_logging_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_missing_security_event_logging_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Missing Security Event Logging (java).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/java/no_os_command_injection_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_os_command_injection_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Os Command Injection (java).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/java/no_path_traversal_in_paths_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_path_traversal_in_paths_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Path Traversal In Paths (java).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/java/no_plaintext_password_storage_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_plaintext_password_storage_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Plaintext Password Storage (java).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/java/no_plaintext_sensitive_data_at_rest_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_plaintext_sensitive_data_at_rest_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Plaintext Sensitive Data At Rest (java).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/java/no_predictable_session_token_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_predictable_session_token_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Predictable Session Token (java).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/java/no_secrets_in_log_output_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_secrets_in_log_output_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Secrets In Log Output (java).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/java/no_sensitive_error_disclosure_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_sensitive_error_disclosure_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Sensitive Error Disclosure (java).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/java/no_sql_string_concatenation_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_sql_string_concatenation_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Sql String Concatenation (java).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/java/no_toctou_outside_lock_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_toctou_outside_lock_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Toctou Outside Lock (java).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/java/no_unsafe_deserialization_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_unsafe_deserialization_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Unsafe Deserialization (java).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/java/no_unsafe_file_upload_handling_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_unsafe_file_upload_handling_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Unsafe File Upload Handling (java).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/java/no_untrusted_component_sources_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_untrusted_component_sources_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Untrusted Component Sources (java).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/java/no_weak_crypto_algorithms_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_weak_crypto_algorithms_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Weak Crypto Algorithms (java).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/java/no_xxe_unsafe_xml_parser_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_xxe_unsafe_xml_parser_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Xxe Unsafe Xml Parser (java).&quot;&quot;&quot;</span></li>
-</ul></div></details></li>
-<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>javascript/</strong><span class="file-meta"> → Folder (26 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>__pycache__/</strong><span class="file-meta"> → Folder (1 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/javascript/__pycache__/js_code_scanner.cpython-311.pyc" target="_blank" rel="noopener noreferrer"><strong>js_code_scanner.cpython-311.pyc</strong></a><span class="file-meta"> →     ��j�</span></li>
-</ul></div></details></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/javascript/js_code_scanner.py" target="_blank" rel="noopener noreferrer"><strong>js_code_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Base scanner for secure JavaScript/TypeScript production code checks.&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/javascript/no_client_side_auth_trust_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_client_side_auth_trust_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Client Side Auth Trust (javascript).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/javascript/no_dangerous_xss_sinks_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_dangerous_xss_sinks_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Dangerous Xss Sinks (javascript).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/javascript/no_eval_dynamic_code_execution_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_eval_dynamic_code_execution_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Eval Dynamic Code Execution (javascript).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/javascript/no_excessive_response_data_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_excessive_response_data_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Excessive Response Data (javascript).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/javascript/no_hardcoded_secrets_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_hardcoded_secrets_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Hardcoded Secrets (javascript).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/javascript/no_insufficient_login_rate_limiting_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_insufficient_login_rate_limiting_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Insufficient Login Rate Limiting (javascript).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/javascript/no_jwt_none_algorithm_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_jwt_none_algorithm_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Jwt None Algorithm (javascript).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/javascript/no_ldap_filter_injection_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_ldap_filter_injection_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Ldap Filter Injection (javascript).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/javascript/no_mass_assignment_from_request_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_mass_assignment_from_request_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Mass Assignment From Request (javascript).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/javascript/no_missing_security_event_logging_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_missing_security_event_logging_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Missing Security Event Logging (javascript).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/javascript/no_os_command_injection_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_os_command_injection_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Os Command Injection (javascript).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/javascript/no_path_traversal_in_paths_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_path_traversal_in_paths_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Path Traversal In Paths (javascript).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/javascript/no_plaintext_password_storage_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_plaintext_password_storage_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Plaintext Password Storage (javascript).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/javascript/no_plaintext_sensitive_data_at_rest_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_plaintext_sensitive_data_at_rest_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Plaintext Sensitive Data At Rest (javascript).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/javascript/no_predictable_session_token_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_predictable_session_token_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Predictable Session Token (javascript).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/javascript/no_secrets_in_log_output_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_secrets_in_log_output_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Secrets In Log Output (javascript).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/javascript/no_sensitive_error_disclosure_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_sensitive_error_disclosure_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Sensitive Error Disclosure (javascript).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/javascript/no_sql_string_concatenation_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_sql_string_concatenation_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Sql String Concatenation (javascript).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/javascript/no_toctou_outside_lock_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_toctou_outside_lock_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Toctou Outside Lock (javascript).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/javascript/no_unsafe_deserialization_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_unsafe_deserialization_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Unsafe Deserialization (javascript).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/javascript/no_unsafe_file_upload_handling_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_unsafe_file_upload_handling_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Unsafe File Upload Handling (javascript).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/javascript/no_untrusted_component_sources_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_untrusted_component_sources_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Untrusted Component Sources (javascript).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/javascript/no_weak_crypto_algorithms_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_weak_crypto_algorithms_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Weak Crypto Algorithms (javascript).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/javascript/no_xxe_unsafe_xml_parser_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_xxe_unsafe_xml_parser_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Xxe Unsafe Xml Parser (javascript).&quot;&quot;&quot;</span></li>
-</ul></div></details></li>
-<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>python/</strong><span class="file-meta"> → Folder (26 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>__pycache__/</strong><span class="file-meta"> → Folder (1 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/python/__pycache__/code_scanner.cpython-311.pyc" target="_blank" rel="noopener noreferrer"><strong>code_scanner.cpython-311.pyc</strong></a><span class="file-meta"> →     ��j�</span></li>
-</ul></div></details></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/python/code_scanner.py" target="_blank" rel="noopener noreferrer"><strong>code_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Base scanner for secure production Python code checks.&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/python/no_client_side_auth_trust_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_client_side_auth_trust_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Client Side Auth Trust (python).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/python/no_dangerous_xss_sinks_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_dangerous_xss_sinks_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Dangerous Xss Sinks (python).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/python/no_eval_dynamic_code_execution_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_eval_dynamic_code_execution_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Eval Dynamic Code Execution (python).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/python/no_excessive_response_data_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_excessive_response_data_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Excessive Response Data (python).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/python/no_hardcoded_secrets_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_hardcoded_secrets_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Hardcoded Secrets (python).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/python/no_insufficient_login_rate_limiting_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_insufficient_login_rate_limiting_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Insufficient Login Rate Limiting (python).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/python/no_jwt_none_algorithm_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_jwt_none_algorithm_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Jwt None Algorithm (python).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/python/no_ldap_filter_injection_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_ldap_filter_injection_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Ldap Filter Injection (python).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/python/no_mass_assignment_from_request_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_mass_assignment_from_request_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Mass Assignment From Request (python).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/python/no_missing_security_event_logging_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_missing_security_event_logging_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Missing Security Event Logging (python).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/python/no_os_command_injection_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_os_command_injection_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Os Command Injection (python).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/python/no_path_traversal_in_paths_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_path_traversal_in_paths_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Path Traversal In Paths (python).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/python/no_plaintext_password_storage_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_plaintext_password_storage_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Plaintext Password Storage (python).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/python/no_plaintext_sensitive_data_at_rest_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_plaintext_sensitive_data_at_rest_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Plaintext Sensitive Data At Rest (python).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/python/no_predictable_session_token_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_predictable_session_token_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Predictable Session Token (python).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/python/no_secrets_in_log_output_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_secrets_in_log_output_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Secrets In Log Output (python).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/python/no_sensitive_error_disclosure_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_sensitive_error_disclosure_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Sensitive Error Disclosure (python).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/python/no_sql_string_concatenation_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_sql_string_concatenation_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: SQL string concatenation (Python AST + catalog).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/python/no_toctou_outside_lock_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_toctou_outside_lock_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Toctou Outside Lock (python).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/python/no_unsafe_deserialization_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_unsafe_deserialization_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Unsafe Deserialization (python).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/python/no_unsafe_file_upload_handling_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_unsafe_file_upload_handling_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Unsafe File Upload Handling (python).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/python/no_untrusted_component_sources_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_untrusted_component_sources_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Untrusted Component Sources (python).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/python/no_weak_crypto_algorithms_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_weak_crypto_algorithms_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Weak Crypto Algorithms (python).&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/python/no_xxe_unsafe_xml_parser_scanner.py" target="_blank" rel="noopener noreferrer"><strong>no_xxe_unsafe_xml_parser_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Scanner: No Xxe Unsafe Xml Parser (python).&quot;&quot;&quot;</span></li>
-</ul></div></details></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scanners/README.md" target="_blank" rel="noopener noreferrer"><strong>README.md</strong></a><span class="file-meta"> → Scanners — abd-secure-code (enterprise)</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>scripts/</strong><span class="file-meta"> → Build, catalogue, validation, or packaging automation.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/scripts/validate_batch_wiring.py" target="_blank" rel="noopener noreferrer"><strong>validate_batch_wiring.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Validate batch-wiring.json: context paths and fixture files exist under corpus root.&quot;&quot;&quot;</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/templates/secure-code-review-checklist.md" target="_blank" rel="noopener noreferrer"><strong>secure-code-review-checklist.md</strong></a><span class="file-meta"> → Secure code review checklist</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>test/</strong><span class="file-meta"> → Automated tests for the agent or skill package.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>__pycache__/</strong><span class="file-meta"> → Folder (1 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/test/__pycache__/test_scanners.cpython-311-pytest-9.0.2.pyc" target="_blank" rel="noopener noreferrer"><strong>test_scanners.cpython-311-pytest-9.0.2.pyc</strong></a><span class="file-meta"> →     $gj�</span></li>
-</ul></div></details></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/test/README.md" target="_blank" rel="noopener noreferrer"><strong>README.md</strong></a><span class="file-meta"> → abd-secure-code scanner tests</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/test/scanner_expectations.json" target="_blank" rel="noopener noreferrer"><strong>scanner_expectations.json</strong></a><span class="file-meta"> → &quot;languages&quot;: [&quot;python&quot;, &quot;javascript&quot;, &quot;java&quot;],</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/test/test_scanners.py" target="_blank" rel="noopener noreferrer"><strong>test_scanners.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Regression tests: secure fixtures stay clean; insecure fixtures trigger rule scanners.&quot;&quot;&quot;</span></li>
-</ul></div></details></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/engineering/abd-secure-code/SKILL.md" target="_blank" rel="noopener noreferrer"><strong>SKILL.md</strong></a><span class="file-meta"> → name: abd-secure-code</span></li>
-</ul>
+
+
 
 </div>
 </div>

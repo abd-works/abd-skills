@@ -34,3 +34,12 @@ def test_format_normalizes_keyword_markdown() -> None:
     assert "**" not in html
     assert "<b>WHEN</b>" in html and "<b>THEN</b>" in html
 
+
+def test_format_renders_markdown_italics_as_html_i() -> None:
+    raw = "1. WHEN the customer uses the *Search Bar* THEN the *Search Results* update"
+    html = format_ac_diagram_html(raw)
+    assert "<i>Search Bar</i>" in html
+    assert "<i>Search Results</i>" in html
+    assert "*Search Bar*" not in html
+    assert canonical_ac_key(html) == canonical_ac_key(raw)
+

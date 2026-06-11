@@ -1,32 +1,48 @@
 # Acceptance Criteria — Example
 
-## Story: Export Report To PDF
+Worked example using the same **Manage Customer Orders** domain as `abd-story-mapping/reference/examples.md`.
+
+Full multi-story sample (Browse Product Catalog, Add Item To Cart, Submit Order): **`../templates/acceptance-criteria-example.md`**.
+
+Below is one story in full so agents can read a single complete pattern without leaving `reference/`.
+
+---
+
+## Story: Browse Product Catalog
 
 **Story type:** user
 
-**Domain terms** (vocabulary for this story's AC — things, state, actions, rules):
+### Domain terms
 
-- *Report UI* — screen where the user runs the report and starts export
-- *Export a PDF* — user-triggered action for this flow
-- *Export Job Progress* — visible status while the export runs
-- *Filtered Report Data* — row set after filters; input to the PDF
-- *Report Export* — the delivered artifact / job outcome the user waits on
-- *Download* — completed file handoff to the user
-- *Zero Rows* / *Filters* — empty result after filtering; edge case
-- *Feedback* / *Nothing To Export* — user-visible outcome when there is nothing to build
-- *Report Export Service* — downstream dependency; failure mode
-- *Retry* — user-visible recovery path
-- *Partial* / *Empty File* — invalid success shapes to reject
+- *Product Catalog* — browsable list of products available to order
+- *Category* — grouping used to narrow what the customer sees
+- *Product Detail* — name, description, price, and image for one product
+- *Out Of Stock* — product not available to add to an order right now
 
-1. **WHEN** the user chooses to *Export a PDF* on the *Report UI*
-   **THEN** the *Report UI* indicates *Export Job Progress*
-   **AND** the system builds a *PDF* from the current *Filtered Report Data*
-   **AND** the user gets a normal completed *Download* for that *Report Export*
+### Acceptance criteria
 
-2. **WHEN** the *Report* has *Zero Rows* after *Filters*
-   **THEN** the user sees clear *Feedback* that there is *Nothing To Export*
-   **BUT** no *PDF* is created and no *Download* starts
+1. **WHEN** the customer opens the *Product Catalog*
+   **THEN** the system displays available products grouped by *Category*
+   **AND** each row shows at least product name and price
+   **Evidence:** Order Management Workshop — whiteboard “Place order” flow, 2026-03-15, sticky “browse by category”
 
-3. **WHEN** the *Report Export Service* is unavailable
-   **THEN** the user sees that *Report Export* failed and can *Retry* later
-   **BUT** no *Partial* or *Empty File* is treated as a successful *Report Export*
+2. **WHEN** the customer selects a *Category*
+   **THEN** the *Product Catalog* lists only products in that *Category*
+   **Evidence:** Order Management Workshop — same session, “filter catalog by category”
+
+3. **WHEN** the customer selects a product from the *Product Catalog*
+   **THEN** the system shows *Product Detail* for that product
+   **Evidence:** Order Management Workshop — “click through to product detail”
+
+4. **WHEN** a product is *Out Of Stock*
+   **THEN** the *Product Catalog* and *Product Detail* show that the product cannot be added to an order
+   **BUT** the customer can still browse other products
+   **Evidence:** Order Management Workshop — “don’t block browsing when one SKU is gone”
+
+## What to notice
+
+- Stories match **verb—noun** names from the story map; actor is in **Story type**, not the title
+- **Domain terms** are defined before AC; the same *italic* terms appear in the criteria
+- **WHEN / THEN / AND / BUT** — negatives use **BUT**; no **Given** in AC
+- Each AC is a **delta** or distinct case — general browse flow once, then category, detail, and out-of-stock paths
+- **Evidence** cites a concrete source even for workshop-derived discovery

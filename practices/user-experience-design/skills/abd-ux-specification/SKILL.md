@@ -1,22 +1,21 @@
 ﻿---
 catalog_garden_tier: practice
 catalog_garden_order: 30
-name: abd-interface-design
+name: abd-ux-specification
 catalogue_one_liner: >-
-  Translate approved hi-fi mockups into production-grade, accessible interface code.
+  Clickable hi-fi prototype — real HTML/CSS/JS look-and-feel with stubbed logic.
 description: >-
-  Translate the approved hi-fi mockup for a screen into production-grade,
-  functional, accessible interface code in the chosen framework — without
-  changing the domain labels, acceptance criteria, or visual decisions.
-  Use when implementing a screen from an approved hi-fi, bringing a drifted
-  implementation back to the hi-fi and AC, or verifying that every AC is
-  implemented and every UL label is used verbatim in the running UI.
+  Turn approved lo-fi mockups and visual design decisions into a clickable
+  hi-fi prototype: real markup, styles, and interaction scripts so the screen
+  looks and feels like the finished product, while domain logic, APIs, and
+  persistence stay stubbed or faked. Use when stakeholders need to walk flows,
+  validate AC visually, or sign off before production implementation.
 ---
-# abd-interface-design
+# abd-ux-specification
 
 ## Purpose
 
-Hi-fi mockups settle look and feel. The interface stage is where they become real code — and where most teams quietly stop honouring the upstream artifacts because "we're shipping now". This skill keeps that integrity: the implementation renders the same regions, the same affordances, the same labels, the same acceptance criteria, and the same visual decisions as the approved hi-fi, in production-grade code that an end user can actually use. It treats acceptance criteria as the testable surface (every clause is a working behaviour with a check), treats the ubiquitous language as the public vocabulary (labels and copy stay verbatim from the UL and AC), and treats accessibility and performance as constraints that are met, not aspirations that are mentioned.
+Lo-fi mockups lock controls and states. The specification stage turns those decisions into something people can **click through** — not production code. The deliverable is a hi-fi prototype built from real HTML, CSS, and JavaScript (or the host project's static/preview stack): design tokens, typography, colour, spacing, and components that match the approved visual direction, with navigation and state transitions wired so flows feel real. Backend calls, validation rules, auth, and persistence are **stubbed or faked** — fixture data, timed delays, hard-coded branches, and local state only where needed to demonstrate behaviour. Acceptance criteria are **demonstrated**, not fully implemented; ubiquitous-language labels stay verbatim from upstream artifacts.
 
 ---
 
@@ -24,7 +23,15 @@ Hi-fi mockups settle look and feel. The interface stage is where they become rea
 
 **Deliverables folder:** see `../agent-protocol.md` — Output file resolution.
 
-**File name:** `interface-design.md` (structured spec). Add a `<name>-` prefix only when disambiguation is needed. Plus working code on disk in the host project (screen component, supporting modules, tests).
+**File names:**
+
+| Artifact | Purpose |
+| --- | --- |
+| `<screen-slug>.html` (and linked `.css` / `.js` as needed) | Runnable clickable prototype — open in browser, no build required unless the host project already uses one for previews |
+| `ux-specification.md` | Structured spec: source paths, **brand assets** (resolved or provisional), design carry-over, stub boundaries, AC → demonstrated behaviour map, and what is intentionally **not** implemented |
+| `ux-specification.html` | Spec review page — embeds `prototype/index.html` (or `example/index.html`) in an `<iframe>`; link to the Markdown spec in the header |
+
+Add a `<name>-` prefix only when disambiguation is needed. Default folder: `docs/ux/prototype/` (or the host project's UX prototype convention).
 
 ---
 
@@ -35,38 +42,42 @@ Hi-fi mockups settle look and feel. The interface stage is where they become rea
 ### 1. Read context
 
 Read these files:
-- **`reference/concepts.md`** — what an interface implementation is, carry-over from upstream, production-grade and functional, memorable differentiation, accessibility, performance constraints, traceability (AC → test → running screen), and the shape of a good implementation.
+- **`reference/concepts.md`** — what a clickable prototype is, carry-over from upstream, brand assets, stub vs real boundaries, accessibility at prototype fidelity, and the shape of a good prototype package.
+- **`reference/brand-assets-questionnaire.md`** — key questions to ask when brand assets are missing or incomplete.
 
 ### 2. Generate
 
-Read every file in **`rules/`**; author to those rules.
+Read every file in **`rules/`** when present; author to those rules.
 
-**Produce output from every template:**
+**Produce:**
 
-| Template | What to produce |
+| Output | What to produce |
 | --- | --- |
-| `templates/interface-design.md` | Structured spec: screen name, source paths, framework, host conventions, carried-over decisions, AC → behaviour → test mapping, accessibility checklist, and performance budget |
+| `ux-specification.md` | Screen name, source paths (IA, lo-fi, hi-fi/design refs), **brand assets brief** (`templates/brand-assets-brief.md`), design tokens used, region → element map, **stub catalogue** (what is faked and how), AC → click/demo path |
+| Prototype files | Self-contained or host-folder HTML/CSS/JS that renders the screen and wires primary flows |
+| `ux-specification.html` | When prototype folder contains `index.html`, copy `templates/ux-specification.html`, set `{{PROTOTYPE_INDEX}}` to the relative path (default `prototype/index.html`), iframe that entry |
 
 **Generation flow:**
 
-1. **Resolve inputs** — hi-fi path, lo-fi path, AC file, screen name, target framework, host project root. Confirm host project's gates (lint, format, test, accessibility, performance).
-2. **Discover host conventions** — folder layout, component shape, state management, styling, token system, test conventions.
-3. **Carry over upstream decisions** — labels, copy, AC, regions, affordances, typography/colour/density/spacing from lo-fi and hi-fi. Resolve to host tokens.
-4. **Author `interface-design.md` first** — fill the template before writing code.
-5. **Implement the screen** — each region a container, each affordance an interactive primitive with verbatim label. Inputs labelled programmatically. Focus order matches reading order.
-6. **Implement AC behaviours** — every AC clause becomes a working behaviour.
-7. **Write tests** — one test per AC clause, named to reference story and clause number.
-8. **Pass the host project's gates** — lint, format, type-check, accessibility, performance.
-9. **Verify against the hi-fi visually.**
-10. **Sync changes back into `interface-design.md`.**
+1. **Resolve inputs** — lo-fi path, AC file, domain language, screen name, design reference (tokens, brand CSS, or hi-fi export). Confirm where prototypes live in the host project.
+2. **Resolve brand assets** — search the host project for guidelines, logos, and tokens. If anything is missing, run section 2 of `reference/brand-assets-questionnaire.md` using the **`AskQuestion` tool** (steps A–F) — do not paste the questionnaire as chat text. Record answers in the **Brand assets** section of `ux-specification.md` (`templates/brand-assets-brief.md`). Do not proceed to hi-fi styling until `AskQuestion` responses are received or the user approves provisional stand-ins.
+3. **Carry over upstream decisions** — regions, affordances, labels, copy, typography roles, colour roles, density, and spacing from lo-fi and design reference. Do not invent new vocabulary or affordances.
+4. **Author `ux-specification.md` first** — brand assets brief, then the stub catalogue: list every behaviour that is simulated (fake API JSON, `setTimeout` loading, toggled CSS classes for states, `localStorage` only if the demo requires it).
+5. **Build the visual layer** — semantic HTML, real CSS (project tokens or documented stand-ins), logo and imagery from resolved assets, component structure that mirrors how production will eventually be organized without pulling in full app infrastructure.
+6. **Wire interactions** — links, buttons, tabs, modals, and form submits navigate or swap visible states. Use minimal JavaScript: event handlers, DOM class toggles, template literals for fake responses. **Do not** integrate real APIs, databases, or domain services.
+7. **Demonstrate AC paths** — each AC clause maps to a click path or visible state a reviewer can trigger manually; document the path in `ux-specification.md`. Happy paths first; edge/error states via stubbed responses or pre-seeded demo data.
+8. **Mark prototype boundaries** — comment or document anything that looks real but is fake (`// PROTOTYPE: stub`). No silent pretence that stubbed behaviour is production-ready.
+9. **Basic accessibility** — programmatic labels on inputs, keyboard-reachable controls, visible focus, text labels (not colour-only state). Full test suites and performance budgets are **out of scope** for this skill.
+10. **Author `ux-specification.html`** — when an `example/` or `prototype/` folder contains `index.html`, generate the HTML spec page from `templates/ux-specification.html` with iframe `src` pointing at that index (relative path). List both spec files in `ux-specification.md` metadata.
+11. **Verify in browser** — open `ux-specification.html` (or `prototype/index.html`), walk every documented AC path, confirm labels match UL/AC verbatim; confirm logo, colours, and imagery match the brand assets brief.
 
 ### 3. Validate
 
-Run the scanners:
+When `rules/` and scanners exist, run them:
 
 ```bash
 python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/abd-interface-design \
+  --skill-root skills/abd-ux-specification \
   --workspace <path-to-output>
 ```
 
@@ -76,14 +87,16 @@ Then emit per-rule verdicts per `../agent-protocol.md`.
 
 ## Validate
 
-**Goal:** Read the committed code and the running screen as reviewers.
+**Goal:** Click through the prototype and read `ux-specification.md` as reviewers.
 
-- **Upstream fidelity** — every region, affordance, and label from the hi-fi appears in the running screen with the same wording.
-- **AC coverage** — every acceptance criterion is implemented and has at least one test named for its story and clause number.
-- **Host gates pass** — lint, format, type-check, accessibility, and performance gates pass without silencing.
-- **Accessibility** — every input has a programmatic label; focus order matches reading order; focus is visible; state cues are not colour-only.
-- **Visual fidelity** — typography roles, colour roles, and spacing scale map to host project tokens, used consistently.
-- **Cross-artifact parity** — `interface-design.md` and the running code describe the same implementation.
+- **Upstream fidelity** — every region, affordance, and label from lo-fi and design reference appears in the prototype with the same wording.
+- **Looks real** — typography, colour, spacing, logo, imagery, and components read as hi-fi, not grey-box wireframe.
+- **Brand assets resolved** — existing host brand files used, or key questions asked and answers recorded; provisional stand-ins documented in **Brand assets**.
+- **Clicks work** — primary flows and state changes are navigable without developer explanation.
+- **Logic is honestly stubbed** — `ux-specification.md` lists fakes; no hidden dependency on production services.
+- **AC demonstration map** — every acceptance criterion has a documented click path or seeded state; gaps are called out explicitly.
+- **Not production** — no requirement for lint gates, unit tests per AC, or full domain implementation; those belong to downstream engineering skills.
+- **Cross-artifact parity** — `ux-specification.md` and the prototype describe the same demo.
 - **No bundle markers** — `SKILL.md` has no `<!-- execute_rules:bundle_rules -->` markers.
 
 ---

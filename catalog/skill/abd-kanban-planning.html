@@ -471,7 +471,22 @@ html[data-abd-theme="executive"] .catalog-body code {
 }
 
 .page-hero--detail {
-  padding-top: 48px;
+  padding-top: 20px;
+  padding-bottom: 16px;
+}
+.page-hero--detail .page-headline {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 4px 0 6px;
+}
+.page-headline .skill-name-prefix,
+.cap-card__title .skill-name-prefix {
+  color: var(--accent);
+}
+.page-hero--detail .body-lead {
+  font-size: 0.9rem;
+  margin: 0;
+  color: var(--muted);
 }
 
 .page-hero--detail .back-link {
@@ -731,8 +746,18 @@ a.cap-card:hover .cap-card__more {
   color: #b8b8c2;
   margin: 0 0 18px;
 }
+.skill-detail-page .skill-hero-img-wrap + .install-block {
+  margin-top: 18px;
+}
+.skill-detail-page .install-block + .skill-cr-grid,
+.skill-detail-page .install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block {
+  margin-top: 0;
+}
 .install-block {
-  margin: 22px 0 0;
+  margin: 20px 0 0;
   padding: 16px 18px;
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid var(--border-muted);
@@ -1041,30 +1066,624 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 .plugin-slots h3:first-child { margin-top: 0; }
 .cap-grid--plugin-slot { margin-bottom: 8px; }
 
+/* ── Skill detail: family kanban stage nav (matches hub column headings) ── */
+.skill-kanban-nav {
+  --fam-sdd: #6bcb77;
+  --fam-ddd: #6c5ce7;
+  --fam-uxd: #e84393;
+  --fam-arc: #4fc3f7;
+  --fam-idea: var(--accent);
+  --abd-accent: var(--accent);
+  --abd-accent-glow: var(--accent-soft, var(--accent));
+  --abd-raised: var(--raised);
+  --abd-bg: var(--bg);
+  --abd-border: var(--border);
+  --abd-text: var(--text);
+  --abd-muted: var(--muted);
+  background: var(--raised);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0 16px;
+}
+.skill-kanban-nav .wrap {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.skill-kanban-nav__board {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  gap: 6px 8px;
+  align-items: start;
+}
+.skill-kanban-nav__practice-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  margin: 0;
+  padding: 0 8px;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-left-width: 3px;
+  border-radius: 4px;
+  line-height: 1.25;
+  box-sizing: border-box;
+  transition: box-shadow 120ms, border-color 120ms;
+  color: inherit;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card:hover {
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--sdd {
+  border-left-color: var(--fam-sdd);
+  color: var(--fam-sdd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--ddd {
+  border-left-color: var(--fam-ddd);
+  color: var(--fam-ddd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--uxd {
+  border-left-color: var(--fam-uxd);
+  color: var(--fam-uxd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--arc {
+  border-left-color: var(--fam-arc);
+  color: var(--fam-arc);
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap {
+  position: relative;
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip.kb-col-shape-tooltip {
+  min-width: 10rem;
+  max-width: 22rem;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:hover .kb-skill-tooltip,
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:focus-within .kb-skill-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.skill-kanban-nav__stages {
+  display: grid;
+  grid-template-columns: repeat(var(--skill-kanban-cols, 5), minmax(0, 1fr));
+  gap: 0 8px;
+  min-width: 0;
+}
+.skill-kanban-nav__col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.skill-kanban-nav__tickets {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.skill-kanban-nav .kb-col-head {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 8px 6px 7px;
+  font-family: var(--font-mono);
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.skill-kanban-nav .kb-col-head--static {
+  cursor: default;
+}
+.skill-kanban-nav a.kb-col-head {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav a.kb-col-head:hover {
+  border-color: rgba(229, 83, 26, 0.35);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.15);
+}
+.skill-kanban-nav .kb-col-head--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-col-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+}
+.skill-kanban-nav .kb-col-scope-shape {
+  flex-shrink: 0;
+  border: 2px solid var(--abd-accent);
+  border-radius: 2px;
+}
+.skill-kanban-nav__stages .kb-col-shape-tooltip,
+.skill-kanban-nav__stages .kb-skill-tooltip-wrap .kb-col-shape-tooltip {
+  display: none !important;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 8px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 7px 9px;
+  font-family: var(--font-mono);
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid rgba(229, 83, 26, 0.45);
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 14px;
+  border: 5px solid transparent;
+  border-bottom-color: rgba(229, 83, 26, 0.45);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__name {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--abd-accent-glow);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__bullets {
+  font-size: 8px;
+  line-height: 1.45;
+  color: var(--abd-text);
+  white-space: pre-line;
+}
+.skill-kanban-nav .kb-col-scope-shape--solution { width: 36px; height: 12px; }
+.skill-kanban-nav .kb-col-scope-shape--increment { width: 24px; height: 16px; }
+.skill-kanban-nav .kb-col-scope-shape--sprint { width: 16px; height: 22px; }
+.skill-kanban-nav .kb-col-scope-shape--story { width: 11px; height: 28px; }
+.skill-kanban-nav .kb-col-head-title {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--abd-text);
+}
+.skill-kanban-nav .kb-col-head-title > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.skill-kanban-nav .kb-col-num {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--abd-text);
+  background: var(--abd-bg);
+  border: 1px solid var(--abd-border);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+.skill-kanban-nav .kb-ticket {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  background: var(--abd-raised);
+  color: var(--abd-text);
+  padding: 5px 6px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  border-left-width: 3px;
+  border-left-color: var(--abd-muted);
+  line-height: 1.25;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav .kb-ticket:hover {
+  border-color: var(--abd-border);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.2);
+}
+.skill-kanban-nav .kb-ticket.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-ticket.aad-fam-sdd { border-left-color: var(--fam-sdd); }
+.skill-kanban-nav .kb-ticket.aad-fam-ddd { border-left-color: var(--fam-ddd); }
+.skill-kanban-nav .kb-ticket.aad-fam-uxd { border-left-color: var(--fam-uxd); }
+.skill-kanban-nav .kb-ticket.aad-fam-arc { border-left-color: var(--fam-arc); }
+.skill-kanban-nav .kb-ticket.aad-fam-idea { border-left-color: var(--fam-idea); }
+@media (max-width: 960px) {
+  .skill-kanban-nav__board {
+    grid-template-columns: 1fr;
+  }
+  .skill-kanban-nav__stages {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
+
+/* ── Skill detail: full-width hero image / embedded viewer ── */
+.skill-hero-img-wrap {
+  margin: 24px 0 0;
+}
+.skill-hero-img-wrap:empty { display: none; }
+.skill-hero-img-wrap img,
+.skill-hero-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--raised);
+}
+
+/* HTML prototype iframe (reference/example/index.html) */
+.skill-prototype-wrap {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-prototype-frame {
+  display: block;
+  width: 100%;
+  min-height: 540px;
+  height: 71vh;
+  max-height: 810px;
+  border: 0;
+  background: #fff;
+}
+.skill-prototype-open {
+  margin: 0;
+  padding: 8px 14px;
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+  background: var(--raised);
+}
+.skill-prototype-open a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.skill-prototype-open a:hover { text-decoration: underline; }
+
+/* draw.io embedded viewer */
+.skill-drawio-wrap {
+  position: relative;
+  width: 100%;
+  height: min(71vh, 680px);
+  min-height: 340px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-drawio-wrap .mxgraph {
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+}
+.skill-drawio-wrap .geToolbarContainer {
+  z-index: 4;
+}
+
+/* code file preview */
+.skill-code-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--raised);
+  font-size: 13px;
+}
+.skill-code-lang {
+  padding: 6px 14px;
+  font-family: var(--mono, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.skill-code-preview pre {
+  margin: 0;
+  padding: 16px;
+  overflow-x: auto;
+  max-height: 420px;
+}
+.skill-code-preview code {
+  font-family: var(--mono, 'JetBrains Mono', monospace);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+/* rendered markdown preview */
+.skill-hero-img-wrap .skill-md-preview {
+  max-height: min(71vh, 610px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.skill-md-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px 24px;
+  background: var(--surface);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.skill-md-preview h1 { font-size: 18px; font-weight: 700; margin: 0 0 12px; }
+.skill-md-preview h2 { font-size: 15px; font-weight: 600; margin: 16px 0 8px;
+  border-bottom: 1px solid var(--border); padding-bottom: 3px; }
+.skill-md-preview h3 { font-size: 13px; font-weight: 600; margin: 12px 0 6px; }
+.skill-md-preview h4 { font-size: 12px; font-weight: 600; margin: 10px 0 4px; color: var(--muted); }
+.skill-md-preview p  { margin: 0 0 10px; }
+.skill-md-preview .spec-steps { margin: 0 0 14px; }
+.skill-md-preview p.spec-step { margin: 0 0 4px; line-height: 1.55; }
+.skill-md-preview .md-table-wrap { overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview .md-table { border-collapse: collapse; width: 100%; }
+.skill-md-preview ul, .skill-md-preview ol { margin: 0 0 10px; padding-left: 20px; }
+.skill-md-preview li { margin-bottom: 3px; }
+.skill-md-preview code { background: var(--raised); border-radius: 3px;
+  padding: 1px 5px; font-family: var(--mono, monospace); font-size: 12px; }
+.skill-md-preview pre { background: var(--raised); border-radius: 5px;
+  padding: 12px; overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview table { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
+.skill-md-preview th, .skill-md-preview td {
+  border: 1px solid var(--border); padding: 6px 10px; }
+.skill-md-preview th { background: var(--raised); font-weight: 600; }
+
+/* ── Skill detail: concepts | rules two-column grid ── */
+.skill-cr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin: 24px 0 0;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .skill-cr-grid { grid-template-columns: 1fr; }
+}
+.skill-cr-col { min-width: 0; }
+.skill-cr-single { margin: 24px 0 0; }
+
+/* Glossary example hero — term blocks without heavy HR dividers */
+.skill-md-preview--glossary h1 {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 10px;
+  border: 0;
+  padding: 0;
+}
+.skill-md-preview--glossary h2 {
+  font-size: 16px;
+  margin-top: 0;
+}
+.skill-md-preview--glossary h3 {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 14px 0 6px;
+  padding: 6px 8px;
+  background: var(--raised);
+  border-radius: 4px;
+  border-left: 3px solid var(--accent);
+}
+.skill-md-preview--glossary hr {
+  display: none;
+}
+.skill-md-preview--glossary ul {
+  margin-top: 0;
+}
+
+/* ── Skill detail: full-width content below ── */
+.skill-detail-content-col { margin-top: 32px; }
+.skill-detail-page .skill-cr-grid,
+.skill-detail-page .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-single,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-single {
+  margin-top: 0;
+}
+
+/* ── Skill detail: concepts (expandable) ── */
+.skill-hero-img-wrap + .install-block {
+  margin-top: 16px;
+}
+.install-block + .skill-cr-grid,
+.install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-concepts {
+  margin: 0 0 20px;
+}
+.skill-concepts-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 8px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-concept {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-concept summary {
+  padding: 8px 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  user-select: none;
+}
+.skill-concept summary::-webkit-details-marker { display: none; }
+.skill-concept summary::marker { content: ""; }
+.skill-concept summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-concept[open] summary::before { content: "\2212"; }
+.skill-concept-body {
+  padding: 6px 4px 10px 1.9rem;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.skill-concept-body p { margin: 0 0 8px; }
+.skill-concept-body p:last-child { margin-bottom: 0; }
+.skill-concept-body ul { margin: 0 0 8px 1.1em; padding: 0; }
+.skill-concept-body li { margin: 3px 0; }
+
+/* ── Skill detail: rules (DO / DON'T) ── */
+.skill-rules {
+  margin: 0 0 20px;
+}
+.skill-rules-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 12px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-rule {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule[open] > .skill-rule-header {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule-header {
+  padding: 8px 10px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  background: var(--raised);
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+.skill-rule-header::-webkit-details-marker { display: none; }
+.skill-rule-header::marker { content: ""; }
+.skill-rule-header::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-rule[open] > .skill-rule-header::before {
+  content: "\2212";
+}
+.skill-rule-section {
+  padding: 8px 12px;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+.skill-rule-section--do {
+  border-left: 3px solid #2d8a4e;
+}
+.skill-rule-section--dont {
+  border-left: 3px solid #c0392b;
+}
+.skill-rule-section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+  color: var(--muted);
+}
+.skill-rule-section--do .skill-rule-section-label { color: #2d8a4e; }
+.skill-rule-section--dont .skill-rule-section-label { color: #c0392b; }
+.skill-rule-section ul { margin: 0; padding: 0 0 0 1.1em; }
+.skill-rule-section li { margin: 2px 0; color: var(--text); }
+
 </style>
-<script src="../commons/catalog-nav.js?v=foundry-8"></script>
+<script src="../commons/catalog-nav.js?v=foundry-9"></script>
 </head>
 <body data-nav-prefix="../" data-nav-current="skills" data-nav-site-base="../../../abd-works-website/">
 <main id="main-content">
 
+
+
 <div class="page-hero page-hero--detail">
   <div class="wrap">
-    <a class="back-link" href="../plugin/kanban.html">← Kanban</a>
-    <p class="s-name">Skill</p>
-    <h1 class="page-headline">abd-kanban-planning</h1>
+    <a class="back-link" href="../index.html">← The ABD Foundry</a>
+    
+    <h1 class="page-headline"><span class="skill-name-prefix">abd-</span>kanban-planning</h1>
     <p class="body-lead">Strategy selection and system of work configuration â€” no pre-planned runs or slot tables.</p>
   </div>
 </div>
 
 <div class="catalog-body">
-<div class="wrap">
+<div class="wrap skill-detail-page">
 
-<h2>Description</h2>
-<div class="entry-prose">Kanban Planning configures how delivery flows â€” not what to build. It selects a strategy based on context and risk, configures the kanban board (stages, scope levels, stage work required), and defines scatter rules (how and when tickets decompose at scope boundaries). The result drives the JIT kanban board without pre-authoring every assignment.<br>
-<br>
-Do not use this skill to produce artifacts (maps, slices, AC, tests, code). This skill is strictly about the delivery lifecycle spine â€” the kanban board stage configuration, strategy, and decomposition rules.<br>
-<br>
----</div>
+<div class="skill-hero-img-wrap">
+
+</div>
 
 <section class="install-block" aria-labelledby="install-npx-heading">
   <h2 id="install-npx-heading">Install with npx</h2>
@@ -1073,106 +1692,169 @@ Do not use this skill to produce artifacts (maps, slices, AC, tests, code). This
 </section>
 
 
-<hr class="entry-divider">
-
-
-
-<hr class="entry-divider">
-
-<h2 id="entry-contents">Contents</h2>
-<details class="entry-md-section" id="md-overview"><summary class="entry-md-section__summary">Overview</summary><div class="entry-md-section__body"><p>﻿--- name: abd-kanban-planning catalog_garden_tier: practice catalog_garden_order: 70 catalogue_one_liner: &gt;- Strategy selection and system of work configuration â€” no pre-planned runs or slot tables. description: &gt;- Select delivery strategy, configure system of work (stages, scope progression, skill order), and define scatter/decomposition rules. Planning drives the Kanban board via strategy â€” not by pre-authoring runs, slots, or assignments. Use when selecting a delivery strategy, configuring a system of work, defining scatter rules, or saving a reusable strategy under reference/strategies/.</p>
-<hr>
-<h1>abd-kanban-planning</h1></div></details>
-<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p>Kanban Planning configures <em>how</em> delivery flows â€” not <em>what</em> to build. It selects a <strong>strategy</strong> based on context and risk, configures the <strong>kanban board</strong> (stages, scope levels, stage work required), and defines <strong>scatter rules</strong> (how and when tickets decompose at scope boundaries). The result drives the JIT kanban board without pre-authoring every assignment.</p>
-<p>Do <strong>not</strong> use this skill to produce artifacts (maps, slices, AC, tests, code). This skill is strictly about the delivery lifecycle spine â€” the kanban board stage configuration, strategy, and decomposition rules.</p>
-<hr></div></details>
-<details class="entry-md-section" id="output-file"><summary class="entry-md-section__summary">Output file</summary><div class="entry-md-section__body"><p><strong>Deliverables folder:</strong> see <a href="../../reference/artifact-layout.html">artifact-layout.md</a> â€” Output file resolution.</p>
-<p><strong>File names:</strong> Strategy output is written to:</p>
-<pre><code>&lt;workspace&gt;/docs/kanban/
-  kanban.json                # Stages, scope, stage work required, strategy, team</code></pre>
-<hr></div></details>
-<details class="entry-md-section" id="agent-instructions"><summary class="entry-md-section__summary">Agent Instructions</summary><div class="entry-md-section__body"><p>&gt; <strong>MANDATORY — read <a href="../../reference/artifact-layout.html">artifact-layout.md</a> before starting. It defines canonical output paths per stage and increment.</strong></p>
-<h3>1. Read context</h3>
-<p>Read these files:</p>
+<div class="skill-cr-grid">
+<div class="skill-cr-col"><div class="skill-concepts">
+<h2 class="skill-concepts-heading">Concepts</h2>
+<div class="skill-concept-body"><p>See <strong><a href="strategy.html">strategy</a></strong> for what a strategy is and <strong><a href="strategy-catalog.html">strategy-catalog</a></strong> for available options.</p>
+<hr></div>
+<details class="skill-concept"><summary>Step 1 â€” Context analysis</summary><div class="skill-concept-body"><p>Read all context. Identify:</p>
+<p>1. <strong>Known domains</strong> â€” strong training data, documented APIs. 2. <strong>Risky domains</strong> â€” proprietary, internal, novel logic. 3. <strong>Integration points</strong> â€” external systems, dependencies. 4. <strong>Complexity drivers</strong> â€” regulatory, multi-actor, concurrency. 5. <strong>Existing assets</strong> â€” prior story graphs, specs, tests, code.</p></div></details>
+<details class="skill-concept"><summary>Step 2 â€” Select strategy</summary><div class="skill-concept-body"><p>1. Open <code>reference/strategies/</code> in this skill folder. 2. Read each strategy&#x27;s <strong>When to use</strong> section. 3. Match context and risks to a strategy (or blend multiple). 4. If no strategy fits, design custom â€” offer to save later.</p></div></details>
+<details class="skill-concept"><summary>Step 3 â€” Configure kanban board stages</summary><div class="skill-concept-body"><p>From the selected strategy, write <code>kanban.json</code> (the kanban board stage configuration):</p>
 <ul>
-<li>`reference/strategy.md` - strategy concepts, risk classification, checkpoint granularity, scatter rules.</li>
-<li>`reference/selecting-a-strategy.md` - strategy selection procedure.</li>
-<li>`reference/strategy-catalog.md` - available strategies, how to add and adapt.</li>
-<li><strong>`reference/strategies/*.md`</strong> â€” one prepackaged strategy per file; read each strategy&#x27;s &quot;When to use&quot; section to match context.</li>
-</ul>
-<h3>2. Generate</h3>
-<p>Read every file in <strong>`rules/`</strong>; author to those rules.</p>
-<p>Follow the <strong>strategy selection procedure</strong> from `reference/selecting-a-strategy.md`:</p>
-<p>1. <strong>Context analysis</strong> â€” identify known domains, risky domains, integration points, complexity drivers, existing assets. 2. <strong>Select strategy</strong> â€” match context and risks to a strategy from `reference/strategies/` (or blend/custom). 3. <strong>Configure kanban board</strong> â€” write `kanban.json` (stages, stage work required, strategy, team). 4. <strong>Present and confirm</strong> â€” present context assessment, kanban board configuration, scatter rules. <strong>CHECKPOINT</strong> â€” wait for user confirm.</p>
-<p><strong>Scripts:</strong> Use `scripts/append_plan_revision.py` to append revisions to the strategy.</p>
-<h3>3. Validate</h3>
-<p>Run the scanners:</p>
-<pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/abd-kanban-planning \
-  --workspace &lt;path-to-output&gt;</code></pre>
-<p>Then emit per-rule verdicts (PASS / FAIL with reason) for every rule in `rules/`.</p>
-<hr></div></details>
-<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Inspect what was built â€” read the artifacts as reviewers.</p>
+<li>Which stages are active</li>
+<li>Scope level per stage</li>
+<li>Ordered stage work required per stage with delivery role assignments</li>
+<li>Any optional skills (marked in strategy)</li>
+</ul></div></details>
+<details class="skill-concept"><summary>Step 4 â€” Define scatter and decomposition rules</summary><div class="skill-concept-body"><p>Write the <code>strategy</code> section in <code>kanban.json</code> with:</p>
 <ul>
-<li><strong>Strategy named</strong> â€” a specific strategy from `reference/strategies/` is cited (or a custom one is defined).</li>
-<li><strong>System of work complete</strong> â€” stages, scope per stage, and ordered skills per stage are all populated.</li>
-<li><strong>Risks classified</strong> â€” context assessment names risk types with signals.</li>
-<li><strong>Scatter rules explicit</strong> â€” scope transitions, sprint grouping, and JIT policy are stated.</li>
-<li><strong>Checkpoints match risk</strong> â€” high-risk areas have tighter checkpoints.</li>
-<li><strong>Not a default six-stage copy</strong> â€” the plan reflects context, not a rote template.</li>
-<li><strong>No bundle markers</strong> â€” `SKILL.md` has no `&lt;!-- execute_rules:bundle_rules --&gt;` markers.</li>
+<li><strong>Scatter rules</strong>: which scope transitions scatter vs advance, sprint grouping (default 3â€“4), JIT policy</li>
+<li><strong>Ordering</strong>: priority source (story map, user override, risk-first)</li>
+<li><strong>Checkpoint policy</strong>: per-skill, per-stage, or per-increment</li>
+<li><strong>Autonomy</strong>: tight, moderate, or full</li>
+</ul></div></details>
+<details class="skill-concept"><summary>Step 5 â€” Present and confirm</summary><div class="skill-concept-body"><p>Present to user:</p>
+<p>1. Context assessment and classified risks. 2. Selected strategy (name, from which file, adaptations). 3. Kanban board stage configuration (stages, scope, skills). 4. Scatter rules and checkpoint policy.</p>
+<p><strong>CHECKPOINT.</strong> Wait for user confirm before setup.</p>
+<h1>Strategy catalog</h1></div></details>
+<details class="skill-concept"><summary>Available strategies</summary><div class="skill-concept-body"><ul>
+<li><strong><a href="./strategies/new-user-story.html">new-user-story.md</a></strong> â€” 1â€“3 stories on existing solution</li>
+<li><strong><a href="./strategies/new-thin-slice.html">new-thin-slice.md</a></strong> â€” vertical slice (~5â€“15 stories)</li>
+<li><strong><a href="./strategies/new-initiative-no-documented-architecture.html">new-initiative-no-documented-architecture.md</a></strong> â€” greenfield; no architecture</li>
+<li><strong><a href="./strategies/new-initiative-proprietary-technology-risk.html">new-initiative-proprietary-technology-risk.md</a></strong> â€” proprietary/undocumented systems</li>
+<li><strong><a href="./strategies/new-initiative-business-user-experience-risk.html">new-initiative-business-user-experience-risk.md</a></strong> â€” UX/domain risk dominant</li>
+<li><strong><a href="./strategies/brownfield-current-state.html">brownfield-current-state.md</a></strong> â€” map and test existing system</li>
+<li><strong><a href="./strategies/legacy-migration.html">legacy-migration.md</a></strong> â€” replace system; legacy is truth</li>
+<li><strong><a href="./strategies/regulatory-compliance-heavy.html">regulatory-compliance-heavy.md</a></strong> â€” regulation/compliance dominates</li>
+<li><strong><a href="./strategies/bug-fix.html">bug-fix.md</a></strong> â€” defect or regression</li>
+<li><strong><a href="./strategies/spike-proof-of-concept.html">spike-proof-of-concept.md</a></strong> â€” answer one question before delivery</li>
+</ul></div></details>
+<details class="skill-concept"><summary>Adding a strategy</summary><div class="skill-concept-body"><p>After a custom engagement, save a new <code>&lt;slug&gt;.md</code> in <code>reference/strategies/</code> with the same sections. Reference bootcamp stages and scope levels. Include scatter rules and sprint grouping heuristics.</p></div></details>
+<details class="skill-concept"><summary>Adapting a strategy</summary><div class="skill-concept-body"><div class="spec-steps">
+<p class="spec-step">When selecting a strategy, adapt it:</p>
+</div>
+<p>1. <strong>Add/remove stages</strong> â€” bug fix skips shaping; spike skips engineering. 2. <strong>Add/remove skills</strong> â€” brownfield adds module partition; UX-heavy adds IA. 3. <strong>Change scope levels</strong> â€” if stories are huge, add sub-story scope. 4. <strong>Override sprint grouping</strong> â€” &quot;2 stories per sprint for this complex area.&quot; 5. <strong>Change JIT policy</strong> â€” &quot;scatter all increments now, we know the domain.&quot; 6. <strong>Adjust checkpoints</strong> â€” &quot;per-skill for increment 1, per-stage after.&quot;</p>
+<h1>Strategy</h1>
+<p>A <strong>strategy</strong> defines how work flows through the kanban board:</p>
+<ul>
+<li><strong>Scope progression</strong> â€” which scope levels apply at each stage (may differ from default)</li>
+<li><strong>Scatter rules</strong> â€” when and how to decompose tickets at scope boundaries</li>
+<li><strong>Sprint grouping</strong> â€” how to group stories into sprints (default 3â€“4, adjustable)</li>
+<li><strong>JIT policy</strong> â€” how far ahead to scatter (next 1â€“2 items by default)</li>
+<li><strong>Checkpoint policy</strong> â€” where to stop for feedback (per skill, per stage, per increment)</li>
+<li><strong>Risk classification</strong> â€” which risks are present and how they affect ordering</li>
 </ul>
 <hr></div></details>
-
-<ul class="file-list file-list--root">
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>reference/</strong><span class="file-meta"> → Folder (4 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>strategies/</strong><span class="file-meta"> → Folder (11 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/reference/strategies/brownfield-current-state.md" target="_blank" rel="noopener noreferrer"><strong>brownfield-current-state.md</strong></a><span class="file-meta"> → Strategy: Brownfield Current State</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/reference/strategies/bug-fix.md" target="_blank" rel="noopener noreferrer"><strong>bug-fix.md</strong></a><span class="file-meta"> → Strategy: Bug Fix</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/reference/strategies/legacy-migration-mern-spec.md" target="_blank" rel="noopener noreferrer"><strong>legacy-migration-mern-spec.md</strong></a><span class="file-meta"> → Strategy: Legacy Migration ? MERN (spec stop)</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/reference/strategies/legacy-migration.md" target="_blank" rel="noopener noreferrer"><strong>legacy-migration.md</strong></a><span class="file-meta"> → Strategy: Legacy Migration</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/reference/strategies/new-initiative-business-user-experience-risk.md" target="_blank" rel="noopener noreferrer"><strong>new-initiative-business-user-experience-risk.md</strong></a><span class="file-meta"> → Strategy: New Initiative — Business / User Experience Risk</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/reference/strategies/new-initiative-no-documented-architecture.md" target="_blank" rel="noopener noreferrer"><strong>new-initiative-no-documented-architecture.md</strong></a><span class="file-meta"> → Strategy: New Initiative — No Documented Architecture</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/reference/strategies/new-initiative-proprietary-technology-risk.md" target="_blank" rel="noopener noreferrer"><strong>new-initiative-proprietary-technology-risk.md</strong></a><span class="file-meta"> → Strategy: New Initiative — Proprietary Technology Risk</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/reference/strategies/new-thin-slice.md" target="_blank" rel="noopener noreferrer"><strong>new-thin-slice.md</strong></a><span class="file-meta"> → Strategy: New Thin Slice</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/reference/strategies/new-user-story.md" target="_blank" rel="noopener noreferrer"><strong>new-user-story.md</strong></a><span class="file-meta"> → Strategy: New User Story</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/reference/strategies/regulatory-compliance-heavy.md" target="_blank" rel="noopener noreferrer"><strong>regulatory-compliance-heavy.md</strong></a><span class="file-meta"> → Strategy: Regulatory / Compliance-Heavy</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/reference/strategies/spike-proof-of-concept.md" target="_blank" rel="noopener noreferrer"><strong>spike-proof-of-concept.md</strong></a><span class="file-meta"> → Strategy: Spike / Proof of Concept</span></li>
-</ul></div></details></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/reference/selecting-a-strategy.md" target="_blank" rel="noopener noreferrer"><strong>selecting-a-strategy.md</strong></a><span class="file-meta"> → Selecting a strategy</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/reference/strategy-catalog.md" target="_blank" rel="noopener noreferrer"><strong>strategy-catalog.md</strong></a><span class="file-meta"> → Strategy catalog</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/reference/strategy.md" target="_blank" rel="noopener noreferrer"><strong>strategy.md</strong></a><span class="file-meta"> → Strategy</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/rules/plan-checkpoint-density-matches-risk.md" target="_blank" rel="noopener noreferrer"><strong>plan-checkpoint-density-matches-risk.md</strong></a><span class="file-meta"> → scanner: plan-shape</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/rules/plan-has-context-inventory.md" target="_blank" rel="noopener noreferrer"><strong>plan-has-context-inventory.md</strong></a><span class="file-meta"> → scanner: plan-shape</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/rules/plan-is-not-default-six-stage.md" target="_blank" rel="noopener noreferrer"><strong>plan-is-not-default-six-stage.md</strong></a><span class="file-meta"> → scanner: plan-shape</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/rules/plan-risks-are-classified.md" target="_blank" rel="noopener noreferrer"><strong>plan-risks-are-classified.md</strong></a><span class="file-meta"> → scanner: plan-shape</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/rules/plan-strategy-named.md" target="_blank" rel="noopener noreferrer"><strong>plan-strategy-named.md</strong></a><span class="file-meta"> → scanner: plan-shape</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/rules/plan-uses-system-of-work.md" target="_blank" rel="noopener noreferrer"><strong>plan-uses-system-of-work.md</strong></a><span class="file-meta"> → scanner: plan-shape</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>scanners/</strong><span class="file-meta"> → Folder (2 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>tests/</strong><span class="file-meta"> → Folder (6 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/scanners/tests/bad-plan-default-six-stage.md" target="_blank" rel="noopener noreferrer"><strong>bad-plan-default-six-stage.md</strong></a><span class="file-meta"> → ﻿# Agile Delivery Plan â€” Default Waterfall</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/scanners/tests/bad-plan-loose-checkpoints.md" target="_blank" rel="noopener noreferrer"><strong>bad-plan-loose-checkpoints.md</strong></a><span class="file-meta"> → ﻿# Agile Delivery Plan â€” Loose Checkpoints Despite High Risk</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/scanners/tests/bad-plan-missing-inventory.md" target="_blank" rel="noopener noreferrer"><strong>bad-plan-missing-inventory.md</strong></a><span class="file-meta"> → ﻿# Agile Delivery Plan â€” No Inventory</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/scanners/tests/bad-plan-risk-only-rationale.md" target="_blank" rel="noopener noreferrer"><strong>bad-plan-risk-only-rationale.md</strong></a><span class="file-meta"> → ﻿# Agile Delivery Plan â€” Risk-Only Rationales</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/scanners/tests/bad-plan-routine-template.md" target="_blank" rel="noopener noreferrer"><strong>bad-plan-routine-template.md</strong></a><span class="file-meta"> → Agile Delivery Plan � PawPlace (bad template)</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/scanners/tests/good-plan.md" target="_blank" rel="noopener noreferrer"><strong>good-plan.md</strong></a><span class="file-meta"> → ﻿# Agile Delivery Plan â€” Acme Onboarding</span></li>
-</ul></div></details></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/scanners/plan-shape-scanner.py" target="_blank" rel="noopener noreferrer"><strong>plan-shape-scanner.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>scripts/</strong><span class="file-meta"> → Build, catalogue, validation, or packaging automation.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/scripts/append_plan_revision.py" target="_blank" rel="noopener noreferrer"><strong>append_plan_revision.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>tests/</strong><span class="file-meta"> → Folder (3 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/tests/conftest.py" target="_blank" rel="noopener noreferrer"><strong>conftest.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Put scanner + generator scripts on sys.path for in-process imports.&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/tests/test_append_plan_revision.py" target="_blank" rel="noopener noreferrer"><strong>test_append_plan_revision.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Tests for append_plan_revision: entries prepended, header preserved, plan sha recorded.&quot;&quot;&quot;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/tests/test_plan_shape_scanner.py" target="_blank" rel="noopener noreferrer"><strong>test_plan_shape_scanner.py</strong></a><span class="file-meta"> → &quot;&quot;&quot;Tests for plan-shape-scanner: asserts each rule fires on its matching fixture.</span></li>
-</ul></div></details></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/corrections-log.md" target="_blank" rel="noopener noreferrer"><strong>corrections-log.md</strong></a><span class="file-meta"> → abd-kanban-planning — corrections log</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/kanban/skills/abd-kanban-planning/SKILL.md" target="_blank" rel="noopener noreferrer"><strong>SKILL.md</strong></a><span class="file-meta"> → name: abd-kanban-planning</span></li>
+<details class="skill-concept"><summary>Why Kanban Planning</summary><div class="skill-concept-body"><p>Agents benefit from an explicit delivery lifecycle: not just <em>what</em> to do next, but <strong>when scope changes</strong>, <strong>when to scatter</strong>, <strong>how to group work</strong>, and <strong>when to stop for feedback</strong>. The strategy + kanban board provide the spine without pre-planning every assignment.</p>
+<ul>
+<li><strong>Uncertainty is real</strong> â€” keep the strategy living; update when corrections accumulate.</li>
+<li><strong>Risk before volume</strong> â€” order increments so the hardest unknowns fail early.</li>
+<li><strong>JIT over pre-plan</strong> â€” decompose only when needed, not everything upfront.</li>
+<li><strong>Humans in the loop</strong> â€” checkpoint policy makes confirmation predictable.</li>
 </ul>
+<hr></div></details>
+<details class="skill-concept"><summary>Risk classification</summary><div class="skill-concept-body"><p>Classify risks to inform strategy selection:</p>
+<ul>
+<li><strong>Value risk</strong> â€” building the wrong thing. Signals: vague briefs, no research, conflicting goals.</li>
+<li><strong>Technical risk</strong> â€” wrong tech, infra, or architecture. Signals: proprietary APIs, unfamiliar stacks, scale unknowns.</li>
+<li><strong>Delivery risk</strong> â€” miss schedule or quality bar. Signals: large scope, dependencies, deadlines.</li>
+<li><strong>Domain risk</strong> â€” misunderstand business rules. Signals: regulatory regimes, complex rules, jargon.</li>
+<li><strong>Integration risk</strong> â€” external systems constrain design. Signals: legacy, quirky APIs, backward compat.</li>
+<li><strong>AI-model risk</strong> â€” agent likely to hallucinate. Signals: no training data, undocumented APIs.</li>
+</ul>
+<p>Risk types drive strategy selection and checkpoint tightness.</p>
+<hr></div></details>
+<details class="skill-concept"><summary>Checkpoint granularity</summary><div class="skill-concept-body"><p>Matches kanban scope levels â€” pick the coarsest that still gives you confidence:</p>
+<ul>
+<li><strong>Per skill</strong> â€” after each skill completes on a ticket; finest; use for high uncertainty or early work</li>
+<li><strong>Per story</strong> â€” after all skills complete on a story-scope ticket</li>
+<li><strong>Per sprint</strong> â€” after all skills complete on a sprint-scope ticket (specification / engineering)</li>
+<li><strong>Per increment</strong> â€” after all skills complete on an increment-scope ticket (discovery / exploration)</li>
+<li><strong>Per stage</strong> â€” after the stage exit gate passes; use for well-understood, repeatable work</li>
+</ul>
+<p>Default: start per-skill, relax as confidence builds.</p>
+<hr></div></details>
+<details class="skill-concept"><summary>Scatter rules</summary><div class="skill-concept-body"><h3>Default heuristics</h3>
+<ul>
+<li><strong>all â†’ increment</strong> â€” one ticket per increment from thin-slicing; scatter all</li>
+<li><strong>increment â†’ sprint</strong> â€” group 3â€“4 stories per sprint; scatter next 1â€“2 increments JIT</li>
+<li><strong>sprint â†’ story</strong> â€” rare; only if strategy requires per-story tickets</li>
+</ul>
+<h3>User overrides</h3>
+<ul>
+<li>&quot;Divide increment 1 into 3 sprints, increment 2 into 5 sprints&quot;</li>
+<li>&quot;Scatter all increments now&quot;</li>
+<li>&quot;Only scatter next 2&quot;</li>
+<li>&quot;Leave later increments until we know more&quot;</li>
+<li>&quot;Increment 1 sprint 1: story 1 then 2 then 3&quot; (specific ordering)</li>
+</ul>
+<h3>AI error rate adjustment</h3>
+<div class="spec-steps">
+<p class="spec-step">When AI output error rate is high (&gt;10%):</p>
+</div>
+<ul>
+<li>Shrink scope: move from increment-level to sprint-level or story-level</li>
+<li>Tighten checkpoints to per-skill</li>
+</ul>
+<div class="spec-steps">
+<p class="spec-step">When error rate is low (&lt;5%):</p>
+</div>
+<ul>
+<li>Expand scope: move from sprint to increment across flows</li>
+<li>Relax checkpoints to per-stage</li>
+</ul>
+<hr></div></details>
+<details class="skill-concept"><summary>Strategy file structure</summary><div class="skill-concept-body"><p>Each strategy file in <code>reference/strategies/</code> defines:</p>
+<ul>
+<li><strong>When to use</strong> â€” context signals and risk types that match this strategy</li>
+<li><strong>Typical scope</strong> â€” what boundary or area this applies to</li>
+<li><strong>Kanban board stages</strong> â€” stages, scope per stage, skills per stage (or reference to default)</li>
+<li><strong>Scatter rules</strong> â€” how tickets decompose at scope boundaries</li>
+<li><strong>Sprint grouping</strong> â€” stories per sprint, grouping heuristics</li>
+<li><strong>JIT policy</strong> â€” how far ahead to decompose</li>
+<li><strong>Checkpoint policy</strong> â€” where to stop for feedback</li>
+<li><strong>Key constraints</strong> â€” non-negotiable rules for this strategy</li>
+</ul>
+<p>See <strong><a href="strategy-catalog.html">strategy-catalog</a></strong> for all available strategies.</p></div></details>
+</div></div>
+<div class="skill-cr-col"><div class="skill-rules">
+<h2 class="skill-rules-heading">Rules</h2>
+<details class="skill-rule">
+<summary class="skill-rule-header">Checkpoint density matches the classified risk</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Tighten checkpoints for the first run against a risky surface (typically per-AC or per-test).</li><li>Loosen later, once the corrections log and the graph have stabilized the domain for the agent.</li><li>State the granularity level explicitly using ABD vocabulary: per-story, per-AC, per-test, per-slice, per-epic, across-team, across-runs.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Write per-slice on every run when integration or AI-model risk is classified.</li><li>Use an informal phrase like &quot;we&#x27;ll check in as needed&quot; — the checkpoint policy must be explicit.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Plan has an explicit context inventory</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Include a heading like ## Context inventory (or ### Context Inventory).</li><li>Under it, list or table both Provided context (concrete inputs used â€” file paths, repo URLs, doc links, API refs, versions) and Missing context (explicit &quot;not yet provided&quot; flags).</li><li>When critical context is missing, say what must happen before implementation runs (spike, doc pass, user drops links, clone repo).</li><li>Use neutral wording for gaps â€” not yet provided â€” not &quot;TBD&quot; buried in prose.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Treat a named platform (Foundry, Salesforce, your monolith, Acme API, etc.) as understood without any provided source.</li><li>Skip the inventory because &quot;the brief is short.&quot; A short brief means the inventory is a one-liner â€” still write it.</li><li>Hide gaps inside run rationales instead of surfacing them in the inventory.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Plan is not a default single-run five-stage waterfall</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Break the work into multiple runs that front-load risk.</li><li>Use strategies from reference/strategies/ as starting points â€” they decompose the run structure for you.</li><li>If the engagement truly is trivial, mark it with trivial: true in the plan&#x27;s YAML frontmatter, or add a section that states the engagement has no classified risk and explains why a single sweep is appropriate.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Default to a one-run, five-stage sweep because it feels complete.</li><li>Hide the sweep behind renamed stages â€” use canonical stage names from the stage files in reference/stages/.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Plan classifies risks against the six named types</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Tag at least one risk type in the plan text (e.g. under a ## Risks or ## Context Assessment heading, or per-run).</li><li>If multiple risk types apply, list them all; it is common for an engagement to have two or three.</li><li>Prefer the canonical spellings: value, technical, delivery, domain, integration, AI-model (case-insensitive; ai model / ai-model / ai_model all accepted).</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Use vague language like &quot;lots of risk&quot; or &quot;this project is risky&quot; without naming at least one type.</li><li>Invent risk types that are not in the canonical six — if you need a new category, propose extending the planning skill.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Plan names the selected strategy (or proposes a new one)</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Reference the strategy file(s) by filename (new-initiative-proprietary-technology-risk.md) or by canonical slug.</li><li>When more than one strategy is blended, name each and say how they combine.</li><li>When no strategy fits, include a section like ## Strategy: custom with a proposed slug for later save under reference/strategies/.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Describe a strategy in prose without a name â€” reviewers cannot match it to the catalog.</li><li>Copy a strategy&#x27;s run table without citing the source file.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Plans configure the kanban board stage configuration</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Select one named strategy from reference/strategies/ (or define a custom one) and cite it in the plan.</li><li>Write kanban.json with the kanban board configuration: stages, scope per stage, ordered stage work required with delivery role assignments, strategy (scatter rules, checkpoint policy, autonomy), and team.</li><li>Show the full kanban board stage configuration table (stages, scope, skills) for the engagement in the plan.</li><li>When inventing a new custom configuration, CHECKPOINT: ask the operator whether to add it to abd-kanban-planning/reference/strategies/ for reuse.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Pre-author skill assignments per ticket — agents pull from the kanban board at runtime.</li><li>Use slot files (slot-NN-start.md, slot-NN-finished.md) — those are removed.</li><li>Treat system-of-work.json as a separate domain concept; it is the on-disk representation of the kanban board&#x27;s stage configuration.</li><li>Duplicate stage skill lists across multiple places — system-of-work.json is the single source of truth.</li></ul></div>
+</details>
+</div></div>
+</div>
+
+
+
 
 </div>
 </div>

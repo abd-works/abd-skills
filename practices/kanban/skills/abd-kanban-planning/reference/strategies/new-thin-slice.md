@@ -17,7 +17,7 @@
 | Discovery | increment | abd-information-architecture |
 | Exploration | increment | abd-domain-language, abd-story-acceptance-criteria, abd-ux-mockup |
 | Specification | sprint | abd-domain-model, abd-story-specification, abd-ux-specification |
-| Engineering | sprint | abd-ux-specification (UX), abd-domain-specification (BE), abd-story-acceptance-test (PO), abd-clean-code (EN), abd-architecture-code (conditional) |
+| Engineering | sprint | abd-domain-code (BE), abd-story-acceptance-test (PO), abd-clean-code (EN), abd-architecture-code (conditional) |
 
 
 ---

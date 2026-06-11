@@ -1,5 +1,6 @@
 ﻿---
 name: abd-impact-mapping
+catalog_ready: false
 catalog_garden_tier: practice
 catalog_garden_order: 15
 catalogue_one_liner: >-

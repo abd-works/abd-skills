@@ -47,7 +47,7 @@ Pre-assigns skills to specific tickets — duplicates the kanban board; brittle.
 | shaping | all | abd-domain-glossary (business-expert), abd-story-mapping (product-owner), abd-thin-slicing (product-owner) |
 | discovery | increment | abd-story-mapping (product-owner) |
 | exploration | increment | abd-domain-language (business-expert), abd-story-acceptance-criteria (product-owner) |
-| engineering | sprint | abd-ux-specification (ux-designer), abd-domain-specification (business-expert), abd-story-acceptance-test (product-owner), abd-clean-code (engineer) |
+| engineering | sprint | abd-domain-code (business-expert), abd-story-acceptance-test (product-owner), abd-clean-code (engineer), abd-architecture-code (engineer) |
 
 Stored in `delivery-kanban-board/system-of-work.json`. Agents pull skill work from any ticket at the matching stage.
 ```

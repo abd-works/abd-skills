@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Foundry — abd-interface-design · SKILL.md</title>
+<title>Foundry — abd-ux-specification · SKILL.md</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -471,7 +471,22 @@ html[data-abd-theme="executive"] .catalog-body code {
 }
 
 .page-hero--detail {
-  padding-top: 48px;
+  padding-top: 20px;
+  padding-bottom: 16px;
+}
+.page-hero--detail .page-headline {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 4px 0 6px;
+}
+.page-headline .skill-name-prefix,
+.cap-card__title .skill-name-prefix {
+  color: var(--accent);
+}
+.page-hero--detail .body-lead {
+  font-size: 0.9rem;
+  margin: 0;
+  color: var(--muted);
 }
 
 .page-hero--detail .back-link {
@@ -731,8 +746,18 @@ a.cap-card:hover .cap-card__more {
   color: #b8b8c2;
   margin: 0 0 18px;
 }
+.skill-detail-page .skill-hero-img-wrap + .install-block {
+  margin-top: 18px;
+}
+.skill-detail-page .install-block + .skill-cr-grid,
+.skill-detail-page .install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block {
+  margin-top: 0;
+}
 .install-block {
-  margin: 22px 0 0;
+  margin: 20px 0 0;
   padding: 16px 18px;
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid var(--border-muted);
@@ -1041,16 +1066,612 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 .plugin-slots h3:first-child { margin-top: 0; }
 .cap-grid--plugin-slot { margin-bottom: 8px; }
 
+/* ── Skill detail: family kanban stage nav (matches hub column headings) ── */
+.skill-kanban-nav {
+  --fam-sdd: #6bcb77;
+  --fam-ddd: #6c5ce7;
+  --fam-uxd: #e84393;
+  --fam-arc: #4fc3f7;
+  --fam-idea: var(--accent);
+  --abd-accent: var(--accent);
+  --abd-accent-glow: var(--accent-soft, var(--accent));
+  --abd-raised: var(--raised);
+  --abd-bg: var(--bg);
+  --abd-border: var(--border);
+  --abd-text: var(--text);
+  --abd-muted: var(--muted);
+  background: var(--raised);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0 16px;
+}
+.skill-kanban-nav .wrap {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.skill-kanban-nav__board {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  gap: 6px 8px;
+  align-items: start;
+}
+.skill-kanban-nav__practice-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  margin: 0;
+  padding: 0 8px;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-left-width: 3px;
+  border-radius: 4px;
+  line-height: 1.25;
+  box-sizing: border-box;
+  transition: box-shadow 120ms, border-color 120ms;
+  color: inherit;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card:hover {
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--sdd {
+  border-left-color: var(--fam-sdd);
+  color: var(--fam-sdd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--ddd {
+  border-left-color: var(--fam-ddd);
+  color: var(--fam-ddd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--uxd {
+  border-left-color: var(--fam-uxd);
+  color: var(--fam-uxd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--arc {
+  border-left-color: var(--fam-arc);
+  color: var(--fam-arc);
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap {
+  position: relative;
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip.kb-col-shape-tooltip {
+  min-width: 10rem;
+  max-width: 22rem;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:hover .kb-skill-tooltip,
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:focus-within .kb-skill-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.skill-kanban-nav__stages {
+  display: grid;
+  grid-template-columns: repeat(var(--skill-kanban-cols, 5), minmax(0, 1fr));
+  gap: 0 8px;
+  min-width: 0;
+}
+.skill-kanban-nav__col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.skill-kanban-nav__tickets {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.skill-kanban-nav .kb-col-head {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 8px 6px 7px;
+  font-family: var(--font-mono);
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.skill-kanban-nav .kb-col-head--static {
+  cursor: default;
+}
+.skill-kanban-nav a.kb-col-head {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav a.kb-col-head:hover {
+  border-color: rgba(229, 83, 26, 0.35);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.15);
+}
+.skill-kanban-nav .kb-col-head--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-col-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+}
+.skill-kanban-nav .kb-col-scope-shape {
+  flex-shrink: 0;
+  border: 2px solid var(--abd-accent);
+  border-radius: 2px;
+}
+.skill-kanban-nav__stages .kb-col-shape-tooltip,
+.skill-kanban-nav__stages .kb-skill-tooltip-wrap .kb-col-shape-tooltip {
+  display: none !important;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 8px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 7px 9px;
+  font-family: var(--font-mono);
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid rgba(229, 83, 26, 0.45);
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 14px;
+  border: 5px solid transparent;
+  border-bottom-color: rgba(229, 83, 26, 0.45);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__name {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--abd-accent-glow);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__bullets {
+  font-size: 8px;
+  line-height: 1.45;
+  color: var(--abd-text);
+  white-space: pre-line;
+}
+.skill-kanban-nav .kb-col-scope-shape--solution { width: 36px; height: 12px; }
+.skill-kanban-nav .kb-col-scope-shape--increment { width: 24px; height: 16px; }
+.skill-kanban-nav .kb-col-scope-shape--sprint { width: 16px; height: 22px; }
+.skill-kanban-nav .kb-col-scope-shape--story { width: 11px; height: 28px; }
+.skill-kanban-nav .kb-col-head-title {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--abd-text);
+}
+.skill-kanban-nav .kb-col-head-title > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.skill-kanban-nav .kb-col-num {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--abd-text);
+  background: var(--abd-bg);
+  border: 1px solid var(--abd-border);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+.skill-kanban-nav .kb-ticket {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  background: var(--abd-raised);
+  color: var(--abd-text);
+  padding: 5px 6px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  border-left-width: 3px;
+  border-left-color: var(--abd-muted);
+  line-height: 1.25;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav .kb-ticket:hover {
+  border-color: var(--abd-border);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.2);
+}
+.skill-kanban-nav .kb-ticket.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-ticket.aad-fam-sdd { border-left-color: var(--fam-sdd); }
+.skill-kanban-nav .kb-ticket.aad-fam-ddd { border-left-color: var(--fam-ddd); }
+.skill-kanban-nav .kb-ticket.aad-fam-uxd { border-left-color: var(--fam-uxd); }
+.skill-kanban-nav .kb-ticket.aad-fam-arc { border-left-color: var(--fam-arc); }
+.skill-kanban-nav .kb-ticket.aad-fam-idea { border-left-color: var(--fam-idea); }
+@media (max-width: 960px) {
+  .skill-kanban-nav__board {
+    grid-template-columns: 1fr;
+  }
+  .skill-kanban-nav__stages {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
+
+/* ── Skill detail: full-width hero image / embedded viewer ── */
+.skill-hero-img-wrap {
+  margin: 24px 0 0;
+}
+.skill-hero-img-wrap:empty { display: none; }
+.skill-hero-img-wrap img,
+.skill-hero-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--raised);
+}
+
+/* HTML prototype iframe (reference/example/index.html) */
+.skill-prototype-wrap {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-prototype-frame {
+  display: block;
+  width: 100%;
+  min-height: 540px;
+  height: 71vh;
+  max-height: 810px;
+  border: 0;
+  background: #fff;
+}
+.skill-prototype-open {
+  margin: 0;
+  padding: 8px 14px;
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+  background: var(--raised);
+}
+.skill-prototype-open a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.skill-prototype-open a:hover { text-decoration: underline; }
+
+/* draw.io embedded viewer */
+.skill-drawio-wrap {
+  position: relative;
+  width: 100%;
+  height: min(71vh, 680px);
+  min-height: 340px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-drawio-wrap .mxgraph {
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+}
+.skill-drawio-wrap .geToolbarContainer {
+  z-index: 4;
+}
+
+/* code file preview */
+.skill-code-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--raised);
+  font-size: 13px;
+}
+.skill-code-lang {
+  padding: 6px 14px;
+  font-family: var(--mono, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.skill-code-preview pre {
+  margin: 0;
+  padding: 16px;
+  overflow-x: auto;
+  max-height: 420px;
+}
+.skill-code-preview code {
+  font-family: var(--mono, 'JetBrains Mono', monospace);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+/* rendered markdown preview */
+.skill-hero-img-wrap .skill-md-preview {
+  max-height: min(71vh, 610px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.skill-md-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px 24px;
+  background: var(--surface);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.skill-md-preview h1 { font-size: 18px; font-weight: 700; margin: 0 0 12px; }
+.skill-md-preview h2 { font-size: 15px; font-weight: 600; margin: 16px 0 8px;
+  border-bottom: 1px solid var(--border); padding-bottom: 3px; }
+.skill-md-preview h3 { font-size: 13px; font-weight: 600; margin: 12px 0 6px; }
+.skill-md-preview h4 { font-size: 12px; font-weight: 600; margin: 10px 0 4px; color: var(--muted); }
+.skill-md-preview p  { margin: 0 0 10px; }
+.skill-md-preview .spec-steps { margin: 0 0 14px; }
+.skill-md-preview p.spec-step { margin: 0 0 4px; line-height: 1.55; }
+.skill-md-preview .md-table-wrap { overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview .md-table { border-collapse: collapse; width: 100%; }
+.skill-md-preview ul, .skill-md-preview ol { margin: 0 0 10px; padding-left: 20px; }
+.skill-md-preview li { margin-bottom: 3px; }
+.skill-md-preview code { background: var(--raised); border-radius: 3px;
+  padding: 1px 5px; font-family: var(--mono, monospace); font-size: 12px; }
+.skill-md-preview pre { background: var(--raised); border-radius: 5px;
+  padding: 12px; overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview table { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
+.skill-md-preview th, .skill-md-preview td {
+  border: 1px solid var(--border); padding: 6px 10px; }
+.skill-md-preview th { background: var(--raised); font-weight: 600; }
+
+/* ── Skill detail: concepts | rules two-column grid ── */
+.skill-cr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin: 24px 0 0;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .skill-cr-grid { grid-template-columns: 1fr; }
+}
+.skill-cr-col { min-width: 0; }
+.skill-cr-single { margin: 24px 0 0; }
+
+/* Glossary example hero — term blocks without heavy HR dividers */
+.skill-md-preview--glossary h1 {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 10px;
+  border: 0;
+  padding: 0;
+}
+.skill-md-preview--glossary h2 {
+  font-size: 16px;
+  margin-top: 0;
+}
+.skill-md-preview--glossary h3 {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 14px 0 6px;
+  padding: 6px 8px;
+  background: var(--raised);
+  border-radius: 4px;
+  border-left: 3px solid var(--accent);
+}
+.skill-md-preview--glossary hr {
+  display: none;
+}
+.skill-md-preview--glossary ul {
+  margin-top: 0;
+}
+
+/* ── Skill detail: full-width content below ── */
+.skill-detail-content-col { margin-top: 32px; }
+.skill-detail-page .skill-cr-grid,
+.skill-detail-page .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-single,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-single {
+  margin-top: 0;
+}
+
+/* ── Skill detail: concepts (expandable) ── */
+.skill-hero-img-wrap + .install-block {
+  margin-top: 16px;
+}
+.install-block + .skill-cr-grid,
+.install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-concepts {
+  margin: 0 0 20px;
+}
+.skill-concepts-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 8px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-concept {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-concept summary {
+  padding: 8px 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  user-select: none;
+}
+.skill-concept summary::-webkit-details-marker { display: none; }
+.skill-concept summary::marker { content: ""; }
+.skill-concept summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-concept[open] summary::before { content: "\2212"; }
+.skill-concept-body {
+  padding: 6px 4px 10px 1.9rem;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.skill-concept-body p { margin: 0 0 8px; }
+.skill-concept-body p:last-child { margin-bottom: 0; }
+.skill-concept-body ul { margin: 0 0 8px 1.1em; padding: 0; }
+.skill-concept-body li { margin: 3px 0; }
+
+/* ── Skill detail: rules (DO / DON'T) ── */
+.skill-rules {
+  margin: 0 0 20px;
+}
+.skill-rules-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 12px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-rule {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule[open] > .skill-rule-header {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule-header {
+  padding: 8px 10px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  background: var(--raised);
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+.skill-rule-header::-webkit-details-marker { display: none; }
+.skill-rule-header::marker { content: ""; }
+.skill-rule-header::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-rule[open] > .skill-rule-header::before {
+  content: "\2212";
+}
+.skill-rule-section {
+  padding: 8px 12px;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+.skill-rule-section--do {
+  border-left: 3px solid #2d8a4e;
+}
+.skill-rule-section--dont {
+  border-left: 3px solid #c0392b;
+}
+.skill-rule-section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+  color: var(--muted);
+}
+.skill-rule-section--do .skill-rule-section-label { color: #2d8a4e; }
+.skill-rule-section--dont .skill-rule-section-label { color: #c0392b; }
+.skill-rule-section ul { margin: 0; padding: 0 0 0 1.1em; }
+.skill-rule-section li { margin: 2px 0; color: var(--text); }
+
 </style>
-<script src="../../../commons/catalog-nav.js?v=foundry-8"></script>
+<script src="../../../commons/catalog-nav.js?v=foundry-9"></script>
 </head>
 <body data-nav-prefix="../../../" data-nav-current="skills" data-nav-site-base="../../../../../abd-works-website/">
 <main id="main-content">
 
 <div class="page-hero page-hero--detail">
   <div class="wrap">
-    <a class="back-link" href="../../../skill/abd-ux-specification.html">← abd-interface-design</a>
+    <a class="back-link" href="../../../skill/abd-ux-specification.html">← abd-ux-specification</a>
     <p class="s-name">Markdown</p>
+
     <h1 class="page-headline">SKILL.md</h1>
     <p class="body-lead">catalog_garden_tier: practice</p>
   </div>
@@ -1060,46 +1681,53 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <div class="wrap">
 
 <h2>Content</h2>
-<div class="rule-prose"><p>﻿--- catalog_garden_tier: practice catalog_garden_order: 30 name: abd-interface-design catalogue_one_liner: &gt;- Translate approved hi-fi mockups into production-grade, accessible interface code. description: &gt;- Translate the approved hi-fi mockup for a screen into production-grade, functional, accessible interface code in the chosen framework — without changing the domain labels, acceptance criteria, or visual decisions. Use when implementing a screen from an approved hi-fi, bringing a drifted implementation back to the hi-fi and AC, or verifying that every AC is implemented and every UL label is used verbatim in the running UI.</p>
-<hr>
-<h1>abd-interface-design</h1>
+<div class="rule-prose"><h1>abd-ux-specification</h1>
 <h2>Purpose</h2>
-<p>Hi-fi mockups settle look and feel. The interface stage is where they become real code — and where most teams quietly stop honouring the upstream artifacts because &quot;we&#x27;re shipping now&quot;. This skill keeps that integrity: the implementation renders the same regions, the same affordances, the same labels, the same acceptance criteria, and the same visual decisions as the approved hi-fi, in production-grade code that an end user can actually use. It treats acceptance criteria as the testable surface (every clause is a working behaviour with a check), treats the ubiquitous language as the public vocabulary (labels and copy stay verbatim from the UL and AC), and treats accessibility and performance as constraints that are met, not aspirations that are mentioned.</p>
+<p>Lo-fi mockups lock controls and states. The specification stage turns those decisions into something people can <strong>click through</strong> — not production code. The deliverable is a hi-fi prototype built from real HTML, CSS, and JavaScript (or the host project&#x27;s static/preview stack): design tokens, typography, colour, spacing, and components that match the approved visual direction, with navigation and state transitions wired so flows feel real. Backend calls, validation rules, auth, and persistence are <strong>stubbed or faked</strong> — fixture data, timed delays, hard-coded branches, and local state only where needed to demonstrate behaviour. Acceptance criteria are <strong>demonstrated</strong>, not fully implemented; ubiquitous-language labels stay verbatim from upstream artifacts.</p>
 <hr>
 <h2>Output file</h2>
-<p><strong>Deliverables folder:</strong> see `../agent-protocol.md` — Output file resolution.</p>
-<p><strong>File name:</strong> `interface-design.md` (structured spec). Add a `&lt;name&gt;-` prefix only when disambiguation is needed. Plus working code on disk in the host project (screen component, supporting modules, tests).</p>
+<p><strong>Deliverables folder:</strong> see <code>../agent-protocol.md</code> — Output file resolution.</p>
+<p><strong>File names:</strong></p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Artifact</th><th>Purpose</th></tr></thead><tbody><tr><td><code>&lt;screen-slug&gt;.html</code> (and linked <code>.css</code> / <code>.js</code> as needed)</td><td>Runnable clickable prototype — open in browser, no build required unless the host project already uses one for previews</td></tr><tr><td><code>ux-specification.md</code></td><td>Structured spec: source paths, <strong>brand assets</strong> (resolved or provisional), design carry-over, stub boundaries, AC → demonstrated behaviour map, and what is intentionally <strong>not</strong> implemented</td></tr><tr><td><code>ux-specification.html</code></td><td>Spec review page — embeds <code>prototype/index.html</code> (or <code>example/index.html</code>) in an <code>&lt;iframe&gt;</code>; link to the Markdown spec in the header</td></tr></tbody></table></div>
+<p>Add a <code>&lt;name&gt;-</code> prefix only when disambiguation is needed. Default folder: <code>docs/ux/prototype/</code> (or the host project&#x27;s UX prototype convention).</p>
 <hr>
 <h2>Agent Instructions</h2>
-<p>&gt; <strong>MANDATORY — read `../agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.</strong></p>
+<p>&gt; <strong>MANDATORY — read <code>../agent-protocol.md</code> before starting. It defines read-gates, output file resolution, and the per-rule verdict format.</strong></p>
 <h3>1. Read context</h3>
 <p>Read these files:</p>
 <ul>
-<li><strong>`reference/concepts.md`</strong> — what an interface implementation is, carry-over from upstream, production-grade and functional, memorable differentiation, accessibility, performance constraints, traceability (AC → test → running screen), and the shape of a good implementation.</li>
+<li><strong><code>reference/concepts.md</code></strong> — what a clickable prototype is, carry-over from upstream, brand assets, stub vs real boundaries, accessibility at prototype fidelity, and the shape of a good prototype package.</li>
+<li><strong><code>reference/brand-assets-questionnaire.md</code></strong> — key questions to ask when brand assets are missing or incomplete.</li>
 </ul>
 <h3>2. Generate</h3>
-<p>Read every file in <strong>`rules/`</strong>; author to those rules.</p>
-<p><strong>Produce output from every template:</strong></p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td>`templates/interface-design.md`</td><td>Structured spec: screen name, source paths, framework, host conventions, carried-over decisions, AC → behaviour → test mapping, accessibility checklist, and performance budget</td></tr></tbody></table></div>
+<p>Read every file in <strong><code>rules/</code></strong> when present; author to those rules.</p>
+<p><strong>Produce:</strong></p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Output</th><th>What to produce</th></tr></thead><tbody><tr><td><code>ux-specification.md</code></td><td>Screen name, source paths (IA, lo-fi, hi-fi/design refs), <strong>brand assets brief</strong> (<code>templates/brand-assets-brief.md</code>), design tokens used, region → element map, <strong>stub catalogue</strong> (what is faked and how), AC → click/demo path</td></tr><tr><td>Prototype files</td><td>Self-contained or host-folder HTML/CSS/JS that renders the screen and wires primary flows</td></tr><tr><td><code>ux-specification.html</code></td><td>When prototype folder contains <code>index.html</code>, copy <code>templates/ux-specification.html</code>, set <code>{{PROTOTYPE_INDEX}}</code> to the relative path (default <code>prototype/index.html</code>), iframe that entry</td></tr></tbody></table></div>
 <p><strong>Generation flow:</strong></p>
-<p>1. <strong>Resolve inputs</strong> — hi-fi path, lo-fi path, AC file, screen name, target framework, host project root. Confirm host project&#x27;s gates (lint, format, test, accessibility, performance). 2. <strong>Discover host conventions</strong> — folder layout, component shape, state management, styling, token system, test conventions. 3. <strong>Carry over upstream decisions</strong> — labels, copy, AC, regions, affordances, typography/colour/density/spacing from lo-fi and hi-fi. Resolve to host tokens. 4. <strong>Author `interface-design.md` first</strong> — fill the template before writing code. 5. <strong>Implement the screen</strong> — each region a container, each affordance an interactive primitive with verbatim label. Inputs labelled programmatically. Focus order matches reading order. 6. <strong>Implement AC behaviours</strong> — every AC clause becomes a working behaviour. 7. <strong>Write tests</strong> — one test per AC clause, named to reference story and clause number. 8. <strong>Pass the host project&#x27;s gates</strong> — lint, format, type-check, accessibility, performance. 9. <strong>Verify against the hi-fi visually.</strong> 10. <strong>Sync changes back into `interface-design.md`.</strong></p>
+<p>1. <strong>Resolve inputs</strong> — lo-fi path, AC file, domain language, screen name, design reference (tokens, brand CSS, or hi-fi export). Confirm where prototypes live in the host project. 2. <strong>Resolve brand assets</strong> — search the host project for guidelines, logos, and tokens. If anything is missing, run section 2 of <code>reference/brand-assets-questionnaire.md</code> using the <strong><code>AskQuestion</code> tool</strong> (steps A–F) — do not paste the questionnaire as chat text. Record answers in the <strong>Brand assets</strong> section of <code>ux-specification.md</code> (<code>templates/brand-assets-brief.md</code>). Do not proceed to hi-fi styling until <code>AskQuestion</code> responses are received or the user approves provisional stand-ins. 3. <strong>Carry over upstream decisions</strong> — regions, affordances, labels, copy, typography roles, colour roles, density, and spacing from lo-fi and design reference. Do not invent new vocabulary or affordances. 4. <strong>Author <code>ux-specification.md</code> first</strong> — brand assets brief, then the stub catalogue: list every behaviour that is simulated (fake API JSON, <code>setTimeout</code> loading, toggled CSS classes for states, <code>localStorage</code> only if the demo requires it). 5. <strong>Build the visual layer</strong> — semantic HTML, real CSS (project tokens or documented stand-ins), logo and imagery from resolved assets, component structure that mirrors how production will eventually be organized without pulling in full app infrastructure. 6. <strong>Wire interactions</strong> — links, buttons, tabs, modals, and form submits navigate or swap visible states. Use minimal JavaScript: event handlers, DOM class toggles, template literals for fake responses. <strong>Do not</strong> integrate real APIs, databases, or domain services. 7. <strong>Demonstrate AC paths</strong> — each AC clause maps to a click path or visible state a reviewer can trigger manually; document the path in <code>ux-specification.md</code>. Happy paths first; edge/error states via stubbed responses or pre-seeded demo data. 8. <strong>Mark prototype boundaries</strong> — comment or document anything that looks real but is fake (<code>// PROTOTYPE: stub</code>). No silent pretence that stubbed behaviour is production-ready. 9. <strong>Basic accessibility</strong> — programmatic labels on inputs, keyboard-reachable controls, visible focus, text labels (not colour-only state). Full test suites and performance budgets are <strong>out of scope</strong> for this skill. 10. <strong>Author <code>ux-specification.html</code></strong> — when an <code>example/</code> or <code>prototype/</code> folder contains <code>index.html</code>, generate the HTML spec page from <code>templates/ux-specification.html</code> with iframe <code>src</code> pointing at that index (relative path). List both spec files in <code>ux-specification.md</code> metadata. 11. <strong>Verify in browser</strong> — open <code>ux-specification.html</code> (or <code>prototype/index.html</code>), walk every documented AC path, confirm labels match UL/AC verbatim; confirm logo, colours, and imagery match the brand assets brief.</p>
 <h3>3. Validate</h3>
-<p>Run the scanners:</p>
+<div class="spec-steps">
+<p class="spec-step">When <code>rules/</code> and scanners exist, run them:</p>
+</div>
 <pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/abd-interface-design \
+  --skill-root skills/abd-ux-specification \
   --workspace &lt;path-to-output&gt;</code></pre>
-<p>Then emit per-rule verdicts per `../agent-protocol.md`.</p>
+<div class="spec-steps">
+<p class="spec-step">Then emit per-rule verdicts per <code>../agent-protocol.md</code>.</p>
+</div>
 <hr>
 <h2>Validate</h2>
-<p><strong>Goal:</strong> Read the committed code and the running screen as reviewers.</p>
+<p><strong>Goal:</strong> Click through the prototype and read <code>ux-specification.md</code> as reviewers.</p>
 <ul>
-<li><strong>Upstream fidelity</strong> — every region, affordance, and label from the hi-fi appears in the running screen with the same wording.</li>
-<li><strong>AC coverage</strong> — every acceptance criterion is implemented and has at least one test named for its story and clause number.</li>
-<li><strong>Host gates pass</strong> — lint, format, type-check, accessibility, and performance gates pass without silencing.</li>
-<li><strong>Accessibility</strong> — every input has a programmatic label; focus order matches reading order; focus is visible; state cues are not colour-only.</li>
-<li><strong>Visual fidelity</strong> — typography roles, colour roles, and spacing scale map to host project tokens, used consistently.</li>
-<li><strong>Cross-artifact parity</strong> — `interface-design.md` and the running code describe the same implementation.</li>
-<li><strong>No bundle markers</strong> — `SKILL.md` has no `&lt;!-- execute_rules:bundle_rules --&gt;` markers.</li>
+<li><strong>Upstream fidelity</strong> — every region, affordance, and label from lo-fi and design reference appears in the prototype with the same wording.</li>
+<li><strong>Looks real</strong> — typography, colour, spacing, logo, imagery, and components read as hi-fi, not grey-box wireframe.</li>
+<li><strong>Brand assets resolved</strong> — existing host brand files used, or key questions asked and answers recorded; provisional stand-ins documented in <strong>Brand assets</strong>.</li>
+<li><strong>Clicks work</strong> — primary flows and state changes are navigable without developer explanation.</li>
+<li><strong>Logic is honestly stubbed</strong> — <code>ux-specification.md</code> lists fakes; no hidden dependency on production services.</li>
+<li><strong>AC demonstration map</strong> — every acceptance criterion has a documented click path or seeded state; gaps are called out explicitly.</li>
+<li><strong>Not production</strong> — no requirement for lint gates, unit tests per AC, or full domain implementation; those belong to downstream engineering skills.</li>
+<li><strong>Cross-artifact parity</strong> — <code>ux-specification.md</code> and the prototype describe the same demo.</li>
+<li><strong>No bundle markers</strong> — <code>SKILL.md</code> has no <code>&lt;!-- execute_rules:bundle_rules --&gt;</code> markers.</li>
 </ul>
 <hr></div>
 

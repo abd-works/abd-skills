@@ -1,6 +1,5 @@
 ﻿---
 name: ddd-design-building-blocks
-catalog_garden_tier: practice
 catalog_garden_order: 7
 catalogue_one_liner: >-
   DDD stereotypes (Entity, VO, Aggregate, Service, Event) from domain model artifacts.

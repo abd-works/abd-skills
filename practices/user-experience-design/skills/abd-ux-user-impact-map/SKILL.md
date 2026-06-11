@@ -1,7 +1,7 @@
 ﻿---
-name: abd-impact-mapping
+name: abd-ux-user-impact-map
 catalog_garden_tier: practice
-catalog_garden_order: 15
+catalog_garden_order: 5
 catalogue_one_liner: >-
   Strategic impact maps: hierarchy view, ASCII wall map, and hypothesis sentences from discovery sources.
 description: >-
@@ -10,7 +10,7 @@ description: >-
   Markdown and plain text). Use when connecting organisational outcomes to scope, facilitating
   discovery, or replacing feature-first backlogs.
 ---
-# abd-impact-mapping
+# abd-ux-user-impact-map
 
 ## Purpose
 
@@ -65,7 +65,7 @@ Run the scanners:
 
 ```bash
 python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/abd-impact-mapping \
+  --skill-root skills/abd-ux-user-impact-map \
   --workspace <path-to-output>
 ```
 

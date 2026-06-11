@@ -28,6 +28,18 @@ FAMILY_PACKAGES: dict[str, str] = {
 
 FAMILY_CATALOG_ALIASES = {"idea-shaping": "Idea Shaping", "kanban": "Kanban"}
 
+FOUNDRY_BACK_LABEL = "← The ABD Foundry"
+
+
+def html_skill_name_display(name: str) -> str:
+    """Skill package name with orange abd- prefix for catalog tiles and headlines."""
+    if name.startswith("abd-"):
+        return (
+            '<span class="skill-name-prefix">abd-</span>'
+            f"{html_mod.escape(name[4:])}"
+        )
+    return html_mod.escape(name)
+
 FAMILY_SLOT_ORDER = (
     "agents",
     "skills",
@@ -115,6 +127,28 @@ def artifact_slug(plugin_id: str, slot: str, filename: str) -> str:
     return f"{plugin_id}--{slot}--{safe}"
 
 
+def _skill_catalog_listed(child: Path) -> bool:
+    """False when SKILL.md marks the package hidden from Foundry listings."""
+    skill_md = child / "SKILL.md"
+    if not skill_md.is_file():
+        return False
+    try:
+        raw = skill_md.read_text(encoding="utf-8-sig", errors="replace")
+    except OSError:
+        return False
+    if not raw.startswith("---"):
+        return True
+    m = _FRONTMATTER_RE.match(raw)
+    if not m:
+        return True
+    block = m.group(0)
+    cm = re.search(r"^catalog_ready:\s*(.+)$", block, re.MULTILINE)
+    if not cm:
+        return True
+    val = cm.group(1).strip().strip('"').strip("'").lower()
+    return val not in ("false", "no", "0", "draft", "not-ready", "not_ready")
+
+
 def _file_summary(path: Path, max_len: int = 240) -> str:
     try:
         raw = path.read_text(encoding="utf-8-sig", errors="replace")
@@ -186,6 +220,22 @@ def _scan_slot(repo_root: Path, family_id: str, slot: str, *, family_path: str |
         return out
 
     if slot == "skills":
+        seen: set[str] = set()
+
+        def append_skill(child: Path, *, tier: str) -> None:
+            if child.name in seen or not _skill_catalog_listed(child):
+                return
+            seen.add(child.name)
+            out.append(
+                FamilySlotEntry(
+                    name=child.name,
+                    rel_path=child.relative_to(repo_root).as_posix(),
+                    entry_kind="skill",
+                    entry_file="SKILL.md",
+                    skill_tier=tier,
+                )
+            )
+
         for child in sorted(slot_dir.iterdir(), key=lambda p: p.name.lower()):
             if not child.is_dir() or child.name.startswith("."):
                 continue
@@ -196,27 +246,19 @@ def _scan_slot(repo_root: Path, family_id: str, slot: str, *, family_path: str |
                         continue
                     if not (nested / "SKILL.md").is_file():
                         continue
-                    out.append(
-                        FamilySlotEntry(
-                            name=nested.name,
-                            rel_path=nested.relative_to(repo_root).as_posix(),
-                            entry_kind="skill",
-                            entry_file="SKILL.md",
-                            skill_tier="supporting",
-                        )
-                    )
+                    append_skill(nested, tier="supporting")
                 continue
             if not (child / "SKILL.md").is_file():
                 continue
-            out.append(
-                FamilySlotEntry(
-                    name=child.name,
-                    rel_path=child.relative_to(repo_root).as_posix(),
-                    entry_kind="skill",
-                    entry_file="SKILL.md",
-                    skill_tier="core",
-                )
-            )
+            append_skill(child, tier="core")
+        stage_skills = repo_root / "stages" / family_id / "skills"
+        if stage_skills.is_dir():
+            for child in sorted(stage_skills.iterdir(), key=lambda p: p.name.lower()):
+                if not child.is_dir() or child.name.startswith("."):
+                    continue
+                if child.name == "supporting" or not (child / "SKILL.md").is_file():
+                    continue
+                append_skill(child, tier="core")
         return out
 
     for path in sorted(slot_dir.rglob("*"), key=lambda p: p.as_posix().lower()):
@@ -422,17 +464,22 @@ def _html_skill_card_grid(
     skill_href: Callable[[str], str],
     skill_summary: Callable[[str], str] | None,
     meta_label: str,
+    skill_sort_key: Callable[[str], tuple] | None = None,
 ) -> str:
     if not items:
         return ""
+    ordered = items
+    if skill_sort_key:
+        ordered = sorted(items, key=lambda it: skill_sort_key(it.name))
     cards: list[str] = ['<div class="cap-grid cap-grid--plugin-slot">']
-    for it in items:
+    for it in ordered:
         detail = skill_href(it.name)
         summary = (skill_summary(it.name) if skill_summary else "") or it.name
         cards.append(
             _artifact_card(
                 href=detail,
                 title=it.name,
+                title_html=html_skill_name_display(it.name),
                 summary=summary,
                 meta=meta_label,
                 more="Open skill page →",
@@ -449,9 +496,11 @@ def _artifact_card(
     summary: str,
     meta: str,
     more: str,
+    title_html: str | None = None,
 ) -> str:
+    title_content = title_html if title_html is not None else html_mod.escape(title)
     return f"""        <a class="cap-card" href="{html_mod.escape(href)}">
-          <p class="cap-card__title">{html_mod.escape(title)}</p>
+          <p class="cap-card__title">{title_content}</p>
           <p class="cap-card__label">{html_mod.escape(meta)}</p>
           <p class="cap-card__summary">{html_mod.escape(summary or "Open for full text.")}</p>
           <p class="cap-card__more">{html_mod.escape(more)}</p>
@@ -492,6 +541,7 @@ def html_plugin_slot_sections(
     prompt_href: Callable[[str, str], str] | None = None,
     skill_summary: Callable[[str], str] | None = None,
     agent_summary: Callable[[str], str] | None = None,
+    skill_sort_key: Callable[[str], tuple] | None = None,
 ) -> str:
     sections: list[str] = []
     instruction_href = instruction_href or (lambda _f, slug: f"../instruction/{quote(slug, safe='')}.html")
@@ -524,6 +574,7 @@ def html_plugin_slot_sections(
                             skill_href=skill_href,
                             skill_summary=skill_summary,
                             meta_label="Core skill",
+                            skill_sort_key=skill_sort_key,
                         )
                     )
                 if supporting:

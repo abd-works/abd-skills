@@ -471,7 +471,22 @@ html[data-abd-theme="executive"] .catalog-body code {
 }
 
 .page-hero--detail {
-  padding-top: 48px;
+  padding-top: 20px;
+  padding-bottom: 16px;
+}
+.page-hero--detail .page-headline {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 4px 0 6px;
+}
+.page-headline .skill-name-prefix,
+.cap-card__title .skill-name-prefix {
+  color: var(--accent);
+}
+.page-hero--detail .body-lead {
+  font-size: 0.9rem;
+  margin: 0;
+  color: var(--muted);
 }
 
 .page-hero--detail .back-link {
@@ -731,8 +746,18 @@ a.cap-card:hover .cap-card__more {
   color: #b8b8c2;
   margin: 0 0 18px;
 }
+.skill-detail-page .skill-hero-img-wrap + .install-block {
+  margin-top: 18px;
+}
+.skill-detail-page .install-block + .skill-cr-grid,
+.skill-detail-page .install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block {
+  margin-top: 0;
+}
 .install-block {
-  margin: 22px 0 0;
+  margin: 20px 0 0;
   padding: 16px 18px;
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid var(--border-muted);
@@ -1041,30 +1066,624 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 .plugin-slots h3:first-child { margin-top: 0; }
 .cap-grid--plugin-slot { margin-bottom: 8px; }
 
+/* ── Skill detail: family kanban stage nav (matches hub column headings) ── */
+.skill-kanban-nav {
+  --fam-sdd: #6bcb77;
+  --fam-ddd: #6c5ce7;
+  --fam-uxd: #e84393;
+  --fam-arc: #4fc3f7;
+  --fam-idea: var(--accent);
+  --abd-accent: var(--accent);
+  --abd-accent-glow: var(--accent-soft, var(--accent));
+  --abd-raised: var(--raised);
+  --abd-bg: var(--bg);
+  --abd-border: var(--border);
+  --abd-text: var(--text);
+  --abd-muted: var(--muted);
+  background: var(--raised);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0 16px;
+}
+.skill-kanban-nav .wrap {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.skill-kanban-nav__board {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  gap: 6px 8px;
+  align-items: start;
+}
+.skill-kanban-nav__practice-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  margin: 0;
+  padding: 0 8px;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-left-width: 3px;
+  border-radius: 4px;
+  line-height: 1.25;
+  box-sizing: border-box;
+  transition: box-shadow 120ms, border-color 120ms;
+  color: inherit;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card:hover {
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--sdd {
+  border-left-color: var(--fam-sdd);
+  color: var(--fam-sdd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--ddd {
+  border-left-color: var(--fam-ddd);
+  color: var(--fam-ddd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--uxd {
+  border-left-color: var(--fam-uxd);
+  color: var(--fam-uxd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--arc {
+  border-left-color: var(--fam-arc);
+  color: var(--fam-arc);
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap {
+  position: relative;
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip.kb-col-shape-tooltip {
+  min-width: 10rem;
+  max-width: 22rem;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:hover .kb-skill-tooltip,
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:focus-within .kb-skill-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.skill-kanban-nav__stages {
+  display: grid;
+  grid-template-columns: repeat(var(--skill-kanban-cols, 5), minmax(0, 1fr));
+  gap: 0 8px;
+  min-width: 0;
+}
+.skill-kanban-nav__col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.skill-kanban-nav__tickets {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.skill-kanban-nav .kb-col-head {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 8px 6px 7px;
+  font-family: var(--font-mono);
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.skill-kanban-nav .kb-col-head--static {
+  cursor: default;
+}
+.skill-kanban-nav a.kb-col-head {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav a.kb-col-head:hover {
+  border-color: rgba(229, 83, 26, 0.35);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.15);
+}
+.skill-kanban-nav .kb-col-head--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-col-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+}
+.skill-kanban-nav .kb-col-scope-shape {
+  flex-shrink: 0;
+  border: 2px solid var(--abd-accent);
+  border-radius: 2px;
+}
+.skill-kanban-nav__stages .kb-col-shape-tooltip,
+.skill-kanban-nav__stages .kb-skill-tooltip-wrap .kb-col-shape-tooltip {
+  display: none !important;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 8px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 7px 9px;
+  font-family: var(--font-mono);
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid rgba(229, 83, 26, 0.45);
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 14px;
+  border: 5px solid transparent;
+  border-bottom-color: rgba(229, 83, 26, 0.45);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__name {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--abd-accent-glow);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__bullets {
+  font-size: 8px;
+  line-height: 1.45;
+  color: var(--abd-text);
+  white-space: pre-line;
+}
+.skill-kanban-nav .kb-col-scope-shape--solution { width: 36px; height: 12px; }
+.skill-kanban-nav .kb-col-scope-shape--increment { width: 24px; height: 16px; }
+.skill-kanban-nav .kb-col-scope-shape--sprint { width: 16px; height: 22px; }
+.skill-kanban-nav .kb-col-scope-shape--story { width: 11px; height: 28px; }
+.skill-kanban-nav .kb-col-head-title {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--abd-text);
+}
+.skill-kanban-nav .kb-col-head-title > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.skill-kanban-nav .kb-col-num {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--abd-text);
+  background: var(--abd-bg);
+  border: 1px solid var(--abd-border);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+.skill-kanban-nav .kb-ticket {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  background: var(--abd-raised);
+  color: var(--abd-text);
+  padding: 5px 6px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  border-left-width: 3px;
+  border-left-color: var(--abd-muted);
+  line-height: 1.25;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav .kb-ticket:hover {
+  border-color: var(--abd-border);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.2);
+}
+.skill-kanban-nav .kb-ticket.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-ticket.aad-fam-sdd { border-left-color: var(--fam-sdd); }
+.skill-kanban-nav .kb-ticket.aad-fam-ddd { border-left-color: var(--fam-ddd); }
+.skill-kanban-nav .kb-ticket.aad-fam-uxd { border-left-color: var(--fam-uxd); }
+.skill-kanban-nav .kb-ticket.aad-fam-arc { border-left-color: var(--fam-arc); }
+.skill-kanban-nav .kb-ticket.aad-fam-idea { border-left-color: var(--fam-idea); }
+@media (max-width: 960px) {
+  .skill-kanban-nav__board {
+    grid-template-columns: 1fr;
+  }
+  .skill-kanban-nav__stages {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
+
+/* ── Skill detail: full-width hero image / embedded viewer ── */
+.skill-hero-img-wrap {
+  margin: 24px 0 0;
+}
+.skill-hero-img-wrap:empty { display: none; }
+.skill-hero-img-wrap img,
+.skill-hero-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--raised);
+}
+
+/* HTML prototype iframe (reference/example/index.html) */
+.skill-prototype-wrap {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-prototype-frame {
+  display: block;
+  width: 100%;
+  min-height: 540px;
+  height: 71vh;
+  max-height: 810px;
+  border: 0;
+  background: #fff;
+}
+.skill-prototype-open {
+  margin: 0;
+  padding: 8px 14px;
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+  background: var(--raised);
+}
+.skill-prototype-open a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.skill-prototype-open a:hover { text-decoration: underline; }
+
+/* draw.io embedded viewer */
+.skill-drawio-wrap {
+  position: relative;
+  width: 100%;
+  height: min(71vh, 680px);
+  min-height: 340px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-drawio-wrap .mxgraph {
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+}
+.skill-drawio-wrap .geToolbarContainer {
+  z-index: 4;
+}
+
+/* code file preview */
+.skill-code-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--raised);
+  font-size: 13px;
+}
+.skill-code-lang {
+  padding: 6px 14px;
+  font-family: var(--mono, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.skill-code-preview pre {
+  margin: 0;
+  padding: 16px;
+  overflow-x: auto;
+  max-height: 420px;
+}
+.skill-code-preview code {
+  font-family: var(--mono, 'JetBrains Mono', monospace);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+/* rendered markdown preview */
+.skill-hero-img-wrap .skill-md-preview {
+  max-height: min(71vh, 610px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.skill-md-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px 24px;
+  background: var(--surface);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.skill-md-preview h1 { font-size: 18px; font-weight: 700; margin: 0 0 12px; }
+.skill-md-preview h2 { font-size: 15px; font-weight: 600; margin: 16px 0 8px;
+  border-bottom: 1px solid var(--border); padding-bottom: 3px; }
+.skill-md-preview h3 { font-size: 13px; font-weight: 600; margin: 12px 0 6px; }
+.skill-md-preview h4 { font-size: 12px; font-weight: 600; margin: 10px 0 4px; color: var(--muted); }
+.skill-md-preview p  { margin: 0 0 10px; }
+.skill-md-preview .spec-steps { margin: 0 0 14px; }
+.skill-md-preview p.spec-step { margin: 0 0 4px; line-height: 1.55; }
+.skill-md-preview .md-table-wrap { overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview .md-table { border-collapse: collapse; width: 100%; }
+.skill-md-preview ul, .skill-md-preview ol { margin: 0 0 10px; padding-left: 20px; }
+.skill-md-preview li { margin-bottom: 3px; }
+.skill-md-preview code { background: var(--raised); border-radius: 3px;
+  padding: 1px 5px; font-family: var(--mono, monospace); font-size: 12px; }
+.skill-md-preview pre { background: var(--raised); border-radius: 5px;
+  padding: 12px; overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview table { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
+.skill-md-preview th, .skill-md-preview td {
+  border: 1px solid var(--border); padding: 6px 10px; }
+.skill-md-preview th { background: var(--raised); font-weight: 600; }
+
+/* ── Skill detail: concepts | rules two-column grid ── */
+.skill-cr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin: 24px 0 0;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .skill-cr-grid { grid-template-columns: 1fr; }
+}
+.skill-cr-col { min-width: 0; }
+.skill-cr-single { margin: 24px 0 0; }
+
+/* Glossary example hero — term blocks without heavy HR dividers */
+.skill-md-preview--glossary h1 {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 10px;
+  border: 0;
+  padding: 0;
+}
+.skill-md-preview--glossary h2 {
+  font-size: 16px;
+  margin-top: 0;
+}
+.skill-md-preview--glossary h3 {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 14px 0 6px;
+  padding: 6px 8px;
+  background: var(--raised);
+  border-radius: 4px;
+  border-left: 3px solid var(--accent);
+}
+.skill-md-preview--glossary hr {
+  display: none;
+}
+.skill-md-preview--glossary ul {
+  margin-top: 0;
+}
+
+/* ── Skill detail: full-width content below ── */
+.skill-detail-content-col { margin-top: 32px; }
+.skill-detail-page .skill-cr-grid,
+.skill-detail-page .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-single,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-single {
+  margin-top: 0;
+}
+
+/* ── Skill detail: concepts (expandable) ── */
+.skill-hero-img-wrap + .install-block {
+  margin-top: 16px;
+}
+.install-block + .skill-cr-grid,
+.install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-concepts {
+  margin: 0 0 20px;
+}
+.skill-concepts-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 8px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-concept {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-concept summary {
+  padding: 8px 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  user-select: none;
+}
+.skill-concept summary::-webkit-details-marker { display: none; }
+.skill-concept summary::marker { content: ""; }
+.skill-concept summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-concept[open] summary::before { content: "\2212"; }
+.skill-concept-body {
+  padding: 6px 4px 10px 1.9rem;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.skill-concept-body p { margin: 0 0 8px; }
+.skill-concept-body p:last-child { margin-bottom: 0; }
+.skill-concept-body ul { margin: 0 0 8px 1.1em; padding: 0; }
+.skill-concept-body li { margin: 3px 0; }
+
+/* ── Skill detail: rules (DO / DON'T) ── */
+.skill-rules {
+  margin: 0 0 20px;
+}
+.skill-rules-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 12px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-rule {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule[open] > .skill-rule-header {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule-header {
+  padding: 8px 10px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  background: var(--raised);
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+.skill-rule-header::-webkit-details-marker { display: none; }
+.skill-rule-header::marker { content: ""; }
+.skill-rule-header::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-rule[open] > .skill-rule-header::before {
+  content: "\2212";
+}
+.skill-rule-section {
+  padding: 8px 12px;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+.skill-rule-section--do {
+  border-left: 3px solid #2d8a4e;
+}
+.skill-rule-section--dont {
+  border-left: 3px solid #c0392b;
+}
+.skill-rule-section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+  color: var(--muted);
+}
+.skill-rule-section--do .skill-rule-section-label { color: #2d8a4e; }
+.skill-rule-section--dont .skill-rule-section-label { color: #c0392b; }
+.skill-rule-section ul { margin: 0; padding: 0 0 0 1.1em; }
+.skill-rule-section li { margin: 2px 0; color: var(--text); }
+
 </style>
-<script src="../commons/catalog-nav.js?v=foundry-8"></script>
+<script src="../commons/catalog-nav.js?v=foundry-9"></script>
 </head>
 <body data-nav-prefix="../" data-nav-current="skills" data-nav-site-base="../../../abd-works-website/">
 <main id="main-content">
 
+
+
 <div class="page-hero page-hero--detail">
   <div class="wrap">
-    <a class="back-link" href="../index.html">← Foundry home</a>
-    <p class="s-name">Skill</p>
-    <h1 class="page-headline">abd-opportunity-canvas</h1>
+    <a class="back-link" href="../index.html">← The ABD Foundry</a>
+    
+    <h1 class="page-headline"><span class="skill-name-prefix">abd-</span>opportunity-canvas</h1>
     <p class="body-lead">Frame an opportunity, align on vision, and make assumptions and validation explicit before committing build.</p>
   </div>
 </div>
 
 <div class="catalog-body">
-<div class="wrap">
+<div class="wrap skill-detail-page">
 
-<h2>Description</h2>
-<div class="entry-prose">This skill exists so you do not start &quot;building a solution&quot; while people are thinking about a different problem, a different customer, or a different definition of success.<br>
-<br>
-It makes an opportunity explicit — who it is for, why the organisation should care, what you might build or buy, how you would know it worked, and what the effort looks like. You finish with enough alignment that downstream build and delivery work is based on a shared model. Every part of the canvas is also a candidate assumption — beliefs about customers, value, and capability that teams often turn into falsifiable statements and run through a lightweight validation path (see abd-simple-validated-learning).<br>
-<br>
----</div>
+<div class="skill-hero-img-wrap">
+
+</div>
 
 <section class="install-block" aria-labelledby="install-npx-heading">
   <h2 id="install-npx-heading">Install with npx</h2>
@@ -1073,71 +1692,100 @@ It makes an opportunity explicit — who it is for, why the organisation should 
 </section>
 
 
-<hr class="entry-divider">
-
-
-
-<hr class="entry-divider">
-
-<h2 id="entry-contents">Contents</h2>
-<details class="entry-md-section" id="md-overview"><summary class="entry-md-section__summary">Overview</summary><div class="entry-md-section__body"><p>﻿--- name: abd-opportunity-canvas catalog_garden_tier: practice catalog_garden_order: 16 catalogue_one_liner: &gt;- Frame an opportunity, align on vision, and make assumptions and validation explicit before committing build. description: &gt;- Frame a candidate opportunity, align stakeholders on a shared bet, and make assumptions explicit before committing to build. Use when starting a new initiative that needs stakeholder alignment on problems, users, solutions, and success criteria before delivery begins, or when co-creating a common model across multiple voices.</p>
-<hr>
-<h1>abd-opportunity-canvas</h1></div></details>
-<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p>This skill exists so you <strong>do not start &quot;building a solution&quot;</strong> while people are thinking about <strong>a different problem</strong>, <strong>a different customer</strong>, or <strong>a different definition of success</strong>.</p>
-<p>It makes an <strong>opportunity</strong> explicit — who it is for, why the organisation should care, what you might build or buy, how you would know it worked, and what the effort looks like. You finish with enough alignment that <strong>downstream build and delivery work</strong> is based on a shared model. Every part of the canvas is also a candidate <strong>assumption</strong> — beliefs about customers, value, and capability that teams often turn into falsifiable statements and run through a lightweight validation path (see <strong>abd-simple-validated-learning</strong>).</p>
+<div class="skill-cr-grid">
+<div class="skill-cr-col"><div class="skill-concepts">
+<h2 class="skill-concepts-heading">Concepts</h2>
+<details class="skill-concept"><summary>What is an opportunity canvas?</summary><div class="skill-concept-body"><p>An opportunity canvas is a tool for <strong>gaining shared understanding</strong> of the key components required to realise an opportunity successfully. It helps a team get started, align on the vision, and quickly organise around the key risks, unknowns, and assumptions that need to be validated. The canvas makes assumptions — and the activity required to validate them — <strong>explicit</strong>, so the team has an accelerated path through uncertainty rather than absorbing it silently into a roadmap or backlog.</p>
+<p>The canvas is a <strong>product hypothesis model</strong> — not a feature list, but a structured claim that connects <strong>Customer Problems</strong> to the <strong>Solution Features</strong> that address them, to the <strong>Increments of Value</strong> that deliver them, to the <strong>Key Metrics of Success</strong> that prove they worked, and to the <strong>Revenue Drivers</strong>, <strong>Cost Drivers</strong>, <strong>Key Activities and Resources</strong>, and <strong>Key Partners</strong> that make the business case real. This holistic picture forces the team to see whether the parts of the opportunity actually fit together before any of them are committed to build.</p>
+<p>Once the canvas is filled, teams <strong>often</strong> move the assumptions into a small backlog of experiments and cycle learnings back into the canvas.</p>
+<p>A common <strong>approach</strong> is to <strong>treat the canvas as living</strong>: decide what to check next, gather evidence, update the bet — so the model does not <strong>freeze</strong> while the world is still unknown. Use <strong>abd-simple-validated-learning</strong> when you want to <strong>mine</strong> assumptions, phrase hypotheses, prioritise tests, and structure the <strong>plan–test–learn</strong> loop.</p>
 <hr></div></details>
-<details class="entry-md-section" id="output-file"><summary class="entry-md-section__summary">Output file</summary><div class="entry-md-section__body"><p><strong>Deliverables folder:</strong> see `../agent-protocol.md` — Output file resolution.</p>
-<p><strong>File name:</strong> `opportunity-canvas.md`, `opportunity-canvas-sections.md`, and `opportunity-canvas.txt`. Add a `&lt;name&gt;-` prefix only when disambiguation is needed.</p>
+<details class="skill-concept"><summary>The Opportunity Canvas</summary><div class="skill-concept-body"><p><strong>The Opportunity</strong> is the handle for the whole opportunity — a short name that captures <em>this</em> problem–outcome story in plain language. State the Unique Value Proposition, a summary of the customer problems being addressed and how they will be addressed. Every other part of the model on the canvas exists to justify or qualify this one statement. The eight section titles and their guiding questions are fixed across workshops. The table below is the reference — do not add rows or rephrase the questions.</p>
+<p>Elements in a section can be grouped into a one-to-many relationship, informal &quot;columns&quot; — where it makes sense for larger opportunities.</p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th><strong>Section</strong></th><th><strong>Guiding questions</strong></th></tr></thead><tbody><tr><td><strong>Customer Problems</strong></td><td>What are our key customer segments and what are the unique requirements of each customer segment?</td></tr><tr><td><strong>Solution Features</strong></td><td>What is our Unique Value Proposition to our Customer Segments? What customer problem are we solving? What are the major features of our solution?</td></tr><tr><td><strong>Increments Of Value</strong></td><td>What are the increments of value we will deliver to our Customer Segments? What is the minimum valuable increment? In what order will value reach each segment?</td></tr><tr><td><strong>Key Metrics of Success</strong></td><td>What are the key metrics that will tell us how our product is doing?</td></tr><tr><td><strong>Revenue Drivers</strong></td><td>For what value are our Customers really willing to pay?</td></tr><tr><td><strong>Key Activities and Resources</strong></td><td>What Key Activities does our Product Require (e.g. to Build, to Support, etc.)? What Key Resources [People] and Capabilities [Process] does our Product leverage?</td></tr><tr><td><strong>Key Partners</strong></td><td>Who are our Key Partners? Who are our key Suppliers?</td></tr><tr><td><strong>Cost Drivers</strong></td><td>What are the most important costs drivers inherent in our Product?</td></tr></tbody></table></div>
+<p>These sections are often connected formally or informally into <em>clusters</em> of problems, users, features, increments, metrics, activities, etc.</p>
 <hr></div></details>
-<details class="entry-md-section" id="agent-instructions"><summary class="entry-md-section__summary">Agent Instructions</summary><div class="entry-md-section__body"><p>&gt; <strong>MANDATORY — read `../agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.</strong></p>
-<h3>1. Read context</h3>
-<p>Read these files:</p>
+<details class="skill-concept"><summary>Section definitions</summary><div class="skill-concept-body"><p><strong>Customer Problems</strong> names the segments and their unique requirements — the people or roles who experience the pain, and what they specifically need that the current situation does not deliver. This row anchors the whole canvas: if Solution Features cannot trace back to at least one named segment here, the solution is solving a private hypothesis, not a stated problem. Good customer problems name a consequence — what happens if this need goes unmet.</p>
+<p><strong>Solution Features</strong> states the major features of the solution. It should read as a direct answer to Customer Problems — the features exist because of those requirements, not because they seemed interesting. A UVP without a named customer pain is not yet a value proposition.</p>
+<p><strong>Increments of Value</strong> describes how value will reach customer segments in sequence — the minimum valuable increment first, then the next meaningful increment(s), then the broader rollout. It bridges Solution Features to Key Activities and Resources by forcing the team to commit to which slice ships first, rather than treating the full feature set as a single delivery event.</p>
+<p><strong>Key Metrics of Success</strong> names the observable signals that will tell the organisation how the product is doing. Each metric should be measurable — a percentage, count, time, or rate — tied where possible to a segment or timeframe. These signals close the loop with Revenue Drivers and Cost Drivers: if the metrics do not move, the business case does not hold.</p>
+<p><strong>Revenue Drivers</strong> answers what customers or the organisation are <em>really</em> willing to pay for — not the price, but the value exchange. It should be honest about whether value is captured as direct revenue, cost avoidance, retention, or regulatory compliance. Vague optimism here is usually a signal that Customer Problems need more precision.</p>
+<p><strong>Key Activities and Resources</strong> lists what the product requires to be built, run, and supported — the activities and the people and process capabilities that make them possible. It is the operational foundation of Increments of Value: if an increment cannot be supported by what is listed here, the delivery order assumption is fragile.</p>
+<p><strong>Key Partners</strong> names the external organisations or suppliers the bet depends on — vendors, platforms, channels, or specialist providers without whom a key activity cannot happen. If a partner is load-bearing and absent from this row, they are an undeclared assumption that should be named as one.</p>
+<p><strong>Cost Drivers</strong> identifies the most significant costs inherent in the product — not a budget line, but the structural sources of cost such as integration work, support load, licensing, test environments, and compliance overhead. Together with Revenue Drivers and Key Metrics of Success it closes the business case: the organisation can see what it is paying, what it expects in return, and how it will know.</p>
+<p><strong>Alternatives</strong> captures multiple credible paths forward as distinct clusters (e.g., columns), each representing an option such as &quot;do nothing,&quot; &quot;buy a product,&quot; &quot;build using XXX platform,&quot; &quot;focus on Customer YYYY&quot;. These alternatives are modelled to make it easier to evaluate which option makes sense. By noting which options were considered (not just the favoured build), the canvas surfaces key assumptions underlying the decision — options can be verified against each other, especially early in the lifecycle of the opportunity.</p>
+<hr></div></details>
+<details class="skill-concept"><summary>Assumptions</summary><div class="skill-concept-body"><p><strong>Assumptions</strong> are approached from the perspective that incorrect elements on the Canvas will derail the value proposition of the Opportunity. Teams use a validated learning approach to confirm or refute beliefs, and update the canvas as they learn — keeping evidence and learning visible. The shared Plan / Validate / Learn loop is defined once in <a href="../../../reference/validated-learning.html"><code>../../../reference/validated-learning.md</code></a>.</p>
+<p>Mine the opportunity canvas for assumptions by connecting elements across sections into falsifiable statements of the form — <em>we believe X will Y</em> — any row can generate assumptions: segment size from Customer Problems, adoption rates from Increments of Value, partner cooperation from Key Partners, willingness to pay from Revenue Drivers. Better to name them here than let them hide in code.</p>
+<p>A useful lens for triage is the three <strong>risk-driven hypothesis types</strong>: <strong>Impact</strong>, <strong>Economics</strong>, and <strong>Feasibility</strong>. Each type maps to a cluster of canvas sections that together test a distinct kind of uncertainty.</p>
 <ul>
-<li><strong>`reference/concepts.md`</strong> — what an opportunity canvas is, the eight fixed sections with guiding questions, section definitions, assumptions (hypothesis types and mining approach), and the build method (prepare inputs, fill sections, trace spine, ensure parity).</li>
+<li><strong>Impact</strong> — <em>Will users do what we want, and love doing it?</em> We assume a <strong>Customer</strong> has a <strong>Problem</strong> that can be solved by a <strong>Solution Feature</strong> well enough that they will change their behaviour.</li>
+<li><strong>Economics</strong> — <em>Will we achieve the financial outcome?</em> We assume an <strong>Increment of Value</strong> will generate enough <strong>Revenue</strong> that it justifies its <strong>Cost Drivers</strong> — the effort, investment, and ongoing expense of building and running it.</li>
+<li><strong>Feasibility</strong> — <em>Can we build it the right way?</em> We assume a <strong>Solution Feature</strong> is achievable given the <strong>Key Activities and Resources</strong> and <strong>Partners</strong> available — the team has, or can acquire.</li>
 </ul>
-<h3>2. Generate</h3>
-<p>Read every file in <strong>`rules/`</strong>; author to those rules.</p>
-<p><strong>Produce output from every template:</strong></p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td>`templates/opportunity-canvas.md`</td><td><strong>Table</strong> canvas: one markdown table row per section, columns for individual items. `OPPORTUNITY:`, `ALTERNATIVES:`, and `ASSUMPTION:` fields sit outside the table.</td></tr><tr><td>`templates/opportunity-canvas-sections.md`</td><td><strong>Section</strong> canvas: for each row, a heading + guiding questions + `PREFIX:` answer lines. Use when prose depth is needed.</td></tr><tr><td>`templates/opportunity-canvas.txt`</td><td>Plain-text parity with the section `.md` — same sections, same prefix lines, same content for the same engagement.</td></tr></tbody></table></div>
-<p><strong>Method:</strong> Follow the build method in `reference/concepts.md` — prepare inputs, fill each section with intent, trace the spine, ensure parity across all three files.</p>
-<p><strong>Parity:</strong> Table and section/text files must match for the same engagement — same Opportunity, same row coverage, same Assumptions with the same validate-by intent. No drift between files.</p>
-<h3>3. Validate</h3>
-<p>Run the scanners:</p>
-<pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/abd-opportunity-generation \
-  --workspace &lt;path-to-output&gt;</code></pre>
-<p>Then emit per-rule verdicts per `../agent-protocol.md`.</p>
+<div class="spec-steps">
+<p class="spec-step">When creating assumptions, label each with its type — Impact, Economics, or Feasibility — so the team can see at a glance whether one risk area is over-represented or ignored, and can sequence experiments to cover all three before committing to build. Use the <em>We assume &lt;x will y&gt;</em> format for each assumption.</p>
+</div>
+<p>Use the <strong>abd-simple-validated-learning</strong> skill to turn these assumptions into hypotheses that go through the <strong>plan, validate, and learn</strong> process.</p>
 <hr></div></details>
-<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Inspect what was built — would another facilitator trust this canvas to drive the next learning conversation?</p>
+<details class="skill-concept"><summary>Build method</summary><div class="skill-concept-body"><p><strong>Goal:</strong> Produce an opportunity model in the form of a canvas where every section has real depth. You should be able to connect <strong>across</strong> all of the elements — so the model hangs together, not as isolated rows. <strong>Assumptions</strong> should be falsifiable, with a <strong>validate by</strong> line (<em>who</em> / <em>what</em> / <em>when</em>) where the engagement can commit — detailed experiment design and the rest of the <strong>validation workflow</strong> live under <strong>abd-simple-validated-learning</strong>, not here.</p>
+<h3>1. Prepare inputs</h3>
+<p>Collect <strong>specific</strong> raw material before touching the template — vague prep produces weak canvases:</p>
 <ul>
-<li><strong>Sponsor and product</strong> — Can see clear Customer Problems and Solution Features, and a business case through Key Metrics of Success, Revenue Drivers, and Cost Drivers.</li>
-<li><strong>Engineering and design</strong> — Can see Key Activities and Resources, Key Partners, and testable Assumptions with validate-by clauses.</li>
-<li><strong>Parity</strong> — Table and section/text files match for the same engagement; no extra row or Assumption in one file only.</li>
-<li><strong>Honest bar</strong> — Do not claim this practice requires steps or wording that this page and the rules do not actually set.</li>
-<li><strong>No bundle markers</strong> — `SKILL.md` has no `&lt;!-- execute_rules:bundle_rules --&gt;` markers.</li>
+<li><strong>Stakeholder context and perspectives</strong>: who the key voices are (sponsor, product, engineering, domain, ops), what each cares about, and what decision this canvas is feeding.</li>
+<li><strong>Existing pain</strong>: incidents, tickets, customer or staff quotes, contract clauses, regulatory dates, numbers already being tracked.</li>
+<li><strong>Alternatives already on the table</strong>: competing approaches, incumbent solutions, or the &quot;do nothing / manual process&quot; option.</li>
+<li><strong>Known disagreements</strong>: where stakeholders diverge on problem statement, customer segment, or definition of success — surface these in the canvas, do not paper over them.</li>
 </ul>
-<hr></div></details>
+<h3>2. Fill each section with intent</h3>
+<p>Work in canvas order the first time (top to bottom); refine in passes. Every section must be filled — <strong>Opportunity</strong>, <strong>Customer Problems</strong>, <strong>Solution Features</strong>, <strong>Increments of Value</strong>, <strong>Key Metrics of Success</strong>, <strong>Revenue Drivers</strong>, <strong>Key Activities and Resources</strong>, <strong>Key Partners</strong>, and <strong>Cost Drivers</strong>. Once the eight sections are filled, mine the completed canvas for <strong>Assumptions</strong> and add them as a separate block below the canvas — not as a ninth row.</p>
+<h3>3. Trace the spine</h3>
+<p>From Solution Features and Increments of Value back to Customer Problems: every &quot;what we build / ship&quot; should speak to a named segment and requirement. From Key Metrics of Success, Revenue Drivers, and Cost Drivers: the numbers or signals should show why the org would proceed and how it will know. Each Assumption should be traceable to a test the <em>team</em> can <strong>schedule and own</strong> in their own <strong>validation workflow</strong>.</p>
+<h3>4. Ensure parity</h3>
+<p>The table canvas (<code>opportunity-canvas.md</code>) and the section canvas / plain-text (<code>opportunity-canvas-sections.md</code>, <code>opportunity-canvas.txt</code>) must carry the same Opportunity, same row coverage, and the same Assumptions with the same validate-by intent. No drift between files.</p></div></details>
+</div></div>
+<div class="skill-cr-col"><div class="skill-rules">
+<h2 class="skill-rules-heading">Rules</h2>
+<details class="skill-rule">
+<summary class="skill-rule-header">All canvas sections are filled and connect into a coherent narrative</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Fill every section and write each one as a response to the sections it depends on, so a reader can follow the chain from Customer Problems through to Cost Drivers without the narrative breaking.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Leave any section empty, placeholder, or deferred without a stated reason.</li><li>Fill sections independently so they describe different scopes or audiences without connecting to the same customer problem and solution.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Alternatives are documented as substantially different columns</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Document each alternative as a column whose content in at least one key section differs substantially from the main case — different segment focus, different solution approach, different business model, or no build at all.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Add an alternative column that only changes a technology choice or delivery detail while keeping the same customer, problem, solution shape, and business case.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Assumptions connect canvas elements and are stated as beliefs that could be wrong</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Name the canvas section(s) the assumption connects, and state the belief as something that could turn out to be false.</li><li>Label the assumption type — Impact, Economics, or Feasibility — to show which canvas cluster it comes from.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>State an assumption with no reference to any canvas section.</li><li>Write an assumption that describes a delivery step or plan rather than a belief that could be wrong.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Increments of Value names a minimum valuable increment</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Name the minimum valuable increment explicitly and state who it reaches first.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Describe all features as one delivery without naming a minimum or an ordering.</li><li>Use a vague phrase that does not commit to a slice.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Key Metrics of Success are measurable signals</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Express each metric as a measurable signal with enough specificity that the team could evaluate whether it has been reached.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Use aspirational language that cannot be observed or measured from any data source.</li><li>Use a single word or phrase that names a topic rather than a signal.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Opportunity states the UVP connecting customer, problem, and solution</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Write the Opportunity as a UVP that names the customer, states the problem or need, and describes how the solution addresses it.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Use a project codename, programme title, or technology direction without the customer, problem, and solution.</li><li>Describe only the solution with no customer or problem context.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Solution Features spine traces to Customer Problems with a UVP</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Include a UVP in Solution Features and write each feature so it is clear which problem or segment from Customer Problems it addresses.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>List features in Solution Features with no UVP and no link to a Customer Problems segment or requirement.</li><li>Name a customer segment in Customer Problems and leave it without any coverage in Solution Features.</li></ul></div>
+</details>
+</div></div>
+</div>
 
-<ul class="file-list file-list--root">
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>reference/</strong><span class="file-meta"> → Folder (1 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/idea-shaping/skills/abd-opportunity-generation/reference/concepts.md" target="_blank" rel="noopener noreferrer"><strong>concepts.md</strong></a><span class="file-meta"> → Opportunity Canvas — Concepts</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/idea-shaping/skills/abd-opportunity-generation/rules/opportunity-canvas-all-sections-filled.md" target="_blank" rel="noopener noreferrer"><strong>opportunity-canvas-all-sections-filled.md</strong></a><span class="file-meta"> → Rule: All canvas sections are filled and connect into a coherent narrative</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/idea-shaping/skills/abd-opportunity-generation/rules/opportunity-canvas-alternatives-has-non-favoured-path.md" target="_blank" rel="noopener noreferrer"><strong>opportunity-canvas-alternatives-has-non-favoured-path.md</strong></a><span class="file-meta"> → Rule: Alternatives are documented as substantially different columns</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/idea-shaping/skills/abd-opportunity-generation/rules/opportunity-canvas-assumptions-name-validation.md" target="_blank" rel="noopener noreferrer"><strong>opportunity-canvas-assumptions-name-validation.md</strong></a><span class="file-meta"> → Rule: Assumptions connect canvas elements and are stated as beliefs that could be wrong</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/idea-shaping/skills/abd-opportunity-generation/rules/opportunity-canvas-increments-name-minimum-valuable-increment.md" target="_blank" rel="noopener noreferrer"><strong>opportunity-canvas-increments-name-minimum-valuable-increment.md</strong></a><span class="file-meta"> → Rule: Increments of Value names a minimum valuable increment</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/idea-shaping/skills/abd-opportunity-generation/rules/opportunity-canvas-metrics-are-measurable.md" target="_blank" rel="noopener noreferrer"><strong>opportunity-canvas-metrics-are-measurable.md</strong></a><span class="file-meta"> → Rule: Key Metrics of Success are measurable signals</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/idea-shaping/skills/abd-opportunity-generation/rules/opportunity-canvas-opportunity-names-bet.md" target="_blank" rel="noopener noreferrer"><strong>opportunity-canvas-opportunity-names-bet.md</strong></a><span class="file-meta"> → Rule: Opportunity states the UVP connecting customer, problem, and solution</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/idea-shaping/skills/abd-opportunity-generation/rules/opportunity-canvas-solution-features-spine-traces-to-customer-problems.md" target="_blank" rel="noopener noreferrer"><strong>opportunity-canvas-solution-features-spine-traces-to-customer-problems.md</strong></a><span class="file-meta"> → Rule: Solution Features spine traces to Customer Problems with a UVP</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/idea-shaping/skills/abd-opportunity-generation/templates/opportunity-canvas-sections.md" target="_blank" rel="noopener noreferrer"><strong>opportunity-canvas-sections.md</strong></a><span class="file-meta"> → Opportunity canvas — section format (markdown)</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/idea-shaping/skills/abd-opportunity-generation/templates/opportunity-canvas.md" target="_blank" rel="noopener noreferrer"><strong>opportunity-canvas.md</strong></a><span class="file-meta"> → Opportunity canvas (markdown)</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/idea-shaping/skills/abd-opportunity-generation/templates/opportunity-canvas.txt" target="_blank" rel="noopener noreferrer"><strong>opportunity-canvas.txt</strong></a><span class="file-meta"> → Opportunity canvas (plain text)</span></li>
-</ul></div></details></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../stages/idea-shaping/skills/abd-opportunity-generation/SKILL.md" target="_blank" rel="noopener noreferrer"><strong>SKILL.md</strong></a><span class="file-meta"> → name: abd-opportunity-canvas</span></li>
-</ul>
+
+
 
 </div>
 </div>

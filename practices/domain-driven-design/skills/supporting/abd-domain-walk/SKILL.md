@@ -1,6 +1,5 @@
 ﻿---
 name: scenario-walkthrough
-catalog_garden_tier: practice
 catalog_garden_order: 7
 catalogue_one_liner: >-
   Walk scenarios through domain model or domain spec; validate class-operation ownership end-to-end.

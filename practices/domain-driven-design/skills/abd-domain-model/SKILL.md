@@ -1,7 +1,7 @@
 ﻿---
 name: domain-model
 catalog_garden_tier: practice
-catalog_garden_order: 5
+catalog_garden_order: 3
 catalogue_one_liner: >-
   Typed domain model from Domain Language; constructors, properties, methods, collaborators, invariants.
 description: >-

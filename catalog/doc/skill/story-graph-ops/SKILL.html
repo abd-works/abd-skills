@@ -471,7 +471,22 @@ html[data-abd-theme="executive"] .catalog-body code {
 }
 
 .page-hero--detail {
-  padding-top: 48px;
+  padding-top: 20px;
+  padding-bottom: 16px;
+}
+.page-hero--detail .page-headline {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 4px 0 6px;
+}
+.page-headline .skill-name-prefix,
+.cap-card__title .skill-name-prefix {
+  color: var(--accent);
+}
+.page-hero--detail .body-lead {
+  font-size: 0.9rem;
+  margin: 0;
+  color: var(--muted);
 }
 
 .page-hero--detail .back-link {
@@ -731,8 +746,18 @@ a.cap-card:hover .cap-card__more {
   color: #b8b8c2;
   margin: 0 0 18px;
 }
+.skill-detail-page .skill-hero-img-wrap + .install-block {
+  margin-top: 18px;
+}
+.skill-detail-page .install-block + .skill-cr-grid,
+.skill-detail-page .install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block {
+  margin-top: 0;
+}
 .install-block {
-  margin: 22px 0 0;
+  margin: 20px 0 0;
   padding: 16px 18px;
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid var(--border-muted);
@@ -1041,8 +1066,603 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 .plugin-slots h3:first-child { margin-top: 0; }
 .cap-grid--plugin-slot { margin-bottom: 8px; }
 
+/* ── Skill detail: family kanban stage nav (matches hub column headings) ── */
+.skill-kanban-nav {
+  --fam-sdd: #6bcb77;
+  --fam-ddd: #6c5ce7;
+  --fam-uxd: #e84393;
+  --fam-arc: #4fc3f7;
+  --fam-idea: var(--accent);
+  --abd-accent: var(--accent);
+  --abd-accent-glow: var(--accent-soft, var(--accent));
+  --abd-raised: var(--raised);
+  --abd-bg: var(--bg);
+  --abd-border: var(--border);
+  --abd-text: var(--text);
+  --abd-muted: var(--muted);
+  background: var(--raised);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0 16px;
+}
+.skill-kanban-nav .wrap {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.skill-kanban-nav__board {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  gap: 6px 8px;
+  align-items: start;
+}
+.skill-kanban-nav__practice-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  margin: 0;
+  padding: 0 8px;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-left-width: 3px;
+  border-radius: 4px;
+  line-height: 1.25;
+  box-sizing: border-box;
+  transition: box-shadow 120ms, border-color 120ms;
+  color: inherit;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card:hover {
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--sdd {
+  border-left-color: var(--fam-sdd);
+  color: var(--fam-sdd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--ddd {
+  border-left-color: var(--fam-ddd);
+  color: var(--fam-ddd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--uxd {
+  border-left-color: var(--fam-uxd);
+  color: var(--fam-uxd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--arc {
+  border-left-color: var(--fam-arc);
+  color: var(--fam-arc);
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap {
+  position: relative;
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip.kb-col-shape-tooltip {
+  min-width: 10rem;
+  max-width: 22rem;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:hover .kb-skill-tooltip,
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:focus-within .kb-skill-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.skill-kanban-nav__stages {
+  display: grid;
+  grid-template-columns: repeat(var(--skill-kanban-cols, 5), minmax(0, 1fr));
+  gap: 0 8px;
+  min-width: 0;
+}
+.skill-kanban-nav__col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.skill-kanban-nav__tickets {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.skill-kanban-nav .kb-col-head {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 8px 6px 7px;
+  font-family: var(--font-mono);
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.skill-kanban-nav .kb-col-head--static {
+  cursor: default;
+}
+.skill-kanban-nav a.kb-col-head {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav a.kb-col-head:hover {
+  border-color: rgba(229, 83, 26, 0.35);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.15);
+}
+.skill-kanban-nav .kb-col-head--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-col-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+}
+.skill-kanban-nav .kb-col-scope-shape {
+  flex-shrink: 0;
+  border: 2px solid var(--abd-accent);
+  border-radius: 2px;
+}
+.skill-kanban-nav__stages .kb-col-shape-tooltip,
+.skill-kanban-nav__stages .kb-skill-tooltip-wrap .kb-col-shape-tooltip {
+  display: none !important;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 8px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 7px 9px;
+  font-family: var(--font-mono);
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid rgba(229, 83, 26, 0.45);
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 14px;
+  border: 5px solid transparent;
+  border-bottom-color: rgba(229, 83, 26, 0.45);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__name {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--abd-accent-glow);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__bullets {
+  font-size: 8px;
+  line-height: 1.45;
+  color: var(--abd-text);
+  white-space: pre-line;
+}
+.skill-kanban-nav .kb-col-scope-shape--solution { width: 36px; height: 12px; }
+.skill-kanban-nav .kb-col-scope-shape--increment { width: 24px; height: 16px; }
+.skill-kanban-nav .kb-col-scope-shape--sprint { width: 16px; height: 22px; }
+.skill-kanban-nav .kb-col-scope-shape--story { width: 11px; height: 28px; }
+.skill-kanban-nav .kb-col-head-title {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--abd-text);
+}
+.skill-kanban-nav .kb-col-head-title > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.skill-kanban-nav .kb-col-num {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--abd-text);
+  background: var(--abd-bg);
+  border: 1px solid var(--abd-border);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+.skill-kanban-nav .kb-ticket {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  background: var(--abd-raised);
+  color: var(--abd-text);
+  padding: 5px 6px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  border-left-width: 3px;
+  border-left-color: var(--abd-muted);
+  line-height: 1.25;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav .kb-ticket:hover {
+  border-color: var(--abd-border);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.2);
+}
+.skill-kanban-nav .kb-ticket.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-ticket.aad-fam-sdd { border-left-color: var(--fam-sdd); }
+.skill-kanban-nav .kb-ticket.aad-fam-ddd { border-left-color: var(--fam-ddd); }
+.skill-kanban-nav .kb-ticket.aad-fam-uxd { border-left-color: var(--fam-uxd); }
+.skill-kanban-nav .kb-ticket.aad-fam-arc { border-left-color: var(--fam-arc); }
+.skill-kanban-nav .kb-ticket.aad-fam-idea { border-left-color: var(--fam-idea); }
+@media (max-width: 960px) {
+  .skill-kanban-nav__board {
+    grid-template-columns: 1fr;
+  }
+  .skill-kanban-nav__stages {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
+
+/* ── Skill detail: full-width hero image / embedded viewer ── */
+.skill-hero-img-wrap {
+  margin: 24px 0 0;
+}
+.skill-hero-img-wrap:empty { display: none; }
+.skill-hero-img-wrap img,
+.skill-hero-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--raised);
+}
+
+/* HTML prototype iframe (reference/example/index.html) */
+.skill-prototype-wrap {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-prototype-frame {
+  display: block;
+  width: 100%;
+  min-height: 540px;
+  height: 71vh;
+  max-height: 810px;
+  border: 0;
+  background: #fff;
+}
+.skill-prototype-open {
+  margin: 0;
+  padding: 8px 14px;
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+  background: var(--raised);
+}
+.skill-prototype-open a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.skill-prototype-open a:hover { text-decoration: underline; }
+
+/* draw.io embedded viewer */
+.skill-drawio-wrap {
+  position: relative;
+  width: 100%;
+  height: min(71vh, 680px);
+  min-height: 340px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-drawio-wrap .mxgraph {
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+}
+.skill-drawio-wrap .geToolbarContainer {
+  z-index: 4;
+}
+
+/* code file preview */
+.skill-code-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--raised);
+  font-size: 13px;
+}
+.skill-code-lang {
+  padding: 6px 14px;
+  font-family: var(--mono, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.skill-code-preview pre {
+  margin: 0;
+  padding: 16px;
+  overflow-x: auto;
+  max-height: 420px;
+}
+.skill-code-preview code {
+  font-family: var(--mono, 'JetBrains Mono', monospace);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+/* rendered markdown preview */
+.skill-hero-img-wrap .skill-md-preview {
+  max-height: min(71vh, 610px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.skill-md-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px 24px;
+  background: var(--surface);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.skill-md-preview h1 { font-size: 18px; font-weight: 700; margin: 0 0 12px; }
+.skill-md-preview h2 { font-size: 15px; font-weight: 600; margin: 16px 0 8px;
+  border-bottom: 1px solid var(--border); padding-bottom: 3px; }
+.skill-md-preview h3 { font-size: 13px; font-weight: 600; margin: 12px 0 6px; }
+.skill-md-preview h4 { font-size: 12px; font-weight: 600; margin: 10px 0 4px; color: var(--muted); }
+.skill-md-preview p  { margin: 0 0 10px; }
+.skill-md-preview .spec-steps { margin: 0 0 14px; }
+.skill-md-preview p.spec-step { margin: 0 0 4px; line-height: 1.55; }
+.skill-md-preview .md-table-wrap { overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview .md-table { border-collapse: collapse; width: 100%; }
+.skill-md-preview ul, .skill-md-preview ol { margin: 0 0 10px; padding-left: 20px; }
+.skill-md-preview li { margin-bottom: 3px; }
+.skill-md-preview code { background: var(--raised); border-radius: 3px;
+  padding: 1px 5px; font-family: var(--mono, monospace); font-size: 12px; }
+.skill-md-preview pre { background: var(--raised); border-radius: 5px;
+  padding: 12px; overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview table { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
+.skill-md-preview th, .skill-md-preview td {
+  border: 1px solid var(--border); padding: 6px 10px; }
+.skill-md-preview th { background: var(--raised); font-weight: 600; }
+
+/* ── Skill detail: concepts | rules two-column grid ── */
+.skill-cr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin: 24px 0 0;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .skill-cr-grid { grid-template-columns: 1fr; }
+}
+.skill-cr-col { min-width: 0; }
+.skill-cr-single { margin: 24px 0 0; }
+
+/* Glossary example hero — term blocks without heavy HR dividers */
+.skill-md-preview--glossary h1 {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 10px;
+  border: 0;
+  padding: 0;
+}
+.skill-md-preview--glossary h2 {
+  font-size: 16px;
+  margin-top: 0;
+}
+.skill-md-preview--glossary h3 {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 14px 0 6px;
+  padding: 6px 8px;
+  background: var(--raised);
+  border-radius: 4px;
+  border-left: 3px solid var(--accent);
+}
+.skill-md-preview--glossary hr {
+  display: none;
+}
+.skill-md-preview--glossary ul {
+  margin-top: 0;
+}
+
+/* ── Skill detail: full-width content below ── */
+.skill-detail-content-col { margin-top: 32px; }
+.skill-detail-page .skill-cr-grid,
+.skill-detail-page .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-single,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-single {
+  margin-top: 0;
+}
+
+/* ── Skill detail: concepts (expandable) ── */
+.skill-hero-img-wrap + .install-block {
+  margin-top: 16px;
+}
+.install-block + .skill-cr-grid,
+.install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-concepts {
+  margin: 0 0 20px;
+}
+.skill-concepts-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 8px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-concept {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-concept summary {
+  padding: 8px 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  user-select: none;
+}
+.skill-concept summary::-webkit-details-marker { display: none; }
+.skill-concept summary::marker { content: ""; }
+.skill-concept summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-concept[open] summary::before { content: "\2212"; }
+.skill-concept-body {
+  padding: 6px 4px 10px 1.9rem;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.skill-concept-body p { margin: 0 0 8px; }
+.skill-concept-body p:last-child { margin-bottom: 0; }
+.skill-concept-body ul { margin: 0 0 8px 1.1em; padding: 0; }
+.skill-concept-body li { margin: 3px 0; }
+
+/* ── Skill detail: rules (DO / DON'T) ── */
+.skill-rules {
+  margin: 0 0 20px;
+}
+.skill-rules-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 12px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-rule {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule[open] > .skill-rule-header {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule-header {
+  padding: 8px 10px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  background: var(--raised);
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+.skill-rule-header::-webkit-details-marker { display: none; }
+.skill-rule-header::marker { content: ""; }
+.skill-rule-header::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-rule[open] > .skill-rule-header::before {
+  content: "\2212";
+}
+.skill-rule-section {
+  padding: 8px 12px;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+.skill-rule-section--do {
+  border-left: 3px solid #2d8a4e;
+}
+.skill-rule-section--dont {
+  border-left: 3px solid #c0392b;
+}
+.skill-rule-section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+  color: var(--muted);
+}
+.skill-rule-section--do .skill-rule-section-label { color: #2d8a4e; }
+.skill-rule-section--dont .skill-rule-section-label { color: #c0392b; }
+.skill-rule-section ul { margin: 0; padding: 0 0 0 1.1em; }
+.skill-rule-section li { margin: 2px 0; color: var(--text); }
+
 </style>
-<script src="../../../commons/catalog-nav.js?v=foundry-8"></script>
+<script src="../../../commons/catalog-nav.js?v=foundry-9"></script>
 </head>
 <body data-nav-prefix="../../../" data-nav-current="skills" data-nav-site-base="../../../../../abd-works-website/">
 <main id="main-content">
@@ -1051,6 +1671,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
   <div class="wrap">
     <a class="back-link" href="../../../skill/story-graph-ops.html">← story-graph-ops</a>
     <p class="s-name">Markdown</p>
+
     <h1 class="page-headline">SKILL.md</h1>
     <p class="body-lead">name: story-graph-ops</p>
   </div>
@@ -1060,35 +1681,33 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <div class="wrap">
 
 <h2>Content</h2>
-<div class="rule-prose"><p>﻿--- name: story-graph-ops catalog_garden_tier: foundational catalogue_one_liner: &gt;- CRUD story-graph.json via CLI/scripts, validate, persist; no hand-written JSON drift. description: &gt;- Creates, reads, updates, and deletes story-graph.json (epics, sub-epics, stories, AC, scenarios) as a standalone artifact using the CLI or Python modules. Always validate after edits; do not hand-write JSON without running this skill&#x27;s tooling. Use when editing story-graph.json or managing its lifecycle on disk.</p>
-<hr>
-<h1>story-graph-ops</h1>
+<div class="rule-prose"><h1>story-graph-ops</h1>
 <h2>Agent obligations (do not skip)</h2>
 <p>This skill is <strong>not</strong> satisfied by &quot;I read some other project&#x27;s graph code and emitted JSON.&quot; That is a <strong>supplement</strong> at most—and <strong>out of scope</strong> for claiming this skill is done.</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Must</th><th>Detail</th></tr></thead><tbody><tr><td><strong>Use this skill&#x27;s tooling</strong></td><td>Run <strong>`scripts/story_graph_cli.py`</strong> and/or import from <strong>`story_map`</strong> with <strong>`PYTHONPATH`</strong> including <strong>`…/story-graph-ops/scripts`</strong> (path below).</td></tr><tr><td><strong>Finish with validation</strong></td><td>After creating or changing a graph file, run at least: <strong>`story_graph_cli.py read --file &lt;path&gt;`</strong> so a bad structure fails early. Prefer <strong>`names`</strong> or <strong>`search`</strong> when checking coverage.</td></tr><tr><td><strong>Declare completion</strong></td><td>Say what you ran (e.g. &quot;validated with `read`&quot;)—not only &quot;wrote JSON.&quot;</td></tr></tbody></table></div>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Must</th><th>Detail</th></tr></thead><tbody><tr><td><strong>Use this skill&#x27;s tooling</strong></td><td>Run <strong><code>scripts/story_graph_cli.py</code></strong> and/or import from <strong><code>story_map</code></strong> with <strong><code>PYTHONPATH</code></strong> including <strong><code>…/story-graph-ops/scripts</code></strong> (path below).</td></tr><tr><td><strong>Finish with validation</strong></td><td>After creating or changing a graph file, run at least: <strong><code>story_graph_cli.py read --file &lt;path&gt;</code></strong> so a bad structure fails early. Prefer <strong><code>names</code></strong> or <strong><code>search</code></strong> when checking coverage.</td></tr><tr><td><strong>Declare completion</strong></td><td>Say what you ran (e.g. &quot;validated with <code>read</code>&quot;)—not only &quot;wrote JSON.&quot;</td></tr></tbody></table></div>
 <p><strong>Anti-patterns (reject):</strong></p>
 <ul>
-<li>Hand-rolling JSON and stopping without <strong>`read`</strong> (or equivalent load via `story_map`).</li>
+<li>Hand-rolling JSON and stopping without <strong><code>read</code></strong> (or equivalent load via <code>story_map</code>).</li>
 <li>Using <strong>another codebase&#x27;s</strong> loaders or domain classes as the <em>only</em> authority while ignoring this skill&#x27;s CLI—those are not proof the serialized file is valid for <strong>story-graph-ops</strong> tooling.</li>
-<li>Skipping <strong>`PYTHONPATH`</strong> then claiming the skill was followed.</li>
+<li>Skipping <strong><code>PYTHONPATH</code></strong> then claiming the skill was followed.</li>
 </ul>
-<p><strong>When converting from Markdown, `.txt`, or chat:</strong> build or edit JSON using <strong>`story_map`</strong> in Python <strong>or</strong> write JSON and pipe through <strong>`write`</strong>, then <strong>`read`</strong>—same validation rule.</p>
+<p><strong>When converting from Markdown, <code>.txt</code>, or chat:</strong> build or edit JSON using <strong><code>story_map</code></strong> in Python <strong>or</strong> write JSON and pipe through <strong><code>write</code></strong>, then <strong><code>read</code></strong>—same validation rule.</p>
 <h2>Skill root and PYTHONPATH</h2>
 <p>From the <strong>agilebydesign-skills</strong> repo, this skill&#x27;s scripts live next to this file:</p>
 <ul>
-<li><strong>Skill directory:</strong> `skills/story-graph-ops/`</li>
-<li><strong>Scripts:</strong> `skills/story-graph-ops/scripts/`</li>
+<li><strong>Skill directory:</strong> <code>skills/story-graph-ops/</code></li>
+<li><strong>Scripts:</strong> <code>skills/story-graph-ops/scripts/</code></li>
 </ul>
 <pre><code># Windows PowerShell example (adjust drive/path to your clone):
 $env:PYTHONPATH = &quot;C:\dev\agilebydesign-skills\skills\story-graph-ops\scripts&quot;
 cd C:\dev\agilebydesign-skills\skills\story-graph-ops
 python scripts/story_graph_cli.py read --file C:\path\to\story-graph.json</code></pre>
-<p>Add <strong>`…/execute-skill-using-skills-rules/scripts`</strong> only if you import <strong>`scanner_bases`</strong> in the same process.</p>
+<p>Add <strong><code>…/execute-skill-using-skills-rules/scripts</code></strong> only if you import <strong><code>scanner_bases</code></strong> in the same process.</p>
 <h2>Mandatory workflow (checklist)</h2>
-<p>Use this whenever <strong>`story-graph.json`</strong> (or any graph path) is created or meaningfully edited:</p>
-<p>1. <strong>Set `PYTHONPATH`</strong> to include <strong>`story-graph-ops/scripts`</strong>. 2. <strong>Produce JSON</strong> via CLI `write`, or Python (`story_map`, etc.), or a careful hand-edit. 3. <strong>Validate:</strong> `python scripts/story_graph_cli.py read --file &lt;path&gt;` (must succeed). 4. <strong>Optional checks:</strong> `names`, `search`, `filter` as needed. 5. <strong>Report</strong> the validation command you ran.</p>
+<p>Use this whenever <strong><code>story-graph.json</code></strong> (or any graph path) is created or meaningfully edited:</p>
+<p>1. <strong>Set <code>PYTHONPATH</code></strong> to include <strong><code>story-graph-ops/scripts</code></strong>. 2. <strong>Produce JSON</strong> via CLI <code>write</code>, or Python (<code>story_map</code>, etc.), or a careful hand-edit. 3. <strong>Validate:</strong> <code>python scripts/story_graph_cli.py read --file &lt;path&gt;</code> (must succeed). 4. <strong>Optional checks:</strong> <code>names</code>, <code>search</code>, <code>filter</code> as needed. 5. <strong>Report</strong> the validation command you ran.</p>
 <h2>When to use this skill</h2>
-<p>Load <strong>story-graph-ops</strong> whenever work touches <strong>`story-graph.json`</strong> as an artifact:</p>
+<p>Load <strong>story-graph-ops</strong> whenever work touches <strong><code>story-graph.json</code></strong> as an artifact:</p>
 <div class="md-table-wrap"><table class="md-table"><thead><tr><th>Operation</th><th>Examples</th></tr></thead><tbody><tr><td><strong>Create</strong></td><td>New graph from scratch; minimal/empty scaffold; build structure from structured input; first save after shaping content.</td></tr><tr><td><strong>Read</strong></td><td>Inspect graph, dump JSON, list names, search substring.</td></tr><tr><td><strong>Update</strong></td><td>Add/rename/reorder nodes; fix acceptance criteria or scenarios; examples; associate test files, test classes or methods; merge branches of the tree; patch one story or one epic.</td></tr><tr><td><strong>Delete</strong></td><td>Remove a story, sub-epic, or epic subtree; strip AC; <strong>replace entire graph</strong> by writing new JSON (delete all prior content).</td></tr></tbody></table></div>
 <p>Typical situations:</p>
 <ul>
@@ -1096,13 +1715,13 @@ python scripts/story_graph_cli.py read --file C:\path\to\story-graph.json</code>
 <li>Output of ABD practice skills (e.g. abd-story-mapping) cleaned up in MD, txt, or other format and the graph must be updated: rename stories, fix AC, reorder nodes.</li>
 <li><strong>Mechanical passes</strong>: list story names, subset by story name, dump JSON, write through.</li>
 <li>A filtered view: filter by node type, increments, etc.</li>
-<li><strong>Rules/scanners</strong> on the graph: validators extend <strong>`StoryScanner`</strong> from <strong>`story_scanner`</strong> (on <strong>`PYTHONPATH`</strong> with <strong>`story-graph-ops/scripts`</strong>).</li>
+<li><strong>Rules/scanners</strong> on the graph: validators extend <strong><code>StoryScanner</code></strong> from <strong><code>story_scanner</code></strong> (on <strong><code>PYTHONPATH</code></strong> with <strong><code>story-graph-ops/scripts</code></strong>).</li>
 </ul>
 <h2>Relationship to ABD practice skills</h2>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Piece</th><th>Role</th></tr></thead><tbody><tr><td><strong>ABD practice skills</strong></td><td><strong>Guidance and best practices</strong> for abd.works work: how to frame problems, name and structure artifacts, use templates, run quality passes, and apply bundled rules or scanners. They answer <em>what good looks like</em> and <em>which conventions apply</em>—not the mechanical layer of reading or writing `story-graph.json` on disk.</td></tr><tr><td><strong>story-graph-ops</strong></td><td><strong>Lifecycle on disk</strong>: create, read, update, and delete the <strong>serialized graph</strong> (`story-graph.json`, in whole or in part)—encoding, mutating, and tooling against the file.</td></tr></tbody></table></div>
-<p><strong>Same complementary relationship</strong> in every case: use <strong>practice skills</strong> for <em>how the work should read</em> and <em>which quality bars to hit</em>; use <strong>story-graph-ops</strong> to <em>create and edit the graph file</em> <strong>and validate it with this skill&#x27;s tools</strong>. Whenever the deliverable includes <strong>creating or changing</strong> `story-graph.json`, load <strong>story-graph-ops</strong> and <strong>complete the checklist above</strong>.</p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Piece</th><th>Role</th></tr></thead><tbody><tr><td><strong>ABD practice skills</strong></td><td><strong>Guidance and best practices</strong> for abd.works work: how to frame problems, name and structure artifacts, use templates, run quality passes, and apply bundled rules or scanners. They answer <em>what good looks like</em> and <em>which conventions apply</em>—not the mechanical layer of reading or writing <code>story-graph.json</code> on disk.</td></tr><tr><td><strong>story-graph-ops</strong></td><td><strong>Lifecycle on disk</strong>: create, read, update, and delete the <strong>serialized graph</strong> (<code>story-graph.json</code>, in whole or in part)—encoding, mutating, and tooling against the file.</td></tr></tbody></table></div>
+<p><strong>Same complementary relationship</strong> in every case: use <strong>practice skills</strong> for <em>how the work should read</em> and <em>which quality bars to hit</em>; use <strong>story-graph-ops</strong> to <em>create and edit the graph file</em> <strong>and validate it with this skill&#x27;s tools</strong>. Whenever the deliverable includes <strong>creating or changing</strong> <code>story-graph.json</code>, load <strong>story-graph-ops</strong> and <strong>complete the checklist above</strong>.</p>
 <h2>CLI</h2>
-<p>Implementation: <strong>`scripts/story_graph_cli.py`</strong>.</p>
+<p>Implementation: <strong><code>scripts/story_graph_cli.py</code></strong>.</p>
 <pre><code>python scripts/story_graph_cli.py read   --file &lt;path/to/story-graph.json&gt; [--pretty]
 python scripts/story_graph_cli.py names  --file &lt;path&gt;
 python scripts/story_graph_cli.py search --file &lt;path&gt; --substring &lt;text&gt;
@@ -1110,10 +1729,10 @@ python scripts/story_graph_cli.py filter --file &lt;path&gt; --stories &quot;A&q
 python scripts/story_graph_cli.py sha    --file &lt;path&gt;
 python scripts/story_graph_cli.py write  --file &lt;out.json&gt; [--input &lt;in.json&gt;|stdin]
                                           [--expect-sha &lt;hex&gt;] [--no-lock] [--force]</code></pre>
-<p><strong>Create / delete via CLI:</strong> `write` accepts JSON on stdin or `--input`—you can emit a <strong>full replacement</strong> graph (effectively delete everything not in the new JSON) or a <strong>filtered</strong> subgraph. Finer-grained create/update/delete often uses <strong>`story_map`</strong> types in Python, then <strong>`read`</strong> to validate after saving.</p>
+<p><strong>Create / delete via CLI:</strong> <code>write</code> accepts JSON on stdin or <code>--input</code>—you can emit a <strong>full replacement</strong> graph (effectively delete everything not in the new JSON) or a <strong>filtered</strong> subgraph. Finer-grained create/update/delete often uses <strong><code>story_map</code></strong> types in Python, then <strong><code>read</code></strong> to validate after saving.</p>
 <hr>
 <h2>Reordering epics, sub-epics, or increments</h2>
-<p>&gt; <strong>Pattern: load JSON in Python, mutate, write back through the CLI.</strong> &gt; The CLI has no native `reorder` subcommand — you produce modified JSON and commit it with `write`.</p>
+<p>&gt; <strong>Pattern: load JSON in Python, mutate, write back through the CLI.</strong> &gt; The CLI has no native <code>reorder</code> subcommand — you produce modified JSON and commit it with <code>write</code>.</p>
 <h3>Steps</h3>
 <p>1. Write a small Python script to a temp file that loads the graph, mutates the target array, and writes modified JSON to a second temp file. 2. Commit it through the CLI:</p>
 <pre><code>   python story_graph_cli.py write --file story-graph.json --input modified.json --no-lock</code></pre>
@@ -1143,21 +1762,25 @@ for i, x in enumerate(incs, 1):
 OUT = r&quot;path/to/modified.json&quot;
 with open(OUT, &quot;w&quot;, encoding=&quot;utf-8&quot;) as f:
     json.dump(g, f, indent=2, ensure_ascii=False)</code></pre>
-<p>Then commit and validate:</p>
+<div class="spec-steps">
+<p class="spec-step">Then commit and validate:</p>
+</div>
 <pre><code>python story_graph_cli.py write --file story-graph.json --input modified.json --no-lock
 python story_graph_cli.py read  --file story-graph.json</code></pre>
 <p>The same pattern applies to reordering <strong>epics</strong>, <strong>sub-epics</strong>, or <strong>stories</strong> within their parent arrays — mutate the list, renumber any sequential fields, write, validate.</p>
 <hr>
 <h2>Converting Markdown to story-graph.json</h2>
-<p>Three dedicated parser scripts convert skill-generated Markdown into graph JSON. <strong>Always try the matching script first.</strong> If the file does not match the expected format (the script exits with code 2), fall back to AI-assisted JSON construction; name the fallback script with a `_&lt;variant&gt;` suffix inserted just before the stem (e.g. `md_story_map_to_story_graph_custom.py`) so it can be reused.</p>
+<p>Three dedicated parser scripts convert skill-generated Markdown into graph JSON. <strong>Always try the matching script first.</strong> If the file does not match the expected format (the script exits with code 2), fall back to AI-assisted JSON construction; name the fallback script with a <code>_&lt;variant&gt;</code> suffix inserted just before the stem (e.g. <code>md_story_map_to_story_graph_custom.py</code>) so it can be reused.</p>
 <h3>Naming convention for parser scripts</h3>
 <pre><code>md_&lt;artifact&gt;_to_story_graph.py          -- canonical parser for one skill&#x27;s output
 md_&lt;artifact&gt;_to_story_graph_&lt;variant&gt;.py -- fallback or project-specific variant</code></pre>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Script</th><th>Source skill</th><th>Converts</th></tr></thead><tbody><tr><td>`md_story_map_to_story_graph.py`</td><td>abd-story-mapping</td><td>`story-map.md` tree → epics, sub-epics, stories</td></tr><tr><td>`md_acceptance_criteria_to_story_graph.py`</td><td>abd-story-acceptance-criteria</td><td>`acceptance-criteria.md` → AC items on existing stories</td></tr><tr><td>`md_thin_slice_to_story_graph.py`</td><td>abd-thin-slicing</td><td>`thin-slicing.md` → increments array</td></tr></tbody></table></div>
-<p>All three scripts exit with <strong>code 2</strong> when they cannot recognise the format — this is the signal to create a `_&lt;variant&gt;` script instead of hand-patching JSON.</p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Script</th><th>Source skill</th><th>Converts</th></tr></thead><tbody><tr><td><code>md_story_map_to_story_graph.py</code></td><td>abd-story-mapping</td><td><code>story-map.md</code> tree → epics, sub-epics, stories</td></tr><tr><td><code>md_acceptance_criteria_to_story_graph.py</code></td><td>abd-story-acceptance-criteria</td><td><code>acceptance-criteria.md</code> → AC items on existing stories</td></tr><tr><td><code>md_thin_slice_to_story_graph.py</code></td><td>abd-thin-slicing</td><td><code>thin-slicing.md</code> → increments array</td></tr></tbody></table></div>
+<p>All three scripts exit with <strong>code 2</strong> when they cannot recognise the format — this is the signal to create a <code>_&lt;variant&gt;</code> script instead of hand-patching JSON.</p>
 <hr>
-<h3>`md_story_map_to_story_graph.py` — story map</h3>
-<p>When a story map exists as a Markdown file in the `abd-story-mapping` tree format (epics, sub-epics, and stories with `(E)` / `(S)` markers), use this script rather than hand-building JSON.</p>
+<h3><code>md_story_map_to_story_graph.py</code> — story map</h3>
+<div class="spec-steps">
+<p class="spec-step">When a story map exists as a Markdown file in the <code>abd-story-mapping</code> tree format (epics, sub-epics, and stories with <code>(E)</code> / <code>(S)</code> markers), use this script rather than hand-building JSON.</p>
+</div>
 <p><strong>Format the parser expects:</strong></p>
 <pre><code>(E) Epic Name
     (E) Sub-Epic Name
@@ -1166,10 +1789,10 @@ md_&lt;artifact&gt;_to_story_graph_&lt;variant&gt;.py -- fallback or project-spe
     (S) Actor --&gt; Story Directly Under Epic</code></pre>
 <ul>
 <li>Indentation is <strong>4 spaces per level</strong>; depth determines parent.</li>
-<li>`(E)` lines become epics (depth 0) or sub-epics (any deeper depth).</li>
-<li>`(S)` lines become stories; the word before `--&gt;` becomes `story_type`.</li>
-<li>`opt (S)` lines are treated identically to `(S)` lines.</li>
-<li>Any `## ` section header (consolidation notes, context gaps, etc.) ends parsing.</li>
+<li><code>(E)</code> lines become epics (depth 0) or sub-epics (any deeper depth).</li>
+<li><code>(S)</code> lines become stories; the word before <code>--&gt;</code> becomes <code>story_type</code>.</li>
+<li><code>opt (S)</code> lines are treated identically to <code>(S)</code> lines.</li>
+<li>Any <code>## </code> section header (consolidation notes, context gaps, etc.) ends parsing.</li>
 </ul>
 <p><strong>Usage:</strong></p>
 <pre><code>python scripts/md_story_map_to_story_graph.py &lt;input-story-map.md&gt; &lt;output-story-graph.json&gt;
@@ -1177,11 +1800,11 @@ md_&lt;artifact&gt;_to_story_graph_&lt;variant&gt;.py -- fallback or project-spe
 # Validate immediately after:
 python scripts/story_graph_cli.py read  --file &lt;output-story-graph.json&gt;
 python scripts/story_graph_cli.py names --file &lt;output-story-graph.json&gt;</code></pre>
-<p><strong>After converting, always run `read` and `names`</strong> — this confirms the JSON is well-formed and all stories parsed correctly before any downstream work.</p>
+<p><strong>After converting, always run <code>read</code> and <code>names</code></strong> — this confirms the JSON is well-formed and all stories parsed correctly before any downstream work.</p>
 <hr>
-<h3>`md_acceptance_criteria_to_story_graph.py` — acceptance criteria</h3>
-<p>Merges acceptance criteria from an `acceptance-criteria.md` file into an <strong>existing</strong> `story-graph.json`. Matches by story name; injects numbered AC strings (preserving WHEN/THEN/AND/Evidence format) without disturbing scenarios or other fields.</p>
-<p><strong>Prerequisite:</strong> the graph must exist. Run `md_story_map_to_story_graph.py` first if starting from scratch.</p>
+<h3><code>md_acceptance_criteria_to_story_graph.py</code> — acceptance criteria</h3>
+<p>Merges acceptance criteria from an <code>acceptance-criteria.md</code> file into an <strong>existing</strong> <code>story-graph.json</code>. Matches by story name; injects numbered AC strings (preserving WHEN/THEN/AND/Evidence format) without disturbing scenarios or other fields.</p>
+<p><strong>Prerequisite:</strong> the graph must exist. Run <code>md_story_map_to_story_graph.py</code> first if starting from scratch.</p>
 <p><strong>Format the parser expects</strong> (generated by abd-story-acceptance-criteria):</p>
 <pre><code>## Story: &lt;story name&gt;
 
@@ -1203,10 +1826,10 @@ python scripts/story_graph_cli.py names --file &lt;output-story-graph.json&gt;</
 
 # Validate after:
 python scripts/story_graph_cli.py read  --file &lt;story-graph.json&gt;</code></pre>
-<p><strong>Exit codes:</strong> `0` success · `1` missing file or unmatched stories · `2` unrecognised format (use a `_&lt;variant&gt;` script).</p>
+<p><strong>Exit codes:</strong> <code>0</code> success · <code>1</code> missing file or unmatched stories · <code>2</code> unrecognised format (use a <code>_&lt;variant&gt;</code> script).</p>
 <hr>
-<h3>`md_thin_slice_to_story_graph.py` — thin slicing / increments</h3>
-<p>Parses `thin-slicing.md` and <strong>replaces</strong> the `increments` array in the graph. Each `### Increment N: &lt;name&gt;` block becomes one increment with ordered story references. If the graph file does not exist, a minimal scaffold (empty `epics`) is created.</p>
+<h3><code>md_thin_slice_to_story_graph.py</code> — thin slicing / increments</h3>
+<p>Parses <code>thin-slicing.md</code> and <strong>replaces</strong> the <code>increments</code> array in the graph. Each <code>### Increment N: &lt;name&gt;</code> block becomes one increment with ordered story references. If the graph file does not exist, a minimal scaffold (empty <code>epics</code>) is created.</p>
 <p><strong>Format the parser expects</strong> (generated by abd-thin-slicing):</p>
 <pre><code>### Increment 1: `Walk-in driver`
 
@@ -1221,34 +1844,34 @@ python scripts/story_graph_cli.py read  --file &lt;story-graph.json&gt;</code></
 
 # Validate after:
 python scripts/story_graph_cli.py read --file &lt;story-graph.json&gt;</code></pre>
-<p><strong>Exit codes:</strong> `0` success · `1` missing file · `2` unrecognised format (use a `_&lt;variant&gt;` script).</p>
+<p><strong>Exit codes:</strong> <code>0</code> success · <code>1</code> missing file · <code>2</code> unrecognised format (use a <code>_&lt;variant&gt;</code> script).</p>
 <h2>Parallel runs and concurrent writes</h2>
-<p>`story-graph.json` is <strong>shared mutable state</strong> across the delivery flow — every stage mutates the same file. The planning skill allows <strong>parallel runs</strong> when outputs are independent (e.g. story definition for one slice while discovery continues for another). The policy and the mechanical safeguards are:</p>
+<p><code>story-graph.json</code> is <strong>shared mutable state</strong> across the delivery flow — every stage mutates the same file. The planning skill allows <strong>parallel runs</strong> when outputs are independent (e.g. story definition for one slice while discovery continues for another). The policy and the mechanical safeguards are:</p>
 <p><strong>Policy (planning-level):</strong></p>
 <ul>
 <li><strong>Do not edit the same slice in parallel.</strong> Partition by slice / epic / story id up front, in the plan&#x27;s run scope.</li>
 <li>When two runs must touch the same subtree, serialize them — run B waits for run A&#x27;s <strong>CHECKPOINT</strong> to confirm before starting.</li>
 <li>The delivery lead&#x27;s <strong>Scope guard</strong> at each exit gate flags when a team member added work outside the current run&#x27;s scope.</li>
 </ul>
-<p><strong>Mechanical safeguards (CLI-level):</strong> `story_graph_cli.py write` enforces two independent checks so a race does not silently clobber another writer&#x27;s edit.</p>
-<p>1. <strong>Advisory lock.</strong> For the duration of a write, the CLI holds an exclusive lock file at `&lt;path&gt;.lock`. If another process holds a live lock, the write is refused with exit code <strong>4</strong>. Stale locks older than 5 minutes are cleaned up automatically. Bypass with `--no-lock` (not recommended) or `--force` (recovery only).</p>
-<p>2. <strong>Optimistic concurrency via `--expect-sha`.</strong> Capture the file&#x27;s content hash at read time and pass it back on write:</p>
+<p><strong>Mechanical safeguards (CLI-level):</strong> <code>story_graph_cli.py write</code> enforces two independent checks so a race does not silently clobber another writer&#x27;s edit.</p>
+<p>1. <strong>Advisory lock.</strong> For the duration of a write, the CLI holds an exclusive lock file at <code>&lt;path&gt;.lock</code>. If another process holds a live lock, the write is refused with exit code <strong>4</strong>. Stale locks older than 5 minutes are cleaned up automatically. Bypass with <code>--no-lock</code> (not recommended) or <code>--force</code> (recovery only).</p>
+<p>2. <strong>Optimistic concurrency via <code>--expect-sha</code>.</strong> Capture the file&#x27;s content hash at read time and pass it back on write:</p>
 <pre><code>    SHA=$(python scripts/story_graph_cli.py sha --file story-graph.json)
     # … build your edit locally …
     python scripts/story_graph_cli.py write --file story-graph.json --expect-sha $SHA --input new.json</code></pre>
-<p>If the file changed between the `sha` call and the `write` call, the write is refused with exit code <strong>3</strong> and an actionable message asking the caller to re-read, merge, and retry. This is the check that catches &quot;Run A wrote between my read and my write&quot; across processes or across sessions.</p>
-<p><strong>Exit codes for `write`:</strong> `0` success · `1` bad input / validation failure · `2` path resolution failure · `3` `--expect-sha` mismatch · `4` active lock held by another writer.</p>
-<p><strong>Agent expectation:</strong> every <strong>`write`</strong> during an active multi-run engagement uses both `--expect-sha` (captured from a prior `sha` or `read`) and the default advisory lock. `--force` is reserved for explicit recovery after a stale lock or an intentionally-clobbered edit, and should be logged as a correction entry (<strong>`correct_output`</strong> / corrections log).</p>
+<p>If the file changed between the <code>sha</code> call and the <code>write</code> call, the write is refused with exit code <strong>3</strong> and an actionable message asking the caller to re-read, merge, and retry. This is the check that catches &quot;Run A wrote between my read and my write&quot; across processes or across sessions.</p>
+<p><strong>Exit codes for <code>write</code>:</strong> <code>0</code> success · <code>1</code> bad input / validation failure · <code>2</code> path resolution failure · <code>3</code> <code>--expect-sha</code> mismatch · <code>4</code> active lock held by another writer.</p>
+<p><strong>Agent expectation:</strong> every <strong><code>write</code></strong> during an active multi-run engagement uses both <code>--expect-sha</code> (captured from a prior <code>sha</code> or <code>read</code>) and the default advisory lock. <code>--force</code> is reserved for explicit recovery after a stale lock or an intentionally-clobbered edit, and should be logged as a correction entry (<strong><code>correct_output</code></strong> / corrections log).</p>
 <h2>Relationship to other skills</h2>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Piece</th><th>Role</th></tr></thead><tbody><tr><td><strong>execute-skill-using-skills-rules</strong></td><td>Base rules bundler: <strong>`run_scanners.py`</strong>, violations, scan context. Prepends <strong>`story-graph-ops/scripts`</strong> then <strong>`execute-skill-using-skills-rules/scripts`</strong> on <strong>`PYTHONPATH`</strong> for scanners.</td></tr></tbody></table></div>
-<p>Practice skills that ship graph-aware rules or scanners (importing <strong>`story_map`</strong> / <strong>`StoryScanner`</strong>): see <strong>Relationship to ABD practice skills</strong> above; <strong>`execute-skill-using-skills-rules`</strong> runs the scanner pipeline.</p>
-<p><strong>Rules that need the graph:</strong> declare `scanner:` in rule frontmatter; scanner modules use <strong>`from story_map import …`</strong>, <strong>`from story_scanner import StoryScanner`</strong>, plus <strong>`scanner_bases`</strong>. Shared graph code lives only in <strong>story-graph-ops</strong> — not under <strong>`scanner_bases`</strong>.</p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Piece</th><th>Role</th></tr></thead><tbody><tr><td><strong>execute-skill-using-skills-rules</strong></td><td>Base rules bundler: <strong><code>run_scanners.py</code></strong>, violations, scan context. Prepends <strong><code>story-graph-ops/scripts</code></strong> then <strong><code>execute-skill-using-skills-rules/scripts</code></strong> on <strong><code>PYTHONPATH</code></strong> for scanners.</td></tr></tbody></table></div>
+<p>Practice skills that ship graph-aware rules or scanners (importing <strong><code>story_map</code></strong> / <strong><code>StoryScanner</code></strong>): see <strong>Relationship to ABD practice skills</strong> above; <strong><code>execute-skill-using-skills-rules</code></strong> runs the scanner pipeline.</p>
+<p><strong>Rules that need the graph:</strong> declare <code>scanner:</code> in rule frontmatter; scanner modules use <strong><code>from story_map import …</code></strong>, <strong><code>from story_scanner import StoryScanner</code></strong>, plus <strong><code>scanner_bases</code></strong>. Shared graph code lives only in <strong>story-graph-ops</strong> — not under <strong><code>scanner_bases</code></strong>.</p>
 <h2>Sources</h2>
 <ul>
-<li>Python modules: <strong>`scripts/story_map.py`</strong>, <strong>`scripts/story_scanner.py`</strong>, <strong>`scripts/graph_filters.py`</strong>, <strong>`scripts/story_graph_file.py`</strong> (validated load/save for tools such as <strong>drawio-story-sync</strong>), …</li>
-<li>CLI: <strong>`scripts/story_graph_cli.py`</strong></li>
-<li>Details: <strong>`scripts/README.md`</strong></li>
-<li><strong>Parity with agile_bots `story_graph.nodes`</strong>, mutation CLI, and test porting plan: <strong>`MIGRATION_PARITY.md`</strong> (the lightweight `story_map` types are not a full replacement for <strong>`nodes.StoryMap`</strong> until that migration is done).</li>
+<li>Python modules: <strong><code>scripts/story_map.py</code></strong>, <strong><code>scripts/story_scanner.py</code></strong>, <strong><code>scripts/graph_filters.py</code></strong>, <strong><code>scripts/story_graph_file.py</code></strong> (validated load/save for tools such as <strong>drawio-story-sync</strong>), …</li>
+<li>CLI: <strong><code>scripts/story_graph_cli.py</code></strong></li>
+<li>Details: <strong><code>scripts/README.md</code></strong></li>
+<li><strong>Parity with agile_bots <code>story_graph.nodes</code></strong>, mutation CLI, and test porting plan: <strong><code>MIGRATION_PARITY.md</code></strong> (the lightweight <code>story_map</code> types are not a full replacement for <strong><code>nodes.StoryMap</code></strong> until that migration is done).</li>
 </ul></div>
 
 </div>

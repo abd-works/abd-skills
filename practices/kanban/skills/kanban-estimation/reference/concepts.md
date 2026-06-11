@@ -18,8 +18,8 @@ Before estimating, the team must agree on **which delivery stages the estimate c
 | **Shaping** | Outline map, module partition, architecture outline | *Out* |
 | **Discovery** | Full map, domain/UX IA, blueprint, thin-slice placement | *Out* |
 | **Exploration** | UL, acceptance criteria, UX mockups, architecture template | *In* (AC at minimum; mockups/template opt in per session) |
-| **Specification** | domain model, spec-by-example, interface design, architecture reference | *In* |
-| **Engineering** | `abd-ux-specification` implementation (UX), Class Model (Engineer), acceptance tests / ATDD (Engineer), production code (Engineer) | *In* (interface implementation opt in when UI-heavy) |
+| **Specification** | domain model, spec-by-example, clickable UX prototype, architecture reference | *In* |
+| **Engineering** | domain code (BE), acceptance tests / ATDD (PO), production code incl. UI (Engineer) | *In* |
 | **Regression testing** | Broader regression suite maintenance | *In* |
 | **User testing / UAT** | End-user validation outside the team | *Out* |
 

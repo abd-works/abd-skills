@@ -84,9 +84,12 @@ from kanban_layout import (  # noqa: E402
     build_catalog_hub_kanban_embed_html,
     build_kanban_board_html,
     build_kanban_legend_html,
+    build_skill_family_kanban_nav_html,
     load_catalog_embed_kanban_css,
     load_kanban_model,
     patch_bootcamp_slide_files,
+    plugin_first_skill_href_map,
+    plugin_stage_skill_href_map,
     rewrite_bootcamp_catalog_links,
     skill_dir_map_from_entries,
     skill_purpose_map_from_entries,
@@ -97,6 +100,7 @@ from family_catalog import (  # noqa: E402
     FAMILY_PACKAGES,
     FAMILY_SLOT_LABELS,
     FAMILY_SLOT_ORDER,
+    FOUNDRY_BACK_LABEL,
     FamilyPackageEntry,
     artifact_slug,
     artifact_stem,
@@ -105,6 +109,7 @@ from family_catalog import (  # noqa: E402
     discover_family_packages,
     html_family_slot_sections,
     html_plugin_slot_sections,
+    html_skill_name_display,
     outline_families_section,
     outline_plugins_section,
     plugin_label,
@@ -130,7 +135,7 @@ from catalog_repo_urls import (  # noqa: E402
     NPX_SKILLS_REPO_SLUG,
 )
 
-FRONTMATTER_RE = re.compile(r"^---\s*\n(.*?)\n---", re.DOTALL)
+FRONTMATTER_RE = re.compile(r"^\ufeff?---\s*\n(.*?)\n---", re.DOTALL)
 YAML_FIELD_RE = re.compile(r"^(\w[\w-]*):\s*(.+)", re.MULTILINE)
 YAML_BLOCK_RE = re.compile(
     r"^(\w[\w-]*):\s*>-?\s*\n((?:[ \t]+.*\n?)+)", re.MULTILINE
@@ -226,7 +231,9 @@ def _extract_section(body: str, heading: str) -> str | None:
     m = pattern.search(body)
     if not m:
         return None
-    return m.group(1).strip()
+    content = m.group(1).strip()
+    content = re.sub(r"(?:\n|^)-{3,}\s*$", "", content).strip()
+    return content
 
 
 def _strip_md(text: str) -> str:
@@ -643,6 +650,7 @@ def _vendor_catalog_site_assets(catalog_root: Path, website_root: Path) -> None:
     nav_js = (TEMPLATE_DIR / "catalog-nav.js").read_text(encoding="utf-8")
     nav_js = nav_js.replace("{{GITHUB_RAW_CATALOG_COMMONS}}", GITHUB_RAW_MAIN + "catalog/commons/")
     (dest / "catalog-nav.js").write_text(nav_js, encoding="utf-8")
+    shutil.copy2(TEMPLATE_DIR / "catalog-drawio.js", dest / "catalog-drawio.js")
     brand_src = website_root / "commons" / "brand"
     for name in ("abd.works.wordmark.white.svg", "abd.works.wordmark.black.svg"):
         src = brand_src / name
@@ -652,6 +660,14 @@ def _vendor_catalog_site_assets(catalog_root: Path, website_root: Path) -> None:
 
 def _h(text: str) -> str:
     return html_mod.escape(text)
+
+
+def _html_detail_badge(label: str) -> str:
+    """Hero type label (Skill, Agent, …) — omitted when empty."""
+    text = label.strip()
+    if not text:
+        return ""
+    return f'<p class="s-name">{_h(text)}</p>\n'
 
 
 def _html_attr(text: str) -> str:
@@ -674,6 +690,37 @@ def _npx_skills_install_block(skill_package_name: str) -> str:
         + "</code></pre>\n"
         "</section>\n"
     )
+
+
+def _html_legacy_detail_section(
+    *,
+    desc_html: str = "",
+    install_block: str = "",
+    how_block: str = "",
+    entry_md: str = "",
+    file_list: str = "",
+) -> str:
+    """Agent, plugin, and artifact pages — content below hero (skill pages omit this)."""
+    parts = ['<div class="skill-detail-content-col">']
+    if desc_html.strip():
+        parts.append("<h2>Description</h2>")
+        parts.append(f'<div class="entry-prose">{desc_html}</div>')
+    if install_block.strip():
+        parts.append(install_block)
+    if how_block.strip():
+        parts.append('<hr class="entry-divider">')
+        parts.append(how_block)
+    if entry_md.strip():
+        parts.append('<hr class="entry-divider">')
+        parts.append('<h2 id="entry-contents">Contents</h2>')
+        parts.append(entry_md)
+    if file_list.strip():
+        parts.append(file_list)
+    parts.append("</div>")
+    body = "\n".join(parts)
+    if body == '<div class="skill-detail-content-col">\n</div>':
+        return ""
+    return body + "\n"
 
 
 def _repo_href(href_to_repo: str, rel_posix: str) -> str:
@@ -804,6 +851,12 @@ def _inline_format(s: str) -> str:
                     parts.append('<a href="' + _h(href) + '">' + link_inner + "</a>")
                     i = close_paren + 1
                     continue
+        if s[i] == "`":
+            j = s.find("`", i + 1)
+            if j != -1:
+                parts.append("<code>" + _h(s[i + 1 : j]) + "</code>")
+                i = j + 1
+                continue
         if s[i] == "*" and (i + 1 >= n or s[i + 1] != "*"):
             j = s.find("*", i + 1)
             if j != -1 and j > i + 1:
@@ -865,6 +918,14 @@ def _markdown_table_to_html(table_lines: list[str]) -> str:
     return '<div class="md-table-wrap">' + "".join(parts) + "</div>"
 
 
+_SPEC_STEP_LINE_RE = re.compile(r"^(Given|When|Then|And|But)\b", re.IGNORECASE)
+
+
+def _is_spec_step_line(stripped: str) -> bool:
+    """BDD / Gherkin step line — each line must stay on its own row when rendered."""
+    return bool(_SPEC_STEP_LINE_RE.match(stripped))
+
+
 def _markdown_rule_to_html(text: str) -> str:
     """Markdown → HTML for bundled .md pages: headings, lists, tables, HR, fences, paragraphs, inline marks."""
     text = text.replace("\r\n", "\n").replace("\r", "\n")
@@ -888,7 +949,13 @@ def _markdown_rule_to_html(text: str) -> str:
         if not para:
             return
         close_ul()
-        out.append("<p>" + _inline_format(" ".join(para)) + "</p>")
+        if any(_is_spec_step_line(ln) for ln in para):
+            out.append('<div class="spec-steps">')
+            for ln in para:
+                out.append("<p class=\"spec-step\">" + _inline_format(ln) + "</p>")
+            out.append("</div>")
+        else:
+            out.append("<p>" + _inline_format(" ".join(para)) + "</p>")
         para = []
 
     i = 0
@@ -1100,7 +1167,7 @@ def write_package_markdown_pages(
                 .replace("{{BRAND}}", brand)
                 .replace("{{BACK_HREF}}", back)
                 .replace("{{BACK_LABEL}}", "← " + _h(display_name))
-                .replace("{{BADGE}}", badge_for(rel_under_pkg))
+                .replace("{{BADGE_HTML}}", _html_detail_badge(badge_for(rel_under_pkg)))
                 .replace("{{H1}}", _h(h1))
                 .replace("{{TAGLINE}}", _h(tagline))
                 .replace("{{DOC_BODY}}", body_html),
@@ -1143,14 +1210,14 @@ def _load_package_source(package_dir: Path, kind: str) -> tuple[dict[str, str], 
         path = package_dir / "SKILL.md"
         if not path.is_file():
             return {}, "", ""
-        text = path.read_text(encoding="utf-8", errors="replace")
+        text = path.read_text(encoding="utf-8-sig", errors="replace")
         fm = _parse_frontmatter(text)
         body = FRONTMATTER_RE.sub("", text).strip()
         return fm, body, "SKILL.md"
     for fname in ("AGENT.md", "AGENTS.md", "SKILL.md"):
         path = package_dir / fname
         if path.is_file():
-            text = path.read_text(encoding="utf-8", errors="replace")
+            text = path.read_text(encoding="utf-8-sig", errors="replace")
             fm = _parse_frontmatter(text)
             body = FRONTMATTER_RE.sub("", text).strip()
             return fm, body, fname
@@ -1604,6 +1671,516 @@ def _html_contents_list(repo_root: Path, package_dir: Path, href_to_repo: str) -
     return '<ul class="file-list file-list--root">\n' + "\n".join(parts) + "\n</ul>"
 
 
+_SKILL_TAB_LABEL_BY_DIR: dict[str, str] = {
+    "abd-domain-glossary": "Domain Glossary",
+    "abd-domain-language": "Domain Language",
+    "abd-domain-model": "Domain Model",
+    "abd-domain-specification": "Domain Spec",
+    "abd-domain-code": "Domain Code",
+    "abd-opportunity-generation": "Opportunity",
+    "abd-impact-mapping": "Impact Mapping",
+    "abd-cost-of-delay": "Cost of Delay",
+    "abd-simple-validated-learning": "Validated Learning",
+    "abd-ux-user-impact-map": "Impact Mapping",
+    "abd-ux-information-architecture": "Information Architecture",
+    "abd-ux-mockup": "Mockup",
+    "abd-ux-specification": "Specification",
+}
+
+
+def _skill_tab_label(skill_name: str, *, dir_name: str = "") -> str:
+    """Convert a skill package name to a short human-readable tab label."""
+    if dir_name and dir_name in _SKILL_TAB_LABEL_BY_DIR:
+        return _SKILL_TAB_LABEL_BY_DIR[dir_name]
+    name = skill_name
+    for prefix in (
+        "abd-story-", "abd-domain-", "abd-ux-", "abd-architecture-",
+        "abd-kanban-", "abd-ddd-", "abd-",
+    ):
+        if name.startswith(prefix):
+            name = name[len(prefix):]
+            break
+    return name.replace("-", " ").title()
+
+
+def _is_core_practice_skill(entry: "SkillEntry") -> bool:
+    """Practice-tier skills on the delivery pipeline — not skills/supporting/."""
+    if entry.garden_tier != "practice":
+        return False
+    return "/supporting/" not in entry.pkg_rel_posix.replace("\\", "/")
+
+
+def _html_family_kanban_nav(
+    plugin_id: str,
+    family_skills: list["SkillEntry"],
+    *,
+    current_name: str,
+    current_dir_name: str,
+    kanban_model: "KanbanModel",
+    skill_dir_by_name: dict[str, str],
+    skill_purpose_by_name: dict[str, str],
+    plugin_stage_skill_hrefs: dict[str, dict[str, str]] | None = None,
+    plugin_first_skill_hrefs: dict[str, str] | None = None,
+) -> str:
+    """Kanban-style stage columns with family skill tickets (replaces flat tab bar)."""
+    practice_skills = [s for s in family_skills if _is_core_practice_skill(s)]
+    family_skill_ids = frozenset(
+        token for s in practice_skills for token in (s.name, s.dir_name)
+    )
+    return build_skill_family_kanban_nav_html(
+        kanban_model,
+        plugin_id,
+        family_skill_ids=family_skill_ids,
+        skill_dir_by_name=skill_dir_by_name,
+        current_skill_id=current_name,
+        current_dir_name=current_dir_name,
+        skill_purpose_by_name=skill_purpose_by_name,
+        plugin_stage_skill_hrefs=plugin_stage_skill_hrefs,
+        plugin_first_skill_hrefs=plugin_first_skill_hrefs,
+    )
+
+
+def _find_example_index_html(pkg_dir: Path) -> Path | None:
+    """Return reference/example/index.html (or first *.html in example/) if present."""
+    for ref_folder in ("reference", "references"):
+        example_dir = pkg_dir / ref_folder / "example"
+        if not example_dir.is_dir():
+            continue
+        index = example_dir / "index.html"
+        if index.is_file():
+            return index
+        for candidate in sorted(example_dir.glob("*.html")):
+            return candidate
+    return None
+
+
+def _html_prototype_iframe_embed(
+    html_path: Path,
+    pkg_dir: Path,
+    href_to_repo: str,
+    pkg_rel_posix: str,
+) -> str:
+    """Embed a runnable HTML prototype (reference/example/index.html) in an iframe."""
+    rel = html_path.relative_to(pkg_dir).as_posix()
+    src = _h(_repo_href(href_to_repo, f"{pkg_rel_posix.replace(chr(92), '/').strip('/')}/{rel}"))
+    title = _h(html_path.parent.name or "prototype")
+    return (
+        f'<div class="skill-prototype-wrap">'
+        f'<iframe class="skill-prototype-frame" src="{src}" '
+        f'title="{title} prototype preview" loading="lazy"></iframe>'
+        f'<p class="skill-prototype-open">'
+        f'<a href="{src}" target="_blank" rel="noopener">Open prototype index in new tab</a>'
+        f"</p></div>\n"
+    )
+
+
+def _html_skill_image(pkg_dir: Path, href_to_repo: str, pkg_rel_posix: str, dir_name: str = "") -> str:
+    """Return embeddable HTML for the best available skill visual.
+
+    Priority:
+      1. reference/image.png or references/image.png  → <img>
+      2. reference/example/index.html (or *.html)     → iframe prototype preview
+      3. reference/example.drawio or references/example.drawio → embedded draw.io viewer
+      4. reference/example.md / examples.md           → rendered markdown HTML
+    """
+    # 1 – static PNG image
+    if dir_name:
+        img_src = f"../skill-images/{_h(dir_name)}.png"
+    else:
+        rel = pkg_rel_posix.replace("\\", "/").strip("/")
+        img_src = None
+    for ref_folder in ("reference", "references"):
+        for img_name in ("image.png", "example.png"):
+            if (pkg_dir / ref_folder / img_name).exists():
+                src = img_src or _h(f"{href_to_repo}{pkg_rel_posix.replace(chr(92), '/').strip('/')}/{ref_folder}/{img_name}")
+                return f'<img src="{src}" alt="Skill diagram" loading="lazy" class="skill-hero-img">\n'
+
+    # 2 – HTML prototype in reference/example/
+    example_html = _find_example_index_html(pkg_dir)
+    if example_html is not None:
+        return _html_prototype_iframe_embed(example_html, pkg_dir, href_to_repo, pkg_rel_posix)
+
+    # 3 – embedded draw.io viewer
+    for ref_folder in ("reference", "references"):
+        for drawio_name in ("example.drawio", "image.drawio"):
+            drawio_path = pkg_dir / ref_folder / drawio_name
+            if drawio_path.exists():
+                return _html_drawio_embed(drawio_path)
+
+    # 4 – rendered markdown (example files only — template.md is excluded intentionally)
+    for ref_folder in ("reference", "references"):
+        for md_name in ("example.md", "examples.md"):
+            md_path = pkg_dir / ref_folder / md_name
+            if md_path.exists():
+                preview_class = (
+                    "skill-md-preview--glossary"
+                    if dir_name == "abd-domain-glossary"
+                    else ""
+                )
+                return _html_md_embed(md_path, preview_class=preview_class)
+
+    # 5 – any example.* file (code, text, etc.)
+    for ref_folder in ("reference", "references"):
+        ref_dir = pkg_dir / ref_folder
+        if ref_dir.is_dir():
+            for candidate in sorted(ref_dir.iterdir()):
+                if candidate.stem == "example" and candidate.suffix not in (".png", ".jpg", ".svg", ".drawio", ".md"):
+                    return _html_code_embed(candidate)
+
+    # 6 – template.md as last resort
+    for ref_folder in ("reference", "references"):
+        md_path = pkg_dir / ref_folder / "template.md"
+        if md_path.exists():
+            return _html_md_embed(md_path)
+
+    return ""
+
+
+def _extract_drawio_page_for_catalog(
+    xml: str,
+    *,
+    diagram_id: str = "page_product_catalog",
+) -> tuple[str, bool]:
+    """Keep one diagram page for catalog hero; prefer Product Catalog when present."""
+    import re as _re
+
+    xml = xml.replace("\r\n", "\n")
+    mxfile_open = _re.search(r"<mxfile[^>]*>", xml)
+    if not mxfile_open:
+        return xml, False
+    diagram_pat = _re.compile(
+        rf"<diagram\b[^>]*\bid=[\"']{_re.escape(diagram_id)}[\"'][^>]*>.*?</diagram>",
+        _re.DOTALL | _re.IGNORECASE,
+    )
+    dm = diagram_pat.search(xml)
+    if not dm:
+        dm = _re.search(r"<diagram\b[^>]*>.*?</diagram>", xml, _re.DOTALL)
+    if not dm:
+        return xml, False
+    single = f"{mxfile_open.group(0)}\n    {dm.group(0)}\n</mxfile>"
+    return single, True
+
+
+def _html_drawio_embed(drawio_path: Path) -> str:
+    """Embed a drawio diagram using the diagrams.net viewer script."""
+    import json as _json, html as _html, re as _re
+    xml = drawio_path.read_text(encoding="utf-8", errors="replace")
+    # Strip control characters that are illegal in JSON strings (keep \t \n \r)
+    xml = _re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f]', '', xml)
+    xml, single_page = _extract_drawio_page_for_catalog(xml)
+    rev = int(drawio_path.stat().st_mtime)
+    config = _json.dumps({
+        "highlight": "#e5531a",
+        "nav": not single_page,
+        "resize": True,
+        "zoom": 1.0,
+        "toolbar": "zoom lightbox",
+        "xml": xml,
+    })
+    # HTML-escape the JSON so it's safe in a double-quoted attribute;
+    # the browser HTML parser decodes &quot; etc. back to valid JSON for the viewer.
+    attr_val = _html.escape(config, quote=True)
+    return (
+        f'<!-- drawio-rev:{rev} -->'
+        f'<div class="skill-drawio-wrap" data-drawio-rev="{rev}">'
+        f'<div class="mxgraph" data-mxgraph="{attr_val}"></div>'
+        f'</div>'
+        f'<script type="text/javascript" src="https://viewer.diagrams.net/js/viewer-static.min.js"></script>\n'
+        f'<script src="../commons/catalog-drawio.js?v=foundry-1"></script>\n'
+    )
+
+
+def _html_code_embed(code_path: Path) -> str:
+    """Render a code/text file as a styled syntax-highlighted code block."""
+    import html as _html
+    ext = code_path.suffix.lstrip(".")
+    lang_map = {
+        "py": "python", "js": "javascript", "ts": "typescript",
+        "jsx": "jsx", "tsx": "tsx", "rb": "ruby", "java": "java",
+        "cs": "csharp", "go": "go", "rs": "rust", "sh": "bash",
+        "yaml": "yaml", "yml": "yaml", "json": "json", "toml": "toml",
+        "html": "html", "css": "css", "sql": "sql", "txt": "text",
+    }
+    lang = lang_map.get(ext, ext or "text")
+    text = code_path.read_text(encoding="utf-8", errors="replace")
+    safe = _html.escape(text)
+    return (
+        f"<div class='skill-code-preview'>"
+        f"<div class='skill-code-lang'>{_html.escape(lang)} · {_html.escape(code_path.name)}</div>"
+        f"<pre><code class='language-{_html.escape(lang)}'>{safe}</code></pre>"
+        f"</div>\n"
+    )
+
+
+def _strip_catalog_hero_md_index(text: str) -> str:
+    """Drop domain-terms index blocks from catalog hero embeds (keep full file on disk)."""
+    if "**Core terms**" not in text and "**Key Abstractions" not in text:
+        return text
+    text = re.sub(
+        r"\n\*\*Core terms\*\*:?\s*\n(?:[ \t]*- .+(?:\n|$))+",
+        "\n",
+        text,
+        flags=re.IGNORECASE,
+    )
+    text = re.sub(
+        r"\n\*\*Key Abstractions[^*]*\*\*:?\s*\n(?:[ \t]*- .+(?:\n|$))+",
+        "\n",
+        text,
+        flags=re.IGNORECASE,
+    )
+    return text
+
+
+_REFERENCES_HEADING_RE = re.compile(r"^#{3,4}\s+References\s*$", re.IGNORECASE)
+_CATALOG_HERO_NEXT_BLOCK_RE = re.compile(
+    r"^(#{1,4}\s+(?!References\b)|---\s*$)",
+    re.IGNORECASE,
+)
+_DECISIONS_HEADING_RE = re.compile(r"^####\s+Decisions made\s*$", re.IGNORECASE)
+
+
+def _strip_catalog_hero_md_references(text: str) -> str:
+    """Drop ###/#### References / Ref / source-excerpt blocks from catalog hero embeds."""
+    if not re.search(r"^#{3,4}\s+References\s*$", text, re.IGNORECASE | re.MULTILINE):
+        return text
+    lines = text.split("\n")
+    out: list[str] = []
+    i = 0
+    while i < len(lines):
+        stripped = lines[i].strip()
+        if _REFERENCES_HEADING_RE.match(stripped):
+            i += 1
+            while i < len(lines):
+                if _CATALOG_HERO_NEXT_BLOCK_RE.match(lines[i].strip()):
+                    break
+                i += 1
+            continue
+        out.append(lines[i])
+        i += 1
+    return "\n".join(out)
+
+
+def _strip_catalog_hero_md_to_product_ka(text: str) -> str:
+    """Keep only the first KA block in domain-glossary example (Product Catalog)."""
+    if not re.search(r"^##\s+(?:\*\*)?Product Catalog", text, re.MULTILINE | re.IGNORECASE):
+        return text
+    lines = text.split("\n")
+    out: list[str] = []
+    i = 0
+    in_product_ka = False
+    while i < len(lines):
+        stripped = lines[i].strip()
+        if re.match(r"^##\s+(?:\*\*)?Product Catalog(?:\*\*)?\s*$", stripped, re.IGNORECASE):
+            in_product_ka = True
+            out.append(lines[i])
+            i += 1
+            continue
+        if in_product_ka and re.match(r"^##\s+(?:\*\*)?.+(?:\*\*)?\s*$", stripped):
+            if not re.match(r"^##\s+(?:\*\*)?Product Catalog(?:\*\*)?\s*$", stripped, re.IGNORECASE):
+                break
+        if in_product_ka and stripped == "# Boundary Domain":
+            break
+        out.append(lines[i])
+        i += 1
+    if in_product_ka:
+        return "\n".join(out)
+    return text
+
+
+def _strip_catalog_hero_md_decisions(text: str) -> str:
+    """Drop #### Decisions made blocks from catalog hero embeds."""
+    if not re.search(r"^####\s+Decisions made\s*$", text, re.IGNORECASE | re.MULTILINE):
+        return text
+    lines = text.split("\n")
+    out: list[str] = []
+    i = 0
+    while i < len(lines):
+        stripped = lines[i].strip()
+        if _DECISIONS_HEADING_RE.match(stripped):
+            i += 1
+            while i < len(lines):
+                if _CATALOG_HERO_NEXT_BLOCK_RE.match(lines[i].strip()):
+                    break
+                if re.match(r"^#{1,4}\s+", lines[i].strip()):
+                    break
+                i += 1
+            continue
+        out.append(lines[i])
+        i += 1
+    return "\n".join(out)
+
+
+def _strip_catalog_hero_md_for_preview(text: str) -> str:
+    """Trim catalog-only noise from reference/example.md hero embeds."""
+    text = _strip_catalog_hero_md_decisions(
+        _strip_catalog_hero_md_references(_strip_catalog_hero_md_index(text))
+    )
+    return _strip_catalog_hero_md_to_product_ka(text)
+
+
+def _html_md_embed(md_path: Path, *, preview_class: str = "") -> str:
+    """Render a markdown file as styled HTML for embedding (reference/example.md hero)."""
+    text = md_path.read_text(encoding="utf-8-sig", errors="replace")
+    text = _strip_catalog_hero_md_for_preview(text)
+    body = _markdown_rule_to_html(text)
+    cls = "skill-md-preview"
+    if preview_class:
+        cls += f" {preview_class}"
+    return f"<div class='{cls}'>" + body + "</div>\n"
+
+
+def _html_skill_cr_section(concepts_html: str, rules_html: str) -> str:
+    """Concepts + rules: two columns when both exist; otherwise full width."""
+    concepts = concepts_html.strip()
+    rules = rules_html.strip()
+    if concepts and rules:
+        return (
+            '<div class="skill-cr-grid">\n'
+            f'<div class="skill-cr-col">{concepts}</div>\n'
+            f'<div class="skill-cr-col">{rules}</div>\n'
+            "</div>\n"
+        )
+    if concepts:
+        return f'<div class="skill-cr-single">{concepts}</div>\n'
+    if rules:
+        return f'<div class="skill-cr-single">{rules}</div>\n'
+    return ""
+
+
+
+
+def _parse_rule_md(text: str) -> tuple[str, list[str], list[str]]:
+    """Parse a rule markdown file into (title, do_items, dont_items)."""
+    text = FRONTMATTER_RE.sub("", text.lstrip("\ufeff")).strip()
+    title = ""
+    do_items: list[str] = []
+    dont_items: list[str] = []
+    current: list[str] | None = None
+    in_code = False
+    for line in text.splitlines():
+        s = line.strip()
+        # Track triple-backtick AND double-backtick code fences
+        if s.startswith("```") or (s.startswith("``") and not s.startswith("```")):
+            in_code = not in_code
+            continue
+        if in_code:
+            continue
+        if s.startswith("# ") and not title:
+            # Only capture the FIRST H1 as the rule title — later H1s are inside examples
+            title = s[2:].strip()
+            if title.lower().startswith("rule:"):
+                title = title[5:].strip()
+        elif re.match(r"^#{1,3}\s+(DON'?T|DO\s+NOT)", s, re.IGNORECASE):
+            current = dont_items
+        elif re.match(r"^#{1,3}\s+DO\b", s, re.IGNORECASE):
+            current = do_items
+        elif (s.startswith("- ") or s.startswith("* ")) and current is not None:
+            current.append(_strip_md(s[2:].strip()))
+    return title, do_items, dont_items
+
+
+def _html_skill_rules(pkg_dir: Path) -> str:
+    """Parse rules/*.md and emit DO / DON'T sections."""
+    rules_dir = pkg_dir / "rules"
+    if not rules_dir.is_dir():
+        return ""
+    rule_files = sorted(rules_dir.glob("*.md"))
+    if not rule_files:
+        return ""
+    cards = ""
+    for rf in rule_files:
+        title, dos, donts = _parse_rule_md(rf.read_text(encoding="utf-8", errors="replace"))
+        if not dos and not donts:
+            continue
+        rule_title = _h(title) if title else _h(rf.stem.replace("-", " ").title())
+        body = ""
+        if dos:
+            items = "".join(f"<li>{_h(item)}</li>" for item in dos)
+            body += (
+                '<div class="skill-rule-section skill-rule-section--do">'
+                '<p class="skill-rule-section-label">DO</p>'
+                f"<ul>{items}</ul></div>\n"
+            )
+        if donts:
+            items = "".join(f"<li>{_h(item)}</li>" for item in donts)
+            body += (
+                '<div class="skill-rule-section skill-rule-section--dont">'
+                '<p class="skill-rule-section-label">DON\'T</p>'
+                f"<ul>{items}</ul></div>\n"
+            )
+        card = (
+            f'<details class="skill-rule">\n'
+            f'<summary class="skill-rule-header">{rule_title}</summary>\n'
+            f'{body}'
+            f'</details>\n'
+        )
+        cards += card
+    if not cards:
+        return ""
+    return '<div class="skill-rules">\n<h2 class="skill-rules-heading">Rules</h2>\n' + cards + "</div>\n"
+
+
+def _concept_reference_sources(pkg_dir: Path) -> list[Path]:
+    """Markdown files that feed the Concepts column on skill detail pages."""
+    concepts_path = pkg_dir / "reference" / "concepts.md"
+    if concepts_path.is_file():
+        return [concepts_path]
+    ref_dir = pkg_dir / "reference"
+    if not ref_dir.is_dir():
+        return []
+    skip = frozenset({"example.md", "example.drawio"})
+    return sorted(
+        p
+        for p in ref_dir.glob("*.md")
+        if p.name not in skip and not p.name.startswith("example.")
+    )
+
+
+def _html_skill_concepts(pkg_dir: Path) -> str:
+    """Parse reference/concepts.md (or other reference/*.md) into expandable sections."""
+    sources = _concept_reference_sources(pkg_dir)
+    if not sources:
+        return ""
+    chunks: list[str] = []
+    for path in sources:
+        text = path.read_text(encoding="utf-8-sig", errors="replace")
+        text = FRONTMATTER_RE.sub("", text).strip()
+        if text:
+            chunks.append(text)
+    if not chunks:
+        return ""
+    text = "\n\n".join(chunks)
+    sections = _split_markdown_at_h2(text)
+    items = ""
+    for title, chunk in sections:
+        if title is None:
+            # Preamble: strip H1 line (the file title) then show any remaining prose.
+            preamble_lines = [
+                ln for ln in chunk.splitlines()
+                if not re.match(r"^#\s+", ln.strip())
+            ]
+            preamble = "\n".join(preamble_lines).strip()
+            if not preamble:
+                continue
+            body_html = _markdown_rule_to_html(preamble)
+            if body_html.strip() and body_html.strip() != "<p>(empty)</p>":
+                items += f'<div class="skill-concept-body">{body_html}</div>\n'
+            continue
+        label = _h(_strip_md(title))
+        body_html = _markdown_rule_to_html(chunk)
+        if not body_html.strip() or body_html.strip() == "<p>(empty)</p>":
+            continue
+        items += (
+            f'<details class="skill-concept">'
+            f'<summary>{label}</summary>'
+            f'<div class="skill-concept-body">{body_html}</div>'
+            f"</details>\n"
+        )
+    if not items:
+        return ""
+    return '<div class="skill-concepts">\n<h2 class="skill-concepts-heading">Concepts</h2>\n' + items + "</div>\n"
+
+
 def write_entry_detail_pages(
     output_catalog_dir: Path,
     repo_root: Path,
@@ -1631,6 +2208,23 @@ def write_entry_detail_pages(
     skill_out.mkdir(parents=True)
     agent_out.mkdir(parents=True)
 
+    # Group skills by family for kanban stage nav.
+    family_skill_map: dict[str, list[SkillEntry]] = defaultdict(list)
+    for s in skills:
+        fam_id = _plugin_id_for_pkg_rel(s.pkg_rel_posix)
+        if fam_id:
+            family_skill_map[fam_id].append(s)
+
+    kanban_model = load_kanban_model(repo_root)
+    skill_dir_by_name = skill_dir_map_from_entries(skills)
+    skill_purpose_by_name = skill_purpose_map_from_entries(skills)
+    plugin_stage_skill_hrefs = plugin_stage_skill_href_map(
+        kanban_model, skill_dir_by_name, sibling_pages=True
+    )
+    plugin_first_skill_hrefs = plugin_first_skill_href_map(
+        skills, skill_dir_by_name, relative=""
+    )
+
     for s in skills:
         pkg = repo_root / s.pkg_rel_posix
         fm, body, src_fname = _load_package_source(pkg, "skill")
@@ -1657,26 +2251,39 @@ def write_entry_detail_pages(
             else f'<p class="entry-caption">(no body in {_h(src_fname)})</p>'
         )
         skill_plugin_id = _plugin_id_for_pkg_rel(s.pkg_rel_posix)
-        if skill_plugin_id:
-            skill_back_href = _plugin_detail_href(nav_prefix, skill_plugin_id)
-            skill_back_label = f"← {plugin_label(skill_plugin_id)}"
-        else:
-            skill_back_href = _foundry_home_href(nav_prefix)
-            skill_back_label = "← Foundry home"
+        skill_back_href = _foundry_home_href(nav_prefix)
+        skill_back_label = FOUNDRY_BACK_LABEL
+        # New: family tab bar, image, concepts, rules.
+        family_siblings = family_skill_map.get(skill_plugin_id, [])
+        tab_bar = _html_family_kanban_nav(
+            skill_plugin_id,
+            family_siblings,
+            current_name=s.name,
+            current_dir_name=s.dir_name,
+            kanban_model=kanban_model,
+            skill_dir_by_name=skill_dir_by_name,
+            skill_purpose_by_name=skill_purpose_by_name,
+            plugin_stage_skill_hrefs=plugin_stage_skill_hrefs,
+            plugin_first_skill_hrefs=plugin_first_skill_hrefs,
+        )
+        skill_image = _html_skill_image(pkg, href_to_repo, s.pkg_rel_posix, dir_name=s.dir_name)
+        concepts_html = _html_skill_concepts(pkg)
+        rules_html = _html_skill_rules(pkg)
+        cr_section = _html_skill_cr_section(concepts_html, rules_html)
         html = _apply_catalog_nav(
             detail_tpl.replace("{{CSS}}", detail_css)
             .replace("{{TITLE}}", _h(f"Foundry — skill · {s.name}"))
             .replace("{{BRAND}}", brand)
             .replace("{{BACK_HREF}}", skill_back_href)
             .replace("{{BACK_LABEL}}", skill_back_label)
-            .replace("{{BADGE}}", "Skill")
-            .replace("{{H1}}", _h(s.name))
+            .replace("{{BADGE_HTML}}", "")
+            .replace("{{H1}}", html_skill_name_display(s.name))
             .replace("{{TAGLINE}}", _h(s.summary))
-            .replace("{{DESCRIPTION}}", desc_html)
             .replace("{{INSTALL_BLOCK}}", install_block)
-            .replace("{{HOW_IT_FITS_BLOCK}}", how_block)
-            .replace("{{ENTRY_MD_COLLAPSIBLE}}", entry_md)
-            .replace("{{FILE_LIST}}", file_list),
+            .replace("{{LEGACY_DETAIL_SECTION}}", "")
+            .replace("{{FAMILY_TAB_BAR}}", tab_bar)
+            .replace("{{SKILL_IMAGE}}", skill_image)
+            .replace("{{SKILL_CR_SECTION}}", cr_section),
             nav_prefix=nav_prefix,
             commons_prefix=detail_commons,
             current="skills",
@@ -1714,20 +2321,47 @@ def write_entry_detail_pages(
             .replace("{{BRAND}}", brand)
             .replace("{{BACK_HREF}}", _foundry_home_href(nav_prefix))
             .replace("{{BACK_LABEL}}", "← Foundry home")
-            .replace("{{BADGE}}", "Agent")
+            .replace("{{BADGE_HTML}}", _html_detail_badge("Agent"))
             .replace("{{H1}}", _h(a.name))
             .replace("{{TAGLINE}}", _h(a.summary))
-            .replace("{{DESCRIPTION}}", desc_html)
             .replace("{{INSTALL_BLOCK}}", "")
-            .replace("{{HOW_IT_FITS_BLOCK}}", how_block)
-            .replace("{{ENTRY_MD_COLLAPSIBLE}}", entry_md)
-            .replace("{{FILE_LIST}}", file_list),
+            .replace(
+                "{{LEGACY_DETAIL_SECTION}}",
+                _html_legacy_detail_section(
+                    desc_html=desc_html,
+                    how_block=how_block,
+                    entry_md=entry_md,
+                    file_list=file_list,
+                ),
+            )
+            .replace("{{FAMILY_TAB_BAR}}", "")
+            .replace("{{SKILL_IMAGE}}", "")
+            .replace("{{SKILL_CR_SECTION}}", ""),
             nav_prefix=nav_prefix,
             commons_prefix=detail_commons,
             current="agents",
             nav_site_base=_site_base_prefix(agent_out, website_root),
         )
         (agent_out / f"{a.dir_name}.html").write_text(html, encoding="utf-8")
+
+    # Copy skill reference images into catalog/skill-images/<dir>.png
+    # so the inline panel can load them without needing paths outside the server root.
+    import shutil as _shutil
+    skill_images_out = output_catalog_dir / "skill-images"
+    skill_images_out.mkdir(exist_ok=True)
+    for s in skills:
+        pkg = repo_root / s.pkg_rel_posix
+        copied = False
+        for img_rel in (
+            "reference/image.png", "references/image.png",
+            "reference/example.png", "references/example.png",
+            "reference/_preview.png", "references/_preview.png",
+        ):
+            src_img = pkg / img_rel
+            if src_img.exists():
+                _shutil.copy2(src_img, skill_images_out / f"{s.dir_name}.png")
+                copied = True
+                break
 
     return len(skills), len(agents)
 
@@ -1779,18 +2413,24 @@ def write_plugin_artifact_detail_pages(
                 .replace("{{BRAND}}", brand)
                 .replace("{{BACK_HREF}}", plugin_href)
                 .replace("{{BACK_LABEL}}", f"← {e.plugin_label}")
-                .replace("{{BADGE}}", badge)
+                .replace("{{BADGE_HTML}}", _html_detail_badge(badge))
                 .replace("{{H1}}", _h(e.display_name))
                 .replace("{{TAGLINE}}", _h(f"{e.plugin_id}/{e.slot}/{e.filename}"))
-                .replace("{{DESCRIPTION}}", desc_html)
                 .replace("{{INSTALL_BLOCK}}", "")
-                .replace("{{HOW_IT_FITS_BLOCK}}", "")
-                .replace("{{ENTRY_MD_COLLAPSIBLE}}", entry_md)
                 .replace(
-                    "{{FILE_LIST}}",
-                    f'<p><a href="{_h(href_to_repo + e.rel_path)}" target="_blank" rel="noopener noreferrer">'
-                    f"Open source file</a></p>",
-                ),
+                    "{{LEGACY_DETAIL_SECTION}}",
+                    _html_legacy_detail_section(
+                        desc_html=desc_html,
+                        entry_md=entry_md,
+                        file_list=(
+                            f'<p><a href="{_h(href_to_repo + e.rel_path)}" target="_blank" '
+                            f'rel="noopener noreferrer">Open source file</a></p>'
+                        ),
+                    ),
+                )
+                .replace("{{FAMILY_TAB_BAR}}", "")
+                .replace("{{SKILL_IMAGE}}", "")
+                .replace("{{SKILL_CR_SECTION}}", ""),
                 nav_prefix=nav_prefix,
                 commons_prefix=folder_commons,
                 current=nav_current,
@@ -1864,6 +2504,12 @@ def write_plugin_detail_pages(
     def prompt_href(_filename: str, slug: str) -> str:
         return f"{nav_prefix}prompt/{quote(slug, safe='')}.html"
 
+    def skill_sort_key(dir_name: str) -> tuple:
+        s = skill_by_dir.get(dir_name)
+        if s:
+            return (s.garden_order, s.dir_name)
+        return (999, dir_name)
+
     for plugin in plugins:
         pkg_dir = repo_root / plugin.id
         slot_html = html_plugin_slot_sections(
@@ -1875,6 +2521,7 @@ def write_plugin_detail_pages(
             prompt_href=prompt_href,
             skill_summary=lambda n: skill_by_dir[n].summary if n in skill_by_dir else "",
             agent_summary=lambda n: agent_by_dir[n].summary if n in agent_by_dir else "",
+            skill_sort_key=skill_sort_key,
         )
         file_list = _html_contents_list(repo_root, pkg_dir, href_to_repo)
         readme = pkg_dir / "README.md"
@@ -1890,17 +2537,21 @@ def write_plugin_detail_pages(
             .replace("{{BRAND}}", brand)
             .replace("{{BACK_HREF}}", _foundry_home_href(nav_prefix))
             .replace("{{BACK_LABEL}}", "← Foundry home")
-            .replace("{{BADGE}}", "Plugin")
+            .replace("{{BADGE_HTML}}", _html_detail_badge("Plugin"))
             .replace("{{H1}}", _h(plugin.label))
             .replace("{{TAGLINE}}", _h(f"{plugin.id}/ — {plugin.summary}"))
-            .replace("{{DESCRIPTION}}", desc)
             .replace("{{INSTALL_BLOCK}}", "")
-            .replace("{{HOW_IT_FITS_BLOCK}}", "")
             .replace(
-                "{{ENTRY_MD_COLLAPSIBLE}}",
-                f'<div class="plugin-slots">{slot_html}</div>',
+                "{{LEGACY_DETAIL_SECTION}}",
+                _html_legacy_detail_section(
+                    desc_html=desc,
+                    entry_md=f'<div class="plugin-slots">{slot_html}</div>',
+                    file_list=file_list,
+                ),
             )
-            .replace("{{FILE_LIST}}", file_list),
+            .replace("{{FAMILY_TAB_BAR}}", "")
+            .replace("{{SKILL_IMAGE}}", "")
+            .replace("{{SKILL_CR_SECTION}}", ""),
             nav_prefix=nav_prefix,
             commons_prefix=plugin_commons,
             current="hub",
@@ -2008,7 +2659,7 @@ def _card_block_skills(entries: list[SkillEntry], up_to_repo: str) -> str:
             textwrap.dedent(
                 f"""\
         <a class="cap-card" href="{_h(href)}">
-          <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>{_h(e.name)}</p>
+          <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M7 8h10M7 12h7M7 16h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>{html_skill_name_display(e.name)}</p>
           <p class="cap-card__label">Description</p>
           <p class="cap-card__summary">{_h(e.summary)}</p>
           <p class="cap-card__more">Open skill page →</p>
@@ -2313,6 +2964,10 @@ def _plugin_id_for_pkg_rel(pkg_rel_posix: str) -> str:
     norm = pkg_rel_posix.replace("\\", "/").strip("/")
     if not norm:
         return ""
+    if norm.startswith("stages/"):
+        parts = norm.split("/")
+        if len(parts) >= 2 and parts[1] in FAMILY_PACKAGES:
+            return parts[1]
     for fam_id, fam_path in FAMILY_PACKAGES.items():
         fp = fam_path.rstrip("/")
         if norm == fp or norm.startswith(fp + "/"):
@@ -2803,9 +3458,13 @@ def write_html_pages(
     page_label, page_title_html, page_tagline_html, garden_h1 = catalog_garden_page_header()
     skill_map = skill_dir_map_from_entries(skills)
     purpose_map = skill_purpose_map_from_entries(skills)
+    family_skill_hrefs = plugin_first_skill_href_map(skills, skill_map, relative="")
     kanban_model = load_kanban_model(repo_root)
     kanban_embed = build_catalog_hub_kanban_embed_html(
-        kanban_model, skill_map, skill_purpose_by_name=purpose_map
+        kanban_model,
+        skill_map,
+        skill_purpose_by_name=purpose_map,
+        plugin_first_skill_hrefs=family_skill_hrefs,
     )
     hero_practice_legend = ""
     index_kanban_css = load_catalog_embed_kanban_css(repo_root, TEMPLATE_DIR)

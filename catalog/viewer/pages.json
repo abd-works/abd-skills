@@ -1,0 +1,68 @@
+[
+  {
+    "dir": "abd-story-mapping",
+    "url": "viewer/abd-story-mapping-drawio.html",
+    "out": "c:\\dev\\abd-skills\\practices\\story-driven-delivery\\skills\\abd-story-mapping\\reference\\_preview.png",
+    "type": "drawio"
+  },
+  {
+    "dir": "abd-story-acceptance-criteria",
+    "url": "viewer/abd-story-acceptance-criteria-drawio.html",
+    "out": "c:\\dev\\abd-skills\\practices\\story-driven-delivery\\skills\\abd-story-acceptance-criteria\\reference\\_preview.png",
+    "type": "drawio"
+  },
+  {
+    "dir": "abd-story-specification",
+    "url": "viewer/abd-story-specification-md.html",
+    "out": "c:\\dev\\abd-skills\\practices\\story-driven-delivery\\skills\\abd-story-specification\\reference\\_preview.png",
+    "type": "md"
+  },
+  {
+    "dir": "abd-ux-user-impact-map",
+    "url": "viewer/abd-ux-user-impact-map-md.html",
+    "out": "c:\\dev\\abd-skills\\practices\\user-experience-design\\skills\\abd-ux-user-impact-map\\reference\\_preview.png",
+    "type": "md"
+  },
+  {
+    "dir": "abd-ux-information-architecture",
+    "url": "viewer/abd-ux-information-architecture-md.html",
+    "out": "c:\\dev\\abd-skills\\practices\\user-experience-design\\skills\\abd-ux-information-architecture\\reference\\_preview.png",
+    "type": "md"
+  },
+  {
+    "dir": "abd-thin-slicing",
+    "url": "viewer/abd-thin-slicing-md.html",
+    "out": "c:\\dev\\abd-skills\\practices\\story-driven-delivery\\skills\\supporting\\abd-thin-slicing\\reference\\_preview.png",
+    "type": "md"
+  },
+  {
+    "dir": "abd-cost-of-delay",
+    "url": "viewer/abd-cost-of-delay-md.html",
+    "out": "c:\\dev\\abd-skills\\practices\\idea-shaping\\skills\\abd-cost-of-delay\\reference\\_preview.png",
+    "type": "md"
+  },
+  {
+    "dir": "abd-ddd-design-building-blocks",
+    "url": "viewer/abd-ddd-design-building-blocks-md.html",
+    "out": "c:\\dev\\abd-skills\\practices\\domain-driven-design\\skills\\supporting\\abd-ddd-design-building-blocks\\reference\\_preview.png",
+    "type": "md"
+  },
+  {
+    "dir": "abd-architecture-specification",
+    "url": "viewer/abd-architecture-specification-md.html",
+    "out": "c:\\dev\\abd-skills\\practices\\architecture-centric-engineering\\skills\\abd-architecture-specification\\reference\\_preview.png",
+    "type": "md"
+  },
+  {
+    "dir": "abd-architecture-outline",
+    "url": "viewer/abd-architecture-outline-md.html",
+    "out": "c:\\dev\\abd-skills\\practices\\architecture-centric-engineering\\skills\\abd-architecture-outline\\reference\\_preview.png",
+    "type": "md"
+  },
+  {
+    "dir": "abd-architecture-blueprint",
+    "url": "viewer/abd-architecture-blueprint-md.html",
+    "out": "c:\\dev\\abd-skills\\practices\\architecture-centric-engineering\\skills\\abd-architecture-blueprint\\reference\\_preview.png",
+    "type": "md"
+  }
+]

@@ -471,7 +471,22 @@ html[data-abd-theme="executive"] .catalog-body code {
 }
 
 .page-hero--detail {
-  padding-top: 48px;
+  padding-top: 20px;
+  padding-bottom: 16px;
+}
+.page-hero--detail .page-headline {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 4px 0 6px;
+}
+.page-headline .skill-name-prefix,
+.cap-card__title .skill-name-prefix {
+  color: var(--accent);
+}
+.page-hero--detail .body-lead {
+  font-size: 0.9rem;
+  margin: 0;
+  color: var(--muted);
 }
 
 .page-hero--detail .back-link {
@@ -731,8 +746,18 @@ a.cap-card:hover .cap-card__more {
   color: #b8b8c2;
   margin: 0 0 18px;
 }
+.skill-detail-page .skill-hero-img-wrap + .install-block {
+  margin-top: 18px;
+}
+.skill-detail-page .install-block + .skill-cr-grid,
+.skill-detail-page .install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block {
+  margin-top: 0;
+}
 .install-block {
-  margin: 22px 0 0;
+  margin: 20px 0 0;
   padding: 16px 18px;
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid var(--border-muted);
@@ -1041,30 +1066,708 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 .plugin-slots h3:first-child { margin-top: 0; }
 .cap-grid--plugin-slot { margin-bottom: 8px; }
 
+/* ── Skill detail: family kanban stage nav (matches hub column headings) ── */
+.skill-kanban-nav {
+  --fam-sdd: #6bcb77;
+  --fam-ddd: #6c5ce7;
+  --fam-uxd: #e84393;
+  --fam-arc: #4fc3f7;
+  --fam-idea: var(--accent);
+  --abd-accent: var(--accent);
+  --abd-accent-glow: var(--accent-soft, var(--accent));
+  --abd-raised: var(--raised);
+  --abd-bg: var(--bg);
+  --abd-border: var(--border);
+  --abd-text: var(--text);
+  --abd-muted: var(--muted);
+  background: var(--raised);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0 16px;
+}
+.skill-kanban-nav .wrap {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.skill-kanban-nav__board {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  gap: 6px 8px;
+  align-items: start;
+}
+.skill-kanban-nav__practice-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  margin: 0;
+  padding: 0 8px;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-left-width: 3px;
+  border-radius: 4px;
+  line-height: 1.25;
+  box-sizing: border-box;
+  transition: box-shadow 120ms, border-color 120ms;
+  color: inherit;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card:hover {
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--sdd {
+  border-left-color: var(--fam-sdd);
+  color: var(--fam-sdd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--ddd {
+  border-left-color: var(--fam-ddd);
+  color: var(--fam-ddd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--uxd {
+  border-left-color: var(--fam-uxd);
+  color: var(--fam-uxd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--arc {
+  border-left-color: var(--fam-arc);
+  color: var(--fam-arc);
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap {
+  position: relative;
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip.kb-col-shape-tooltip {
+  min-width: 10rem;
+  max-width: 22rem;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:hover .kb-skill-tooltip,
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:focus-within .kb-skill-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.skill-kanban-nav__stages {
+  display: grid;
+  grid-template-columns: repeat(var(--skill-kanban-cols, 5), minmax(0, 1fr));
+  gap: 0 8px;
+  min-width: 0;
+}
+.skill-kanban-nav__col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.skill-kanban-nav__tickets {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.skill-kanban-nav .kb-col-head {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 8px 6px 7px;
+  font-family: var(--font-mono);
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.skill-kanban-nav .kb-col-head--static {
+  cursor: default;
+}
+.skill-kanban-nav a.kb-col-head {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav a.kb-col-head:hover {
+  border-color: rgba(229, 83, 26, 0.35);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.15);
+}
+.skill-kanban-nav .kb-col-head--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-col-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+}
+.skill-kanban-nav .kb-col-scope-shape {
+  flex-shrink: 0;
+  border: 2px solid var(--abd-accent);
+  border-radius: 2px;
+}
+.skill-kanban-nav__stages .kb-col-shape-tooltip,
+.skill-kanban-nav__stages .kb-skill-tooltip-wrap .kb-col-shape-tooltip {
+  display: none !important;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 8px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 7px 9px;
+  font-family: var(--font-mono);
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid rgba(229, 83, 26, 0.45);
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 14px;
+  border: 5px solid transparent;
+  border-bottom-color: rgba(229, 83, 26, 0.45);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__name {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--abd-accent-glow);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__bullets {
+  font-size: 8px;
+  line-height: 1.45;
+  color: var(--abd-text);
+  white-space: pre-line;
+}
+.skill-kanban-nav .kb-col-scope-shape--solution { width: 36px; height: 12px; }
+.skill-kanban-nav .kb-col-scope-shape--increment { width: 24px; height: 16px; }
+.skill-kanban-nav .kb-col-scope-shape--sprint { width: 16px; height: 22px; }
+.skill-kanban-nav .kb-col-scope-shape--story { width: 11px; height: 28px; }
+.skill-kanban-nav .kb-col-head-title {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--abd-text);
+}
+.skill-kanban-nav .kb-col-head-title > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.skill-kanban-nav .kb-col-num {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--abd-text);
+  background: var(--abd-bg);
+  border: 1px solid var(--abd-border);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+.skill-kanban-nav .kb-ticket {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  background: var(--abd-raised);
+  color: var(--abd-text);
+  padding: 5px 6px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  border-left-width: 3px;
+  border-left-color: var(--abd-muted);
+  line-height: 1.25;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav .kb-ticket:hover {
+  border-color: var(--abd-border);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.2);
+}
+.skill-kanban-nav .kb-ticket.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-ticket.aad-fam-sdd { border-left-color: var(--fam-sdd); }
+.skill-kanban-nav .kb-ticket.aad-fam-ddd { border-left-color: var(--fam-ddd); }
+.skill-kanban-nav .kb-ticket.aad-fam-uxd { border-left-color: var(--fam-uxd); }
+.skill-kanban-nav .kb-ticket.aad-fam-arc { border-left-color: var(--fam-arc); }
+.skill-kanban-nav .kb-ticket.aad-fam-idea { border-left-color: var(--fam-idea); }
+@media (max-width: 960px) {
+  .skill-kanban-nav__board {
+    grid-template-columns: 1fr;
+  }
+  .skill-kanban-nav__stages {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
+
+/* ── Skill detail: full-width hero image / embedded viewer ── */
+.skill-hero-img-wrap {
+  margin: 24px 0 0;
+}
+.skill-hero-img-wrap:empty { display: none; }
+.skill-hero-img-wrap img,
+.skill-hero-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--raised);
+}
+
+/* HTML prototype iframe (reference/example/index.html) */
+.skill-prototype-wrap {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-prototype-frame {
+  display: block;
+  width: 100%;
+  min-height: 540px;
+  height: 71vh;
+  max-height: 810px;
+  border: 0;
+  background: #fff;
+}
+.skill-prototype-open {
+  margin: 0;
+  padding: 8px 14px;
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+  background: var(--raised);
+}
+.skill-prototype-open a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.skill-prototype-open a:hover { text-decoration: underline; }
+
+/* draw.io embedded viewer */
+.skill-drawio-wrap {
+  position: relative;
+  width: 100%;
+  height: min(71vh, 680px);
+  min-height: 340px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-drawio-wrap .mxgraph {
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+}
+.skill-drawio-wrap .geToolbarContainer {
+  z-index: 4;
+}
+
+/* code file preview */
+.skill-code-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--raised);
+  font-size: 13px;
+}
+.skill-code-lang {
+  padding: 6px 14px;
+  font-family: var(--mono, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.skill-code-preview pre {
+  margin: 0;
+  padding: 16px;
+  overflow-x: auto;
+  max-height: 420px;
+}
+.skill-code-preview code {
+  font-family: var(--mono, 'JetBrains Mono', monospace);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+/* rendered markdown preview */
+.skill-hero-img-wrap .skill-md-preview {
+  max-height: min(71vh, 610px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.skill-md-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px 24px;
+  background: var(--surface);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.skill-md-preview h1 { font-size: 18px; font-weight: 700; margin: 0 0 12px; }
+.skill-md-preview h2 { font-size: 15px; font-weight: 600; margin: 16px 0 8px;
+  border-bottom: 1px solid var(--border); padding-bottom: 3px; }
+.skill-md-preview h3 { font-size: 13px; font-weight: 600; margin: 12px 0 6px; }
+.skill-md-preview h4 { font-size: 12px; font-weight: 600; margin: 10px 0 4px; color: var(--muted); }
+.skill-md-preview p  { margin: 0 0 10px; }
+.skill-md-preview .spec-steps { margin: 0 0 14px; }
+.skill-md-preview p.spec-step { margin: 0 0 4px; line-height: 1.55; }
+.skill-md-preview .md-table-wrap { overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview .md-table { border-collapse: collapse; width: 100%; }
+.skill-md-preview ul, .skill-md-preview ol { margin: 0 0 10px; padding-left: 20px; }
+.skill-md-preview li { margin-bottom: 3px; }
+.skill-md-preview code { background: var(--raised); border-radius: 3px;
+  padding: 1px 5px; font-family: var(--mono, monospace); font-size: 12px; }
+.skill-md-preview pre { background: var(--raised); border-radius: 5px;
+  padding: 12px; overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview table { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
+.skill-md-preview th, .skill-md-preview td {
+  border: 1px solid var(--border); padding: 6px 10px; }
+.skill-md-preview th { background: var(--raised); font-weight: 600; }
+
+/* ── Skill detail: concepts | rules two-column grid ── */
+.skill-cr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin: 24px 0 0;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .skill-cr-grid { grid-template-columns: 1fr; }
+}
+.skill-cr-col { min-width: 0; }
+.skill-cr-single { margin: 24px 0 0; }
+
+/* Glossary example hero — term blocks without heavy HR dividers */
+.skill-md-preview--glossary h1 {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 10px;
+  border: 0;
+  padding: 0;
+}
+.skill-md-preview--glossary h2 {
+  font-size: 16px;
+  margin-top: 0;
+}
+.skill-md-preview--glossary h3 {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 14px 0 6px;
+  padding: 6px 8px;
+  background: var(--raised);
+  border-radius: 4px;
+  border-left: 3px solid var(--accent);
+}
+.skill-md-preview--glossary hr {
+  display: none;
+}
+.skill-md-preview--glossary ul {
+  margin-top: 0;
+}
+
+/* ── Skill detail: full-width content below ── */
+.skill-detail-content-col { margin-top: 32px; }
+.skill-detail-page .skill-cr-grid,
+.skill-detail-page .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-single,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-single {
+  margin-top: 0;
+}
+
+/* ── Skill detail: concepts (expandable) ── */
+.skill-hero-img-wrap + .install-block {
+  margin-top: 16px;
+}
+.install-block + .skill-cr-grid,
+.install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-concepts {
+  margin: 0 0 20px;
+}
+.skill-concepts-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 8px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-concept {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-concept summary {
+  padding: 8px 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  user-select: none;
+}
+.skill-concept summary::-webkit-details-marker { display: none; }
+.skill-concept summary::marker { content: ""; }
+.skill-concept summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-concept[open] summary::before { content: "\2212"; }
+.skill-concept-body {
+  padding: 6px 4px 10px 1.9rem;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.skill-concept-body p { margin: 0 0 8px; }
+.skill-concept-body p:last-child { margin-bottom: 0; }
+.skill-concept-body ul { margin: 0 0 8px 1.1em; padding: 0; }
+.skill-concept-body li { margin: 3px 0; }
+
+/* ── Skill detail: rules (DO / DON'T) ── */
+.skill-rules {
+  margin: 0 0 20px;
+}
+.skill-rules-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 12px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-rule {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule[open] > .skill-rule-header {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule-header {
+  padding: 8px 10px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  background: var(--raised);
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+.skill-rule-header::-webkit-details-marker { display: none; }
+.skill-rule-header::marker { content: ""; }
+.skill-rule-header::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-rule[open] > .skill-rule-header::before {
+  content: "\2212";
+}
+.skill-rule-section {
+  padding: 8px 12px;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+.skill-rule-section--do {
+  border-left: 3px solid #2d8a4e;
+}
+.skill-rule-section--dont {
+  border-left: 3px solid #c0392b;
+}
+.skill-rule-section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+  color: var(--muted);
+}
+.skill-rule-section--do .skill-rule-section-label { color: #2d8a4e; }
+.skill-rule-section--dont .skill-rule-section-label { color: #c0392b; }
+.skill-rule-section ul { margin: 0; padding: 0 0 0 1.1em; }
+.skill-rule-section li { margin: 2px 0; color: var(--text); }
+
 </style>
-<script src="../commons/catalog-nav.js?v=foundry-8"></script>
+<script src="../commons/catalog-nav.js?v=foundry-9"></script>
 </head>
 <body data-nav-prefix="../" data-nav-current="skills" data-nav-site-base="../../../abd-works-website/">
 <main id="main-content">
 
+<div class="skill-kanban-nav">
+<div class="wrap">
+<div class="skill-kanban-nav__board">
+    <div class="skill-kanban-nav__practice-col" aria-label="Practice families">
+      <a class="foundry-practice-col__card foundry-perspective-label--sdd aad-skill aad-fam-sdd has-skill-tooltip" href="abd-story-mapping.html"><span class="kb-skill-tooltip-wrap">story-driven-delivery<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">story-driven-delivery</span><span class="kb-col-shape-tooltip__bullets">Given/When/Then scenarios with real example data</span></span></span></a>
+      <a class="foundry-practice-col__card foundry-perspective-label--ddd aad-skill aad-fam-ddd kb-ticket--current has-skill-tooltip" href="abd-domain-glossary.html"><span class="kb-skill-tooltip-wrap">domain-driven-design<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">domain-driven-design</span><span class="kb-col-shape-tooltip__bullets">Typed terms + relationships (a schema), not prose definitions</span></span></span></a>
+      <a class="foundry-practice-col__card foundry-perspective-label--uxd aad-skill aad-fam-uxd has-skill-tooltip" href="abd-ux-user-impact-map.html"><span class="kb-skill-tooltip-wrap">user-experience-design<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">user-experience-design</span><span class="kb-col-shape-tooltip__bullets">Component spec with named states &amp; rules, not a static picture</span></span></span></a>
+      <a class="foundry-practice-col__card foundry-perspective-label--arc aad-skill aad-fam-arc has-skill-tooltip" href="abd-architecture-outline.html"><span class="kb-skill-tooltip-wrap">architecture-centric-engineering<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture-centric-engineering</span><span class="kb-col-shape-tooltip__bullets">Interface contracts / templates the engine can follow</span></span></span></a>
+    </div>
+<nav class="skill-kanban-nav__stages" style="--skill-kanban-cols: 5" aria-label="Practice stages">
+      <div class="skill-kanban-nav__col" data-stage="shaping">
+        <a class="kb-col-head kb-col-head--link" data-stage="shaping" href="abd-domain-glossary.html" title="Whole solution. wide / shallow. outcomes, scope, boundaries">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--solution" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Shaping</span><span class="kb-col-num">1</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-ddd" href="abd-domain-glossary.html" title="Produce a structured domain glossary — terms grouped by Key Abstraction, Key Abstractions grouped into modules by shared concern — so that every downstream artifact (domain language, acceptance criteria, specification, code) draws from a single agreed vocabulary.
+
+The primary output is a glossary, not a boundary diagram. Modules are the organizing container: a module groups the KAs and terms that share a core concern and can be understood together. Each module file contains:
+
+— Key Abstractions — named building blocks that own a cluster of related terms
+— Terms per KA — behavioral bullets and source references (exact file + location) per term
+— Boundary terms — concepts this module depends on but does not own
+— Scope — what region of the domain this module covers (emerges from the terms, not the other way around)">domain glossary</a>
+        </div>
+      </div>
+      <div class="skill-kanban-nav__col" data-stage="discovery">
+        <a class="kb-col-head kb-col-head--link" data-stage="discovery" href="abd-domain-language.html" title="Increment. medium. interactions, experience, structure">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--increment" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Discovery</span><span class="kb-col-num">2</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-ddd" href="abd-domain-language.html" title="Build a shared, rigorous vocabulary for the scope you are modeling so that domain experts and modelers agree on what each term means, what each concept does, and which rules must always hold — and capture that agreement in one living document the whole team uses without translation. The scope of one run can be a single module, several modules, or a whole-system sweep; the skill and its output shape stay the same.
+
+This is a three-pass skill. It reads source, extracts terms with definitions, groups them into Key Abstractions, sketches each concept&#x27;s behavior and properties, and writes one file. The final output is a robust domain model that describes domain concepts in a structured, plain-English form — before anyone commits to classes, methods, or properties.">domain language</a>
+        </div>
+      </div>
+      <div class="skill-kanban-nav__col" data-stage="exploration">
+        <a class="kb-col-head kb-col-head--link" data-stage="exploration" href="abd-domain-model.html" title="Sprint. narrow / deeper. behaviour, design, logic">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--sprint" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Exploration</span><span class="kb-col-num">3</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-ddd" href="abd-domain-model.html" title="This skill takes domain concepts from a completed Domain Language and produces a typed domain model: for each concept, a constructor, typed properties, method signatures with collaborators and invariants. The result is a standalone file with ### Class blocks under each Key Abstraction.
+
+The format sits between domain model and a full Class Model — it uses typed notation (constructors, property types, method signatures) but avoids class-model embellishments (no &lt;&lt; stereotypes &gt;&gt;, no List&lt;T&gt; or Dictionary&lt;K,V&gt;, no Interaction: blocks, no + visibility prefixes, no param names in method signatures).">domain model</a>
+        </div>
+      </div>
+      <div class="skill-kanban-nav__col" data-stage="specification">
+        <a class="kb-col-head kb-col-head--link" data-stage="specification" href="abd-domain-specification.html" title="Story. narrow / executable. examples, design, templates">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--story" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Specification</span><span class="kb-col-num">4</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-ddd" href="abd-domain-specification.html" title="Build a typed Class Model for a module. When a domain model exists it is the primary input � the skill converts that behavioral model into a typed domain surface with far less effort. Without a domain model the skill can still produce an Class Model directly from domain knowledge.">domain specification</a>
+        </div>
+      </div>
+      <div class="skill-kanban-nav__col" data-stage="engineering">
+        <a class="kb-col-head kb-col-head--link" data-stage="engineering" href="abd-domain-code.html" title="Story. narrowest / deep. tests, code, interface">
+          <div class="kb-col-head-row">
+            <span class="kb-col-scope-shape kb-col-scope-shape--story" aria-hidden="true"></span>
+            <span class="kb-col-head-title"><span>Engineering</span><span class="kb-col-num">5</span></span>
+          </div>
+        </a>
+        <div class="skill-kanban-nav__tickets">
+          <a class="kb-ticket aad-skill aad-fam-ddd" href="abd-domain-code.html" title="Turn whatever domain context exists into running, tested domain code.
+
+— Tests first (RED) → production code (GREEN) → clean up (REFACTOR).
+— Only the domain layer: classes, value objects, operations, invariants, domain events.
+— No database, no HTTP, no framework coupling.">domain code</a>
+        </div>
+      </div>
+</nav>
+</div>
+</div>
+</div>
+
+
 <div class="page-hero page-hero--detail">
   <div class="wrap">
-    <a class="back-link" href="../plugin/domain-driven-design.html">← Domain Driven Design</a>
-    <p class="s-name">Skill</p>
+    <a class="back-link" href="../index.html">← The ABD Foundry</a>
+    
     <h1 class="page-headline">drawio-domain-sync</h1>
     <p class="body-lead">Domain model to Draw.io class diagrams — one page per Key Abstraction — with sync back to source.</p>
   </div>
 </div>
 
 <div class="catalog-body">
-<div class="wrap">
+<div class="wrap skill-detail-page">
 
-<h2>Description</h2>
-<div class="entry-prose">This skill turns any domain model artifact — a Domain Language, Domain Model, or Domain Specification — into a Draw.io class diagram the whole team can read, annotate, and edit. Each Key Abstraction in the source file becomes its own page in the diagram, keeping visual scope manageable and per-abstraction structure clear. When the team edits the diagram in Draw.io, the skill syncs those changes back to the source model file, so diagram and text never drift apart.<br>
-<br>
-Positioning and layout are AI-driven: the agent reads the source, reasons about class relationships and inheritance chains, and places elements where the diagram reads best. There are no fixed grid scripts to run.<br>
-<br>
----</div>
+<div class="skill-hero-img-wrap">
+
+</div>
 
 <section class="install-block" aria-labelledby="install-npx-heading">
   <h2 id="install-npx-heading">Install with npx</h2>
@@ -1073,91 +1776,62 @@ Positioning and layout are AI-driven: the agent reads the source, reasons about 
 </section>
 
 
-<hr class="entry-divider">
-
-
-
-<hr class="entry-divider">
-
-<h2 id="entry-contents">Contents</h2>
-<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p>This skill turns any domain model artifact — a Domain Language, Domain Model, or Domain Specification — into a Draw.io class diagram the whole team can read, annotate, and edit. Each Key Abstraction in the source file becomes its own page in the diagram, keeping visual scope manageable and per-abstraction structure clear. When the team edits the diagram in Draw.io, the skill syncs those changes back to the source model file, so diagram and text never drift apart.</p>
-<p>Positioning and layout are AI-driven: the agent reads the source, reasons about class relationships and inheritance chains, and places elements where the diagram reads best. There are no fixed grid scripts to run.</p>
-<hr></div></details>
-<details class="entry-md-section" id="output-file"><summary class="entry-md-section__summary">Output file</summary><div class="entry-md-section__body"><p><strong>Deliverables folder:</strong> see `../agent-protocol.md` — Output file resolution.</p>
-<p><strong>File name:</strong> `&lt;name&gt;-class-diagram.drawio` alongside the source model file.</p>
-<hr></div></details>
-<details class="entry-md-section" id="agent-instructions"><summary class="entry-md-section__summary">Agent Instructions</summary><div class="entry-md-section__body"><p>&gt; <strong>MANDATORY — read `../agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.</strong></p>
-<h3>1. Read context</h3>
-<p>Read these files:</p>
+<div class="skill-cr-grid">
+<div class="skill-cr-col"><div class="skill-concepts">
+<h2 class="skill-concepts-heading">Concepts</h2>
+<details class="skill-concept"><summary>Source types</summary><div class="skill-concept-body"><p>Three domain model artifacts can feed this skill. Each expresses domain concepts at a different fidelity level. All three render with the same card-rows-collaborators shape; the only difference is where rows and collaborators come from.</p>
 <ul>
-<li><strong>`reference/concepts.md`</strong> — source types (Domain Language, Domain Model, Domain Specification), page-per-KA convention, AI-driven layout, sync-back rules, incremental vs full rendering, build script persistence, and CLI reference pointer.</li>
-<li><strong>`diagrams.md`</strong> — full CLI command reference, layout guidelines, UML relationship selection, and cross-model import conventions.</li>
+<li><strong>Domain Language</strong> (<code>abd-domain-language</code>) — plain-English concept blocks with verb-led behavior bullets, <code>*italicized*</code> cross-concept references, and invariants. Output file: <code>domain-language.md</code> or <code>&lt;name&gt;-domain-language.md</code>. The diagram represents each <code>### concept</code> as a class card; each behavior bullet becomes one row with the bullet&#x27;s italicized terms as the collaborator column (<code>&lt;bullet text&gt; : Collaborator, Collaborator</code>); each unique cross-concept italicized reference becomes one folded association edge. <code>### Subtype *is a type of* Base</code> drives an inheritance edge. <code>### term *(boundary)*</code> scoped stubs render as imported cards with a <code>«boundary: OwningModule»</code> stereotype. Property/instance stubs become property rows on the parent or lightweight stub cards. Invariants appear in the third compartment. This is the second pass after a completed Domain Language file — analogous to how the Domain Model&#x27;s collaborator column feeds the diagram. See <code>rules/class-diagram-domain-language-bullets-become-rows.md</code>.</li>
+<li><strong>Domain Model</strong> (<code>abd-domain-model</code>) — typed class blocks with constructors, typed properties, method signatures, hidden collaborators, and invariants. Output file: <code>domain-model.md</code> or <code>&lt;name&gt;-domain-model.md</code>. The diagram shows class boxes with responsibilities as rows, each annotated with its collaborator types using <code>name : Collaborator</code> notation (e.g., <code>modifier : Character, Imposed Conditions</code>). Collaborator names also drive association edges between classes. Invariants appear in the class compartment.</li>
+<li><strong>Domain Specification</strong> (<code>abd-domain-specification</code>) — full typed Class Model with typed properties (<code>+ name: Type</code>), typed method signatures, ownership semantics. Output file: <code>class-model.md</code> or <code>&lt;name&gt;-class-model.md</code>. The diagram is a full UML class diagram with typed property and operation compartments.</li>
 </ul>
-<h3>2. Generate</h3>
-<p>Read every file in <strong>`rules/`</strong>; author to those rules.</p>
-<p><strong>Rendering (source → diagram):</strong></p>
-<p>1. <strong>Identify the source file</strong> — locate `&lt;name&gt;-domain-specification.md` / `class-model.md`, `&lt;name&gt;-domain-model.md` / `domain-model.md`, or `&lt;name&gt;-domain-language.md` / `domain-language.md`. Prefer highest fidelity available (Domain Specification &gt; Domain Model &gt; Domain Language). 2. <strong>For each Key Abstraction</strong>, init a page, plan layout (bases above derived), add imported ancestors, add local classes with rows/collaborators per source fidelity, add edges (inheritance → composition → association → dependency), inspect for overlaps, verify sync. 3. <strong>Persist build scripts</strong> when full renders produce bespoke Python scripts.</p>
-<p><strong>CLI (from skill&#x27;s scripts/):</strong></p>
-<pre><code>python scripts/drawio_class_cli.py init &lt;drawio-file&gt; --page &quot;&lt;KA Name&gt;&quot;
-python scripts/drawio_class_cli.py inspect &lt;drawio-file&gt; --page &quot;&lt;KA Name&gt;&quot;
-python scripts/drawio_class_cli.py sync-to-model &lt;drawio-file&gt; --page &quot;&lt;KA Name&gt;&quot; --model &lt;source-file&gt;</code></pre>
-<p><strong>Sync back (diagram → source):</strong> Run `sync-to-model` to surface the diff; review with the user; apply confirmed changes to the source model.</p>
-<h3>3. Validate</h3>
-<p>Run the scanners:</p>
-<pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/drawio-domain-sync \
-  --workspace &lt;path-to-output&gt;</code></pre>
-<p>Then emit per-rule verdicts per `../agent-protocol.md`.</p>
-<hr></div></details>
-<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Inspect the rendered diagram as reviewers.</p>
-<ul>
-<li><strong>Source identified</strong> — a Domain Language, Domain Model, or Domain Specification file was located before any diagram work began; the agent read the full file.</li>
-<li><strong>Rules read</strong> — all `rules/*.md` in this skill were consulted before placing any class on any page.</li>
-<li><strong>One page per KA</strong> — the `.drawio` file has one page per `## <strong>KA</strong>` heading; page names match KA headings exactly.</li>
-<li><strong>All KA concepts represented</strong> — every concept listed under a KA appears as a class on that KA&#x27;s page.</li>
-<li><strong>Domain Language bullets become rows</strong> — when source is a Domain Language file, every behavior bullet renders as a row, every italicized term resolves to a collaborator, cross-concept references are folded into one association edge, subtype headings produce inheritance edges, boundary stubs render as imported cards.</li>
-<li><strong>Cross-KA ancestors imported</strong> — ancestor classes from other KAs appear as imported classes (dashed border, `«from: KA Name»` stereotype).</li>
-<li><strong>Base classes above derived</strong> — base and imported classes are at lower y-coordinates than their children.</li>
-<li><strong>Distinct anchor points</strong> — no two edges from the same side use the same default anchor.</li>
-<li><strong>Build script persisted</strong> — when a full render used a bespoke build script, it was saved to `scripts/build_&lt;name&gt;_diagram.py`.</li>
-<li><strong>Sync verified</strong> — after rendering each page, `sync-to-model` reported &quot;no changes&quot;.</li>
-<li><strong>Audit clean</strong> — `audit_diagram_report()` shows zero `edge_crosses_class` violations.</li>
-<li><strong>No bundle markers</strong> — `SKILL.md` has no `&lt;!-- execute_rules:bundle_rules --&gt;` markers.</li>
-</ul>
-<hr></div></details>
+<p>The agent reads whichever source type is present and maps its content to class diagram elements. Domain Specifications produce the richest diagrams; Domain Models produce slightly leaner cards with the same row+collaborator shape; Domain Language files produce the leanest cards by reading rows from prose bullets and collaborators from italicized term references.</p>
+<p><strong>Picking the source.</strong> When multiple source artifacts exist for the same scope, prefer the highest-fidelity one available (Domain Specification &gt; Domain Model &gt; Domain Language). The Domain Language render is the right choice when only the Domain Language file has been written — typically the first time the team wants a visual of the domain, before the Domain Model has been run.</p></div></details>
+<details class="skill-concept"><summary>Page per Key Abstraction</summary><div class="skill-concept-body"><p>A Key Abstraction is a named grouping in the source file, introduced with a <code>## **KA Name**</code> heading. Each KA gets <strong>one Draw.io page</strong>. The page name matches the KA name exactly. All concepts that belong to that KA appear as classes on its page. When a concept from one KA extends or uses a concept from another KA, that external concept appears on the page as an imported ghost class — see <strong>cross-model ancestors</strong> below.</p></div></details>
+<details class="skill-concept"><summary>AI-driven layout</summary><div class="skill-concept-body"><p>Positioning is a judgment call, not a script output. The agent reads the source, identifies which class is the base, which are children, which are collaborators, and then places them so the diagram reads naturally. The rules in <code>rules/</code> — base classes above derived classes, cross-model ancestors visible at the page top, distinct anchor points when multiple edges leave the same class side — are applied as reasoning constraints, not as CLI flags.</p></div></details>
+<details class="skill-concept"><summary>Sync back</summary><div class="skill-concept-body"><div class="spec-steps">
+<p class="spec-step">When a user edits a diagram in Draw.io, the <code>sync-to-model</code> command reads the diagram and produces a diff against the source model file. The agent reviews the diff with the user and applies confirmed changes to the source model. The source model remains the authoritative text; the diagram is a derived view.</p>
+</div>
+<p><strong>Domain Language sync caveat.</strong> When the source is a Domain Language file (<code>*-domain-language.md</code>), sync-back is <strong>one-way for new/deleted concepts only</strong>. Card additions, card deletions, and inheritance-edge additions round-trip back to the Domain Language file as new/deleted <code>### concept</code> headings and <code>### Subtype *is a type of* Base</code> headings. Row edits, collaborator-list edits, and free-text bullet rewrites do <strong>not</strong> round-trip — the Domain Language file&#x27;s prose form is the authoritative record, and bullet-level changes must be made in the markdown directly. Domain Model and Domain Specification sources do not have this asymmetry.</p></div></details>
+<details class="skill-concept"><summary>Incremental vs full rendering</summary><div class="skill-concept-body"><p><strong>Prefer incremental edits when the diagram already exists.</strong> If a <code>.drawio</code> file is present and the source model has changed, use <code>update-class</code>, <code>add-class</code>, <code>delete-class</code>, and edge commands to apply only the changes — do not regenerate the entire file from scratch. Full regeneration destroys any manual repositioning the user has done in Draw.io. Only use full rendering when creating a diagram for the first time.</p></div></details>
+<details class="skill-concept"><summary>Persisting module build scripts</summary><div class="skill-concept-body"><div class="spec-steps">
+<p class="spec-step">When a full render produces a bespoke Python script that builds the diagram programmatically, <strong>keep the script in the destination repo</strong> at <code>&lt;repo-root&gt;/scripts/build_&lt;name&gt;_diagram.py</code>. These scripts are re-runnable, extendable, and auditable — a readable record of every layout decision. When the model changes incrementally, prefer editing the existing build script over writing a new one.</p>
+</div>
+<p>Each script should: 1. Import <code>drawio_tools</code> from the skill&#x27;s <code>scripts/</code> directory. 2. Build the entire diagram atomically — load/create the mxfile, add all pages, classes, and edges, save once. 3. Run <code>audit_diagram_report()</code> at the end and print the result. 4. Be runnable standalone: <code>python scripts/build_&lt;name&gt;_diagram.py</code>.</p></div></details>
+<details class="skill-concept"><summary>CLI reference</summary><div class="skill-concept-body"><p>The full CLI command reference — <code>add-class</code>, <code>update-class</code>, <code>delete-class</code>, <code>move</code>, all relationship commands, <code>inspect</code>, and <code>sync-to-model</code> — is documented in <a href="../drawio-domain-sync/diagrams.html"><code>diagrams.md</code></a> alongside detailed layout guidelines, UML relationship selection, and cross-model import conventions. Read that file during rendering; SKILL.md does not duplicate those mechanics.</p></div></details>
+</div></div>
+<div class="skill-cr-col"><div class="skill-rules">
+<h2 class="skill-rules-heading">Rules</h2>
+<details class="skill-rule">
+<summary class="skill-rule-header">Base Classes Positioned Above Derived Classes</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Position base and imported classes at the top of the page (low y-value) with derived classes extending downward.</li><li>Place multiple sibling derived classes at the same y-level, side by side below their shared parent.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Place a base class below its derived classes.</li><li>Mix inheritance depth levels on the same y-row, so a grandchild appears at the same height as its grandparent.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Cross-Model Ancestors Shown on Page</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Import every ancestor class needed to understand the full ancestry chain, including grandparents, at the top of the page.</li><li>Render imported classes with a dashed border and a «from: KA Name» stereotype label placed above the class name.</li><li>Show only the key properties on an imported class — enough to recognise it; full detail stays on the home-KA page.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Show only the immediate imported parent while omitting the grandparent that establishes context.</li><li>Render an imported class as a normal solid-border class indistinguishable from local classes.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Multiple Edges Use Distinct Anchor Points</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Assign explicit exit and entry anchor coordinates when two or more edges share the same source or target side of a class.</li><li>Spread multiple children that inherit from the same parent across the parent&#x27;s bottom edge using distributed entry points.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Leave multiple edges from the same class side with default anchor routing.</li><li>Add explicit anchors only to some edges while leaving others on the default when they share the same exit or entry side.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Run Audit After Every Render</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Run audit_diagram_report(path) after every render pass and read the output.</li><li>Use inheritance-orthogonal when a subtype is not directly below the parent in the same column.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Declare a diagram done when edge_crosses_class violations exist.</li><li>Skip the audit because the layout &quot;looks right&quot; during generation.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Domain Language bullets become card rows; italicized terms become collaborators</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Emit one row per behavior bullet, label = the bullet&#x27;s text with italic markers stripped, collaborator column = the bullet&#x27;s italicized terms.</li><li>Fold duplicate cross-concept references into a single edge.</li><li>Draw inheritance from ### Subtype is a type of Base headings, not from association edges.</li><li>Render ### term (boundary) stubs as imported cards with «boundary: OwningModule» stereotype and a dashed border.</li><li>Render property/instance stubs as either a property row on the parent or a lightweight stub card with a «property of: Parent» stereotype.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Drop bullets, italicized terms, or invariants during rendering.</li><li>Invent type annotations the source does not contain.</li><li>Emit one edge per bullet reference instead of folding duplicates.</li><li>Treat italicized terms inside Invariant: lines as new association edges.</li><li>Draw association edges from a subtype to its base for behaviors that are already inherited.</li><li>This rule depends on the upstream rule italic-terms-resolve-to-named-concepts.md in abd-domain-language. If italicized terms in the source do not resolve, this renderer cannot draw their edges without inventing cards — fix the Domain Language file first.</li><li>For first-time full renders of large Domain Language files, persist a build_&lt;name&gt;_ull_diagram.py in the destination repo per the existing build-script convention.</li><li>Domain Language sync-to-model (diagram → source) is one-way for new/deleted concepts only. Bullet text rewrites do not round-trip back to the file — the Domain Language prose is the authoritative form, and bullet edits should be made in the markdown, not in Draw.io.</li></ul></div>
+</details>
+</div></div>
+</div>
 
-<ul class="file-list file-list--root">
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>ide-files/</strong><span class="file-meta"> → Folder (1 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/supporting/drawio-domain-sync/ide-files/drawio-domain-sync.instructions.md" target="_blank" rel="noopener noreferrer"><strong>drawio-domain-sync.instructions.md</strong></a><span class="file-meta"> → ﻿# drawio-domain-sync</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>reference/</strong><span class="file-meta"> → Folder (1 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/supporting/drawio-domain-sync/reference/concepts.md" target="_blank" rel="noopener noreferrer"><strong>concepts.md</strong></a><span class="file-meta"> → drawio-domain-sync — Concepts</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>rules/</strong><span class="file-meta"> → Practice rules (DO/DON&#x27;T) and constraints used with scanners.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/supporting/drawio-domain-sync/rules/class-diagram-base-classes-positioned-above-derived-classes.md" target="_blank" rel="noopener noreferrer"><strong>class-diagram-base-classes-positioned-above-derived-classes.md</strong></a><span class="file-meta"> → Rule: Base Classes Positioned Above Derived Classes</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/supporting/drawio-domain-sync/rules/class-diagram-cross-model-ancestors-shown-on-page.md" target="_blank" rel="noopener noreferrer"><strong>class-diagram-cross-model-ancestors-shown-on-page.md</strong></a><span class="file-meta"> → Rule: Cross-Model Ancestors Shown on Page</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/supporting/drawio-domain-sync/rules/class-diagram-multiple-edges-use-distinct-anchor-points.md" target="_blank" rel="noopener noreferrer"><strong>class-diagram-multiple-edges-use-distinct-anchor-points.md</strong></a><span class="file-meta"> → Rule: Multiple Edges Use Distinct Anchor Points</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/supporting/drawio-domain-sync/rules/class-diagram-run-audit-after-every-render.md" target="_blank" rel="noopener noreferrer"><strong>class-diagram-run-audit-after-every-render.md</strong></a><span class="file-meta"> → Rule: Run Audit After Every Render</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/supporting/drawio-domain-sync/rules/class-diagram-ubiquitous-language-bullets-become-rows.md" target="_blank" rel="noopener noreferrer"><strong>class-diagram-ubiquitous-language-bullets-become-rows.md</strong></a><span class="file-meta"> → Rule: Domain Language bullets become card rows; italicized terms become collaborators</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>scripts/</strong><span class="file-meta"> → Build, catalogue, validation, or packaging automation.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__dir"><details class="file-tree__details"><summary class="file-tree__summary"><strong>__pycache__/</strong><span class="file-meta"> → Folder (4 items).</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/supporting/drawio-domain-sync/scripts/__pycache__/drawio_domain_cli.cpython-311.pyc" target="_blank" rel="noopener noreferrer"><strong>drawio_domain_cli.cpython-311.pyc</strong></a><span class="file-meta"> →     �� j:�  �                   �  � d Z ddlZddlZddlZddlmZmZ ddlmZ ddl	m</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/supporting/drawio-domain-sync/scripts/__pycache__/drawio_tools.cpython-311.pyc" target="_blank" rel="noopener noreferrer"><strong>drawio_tools.cpython-311.pyc</strong></a><span class="file-meta"> →     �]j��  �            </span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/supporting/drawio-domain-sync/scripts/__pycache__/drawio_tools.cpython-312.pyc" target="_blank" rel="noopener noreferrer"><strong>drawio_tools.cpython-312.pyc</strong></a><span class="file-meta"> →     ͬj��  �            </span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/supporting/drawio-domain-sync/scripts/__pycache__/drawio_tools.cpython-313.pyc" target="_blank" rel="noopener noreferrer"><strong>drawio_tools.cpython-313.pyc</strong></a><span class="file-meta"> →     �]j��  �            </span></li>
-</ul></div></details></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/supporting/drawio-domain-sync/scripts/drawio_domain_cli.py" target="_blank" rel="noopener noreferrer"><strong>drawio_domain_cli.py</strong></a><span class="file-meta"> → ﻿#!/usr/bin/env python3</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/supporting/drawio-domain-sync/scripts/drawio_tools.py" target="_blank" rel="noopener noreferrer"><strong>drawio_tools.py</strong></a><span class="file-meta"> → DrawIO class diagram toolkit — core XML read/write functions.</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/supporting/drawio-domain-sync/scripts/model_to_drawio.py" target="_blank" rel="noopener noreferrer"><strong>model_to_drawio.py</strong></a><span class="file-meta"> → !/usr/bin/env python3</span></li>
-</ul></div></details></li>
-<li class="file-list__folder"><details class="file-tree__details"><summary class="file-tree__summary"><strong>templates/</strong><span class="file-meta"> → Authoring templates and structural skeletons.</span></summary><div class="file-tree__inner"><ul class="file-list file-list--nested file-tree__ul">
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/supporting/drawio-domain-sync/templates/class-diagram-rendering-example.md" target="_blank" rel="noopener noreferrer"><strong>class-diagram-rendering-example.md</strong></a><span class="file-meta"> → ﻿# drawio-domain-sync — Rendered Diagram Example</span></li>
-</ul></div></details></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/supporting/drawio-domain-sync/diagrams.md" target="_blank" rel="noopener noreferrer"><strong>diagrams.md</strong></a><span class="file-meta"> → ﻿&lt;!-- section: story_synthesizer.diagrams --&gt;</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/supporting/drawio-domain-sync/skill-errors-log.md" target="_blank" rel="noopener noreferrer"><strong>skill-errors-log.md</strong></a><span class="file-meta"> → drawio-domain-sync — skill errors log</span></li>
-<li class="file-tree__file"><a class="file-tree__file-link" href="../../practices/domain-driven-design/skills/supporting/drawio-domain-sync/SKILL.md" target="_blank" rel="noopener noreferrer"><strong>SKILL.md</strong></a><span class="file-meta"> → name: drawio-domain-sync</span></li>
-</ul>
+
+
 
 </div>
 </div>

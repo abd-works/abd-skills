@@ -1,0 +1,27 @@
+<!DOCTYPE html><html><head><meta charset='utf-8'><style>
+body {font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; line-height: 1.65;
+  color: #1a1a1e; background: #fff; padding: 32px; max-width: 820px; margin: 0 auto;}
+h1 {font-size: 22px; font-weight: 700; margin: 0 0 16px; color: #111;}
+h2 {font-size: 17px; font-weight: 600; margin: 24px 0 10px; color: #111;
+    border-bottom: 1px solid #e0e0e0; padding-bottom: 4px;}
+h3 {font-size: 14px; font-weight: 600; margin: 16px 0 6px;}
+p {margin: 0 0 12px;} ul,ol {margin: 0 0 12px; padding-left: 24px;} li {margin-bottom: 4px;}
+code {background:#f4f4f6; border-radius:3px; padding:1px 5px; font-family:monospace; font-size:13px;}
+pre {background:#f4f4f6; border-radius:6px; padding:14px; overflow-x:auto; margin:0 0 14px;}
+pre code {background:none; padding:0;}
+table {border-collapse:collapse; width:100%; margin:0 0 14px;}
+th,td {border:1px solid #ddd; padding:7px 10px; text-align:left;}
+th {background:#f0f0f2; font-weight:600;}
+blockquote {border-left:3px solid #e5531a; margin:0 0 14px; padding:6px 14px; color:#555;}
+</style></head><body><h1>Impact Mapping — Examples</h1>
+<h2>Worked example (live-ops product)</h2>
+<p>Read as a <strong>hierarchy</strong>. Each <code>Goal</code> line carries its <strong>goal metric</strong> in angle brackets. Nested goals roll up. Under the finest goal, each <code>|- Actor</code> branch lists <strong>impacts</strong>; after <code>--</code>, <strong>Q1 / Q2 / …</strong> (or M1 / M2, quarters, months — name the convention once) are scheduled options for <em>that</em> impact only. Every feature still ties to one actor-and-behaviour path.</p>
+<pre><code class="language-text">Strengthen recurring revenue and engagement in the flagship title &lt;net revenue retention; live-ops engagement targets for the title&gt;
+|- Grow monthly active players &lt;verified MAU +20% vs baseline; week-over-week return among onboarded&gt;
+     |- Existing players (returning, past onboarding)
+          Share run highlights to social &lt;share attempts per weekly active player; target cadence at least weekly&gt; -- Q1: One-tap share sheet with clip, Q2: Seasonal tournament badge, Q3: Friend-invite deep link from post-match
+          Complete ranked matches regularly &lt;ranked matches per active player per week; target at least three per week&gt; -- Q1: Queue-time fairness pass, Q2: Streak bonus for consistent ranked play
+     |- New players (first fourteen days after install)
+          Finish onboarding and first ranked match in the first session &lt;session-one ranked completion rate&gt; -- Q1: Guided tutorial path with fewer dead ends, Q2: Optional skip for experienced players on a new device (abuse guardrails TBD)
+</code></pre>
+<p>Q1 / Q2 / Q3 here mean calendar quarters for the illustration; use whatever timeboxes the room agrees. Options on a line are different bets on the <strong>same</strong> impact, sequenced by timebox — not a second map.</p></body></html>

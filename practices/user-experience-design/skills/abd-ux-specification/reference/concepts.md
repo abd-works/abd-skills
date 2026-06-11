@@ -1,56 +1,81 @@
-# abd-interface-design — Concepts
+# abd-ux-specification — Concepts
 
-## What is an interface implementation
+## What is a clickable prototype
 
-A screen implementation under this skill is:
+A prototype under this skill is:
 
-- **Functional**: every affordance does what its AC say it should do. Errors render, validations run, transitions to other screens fire when their triggers fire.
-- **Production-grade**: real code in the chosen framework (React, Vue, WPF, etc.), structured the way the host project structures other features, with the project's lint, format, and test conventions.
-- **Faithful to upstream**: the regions, affordances, labels, AC, and visual decisions match the approved lo-fi and hi-fi. No new vocabulary, no new affordances, no new visual styles.
-- **Accessible**: meets the host project's accessibility floor (typically WCAG 2.2 AA for web). Keyboard reachable, focus visible, labels associated with inputs, errors announced, colour-independent state cues.
-- **Measurable**: the behaviours described by AC are covered by tests, and any performance constraints declared by the host project (frame budget, response time, payload size) are met.
+- **Hi-fi** — real visual design: tokens, type, colour, spacing, and components that match the approved design direction. Not a lo-fi grey box.
+- **Clickable** — buttons, links, tabs, and forms respond; screens and states change so stakeholders can walk flows.
+- **Honest** — domain logic, APIs, auth, and persistence are stubbed or faked. The prototype **demonstrates** behaviour; it does not **implement** it.
+- **Faithful to upstream** — regions, affordances, labels, and copy match lo-fi and design reference. Ubiquitous-language terms and AC wording stay verbatim in the UI.
+- **Browser-runnable** — HTML, CSS, and JavaScript (or the host preview stack). Open and click without deploying backend services.
 
-It is not a redesign and it is not a refactor of unrelated code.
+It is not production code, not a refactor of the host app, and not a substitute for acceptance tests or domain implementation.
 
 ---
 
 ## Carry-over from upstream
 
-The initial IA, lo-fi, and hi-fi are inputs. Their regions, affordances, labels, acceptance criteria, typography roles, colour roles, density, and spacing scale are settled. The implementation maps each of those into the chosen framework's primitives — it does not redecide them.
-
-## Production-grade and functional
-
-The code is not a "demo" or "shell". Every affordance on the screen does what its AC say it does. State management uses the project's existing patterns. Side effects are real or properly mocked at boundaries the project already has. The code passes the project's lint, format, and type-check gates without being silenced.
-
-## Memorable differentiation
-
-The committed aesthetic direction from the hi-fi survives into the running code: the typographic roles are real CSS variables, design tokens, or theme values; the colour roles are real values, not generic defaults; the density and spacing scale are real spacing tokens. The running screen looks like the mockup, not like an untouched component library.
-
-## Accessibility in implementation
-
-Implementation-level accessibility is concrete: each input has a programmatic label (`<label for>` or framework equivalent), focus order matches reading order, focus styles are visible (not removed by `outline: none` with no replacement), errors are programmatically associated with their inputs (`aria-describedby`), state is announced when it changes (`aria-live` where appropriate), and the entire screen is keyboard reachable.
-
-## Performance constraints
-
-If the host project declares performance constraints (initial paint, time-to-interactive, frame budget for animations, bundle size budget), the implementation meets them. If it does not declare them, the implementation does not regress whatever the project's current baseline is.
-
-## Traceability — AC to test to running screen
-
-Each acceptance criterion is implemented as a working behaviour and is covered by a test that asserts that behaviour, using the project's existing test framework. The test names reference the criterion (story title and clause number) so a reviewer can map each test back to the source AC.
+The initial IA and lo-fi are inputs. Their regions, affordances, labels, and acceptance criteria are settled. Visual decisions (typography roles, colour roles, density, spacing) come from the design reference or hi-fi direction. The prototype maps those into markup and styles — it does not redecide layout or vocabulary.
 
 ---
 
-## The shape of a good interface implementation
+## Brand assets and hi-fi chrome
+
+Lo-fi mockups deliberately omit colour and brand polish. The specification stage is where the prototype should **look like a real site**: logo, palette, typography, photography, header/footer, and trust cues (promo strip, badges) when the flow needs them.
+
+**Before styling:**
+
+1. Search the host project for brand guidelines, tokens, logos, and any `abd-visual-branding` output.
+2. If anything is missing, run section 2 of **`reference/brand-assets-questionnaire.md`** using the **`AskQuestion` tool** (steps A–F) — colour scheme, type, tone, logo, photography, trust chrome, and whether to **create provisional stand-ins** or wait for design.
+3. Record decisions in `ux-specification.md` using the shape in **`templates/brand-assets-brief.md`**.
+
+Provisional logos (simple SVG wordmarks), CSS variables, and licensed stock URLs are acceptable for demos when documented as *replace before production*. Do not silently ship unstyled wireframes or undeclared stand-ins.
+
+---
+
+## Stub vs real
+
+| Real in the prototype | Stubbed or faked |
+| --- | --- |
+| HTML structure, CSS, layout, typography, colour | API requests → fixture JSON or inline objects |
+| Click handlers, route/hash navigation, modals | Server validation → client-side `if` or canned messages |
+| Local UI state (open panel, active tab) | Auth/session → assume logged-in or toggle with a demo flag |
+| Accessible labels, focus order, visible focus | Database reads/writes → preloaded demo data |
+| Copy and labels from UL/AC | Side effects (email, payment, inventory) → `console.log` or toast |
+
+Document every stub in `ux-specification.md` under a **stub catalogue** so reviewers know what is simulated.
+
+---
+
+## Demonstrating acceptance criteria
+
+Each AC clause gets a **demo path**: the clicks or inputs that make the criterion visible. Example: "WHEN stock is zero THEN show out-of-stock banner" → prototype loads with `?demo=out-of-stock` or a "Demo states" control that toggles the banner. Tests and automated assertions are out of scope; manual walkthrough is the verification method.
+
+---
+
+## Accessibility at prototype fidelity
+
+Prototypes still need structural accessibility: inputs have `<label>` or `aria-label`, interactive elements are keyboard reachable, focus is visible, and status is not conveyed by colour alone. Pixel-perfect contrast audits and full ARIA regression suites belong to production implementation, not this skill.
+
+---
+
+## The shape of a good prototype package
 
 ```
-src/screens/game-directory-prompt/
-  GameDirectoryPrompt.tsx           # the screen component
-  GameDirectoryPrompt.styles.ts     # styles using project tokens
-  validatePath.ts                   # logic for AC clauses
-  __tests__/GameDirectoryPrompt.test.tsx
-                                    # one test per AC clause, named:
-                                    #   "Validate COH Game Directory — AC 1"
-                                    #   "Prompt for Game Directory if Invalid — AC 3"
+docs/ux/prototype/store-locator/
+  prototype/
+    index.html                # entry page; links CSS/JS
+    store-locator.css         # tokens + layout + states
+    store-locator.js          # click handlers, stub data, state toggles
+  ux-specification.md         # sources, stub catalogue, AC demo paths
+  ux-specification.html       # review page — iframe → prototype/index.html
+  fixtures/
+    stores.json               # optional fake API payload
 ```
 
-The running screen renders the regions and affordances from the hi-fi, uses the declared typography and colour roles via project tokens, satisfies every AC clause, and passes the project's lint / format / type-check / accessibility / performance gates.
+Open **`ux-specification.html`** for review: the prototype runs inside the frame (pointing at **`index.html`** in the prototype or `reference/example/` folder). `ux-specification.md` remains the structured spec; serve the folder with a static HTTP server if the iframe is blank under `file://`.
+
+Skill reference packages may ship `reference/example/index.html` — the Foundry skill page embeds that index in the hero frame when present.
+
+---
