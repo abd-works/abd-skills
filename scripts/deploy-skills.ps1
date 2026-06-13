@@ -19,7 +19,9 @@
   Accepted for backward compatibility (deploy always replaces).
 
 .PARAMETER Package
-  Family package name or "all" (default: all).
+  Qualified package name or "all" (default: all).
+  Format: "<top>/<name>" for family packages (e.g. "practices/story-driven-delivery",
+  "stages/discovery") or bare name for flat collections ("utilities", "others").
 #>
 param(
     [ValidateSet("cursor", "vscode")]
@@ -109,21 +111,35 @@ function Resolve-DeployRoot {
     return $RepoRoot
 }
 
+$script:KnownPackageFolders = [System.Collections.Generic.HashSet[string]]@(
+    'skills','agents','content','reference','lib','instructions','prompts',
+    'vscode','rules','scanners','templates','scripts','ide-files','inputs',
+    'tests','test','catalog','retired'
+)
+
 function Get-PackageRoots {
     param([string]$RepoRoot)
-    $roots = @{}
-    foreach ($top in @('practices', 'foundational')) {
+    $roots = [System.Collections.Generic.List[pscustomobject]]::new()
+
+    # Family packages: each subdir of these tops is a package root
+    foreach ($top in @('practices', 'foundational', 'stages')) {
         $topPath = Join-Path $RepoRoot $top
         if (-not (Test-Path -LiteralPath $topPath)) { continue }
         Get-ChildItem -LiteralPath $topPath -Directory | ForEach-Object {
-            $roots[$_.Name] = $_.FullName
+            $roots.Add([pscustomobject]@{ Name = "$top/$($_.Name)"; Value = $_.FullName })
         }
     }
-    $utilities = Join-Path $RepoRoot 'utilities'
-    if (Test-Path -LiteralPath $utilities) {
-        $roots['utilities'] = $utilities
+
+    # Flat collections: the top-level dir itself is the package root;
+    # each direct subdir with SKILL.md is deployed as an individual skill
+    foreach ($flat in @('utilities', 'others')) {
+        $p = Join-Path $RepoRoot $flat
+        if (Test-Path -LiteralPath $p) {
+            $roots.Add([pscustomobject]@{ Name = $flat; Value = $p })
+        }
     }
-    return $roots
+
+    return ,$roots
 }
 
 function Merge-VscodeFiles {
@@ -200,15 +216,43 @@ function Deploy-Package {
     $rulesDst     = Join-Path $cursorRoot 'rules'
     $commandsDst  = Join-Path $cursorRoot 'commands'
 
+    # Standard layout: skills/ subdirectory; supports one level of grouping (e.g. skills/supporting/)
     $skillsSrc = Join-Path $PackageRoot 'skills'
     if (Test-Path -LiteralPath $skillsSrc) {
         Get-ChildItem -LiteralPath $skillsSrc -Directory | ForEach-Object {
-            if (Test-Path -LiteralPath (Join-Path $_.FullName 'SKILL.md')) {
+            $candidateDir = $_
+            if (Test-Path -LiteralPath (Join-Path $candidateDir.FullName 'SKILL.md')) {
                 if ($Ide -eq 'vscode') {
-                    Remove-AndCopyDirectory -Source $_.FullName -Destination (Join-Path $githubSkillsDst $_.Name)
+                    Remove-AndCopyDirectory -Source $candidateDir.FullName -Destination (Join-Path $githubSkillsDst $candidateDir.Name)
                 } else {
-                    Remove-AndCopyDirectory -Source $_.FullName -Destination (Join-Path $skillsDst $_.Name)
+                    Remove-AndCopyDirectory -Source $candidateDir.FullName -Destination (Join-Path $skillsDst $candidateDir.Name)
                 }
+            } else {
+                # Grouping folder (e.g. supporting/) — recurse one level
+                Get-ChildItem -LiteralPath $candidateDir.FullName -Directory | ForEach-Object {
+                    $skillDir = $_
+                    if (Test-Path -LiteralPath (Join-Path $skillDir.FullName 'SKILL.md')) {
+                        if ($Ide -eq 'vscode') {
+                            Remove-AndCopyDirectory -Source $skillDir.FullName -Destination (Join-Path $githubSkillsDst $skillDir.Name)
+                        } else {
+                            Remove-AndCopyDirectory -Source $skillDir.FullName -Destination (Join-Path $skillsDst $skillDir.Name)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    # Flat layout: skills live directly as subdirs of the package root (no skills/ wrapper).
+    # Skip known infrastructure folder names.
+    Get-ChildItem -LiteralPath $PackageRoot -Directory | ForEach-Object {
+        $flatSkillDir = $_
+        if ($flatSkillDir.Name -notin $script:KnownPackageFolders -and
+            (Test-Path -LiteralPath (Join-Path $flatSkillDir.FullName 'SKILL.md'))) {
+            if ($Ide -eq 'vscode') {
+                Remove-AndCopyDirectory -Source $flatSkillDir.FullName -Destination (Join-Path $githubSkillsDst $flatSkillDir.Name)
+            } else {
+                Remove-AndCopyDirectory -Source $flatSkillDir.FullName -Destination (Join-Path $skillsDst $flatSkillDir.Name)
             }
         }
     }
@@ -276,21 +320,23 @@ Ensure-Directory -Path $resolvedDeployRoot
 
 $packageRoots = Get-PackageRoots -RepoRoot $RepoRoot
 if ($packageRoots.Count -eq 0) {
-    throw "No package roots found under practices/, foundational/, or utilities/."
+    throw "No package roots found under practices/, foundational/, stages/, utilities/, or others/."
 }
 
 $selected = @()
 if ($Package -eq 'all') {
-    $selected = $packageRoots.GetEnumerator() | Sort-Object Name
+    $selected = $packageRoots | Sort-Object Name
 } else {
-    if (-not $packageRoots.ContainsKey($Package)) {
-        $available = ($packageRoots.Keys | Sort-Object) -join ', '
+    $match = $packageRoots | Where-Object { $_.Name -eq $Package } | Select-Object -First 1
+    if (-not $match) {
+        $available = ($packageRoots | Sort-Object Name | ForEach-Object { $_.Name }) -join ', '
         throw "Unknown package '$Package'. Available: $available"
     }
-    $selected = @([pscustomobject]@{ Name = $Package; Value = $packageRoots[$Package] })
+    $selected = @($match)
 }
 
 foreach ($pkg in $selected) {
+    Write-Host ("  Deploying package: {0}" -f $pkg.Name)
     Deploy-Package -PackageRoot $pkg.Value -DeployRoot $resolvedDeployRoot -Ide $ide
 }
 
