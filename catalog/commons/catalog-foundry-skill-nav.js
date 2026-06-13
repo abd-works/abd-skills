@@ -3,8 +3,69 @@
   'use strict';
 
   var FILTER_KEY = 'abd-foundry-skill-nav-filter';
+  var STAGE_FILTER_KEY = 'abd-foundry-skill-nav-stage-filter';
   var SKILLS_EXPANDED_KEY = 'abd-foundry-skill-page-skills-expanded';
   var CROSSCUT_KEY = 'abd-foundry-skill-nav-crosscut';
+  var KANBAN_SCROLL_PARAM = 'kanbanScroll';
+
+  function stripScrollRestoreFromUrl() {
+    try {
+      if (!window.history || !window.history.replaceState) return;
+      var params = new URLSearchParams(window.location.search);
+      if (!params.has(KANBAN_SCROLL_PARAM)) return;
+      params.delete(KANBAN_SCROLL_PARAM);
+      var q = params.toString();
+      var page = pageBasename();
+      window.history.replaceState({}, '', q ? page + '?' + q : page);
+    } catch (err) {}
+  }
+
+  function appendScrollRestoreToHref(href) {
+    if (!href) return href;
+    var hashIdx = href.indexOf('#');
+    var hash = hashIdx >= 0 ? href.slice(hashIdx) : '';
+    if (hashIdx >= 0) href = href.slice(0, hashIdx);
+    var qIdx = href.indexOf('?');
+    var pathPart = qIdx >= 0 ? href.slice(0, qIdx) : href;
+    var query = qIdx >= 0 ? href.slice(qIdx + 1) : '';
+    var params = new URLSearchParams(query);
+    params.set(KANBAN_SCROLL_PARAM, String(Math.round(window.scrollY)));
+    var qs = params.toString();
+    return pathPart + (qs ? '?' + qs : '') + hash;
+  }
+
+  function maxScrollY() {
+    return Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+  }
+
+  function pendingScrollY() {
+    var y = window.__foundryPendingScrollY;
+    if (y != null && !isNaN(y)) return y;
+    try {
+      var raw = new URLSearchParams(window.location.search).get(KANBAN_SCROLL_PARAM);
+      if (!raw) return null;
+      y = parseFloat(raw);
+      return isNaN(y) ? null : y;
+    } catch (err) { return null; }
+  }
+
+  function applyPendingScrollRestore() {
+    var y = pendingScrollY();
+    if (y == null) {
+      document.documentElement.classList.remove('foundry-scroll-pending');
+      return;
+    }
+    window.scrollTo(0, Math.min(y, maxScrollY()));
+    document.documentElement.classList.remove('foundry-scroll-pending');
+  }
+
+  function clearPendingScrollRestore() {
+    document.documentElement.classList.remove('foundry-scroll-pending');
+    if (window.location.search.indexOf(KANBAN_SCROLL_PARAM + '=') >= 0) {
+      stripScrollRestoreFromUrl();
+    }
+    try { delete window.__foundryPendingScrollY; } catch (err) { window.__foundryPendingScrollY = undefined; }
+  }
 
   function readSavedFilter() {
     try {
@@ -20,6 +81,28 @@
   function saveFilter(families) {
     try {
       window.sessionStorage.setItem(FILTER_KEY, JSON.stringify({ families: families }));
+    } catch (err) {}
+  }
+
+  function readSavedStageFilter() {
+    try {
+      var raw = window.sessionStorage.getItem(STAGE_FILTER_KEY);
+      if (!raw) return [];
+      if (raw.charAt(0) === '[') {
+        var parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : [];
+      }
+      return raw ? [raw] : [];
+    } catch (err) { return []; }
+  }
+
+  function saveStageFilter(stageIds) {
+    try {
+      if (stageIds && stageIds.length) {
+        window.sessionStorage.setItem(STAGE_FILTER_KEY, JSON.stringify(stageIds));
+      } else {
+        window.sessionStorage.removeItem(STAGE_FILTER_KEY);
+      }
     } catch (err) {}
   }
 
@@ -75,6 +158,8 @@
 
   function parseSkillHref(href) {
     if (!href) return { base: '', stage: '' };
+    var hashIdx = href.indexOf('#');
+    if (hashIdx >= 0) href = href.slice(0, hashIdx);
     var q = href.indexOf('?');
     var base = q >= 0 ? href.slice(0, q) : href;
     var stage = '';
@@ -84,9 +169,13 @@
     return { base: base, stage: stage };
   }
 
-  function buildStageUrl(stageId) {
+  function buildStageUrl(stageIds) {
     var page = pageBasename();
-    return stageId ? page + '?stage=' + encodeURIComponent(stageId) : page;
+    if (!stageIds || !stageIds.length) return page;
+    if (stageIds.length === 1) {
+      return page + '?stage=' + encodeURIComponent(stageIds[0]);
+    }
+    return page + '?stage=' + stageIds.map(encodeURIComponent).join(',');
   }
 
   /* Save filter before navigating away */
@@ -102,11 +191,11 @@
           e.preventDefault();
           if (ticketFamily && families.indexOf(ticketFamily) === -1) families.push(ticketFamily);
           saveFilter(families);
-          if (window.history && window.history.pushState) {
-            window.history.pushState({ foundryStage: parsed.stage }, '', buildStageUrl(parsed.stage));
-          }
           if (typeof window.__foundryApplyStage === 'function') window.__foundryApplyStage(parsed.stage);
           return;
+        }
+        if (parsed.base && parsed.base !== pageBasename()) {
+          link.setAttribute('href', appendScrollRestoreToHref(link.getAttribute('href') || ''));
         }
         if (ticketFamily && families.indexOf(ticketFamily) === -1) families.push(ticketFamily);
         if (!families.length && ticketFamily) families = [ticketFamily];
@@ -121,9 +210,10 @@
 
   surface.classList.add('foundry-skill-nav-settling');
 
+  var supportingOnly = surface.classList.contains('foundry-kanban-surface--supporting-only');
   var familyButtons = Array.prototype.slice.call(surface.querySelectorAll('.foundry-family-toggle'));
-  var skillsToggle = document.getElementById('foundry-skills-toggle');
-  var skillsExpanded = false;
+  var skillsToggle = supportingOnly ? null : document.getElementById('foundry-skills-toggle');
+  var skillsExpanded = supportingOnly;
   var colHeads = Array.prototype.slice.call(surface.querySelectorAll('.kb-col-head[data-stage]'));
   var rows = Array.prototype.slice.call(surface.querySelectorAll('.kb-col > .aad-skill-row[data-family]'));
   var stageSkillRows = Array.prototype.slice.call(surface.querySelectorAll('.foundry-stage-skills'));
@@ -137,56 +227,81 @@
   var supportingSection = surface.querySelector('.aad-delivery-crosscut-section--supporting');
   var foundationalSection = surface.querySelector('.aad-delivery-crosscut-section--foundational');
 
+  var FAMILY_ROW_ORDER = [
+    'story-driven-delivery',
+    'domain-driven-design',
+    'user-experience-design',
+    'architecture-centric-engineering'
+  ];
+  var ROW_H = 'var(--foundry-skill-row-h)';
+  var ZERO_ROW = '0px';
+
   var selectedFamilies = new Set();
   var selectedCrosscutGroups = new Set();
+  var selectedStages = new Set();
+  var highlightedStage = '';
 
   function syncIdleState() {
     var idle = selectedFamilies.size === 0;
     surface.classList.toggle('foundry-skill-filter-idle', idle);
     surface.classList.toggle('foundry-skill-filter-active', !idle);
+    surface.classList.toggle('foundry-skill-filter-single', !idle && selectedFamilies.size === 1);
+    surface.classList.toggle('foundry-skill-filter-multi', selectedFamilies.size > 1);
+    surface.classList.toggle('foundry-skill-filter-other', selectedFamilies.has('other'));
+    surface.classList.toggle('foundry-other-rows-collapsed', !otherVisible());
   }
 
-  /* Board rows: show all when no filter; show matching family only when filter active */
+  /* Board rows: practice families show when idle or ticked; other rows only when other is ticked */
   function rowVisible(row) {
-    if (selectedFamilies.size === 0) return true;
+    if (selectedStages.size > 0) {
+      var col = row.closest('.kb-col[data-stage]');
+      if (!col || !selectedStages.has(col.getAttribute('data-stage'))) return false;
+    }
     var family = row.getAttribute('data-family');
-    return Boolean(family && selectedFamilies.has(family));
+    if (family === 'other') {
+      return selectedFamilies.has('other');
+    }
+    if (selectedFamilies.size === 0) return true;
+    if (!family || !selectedFamilies.has(family)) return false;
+    if (row.classList.contains('aad-skill-row--empty')) return false;
+    return true;
   }
 
   function otherVisible() {
-    return selectedFamilies.size === 0 || selectedFamilies.has('other');
+    return selectedFamilies.has('other');
   }
 
-  function updateCrosscutRowSkills(row) {
-    var group = row.getAttribute('data-crosscut-group');
+  function updateCrosscutRowSkills(row, expanded) {
     var skills = row.querySelector('.aad-delivery-crosscut-skills');
-    var expanded = Boolean(group && selectedCrosscutGroups.has(group));
-    if (skills) {
-      skills.classList.toggle('is-skills-visible', expanded);
-      skills.classList.toggle('aad-delivery-crosscut-skills--collapsed', !expanded);
-    }
-    var toggle = row.querySelector('.aad-crosscut-row-toggle');
-    if (toggle) {
-      toggle.classList.toggle('is-selected', expanded);
-      toggle.setAttribute('aria-pressed', expanded ? 'true' : 'false');
+    if (!skills) return;
+    if (expanded) {
+      skills.classList.add('is-skills-visible');
+      skills.classList.remove('aad-delivery-crosscut-skills--collapsed');
+    } else {
+      skills.classList.remove('is-skills-visible');
+      skills.classList.add('aad-delivery-crosscut-skills--collapsed');
     }
   }
 
-  /* Supporting section: same filter as board — show only selected family's row */
+  var KANBAN_SUPPORTING_GROUP = 'kanban';
+
+  /* Supporting section: filter by family; kanban row is always visible (supporting-only practice). */
   function crosscutRowVisible(row) {
+    var group = row.getAttribute('data-crosscut-group');
+    if (group === KANBAN_SUPPORTING_GROUP) return true;
     if (selectedFamilies.size === 0) return true;
     var family = row.getAttribute('data-family');
     return Boolean(family && selectedFamilies.has(family));
   }
 
   function updateCrosscutSections() {
-    var showSupporting = skillsExpanded;
-    var showFoundations = skillsExpanded && otherVisible();
+    var showSupporting = skillsExpanded || supportingOnly;
+    var showFoundations = (skillsExpanded && otherVisible()) || supportingOnly;
 
     crosscutPracticeRows.forEach(function (row) {
-      var vis = skillsExpanded && crosscutRowVisible(row);
+      var vis = (skillsExpanded || supportingOnly) && crosscutRowVisible(row);
       row.classList.toggle('is-filter-visible', vis);
-      if (vis) updateCrosscutRowSkills(row);
+      updateCrosscutRowSkills(row, vis);
     });
     if (supportingSection) {
       supportingSection.classList.toggle('is-filter-visible', showSupporting);
@@ -196,7 +311,7 @@
     crosscutOtherRows.forEach(function (row) {
       var vis = showFoundations;
       row.classList.toggle('is-filter-visible', vis);
-      if (vis) updateCrosscutRowSkills(row);
+      updateCrosscutRowSkills(row, vis);
     });
     if (foundationalSection) {
       foundationalSection.classList.toggle('is-filter-visible', showFoundations);
@@ -206,6 +321,44 @@
     stageSkillRows.forEach(function (row) {
       row.classList.toggle('is-filter-visible', skillsExpanded && otherVisible());
     });
+  }
+
+  function syncSkillsExpandClasses(expanded) {
+    surface.classList.toggle('foundry-skills-collapsed', !expanded && !supportingOnly);
+    surface.classList.toggle('foundry-skills-expanded', expanded || supportingOnly);
+  }
+
+  function syncBoardGridRows() {
+    var board = surface.querySelector('.foundry-board-grid');
+    if (!board) return;
+    var famRows = FAMILY_ROW_ORDER.map(function (family) {
+      if (skillsExpanded) return ROW_H;
+      if (selectedFamilies.size === 0) return ROW_H;
+      return selectedFamilies.has(family) ? ROW_H : ZERO_ROW;
+    });
+    var stageGap = ZERO_ROW;
+    var otherTracks = [ZERO_ROW, ZERO_ROW, ZERO_ROW];
+    if (skillsExpanded) {
+      if (otherVisible()) {
+        stageGap = 'var(--foundry-stage-skills-gap-h)';
+        otherTracks = [ROW_H, ROW_H, ROW_H];
+      } else {
+        otherTracks = [ROW_H, ZERO_ROW, ZERO_ROW];
+      }
+    } else if (selectedFamilies.size === 0 || selectedFamilies.has('other')) {
+      otherTracks = [ROW_H, ZERO_ROW, ZERO_ROW];
+    }
+    board.style.gridTemplateRows = [
+      'auto',
+      famRows[0],
+      famRows[1],
+      famRows[2],
+      famRows[3],
+      stageGap,
+      otherTracks[0],
+      otherTracks[1],
+      otherTracks[2]
+    ].join(' ');
   }
 
   function toggleCrosscutGroup(btn) {
@@ -222,9 +375,14 @@
   }
 
   function setSkillsExpanded(expanded, source) {
+    if (supportingOnly) {
+      skillsExpanded = true;
+      syncSkillsExpandClasses(true);
+      updateCrosscutSections();
+      return;
+    }
     skillsExpanded = expanded;
-    surface.classList.toggle('foundry-skills-collapsed', !expanded);
-    surface.classList.toggle('foundry-skills-expanded', expanded);
+    syncSkillsExpandClasses(expanded);
     if (skillsToggle) {
       skillsToggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
       skillsToggle.classList.toggle('is-expanded', expanded);
@@ -233,16 +391,17 @@
     }
     if (source === 'user') saveSkillsExpandedPref(expanded);
     updateCrosscutSections();
+    applyFilter();
   }
 
   function applyFilter() {
     rows.forEach(function (row) {
       row.classList.toggle('is-filter-visible', rowVisible(row));
     });
-    /* Family buttons are ALWAYS visible — never hide them */
     saveFilter(Array.from(selectedFamilies));
     updateCrosscutSections();
     syncIdleState();
+    syncBoardGridRows();
   }
 
   function enableRowAnimations() {
@@ -269,34 +428,80 @@
     enableRowAnimations();
     var nowSelected = !selectedFamilies.has(family);
     setFamilySelected(btn, nowSelected);
-    /* auto-expand/collapse the matching crosscut group */
-    if (nowSelected) {
-      selectedCrosscutGroups.add(family);
-    } else {
-      selectedCrosscutGroups.delete(family);
-    }
-    saveCrosscutPref(Array.from(selectedCrosscutGroups));
     applyFilter();
   }
 
-  function applyStageHighlight(stageId) {
-    if (!stageId) return;
+  function syncStageIdleState() {
+    var idle = selectedStages.size === 0;
+    surface.classList.toggle('foundry-stage-filter-idle', idle);
+    surface.classList.toggle('foundry-stage-filter-active', !idle);
+    surface.classList.toggle('foundry-stage-filter-single', selectedStages.size === 1);
+    surface.classList.toggle('foundry-stage-filter-multi', selectedStages.size > 1);
+  }
+
+  function stageHeadFiltered(stage) {
+    return selectedStages.has(stage);
+  }
+
+  function stageHeadHighlighted(stage) {
+    return selectedStages.size === 0 && stage === highlightedStage && Boolean(highlightedStage);
+  }
+
+  function applyStageColumnFilter() {
     var pageName = pageBasename();
+    surface.querySelectorAll('.foundry-board-grid > .kb-col[data-stage]').forEach(function (col) {
+      col.classList.add('is-stage-filter-visible');
+    });
+    surface.querySelectorAll('.kanban-stage-questions__cell[data-stage]').forEach(function (cell) {
+      var stage = cell.getAttribute('data-stage');
+      cell.classList.add('is-stage-filter-visible');
+      cell.classList.toggle('is-active', stageHeadFiltered(stage) || stageHeadHighlighted(stage));
+    });
     surface.querySelectorAll('.kb-ticket.aad-skill[data-stage]').forEach(function (el) {
       if (el.classList.contains('foundry-family-toggle')) return;
       var skillHref = (el.getAttribute('data-skill-href') || el.getAttribute('href') || '').split('?')[0];
       var onPage = skillHref === pageName;
-      var inStage = el.getAttribute('data-stage') === stageId;
-      el.classList.toggle('kb-ticket--current', onPage && inStage);
-      if (onPage && inStage) el.setAttribute('aria-current', 'page');
+      var inStage = el.getAttribute('data-stage') === highlightedStage;
+      el.classList.toggle('kb-ticket--current', onPage && inStage && Boolean(highlightedStage));
+      if (onPage && inStage && highlightedStage) el.setAttribute('aria-current', 'page');
       else el.removeAttribute('aria-current');
     });
     colHeads.forEach(function (head) {
-      head.classList.toggle('kb-col-head--current', head.getAttribute('data-stage') === stageId);
+      var stage = head.getAttribute('data-stage');
+      var filtered = stageHeadFiltered(stage);
+      var highlighted = stageHeadHighlighted(stage);
+      head.classList.toggle('is-selected', filtered);
+      head.classList.toggle('kb-col-head--current', filtered || highlighted);
+      head.setAttribute('aria-pressed', filtered ? 'true' : 'false');
     });
+    applyFilter();
+    syncStageIdleState();
   }
 
-  window.__foundryApplyStage = applyStageHighlight;
+  function toggleStage(stageId) {
+    if (!stageId) return;
+    enableRowAnimations();
+    if (selectedStages.has(stageId)) {
+      selectedStages.delete(stageId);
+      if (highlightedStage === stageId) highlightedStage = '';
+    } else {
+      selectedStages.add(stageId);
+    }
+    var stageList = Array.from(selectedStages);
+    saveStageFilter(stageList);
+    if (window.history && window.history.pushState) {
+      window.history.pushState({ foundryStage: stageList }, '', buildStageUrl(stageList));
+    }
+    applyStageColumnFilter();
+  }
+
+  window.__foundryApplyStage = function (stageId) {
+    highlightedStage = stageId || '';
+    if (window.history && window.history.pushState) {
+      window.history.pushState({ foundryHighlight: stageId || '' }, '', buildStageUrl(stageId || ''));
+    }
+    applyStageColumnFilter();
+  };
   window.__foundrySetSkillsExpanded = setSkillsExpanded;
 
   crosscutToggles.forEach(function (btn) {
@@ -322,9 +527,26 @@
     });
   }
 
+  colHeads.forEach(function (head) {
+    head.addEventListener('click', function (e) {
+      var stage = head.getAttribute('data-stage');
+      if (!stage) return;
+      e.preventDefault();
+      toggleStage(stage);
+    });
+  });
+
+  surface.querySelectorAll('.kanban-stage-questions__cell[data-stage]').forEach(function (cell) {
+    cell.addEventListener('click', function () {
+      var stage = cell.getAttribute('data-stage');
+      if (stage) toggleStage(stage);
+    });
+  });
+
   /* ── Initialise state ── */
   var urlStage = stageFromUrl();
-  var activeStage = urlStage || surface.getAttribute('data-initial-stage') || '';
+  highlightedStage = urlStage || surface.getAttribute('data-initial-stage') || '';
+  readSavedStageFilter().forEach(function (stage) { selectedStages.add(stage); });
 
   var saved = readSavedFilter();
   if (saved && saved.families.length) {
@@ -347,12 +569,31 @@
   readCrosscutPref().forEach(function (group) { selectedCrosscutGroups.add(group); });
 
   applyFilter();
-  setSkillsExpanded(readSkillsExpandedPref(), 'restore');
-  applyStageHighlight(activeStage);
+  if (supportingOnly) {
+    setSkillsExpanded(true, 'restore');
+  } else {
+    setSkillsExpanded(readSkillsExpandedPref(), 'restore');
+  }
+  applyStageColumnFilter();
 
-  window.addEventListener('popstate', function () {
-    applyStageHighlight(stageFromUrl() || surface.getAttribute('data-initial-stage') || '');
+  window.addEventListener('popstate', function (e) {
+    var poppedStage = stageFromUrl();
+    highlightedStage = poppedStage || surface.getAttribute('data-initial-stage') || '';
+    if (e.state && Object.prototype.hasOwnProperty.call(e.state, 'foundryStage')) {
+      selectedStages = new Set();
+      var restored = e.state.foundryStage;
+      if (Array.isArray(restored)) {
+        restored.forEach(function (stage) { if (stage) selectedStages.add(stage); });
+      } else if (restored) {
+        selectedStages.add(restored);
+      }
+      saveStageFilter(Array.from(selectedStages));
+    }
+    applyStageColumnFilter();
   });
+
+  applyPendingScrollRestore();
+  clearPendingScrollRestore();
 
   window.requestAnimationFrame(function () {
     surface.classList.remove('foundry-skill-nav-settling');

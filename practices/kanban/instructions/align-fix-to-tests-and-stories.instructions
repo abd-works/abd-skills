@@ -1,0 +1,135 @@
+# Align fix to tests and stories (always-on)
+
+Triggers: you are **debugging**, **fixing a defect**, or **changing behavior** in production code, generated catalog assets, or client-side scripts — especially under `catalog/`.
+
+**Non-negotiable:** do not patch code first and hunt for a test later. **Find the story, find or write the test, run RED, fix, run GREEN**, then sync upstream artifacts.
+
+---
+
+## 1. Map the bug to a story and AC
+
+Before touching code, locate the behavioral contract the fix must satisfy.
+
+| Layer | Where to look |
+| --- | --- |
+| **Domain language** | `catalog/docs/acceptance-criteria.md` (terms + invariants at top) |
+| **Acceptance criteria** | Same file — `## Story: …` sections with numbered WHEN/THEN/AND/BUT |
+| **Executable tests** | `catalog/tests/kanban/<story-slug>/` — module docstring names the story; test class cites AC numbers |
+| **Spec by example** | `catalog/docs/specification-by-example.md` when it exists for this scope |
+| **Upstream kanban prompt** | `practices/kanban/prompts/abd-fix-defect.prompt.md` — same RED → GREEN → doc sync order |
+
+Record in your working notes (or PR text):
+
+- **Story title** (e.g. *Select Practice Family Filter*)
+- **AC number(s)** (e.g. AC 3)
+- **WHEN/THEN** line that the bug violates
+
+If no story or AC covers the behavior, **stop and add AC first** (or confirm with the user), then add the test. Do not invent fixes without a traceable criterion.
+
+---
+
+## 2. Find the test that should have caught it
+
+Search in this order:
+
+1. **Existing test for that story** — `catalog/tests/kanban/` mirrors story names:
+   - `view_kanban_no_filter/`
+   - `select_family_filter/`
+   - `expand_collapse/`
+   - `navigate_to_skill_page/`
+   - `supporting_section/`
+2. **Shared helpers** — `catalog/tests/kanban/kanban_helper.py` (Given/When/Then steps)
+3. **AC Evidence lines** — in `catalog/docs/acceptance-criteria.md`; some cite selectors or stated requirements
+
+**Prefer extending an existing scenario** over a new file when the bug fits the same story.
+
+If the right test exists but is **wrong or stale** (e.g. expects four crosscut families when only three exist):
+
+- Fix the **test and AC together** in the same change set
+- Note in the commit/PR which side was wrong: product, test, or spec
+
+---
+
+## 3. RED — write or adjust a failing test, then run it
+
+1. Add or tighten one test method that **fails on current behavior** and **passes when the AC is met**.
+2. Name the test after observable behavior, not implementation (`test_collapsed_filter_shows_only_ticked_family_row`, not `test_css_opacity`).
+3. Use **Given / When / Then** comments matching `kanban_helper.py` style.
+4. Reference the story and AC in the class docstring:
+
+   ```python
+   class TestSelectPracticeFamilyFilter:
+       """AC 3 from Select Practice Family Filter story."""
+   ```
+
+**Run only the failing test first** (fast feedback):
+
+```powershell
+cd c:\dev\abd-skills\catalog\tests
+python -m pytest kanban/select_family_filter/select_family_filter.py::TestSelectPracticeFamilyFilter::test_collapsed_filter_active_shows_only_ticked_family_header_chip -v
+```
+
+**Run the full catalog suite before declaring done:**
+
+```powershell
+cd c:\dev\abd-skills\catalog\tests
+python -m pytest . -v
+```
+
+Requires: `pip install pytest playwright` and `python -m playwright install chromium`.
+
+**RED is not done** until pytest reports **FAILED** on the new or updated test for the right reason.
+
+---
+
+## 4. GREEN — fix code, re-run until pass
+
+1. Change the **smallest surface** that satisfies the AC (often `catalog-foundry-skill-nav.js`, `catalog-foundry-interface.css`, or generator templates under `foundational/skill-builder/skills/abd-skill-catalog/`).
+2. If you edit templates or scripts, **regenerate** the catalog:
+
+   ```powershell
+   python foundational/skill-builder/skills/abd-skill-catalog/scripts/generate_abd_catalog.py --repo-root c:\dev\abd-skills
+   ```
+
+3. Re-run the single test, then the full `catalog/tests` suite.
+4. **GREEN is not done** until all catalog tests pass (or known unrelated failures are explicitly called out).
+
+Do not weaken assertions to go green. If the AC was wrong, update AC and test in step 5 instead.
+
+---
+
+## 5. Sync upstream — story spec and AC
+
+After GREEN, align documentation with what you proved in tests:
+
+| Change type | Update |
+| --- | --- |
+| Behavior clarified or AC was missing | `catalog/docs/acceptance-criteria.md` — add or fix WHEN/THEN; keep **Evidence** pointing at test file or helper |
+| Scenario steps need examples | `catalog/docs/specification-by-example.md` (Given/When/Then with real selectors/families) |
+| Domain term or invariant changed | Domain language section at top of `acceptance-criteria.md` |
+| Test layout or story split | Module docstring in `catalog/tests/kanban/<story>/` |
+
+**Traceability rule:** every AC you touch should either cite an existing test path in **Evidence** or gain a new test in the same PR.
+
+Offer sync per `practices/kanban/instructions/sync-generated-artifacts.instructions.md` when the fix also affects acceptance tests, spec, or story map on an engagement — but **catalog kanban** keeps its contract in `catalog/docs/` and `catalog/tests/`.
+
+---
+
+## 6. Done checklist
+
+- [ ] Story name and AC number(s) identified
+- [ ] Failing test committed or shown failing in run output
+- [ ] Code fix minimal and tied to AC wording
+- [ ] `pytest` green on `catalog/tests`
+- [ ] Catalog regenerated if generator/templates changed
+- [ ] `catalog/docs/acceptance-criteria.md` (and spec if used) matches tests
+- [ ] PR/commit message mentions story + AC (e.g. `Select Practice Family Filter — AC 3: collapsed filter shows ticked row only`)
+
+---
+
+## Anti-patterns
+
+- **Fix in browser, skip tests** — defect will return on next catalog regen.
+- **Delete or skip failing tests** without updating AC — hides contract drift.
+- **Assert implementation details** (class names only you know) instead of user-visible behavior from AC.
+- **One giant test** — one AC per test method where possible; reuse `kanban_helper.py`.

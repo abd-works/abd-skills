@@ -26,13 +26,10 @@ An **actor** is anyone (or anything) that interacts with the system. Actors are 
 | **User** | A human who uses the system directly | Customer, Administrator, Agent |
 | **System** | An external system or automated process | Payment gateway, Email service, Scheduler |
 
-Actors do NOT appear in story names — they are captured in the `story_type` field and optionally in `notes`. The name describes the *behavior*, not who does it.
 
-## Personas
+User **actors** are representative description of a segment of customers or users. Before building the map, identify the personas from the available context. For each actor determine their goals and the activities they need to meet those goals — these drive the epics and stories below.
 
-A **persona** is a representative description of a segment of customers or users. Before building the map, identify the personas from the available context. For each persona determine their goals and the activities they need to meet those goals — these drive the epics and stories below.
-
-In the story map, personas sit at the **top layer** — each persona's goals drive the epics below them.
+In the story map, actors sit at the **top layer** — each actor's goals drive the epics below them.
 
 ---
 

@@ -105,3 +105,38 @@ A common modeling journey begins with treating domain elements as *instances* or
 ### The delta rule
 
 A subtype carries **only what it adds or overrides**. Inherited responsibilities are not repeated at any level of fidelity — domain-language, CRC, or Class Model. If the parent owns a responsibility, the subtype block is silent on it.
+
+---
+
+### Surfacing the typing choice
+
+When a concept or class plausibly fits more than one typing approach — type field, inheritance, or instance — **surface the choice to the user** before committing. Present the viable options with a recommendation and brief reasoning, ask the user to choose, and record the decision and any rationale they provide. Do not silently pick an approach.
+
+**When to surface:** Any time a concept has varying "kinds" and more than one of the three approaches below could fit.
+
+**Three approaches — quick reference:**
+
+| Approach | Use when | Example |
+|----------|----------|---------|
+| **Type field (constrained list)** | The kinds differ **only by label** — behavior and properties are identical across all variants. The type is a property drawn from a known set. | *Payment* has a `payment_type` field: `[ach, wire, check]`. All payments initiate, submit, and settle identically; the type is a tag, not a behavioral distinction. |
+| **Inheritance** | The kinds are **substitutable** for the base but each adds **distinct behavior or properties** of its own. Liskov must hold — swap any subtype in where the base is expected and nothing breaks. | *ACH payment* and *Wire payment* are each *is a type of* *payment* — they share submission and review, but *wire* carries Fedwire-specific states and *ACH* produces a *NACHA file*. |
+| **Instance** | The concept is worth naming because of its **surrounding invariants or behavior context**, but it is just a **specific data value** of the parent class — no separate class or type field needed. | *Kid* is a *Person* with `age < 14`. Worth naming because rules depend on it (cannot view R-rated content), but modeled as a constrained instance of *Person*, not a subtype. |
+
+**How to surface the choice:**
+
+Use `AskQuestion` to present the viable options. Mark the recommended option and **include your reasoning for that specific concept** — not just the general rule, but why the evidence you can see points to that choice. The user may disagree; the reasoning lets them push back on the right thing.
+
+Example prompt structure:
+
+> *Payment has multiple variants (ACH, Wire). Which modeling approach fits best?*
+> - **Inheritance** — define *ACH payment*, *Wire payment* each *is a type of* *payment* *(Recommended — ACH and Wire already have distinct submission steps, state machines, and required fields in the source material; those differences will need to be modeled separately)*
+> - **Type field** — add a `payment_type` constrained list to *Payment*; use if all variants turn out to behave identically
+> - **Instance** — variants are specific data values of *Payment*; no new class or type field needed
+
+After the user chooses, give them space to provide their rationale:
+
+> *Is there anything specific about [concept] that influenced your choice — for example, known behavior differences, domain language your stakeholders use, or constraints you are aware of?*
+
+Record both the choice and the rationale in `#### Decisions made` alongside the concept.
+
+**Carrying rationale forward.** Later-stage skills — domain-model, domain-specification — inherit the same typing decision and rationale unless modeling work uncovers new information (for example, a type-field concept develops distinct behavior at class-model stage). When that happens, note the new evidence and resurface the choice rather than silently overriding the earlier call. A later-stage skill may inform a new typing decision using the same rationale — if the user said "variants feel different but we don't know how yet," that context is evidence at domain-model stage to reassess.

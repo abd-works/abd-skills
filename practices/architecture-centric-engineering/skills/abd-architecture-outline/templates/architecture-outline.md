@@ -4,51 +4,114 @@
 > **Owner:** {team-or-person}
 > **Last updated:** YYYY-MM-DD
 >
-> **Purpose.** One-page picture of {SystemName} — what it is, what it sits next to, and the principles that guide every deeper decision. Internals (components, mechanisms, data models, patterns) live in the **architecture blueprint** and **architecture reference** documents linked from section 8.
+> **Purpose.** One-page picture of {SystemName} — what it is, what it sits next to, the platform technology each system commits to, the mechanisms that address cross-cutting concerns, and the principles that guide every deeper decision. Deployment and platform runtime detail live in the **architecture blueprint** linked from section 5.
 
 ---
 
-## 1. Platform Diagram
-
-![Platform Architecture]( ./diagrams/platform-architecture.png )
-
-> Source: [`diagrams/platform-architecture.drawio`](./diagrams/platform-architecture.drawio). Edit in draw.io Desktop and re-export with `scripts\arch-drawio.ps1 export`.
-
-**Caption.** {SystemName} is a {form factor — web-plus-API SaaS / desktop client + game / mobile + serverless / etc.}. The client talks to a single API gateway; the API holds all persisted state in {primary store} and uses {secondary stores} for {purpose}.
-
----
-
-## 2. Layered Architecture
-
-![Layered Architecture]( ./diagrams/layered-architecture.png )
-
-> Source: [`diagrams/layered-architecture.drawio`](./diagrams/layered-architecture.drawio).
-
-**Caption.** Dependencies point one way only: Presentation depends on Application, Application on Domain, Domain on Infrastructure interfaces (never their implementations). The Domain layer never imports from Infrastructure assemblies.
-
----
-
-## 3. System Context
+## 1. System Context
 
 ![System Context]( ./diagrams/system-context.png )
 
 > Source: [`diagrams/system-context.drawio`](./diagrams/system-context.drawio).
+> Element inventory: [`diagrams/system-context-elements.md`](./diagrams/system-context-elements.md)
 
-**Caption.** Two human actor types interact with {SystemName}. Three external systems are integrated: identity is delegated to {Auth Provider}, transactional email is sent through {Email Provider}, product analytics flow to {Analytics}.
+**Caption.** {Two or three sentences: who uses the system, which external systems integrate, and the dominant protocol pattern across boundaries.}
+
+### Systems
+
+Each entry below summarises the functions and platform technology for one owned system. Full element descriptions are in the inventory file above.
+
+#### {System A Name}
+
+{What it is and its primary job.}
+
+**Functions:** {function 1} · {function 2} · {function 3} · {function 4}
+
+**Tech:** {runtime · framework} | **Persistence:** {database} | **Libs / tools:** {key libraries, observability, build}
+
+#### {System B Name}
+
+{What it is and its primary job.}
+
+**Functions:** {function 1} · {function 2} · {function 3}
+
+**Tech:** {runtime · framework} | **Persistence:** {database} | **Libs / tools:** {key libraries, observability, build}
+
+*(One subsection per owned system. Mirror the element inventory — do not introduce systems not in the diagram.)*
 
 ---
 
-## 4. Deployment Topology
+## 2. Architecture Mechanisms
 
-![Deployment Topology]( ./diagrams/deployment-architecture.png )
+The mechanisms below are the cross-cutting concerns the architecture commits to. Each entry states the **technology or platform choice**, a **paragraph or two** on how it works at this level, and the **key non-functional requirement or justification** that drove the choice. Mechanisms that are novel or context-specific to this system are included alongside the standard set.
 
-> Source: [`diagrams/deployment-architecture.drawio`](./diagrams/deployment-architecture.drawio).
+### 2.1 Security
 
-**Caption.** Production runs in a single AWS region with multi-AZ failover at the data tier. Static assets are CDN-cached at the edge. Staging mirrors production at smaller instance sizes; preview environments are single-container deployments with shared staging data.
+**Technology choice:** {Auth provider / JWT / mTLS / API gateway policy / etc.}
+
+{Paragraph 1: what the mechanism protects, who controls identity, where in the request pipeline authentication and authorisation occur.}
+
+{Paragraph 2 (if warranted): key NFR or constraint that shaped this choice — e.g. compliance requirement, zero-trust policy, multi-tenancy boundary.}
+
+### 2.2 Error Handling & Resilience
+
+**Technology choice:** {Result type / circuit-breaker library / retry policy / dead-letter queue / etc.}
+
+{How failures are represented and propagated. Where the boundary between domain errors and infrastructure errors lies. How the system degrades under partial failure.}
+
+{Key NFR: availability target, acceptable degradation, or recovery time objective that justifies the approach.}
+
+### 2.3 Logging & Observability
+
+**Technology choice:** {Logging library · trace provider · metrics sink — e.g. Pino + OpenTelemetry → Datadog}
+
+{What is captured, at what level, and how correlation IDs cross system boundaries. Whether structured or unstructured log output.}
+
+{Key NFR: MTTR target, audit requirement, or regulatory constraint that drove the choice.}
+
+### 2.4 Validation
+
+**Technology choice:** {Schema library · validation framework — e.g. Zod, Joi, Bean Validation, Pydantic}
+
+{Where validation runs (edge vs domain), what it protects against, and how validation failures surface to callers.}
+
+### 2.5 Configuration & Secrets
+
+**Technology choice:** {Config source — e.g. AWS Secrets Manager · Vault · environment variables via dotenv}
+
+{When config is read (startup vs runtime), how secrets are rotated, and what code is and is not allowed to read `process.env` / equivalent directly.}
+
+### 2.6 Caching
+
+**Technology choice:** {Cache technology and pattern — e.g. Redis write-through, in-process LRU, CDN edge cache}
+
+{What is cached, for how long, and how cache invalidation is handled. Any consistency guarantees or explicitly accepted staleness.}
+
+{Key NFR: latency budget or throughput target that makes caching necessary.}
+
+### 2.7 Persistence
+
+**Technology choice:** {Database technology and access pattern — e.g. PostgreSQL via repository pattern, DynamoDB single-table}
+
+{How data ownership boundaries are enforced, how cross-aggregate consistency is handled, and whether the system uses an outbox or saga pattern.}
+
+### 2.8 Communication
+
+**Technology choice:** {Synchronous: REST / gRPC / GraphQL. Async: AMQP broker / Kafka / SNS+SQS / etc.}
+
+{How systems and components communicate — synchronous protocols for reads and writes, async messaging for events and long-running processes. Contract versioning approach if any.}
+
+### 2.{N} {Bespoke Mechanism Name} *(if applicable)*
+
+**Technology choice:** {Named tool, library, or platform capability}
+
+{1–2 paragraphs: what problem this addresses that the standard mechanisms do not, and the NFR or constraint that makes it necessary in this specific context.}
+
+*(Add one subsection per additional novel or bespoke mechanism. Remove this placeholder when none is needed.)*
 
 ---
 
-## 5. Guiding Principles
+## 3. Guiding Principles
 
 The principles below are the one-sentence stances that govern every deeper architectural decision. Each one is decidable against a real piece of code or a design proposal.
 
@@ -64,7 +127,7 @@ The principles below are the one-sentence stances that govern every deeper archi
 
 ---
 
-## 6. Technology Stack
+## 4. Technology Stack
 
 | Layer | Technology | Version | Purpose |
 |---|---|---|---|
@@ -75,7 +138,6 @@ The principles below are the one-sentence stances that govern every deeper archi
 | Domain | TypeScript | 5.x | Domain modelling language |
 | Infrastructure | Postgres | 15.x | Primary data store |
 | Infrastructure | Redis | 7.x | Cache + ephemeral state |
-| Infrastructure | AWS ECS Fargate | n/a | Container runtime |
 | Cross-cutting | OpenTelemetry | 1.x | Tracing + metrics |
 | Build / CI | GitHub Actions | n/a | CI/CD |
 
@@ -83,35 +145,34 @@ The principles below are the one-sentence stances that govern every deeper archi
 
 ---
 
-## 7. Major Systems
+## 5. Major Systems
 
 | System | One-line description | Primary owner / module |
 |---|---|---|
-| **Identity** | Authenticates users and issues tokens; thin wrapper over Auth0. | `packages/identity` |
-| **Catalogue** | Read-mostly product catalogue with strong cache reliance. | `packages/catalogue` |
-| **Orders** | Order lifecycle from cart to fulfilment; canonical source of revenue events. | `packages/orders` |
-| **Notifications** | Outbound email, push, and webhook delivery; consumes order/identity events. | `packages/notifications` |
-| **Admin Console** | Internal-only React app for support and ops queries. | `apps/admin` |
+| **{System A}** | {What it does in one line.} | `{packages/system-a}` |
+| **{System B}** | {What it does in one line.} | `{packages/system-b}` |
 
 *(One row per major system the architecture distinguishes. No internal components, no mechanisms, no patterns — those go in the blueprint and reference.)*
 
 ---
 
-## 8. Decision Records
+## 6. Decision Records
 
-The outline-level decisions are listed below. Each one has a full record at `docs/architecture/decisions/ADR-NNN-{slug}.md` using the [decision-record template](./decision-record.md).
+The outline-level decisions — including mechanism choices — are listed below. Each one has a full record at `docs/architecture/decisions/ADR-NNN-{slug}.md` using the [decision-record template](./decision-record.md).
 
 | ID | Decision | One-line consequence |
 |---|---|---|
 | [ADR-001](../decisions/ADR-001-spa-plus-rest-api-platform.md) | SPA + REST API platform | All client code is browser-side; no server rendering, no GraphQL surface area. |
-| [ADR-002](../decisions/ADR-002-layered-clean-architecture.md) | Layered/clean architecture with one-way dependencies | Domain stays portable; mocking infrastructure is free. |
-| [ADR-003](../decisions/ADR-003-aws-fargate-deployment.md) | AWS ECS Fargate, single region, multi-AZ | No Kubernetes operations cost; region-failure is an explicit DR scenario. |
-| [ADR-004](../decisions/ADR-004-auth0-identity.md) | Outsource identity to Auth0 | No homegrown password store; vendor lock at the identity layer is accepted. |
+| [ADR-002](../decisions/ADR-002-auth0-identity.md) | Auth0 for identity | No homegrown password store; vendor lock at the identity layer is accepted. |
+| [ADR-003](../decisions/ADR-003-result-types-not-exceptions.md) | Domain returns `Result<T, E>`, not exceptions | Failure handling is type-checked; the HTTP boundary is the only translator. |
+| [ADR-004](../decisions/ADR-004-redis-write-through-cache.md) | Redis write-through cache for catalogue | Predictable freshness at accepted write overhead. |
+
+*(Mechanism choices produce ADRs here. Blueprint-level decisions — component boundaries, test-tier vocabulary — continue numbering in the blueprint.)*
 
 ---
 
 ## See also
 
-- [`architecture-blueprint.md`](./architecture-blueprint.md) — second-level: components, mechanisms, data models.
+- [`architecture-blueprint.md`](./architecture-blueprint.md) — second-level: platform runtime, deployment topology, components, deeper mechanism walkthrough, data models.
 - [`architecture-reference.md`](./architecture-reference.md) — third-level: full mechanism walkthroughs and patterns.
 - [`service-level-objectives.md`](./service-level-objectives.md) — non-functional requirements per major system.

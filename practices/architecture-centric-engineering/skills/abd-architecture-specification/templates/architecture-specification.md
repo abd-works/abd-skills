@@ -79,14 +79,21 @@ How domain classes and operations from the domain model become code in this arch
 
 ### Architecture Flow
 
-<!-- Show the PATTERN of one interaction traversing the tech stack end-to-end.
+<!-- Produce TWO deliverables for this section:
+     1. ASCII block below — inline text summary of the flow, parameterized.
+     2. architecture-flow.drawio — Draw.io file alongside this document.
+        Start from templates/architecture-flow.drawio; replace placeholder labels
+        with the actual layer/file names for this architecture.
+        Simple boxes and lines only — no gradients, no swimlane fills.
      Use <<Parameterized>> names for all participants and files.
      Concrete names (e.g. "Recipient", "placeOrder") → ## Example. -->
 
 One {{interaction description}} from {{entry point}} through {{layers}} to {{persistence}} and back.
 
+> See [`architecture-flow.drawio`](./architecture-flow.drawio) for the visual diagram.
+
 ```
-{{FLOW DIAGRAM — participants named <<Feature>>, <<Entity>>, <<operation>>, or layer names}}
+{{FLOW DIAGRAM — ASCII, participants named <<Feature>>, <<Entity>>, <<operation>>, or layer names}}
 ```
 
 | Tech / Layer | File / Module | Domain concept it carries |
@@ -309,11 +316,11 @@ tests/ (or {{project test folder}})
 
 ## Example
 
-The worked example lives in `template/`. It implements the **{{EpicName}} → {{SubEpicName}}** story using all mechanisms and the `{{domain}}` domain module.
+The worked example lives in `reference/example.ts`. It implements the **{{EpicName}} → {{SubEpicName}}** story using all mechanisms and the `{{domain}}` domain module.
 
 | Artifact | Path | What it is |
 |----------|------|------------|
-| Runnable code | `template/{{code path}}` | Domain module + composition root(s) |
+| Runnable code | `reference/example.ts` | Domain module + composition root(s) — all template files merged into one |
 | Specification by example | `template/specification-by-example.md` | Given/When/Then scenarios |
 | Domain spec | `template/domain-spec.md` | Typed domain spec |
 | Tests | `template/tests/` | Domain unit tests + acceptance test tiers |

@@ -1,33 +1,33 @@
 # Rule: Principles are decidable one-sentence stances
 
-A guiding principle in the outline is **one sentence** and **decidable against a real code change or design proposal**. It names what the system constrains itself to do, not what every engineer should aspire to. A reviewer should be able to look at a pull request and say "this violates principle 3" or "this is fine under principle 3". Failing means a principle is a paragraph, a slogan, a value statement, or so abstract that no piece of code could ever be measured against it.
+Every guiding principle in the outline is **one sentence** and **decidable against a real code change or design proposal**. It names a constraint the system imposes on itself — not an aspiration. A reviewer should be able to look at a pull request and say "this violates principle 3" or "this is fine under principle 3". Failing means a principle is a paragraph, a slogan, a value statement, or so abstract that no piece of code could ever be measured against it.
 
 ## DO
 
-- State each principle as one declarative sentence naming the constraint and the thing constrained.
+- Every principle is one declarative sentence naming the constraint and the thing it constrains.
 
   **Example (pass):** "Domain never imports infrastructure — domain classes depend on interfaces; concrete database, HTTP, and message-bus types are referenced only from the Infrastructure layer."
 
-- Give every principle a verifiable surface: a layer, a folder, a code path, or a build-time check.
+- Every principle names a verifiable surface: a layer, a folder, a code path, or a build-time check.
 
-  **Example (pass):** "Tests run without infrastructure — the full domain and application test suite runs in under 60 seconds with no databases, brokers, or third-party services started." (verifiable by running the suite.)
+  **Example (pass):** "Tests run without infrastructure — the full domain and application test suite runs in under 60 seconds with no databases, brokers, or third-party services started." Verifiable by running the test suite.
 
-- Keep the principles list to 5–10 entries. If a candidate cannot fit alongside the others as a peer, it is probably not outline-level.
+- The principles list contains 5–10 entries, each fitting on one bullet line with an optional short clarification clause.
 
-  **Example (pass):** Eight principles, each fitting on one bullet line plus an optional short clarification clause.
+  **Example (pass):** Eight principles, each a single sentence. The ninth candidate ("prefer immutability where cost is low") is deferred to the blueprint because it cannot be applied at outline level.
 
 ## DO NOT
 
-- Write a principle as a value statement or slogan that cannot be applied to a code change.
+- Express a principle as a value statement or slogan that cannot be applied to a code change.
 
-  **Example (fail):** "We value craftsmanship and clean code." — true but undecidable; a reviewer cannot pass/fail a PR with this.
+  **Example (fail):** "We value craftsmanship and clean code." Undecidable — a reviewer cannot pass or fail a PR against this.
 
-- Use multi-paragraph principles that read like a mini essay.
+- Write a principle as a multi-paragraph entry.
 
-  **Example (fail):** A principle that is three paragraphs explaining context, options, and consequences — that is an ADR, not a principle.
+  **Example (fail):** A principle entry is three paragraphs explaining context, options considered, and consequences. That is an ADR, not a principle.
 
-- Mix principles with implementation rules.
+- Embed implementation rules inside a principle.
 
-  **Example (fail):** "Use `Result<T, E>` from the `neverthrow` library and avoid `try/catch` except at the HTTP boundary, configuring the library at `src/shared/result.ts`." — this is implementation detail for a rule, not a principle.
+  **Example (fail):** "Use `Result<T, E>` from the `neverthrow` library and avoid `try/catch` except at the HTTP boundary, configuring the library at `src/shared/result.ts`." This is implementation detail for a mechanism rule, not an outline-level principle.
 
-**Source:** Practice-skill authoring convention (abd-architecture-outline); principles list is the outline's third load-bearing element.
+**Source:** Practice-skill authoring convention (abd-architecture-outline); the principles list is the outline's third load-bearing element.

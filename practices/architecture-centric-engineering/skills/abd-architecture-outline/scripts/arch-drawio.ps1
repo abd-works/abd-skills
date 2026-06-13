@@ -5,9 +5,9 @@
 .DESCRIPTION
   Three sub-commands:
 
-    init     Copy the four drawio templates (platform, layered, context, deployment)
-             into <ProjectRoot>/docs/architecture/diagrams/ so they can be filled in
-             without overwriting any existing diagrams.
+    init     Copy the system-context drawio template into
+             <ProjectRoot>/docs/architecture/diagrams/ so it can be filled in
+             without overwriting any existing diagram.
 
     export   Render every <name>.drawio under <ProjectRoot>/docs/architecture/diagrams/
              to a sibling <name>.png using the local drawio (draw.io Desktop) binary.
@@ -18,11 +18,8 @@
              <name>.drawio source file on disk under docs/architecture/diagrams/.
              This enforces the paired-output rule.
 
-  This skill expects the four outline diagrams to share canonical filenames:
-    platform-architecture.drawio
-    layered-architecture.drawio
+  This skill expects the outline diagram to use the canonical filename:
     system-context.drawio
-    deployment-architecture.drawio
 
   A custom diagram can be added; verify will catch any reference that lacks a
   matching .drawio file.
@@ -147,7 +144,7 @@ function Test-Pairs {
     $refs = @($imageRefs) + @($linkRefs) | Select-Object -Unique
 
     if (-not $refs) {
-        Write-Warning "No diagram references found in $outlineMd. The outline should reference the four diagrams as either PNGs or .drawio links."
+        Write-Warning "No diagram references found in $outlineMd. The outline should reference system-context as either a PNG or .drawio link."
     }
 
     $errors = @()
@@ -162,7 +159,7 @@ function Test-Pairs {
         }
     }
 
-    $expected = @('platform-architecture','layered-architecture','system-context','deployment-architecture')
+    $expected = @('system-context')
     foreach ($e in $expected) {
         $pattern = "$e\.(png|svg|drawio)"
         if (-not ($refs | Where-Object { $_ -match $pattern })) {

@@ -1,66 +1,3 @@
-# MERN Domain-First Architecture Specification
-
-## Table of Contents
-
-- [Overview](#overview)
-- [Instantiating the Domain](#instantiating-the-domain)
-  - [Principles](#principles)
-  - [Architecture Flow](#architecture-flow)
-  - [Module Layout](#module-layout)
-  - [Participants](#participants)
-- [Mechanisms](#mechanisms)
-  - [Mechanism: Web Client](#mechanism-web-client)
-  - [Mechanism: App Server](#mechanism-app-server)
-  - [Mechanism: Persistence](#mechanism-persistence)
-- [Testing Architecture](#testing-architecture)
-  - [Principles](#principles-1)
-  - [Testing Scope](#testing-scope)
-  - [Module Layout](#module-layout-1)
-  - [Participants](#participants-1)
-- [Example](#example)
-- [Rules and Validation](#rules-and-validation)
-- [References](#references)
-
----
-
-## Overview
-
-MERN Domain-First is the **architecture specification** for this stack — the authoritative output of `abd-architecture-specification`. It is a **domain-module-organized full-stack TypeScript architecture** (MongoDB, Express, React, Node.js) built on three runtime mechanisms and one organizing principle:
-
-1. **Instantiating the domain** — every artifact maps to a domain class (`<<Entity>>`) and/or operation (`<<operation>>`); shared core in `shared/`; tiers extend shared.
-2. **Web client** — React views, hooks, and type-safe HTTP client under `app-client/` and `<<domain>>/client/`.
-3. **App server** — Express composition root, route handlers, and `<<domain>>-server` classes under `app-server/` and `<<domain>>/server/`.
-4. **Persistence** — repository and MongoDB; only `<<domain>>-server` touches it.
-
-> Sources: `mern-technical-architecture/reference/concepts.md`, `mern-technical-architecture/inputs/mern-architecture.md`. Example story: **Create Wire Payment** → **Select Recipient**; domain module **Recipients** with `specification-by-example.md` and `domain-spec.md` in `template/`.
-
----
-
-## Instantiating the Domain
-
-How domain classes and operations from the domain model become code in this architecture. **Common to every architecture reference** — the mechanism sections below differ by tech stack; this section defines the domain-to-code mapping rules.
-
-### Principles
-
-- **Every artifact instantiates from the domain** — file names, class names, and method names derive from domain classes and operations defined in the domain model. No generic `Manager`, `Handler`, or CRUD synonym.
-- **Domain modules over technical layers** — organize by business capability first (`packages/<domain>/`), then by tier within each module.
-- **Shared domain core** — entities, value objects, Zod schemas, and collection classes live in `shared/`. Zero framework imports.
-- **Layer qualifiers on extensions** — `shared/` keeps plain domain names (`Recipient`, `Recipients`). Every instantiation or extension in `client/` or `server/` adds a layer qualifier (`RecipientClient`, `RecipientsServer`, `RecipientApi`, `RecipientRouter`, `RecipientRepositoryServer`). The word **Domain** is never part of a class name.
-- **Cross-layer naming** — the same `{verbNoun}` method stem flows through every tier where the operation appears; arg names preserved across boundaries — only types narrow; `camelCase` in TypeScript, `snake_case` in JSON and MongoDB documents.
-- **Composition roots** — `app-client` and `app-server` wire domain packages into a running app. Domain packages never import from a composition root.
-
-
-| Layer       | Qualifier                              | Class naming                                                          | Example                                                            |
-| ----------- | -------------------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| **shared/** | *(none)*                               | `<<Entity>>`, `<<Entity>>s`, `<<Entity>>Repository` (interface)       | `Recipient`, `Recipients`, `RecipientRepository`                   |
-| **client/** | `Client`, `Api`                        | `<<Entity>>Client`, `<<Entity>>sClient`, `<<Entity>>Api`              | `RecipientClient`, `RecipientsClient`, `RecipientApi`              |
-| **server/** | `Server`, `Router`, `RepositoryServer` | `<<Entity>>sServer`, `<<Entity>>Router`, `<<Entity>>RepositoryServer` | `RecipientsServer`, `RecipientRouter`, `RecipientRepositoryServer` |
-
-
-**DO NOT** prefix shared classes with `Domain`, reuse bare shared class names in client/server when the tier adds behaviour, or put tier qualifiers on shared artefacts (`RecipientShared`).
-
-Worked example: `specs/mern/template/packages/recipients/`.
-
 ### Architecture Flow
 
 One user interaction from view through network to persistence and back:
@@ -798,7 +735,7 @@ export const RecipientSchema = z.object({
 
 ## Testing Architecture
 
-When generating tests from this specification, use the **`abd-story-acceptance-test`** skill. That skill owns the test file shape, helper naming, orchestrator pattern, and RED-GREEN-REFACTOR cycle. This section defines the MERN-specific layer structure; `abd-story-acceptance-test` defines how to write the code within each layer.
+When generating tests from this specification, use the `**abd-story-acceptance-test**` skill. That skill owns the test file shape, helper naming, orchestrator pattern, and RED-GREEN-REFACTOR cycle. This section defines the MERN-specific layer structure; `abd-story-acceptance-test` defines how to write the code within each layer.
 
 Testing is the counterpart to **Instantiating the Domain** — where domain maps every artifact to a class or operation, testing maps every story artifact to a test artifact. The same three questions apply: *What is the principle? What is the pattern? How does it actually run?* — but the answers describe layers of test coverage rather than layers of runtime code.
 
@@ -850,12 +787,14 @@ Four independent layers — none call each other. The base helper is shared scen
   └─ scenario vocabulary + test data constants shared by the three adapter tiers
 ```
 
-| Layer | Entry point | Real | Stubbed | Asserts |
-|-------|-------------|------|---------|---------|
-| **Domain unit** | class method call | shared domain classes only | nothing | return values, errors, state |
-| **HTTP adapter** | Express route via Supertest | domain + repository + test DB | nothing | HTTP status + JSON body |
-| **React adapter** | `render(<View />)` | React tree + hooks + client domain | `<<Entity>>Api` via `vi.mock` | DOM via `screen` |
-| **Browser** | `page.goto(url)` | full stack | nothing | page elements via Playwright |
+
+| Layer             | Entry point                 | Real                               | Stubbed                       | Asserts                      |
+| ----------------- | --------------------------- | ---------------------------------- | ----------------------------- | ---------------------------- |
+| **Domain unit**   | class method call           | shared domain classes only         | nothing                       | return values, errors, state |
+| **HTTP adapter**  | Express route via Supertest | domain + repository + test DB      | nothing                       | HTTP status + JSON body      |
+| **React adapter** | `render(<View />)`          | React tree + hooks + client domain | `<<Entity>>Api` via `vi.mock` | DOM via `screen`             |
+| **Browser**       | `page.goto(url)`            | full stack                         | nothing                       | page elements via Playwright |
+
 
 ### Module Layout
 
@@ -871,13 +810,15 @@ packages/<domain>/shared/
 
 Story hierarchy maps the acceptance test folder and file structure:
 
-| Story artifact | Test artifact |
-|----------------|---------------|
-| Epic | folder |
-| Mid-level sub-epic | intermediate folder (only when it has children) |
-| **Lowest-level sub-epic** | **file** (`<sub-epic>_<tier>.test.ts`) |
-| **Story** | **`describe` block** inside the file |
-| **Scenario** | **`it` / `test` block** inside the describe |
+
+| Story artifact            | Test artifact                                   |
+| ------------------------- | ----------------------------------------------- |
+| Epic                      | folder                                          |
+| Mid-level sub-epic        | intermediate folder (only when it has children) |
+| **Lowest-level sub-epic** | **file** (`<sub-epic>_<tier>.test.ts`)          |
+| **Story**                 | `**describe` block** inside the file            |
+| **Scenario**              | `**it` / `test` block** inside the describe     |
+
 
 ```
 tests/
@@ -911,56 +852,62 @@ tests/
 
 The base helper is the **domain test** — it expresses scenarios entirely in business terms with no knowledge of HTTP, DOM, or browsers. Each tier helper extends it to wire those same domain scenarios to a specific test infrastructure. The Given/When/Then names are the same; only the mechanism beneath them differs.
 
-| | Domain test (base) | Server tier | Client tier | E2E tier |
-|-|--------------------|-------------|-------------|----------|
-| **Layer** | Pure domain — business language only | HTTP adapter | React/DOM adapter | Full browser |
-| **Given** | business scenario language | seeds MongoDB | configures `vi.mock` | seeds via test API/fixture |
-| **When** | (abstract — no transport) | `request(app).get(...)` Supertest | `render(<View />)` Testing Library | `page.goto(...)` Playwright |
-| **Then** | (abstract — no assertion target) | HTTP status + JSON response body | DOM elements via `screen` | Page elements via `page.getByRole` |
-| **Test data constants** | ✓ here | — | — | — |
+
+|                         | Domain test (base)                   | Server tier                       | Client tier                        | E2E tier                           |
+| ----------------------- | ------------------------------------ | --------------------------------- | ---------------------------------- | ---------------------------------- |
+| **Layer**               | Pure domain — business language only | HTTP adapter                      | React/DOM adapter                  | Full browser                       |
+| **Given**               | business scenario language           | seeds MongoDB                     | configures `vi.mock`               | seeds via test API/fixture         |
+| **When**                | (abstract — no transport)            | `request(app).get(...)` Supertest | `render(<View />)` Testing Library | `page.goto(...)` Playwright        |
+| **Then**                | (abstract — no assertion target)     | HTTP status + JSON response body  | DOM elements via `screen`          | Page elements via `page.getByRole` |
+| **Test data constants** | ✓ here                               | —                                 | —                                  | —                                  |
+
 
 ```mermaid
 classDiagram
-    class BaseHelper ["&lt;sub-epic&gt;BaseHelper"] {
+    class BaseHelper ["<sub-epic>BaseHelper"] {
         <<domain test>>
         +givenUserLoggedIn()
-        +givenEnterpriseHas&lt;&lt;Entity&gt;&gt;(data)
+        +givenEnterpriseHas<<Entity>>(data)
         #seedRecipients(data)
         #seedUser(opts)
         +cleanup()
     }
-    class ServerHelper ["&lt;sub-epic&gt;ServerHelper"] {
+    class ServerHelper ["<sub-epic>ServerHelper"] {
         <<HTTP adapter test>>
         #seedRecipients() MongoDB insert
-        +whenUserInitiates&lt;&lt;Operation&gt;&gt;() Supertest HTTP
-        +then&lt;&lt;Assertion&gt;&gt;() status + JSON body
+        +whenUserInitiates<<Operation>>() Supertest HTTP
+        +then<<Assertion>>() status + JSON body
     }
-    class ClientHelper ["&lt;sub-epic&gt;ClientHelper"] {
+    class ClientHelper ["<sub-epic>ClientHelper"] {
         <<React adapter test>>
         #seedRecipients() vi.mock RecipientApi
-        +when&lt;&lt;View&gt;&gt;Renders() render component
-        +then&lt;&lt;Assertion&gt;&gt;Visible() screen.getByText
+        +when<<View>>Renders() render component
+        +then<<Assertion>>Visible() screen.getByText
     }
-    class E2eHelper ["&lt;sub-epic&gt;E2eHelper"] {
+    class E2eHelper ["<sub-epic>E2eHelper"] {
         <<browser test>>
         #seedRecipients() test API fixture
-        +whenUserOpens&lt;&lt;Feature&gt;&gt;Page() page.goto
-        +then&lt;&lt;View&gt;&gt;Visible() page.getByRole
+        +whenUserOpens<<Feature>>Page() page.goto
+        +then<<View>>Visible() page.getByRole
     }
     ServerHelper --|> BaseHelper : extends
     ClientHelper --|> BaseHelper : extends
     E2eHelper --|> BaseHelper : extends
 ```
 
-| Participant | Tier | Tool | Role |
-|-------------|------|------|------|
-| `<sub-epic>.base.ts` | **Domain test** | — | Business scenario language; test data constants; abstract seed/cleanup |
-| `<sub-epic>.server.ts` | HTTP adapter | Supertest | Seeds MongoDB; fires HTTP; asserts status + JSON body |
-| `<sub-epic>.client.ts` | React adapter | Vitest + Testing Library | `vi.mock` at API boundary; renders view; asserts DOM |
-| `<sub-epic>.e2e.ts` | Browser | Playwright | Seeds via fixture; navigates browser; asserts page elements |
-| `<sub-epic>_server.test.ts` | HTTP adapter | Vitest | Scenario declarations; delegates to server helper |
-| `<sub-epic>_client.test.tsx` | React adapter | Vitest | Scenario declarations; delegates to client helper |
-| `<sub-epic>_e2e.spec.ts` | Browser | Playwright | Scenario declarations; delegates to E2E helper |
+
+
+
+| Participant                  | Tier            | Tool                     | Role                                                                   |
+| ---------------------------- | --------------- | ------------------------ | ---------------------------------------------------------------------- |
+| `<sub-epic>.base.ts`         | **Domain test** | —                        | Business scenario language; test data constants; abstract seed/cleanup |
+| `<sub-epic>.server.ts`       | HTTP adapter    | Supertest                | Seeds MongoDB; fires HTTP; asserts status + JSON body                  |
+| `<sub-epic>.client.ts`       | React adapter   | Vitest + Testing Library | `vi.mock` at API boundary; renders view; asserts DOM                   |
+| `<sub-epic>.e2e.ts`          | Browser         | Playwright               | Seeds via fixture; navigates browser; asserts page elements            |
+| `<sub-epic>_server.test.ts`  | HTTP adapter    | Vitest                   | Scenario declarations; delegates to server helper                      |
+| `<sub-epic>_client.test.tsx` | React adapter   | Vitest                   | Scenario declarations; delegates to client helper                      |
+| `<sub-epic>_e2e.spec.ts`     | Browser         | Playwright               | Scenario declarations; delegates to E2E helper                         |
+
 
 ### Example
 
@@ -1144,19 +1091,20 @@ test.describe('View Active Recipients for Wire Payment', () => {
 });
 ```
 
-
 ---
 
 ## Example Files
 
 The worked example lives in `template/`. It implements the **Create Wire Payment → Select Recipient** story using all three mechanisms (web client, app server, persistence) and the Recipients domain module.
 
-| Artifact | Path | What it is |
-|----------|------|------------|
-| Runnable code | `template/packages/` | `app-client/`, `app-server/`, `recipients/{shared,client,server}` |
-| Specification by example | `template/specification-by-example.md` | Given/When/Then scenarios for the story |
-| Domain spec | `template/domain-spec.md` | `Recipient`, `Recipients`, `RecipientStatus`, client/server extensions |
-| Tests | `template/tests/` | Server, client, and E2E helpers + test files |
+
+| Artifact                 | Path                                   | What it is                                                             |
+| ------------------------ | -------------------------------------- | ---------------------------------------------------------------------- |
+| Runnable code            | `template/packages/`                   | `app-client/`, `app-server/`, `recipients/{shared,client,server}`      |
+| Specification by example | `template/specification-by-example.md` | Given/When/Then scenarios for the story                                |
+| Domain spec              | `template/domain-spec.md`              | `Recipient`, `Recipients`, `RecipientStatus`, client/server extensions |
+| Tests                    | `template/tests/`                      | Server, client, and E2E helpers + test files                           |
+
 
 ---
 
@@ -1164,29 +1112,33 @@ The worked example lives in `template/`. It implements the **Create Wire Payment
 
 Rules live in `rules/`. Scanners live in `scanners/typescript/`. When generating code from this specification, read every rule first, then run the scanners against the generated workspace before declaring done.
 
-| Rule | What it checks |
-|------|----------------|
 
-| File | What it checks |
-|------|----------------|
-| `rules/organize-by-domain-module.md` | `packages/<domain>/{shared,client,server}` structure; composition roots present |
-| `rules/delegate-routes-to-domain-server.md` | Route handlers are thin — no repo calls, no shared logic inline |
-| `rules/maintain-layer-purity.md` | `shared/` is framework-free; `client/` and `server/` don't cross-import |
-| `rules/share-domain-logic.md` | Entities, schemas, and business rules defined once in `shared/` |
-| `rules/implement-domain-entities-correctly.md` | Business rules on domain classes; schema validates at boundaries |
-| `rules/implement-full-interfaces.md` | Every `implements` covers all interface members; no stub no-ops |
-| `rules/ensure-type-safe-routes.md` | Route handlers compile without implicit `any`; `req.user` typed |
-| `rules/cross-layer-method-naming.md` | Same `{verbNoun}` stem across shared, client, server, route, and API |
-| `rules/preserve-arg-names-across-layers.md` | Arg names unchanged across layer boundaries; only types may narrow |
-| `rules/property-casing-transform.md` | `camelCase` in TypeScript; `snake_case` in JSON and MongoDB docs |
-| `rules/standard-mutation-response.md` | All mutations on the same aggregate return the same response shape |
-| `rules/consistent-view-naming.md` | React components end in `View` or `CardView`; no `Page` suffix |
-| `rules/use-ubiquitous-language.md` | Names come from the domain model; no `Manager`, `Handler`, `Helper` |
-| `rules/use-valid-package-names.md` | `package.json` names are valid npm scoped names derived from the domain |
-| `rules/include-all-external-dependencies.md` | Every import has a declared dependency; project compiles after install |
-| `rules/test-story-driven.md` | Tests mirror story hierarchy; Given/When/Then helpers at all three tiers |
-| `rules/scaffold-test-scripts.md` | `scripts/test.sh`, `test.ps1`, `test-e2e.sh`, `test-e2e.ps1` present |
-| `rules/use-thorough-e2e-tests.md` | E2E tests are independent; no blanket deletes; `app-client` required |
+| Rule | What it checks |
+| ---- | -------------- |
+
+
+
+| File                                           | What it checks                                                                  |
+| ---------------------------------------------- | ------------------------------------------------------------------------------- |
+| `rules/organize-by-domain-module.md`           | `packages/<domain>/{shared,client,server}` structure; composition roots present |
+| `rules/delegate-routes-to-domain-server.md`    | Route handlers are thin — no repo calls, no shared logic inline                 |
+| `rules/maintain-layer-purity.md`               | `shared/` is framework-free; `client/` and `server/` don't cross-import         |
+| `rules/share-domain-logic.md`                  | Entities, schemas, and business rules defined once in `shared/`                 |
+| `rules/implement-domain-entities-correctly.md` | Business rules on domain classes; schema validates at boundaries                |
+| `rules/implement-full-interfaces.md`           | Every `implements` covers all interface members; no stub no-ops                 |
+| `rules/ensure-type-safe-routes.md`             | Route handlers compile without implicit `any`; `req.user` typed                 |
+| `rules/cross-layer-method-naming.md`           | Same `{verbNoun}` stem across shared, client, server, route, and API            |
+| `rules/preserve-arg-names-across-layers.md`    | Arg names unchanged across layer boundaries; only types may narrow              |
+| `rules/property-casing-transform.md`           | `camelCase` in TypeScript; `snake_case` in JSON and MongoDB docs                |
+| `rules/standard-mutation-response.md`          | All mutations on the same aggregate return the same response shape              |
+| `rules/consistent-view-naming.md`              | React components end in `View` or `CardView`; no `Page` suffix                  |
+| `rules/use-ubiquitous-language.md`             | Names come from the domain model; no `Manager`, `Handler`, `Helper`             |
+| `rules/use-valid-package-names.md`             | `package.json` names are valid npm scoped names derived from the domain         |
+| `rules/include-all-external-dependencies.md`   | Every import has a declared dependency; project compiles after install          |
+| `rules/test-story-driven.md`                   | Tests mirror story hierarchy; Given/When/Then helpers at all three tiers        |
+| `rules/scaffold-test-scripts.md`               | `scripts/test.sh`, `test.ps1`, `test-e2e.sh`, `test-e2e.ps1` present            |
+| `rules/use-thorough-e2e-tests.md`              | E2E tests are independent; no blanket deletes; `app-client` required            |
+
 
 Each rule file has a paired scanner in `scanners/typescript/` named in its `scanner:` frontmatter. Run them all:
 

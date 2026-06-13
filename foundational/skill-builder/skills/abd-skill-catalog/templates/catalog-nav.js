@@ -10,7 +10,7 @@
 
  *   data-nav-prefix     — relative path to catalog root ("" or "../")
 
- *   data-nav-current    — hub | skills | agents | instructions | kanban
+ *   data-nav-current    — hub (forge link active on catalog index only)
 
  *   data-nav-site-base  — relative or absolute URL prefix to abd.works marketing site root
 
@@ -185,15 +185,7 @@
 
     return [
 
-      { id: 'hub', label: 'Complete', href: p + 'index.html' },
-
-      { id: 'skills', label: 'Skills', href: p + 'skills.html' },
-
-      { id: 'agents', label: 'Agents', href: p + 'agents.html' },
-
-      { id: 'instructions', label: 'Instructions', href: p + 'instructions.html' },
-
-      { id: 'kanban', label: 'Delivery kanban', href: p + 'kanban-layout/index.html' }
+      { id: 'forge', label: 'forge', href: p + 'index.html' }
 
     ];
 
@@ -211,7 +203,9 @@
 
       }
 
-      var isCurrent = l.id === currentPage;
+      var isCurrent = l.id === 'forge'
+        ? (currentPage === 'hub' || currentPage === '')
+        : l.id === currentPage;
 
       return '<li><a href="' + l.href + '"' +
 

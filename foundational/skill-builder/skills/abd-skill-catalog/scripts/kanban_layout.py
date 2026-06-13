@@ -17,6 +17,7 @@ from catalog_repo_urls import (
 )
 from catalog_supporting_groups import (
     FOUNDATIONAL_CROSSCUT_PLUGINS,
+    SKILL_TO_SUPPORTING_GROUP,
     SUPPORTING_CROSSCUT_GROUPS,
 )
 from family_catalog import FAMILY_PACKAGES
@@ -55,6 +56,9 @@ PLUGIN_ROW_ORDER: tuple[str, ...] = (
     "user-experience-design",
     "architecture-centric-engineering",
 )
+
+# Delivery-system practice — supporting crosscut only; never a board row or practice-rail chip.
+SUPPORTING_ONLY_PLUGIN_IDS: frozenset[str] = frozenset({"kanban"})
 
 # Stage-folder skills (stages/*/…) — filtered via the "other practices" rail toggle.
 SKILL_PAGE_OTHER_FAMILY = "other"
@@ -227,6 +231,8 @@ _CATALOG_READY_FALSE_RE = re.compile(
 
 
 def _kanban_include_skill(skill_id: str, *, stage_id: str | None = None, notes: str = "") -> bool:
+    if skill_id in SKILL_TO_SUPPORTING_GROUP:
+        return False
     if skill_id in KANBAN_EXCLUDED_SKILLS or skill_id in KANBAN_OPTIONAL_SKILLS:
         return False
     if "optional" in notes.lower():
@@ -647,6 +653,11 @@ def resolve_skill_page_kanban_family(
         skill_dir_by_name=skill_dir_by_name,
     ):
         return SKILL_PAGE_OTHER_FAMILY
+    if (
+        plugin_id_from_path in SUPPORTING_ONLY_PLUGIN_IDS
+        or SKILL_TO_SUPPORTING_GROUP.get(current_skill_id) in SUPPORTING_ONLY_PLUGIN_IDS
+    ):
+        return "kanban"
     if plugin_id_from_path in PLUGIN_ROW_ORDER:
         return plugin_id_from_path
     return ""
@@ -805,8 +816,8 @@ def _foundry_col_head_html(stage_id: str, title: str, num: str | int, href: str)
     scope_detail = f"{width_label} · {bullets}"
     tooltip_label = f"{scope_name}. {width_label}. {bullets.replace(' · ', ', ')}"
     return (
-        f'      <a class="kb-col-head kb-col-head--link" data-stage="{stage_id}" '
-        f'data-id="head-{stage_id}" href="{_h(href)}">\n'
+        f'      <button type="button" class="kb-col-head kb-col-head--toggle foundry-stage-toggle" '
+        f'data-stage="{stage_id}" data-id="head-{stage_id}" aria-pressed="false">\n'
         f'        <div class="kb-col-head-row">\n'
         f'          <span class="kb-col-scope-shape-wrap">\n'
         f'            <span class="kb-col-scope-shape kb-col-scope-shape--{shape_key}" '
@@ -821,7 +832,7 @@ def _foundry_col_head_html(stage_id: str, title: str, num: str | int, href: str)
         f'          <span class="kb-col-head-title"><span>{_h(title)}</span>'
         f'<span class="kb-col-num">{num}</span></span>\n'
         f"        </div>\n"
-        f"      </a>\n"
+        f"      </button>\n"
     )
 
 
@@ -847,8 +858,9 @@ def _skill_nav_col_head_html(
     )
     if href:
         return (
-            f'        <a class="kb-col-head kb-col-head--link{active_cls}" data-stage="{stage_id}" '
-            f'href="{_h(href)}" title="{_h(tooltip_label)}">\n'
+            f'        <a class="kb-col-head kb-col-head--link foundry-stage-toggle{active_cls}" '
+            f'data-stage="{stage_id}" href="{_h(href)}" title="{_h(tooltip_label)}" '
+            f'aria-pressed="false">\n'
             f"{inner}"
             f"        </a>\n"
         )
@@ -1086,7 +1098,7 @@ def build_foundry_practice_col_html(
     stage_gap_html = (
         '      <div class="foundry-practice-col__stage-spacer aad-stage-skills-gap" '
         'aria-hidden="true"></div>\n'
-        if include_stage_spacer and not skill_page_mode
+        if include_stage_spacer
         else ""
     )
     return (
@@ -1102,7 +1114,7 @@ def build_foundry_practice_col_html(
     )
 
 
-def build_catalog_hub_kanban_embed_html(
+def build_catalog_foundry_kanban_embed_html(
     model: KanbanModel,
     skill_dir_by_name: dict[str, str],
     *,
@@ -1113,10 +1125,15 @@ def build_catalog_hub_kanban_embed_html(
     current_skill_id: str | None = None,
     current_dir_name: str = "",
     current_plugin_id: str | None = None,
+    initial_family: str | None = None,
+    skill_page_active_family: str | None = None,
     skill_purpose_by_name: dict[str, str] | None = None,
     plugin_first_skill_hrefs: dict[str, str] | None = None,
+    include_stage_folder_skills: bool = False,
+    initial_visible_family: str | None = None,
+    settling_class: bool = False,
 ) -> str:
-    """Foundry hub kanban — CDD tour, perspective labels, board, questions, crosscut."""
+    """Foundry kanban embed — shared generator for hub and skill pages."""
     cols = build_kanban_board_html(
         model,
         skill_dir_by_name,
@@ -1130,11 +1147,14 @@ def build_catalog_hub_kanban_embed_html(
         sibling_skill_pages=sibling_skill_pages,
         current_skill_id=current_skill_id,
         current_dir_name=current_dir_name,
+        include_stage_folder_skills=include_stage_folder_skills,
+        initial_visible_family=initial_visible_family,
     )
     practice_col = build_foundry_practice_col_html(
         relative_href_prefix=relative_href_prefix,
         plugin_first_skill_hrefs=plugin_first_skill_hrefs,
         current_plugin_id=current_plugin_id,
+        skill_page_active_family=skill_page_active_family,
         other_practices_href=other_practices_first_skill_href(
             model,
             skill_dir_by_name,
@@ -1143,7 +1163,11 @@ def build_catalog_hub_kanban_embed_html(
         ),
     )
     cdd = textwrap.indent(_load_foundry_cdd_panel_html().strip(), "    ")
-    questions = build_stage_questions_row_html(model, foundry_grid=True)
+    questions = build_stage_questions_row_html(
+        model,
+        active_stage_id=active_stage_id,
+        foundry_grid=True,
+    )
     crosscut = build_crosscut_html(
         skill_dir_by_name,
         relative_href_prefix=relative_href_prefix,
@@ -1174,11 +1198,91 @@ def build_catalog_hub_kanban_embed_html(
     )
     if after_board:
         body += "\n" + textwrap.indent(after_board, "    ")
+    data_attrs: list[str] = []
+    if initial_family:
+        data_attrs.append(f'data-initial-family="{_h(initial_family)}"')
+    if active_stage_id:
+        data_attrs.append(f'data-initial-stage="{_h(active_stage_id)}"')
+    data_attr_str = (" " + " ".join(data_attrs)) if data_attrs else ""
+    surface_classes = "foundry-kanban-surface foundry-skills-collapsed catalog-kanban-embed"
+    if settling_class:
+        surface_classes += " foundry-skill-nav-settling"
     return (
         '<div class="wrap">\n'
         '<div class="foundry-kanban-shell" id="kanban-shell">\n'
-        '<section class="foundry-kanban-surface foundry-skills-collapsed catalog-kanban-embed" id="catalog-kanban" '
+        f'<section class="{surface_classes}" id="catalog-kanban"{data_attr_str} '
         'aria-label="Delivery kanban">\n'
+        f"{body}\n"
+        "</section>\n"
+        "</div>\n"
+        "</div>"
+    )
+
+
+def build_catalog_hub_kanban_embed_html(
+    model: KanbanModel,
+    skill_dir_by_name: dict[str, str],
+    *,
+    relative_href_prefix: str = "",
+    sibling_skill_pages: bool = False,
+    same_page_stages: bool = True,
+    active_stage_id: str | None = None,
+    current_skill_id: str | None = None,
+    current_dir_name: str = "",
+    current_plugin_id: str | None = None,
+    skill_purpose_by_name: dict[str, str] | None = None,
+    plugin_first_skill_hrefs: dict[str, str] | None = None,
+) -> str:
+    """Foundry hub kanban — delegates to shared foundry embed generator."""
+    return build_catalog_foundry_kanban_embed_html(
+        model,
+        skill_dir_by_name,
+        relative_href_prefix=relative_href_prefix,
+        sibling_skill_pages=sibling_skill_pages,
+        same_page_stages=same_page_stages,
+        active_stage_id=active_stage_id,
+        current_skill_id=current_skill_id,
+        current_dir_name=current_dir_name,
+        current_plugin_id=current_plugin_id,
+        skill_purpose_by_name=skill_purpose_by_name,
+        plugin_first_skill_hrefs=plugin_first_skill_hrefs,
+        include_stage_folder_skills=True,
+    )
+
+
+def build_catalog_supporting_only_kanban_embed_html(
+    skill_dir_by_name: dict[str, str],
+    *,
+    current_skill_id: str,
+    skill_purpose_by_name: dict[str, str] | None = None,
+    plugin_first_skill_hrefs: dict[str, str] | None = None,
+) -> str:
+    """Supporting-section-only embed for delivery-system (kanban) practice skills."""
+    crosscut = build_crosscut_html(
+        skill_dir_by_name,
+        relative_href_prefix="../",
+        skill_purpose_by_name=skill_purpose_by_name,
+        plugin_first_skill_hrefs=plugin_first_skill_hrefs,
+        sibling_skill_pages=True,
+        foundry_ticket=True,
+    )
+    if not crosscut.strip():
+        return ""
+    body = (
+        '<div class="foundry-skills-extra foundry-skills-extra--always">\n'
+        '  <div class="foundry-skills-extra__inner">\n'
+        + textwrap.indent(crosscut.strip(), "    ")
+        + "\n  </div>\n"
+        "</div>"
+    )
+    return (
+        '<div class="wrap">\n'
+        '<div class="foundry-kanban-shell" id="kanban-shell">\n'
+        '<section class="foundry-kanban-surface foundry-kanban-surface--supporting-only '
+        'foundry-skills-expanded catalog-kanban-embed" '
+        'id="catalog-kanban" '
+        'data-initial-family="kanban" '
+        'aria-label="Delivery kanban supporting skills">\n'
         f"{body}\n"
         "</section>\n"
         "</div>\n"
@@ -1199,6 +1303,13 @@ def build_catalog_skill_page_kanban_embed_html(
     """Foundry kanban on skill pages — full board; tickets filtered via family/column toggles."""
     if not plugin_id:
         return ""
+    if plugin_id in SUPPORTING_ONLY_PLUGIN_IDS:
+        return build_catalog_supporting_only_kanban_embed_html(
+            skill_dir_by_name,
+            current_skill_id=current_skill_id,
+            skill_purpose_by_name=skill_purpose_by_name,
+            plugin_first_skill_hrefs=plugin_first_skill_hrefs,
+        )
     if plugin_id not in PLUGIN_ROW_ORDER and plugin_id != SKILL_PAGE_OTHER_FAMILY:
         return ""
 
@@ -1209,76 +1320,23 @@ def build_catalog_skill_page_kanban_embed_html(
         current_dir_name=current_dir_name,
         skill_dir_by_name=skill_dir_by_name,
     )
-    cols = build_kanban_board_html(
+    return build_catalog_foundry_kanban_embed_html(
         model,
         skill_dir_by_name,
         relative_href_prefix="../",
+        sibling_skill_pages=True,
         same_page_stages=False,
         active_stage_id=active_stage_id,
-        link_column_heads=True,
-        board_class="aad-board-grid aad-board-grid--catalog",
-        foundry_hub=True,
-        skill_purpose_by_name=skill_purpose_by_name,
-        sibling_skill_pages=True,
         current_skill_id=current_skill_id,
         current_dir_name=current_dir_name,
-        include_stage_folder_skills=True,
-        initial_visible_family=plugin_id,
-    )
-    practice_col = build_foundry_practice_col_html(
-        relative_href_prefix="../",
-        plugin_first_skill_hrefs=plugin_first_skill_hrefs,
         current_plugin_id=plugin_id if plugin_id in PLUGIN_ROW_ORDER else None,
+        initial_family=plugin_id,
         skill_page_active_family=plugin_id,
-        skill_page_mode=True,
-    )
-    cdd = textwrap.indent(_load_foundry_cdd_panel_html().strip(), "    ")
-    questions = build_stage_questions_row_html(
-        model, active_stage_id=active_stage_id, foundry_grid=True
-    )
-    crosscut = build_crosscut_html(
-        skill_dir_by_name,
-        relative_href_prefix="../",
         skill_purpose_by_name=skill_purpose_by_name,
         plugin_first_skill_hrefs=plugin_first_skill_hrefs,
-        sibling_skill_pages=True,
-        foundry_ticket=True,
-        skill_page_toggle=True,
-    )
-    body = (
-        '  <div class="foundry-travel-ring" id="travel-ring" aria-hidden="true"></div>\n'
-        f"{cdd}\n"
-        '  <div class="foundry-board-grid" id="board">\n'
-        f"{practice_col}\n"
-        f"{textwrap.indent(cols.strip(), '    ')}\n"
-        "  </div>"
-    )
-    after_parts: list[str] = []
-    if questions.strip():
-        after_parts.append(questions.strip())
-    if crosscut.strip():
-        after_parts.append(
-            '<div class="foundry-skills-extra foundry-skills-extra--always">\n'
-            '  <div class="foundry-skills-extra__inner">\n'
-            + textwrap.indent(crosscut.strip(), "    ")
-            + "\n  </div>\n"
-            "</div>"
-        )
-    if after_parts:
-        body += "\n" + textwrap.indent("\n".join(after_parts), "    ")
-    return (
-        '<div class="wrap">\n'
-        '<div class="foundry-kanban-shell" id="kanban-shell">\n'
-        '<section class="foundry-kanban-surface foundry-kanban-surface--skill-page '
-        'foundry-skills-collapsed foundry-skill-filter-active foundry-skill-nav-settling catalog-kanban-embed" '
-        'id="catalog-kanban" '
-        f'data-initial-family="{_h(plugin_id)}" '
-        f'data-initial-stage="{_h(active_stage_id)}" '
-        'aria-label="Delivery kanban">\n'
-        f"{body}\n"
-        "</section>\n"
-        "</div>\n"
-        "</div>"
+        include_stage_folder_skills=True,
+        initial_visible_family=plugin_id,
+        settling_class=True,
     )
 
 

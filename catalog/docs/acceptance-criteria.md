@@ -49,6 +49,13 @@ Scope: The interactive kanban surface — family filter, skills expand/collapse,
 - its header chip is visible only when its *skill family* is *active*
 - **Invariant:** *supporting skill* header chip visibility is controlled by *active*/*inactive* state only — expand/collapse has no effect
 
+### kanban supporting practice *is a type of* supporting skill
+
+- belongs to the *kanban* delivery-system practice (`abd-kanban`, `abd-kanban-planning`, `abd-kanban-repo`, `kanban-estimation`, `abd-kanban-handoff`)
+- never appears as a ticket in a *stage* column on the board grid
+- always appears in the *Supporting Section* crosscut row for *kanban*
+- **Invariant:** the *kanban* crosscut row remains visible even when another *skill family* filter is *active*
+
 ### other skill *is a type of* skill
 
 - belongs to no *skill family*; has a *stage* and appears in the board under the "other" row
@@ -85,7 +92,14 @@ Scope: The interactive kanban surface — family filter, skills expand/collapse,
 
 - organises all *skills* by *skill family* row and *stage* column
 - shows all *skill family* rows when no *skill family* is *active*; filters to *active* families when one or more are ticked
-- **Invariant:** all *skill family* header chips in the practice rail are always visible regardless of active/inactive or expand/collapse state
+- shows all *stage* columns when no *stage* is *focused*; filters to the *focused stage* column when the user clicks a *stage column head*
+- **Invariant:** all *skill family* header chips in the practice rail are always visible regardless of active/inactive, expand/collapse, or *stage* focus state
+
+### stage focus
+
+- is a property of *stage* — the column the user has clicked to filter the board vertically
+- is independent of *active*/*inactive* *skill family* state; both filters may apply at once
+- clears when the user clicks the same *stage column head* again
 
 #### Decisions made
 
@@ -122,28 +136,49 @@ Source: observed behavior, stated requirements, and working session — Jun 11 2
 - *Stage Column* — a vertical column for a delivery stage (Shaping, Discovery, Exploration, Specification, Engineering)
 - *Skills Toggle* — button that expands or collapses individual skill rows in the board
 - *Idle State* — no family filter active; all rows visible
+- *Other Practices Chip* — filter chip at the bottom of the *Practice Rail* for foundational / cross-family skills
 
 ### Acceptance criteria
 
 1. **WHEN** the *Kanban Surface* loads with no saved filter
    **THEN** all *Family Toggle* buttons appear in the *Practice Rail*
-   **AND** all *Board Rows* are visible across all *Stage Columns*
+   **AND** all four practice-family *Board Rows* are visible across all *Stage Columns*
+   **AND** *other practices* stage-folder skills are hidden until the *Other Practices Chip* is ticked
    **AND** the surface is in *Idle State*
-   **Evidence:** stated requirement — hub default shows all families
+   **Evidence:** stated requirement — hub default shows practice families; other rows on demand only
 
 2. **WHEN** *Skills Toggle* is collapsed and a family filter is active
-   **THEN** only the *Selected Family* header chips are visible in the board area
-   **AND** non-selected family rows are hidden
-   **Evidence:** stated requirement — collapsed shows only selected family chips
+   **THEN** only *Ticked Families* show individual skill tickets in the *Stage Columns*
+   **AND** *Non-matching Board Rows* are hidden
+   **AND** only *Ticked Families* remain visible in the *Practice Rail*; inactive families collapse to zero-height tracks
+   **AND** visible *Family Header Chips* stay within the practice column width (no horizontal blowout)
+   **Evidence:** stated requirement — collapsed focus mode; observed defect — inactive chips stretched column width
 
 3. **WHEN** *Skills Toggle* is collapsed and no family filter is active
-   **THEN** no *Board Rows* are visible in the board area
-   **Evidence:** collapsed idle state — nothing selected, nothing shown
+   **THEN** no individual skill tickets are visible in the *Stage Columns*
+   **Evidence:** collapsed idle state — nothing selected, no tickets shown
 
 4. **WHEN** *Skills Toggle* is expanded
    **THEN** ALL *Family Toggle* header chips are visible in the board area regardless of filter state
    **AND** individual skill tickets appear inside each visible *Board Row*
    **Evidence:** stated requirement — "expanded we always see all family chips selected or not"
+
+5. **WHEN** the *Practice Rail* is visible
+   **THEN** the *Other Practices Chip* shares the same left edge and width as the four practice-family chips above it
+   **AND** the user can click it to tick or untick the *other* family filter
+   **Evidence:** observed defect — other practices chip was left-shifted and hard to click
+
+6. **WHEN** the user deactivates the *Other Practices Chip* while a *practice family* filter remains active
+   **THEN** the board collapses the stage-other row tracks (gap + extra other rows) to zero height
+   **AND** the *Other Practices Chip* remains visible in the *Practice Rail*
+   **BUT** no empty vertical space is reserved below the visible board rows
+   **Evidence:** observed defect — deactivating other left collapsed empty row tracks
+
+7. **WHEN** the *Kanban Surface* is expanded with no family filter active
+   **THEN** the *Other Practices Chip* sits directly below the four practice-family chips with no empty row gap
+   **AND** ticking *Other Practices Chip* expands the other stage tracks and reveals stage-folder skills
+   **AND** hub and skill pages use the same board grid and filter logic
+   **Evidence:** observed defect — idle hub reserved other row tracks; hub/skill page HTML diverged
 
 ---
 
@@ -178,16 +213,19 @@ Source: observed behavior, stated requirements, and working session — Jun 11 2
    **Evidence:** stated requirement — tick/untick toggles on and off
 
 3. **WHEN** a family is ticked, the surface is in *Filter Active State*, and *Skills Toggle* is **collapsed**
-   **THEN** only the *Ticked Family* header chip is visible in the board area
-   **AND** *Non-matching Board Row* header chips are hidden
-   **Evidence:** stated requirement — collapsed shows only ticked family chips
+   **THEN** only *Ticked Families* show individual skill tickets in the *Stage Columns*
+   **AND** *Non-matching Board Rows* are hidden
+   **AND** only *Ticked Families* remain visible in the *Practice Rail*
+   **Evidence:** stated requirement — collapsed focus mode shows only ticked family skills
 
 4. **WHEN** a family is ticked and the surface is in *Filter Active State*
    **AND** *Skills Toggle* is expanded
-   **THEN** ALL *Family Header Chips* remain visible as row headers in the board area
-   **AND** only the *Filtered Board Row* shows its individual skill tickets
-   **AND** *Non-matching Board Rows* show their header chip but no skill tickets
-   **Evidence:** stated requirement — "expanded we always see all family chips selected or not"
+   **THEN** ALL *Family Header Chips* remain visible in the *Practice Rail*
+   **AND** only *Filtered Board Rows* show their individual skill tickets
+   **AND** *Non-matching Board Rows* are hidden from the stage columns
+   **AND** visible tickets for the selected family align on one horizontal band across all *Stage Columns*
+   **AND** a single selected family's tickets stay on that family's *Practice Rail* row (not snapped to the story-driven-delivery row)
+   **Evidence:** stated requirement — "expanded we always see all family chips selected or not"; observed defect — non-SDD single filter snapped to top row
 
 5. **WHEN** a family is ticked
    **THEN** the matching *Crosscut Row* in the *Supporting Section* is shown *Auto-expanded*
@@ -199,7 +237,61 @@ Source: observed behavior, stated requirements, and working session — Jun 11 2
    **AND** both families' *Crosscut Rows* appear in the *Supporting Section*
    **Evidence:** multi-select tick behavior
 
+7. **WHEN** a *Stage Column Filter* is active
+   **THEN** the *practice family* filter state is unchanged
+   **AND** clearing the *Stage Column Filter* does not clear any *Ticked Family*
+   **Evidence:** stated requirement — practice and stage filters are independent
+
 ---
+
+## Story: Select Stage Column Filter
+
+**Story type:** user
+
+### Domain terms
+
+- *Stage Column Head* — clickable header at the top of each *Stage Column* (Shaping, Discovery, etc.)
+- *Stage Column Filter* — user toggles one or more *Stage Column Heads*; all five columns stay visible but non-selected columns show no skill tickets
+- *Stage Filter Active State* — one stage selected; surface has `foundry-stage-filter-active` class
+- *Stage Filter Idle State* — no stage selected; all five *Stage Columns* visible
+- *Stage Questions Cell* — outcome bullets below the board aligned under each *Stage Column*
+- *Focused Stage* — a *Stage Column* currently toggled on by the *Stage Column Filter*
+
+### Acceptance criteria
+
+1. **WHEN** the user clicks an untoggled *Stage Column Head*
+   **THEN** all five *Stage Columns* remain visible on the board
+   **BUT** only toggled-on stage columns show skill tickets; other columns are empty
+   **AND** the *Stage Column Head* shows selected state (`is-selected`, `aria-pressed="true"`, tick indicator) like a *Family Header Chip*
+   **AND** the matching *Stage Questions Cell* receives the `is-active` class
+   **Evidence:** stated requirement — stage filters toggle like row filters; columns stay visible
+
+2. **WHEN** the user clicks a toggled-on *Stage Column Head* again
+   **THEN** that stage is removed from the filter
+   **AND** when no stages remain toggled on, the surface returns to *Stage Filter Idle State* with all columns repopulated
+   **AND** the *Stage Column Head* clears selected/current state and the questions cell loses `is-active`
+   **Evidence:** stated requirement — toggle off restores tickets; observed defect — filter cleared but head stayed current
+
+3. **WHEN** the user toggles multiple *Stage Column Heads* on
+   **THEN** each toggled column shows skill tickets and each untoggled column is empty
+   **Evidence:** stated requirement — stage filters behave like multi-select family chips
+
+4. **WHEN** a *Stage Column Filter* is active
+   **THEN** all *Family Header Chips* remain visible in the *Practice Rail*
+   **BUT** no *Family Header Chip* is hidden or collapsed because of the stage filter
+   **Evidence:** stated requirement — stage filter is vertical only; practice rail unchanged
+
+5. **WHEN** both a *practice family* filter and a *Stage Column Filter* are active
+   **THEN** only *Board Rows* for *Ticked Families* appear in the *Focused Stage* column
+   **AND** non-matching families remain hidden in that column
+   **AND** toggling the stage filter off restores all columns while the family filter stays active
+   **Evidence:** stated requirement — orthogonal row and column filters
+
+6. **WHEN** the user clicks a *Family Header Chip* or navigates to a skill via a ticket link
+   **THEN** the *Stage Column Filter* does not activate
+   **AND** all five *Stage Columns* remain visible with tickets in every column (subject to family filter only)
+   **BUT** the current skill's stage may be highlighted (`kb-col-head--current`) without emptying other columns
+   **Evidence:** stated requirement — highlight is not filter; only *Stage Column Head* clicks toggle the filter
 
 ---
 
@@ -223,13 +315,18 @@ Source: observed behavior, stated requirements, and working session — Jun 11 2
 
 2. **WHEN** the surface enters *Expanded State*
    **THEN** skill tickets appear inside every visible *Board Row*
+   **AND** the *Stage Questions Row* (perspective bullets under stage columns) is visible
    **AND** the *Supporting Section* becomes visible with its *Crosscut Rows*
    **Evidence:** stated requirement — supporting section only shown when skills expanded
 
 3. **WHEN** the surface enters *Collapsed State*
-   **THEN** individual skill tickets are hidden in *Board Rows*
-   **AND** the *Supporting Section* is hidden
-   **Evidence:** stated requirement — collapse hides supporting section too
+   **THEN** individual skill tickets are hidden in *Board Rows* unless a family filter is active
+   **AND** when a family filter is active, only *Ticked Families* show skill tickets in *Stage Columns*
+   **AND** inactive *Family Header Chips* are hidden from the *Practice Rail* and their grid tracks collapse
+   **AND** the *Stage Questions Row* is hidden
+   **AND** supporting *Crosscut Rows* and skill chips are hidden
+   **BUT** the *Supporting Section* shell may keep its section label visible
+   **Evidence:** stated requirement — collapse is focus mode; observed defect — column widened instead of collapsing inactive families
 
 4. **WHEN** the user reloads or navigates back to the *Kanban Surface*
    **THEN** the surface restores the *Skills Expanded Preference* from the last session
@@ -250,19 +347,30 @@ Source: observed behavior, stated requirements, and working session — Jun 11 2
 ### Acceptance criteria
 
 1. **WHEN** the *Supporting Section* is visible and no filter is active
-   **THEN** all *Crosscut Rows* are shown, each with its *Crosscut Row Header* and *Crosscut Skill Chips* inline (wrapping left to right)
-   **Evidence:** stated requirement — no filter shows all crosscut rows
+   **THEN** all supporting *Crosscut Rows* are shown (kanban, domain-driven-design, story-driven-delivery), each with its *Crosscut Row Header* and *Crosscut Skill Chips* inline (wrapping left to right)
+   **Evidence:** stated requirement — no filter shows all supporting crosscut rows
 
 2. **WHEN** a family filter is active and the *Supporting Section* is visible
-   **THEN** only the *Crosscut Row* for the *Selected Family* is shown
+   **THEN** the *Crosscut Row* for the *Selected Family* is shown
    **AND** its *Crosscut Skill Chips* are displayed inline and auto-expanded without a manual toggle
-   **BUT** *Crosscut Rows* for non-selected families are hidden
-   **Evidence:** stated requirement — "supporting only [selected family] and the skills left to right"
+   **AND** the *kanban* *Crosscut Row* is always shown (kanban is supporting-only — not filtered by practice-family selection)
+   **BUT** *Crosscut Rows* for other non-selected families are hidden
+   **Evidence:** stated requirement — "supporting only [selected family] and the skills left to right"; kanban always in supporting area
 
-3. **WHEN** the *Foundational Section* is visible
+3. **WHEN** the *Kanban Surface* is visible
+   **THEN** no *kanban supporting practice* skill ticket appears in any *Stage Column* on the board grid
+   **AND** every *kanban supporting practice* skill appears only under the *kanban* row in the *Supporting Section*
+   **Evidence:** stated requirement — kanban skills are supporting-only
+
+4. **WHEN** the *Foundational Section* is visible
    **THEN** its header chip uses muted grey text
    **AND** its individual *Crosscut Skill Chips* use white text
    **Evidence:** stated requirement — "header grey, skills white"
+
+5. **WHEN** the *Supporting Section* is visible on a *Skill Page*
+   **THEN** each *Crosscut Row* matches the hub layout: *Crosscut Row Header* link and *Crosscut Skill Chips* inline in one horizontal row (wrapping left to right)
+   **AND** no manual crosscut-row toggle is required to reveal chips
+   **Evidence:** stated requirement — skill page supporting section identical to hub
 
 ---
 
@@ -272,7 +380,7 @@ Source: observed behavior, stated requirements, and working session — Jun 11 2
 
 ### Domain terms
 
-- *Skill Page* — a detail page for one practice skill; also has a *Kanban Surface* (`foundry-kanban-surface--skill-page`)
+- *Skill Page* — a detail page for one practice skill; also has a *Kanban Surface* (same markup as the hub)
 - *Initial Family* — the family that owns the skill being viewed; set on the surface as `data-initial-family`
 - *Persisted Filter* — family selection saved to `sessionStorage` before navigation and restored on load
 
@@ -293,6 +401,35 @@ Source: observed behavior, stated requirements, and working session — Jun 11 2
    **THEN** the hub restores the *Persisted Filter* that was active before navigation
    **Evidence:** `sessionStorage` FILTER_KEY save-on-click behavior
 
+4. **WHEN** the user clicks a skill ticket link that opens another catalog page (hub → skill or skill → skill)
+   **THEN** the destination page restores the *Kanban Surface* to the same viewport offset it had before navigation
+   **AND** the page does not jump to `scrollY = 0`
+   **Evidence:** stated requirement — compare downstream skills without losing board context; `kanbanScroll` query param on click, restored after board layout
+
+---
+
+## Story: Return to Catalog Hub via Forge Nav
+
+### Domain terms
+
+- *Forge Nav Link* — the single Foundry section item in the top navigation; label `Forge`; returns to the catalog hub (`index.html`)
+
+### Acceptance criteria
+
+1. **WHEN** any catalog page loads
+   **THEN** the top navigation shows exactly one Foundry item labeled *Forge Nav Link*
+   **AND** links for Complete, Skills, Agents, Instructions, and Delivery kanban are not shown
+   **Evidence:** `foundryLinks()` in `catalog-nav.js`
+
+2. **WHEN** the user is on the catalog hub (`index.html`)
+   **THEN** *Forge Nav Link* has `aria-current="page"`
+   **Evidence:** `linkHTML()` current-page logic for `forge` + `data-nav-current="hub"`
+
+3. **WHEN** the user is on a skill or other catalog sub-page
+   **THEN** *Forge Nav Link* is visible and its `href` resolves to the catalog hub
+   **AND** it is not marked as the current page
+   **Evidence:** skill pages set `data-nav-current="skills"`; forge href is `index.html`
+
 ---
 
 ## Source evidence table
@@ -304,7 +441,10 @@ Source: observed behavior, stated requirements, and working session — Jun 11 2
 | Select Practice Family Filter | 2–3 | Stated requirement: board rows filter to selected family |
 | Select Practice Family Filter | 4 | Stated requirement: "supporting only [family] and the skills left to right" |
 | Select Practice Family Filter | 5 | Multi-select Set logic; inferred from implementation |
+| Select Practice Family Filter | 7 | Stated requirement: practice and stage filters are independent |
+| Select Stage Column Filter | 1–6 | Stated requirement: stage columns toggle like family chips; multi-select supported |
 | Deselect Practice Family Filter | 1–2 | Stated requirement: "click again they all disappear/reappear" |
 | Expand and Collapse Practice Skills | 1–4 | Hub expand/collapse; sessionStorage persistence |
-| View Supporting Section Crosscut Skills | 1–3 | Stated requirements: crosscut layout, foundational colors |
-| Navigate From Kanban to Skill Page | 1–3 | `data-initial-family`; sessionStorage FILTER_KEY |
+| View Supporting Section Crosscut Skills | 1–5 | Stated requirements: crosscut layout, foundational colors, skill-page parity |
+| Navigate From Kanban to Skill Page | 1–4 | `data-initial-family`; sessionStorage FILTER_KEY; `kanbanScroll` restore |
+| Return to Catalog Hub via Forge Nav | 1–3 | Stated requirement: single forge link to catalog main page |

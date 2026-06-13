@@ -22,6 +22,11 @@ from kanban_helper import (
     then_board_row_is_hidden,
     then_crosscut_row_is_visible,
     then_surface_is_idle,
+    given_kanban_at_viewport_offset,
+    kanban_viewport_top,
+    then_kanban_viewport_top_near,
+    then_page_scroll_y_near,
+    when_skill_ticket_clicked,
     ALL_PRACTICE_FAMILIES,
     SDD_FAMILY,
     DDD_FAMILY,
@@ -32,7 +37,7 @@ from kanban_helper import (
 # ============================================================================
 
 class TestNavigateFromKanbanToSkillPage:
-    """AC 1–3 from Navigate From Kanban to Skill Page story."""
+    """AC 1–4 from Navigate From Kanban to Skill Page story."""
 
     def test_skill_page_loads_with_its_family_pre_selected(self, page: Page):
         # Given: user navigates to a skill page (abd-story-mapping → sdd family)
@@ -75,3 +80,29 @@ class TestNavigateFromKanbanToSkillPage:
         page.wait_for_selector(".foundry-kanban-surface", state="visible")
         # Then: hub restores the Persisted Filter (sdd family still ticked)
         then_family_chip_is_ticked(page, SDD_FAMILY)
+
+    def test_skill_navigation_preserves_kanban_viewport_position(self, page: Page):
+        # Given: skill page loaded; user scrolled down comparing skills on the board
+        given_skill_page_loaded(page, "abd-story-mapping.html")
+        given_skills_expanded(page)
+        given_kanban_at_viewport_offset(page, 72.0)
+        viewport_top = kanban_viewport_top(page)
+        scroll_y = page.evaluate("window.scrollY")
+        # When: user clicks a downstream skill ticket on the same board
+        when_skill_ticket_clicked(page, "abd-story-acceptance-criteria")
+        # Then: destination page keeps scroll position and kanban viewport offset
+        then_page_scroll_y_near(page, scroll_y)
+        then_kanban_viewport_top_near(page, viewport_top, tolerance=40.0)
+
+    def test_hub_skill_navigation_preserves_kanban_viewport_position(self, page: Page):
+        # Given: hub loaded; user scrolled to the kanban area
+        given_hub_kanban_loaded(page)
+        given_skills_expanded(page)
+        given_kanban_at_viewport_offset(page, 88.0)
+        viewport_top = kanban_viewport_top(page)
+        scroll_y = page.evaluate("window.scrollY")
+        # When: user opens a skill page from the board
+        when_skill_ticket_clicked(page, "abd-story-mapping")
+        # Then: skill page restores scroll position and kanban viewport offset
+        then_page_scroll_y_near(page, scroll_y, tolerance=40.0)
+        then_kanban_viewport_top_near(page, viewport_top, tolerance=40.0)

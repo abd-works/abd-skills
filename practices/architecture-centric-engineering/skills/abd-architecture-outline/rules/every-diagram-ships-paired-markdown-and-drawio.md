@@ -1,37 +1,52 @@
-# Rule: Every diagram ships paired markdown reference and drawio source
+# Rule: The system context diagram ships a paired element-inventory markdown and drawio source
 
-Every diagram referenced from `architecture-outline.md` must have a matching `.drawio` source file on disk under `docs/architecture/diagrams/`. The markdown is what readers see; the `.drawio` is what the team edits. Without the source file, the next person who needs to update the diagram has to redraw it from scratch, and the architecture document drifts from the running system within a release. The canonical filenames for the four outline diagrams are `platform-architecture.drawio`, `layered-architecture.drawio`, `system-context.drawio`, and `deployment-architecture.drawio`. The CLI helper at `scripts/arch-drawio.ps1` initialises the templates, exports the PNGs, and verifies the pairs. Failing means a diagram appears in the markdown as a PNG with no `.drawio` source, a `.drawio` source exists for a diagram that the markdown never references, or the four canonical diagrams are not all present.
+The system context diagram referenced from `architecture-outline.md` must have **two** matching files on disk under `docs/architecture/diagrams/`: a `system-context-elements.md` element-inventory file and a `system-context.drawio` editable source. The outline links both from the diagram section. Without the element file the diagram has no documented inventory; without the `.drawio` source the next person who updates the diagram has to redraw from scratch.
+
+| Diagram | Element file | Draw.io source |
+|---|---|---|
+| System Context | `system-context-elements.md` | `system-context.drawio` |
+
+Failing means the diagram appears in the outline with no `.drawio` source, no element file, or both; a `.drawio` source exists that the outline never references; the canonical filename is not used; or `arch-drawio.ps1 verify` does not print PASS.
 
 ## DO
 
-- Place every diagram source as `docs/architecture/diagrams/<name>.drawio` and reference either the rendered `<name>.png` or the `<name>.drawio` file directly from the markdown.
+- For the diagram section in the outline, both the `.drawio` source link and the element-inventory link are present.
 
-  **Example (pass):** `architecture-outline.md` contains `![Platform diagram](./diagrams/platform-architecture.png)`. The file `docs/architecture/diagrams/platform-architecture.drawio` exists. Running `.\scripts\arch-drawio.ps1 verify` prints `[verify] OK   diagrams/platform-architecture.png -> platform-architecture.drawio exists`.
+  **Example (pass):** The System Context section of `architecture-outline.md` contains:
+  ```markdown
+  > Source: [diagrams/system-context.drawio](./diagrams/system-context.drawio)
+  > Element inventory: [diagrams/system-context-elements.md](./diagrams/system-context-elements.md)
+  ```
+  Both files exist on disk under `docs/architecture/diagrams/`.
 
-- Use the canonical filenames for the four outline diagrams so the verify command can confirm all four are present.
+- Both files exist under `docs/architecture/diagrams/` using the canonical filenames; `arch-drawio.ps1 verify` prints PASS.
 
-  **Example (pass):** `platform-architecture.drawio`, `layered-architecture.drawio`, `system-context.drawio`, `deployment-architecture.drawio` all exist; verify prints PASS.
+  **Example (pass):** `ls docs/architecture/diagrams/` shows `system-context-elements.md` and `system-context.drawio` with exactly the canonical names.
 
-- Initialise a fresh project's diagrams folder by running `.\scripts\arch-drawio.ps1 init -ProjectRoot <path>` from this skill, which copies the four templates without overwriting existing diagrams (unless `-Force`).
+- The diagram referenced in the outline has exactly one matching `.drawio` source and exactly one matching `-elements.md` — no orphans in either direction.
 
-  **Example (pass):** A new project runs `init`, opens each `.drawio` in draw.io Desktop, fills in the `{Placeholder}` text, runs `export`, then `verify` returns PASS.
+  **Example (pass):** `diagrams/` contains `system-context.drawio`; the outline has one diagram section; the section links its matching source and element files.
 
 ## DO NOT
 
-- Embed a screenshot or PNG in the markdown with no matching `.drawio` source on disk.
+- Embed a PNG in the outline with no matching `.drawio` source on disk.
 
-  **Example (fail):** `architecture-outline.md` references `./diagrams/platform-architecture.png` but `docs/architecture/diagrams/` contains only the PNG — no `.drawio`. The diagram becomes write-only; the next update redraws from scratch.
+  **Example (fail):** `architecture-outline.md` has `![System Context](./diagrams/system-context.png)` but `docs/architecture/diagrams/` has no `system-context.drawio`. The diagram is write-only from this point forward.
 
-- Inline a mermaid diagram for the four canonical diagrams in place of a `.drawio` source.
+- Reference the diagram in the outline with no matching `-elements.md` on disk.
 
-  **Example (fail):** Section 1 of the outline has a fenced ` ```mermaid ` block for the platform diagram. Mermaid is fine for small ad-hoc figures inside mechanism walkthroughs, but the four outline-level diagrams need editable drawio sources so non-developer reviewers (architects, ops) can open and edit them in draw.io Desktop.
+  **Example (fail):** The System Context section links `system-context.drawio` and `system-context.png` but `docs/architecture/diagrams/system-context-elements.md` does not exist. The diagram has no auditable element inventory.
 
-- Rename the canonical diagrams so the verify step cannot find them.
+- Use a mermaid block in place of the canonical drawio diagram.
 
-  **Example (fail):** A team renames `system-context.drawio` to `context-c4.drawio`. The verify step reports `MISS expected 'system-context' diagram not referenced in outline`. Either keep the canonical name, or update the skill convention and the CLI.
+  **Example (fail):** Section 1 of the outline is a fenced ` ```mermaid ` block. Mermaid has no editable source on disk and cannot be opened in draw.io Desktop; the outline-level diagram requires a `.drawio` source.
 
-- Ship a `.drawio` source that the markdown never references.
+- Ship a `.drawio` source that the outline never references, or leave an `-elements.md` with no matching `.drawio`.
 
-  **Example (fail):** `diagrams/` contains five `.drawio` files; the outline only links to three. The two orphans are documentation rot — either reference them from the outline or delete them.
+  **Example (fail):** `diagrams/` contains `layered-architecture.drawio` but no section of the outline references it. Orphaned sources are documentation rot.
 
-**Source:** Practice-skill authoring convention (abd-architecture-outline); paired markdown + drawio is what makes the outline maintainable past its first release.
+- Use a non-canonical filename for the system context diagram.
+
+  **Example (fail):** A team saves the system context diagram as `context-c4.drawio` instead of `system-context.drawio`. The verify command reports a miss; downstream tooling and the outline template both expect the canonical name.
+
+**Source:** Practice-skill authoring convention (abd-architecture-outline); the diagram must be auditable (element file) and editable (drawio source) — the PNG alone is neither.

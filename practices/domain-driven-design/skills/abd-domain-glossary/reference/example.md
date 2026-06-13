@@ -1,5 +1,5 @@
 
-# Core Domain
+# Core Domain  
 
 ## Product Catalog
 
@@ -31,4 +31,4 @@
 - *Stock availability* is a real-time indicator of whether a *product* can be purchased.
 - Checkout must not proceed when the *product* is backordered.
 
----
+---  

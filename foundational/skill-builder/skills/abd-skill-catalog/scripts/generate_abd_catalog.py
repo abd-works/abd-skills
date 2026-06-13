@@ -645,6 +645,10 @@ def _vendor_catalog_commons_scripts(catalog_root: Path) -> None:
     dest.mkdir(parents=True, exist_ok=True)
     shutil.copy2(TEMPLATE_DIR / "catalog-foundry-tour.js", dest / "catalog-foundry-tour.js")
     shutil.copy2(TEMPLATE_DIR / "catalog-foundry-skill-nav.js", dest / "catalog-foundry-skill-nav.js")
+    shutil.copy2(
+        TEMPLATE_DIR / "catalog-foundry-scroll-restore-early.js",
+        dest / "catalog-foundry-scroll-restore-early.js",
+    )
     shutil.copy2(TEMPLATE_DIR / "catalog-drawio.js", dest / "catalog-drawio.js")
     nav_js = (TEMPLATE_DIR / "catalog-nav.js").read_text(encoding="utf-8")
     nav_js = nav_js.replace("{{GITHUB_RAW_CATALOG_COMMONS}}", GITHUB_RAW_MAIN + "catalog/commons/")
@@ -1783,7 +1787,10 @@ def _html_skill_image(pkg_dir: Path, href_to_repo: str, pkg_rel_posix: str, dir_
     Priority:
       1. reference/image.png or references/image.png  → <img>
       2. reference/example/index.html (or *.html)     → iframe prototype preview
-      3. reference/example.drawio or references/example.drawio → embedded draw.io viewer
+      3. drawio + code: both present → embed both; JS switches on ?stage=specification
+             (stage=specification → show code; any other stage → show drawio)
+         only drawio → drawio only
+         only code   → code only
       4. reference/example.md / examples.md           → rendered markdown HTML
     """
     # 1 – static PNG image
@@ -1803,12 +1810,53 @@ def _html_skill_image(pkg_dir: Path, href_to_repo: str, pkg_rel_posix: str, dir_
     if example_html is not None:
         return _html_prototype_iframe_embed(example_html, pkg_dir, href_to_repo, pkg_rel_posix)
 
-    # 3 – embedded draw.io viewer
+    # 3 – drawio and/or code file
+    # When BOTH exist: embed both; JS switches on ?stage= param.
+    #   stage=specification (template mode) → show code
+    #   any other stage (document/exploration/…) → show drawio
+    # When only one exists: show it unconditionally.
+    _drawio_html = ""
+    _code_html = ""
     for ref_folder in ("reference", "references"):
         for drawio_name in ("example.drawio", "image.drawio"):
             drawio_path = pkg_dir / ref_folder / drawio_name
             if drawio_path.exists():
-                return _html_drawio_embed(drawio_path)
+                _drawio_html = _html_drawio_embed(drawio_path)
+                break
+        if _drawio_html:
+            break
+    for ref_folder in ("reference", "references"):
+        ref_dir = pkg_dir / ref_folder
+        if ref_dir.is_dir():
+            for candidate in sorted(ref_dir.iterdir()):
+                if candidate.stem == "example" and candidate.suffix not in (".png", ".jpg", ".svg", ".drawio", ".md"):
+                    _code_html = _html_code_embed(candidate)
+                    break
+        if _code_html:
+            break
+
+    if _drawio_html and _code_html:
+        # Both present — switch by ?stage=specification for code, else drawio
+        return (
+            "<div class='skill-stage-visual' data-doc-visual='1'>"
+            + _drawio_html
+            + "</div>"
+            "<div class='skill-stage-visual' data-code-visual='1' style='display:none'>"
+            + _code_html
+            + "</div>"
+            "<script>(function(){"
+            "var s=new URLSearchParams(location.search).get('stage');"
+            "var show=s==='specification'?'[data-code-visual]':'[data-doc-visual]';"
+            "var hide=s==='specification'?'[data-doc-visual]':'[data-code-visual]';"
+            "var el=document.currentScript.parentNode;"
+            "var sh=el.querySelector(show);var hd=el.querySelector(hide);"
+            "if(sh)sh.style.display='';if(hd)hd.style.display='none';"
+            "})()</script>\n"
+        )
+    if _drawio_html:
+        return _drawio_html
+    if _code_html:
+        return _code_html
 
     # 4 – rendered markdown (example files only — template.md is excluded intentionally)
     for ref_folder in ("reference", "references"):
@@ -1821,14 +1869,6 @@ def _html_skill_image(pkg_dir: Path, href_to_repo: str, pkg_rel_posix: str, dir_
                     else ""
                 )
                 return _html_md_embed(md_path, preview_class=preview_class)
-
-    # 5 – any example.* file (code, text, etc.)
-    for ref_folder in ("reference", "references"):
-        ref_dir = pkg_dir / ref_folder
-        if ref_dir.is_dir():
-            for candidate in sorted(ref_dir.iterdir()):
-                if candidate.stem == "example" and candidate.suffix not in (".png", ".jpg", ".svg", ".drawio", ".md"):
-                    return _html_code_embed(candidate)
 
     # 6 – template.md as last resort
     for ref_folder in ("reference", "references"):

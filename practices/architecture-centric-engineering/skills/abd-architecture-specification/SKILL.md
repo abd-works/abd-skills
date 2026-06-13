@@ -103,6 +103,8 @@ Full teaching — document skeleton, five-part shape, section organization, temp
 | This skill's template | What to produce |
 | --- | --- |
 | `templates/architecture-specification.md` | The specification document — mechanism sections, walkthroughs, diagrams. |
+| `templates/architecture-flow.drawio` | Draw.io flow diagram — one box per layer/participant, simple boxes and lines. Place next to the spec doc. |
+| `templates/architecture-specification-participants.drawio` | UML class diagram of domain module participants — all 14 classes, full edge set, built by `scripts/build_participants_diagram.py`. |
 
 The spec directory's own `templates/` folder (e.g. `specs/mern/templates/`) holds the parameterized code scaffold — that is the spec's asset, not this skill's.
 
@@ -166,6 +168,8 @@ When mode is **document** or **both**:
 
 1. **`architecture-specification.md`** — write from this skill's `templates/architecture-specification.md`. Every walkthrough step must reference a real file in `template/` when that folder exists; otherwise use parameterized pattern comments and point at `templates/`.
 
+2. **`architecture-flow.drawio`** — produce a Draw.io flow diagram alongside the specification document. Start from `templates/architecture-flow.drawio`; replace placeholder labels with the actual layer and file names for this architecture. Rules: plain boxes and lines only (no gradient fills, no swimlane shading); one box per layer/participant; network or tier boundaries as lightly shaded full-width rectangles; simple arrow labels ("renders", "calls", "routes to", "extends", "uses", "read/write"). Place the file next to `architecture-specification.md` and reference it with `> See [architecture-flow.drawio](./architecture-flow.drawio)` in the Architecture Flow section.
+
 When mode is **document** only, do not create or edit files under `template/` unless the user explicitly asks to refresh template code in the same run.
 
 When mode is **template** only, skip `architecture-specification.md` unless the user explicitly asks for document work in the same run.
@@ -203,6 +207,7 @@ Re-run until all scanners pass. Repeat applicable passes after any fix.
 - **Specification directory complete** — for mode **both** on a new spec: doc, `template/`, `templates/`, `rules/`, and `scanners/` present; assigned specs cited, not recreated.
 - **Templates mirror template slice** — when mode includes **template**: every source file in `template/` has a corresponding parameterized file in `templates/` with `{{placeholders}}`; same folder structure, same file names (modulo domain substitution).
 - **Doc template shape followed** — when mode includes **document**: deliverable matches this skill's `templates/architecture-specification.md` skeleton; template instructions not copied into output.
+- **Flow diagram produced** — when mode includes **document**: `architecture-flow.drawio` exists next to `architecture-specification.md`; the Architecture Flow section references it; ASCII block is also present; drawio uses plain boxes and lines only.
 - **Template artifact set aligned** — when mode includes **template**: code, `specification-by-example.md`, and `domain-spec.md` use consistent concept names; tests pass; no stubs.
 - **Template validation** — when mode includes **template** and template code was created or edited, architecture spec rules pass and `run_scanners.py` exits zero.
 - **No bundle markers** — `SKILL.md` has no `<!-- execute_rules:bundle_rules -->` markers.

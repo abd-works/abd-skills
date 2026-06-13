@@ -346,7 +346,6 @@ html[data-theme="engineering"] .foundry-kanban-surface {
   padding: 6px;
   overflow: hidden;
   align-items: stretch;
-  transition: grid-template-rows var(--foundry-skills-duration) var(--foundry-skills-ease);
 }
 
 .foundry-practice-col,
@@ -361,7 +360,16 @@ html[data-theme="engineering"] .foundry-kanban-surface {
 .foundry-practice-col {
   grid-column: 1;
   padding-top: 0;
+  min-width: 0;
+  max-width: 100%;
 }
+.foundry-practice-col > .foundry-skills-toggle { grid-row: 1; }
+.foundry-practice-col > .foundry-family-toggle[data-family="story-driven-delivery"] { grid-row: 2; }
+.foundry-practice-col > .foundry-family-toggle[data-family="domain-driven-design"] { grid-row: 3; }
+.foundry-practice-col > .foundry-family-toggle[data-family="user-experience-design"] { grid-row: 4; }
+.foundry-practice-col > .foundry-family-toggle[data-family="architecture-centric-engineering"] { grid-row: 5; }
+.foundry-practice-col > .foundry-practice-col__stage-spacer { grid-row: 6; }
+.foundry-practice-col > .foundry-practice-col__other-practices { grid-row: 7; }
 
 .foundry-practice-col__card {
   display: flex;
@@ -413,11 +421,12 @@ html[data-theme="engineering"] .foundry-kanban-surface {
 }
 .foundry-practice-col__other-practices {
   display: flex;
-  align-items: flex-start;
-  align-self: start;
-  height: calc(var(--foundry-skill-row-h) - 4px);
-  max-height: calc(var(--foundry-skill-row-h) - 4px);
-  min-height: calc(var(--foundry-skill-row-h) - 4px);
+  align-items: stretch;
+  align-self: stretch;
+  justify-self: stretch;
+  width: 100%;
+  height: 100%;
+  min-height: var(--foundry-skill-row-h);
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -425,9 +434,9 @@ html[data-theme="engineering"] .foundry-kanban-surface {
 .foundry-practice-col__other-practices .kb-ticket,
 .foundry-practice-col__other-practices .foundry-family-toggle,
 .foundry-practice-col > .kb-ticket.aad-fam-other.foundry-practice-col__card {
-  align-self: start;
-  height: calc(var(--foundry-skill-row-h) - 4px);
-  max-height: calc(var(--foundry-skill-row-h) - 4px);
+  align-self: stretch;
+  height: 100%;
+  min-height: var(--foundry-skill-row-h);
   width: 100%;
 }
 .foundry-practice-col__other-practices .foundry-family-toggle {
@@ -522,96 +531,23 @@ html[data-theme="engineering"] .foundry-kanban-surface {
 .foundry-skills-toggle.is-expanded .foundry-skills-toggle__bar {
   background: var(--abd-accent-glow);
 }
+.foundry-kanban-surface.foundry-skills-expanded .foundry-board-grid {
+  grid-template-rows: auto repeat(4, var(--foundry-skill-row-h)) var(--foundry-stage-skills-gap-h) repeat(var(--foundry-stage-skill-rows), var(--foundry-skill-row-h));
+}
 .foundry-kanban-surface.foundry-skills-collapsed .foundry-board-grid {
-  grid-template-rows: auto 0px 0px 0px 0px 0px 0px 0px 0px;
+  /* Keep practice-rail family row tracks; clip stage-other rows when collapsed. */
+  grid-template-rows: auto repeat(4, var(--foundry-skill-row-h)) 0px var(--foundry-skill-row-h) 0px 0px;
 }
-.foundry-kanban-surface--skill-page .foundry-board-grid {
-  grid-template-rows: auto repeat(4, var(--foundry-skill-row-h)) auto;
-  transition: grid-template-rows var(--foundry-skills-duration) var(--foundry-skills-ease);
-}
-.foundry-kanban-surface--skill-page.foundry-skills-collapsed .foundry-board-grid {
-  /* Keep family-toggle row tracks — zero-height rows clip toggles (overflow:hidden on grid). */
-  grid-template-rows: auto repeat(4, var(--foundry-skill-row-h)) auto;
-}
-.foundry-kanban-surface--skill-page .foundry-practice-col {
-  z-index: 2;
-  pointer-events: auto;
-}
-.foundry-kanban-surface--skill-page .foundry-practice-col > .foundry-skills-toggle {
-  align-self: start;
-  justify-self: stretch;
-  width: 100%;
-}
-.foundry-kanban-surface--skill-page .foundry-practice-col > .foundry-family-toggle,
-.foundry-kanban-surface--skill-page .foundry-practice-col__other-practices {
-  align-self: start;
-  justify-self: stretch;
-  width: 100%;
-}
-.foundry-kanban-surface--skill-page .foundry-practice-col__card,
-.foundry-kanban-surface--skill-page .foundry-practice-col .foundry-family-toggle,
-.foundry-kanban-surface--skill-page .foundry-practice-col__other-practices .foundry-family-toggle {
-  height: calc(var(--foundry-skill-row-h) - 4px);
-  max-height: calc(var(--foundry-skill-row-h) - 4px);
-  min-height: calc(var(--foundry-skill-row-h) - 4px);
-}
-.foundry-kanban-surface--skill-page .foundry-skills-toggle {
-  flex: none;
-  height: auto;
-  min-height: 34px;
-  max-height: 34px;
-}
-.foundry-kanban-surface--skill-page.foundry-skills-collapsed .foundry-skills-toggle,
-.foundry-kanban-surface--skill-page.foundry-skills-expanded .foundry-skills-toggle {
-  opacity: 1 !important;
-  pointer-events: auto !important;
-  visibility: visible !important;
-}
-
-/* Skill page: questions always visible; stage skills + crosscut filtered via family toggles */
-.foundry-kanban-surface--skill-page .kanban-stage-questions {
-  opacity: 1 !important;
-  pointer-events: auto !important;
-  visibility: visible !important;
-}
-.foundry-kanban-surface--skill-page.foundry-skills-expanded .foundry-stage-skills.is-filter-visible {
-  opacity: 1 !important;
-  pointer-events: auto !important;
-  visibility: visible !important;
-}
-.foundry-kanban-surface--skill-page.foundry-skills-expanded .foundry-stage-skills:not(.is-filter-visible) {
-  opacity: 0 !important;
-  pointer-events: none !important;
-  visibility: hidden !important;
-}
-.foundry-kanban-surface--skill-page.foundry-skills-collapsed .foundry-stage-skills {
-  opacity: 0 !important;
-  pointer-events: none !important;
-  visibility: hidden !important;
-}
-.foundry-kanban-surface--skill-page .foundry-skills-extra {
+.foundry-kanban-surface--supporting-only .foundry-skills-extra {
   grid-template-rows: 1fr;
-  transition: grid-template-rows var(--foundry-skills-duration) var(--foundry-skills-ease);
-}
-.foundry-kanban-surface--skill-page.foundry-skills-collapsed .foundry-skills-extra {
-  grid-template-rows: 0fr;
-  opacity: 1 !important;
-  pointer-events: none !important;
-}
-.foundry-kanban-surface--skill-page.foundry-skills-expanded .foundry-skills-extra {
   opacity: 1 !important;
   pointer-events: auto !important;
   visibility: visible !important;
 }
-.foundry-kanban-surface--skill-page.foundry-skills-collapsed .foundry-skills-extra__inner {
-  opacity: 0;
-  pointer-events: none;
-}
-.foundry-kanban-surface--skill-page.foundry-skills-expanded .foundry-skills-extra__inner {
+.foundry-kanban-surface--supporting-only .foundry-skills-extra__inner {
   opacity: 1;
   pointer-events: auto;
 }
-
 /* Crosscut: ticket row layout (foundry) */
 .foundry-kanban-surface .aad-delivery-crosscut-stack {
   gap: 14px;
@@ -636,20 +572,17 @@ html[data-theme="engineering"] .foundry-kanban-surface {
   display: flex;
 }
 /* Hub: show all rows when no filter active; hide non-matching when filter active */
-.foundry-kanban-surface:not(.foundry-kanban-surface--skill-page):not(.foundry-skill-filter-active) .aad-delivery-crosscut-row {
+.foundry-kanban-surface:not(.foundry-skill-filter-active) .aad-delivery-crosscut-row {
   display: flex;
 }
-.foundry-kanban-surface:not(.foundry-kanban-surface--skill-page).foundry-skill-filter-active .aad-delivery-crosscut-row:not(.is-filter-visible) {
+.foundry-kanban-surface.foundry-skill-filter-active .aad-delivery-crosscut-row:not(.is-filter-visible) {
   display: none;
 }
-.foundry-kanban-surface--skill-page .aad-delivery-crosscut-section {
-  display: none;
-}
-.foundry-kanban-surface--skill-page .aad-delivery-crosscut-section.is-filter-visible {
+.foundry-kanban-surface .aad-delivery-crosscut-section {
   display: flex;
 }
-.foundry-kanban-surface:not(.foundry-kanban-surface--skill-page) .aad-delivery-crosscut-section {
-  display: flex;
+.foundry-kanban-surface .aad-delivery-crosscut-section[hidden] {
+  display: none !important;
 }
 .foundry-kanban-surface .aad-delivery-crosscut-skills {
   display: flex;
@@ -658,6 +591,12 @@ html[data-theme="engineering"] .foundry-kanban-surface {
   align-items: center;
   gap: 4px;
   min-width: 0;
+}
+.foundry-kanban-surface .aad-delivery-crosscut-skills.aad-delivery-crosscut-skills--collapsed {
+  display: none;
+}
+.foundry-kanban-surface .aad-delivery-crosscut-skills.is-skills-visible {
+  display: flex;
 }
 .foundry-kanban-surface .aad-crosscut-row-title {
   flex: 0 0 auto;
@@ -715,128 +654,108 @@ html[data-theme="engineering"] .foundry-kanban-surface {
   position: relative;
   padding-right: 22px;
 }
-.foundry-kanban-surface--skill-page .aad-crosscut-row-toggle::after {
-  content: '';
-  position: absolute;
-  right: 7px;
-  top: 50%;
-  width: 5px;
-  height: 9px;
-  border: solid var(--abd-accent);
-  border-width: 0 2px 2px 0;
-  transform: translateY(-60%) rotate(45deg) scale(0);
-  opacity: 0;
-  transition: transform 180ms ease, opacity 180ms ease;
-}
-.foundry-kanban-surface--skill-page .aad-crosscut-row-toggle.is-selected {
-  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.35);
-  color: var(--abd-text);
-}
-.foundry-kanban-surface--skill-page .aad-crosscut-row-toggle.is-selected::after {
-  transform: translateY(-60%) rotate(45deg) scale(1);
-  opacity: 1;
-}
-.foundry-kanban-surface--skill-page .aad-delivery-crosscut-skills--collapsed {
-  display: none !important;
-}
-.foundry-kanban-surface--skill-page .aad-delivery-crosscut-skills.is-skills-visible {
-  display: flex !important;
-  flex-direction: column;
-}
-.foundry-kanban-surface--skill-page .aad-delivery-crosscut-row {
-  display: none;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 2px;
-}
-.foundry-kanban-surface--skill-page .aad-delivery-crosscut-row.is-filter-visible {
-  display: flex;
-}
-.foundry-kanban-surface--skill-page.foundry-skill-nav-animated .aad-delivery-crosscut-row,
-.foundry-kanban-surface--skill-page.foundry-skill-nav-animated .aad-delivery-crosscut-section {
-  transition:
-    opacity 220ms var(--foundry-skills-ease),
-    visibility 220ms var(--foundry-skills-ease);
+/* Hide page until kanban scroll is applied after board layout */
+html.foundry-scroll-pending {
+  visibility: hidden;
 }
 
-/* Skill page: static by default — animate rows only after family toggle */
-.foundry-kanban-surface--skill-page .foundry-board-grid .foundry-practice-col__card,
-.foundry-kanban-surface--skill-page .foundry-board-grid .kb-col > .aad-skill-row,
-.foundry-kanban-surface--skill-page .kb-col-head,
-.foundry-kanban-surface--skill-page .kb-ticket.aad-skill:not(.foundry-family-toggle) {
-  transition: none;
-}
-
-.foundry-kanban-surface--skill-page.foundry-skill-nav-animated .kb-col > .aad-skill-row {
-  transition:
-    opacity 220ms var(--foundry-skills-ease),
-    visibility 220ms var(--foundry-skills-ease);
-}
-
-.foundry-kanban-surface--skill-page.foundry-skill-nav-settling .foundry-board-grid,
-.foundry-kanban-surface--skill-page.foundry-skill-nav-settling .foundry-board-grid .kb-col > .aad-skill-row,
-.foundry-kanban-surface--skill-page.foundry-skill-nav-settling .kb-ticket,
-.foundry-kanban-surface--skill-page.foundry-skill-nav-settling .kb-col-head {
+/* Settling: skip transitions on first paint */
+.foundry-kanban-surface.foundry-skill-nav-settling .foundry-board-grid,
+.foundry-kanban-surface.foundry-skill-nav-settling .foundry-board-grid .kb-col > .aad-skill-row,
+.foundry-kanban-surface.foundry-skill-nav-settling .kb-ticket,
+.foundry-kanban-surface.foundry-skill-nav-settling .kb-col-head {
   transition: none !important;
 }
-
-/* Skill page: family toggles + column headers always visible */
-.foundry-kanban-surface--skill-page .foundry-practice-col__card,
-.foundry-kanban-surface--skill-page .foundry-practice-col .foundry-family-toggle,
-.foundry-kanban-surface--skill-page .foundry-practice-col__other-practices,
-.foundry-kanban-surface--skill-page .foundry-practice-col__other-practices .foundry-family-toggle,
-.foundry-kanban-surface--skill-page .foundry-skills-toggle,
-.foundry-kanban-surface--skill-page .kb-col-head {
-  opacity: 1 !important;
-  pointer-events: auto !important;
-  visibility: visible !important;
+.foundry-kanban-surface.foundry-skill-nav-animated .aad-delivery-crosscut-row,
+.foundry-kanban-surface.foundry-skill-nav-animated .aad-delivery-crosscut-section,
+.foundry-kanban-surface.foundry-skill-nav-animated .kb-col > .aad-skill-row {
+  transition:
+    opacity 220ms var(--foundry-skills-ease),
+    visibility 220ms var(--foundry-skills-ease);
 }
 
-.foundry-kanban-surface--skill-page .kb-col > .aad-skill-row {
-  visibility: hidden;
-  opacity: 0;
-  pointer-events: none;
+/* Board row visibility — shared hub + skill page (is-filter-visible from JS) */
+.foundry-kanban-surface .kb-col > .aad-skill-row:not(.is-filter-visible) {
+  display: none;
 }
-
-/* Family filter drives board rows — SKILLS toggle does not hide selected families */
-.foundry-kanban-surface--skill-page.foundry-skill-filter-active .kb-col > .aad-skill-row.is-filter-visible {
-  display: block;
-  visibility: visible;
+.foundry-kanban-surface .kb-col > .aad-skill-row.is-filter-visible {
+  display: flex;
+}
+.foundry-kanban-surface.foundry-skills-expanded .kb-col > .aad-skill-row.is-filter-visible {
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
 }
-.foundry-kanban-surface--skill-page.foundry-skill-filter-active .kb-col > .aad-skill-row.is-filter-visible .kb-ticket {
-  pointer-events: auto;
-}
-.foundry-kanban-surface--skill-page.foundry-skill-filter-active .kb-col > .aad-skill-row:not(.is-filter-visible) {
-  display: none;
-}
-.foundry-kanban-surface--skill-page.foundry-skills-collapsed.foundry-skill-filter-active .kb-col > .aad-skill-row.is-filter-visible {
+.foundry-kanban-surface.foundry-skills-collapsed.foundry-skill-filter-active .kb-col > .aad-skill-row.is-filter-visible {
   opacity: 1 !important;
   visibility: visible !important;
   pointer-events: auto !important;
+  overflow: visible;
+}
+.foundry-kanban-surface.foundry-skills-collapsed.foundry-skill-filter-active .kb-col > .aad-skill-row:not(.is-filter-visible) {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
 
-/* Family buttons are always visible — never collapsed regardless of filter state */
-
-.foundry-kanban-surface--skill-page.foundry-skills-collapsed .foundry-practice-col__card,
-.foundry-kanban-surface--skill-page.foundry-skills-collapsed .foundry-practice-col .foundry-family-toggle,
-.foundry-kanban-surface--skill-page.foundry-skills-collapsed .foundry-practice-col__other-practices,
-.foundry-kanban-surface--skill-page.foundry-skills-collapsed .foundry-practice-col__other-practices .foundry-family-toggle {
+/* Collapsed focus mode: only ticked families stay in the practice rail */
+.foundry-kanban-surface.foundry-skills-collapsed.foundry-skill-filter-active .foundry-practice-col .foundry-family-toggle:not(.is-selected) {
+  display: none !important;
+}
+.foundry-kanban-surface.foundry-skills-collapsed.foundry-skill-filter-active:not(.foundry-skill-filter-other) .foundry-practice-col__other-practices {
+  display: none !important;
+}
+.foundry-kanban-surface.foundry-skills-collapsed .foundry-practice-col__card,
+.foundry-kanban-surface.foundry-skills-collapsed .foundry-practice-col .foundry-family-toggle,
+.foundry-kanban-surface.foundry-skills-collapsed .foundry-practice-col__other-practices,
+.foundry-kanban-surface.foundry-skills-collapsed .foundry-practice-col__other-practices .foundry-family-toggle {
   opacity: 1 !important;
   pointer-events: auto !important;
   visibility: visible !important;
+  overflow: hidden;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
-/* Hub board row filtering — same as skill page but hub rows are visible by default */
-.foundry-kanban-surface:not(.foundry-kanban-surface--skill-page).foundry-skill-filter-active .kb-col > .aad-skill-row {
+/* Board row grid slots — explicit subgrid slots keep stage columns aligned */
+.foundry-board-grid > .kb-col > .aad-skill-row[data-family="story-driven-delivery"] { grid-row: 2; }
+.foundry-board-grid > .kb-col > .aad-skill-row[data-family="domain-driven-design"] { grid-row: 3; }
+.foundry-board-grid > .kb-col > .aad-skill-row[data-family="user-experience-design"] { grid-row: 4; }
+.foundry-board-grid > .kb-col > .aad-skill-row[data-family="architecture-centric-engineering"] { grid-row: 5; }
+.foundry-board-grid > .kb-col > .aad-stage-skills-gap { grid-row: 6; }
+.foundry-board-grid > .kb-col > .aad-skill-row--stage-other:nth-child(7) { grid-row: 7; }
+.foundry-board-grid > .kb-col > .aad-skill-row--stage-other:nth-child(8) { grid-row: 8; }
+.foundry-board-grid > .kb-col > .aad-skill-row--stage-other:nth-child(9) { grid-row: 9; }
+
+.foundry-kanban-surface.foundry-skill-filter-active:not(.foundry-skill-filter-other) .kb-col > .aad-stage-skills-gap,
+.foundry-kanban-surface.foundry-skill-filter-active:not(.foundry-skill-filter-other) .kb-col > .aad-skill-row--stage-other {
   display: none;
 }
-.foundry-kanban-surface:not(.foundry-kanban-surface--skill-page).foundry-skill-filter-active .kb-col > .aad-skill-row.is-filter-visible {
-  display: block;
+/* Collapse other-practice stage tracks when other filter is off (hub + skill page) */
+.foundry-kanban-surface.foundry-skills-expanded.foundry-other-rows-collapsed .foundry-board-grid {
+  grid-template-rows: auto repeat(4, var(--foundry-skill-row-h)) 0px var(--foundry-skill-row-h) 0px 0px;
+}
+.foundry-kanban-surface.foundry-skills-expanded.foundry-other-rows-collapsed .foundry-practice-col__stage-spacer {
+  display: none;
+  min-height: 0;
+  height: 0;
+  overflow: hidden;
+}
+.foundry-kanban-surface.foundry-skills-expanded.foundry-other-rows-collapsed .kb-col > .aad-stage-skills-gap,
+.foundry-kanban-surface.foundry-skills-expanded.foundry-other-rows-collapsed .kb-col > .aad-skill-row--stage-other {
+  display: none;
+}
+/* Practice rail stays above the board grid for family chip clicks */
+.foundry-kanban-surface .foundry-practice-col {
+  z-index: 2;
+  position: relative;
+  pointer-events: auto;
 }
 
-.foundry-kanban-surface--skill-page .foundry-family-toggle {
+/* Family toggle tick — shared by hub and skill pages */
+.foundry-kanban-surface .foundry-family-toggle {
   cursor: pointer;
   text-align: left;
   width: 100%;
@@ -844,7 +763,7 @@ html[data-theme="engineering"] .foundry-kanban-surface {
   position: relative;
   padding-right: 22px;
 }
-.foundry-kanban-surface--skill-page .foundry-family-toggle::after {
+.foundry-kanban-surface .foundry-family-toggle::after {
   content: '';
   position: absolute;
   right: 7px;
@@ -857,14 +776,14 @@ html[data-theme="engineering"] .foundry-kanban-surface {
   opacity: 0;
   transition: transform 180ms ease, opacity 180ms ease;
 }
-.foundry-kanban-surface--skill-page .foundry-family-toggle.is-selected {
+.foundry-kanban-surface .foundry-family-toggle.is-selected {
   box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.35);
   color: var(--abd-text);
 }
-.foundry-kanban-surface--skill-page .foundry-family-toggle.foundry-perspective-label--other.is-selected {
+.foundry-kanban-surface .foundry-family-toggle.foundry-perspective-label--other.is-selected {
   color: var(--abd-text);
 }
-.foundry-kanban-surface--skill-page .foundry-family-toggle.is-selected::after {
+.foundry-kanban-surface .foundry-family-toggle.is-selected::after {
   transform: translateY(-60%) rotate(45deg) scale(1);
   opacity: 1;
 }
@@ -873,12 +792,6 @@ html[data-theme="engineering"] .foundry-kanban-surface {
   border-color: rgba(229, 83, 26, 0.55);
   box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.35);
   background: rgba(229, 83, 26, 0.08);
-}
-.foundry-kanban-surface--skill-page .kb-col-head.kb-col-head--current {
-  border-color: rgba(229, 83, 26, 0.45);
-}
-.foundry-kanban-surface--skill-page .kb-col-head.kb-col-head--current .kb-col-num::after {
-  content: none;
 }
 .foundry-board-grid .foundry-practice-col__card,
 .foundry-board-grid .foundry-practice-col__other-practices,
@@ -898,17 +811,30 @@ html[data-theme="engineering"] .foundry-kanban-surface {
   opacity: 1;
   transition-delay: var(--foundry-skills-fade-delay-expand), 0ms;
 }
-.foundry-kanban-surface.foundry-skills-collapsed .foundry-practice-col__card,
-.foundry-kanban-surface.foundry-skills-collapsed .foundry-practice-col__other-practices,
-.foundry-kanban-surface.foundry-skills-collapsed .foundry-practice-col__stage-spacer,
-.foundry-kanban-surface.foundry-skills-collapsed .kb-col > .aad-stage-skills-gap,
-.foundry-kanban-surface.foundry-skills-collapsed .kb-col > .aad-skill-row,
-.foundry-kanban-surface.foundry-skills-collapsed .foundry-stage-skills,
-.foundry-kanban-surface.foundry-skills-collapsed .kb-col > .aad-skill-row--stage-other {
+.foundry-kanban-surface.foundry-skills-collapsed:not(.foundry-skill-filter-active) .kb-col > .aad-skill-row,
+.foundry-kanban-surface.foundry-skills-collapsed:not(.foundry-skill-filter-active) .kb-col > .aad-stage-skills-gap,
+.foundry-kanban-surface.foundry-skills-collapsed:not(.foundry-skill-filter-active) .kb-col > .aad-skill-row--stage-other,
+.foundry-kanban-surface.foundry-skills-collapsed:not(.foundry-skill-filter-active) .foundry-stage-skills {
+  display: none;
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
   overflow: hidden;
   transition-delay: 0ms, 0ms;
+}
+.foundry-kanban-surface.foundry-skills-collapsed.foundry-skill-filter-active .kb-col > .aad-skill-row:not(.is-filter-visible),
+.foundry-kanban-surface.foundry-skills-collapsed.foundry-skill-filter-active .kb-col > .aad-stage-skills-gap,
+.foundry-kanban-surface.foundry-skills-collapsed.foundry-skill-filter-active .kb-col > .aad-skill-row--stage-other:not(.is-filter-visible) {
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  overflow: hidden;
+}
+.foundry-kanban-surface.foundry-skills-collapsed .foundry-practice-col__stage-spacer {
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
 }
 .foundry-kanban-surface.foundry-skills-collapsed .foundry-practice-col > .foundry-skills-toggle {
   opacity: 1;
@@ -1196,6 +1122,9 @@ html[data-theme="engineering"] .foundry-kanban-surface {
   position: relative;
   display: inline;
 }
+.foundry-practice-col .foundry-family-toggle .kb-skill-tooltip-wrap {
+  pointer-events: none;
+}
 .foundry-kanban-surface .kb-ticket.aad-skill.has-skill-tooltip {
   cursor: help;
 }
@@ -1310,6 +1239,9 @@ html[data-theme="engineering"] .foundry-kanban-surface {
   gap: 0 6px;
   margin: 8px 6px 0;
 }
+.foundry-kanban-surface.foundry-skills-collapsed .kanban-stage-questions {
+  display: none;
+}
 .kanban-stage-questions--foundry .kanban-stage-questions__list {
   list-style: none;
   margin: 0;
@@ -1341,7 +1273,44 @@ html[data-theme="engineering"] .foundry-kanban-surface {
   font-size: 9px;
   color: var(--muted);
 }
-
+.kanban-stage-questions--foundry .kanban-stage-questions__cell[data-stage] {
+  cursor: pointer;
+}
+.kanban-stage-questions--foundry .kanban-stage-questions__cell.is-active {
+  border-top-color: var(--abd-accent);
+  color: var(--abd-text);
+}
+.foundry-kanban-surface .kb-col-head[data-stage].kb-col-head--link,
+.foundry-kanban-surface .kb-col-head[data-stage].kb-col-head--toggle {
+  cursor: pointer;
+}
+.foundry-kanban-surface .kb-col-head.kb-col-head--current {
+  border-color: rgba(229, 83, 26, 0.45);
+}
+.foundry-kanban-surface .kb-col-head.foundry-stage-toggle {
+  padding-right: 22px;
+}
+.foundry-kanban-surface .kb-col-head.foundry-stage-toggle::after {
+  content: '';
+  position: absolute;
+  right: 9px;
+  top: 50%;
+  width: 5px;
+  height: 9px;
+  border: solid var(--abd-accent);
+  border-width: 0 2px 2px 0;
+  transform: translateY(-60%) rotate(45deg) scale(0);
+  opacity: 0;
+  transition: transform 180ms ease, opacity 180ms ease;
+}
+.foundry-kanban-surface .kb-col-head.foundry-stage-toggle.is-selected {
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.35);
+  color: var(--abd-text);
+}
+.foundry-kanban-surface .kb-col-head.foundry-stage-toggle.is-selected::after {
+  transform: translateY(-60%) rotate(45deg) scale(1);
+  opacity: 1;
+}
 .mock-below-fold {
   display: none;
 }

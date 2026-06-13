@@ -8,6 +8,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<script>
+(function(){try{if('scrollRestoration' in history)history.scrollRestoration='manual';var r=new URLSearchParams(location.search).get('kanbanScroll');if(!r)return;var y=parseFloat(r);if(isNaN(y))return;window.__foundryPendingScrollY=y;document.documentElement.classList.add('foundry-scroll-pending');}catch(e){}})();
+</script>
+
 <title>{{TITLE}}</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,7 +26,7 @@
 
 </style>
 
-<script src="{{COMMONS_PREFIX}}catalog-nav.js?v=foundry-9"></script>
+<script src="{{COMMONS_PREFIX}}catalog-nav.js?v=foundry-10"></script>
 
 
 </head>
@@ -107,7 +111,7 @@
 </main>
 
 <script src="{{COMMONS_PREFIX}}catalog-foundry-tour.js?v=foundry-21"></script>
-<script src="{{COMMONS_PREFIX}}catalog-foundry-skill-nav.js?v=foundry-13"></script>
+<script src="{{COMMONS_PREFIX}}catalog-foundry-skill-nav.js?v=foundry-28"></script>
 
 </body>
 
