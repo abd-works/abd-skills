@@ -54,6 +54,8 @@ python drawio_class_cli.py <command> <drawio-file> [options]
 
 ## Layout Guidelines
 
+- **Key Abstraction cohesion:** Classes within the same Key Abstraction form a tight cluster; different KAs are separated by visible distance (≥200px gap). Cross-KA edges are naturally longer, communicating that the connection crosses a boundary. Instance notes sit inside their KA cluster, near the class they describe.
+- **Constrained inherited properties:** When a subtype constrains an inherited property (fixed value, narrower format, locked instance), the constraint is modeled as a **new subtype of the property's type** — not as a text invariant on the child class. The constrained subtype appears as its own class cell on the diagram with an inheritance edge (hollow triangle) to the base property type and an association edge from the child class. This applies to any constraint that narrows a type: fixed currency, restricted destination, format-specific identifiers. If you find yourself writing an invariant that says "X is always Y," create the type instead. See `abd-domain-model/rules/constrained-inherited-property-gets-subtype.md`.
 - **Inheritance:** Base on top, extensions below. Straight vertical lines preferred when parent and child are in the same column. Use `inheritance-orthogonal` when the child is in a different column from the parent — straight diagonal lines cut through intervening classes.
 - **Composition/aggregation:** Orthogonal routing (right-angle corners). Diamond on the owner (parent) side.
 - **Association:** Orthogonal routing. Use `--straight` when classes are on the same row to avoid bends.

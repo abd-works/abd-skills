@@ -1,0 +1,571 @@
+<mxfile host="65bd71144e">
+    <diagram id="page_all_kas" name="Entitlements, Organizations, Accounts, Tax Payments &amp; ACH">
+        <mxGraphModel dx="12521" dy="9333" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="5000" pageHeight="8000" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Payment&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;destination: Destination&lt;br/&gt;fromAccount: FromAccount&lt;br/&gt;amount: Money&lt;br/&gt;currency: Currency&lt;br/&gt;effectiveDate: EffectiveDate&lt;br/&gt;status: PaymentStatus&lt;br/&gt;referenceNumber: ReferenceNumber&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;submit(FinanceUser): Payment&lt;br/&gt;confirm(FinanceUser): Payment&lt;br/&gt;reject(FinanceUser): Payment&lt;br/&gt;generateReferenceNumber(): ReferenceNumber&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;amount must be greater than zero&lt;/i&gt;&lt;br/&gt;&lt;i&gt;effective date must be valid before submission&lt;/i&gt;&lt;br/&gt;&lt;i&gt;status transitions from drafted to pending review&lt;/i&gt;&lt;br/&gt;&lt;i&gt;status transitions from pending review to submitted&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="-3080" y="241" width="260" height="294" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;PaymentStatus&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;value: PaymentStatusValue&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;canEdit(): Boolean&lt;br/&gt;canSubmit(): Boolean&lt;br/&gt;canConfirm(): Boolean&lt;br/&gt;canReject(): Boolean&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;only drafted payments can be edited&lt;/i&gt;&lt;br/&gt;&lt;i&gt;only drafted payments can be submitted&lt;/i&gt;&lt;br/&gt;&lt;i&gt;only pending-review payments can be confirmed&lt;/i&gt;&lt;br/&gt;&lt;i&gt;only pending-review payments can be rejected&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="-3610" y="130" width="260" height="198" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Destination&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="-3160" y="-180" width="260" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;FromAccount&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;account: Account&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;validateSufficiency(Money): Boolean&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;from account must have sufficient available balance&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="-2860" y="630" width="260" height="102" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;PaymentRail&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;railType: RailType&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="-2360" y="1000" width="260" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;" parent="1" source="2" target="6" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="-3610" y="553" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="-3120" y="270"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;" parent="1" source="2" target="7" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-2890" y="680"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="13" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" parent="1" source="2" target="9" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;" parent="1" source="2" target="3" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="15" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;entryX=0.013;entryY=0.623;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="2" target="8" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="-2910" y="480" as="sourcePoint"/>
+                        <Array as="points">
+                            <mxPoint x="-2890" y="180"/>
+                            <mxPoint x="-2827" y="180"/>
+                        </Array>
+                        <mxPoint x="-2860" y="-50" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="180" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;" parent="1" source="2" target="101" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-4630" y="430"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="38" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Transaction&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;payment: Payment&lt;br/&gt;rail: PaymentRail&lt;br/&gt;state: TransactionState&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;post(): Transaction&lt;br/&gt;settle(): Transaction&lt;br/&gt;returnTransaction(ReturnReason): Transaction&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;posted means released to network, no longer cancellable&lt;/i&gt;&lt;br/&gt;&lt;i&gt;not final until settled&lt;/i&gt;&lt;br/&gt;&lt;i&gt;may transition to returned after settlement if rejected by receiving institution&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="-2590" y="730" width="260" height="198" as="geometry"/>
+                </mxCell>
+                <mxCell id="39" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Settlement&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;transaction: Transaction&lt;br/&gt;settledAt: Timestamp&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;distinct from submission and posting — transaction not final until settled&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="-2230" y="778" width="260" height="102" as="geometry"/>
+                </mxCell>
+                <mxCell id="73" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;" parent="1" source="38" target="39" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="101" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;FinanceUser&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;enterpriseGroup: EnterpriseGroup&lt;br/&gt;profile: UserProfile&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;switchCompany(RelatedCompany): FinanceUser&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;operates within one enterprise group&lt;/i&gt;&lt;br/&gt;&lt;i&gt;capabilities determined entirely by entitlements on profile&lt;/i&gt;&lt;br/&gt;&lt;i&gt;admin user = profile holds admin activities only&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="-5090" y="337.5" width="260" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="116" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Currency&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;code: CurrencyCode&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="-2510" y="40" width="260" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="158" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;" parent="1" source="2" target="116" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-2970" y="90"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="164" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=none;endSize=12;html=1;startArrow=open;startFill=0;endFill=0;entryX=0.75;entryY=1;entryDx=0;entryDy=0;" parent="1" source="38" target="2" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-2925" y="790"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="165" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;" parent="1" source="38" target="10" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-2470" y="1057"/>
+                        </Array>
+                        <mxPoint x="-2469.990000000001" y="944.5100000000002" as="sourcePoint"/>
+                        <mxPoint x="-2390.53" y="1057.5" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="8" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;ReferenceNumber&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;value: Identifier&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="-2770" y="180" width="260" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;EffectiveDate&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;value: BusinessDate&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;isValid(): Boolean&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;must be a valid business date before submission&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="-2480" y="410" width="260" height="102" as="geometry"/>
+                </mxCell>
+                <mxCell id="200" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;UserProfile&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;name: PersonName&lt;br/&gt;email: EmailAddress&lt;br/&gt;contactInfo: ContactInfo&lt;br/&gt;enterpriseGroup: EnterpriseGroup&lt;br/&gt;entitlements: Entitlement&lt;br/&gt;accessStatus: AccessStatus&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;enable(): UserProfile&lt;br/&gt;disable(): UserProfile&lt;br/&gt;assignEntitlement(Entitlement): UserProfile&lt;br/&gt;revokeEntitlement(Entitlement): UserProfile&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;belongs to exactly one enterprise group&lt;/i&gt;&lt;br/&gt;&lt;i&gt;user can only hold a profile in the same group&lt;/i&gt;&lt;br/&gt;&lt;i&gt;profiles built per enterprise group, not shared&lt;/i&gt;&lt;br/&gt;&lt;i&gt;only user with assign-entitlement can assign/revoke&lt;/i&gt;&lt;br/&gt;&lt;i&gt;disabled profile prevents sign-in&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="-6010" y="657.5" width="260" height="290" as="geometry"/>
+                </mxCell>
+                <mxCell id="201" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Entitlement&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;service: Service&lt;br/&gt;activity: Activity&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;finance user with no entitlement for a service does not see that service&lt;/i&gt;&lt;br/&gt;&lt;i&gt;entitlements do not cross enterprise group boundaries&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="-5610" y="657.5" width="260" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="202" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Service&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;name: ServiceName&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;must be entitled at enterprise group level by the bank before any user can access&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="-5610" y="887.5" width="260" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="220" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Activity&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;name: ActivityName&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;each activity is scoped to exactly one service&lt;/i&gt;&lt;br/&gt;&lt;i&gt;admin profile holds only admin activities; never initiate or approve&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="-5260" y="1057.5" width="260" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="203" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;EnterpriseGroup&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;identifier: Identifier&lt;br/&gt;parentCompany: CompanyName&lt;br/&gt;relatedCompanies: RelatedCompany&lt;br/&gt;users: FinanceUser&lt;br/&gt;profiles: UserProfile&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;finance user always operates within one enterprise group&lt;/i&gt;&lt;br/&gt;&lt;i&gt;user can only hold a profile in the same group&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="-6390" y="587.5" width="260" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="204" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;RelatedCompany&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;companyName: CompanyName&lt;br/&gt;accounts: Account&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="-6420" y="897.5" width="260" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="230" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Entitlement Instances (Service + Activity)&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;table style=&quot;font-size:9px;border-collapse:collapse;width:100%;&quot;&gt;&lt;tr&gt;&lt;th style=&quot;text-align:left;border-bottom:1px solid #ccc;padding:2px 4px;&quot;&gt;Service&lt;/th&gt;&lt;th style=&quot;text-align:left;border-bottom:1px solid #ccc;padding:2px 4px;&quot;&gt;Activity&lt;/th&gt;&lt;th style=&quot;text-align:left;border-bottom:1px solid #ccc;padding:2px 4px;&quot;&gt;Grants&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;ACH Payments&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;initiate&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;Submit individual and batch ACH payments&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;ACH Payments&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;approve&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;Confirm or reject pending ACH payments&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;Account Transfers&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;initiate&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;Submit account transfers&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;Account Transfers&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;approve&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;Confirm or reject pending transfers&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;Tax Payments&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;initiate&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;Submit tax payments via EFTPS&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;Tax Payments&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;approve&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;Confirm or reject pending tax payments&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;Wire Payments&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;initiate&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;Submit wire payments&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;Wire Payments&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;approve&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;Confirm or reject pending wire payments&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;File Transfers&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;initiate&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;Upload and send file transfers&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;File Transfers&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;approve&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;Approve received file transfers&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;Recipient Mgmt&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;add&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;Create new recipients&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;Recipient Mgmt&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;edit&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;Edit existing recipients&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;Recipient Mgmt&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;remove&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;Remove recipients (permanent)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;Recipient Mgmt&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;approve&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;Approve pending recipient changes&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;Access Mgmt&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;configure-mailbox&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;Configure file transfer mailbox&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;Access Mgmt&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;assign-entitlement&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;Assign entitlements to profiles&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;Access Mgmt&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;revoke-entitlement&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;Revoke entitlements from profiles&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;Access Mgmt&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;enable-user&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;Enable a user profile&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;Access Mgmt&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;disable-user&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;Disable a user profile&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;fillColor=#FFF9C4;strokeColor=#F9A825;" parent="1" vertex="1">
+                    <mxGeometry x="-5250" y="647.5" width="440" height="360" as="geometry"/>
+                </mxCell>
+                <mxCell id="241" style="edgeStyle=none;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;dashed=1;dashPattern=1 2;" parent="1" source="231" target="202" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="252" style="edgeStyle=none;html=1;dashed=1;fillColor=#e1d5e7;strokeColor=#9673a6;" parent="1" source="250" target="202" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="250" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;UserProfile Instances — Increment 1&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;table style=&quot;font-size:9px;border-collapse:collapse;width:100%;&quot;&gt;&lt;tr&gt;&lt;th style=&quot;text-align:left;border-bottom:1px solid #ccc;padding:2px 4px;&quot;&gt;Profile&lt;/th&gt;&lt;th style=&quot;text-align:left;border-bottom:1px solid #ccc;padding:2px 4px;&quot;&gt;Entitlements&lt;/th&gt;&lt;th style=&quot;text-align:left;border-bottom:1px solid #ccc;padding:2px 4px;&quot;&gt;Can do&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;&lt;b&gt;ACH Initiator&lt;/b&gt;&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;(ACH Payments, initiate)&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;Submit individual ACH payments; approve/reject disabled on own items&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;&lt;b&gt;ACH Approver&lt;/b&gt;&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;(ACH Payments, approve)&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;Approve/reject pending ACH payments; cannot initiate&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;&lt;b&gt;ACH Full User&lt;/b&gt;&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;(ACH Payments, initiate) + (ACH Payments, approve)&lt;/td&gt;&lt;td style=&quot;padding:2px 4px;&quot;&gt;Submit and approve — but cannot approve own submissions&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;&quot;&gt;&lt;b&gt;User A&lt;/b&gt; — ACH Initiator (submits payments)&lt;br/&gt;&lt;b&gt;User B&lt;/b&gt; — ACH Approver (approves/rejects others' payments)&lt;br/&gt;&lt;b&gt;User C&lt;/b&gt; — ACH Full User (demonstrates self-approval constraint)&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;fillColor=#F3E5F5;strokeColor=#7B1FA2;" parent="1" vertex="1">
+                    <mxGeometry x="-5850" y="1167.5" width="460" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="231" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Service Instances&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;&quot;&gt;&lt;b&gt;ACH Payments&lt;/b&gt; — individual and batch ACH origination&lt;br/&gt;&lt;b&gt;Account Transfers&lt;/b&gt; — internal transfers between accounts&lt;br/&gt;&lt;b&gt;Tax Payments&lt;/b&gt; — EFTPS tax payments&lt;br/&gt;&lt;b&gt;Wire Payments&lt;/b&gt; — real-time Fedwire (future KA)&lt;br/&gt;&lt;b&gt;File Transfers&lt;/b&gt; — sent and received bulk files&lt;br/&gt;&lt;b&gt;Recipient Management&lt;/b&gt; — manage payment recipients&lt;br/&gt;&lt;b&gt;Access Management&lt;/b&gt; — user and entitlement admin&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;fillColor=#E3F2FD;strokeColor=#1565C0;" parent="1" vertex="1">
+                    <mxGeometry x="-5360" y="1252.5" width="260" height="170" as="geometry"/>
+                </mxCell>
+                <mxCell id="242" style="edgeStyle=none;html=1;dashed=1;dashPattern=1 2;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" source="232" target="220" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="-4870" y="1219.1666666666679" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="232" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Activity Instances&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;&quot;&gt;&lt;b&gt;initiate&lt;/b&gt; — create and submit&lt;br/&gt;&lt;b&gt;approve&lt;/b&gt; — confirm or reject pending items&lt;br/&gt;&lt;b&gt;add&lt;/b&gt; — create a new record&lt;br/&gt;&lt;b&gt;edit&lt;/b&gt; — modify an existing record&lt;br/&gt;&lt;b&gt;remove&lt;/b&gt; — permanently delete a record&lt;br/&gt;&lt;b&gt;configure-mailbox&lt;/b&gt; — mailbox config (admin)&lt;br/&gt;&lt;b&gt;assign-entitlement&lt;/b&gt; — assign entitlement (admin)&lt;br/&gt;&lt;b&gt;revoke-entitlement&lt;/b&gt; — revoke entitlement (admin)&lt;br/&gt;&lt;b&gt;enable-user&lt;/b&gt; — enable user profile (admin)&lt;br/&gt;&lt;b&gt;disable-user&lt;/b&gt; — disable user profile (admin)&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;fillColor=#E8F5E9;strokeColor=#2E7D32;" parent="1" vertex="1">
+                    <mxGeometry x="-4940" y="1122.5" width="260" height="210" as="geometry"/>
+                </mxCell>
+                <mxCell id="210" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;" parent="1" source="101" target="200" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-5880" y="487"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="211" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="200" target="201" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-5750" y="732.5"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="212" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="201" target="202" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="216" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="201" target="220" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="213" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;" parent="1" source="203" target="101" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-6260" y="457.5"/>
+                            <mxPoint x="-5350" y="457.5"/>
+                            <mxPoint x="-5350" y="452.5"/>
+                        </Array>
+                        <mxPoint x="-4900" y="442.5" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="214" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;" parent="1" source="203" target="204" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-6270" y="817.5"/>
+                            <mxPoint x="-6270" y="817.5"/>
+                        </Array>
+                        <mxPoint x="-6460" y="937.5" as="targetPoint"/>
+                        <mxPoint x="-6310" y="777.5" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="260" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;" parent="1" source="203" target="200" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-5860" y="687.5"/>
+                            <mxPoint x="-5860" y="687.5"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="240" value="" style="rounded=1;endArrow=open;endSize=8;html=1;dashed=1;strokeColor=#F9A825;" parent="1" source="230" target="201" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="800" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Account&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;name: AccountName&lt;br/&gt;accountType: AccountType&lt;br/&gt;currency: Currency&lt;br/&gt;maskedNumber: MaskedDisplay&lt;br/&gt;availableBalance: AvailableBalance&lt;br/&gt;bookBalance: Balance&lt;br/&gt;status: AccountStatus&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;transfer(Account, Money): AccountTransfer&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;data sourced from core banking system; creation/closure not in scope&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="-1220" y="350" width="260" height="220" as="geometry"/>
+                </mxCell>
+                <mxCell id="801" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Balance&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;amount: Money&lt;br/&gt;currency: Currency&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;estimates based on previous day's exchange rates&lt;/i&gt;&lt;br/&gt;&lt;i&gt;displayed as &amp;quot;Unavailable&amp;quot; when cannot be retrieved&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="-1220" y="650" width="260" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="802" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;AvailableBalance : Balance&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;isSufficient(Money): Boolean&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;available = book minus holds and pending items&lt;/i&gt;&lt;br/&gt;&lt;i&gt;checked for sufficiency before transfer submission&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="-1270" y="850" width="260" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="804" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Hold&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;amount: Money&lt;br/&gt;account: Account&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;reservation against book balance that reduces available balance without posting&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="-1420" y="1060" width="240" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="805" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;PendingItem&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;amount: Money&lt;br/&gt;account: Account&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;initiated but not yet posted to book balance&lt;/i&gt;&lt;br/&gt;&lt;i&gt;reduces available balance before appearing in ledger&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="-1100" y="1060" width="240" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="806" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;ExchangeRate&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;sourceCurrency: Currency&lt;br/&gt;targetCurrency: Currency&lt;br/&gt;rate: Decimal&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;convert(Money): Money&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;loaded at time of transfer entry&lt;/i&gt;&lt;br/&gt;&lt;i&gt;dashboard balances estimated using prior-day rates&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="-1040" y="180" width="250" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="807" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;DailyCashPosition&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;accounts: Account&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;displayBalances(): Balance&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;shows estimates based on previous day's exchange rates&lt;/i&gt;&lt;br/&gt;&lt;i&gt;covers all accounts belonging to the logged-in company&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="-820" y="800" width="260" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="808" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;AccountTransfer : Payment&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;destinationAccount: Account&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;applyExchangeRate(ExchangeRate): AccountTransfer&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;source and destination must differ&lt;/i&gt;&lt;br/&gt;&lt;i&gt;cross-currency transfers apply an exchange rate&lt;/i&gt;&lt;br/&gt;&lt;i&gt;from account must have sufficient available balance&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="-1970" y="160" width="280" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="809" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;InternalRail : PaymentRail&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;moves funds between accounts at the same institution&lt;/i&gt;&lt;br/&gt;&lt;i&gt;settlement completes the same business day&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="-1770" y="680" width="260" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="866" value="" style="rounded=1;endArrow=block;endSize=12;endFill=0;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="809" target="10" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="867" value="&amp;lt;&amp;lt;submitted through&amp;gt;&amp;gt;" style="rounded=1;endArrow=open;endSize=12;html=1;dashed=1;entryX=0.673;entryY=0.008;entryDx=0;entryDy=0;entryPerimeter=0;fontSize=10;" parent="1" source="808" target="809" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="810" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;AccountStatement&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;account: Account&lt;br/&gt;statementPeriod: DateRange&lt;br/&gt;openingBalance: Balance&lt;br/&gt;closingBalance: Balance&lt;br/&gt;transactions: AccountTransactionEntry&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="-430" y="385" width="260" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="811" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;AccountTransactionHistory&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;account: Account&lt;br/&gt;entries: AccountTransactionEntry&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;read-only; sourced from core banking system&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="-470" y="570" width="260" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="812" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;AccountTransactionEntry&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;transactionDate: BusinessDate&lt;br/&gt;effectiveDate: EffectiveDate&lt;br/&gt;description: FreeText&lt;br/&gt;amount: Money&lt;br/&gt;direction: DebitOrCredit&lt;br/&gt;runningBalance: Balance&lt;br/&gt;transactionType: TransactionType&lt;br/&gt;referenceNumber: ReferenceNumber&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;read-only; sourced from core banking system&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="-470" y="770" width="260" height="220" as="geometry"/>
+                </mxCell>
+                <mxCell id="850" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="800" target="801" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="864" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;" parent="1" source="800" target="802" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-1370" y="490"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="851" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endSize=12;endFill=0;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.3;entryY=1;entryDx=0;entryDy=0;" parent="1" source="802" target="801" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="853" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;exitX=0.3;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="802" target="804" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="854" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;exitX=0.7;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="802" target="805" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="855" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.3;entryDx=0;entryDy=0;" parent="1" source="7" target="800" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-2100" y="681"/>
+                            <mxPoint x="-2100" y="416"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="856" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="808" target="800" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="-1550" y="290" as="sourcePoint"/>
+                        <Array as="points">
+                            <mxPoint x="-1090" y="230"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="857" value="" style="rounded=1;endArrow=block;endSize=12;endFill=0;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.3;entryDx=0;entryDy=0;" parent="1" source="808" target="2" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="858" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;" parent="1" source="800" target="116" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-560" y="430"/>
+                            <mxPoint x="-560" y="110"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="859" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;exitX=0;exitY=0.3;exitDx=0;exitDy=0;entryX=1;entryY=0.8;entryDx=0;entryDy=0;" parent="1" source="807" target="800" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="861" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;startArrow=diamond;startSize=12;startFill=0;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="810" target="800" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-470" y="460"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="862" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="811" target="812" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="863" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;" parent="1" source="808" target="806" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-1310" y="200"/>
+                            <mxPoint x="-1310" y="200"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="865" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;startArrow=diamond;startSize=12;startFill=0;html=1;exitX=0;exitY=0.3;exitDx=0;exitDy=0;entryX=1;entryY=0.7;entryDx=0;entryDy=0;" parent="1" source="811" target="800" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="QIs0P2DJVG92PzkicTDG-928" style="edgeStyle=none;html=1;entryX=0.441;entryY=1.01;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="900" target="924">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-1175" y="1730"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="900" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;TaxPayment : Payment&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;destination: TaxDestination&lt;br/&gt;currency: TaxCurrency&lt;br/&gt;jurisdiction: TaxJurisdiction&lt;br/&gt;taxType: TaxType&lt;br/&gt;taxPeriod: TaxPeriod&lt;br/&gt;ein: EIN&lt;br/&gt;legalName: LegalName&lt;br/&gt;memo: InternalMemo&lt;br/&gt;addenda: Addenda&lt;br/&gt;paymentCreationDate: Timestamp&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;generateReferenceNumber(): TaxReferenceNumber&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;EIN must match format XX-XXXXXXX&lt;/i&gt;&lt;br/&gt;&lt;i&gt;no OTP authentication required&lt;/i&gt;&lt;br/&gt;&lt;i&gt;submitted before 8:00 PM ET is effective same business day&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="-1910" y="1580" width="280" height="300" as="geometry"/>
+                </mxCell>
+                <mxCell id="901" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;TaxJurisdiction&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;name: JurisdictionName&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;search(JurisdictionName): TaxJurisdiction&lt;br/&gt;recentlyPaid(): TaxJurisdiction&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;must specify a tax jurisdiction before submission&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="-1440" y="1775" width="260" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="QIs0P2DJVG92PzkicTDG-929" value="&amp;lt;&amp;lt;returns&amp;gt;&amp;gt;" style="edgeStyle=none;html=1;dashed=1;" edge="1" parent="1" source="902" target="924">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="902" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;EFTPSRail : PaymentRail&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;effective same business day when submitted before 8:00 PM ET&lt;/i&gt;&lt;br/&gt;&lt;i&gt;tax type catalogue and EIN validation rules owned by EFTPS&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="-1760" y="1420" width="290" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="910" value="" style="rounded=1;endArrow=block;endSize=12;endFill=0;html=1;" parent="1" source="900" target="2" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-2550" y="1100"/>
+                            <mxPoint x="-2950" y="1030"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="911" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;" parent="1" source="900" target="901" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-1540" y="1835"/>
+                            <mxPoint x="-1540" y="1835"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="912" value="&amp;lt;&amp;lt;submitted through&amp;gt;&amp;gt;" style="rounded=1;endArrow=open;endSize=12;html=1;dashed=1;entryX=0.631;entryY=0.983;entryDx=0;entryDy=0;fontSize=10;entryPerimeter=0;" parent="1" source="900" target="902" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="913" value="" style="rounded=1;endArrow=block;endSize=12;endFill=0;html=1;entryX=1;entryY=0.75;entryDx=0;entryDy=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="902" target="10" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points"/>
+                        <mxPoint x="-1680" y="1340" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="920" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;TaxDestination : Destination&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;jurisdiction: TaxJurisdiction&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;destination is always the tax jurisdiction routed through EFTPS&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="-1800" y="1920" width="260" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="921" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endSize=12;endFill=0;html=1;" parent="1" source="920" target="6" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-1670" y="2100"/>
+                            <mxPoint x="20" y="2100"/>
+                            <mxPoint x="20" y="-200"/>
+                            <mxPoint x="-3030" y="-200"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="922" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;TaxCurrency : Currency&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;always USD&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="-1130" y="1930" width="260" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="923" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endSize=12;endFill=0;html=1;" parent="1" source="922" target="116" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-10" y="1980"/>
+                            <mxPoint x="-10" y="-20"/>
+                            <mxPoint x="-2470" y="-20"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="924" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;TaxReferenceNumber : ReferenceNumber&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;format is TAX-YYYY-XXXXXX&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="-1290" y="1575" width="260" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="925" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endSize=12;endFill=0;html=1;" parent="1" source="924" target="8" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-30" y="1610"/>
+                            <mxPoint x="-30" y="140"/>
+                            <mxPoint x="-2700" y="140"/>
+                        </Array>
+                        <mxPoint x="-2520" y="-60" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="926" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;" parent="1" target="920" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-1700" y="1905"/>
+                            <mxPoint x="-1700" y="1905"/>
+                        </Array>
+                        <mxPoint x="-1700" y="1885" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="927" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;exitX=0.907;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="900" target="922" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-1650" y="1880"/>
+                            <mxPoint x="-1650" y="1910"/>
+                            <mxPoint x="-1470" y="1910"/>
+                            <mxPoint x="-1470" y="1980"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="1000" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;ACHPayment : Payment&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;recipient: Recipient&lt;br/&gt;currency: ACHCurrency&lt;br/&gt;secCode: SECCode&lt;br/&gt;transactionCode: TransactionCode&lt;br/&gt;settlementVariant: SettlementInstruction&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;produceNACHAFile(): NACHAFile&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;on submission produces a NACHA file whose FileID is the reference number&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+                    <mxGeometry x="-3870" y="1220" width="280" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="1003" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;ACHCurrency : Currency&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;must be USD or CAD&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+                    <mxGeometry x="-3510" y="2090" width="220" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="1004" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;Recipient : Destination&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;profileName: ProfileName&lt;br/&gt;recipientType: RecipientType&lt;br/&gt;recipientName: RecipientName&lt;br/&gt;routingNumber: RoutingNumber&lt;br/&gt;accountNumber: AccountNumber&lt;br/&gt;accountType: AccountType&lt;br/&gt;rdfiCountry: RDFICountry&lt;br/&gt;status: RecipientStatus&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;edit(Recipient): Recipient&lt;br/&gt;remove(): Recipient&lt;br/&gt;suggestProfileName(): ProfileName&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;removal is permanent and requires explicit confirmation&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+                    <mxGeometry x="-4170" y="1340" width="260" height="260" as="geometry"/>
+                </mxCell>
+                <mxCell id="1005" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;BusinessRecipient : Recipient&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;companyName: CompanyName&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;requires a legal company name&lt;/i&gt;&lt;br/&gt;&lt;i&gt;account type must be commercial (corporate checking or corporate savings)&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+                    <mxGeometry x="-4520" y="1220" width="260" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="1006" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;IndividualRecipient : Recipient&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;firstName: PersonName&lt;br/&gt;lastName: PersonName&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;requires first and last name&lt;/i&gt;&lt;br/&gt;&lt;i&gt;account type must be consumer (checking or savings)&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+                    <mxGeometry x="-4470" y="1017.5" width="260" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="1007" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;SECCode&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;value: SECCodeValue&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;must be selected before an ACH payment can be submitted&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+                    <mxGeometry x="-3420" y="1188" width="220" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="1008" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;TransactionCode&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;value: TransactionCodeValue&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;maps directly to EntryDetail record in NACHA file&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+                    <mxGeometry x="-3530" y="1360" width="220" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="1009" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;ACHRail : PaymentRail&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;nextValidBusinessDay(EffectiveDate): EffectiveDate&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;effective dates on weekends or ACH holidays advance to next valid business day&lt;/i&gt;&lt;br/&gt;&lt;i&gt;processes payments in scheduled batch cutoff windows on business days only&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+                    <mxGeometry x="-3200" y="1510" width="280" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="1010" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;SettlementInstruction&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;variantType: SettlementVariantType&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;applicableCutoff(): BatchCutoff&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;Standard settles in 1–3 business days&lt;/i&gt;&lt;br/&gt;&lt;i&gt;Same Day settles same business day subject to earlier cutoff&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+                    <mxGeometry x="-3250" y="1350" width="260" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="1013" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;BatchCutoff&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;cutoffTime: CutoffTime&lt;br/&gt;variant: SettlementInstruction&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;isBeforeCutoff(Timestamp): Boolean&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;submissions after cutoff held for next batch window&lt;/i&gt;&lt;br/&gt;&lt;i&gt;Same Day ACH has earlier cutoff than standard ACH&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+                    <mxGeometry x="-2960" y="1180" width="260" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="1014" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;ACHHoliday&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;date: BusinessDate&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;isHoliday(BusinessDate): Boolean&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;effective dates falling on an ACH holiday advance to next valid business day&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+                    <mxGeometry x="-2830" y="1510" width="260" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="1015" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;NACHAFile&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;fileHeader: FileHeader&lt;br/&gt;batchHeaders: BatchHeader&lt;br/&gt;entryDetails: EntryDetail&lt;br/&gt;batchControls: BatchControl&lt;br/&gt;fileControl: FileControl&lt;br/&gt;fileId: Identifier&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;identified by a FileID that serves as the payment reference number&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+                    <mxGeometry x="-3620" y="1500" width="260" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="1017" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;EntitledAccountsAgreement&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;enterpriseGroup: EnterpriseGroup&lt;br/&gt;service: Service&lt;br/&gt;entitledAccounts: Account&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;isAccountEntitled(Account): Boolean&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;company must have an active agreement before any ACH payment can be initiated&lt;/i&gt;&lt;br/&gt;&lt;i&gt;loaded on every ACH session to determine which accounts may originate&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+                    <mxGeometry x="-3490" y="1720" width="280" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="1019" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;AccountType&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;value: AccountTypeValue&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;validTransactionCodes(): TransactionCode&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;determines valid transaction codes (22/27 for Checking, 32/37 for Savings)&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+                    <mxGeometry x="-4560" y="1750" width="260" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="1020" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;RoutingNumber&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;value: Identifier&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;validate(): Boolean&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;validated at point of recipient creation or edit&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+                    <mxGeometry x="-4540" y="1415" width="220" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="1021" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;AccountNumber&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;value: Identifier&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:10px;&quot;&gt;masked(): MaskedDisplay&lt;br/&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&quot;&gt;&lt;i&gt;always masked — only last 4 digits displayed&lt;/i&gt;&lt;br/&gt;&lt;i&gt;never shown in full outside Application and Infrastructure layers&lt;/i&gt;&lt;br/&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+                    <mxGeometry x="-4500" y="1560" width="240" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="1050" value="" style="rounded=1;endArrow=block;endSize=12;endFill=0;html=1;" edge="1" parent="1" source="1000" target="2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="1080" value="" style="rounded=1;endArrow=block;endSize=12;endFill=0;html=1;exitX=0.414;exitY=0.008;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="1004" target="6">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="-4070" y="1370" as="sourcePoint"/>
+                        <Array as="points">
+                            <mxPoint x="-4050" y="-140"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="1053" value="" style="rounded=1;endArrow=block;endSize=12;endFill=0;html=1;" edge="1" parent="1" source="1003">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="-2490" y="40" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint y="2140"/>
+                            <mxPoint y="-30"/>
+                            <mxPoint x="-2490" y="-30"/>
+                            <mxPoint x="-2490" y="10"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="1054" value="" style="rounded=1;endArrow=block;endSize=12;endFill=0;html=1;" edge="1" parent="1" source="1009" target="10">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-2500" y="1260"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="1055" value="" style="rounded=1;endArrow=block;endSize=12;endFill=0;html=1;" edge="1" parent="1" source="1005" target="1004">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="1056" value="" style="rounded=1;endArrow=block;endSize=12;endFill=0;html=1;" edge="1" parent="1" source="1006" target="1004">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="1060" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="1000" target="1004">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-3970" y="1310"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="1061" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;" edge="1" parent="1" source="1000" target="1003">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-3690" y="1830"/>
+                            <mxPoint x="-3600" y="1830"/>
+                            <mxPoint x="-3600" y="2000"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="1062" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;" edge="1" parent="1" source="1000" target="1007">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-3530" y="1238"/>
+                            <mxPoint x="-3530" y="1238"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="1063" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;" edge="1" parent="1" source="1000" target="1008">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-3420" y="1320"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="1064" value="&amp;lt;&amp;lt;produces&amp;gt;&amp;gt;" style="rounded=1;endArrow=open;endSize=12;html=1;dashed=1;fontSize=10;" edge="1" parent="1" source="1000" target="1015">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="1065" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;" edge="1" parent="1" source="1009" target="1014">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="1066" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;" edge="1" parent="1" source="1000" target="1010">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-3120" y="1300"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="1067" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;" edge="1" parent="1" source="1010" target="1013">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="1068" value="&amp;lt;&amp;lt;submitted through&amp;gt;&amp;gt;" style="rounded=1;endArrow=open;endSize=12;html=1;dashed=1;fontSize=10;" edge="1" parent="1" source="1015" target="1009">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="1070" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;" edge="1" parent="1" source="1004" target="1020">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="1071" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;" edge="1" parent="1" source="1004" target="1021">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="-4220" y="1490"/>
+                            <mxPoint x="-4220" y="1660"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="1072" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;" edge="1" parent="1" source="1004" target="1019">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="-3650" y="1770" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="-4110" y="1810"/>
+                            <mxPoint x="-4140" y="1810"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
