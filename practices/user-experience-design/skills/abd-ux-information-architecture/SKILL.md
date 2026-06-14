@@ -1,4 +1,4 @@
-﻿---
+---
 catalog_garden_tier: practice
 catalog_garden_order: 10
 name: abd-information-architecture
@@ -45,9 +45,9 @@ Read every file in **`rules/`**; author to those rules.
 
 | Template | What to produce |
 | --- | --- |
-| `templates/initial-ia.md` | Structured spec: scope, source paths, screens (regions, content types, actions, stories, domain terms), transitions, navigational components, content-type details. |
+| `templates/initial-ia.md` | Structured spec: scope, source paths, screen flow map, screens (regions, content types, actions, stories, domain terms), transitions, navigational components, content-type details. |
 
-**Method (13-step build):**
+**Method (14-step build):**
 
 1. Resolve inputs: story map, scope filter, Domain Language file.
 2. Filter story map by scope; read the Domain Language.
@@ -59,9 +59,10 @@ Read every file in **`rules/`**; author to those rules.
 8. Identify content types with hierarchy, collections, key actions.
 9. Lay out content per screen as rows (representative data rows + verb row), not prose.
 10. Draft labels and tags.
-11. Author `docs/ux/initial-ia.md` from the template.
-12. Run the completeness test from `rules/tab-states-and-domain-traceability.md` — fix gaps before touching the canvas.
-13. Choose output mode (Mode A: `drawio-ux` CLI; Mode B: filled prompt for external AI) and produce `initial-ia.drawio`.
+11. Author the **Screen flow — complete connection map** section of `docs/ux/initial-ia.md`: one ASCII block showing navigation components (drawer nav, secondary nav, etc.) then each screen → [type] action → destination screen, using the format in `templates/initial-ia.md`.
+12. Author the rest of `docs/ux/initial-ia.md` from the template.
+13. Run the completeness test from `rules/tab-states-and-domain-traceability.md` — fix gaps before touching the canvas.
+14. Choose output mode (Mode A: `drawio-ux` CLI; Mode B: filled prompt for external AI) and produce `initial-ia.drawio`. The CLI `save` command always writes **two pages**: Page 1 — Detailed IA (full screen layouts); Page 2 — Site Map (one box per screen, arrows only).
 
 **CLI (Mode A — from skill's scripts/):**
 
@@ -71,6 +72,9 @@ node scripts/drawio-ux.mjs add-screen "screen name" --layout sidebar --col 0 --r
 node scripts/drawio-ux.mjs add-list "screen name" "region" --slot body --fields "..." --actions "..."
 node scripts/drawio-ux.mjs connect "source" "target" --label "trigger"
 node scripts/drawio-ux.mjs save
+# save always produces two diagram pages:
+#   Page 1 — "Detailed IA"  (full screen layouts with regions and callouts)
+#   Page 2 — "Site Map"     (one titled box per screen, labeled connector arrows)
 ```
 
 ### 3. Validate
@@ -91,7 +95,7 @@ Then emit per-rule verdicts per `../agent-protocol.md`.
 
 **Goal:** Read the saved IA as reviewers, not a second authoring pass.
 
-- **Cross-artifact parity** — `initial-ia.md` and `initial-ia.drawio` describe the same IA — same screens, transitions, components, content types, and actions.
+- **Cross-artifact parity** — `initial-ia.md` and `initial-ia.drawio` describe the same IA — same screens, transitions, components, content types, and actions. The drawio **Site Map page** matches the **Screen flow — complete connection map** section in `initial-ia.md` (same screens, same labeled arrows).
 - **Every screen** has a name and linked source (domain concept or story).
 - **Every transition** has a labeled trigger and clear direction.
 - **Every navigational component** is named in UX terms with what it links to.

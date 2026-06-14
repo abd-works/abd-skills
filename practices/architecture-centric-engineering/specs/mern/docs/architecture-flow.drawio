@@ -1,120 +1,216 @@
 <mxfile host="65bd71144e">
     <diagram id="architecture-flow" name="Architecture Flow">
-        <mxGraphModel dx="700" dy="900" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="700" pageHeight="1280" math="0" shadow="0">
+        <mxGraphModel dx="2259" dy="933" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="919" pageHeight="1340" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
-
-                <!-- User -->
-                <mxCell id="user" value="User performs &lt;&lt;operation&gt;&gt;" style="ellipse;whiteSpace=wrap;html=1;fontSize=13;" vertex="1" parent="1">
-                    <mxGeometry x="200" y="20" width="300" height="44" as="geometry"/>
+                <mxCell id="pageTitle" value="{SystemName} — Architecture Flow (mechanisms at play)" style="text;html=1;align=center;fontSize=14;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="20" y="10" width="880" height="24" as="geometry"/>
                 </mxCell>
-
-                <!-- AppView -->
-                <mxCell id="appView" value="app-client/&lt;&lt;Feature&gt;&gt;View.tsx  ·  App.tsx (React Router)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=12;" vertex="1" parent="1">
-                    <mxGeometry x="50" y="100" width="600" height="44" as="geometry"/>
+                <mxCell id="mechHeader" value="Mechanisms active" style="text;html=1;align=center;fontSize=11;fontStyle=1;fontColor=#444444;" parent="1" vertex="1">
+                    <mxGeometry x="665" y="40" width="235" height="20" as="geometry"/>
                 </mxCell>
-
-                <!-- EntityView + hook -->
-                <mxCell id="entityView" value="&lt;&lt;domain&gt;&gt;/client/&lt;&lt;Entity&gt;&gt;ListView.tsx  ·  use&lt;&lt;Entity&gt;&gt;s.ts (hook)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=12;" vertex="1" parent="1">
-                    <mxGeometry x="50" y="184" width="600" height="44" as="geometry"/>
+                <mxCell id="divider" value="" style="line;strokeColor=#cccccc;strokeWidth=1;" parent="1" vertex="1">
+                    <mxGeometry x="655" y="60" width="1" height="1240" as="geometry"/>
                 </mxCell>
-
-                <!-- EntitysClient + Api -->
-                <mxCell id="entityClient" value="&lt;&lt;domain&gt;&gt;/client/&lt;&lt;Entity&gt;&gt;sClient.ts  ·  &lt;&lt;Entity&gt;&gt;Api (type-safe HTTP)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=12;" vertex="1" parent="1">
-                    <mxGeometry x="50" y="268" width="600" height="44" as="geometry"/>
+                <mxCell id="user" value="User performs &lt;&lt;operation&gt;&gt;" style="ellipse;whiteSpace=wrap;html=1;fontSize=13;" parent="1" vertex="1">
+                    <mxGeometry x="175" y="64" width="300" height="44" as="geometry"/>
                 </mxCell>
-
-                <!-- Network boundary DOWN -->
-                <mxCell id="netDown" value="NETWORK BOUNDARY  —  GET | POST /api/&lt;&lt;domain&gt;&gt;/…" style="rounded=0;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fillColor=#d0d0d0;strokeColor=#333333;" vertex="1" parent="1">
-                    <mxGeometry x="50" y="352" width="600" height="36" as="geometry"/>
+                <mxCell id="appView" value="app-client/&lt;&lt;Feature&gt;&gt;View.tsx  ·  App.tsx (React Router route)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="25" y="148" width="615" height="44" as="geometry"/>
                 </mxCell>
-
-                <!-- AppServer -->
-                <mxCell id="appServer" value="app-server/app.ts  (composition root)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=12;" vertex="1" parent="1">
-                    <mxGeometry x="50" y="428" width="600" height="44" as="geometry"/>
+                <mxCell id="entityView" value="&lt;&lt;domain&gt;&gt;/client/&lt;&lt;Entity&gt;&gt;View.tsx  ·  use&lt;&lt;Entity&gt;&gt;s (TanStack Query hook)  ·  imports &lt;&lt;Entity&gt;&gt; type from shared/" style="rounded=0;whiteSpace=wrap;html=1;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="25" y="232" width="615" height="44" as="geometry"/>
                 </mxCell>
-
-                <!-- EntityRouter -->
-                <mxCell id="entityRouter" value="&lt;&lt;domain&gt;&gt;/server/&lt;&lt;Entity&gt;&gt;Router  (route handler)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=12;" vertex="1" parent="1">
-                    <mxGeometry x="50" y="512" width="600" height="44" as="geometry"/>
+                <mxCell id="entityClient" value="&lt;&lt;domain&gt;&gt;/client/&lt;&lt;Entity&gt;&gt;sClient.ts  ·  RequestSchema.safeParse(form) [from shared/]  ·  fetch /api/…" style="rounded=0;whiteSpace=wrap;html=1;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="25" y="316" width="615" height="44" as="geometry"/>
                 </mxCell>
-
-                <!-- EntitysServer -->
-                <mxCell id="entitysServer" value="&lt;&lt;domain&gt;&gt;/server/&lt;&lt;Entity&gt;&gt;sServer.ts  (server domain — extends shared)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=12;" vertex="1" parent="1">
-                    <mxGeometry x="50" y="596" width="600" height="44" as="geometry"/>
+                <mxCell id="netDown" value="━━  NETWORK BOUNDARY  ━━  HTTPS/REST  GET | POST /api/&lt;&lt;domain&gt;&gt;/…  ━━" style="rounded=0;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fillColor=#d0d0d0;strokeColor=#333333;" parent="1" vertex="1">
+                    <mxGeometry x="25" y="400" width="615" height="34" as="geometry"/>
                 </mxCell>
-
-                <!-- Shared -->
-                <mxCell id="shared" value="&lt;&lt;domain&gt;&gt;/shared/&lt;br&gt;&lt;&lt;Entity&gt;&gt;  ·  &lt;&lt;Entity&gt;&gt;s  ·  &lt;&lt;Entity&gt;&gt;Schema" style="rounded=0;whiteSpace=wrap;html=1;fontSize=12;" vertex="1" parent="1">
-                    <mxGeometry x="50" y="688" width="280" height="56" as="geometry"/>
+                <mxCell id="appServer" value="app-server/app.ts  (composition root)  ›  CORS  ›  correlationId  ›  JWT validation  ›  route dispatch" style="rounded=0;whiteSpace=wrap;html=1;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="25" y="474" width="615" height="44" as="geometry"/>
                 </mxCell>
-
-                <!-- Repo -->
-                <mxCell id="repo" value="&lt;&lt;domain&gt;&gt;/server/&lt;&lt;Entity&gt;&gt;RepositoryServer&lt;br&gt;implements &lt;&lt;Entity&gt;&gt;Repository" style="rounded=0;whiteSpace=wrap;html=1;fontSize=12;" vertex="1" parent="1">
-                    <mxGeometry x="370" y="688" width="280" height="56" as="geometry"/>
+                <mxCell id="entityRouter" value="&lt;&lt;domain&gt;&gt;/server/&lt;&lt;Entity&gt;&gt;Router  ›  RequestSchema.safeParse(req.body)  ›  calls service  ›  Result → HTTP" style="rounded=0;whiteSpace=wrap;html=1;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="25" y="558" width="615" height="44" as="geometry"/>
                 </mxCell>
-
-                <!-- MongoDB -->
-                <mxCell id="mongodb" value="MongoDB / file system" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=12;fontSize=12;" vertex="1" parent="1">
-                    <mxGeometry x="420" y="792" width="200" height="56" as="geometry"/>
+                <mxCell id="entitysServer" value="&lt;&lt;domain&gt;&gt;/server/&lt;&lt;Entity&gt;&gt;sServer.ts  (server domain service — extends shared)  ›  returns Result&lt;T, E&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="25" y="642" width="615" height="44" as="geometry"/>
                 </mxCell>
-
-                <!-- Network boundary UP -->
-                <mxCell id="netUp" value="NETWORK BOUNDARY  —  JSON response" style="rounded=0;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fillColor=#d0d0d0;strokeColor=#333333;" vertex="1" parent="1">
-                    <mxGeometry x="50" y="904" width="600" height="36" as="geometry"/>
+                <mxCell id="shared" value="&lt;&lt;domain&gt;&gt;/shared/&lt;br&gt;&lt;&lt;Entity&gt;&gt;  ·  &lt;&lt;Entity&gt;&gt;Schema  ·  {Builder / ValueObject}" style="rounded=0;whiteSpace=wrap;html=1;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="25" y="736" width="295" height="60" as="geometry"/>
                 </mxCell>
-
-                <!-- Rerender -->
-                <mxCell id="rerender" value="hook updates state  →  view re-renders" style="rounded=0;whiteSpace=wrap;html=1;fontSize=12;" vertex="1" parent="1">
-                    <mxGeometry x="150" y="980" width="400" height="44" as="geometry"/>
+                <mxCell id="repo" value="&lt;&lt;domain&gt;&gt;/server/&lt;&lt;Entity&gt;&gt;RepositoryServer&lt;br&gt;implements I&lt;&lt;Entity&gt;&gt;Repository" style="rounded=0;whiteSpace=wrap;html=1;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="345" y="736" width="295" height="60" as="geometry"/>
                 </mxCell>
-
-                <!-- ARROWS (down path) -->
-                <mxCell id="a1" style="endArrow=classic;html=1;" edge="1" source="user" target="appView" parent="1">
+                <mxCell id="mongodb" value="MongoDB / {data store}" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=12;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="395" y="848" width="200" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="netUp" value="━━  NETWORK BOUNDARY  ━━  HTTPS/REST  JSON response  ━━" style="rounded=0;whiteSpace=wrap;html=1;fontSize=12;fontStyle=1;fillColor=#d0d0d0;strokeColor=#333333;" parent="1" vertex="1">
+                    <mxGeometry x="25" y="960" width="615" height="34" as="geometry"/>
+                </mxCell>
+                <mxCell id="rerender" value="TanStack Query updates cache  →  view re-renders with fresh data" style="rounded=0;whiteSpace=wrap;html=1;fontSize=12;" parent="1" vertex="1">
+                    <mxGeometry x="125" y="1034" width="415" height="44" as="geometry"/>
+                </mxCell>
+                <mxCell id="a1" style="endArrow=classic;html=1;" parent="1" source="user" target="appView" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="a2" value="renders" style="endArrow=classic;html=1;fontSize=11;" edge="1" source="appView" target="entityView" parent="1">
+                <mxCell id="a2" value="renders" style="endArrow=classic;html=1;fontSize=11;" parent="1" source="appView" target="entityView" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="a3" value="calls" style="endArrow=classic;html=1;fontSize=11;" edge="1" source="entityView" target="entityClient" parent="1">
+                <mxCell id="a3" value="calls" style="endArrow=classic;html=1;fontSize=11;" parent="1" source="entityView" target="entityClient" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="a4" style="endArrow=classic;html=1;" edge="1" source="entityClient" target="netDown" parent="1">
+                <mxCell id="a4" style="endArrow=classic;html=1;" parent="1" source="entityClient" target="netDown" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="a5" style="endArrow=classic;html=1;" edge="1" source="netDown" target="appServer" parent="1">
+                <mxCell id="a5" style="endArrow=classic;html=1;" parent="1" source="netDown" target="appServer" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="a6" value="routes to" style="endArrow=classic;html=1;fontSize=11;" edge="1" source="appServer" target="entityRouter" parent="1">
+                <mxCell id="a6" value="routes to" style="endArrow=classic;html=1;fontSize=11;" parent="1" source="appServer" target="entityRouter" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="a7" value="calls" style="endArrow=classic;html=1;fontSize=11;" edge="1" source="entityRouter" target="entitysServer" parent="1">
+                <mxCell id="a7" value="calls" style="endArrow=classic;html=1;fontSize=11;" parent="1" source="entityRouter" target="entitysServer" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="a8" value="extends" style="endArrow=classic;html=1;fontSize=11;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;" edge="1" source="entitysServer" target="shared" parent="1">
+                <mxCell id="a8" value="extends / uses" style="endArrow=classic;html=1;fontSize=11;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;" parent="1" source="entitysServer" target="shared" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="a9" value="uses" style="endArrow=classic;html=1;fontSize=11;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;" edge="1" source="entitysServer" target="repo" parent="1">
+                <mxCell id="a9" value="uses" style="endArrow=classic;html=1;fontSize=11;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;" parent="1" source="entitysServer" target="repo" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="a10" value="read/write" style="endArrow=classic;startArrow=classic;html=1;fontSize=11;" edge="1" source="repo" target="mongodb" parent="1">
+                <mxCell id="a10" value="read/write" style="endArrow=classic;startArrow=classic;html=1;fontSize=11;" parent="1" source="repo" target="mongodb" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-
-                <!-- ARROWS (return path) -->
-                <mxCell id="a11" style="endArrow=classic;html=1;exitX=0;exitY=0.5;entryX=0;entryY=0.5;" edge="1" source="mongodb" target="netUp" parent="1">
+                <mxCell id="a11" style="endArrow=classic;html=1;exitX=0;exitY=0.5;entryX=0;entryY=0.5;" parent="1" source="mongodb" target="netUp" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="20" y="820"/>
-                            <mxPoint x="20" y="922"/>
+                            <mxPoint x="12" y="878"/>
+                            <mxPoint x="12" y="977"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="a12" style="endArrow=classic;html=1;" edge="1" source="netUp" target="rerender" parent="1">
+                <mxCell id="a12" style="endArrow=classic;html=1;" parent="1" source="netUp" target="rerender" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-
+                <!-- Mechanism labels — right column -->
+                <mxCell id="mUI" value="UI Rendering" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="668" y="148" width="130" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="mUIbracket" value="" style="endArrow=none;html=1;strokeColor=#6c8ebf;strokeWidth=2;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" parent="1" source="mUI" target="appView" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="mUDLClient1" value="Unified Domain Logic" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffde7;strokeColor=#d6b656;fontSize=10;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="668" y="232" width="150" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="mUDLClient1Bracket" value="" style="endArrow=none;html=1;strokeColor=#d6b656;strokeWidth=2;" parent="1" source="mUDLClient1" target="entityView" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="mCache" value="Caching" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="822" y="232" width="88" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="mCacheBracket" value="" style="endArrow=none;html=1;strokeColor=#d79b00;strokeWidth=2;" parent="1" source="mCache" target="entityView" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="mUDLClient2" value="Unified Domain Logic" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffde7;strokeColor=#d6b656;fontSize=10;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="668" y="316" width="150" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="mUDLClient2Bracket" value="" style="endArrow=none;html=1;strokeColor=#d6b656;strokeWidth=2;" parent="1" source="mUDLClient2" target="entityClient" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="mValClient" value="Validation (client)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="820" y="316" width="130" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="mValClientBracket" value="" style="endArrow=none;html=1;strokeColor=#82b366;strokeWidth=2;" parent="1" source="mValClient" target="entityClient" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="mComm" value="Communication" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="668" y="400" width="130" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="mCommBracket" value="" style="endArrow=none;html=1;strokeColor=#9673a6;strokeWidth=2;" parent="1" source="mComm" target="netDown" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="mAppSrv" value="App Server" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="668" y="468" width="100" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="mAppSrvBracket" value="" style="endArrow=none;html=1;strokeColor=#82b366;strokeWidth=2;" parent="1" source="mAppSrv" target="appServer" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="mSecurity" value="Security" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="775" y="426" width="100" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="mSecurityBracket" value="" style="endArrow=none;html=1;strokeColor=#b85450;strokeWidth=2;" parent="1" source="mSecurity" target="appServer" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="mLog" value="Logging throughout server layers" style="text;html=1;fontSize=9;fontColor=#444444;fontStyle=2;align=left;" parent="1" vertex="1">
+                    <mxGeometry x="668" y="510" width="200" height="18" as="geometry"/>
+                </mxCell>
+                <mxCell id="mAppSrv2" value="App Server" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="668" y="552" width="100" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="mAppSrv2Bracket" value="" style="endArrow=none;html=1;strokeColor=#82b366;strokeWidth=2;" parent="1" source="mAppSrv2" target="entityRouter" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="mValSrv" value="Validation (server)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="668" y="582" width="130" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="mValSrvBracket" value="" style="endArrow=none;html=1;strokeColor=#82b366;strokeWidth=2;" parent="1" source="mValSrv" target="entityRouter" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="mErrRouter" value="Error Handling" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="800" y="514" width="105" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="mErrRouterBracket" value="" style="endArrow=none;html=1;strokeColor=#d6b656;strokeWidth=2;" parent="1" source="mErrRouter" target="entityRouter" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="mUDL" value="Unified Domain Logic" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffde7;strokeColor=#d6b656;fontSize=10;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="668" y="642" width="150" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="mUDLBracket" value="" style="endArrow=none;html=1;strokeColor=#d6b656;strokeWidth=2;" parent="1" source="mUDL" target="entitysServer" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="mErrSrv" value="Error Handling" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="805" y="608" width="105" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="mErrSrvBracket" value="" style="endArrow=none;html=1;strokeColor=#d6b656;strokeWidth=2;" parent="1" source="mErrSrv" target="entitysServer" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="mUDL2" value="Unified Domain Logic" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fffde7;strokeColor=#d6b656;fontSize=10;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="673" y="686" width="150" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="mUDL2Bracket" value="" style="endArrow=none;html=1;strokeColor=#d6b656;strokeWidth=2;" parent="1" source="mUDL2" target="shared" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="mPers" value="Persistence" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="665" y="796" width="100" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="mPersBracket" value="" style="endArrow=none;html=1;strokeColor=#b85450;strokeWidth=2;" parent="1" source="mPers" target="repo" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="mPers2" value="Persistence" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="668" y="862" width="100" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="mPers2Bracket" value="" style="endArrow=none;html=1;strokeColor=#b85450;strokeWidth=2;" parent="1" source="mPers2" target="mongodb" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="mComm2" value="Communication" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="668" y="960" width="130" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="mComm2Bracket" value="" style="endArrow=none;html=1;strokeColor=#9673a6;strokeWidth=2;" parent="1" source="mComm2" target="netUp" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="mUI2" value="UI Rendering" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="668" y="1034" width="130" height="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="mUI2bracket" value="" style="endArrow=none;html=1;strokeColor=#6c8ebf;strokeWidth=2;" parent="1" source="mUI2" target="rerender" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="mUDLSpan" value="↑ client imports from shared/     server extends shared/ ↓" style="text;html=1;fontSize=9;fontColor=#a0700a;fontStyle=2;align=center;" parent="1" vertex="1">
+                    <mxGeometry x="668" y="690" width="160" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="note" value="Unified Domain Logic spans the full stack: shared/ is imported by client/ (entity types, RequestSchema.safeParse) AND extended by server/ (domain service, RepositoryServer). All other mechanisms as labelled. Add project-specific bespoke mechanisms (e.g. field masking, file generation) to the right column as needed." style="text;html=1;fontSize=9;fontColor=#555555;fontStyle=2;align=left;whiteSpace=wrap;" parent="1" vertex="1">
+                    <mxGeometry x="25" y="1110" width="870" height="36" as="geometry"/>
+                </mxCell>
             </root>
         </mxGraphModel>
     </diagram>

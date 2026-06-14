@@ -1,4 +1,4 @@
-﻿# Initial information architecture — {{SCOPE}}
+# Initial information architecture — {{SCOPE}}
 
 > **Companion to** `docs/ux/initial-ia.tldr` / `initial-ia.svg`. This markdown is the structured spec for the canvas. Author or update **this file first**, then drive the canvas from it. After the canvas is updated, sync any change back into this file so the two never diverge.
 
@@ -22,6 +22,38 @@ One paragraph: what the IA covers, what conversation it supports, who reads it.
 ---
 
 ## Navigation
+
+### Screen flow — complete connection map
+
+One ASCII block. List navigation components first (anything available from every screen), then each screen as a tree showing all outgoing transitions tagged with navigation type. This section must stay in sync with the Site Map page of `initial-ia.drawio`.
+
+```
+═══════════════════════════════════════════════════════════
+  NAVIGATION COMPONENTS (present on every screen)
+═══════════════════════════════════════════════════════════
+
+  {{NAV_COMPONENT_NAME}} ({{UX_TYPE}} — available from every screen)
+    ├─ {{LINK_LABEL}} ───────────────────────────→ {{DESTINATION_SCREEN}}
+    └─ {{LINK_LABEL}} ───────────────────────────→ {{DESTINATION_SCREEN}}
+
+  {{NAV_COMPONENT_NAME}} ({{UX_TYPE}} — {{SCOPE}})
+    └─ {{LINK_LABEL}} ───────────────────────────→ {{DESTINATION_SCREEN}}
+
+═══════════════════════════════════════════════════════════
+  SCREEN FLOW
+═══════════════════════════════════════════════════════════
+
+{{SCREEN_NAME}}
+  ├─ [{{NAV_TYPE}}] {{ACTION_LABEL}} ──────────→ {{DESTINATION_SCREEN}}
+  └─ [{{NAV_TYPE}}] {{ACTION_LABEL}} ──────────→ {{DESTINATION_SCREEN}}
+
+{{SCREEN_NAME}}
+  └─ [action] {{ACTION_LABEL}} ────────────────→ {{DESTINATION_SCREEN}}
+```
+
+Nav type tags: `[Quick Action]` · `[top nav]` · `[drawer nav]` · `[secondary nav]` · `[action]` · `[system]`
+
+---
 
 ### Site map — screens
 

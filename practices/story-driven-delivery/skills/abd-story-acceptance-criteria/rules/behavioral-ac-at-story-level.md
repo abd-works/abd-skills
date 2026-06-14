@@ -18,3 +18,4 @@ Behavioral AC belongs at story level in `story-graph.json`. Use When/Then format
 
 - Use technical implementation terms (config, json, api, sql, class, method) as the primary description.
 - Use programming, database, or raw API terminology in place of behavior.
+- Use internal-action verbs ("provides", "records", "sets", "triggers", "loads", "accepts") as the observable outcome — see **ground-ac-in-domain-concepts** for the full prohibition and examples.

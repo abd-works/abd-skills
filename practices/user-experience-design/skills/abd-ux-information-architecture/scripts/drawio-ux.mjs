@@ -579,7 +579,7 @@ function generateXml(state) {
 
   return [
     '<mxfile host="drawio-ux">',
-    '    <diagram id="ia-diagram" name="Page-1">',
+    '    <diagram id="ia-diagram" name="Detailed IA">',
     '        <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3300" pageHeight="2550" math="0" shadow="0">',
     '            <root>',
     '                <mxCell id="0"/>',
@@ -588,7 +588,84 @@ function generateXml(state) {
     '            </root>',
     '        </mxGraphModel>',
     '    </diagram>',
+    generateSiteMapPage(state),
     '</mxfile>',
+  ].join('\n')
+}
+
+// ─── Site map page ─────────────────────────────────────────────────────────────
+// Second diagram page: one titled box per screen, labeled connector arrows only.
+// Positioned using the same col/row grid as the detailed page (260px col, 90px row).
+
+function generateSiteMapPage(state) {
+  const screens = state.screens || []
+  const conns   = state.connections || []
+
+  const COL_W = 260
+  const ROW_H = 90
+  const BOX_W = 200
+  const BOX_H = 48
+  const PAD_X = 40
+  const PAD_Y = 40
+
+  // Group by col so rows within a col stack properly
+  const colMap = {}
+  for (const s of screens) {
+    const col = s.col !== undefined ? s.col : 0
+    if (!colMap[col]) colMap[col] = []
+    colMap[col].push(s)
+  }
+
+  let idCtr = 5000
+  const cells = []
+  const nameToId = {}
+
+  for (const [col, group] of Object.entries(colMap)) {
+    const colNum = Number(col)
+    // Sort by explicit row if present, else keep insertion order
+    const sorted = [...group].sort((a, b) =>
+      (a.row !== undefined ? a.row : 999) - (b.row !== undefined ? b.row : 999)
+    )
+    sorted.forEach((s, i) => {
+      const row = s.row !== undefined ? s.row : i
+      const x = PAD_X + colNum * COL_W
+      const y = PAD_Y + row * ROW_H
+      const id = String(++idCtr)
+      nameToId[s.name] = id
+      cells.push(
+        `                <mxCell id="${id}" value="${esc(s.name)}" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2;fontStyle=1;fontSize=12;verticalAlign=middle;align=center;" vertex="1" parent="1">`,
+        `                    <mxGeometry x="${x}" y="${y}" width="${BOX_W}" height="${BOX_H}" as="geometry"/>`,
+        `                </mxCell>`
+      )
+    })
+  }
+
+  // Connector arrows
+  for (const conn of conns) {
+    const srcId = nameToId[conn.from]
+    const tgtId = nameToId[conn.to]
+    if (!srcId || !tgtId) continue
+    const id = String(++idCtr)
+    const style = conn.dashed
+      ? 'html=1;strokeColor=#000000;endArrow=block;endFill=1;fontSize=10;dashed=1;'
+      : 'html=1;strokeColor=#000000;endArrow=block;endFill=1;fontSize=10;'
+    cells.push(
+      `                <mxCell id="${id}" value="${esc(conn.label || '')}" style="${style}" edge="1" source="${srcId}" target="${tgtId}" parent="1">`,
+      `                    <mxGeometry relative="1" as="geometry"/>`,
+      `                </mxCell>`
+    )
+  }
+
+  return [
+    '    <diagram id="site-map" name="Site Map">',
+    '        <mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3300" pageHeight="2550" math="0" shadow="0">',
+    '            <root>',
+    '                <mxCell id="0"/>',
+    '                <mxCell id="1" parent="0"/>',
+    ...cells,
+    '            </root>',
+    '        </mxGraphModel>',
+    '    </diagram>',
   ].join('\n')
 }
 
@@ -762,7 +839,7 @@ Commands:
   add-callout <screen> --stories "s1 · s2" --terms "t1 · t2"
   templates   (list all layout templates with ASCII diagrams)
   status
-  save
+  save        (always writes two pages: "Detailed IA" + "Site Map")
 
 Layout templates (--layout):
   stack        single column — default
