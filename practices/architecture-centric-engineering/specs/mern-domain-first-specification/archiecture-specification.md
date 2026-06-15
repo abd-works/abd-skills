@@ -3,15 +3,15 @@
 ## Table of Contents
 
 - [Overview](#overview)
-- [Instantiating the Domain](#instantiating-the-domain)
+- [Unified Domain Logic](#unified-domain-logic)
   - [Principles](#principles)
   - [Architecture Flow](#architecture-flow)
   - [Module Layout](#module-layout)
   - [Participants](#participants)
 - [Mechanisms](#mechanisms)
-  - [Mechanism: Web Client](#mechanism-web-client)
-  - [Mechanism: App Server](#mechanism-app-server)
-  - [Mechanism: Persistence](#mechanism-persistence)
+  - [UI Rendering](#ui-rendering)
+  - [App Server](#app-server)
+  - [Persistence](#persistence)
 - [Testing Architecture](#testing-architecture)
   - [Principles](#principles-1)
   - [Testing Scope](#testing-scope)
@@ -25,20 +25,24 @@
 
 ## Overview
 
-MERN Domain-First is the **architecture specification** for this stack — the authoritative output of `abd-architecture-specification`. It is a **domain-module-organized full-stack TypeScript architecture** (MongoDB, Express, React, Node.js) built on three runtime mechanisms and one organizing principle:
+This is the **architecture specification** for the Cash Management Platform MERN stack — the deep walkthrough that shows code shape, module layout, file structure, worked examples, and validation rules for the mechanisms introduced in **Increment 1**. It complements the [`architecture-blueprint.md`](../../blueprint/architecture-blueprint.md), which names mechanisms and modules at a higher level; this document shows how to *build* them.
 
-1. **Instantiating the domain** — every artifact maps to a domain class (`<<Entity>>`) and/or operation (`<<operation>>`); shared core in `shared/`; tiers extend shared.
-2. **Web client** — React views, hooks, and type-safe HTTP client under `app-client/` and `<<domain>>/client/`.
-3. **App server** — Express composition root, route handlers, and `<<domain>>-server` classes under `app-server/` and `<<domain>>/server/`.
-4. **Persistence** — repository and MongoDB; only `<<domain>>-server` touches it.
+The specification covers a **domain-module-organized full-stack TypeScript architecture** (MongoDB, Express, React, Node.js) built on one organizing principle and three runtime mechanisms:
 
-> Sources: `mern-technical-architecture/reference/concepts.md`, `mern-technical-architecture/inputs/mern-architecture.md`. Example story: **Create Wire Payment** → **Select Recipient**; domain module **Recipients** with `specification-by-example.md` and `domain-spec.md` in `template/`.
+1. **Unified Domain Logic** — every artifact maps to a domain class (`<<Entity>>`) and/or operation (`<<operation>>`); shared core in `shared/`; tiers extend shared.
+2. **UI Rendering** — React views, hooks, and type-safe HTTP client under `app-client/` and `<<domain>>/client/`.
+3. **App Server** — Express composition root, route handlers, Zod validation, and Result-based error flow under `app-server/` and `<<domain>>/server/`.
+4. **Persistence** — repository pattern and MongoDB; only `<<domain>>-server` touches it.
+
+### Increment 1 Scope
+
+All mechanisms specified here are introduced in **Increment 1: Single ACH Payment** (see [`thin-slicing.md`](../../../stories/thin-slicing.md)). Increment 1 proves the full vertical stack — from React home screen through Express API to MongoDB persistence — with a single ACH payment flow. Mechanisms *not yet active* in Increment 1 (Security, Logging, Caching tuning, Account Number Masking) are not detailed in this specification; they will be specified as their increments arrive.
 
 ---
 
-## Instantiating the Domain
+## Unified Domain Logic
 
-How domain classes and operations from the domain model become code in this architecture. **Common to every architecture reference** — the mechanism sections below differ by tech stack; this section defines the domain-to-code mapping rules.
+How domain classes and operations from the domain model become code in this architecture. This section is the specification of the **Unified Domain Logic** mechanism — the central architectural principle that shapes every layer of the stack around the domain model.
 
 ### Principles
 
@@ -59,7 +63,7 @@ How domain classes and operations from the domain model become code in this arch
 
 **DO NOT** prefix shared classes with `Domain`, reuse bare shared class names in client/server when the tier adds behaviour, or put tier qualifiers on shared artefacts (`RecipientShared`).
 
-Worked example: `specs/mern/template/packages/recipients/`.
+Worked example: `templates/packages/recipients/`.
 
 ### Architecture Flow
 
@@ -215,7 +219,7 @@ Class relationships for one domain module — inheritance (`--|>`), interface im
 | `<<Entity>>RepositoryServer` | `server/`     | `implements <<Entity>>Repository`          | Implements persistence `<<operation>>` — validates with `<<Entity>>Schema`                                                                 |
 
 
-Worked example: `specs/mern/template/packages/recipients/` — top-level view `app-client/WirePaymentView.tsx` composes `RecipientListView`.
+Worked example: `templates/packages/recipients/` — top-level view `app-client/WirePaymentView.tsx` composes `RecipientListView`.
 
 > **Note:** Other engagements (e.g. kanban) may use same-name extends with a `Domain`* import alias. This MERN specification uses **layer qualifiers on extensions** — shared stays unqualified; client and server carry `Client`, `Server`, `Api`, `Router`, etc.
 
@@ -223,7 +227,7 @@ Worked example: `specs/mern/template/packages/recipients/` — top-level view `a
 
 ## Mechanisms
 
-### Mechanism: Web Client
+### UI Rendering
 
 #### Principles & Patterns
 
@@ -485,7 +489,7 @@ export function RecipientCardView({ recipient, isSelected, onToggle }: Recipient
 
 ---
 
-### Mechanism: App Server
+### App Server
 
 #### Principles & Patterns
 
@@ -608,7 +612,7 @@ export class RecipientsServer extends Recipients {
 
 ---
 
-### Mechanism: Persistence
+### Persistence
 
 #### Principles & Patterns
 
@@ -1110,7 +1114,7 @@ Each rule file has a paired scanner in `scanners/typescript/` named in its `scan
 
 ```bash
 python foundational/skill-helpers/skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root practices/architecture-centric-engineering/specs/mern \
+  --skill-root docs/architecture/specification/mern-domain-first-specification \
   --workspace <path-to-generated-code> \
   --language typescript
 ```

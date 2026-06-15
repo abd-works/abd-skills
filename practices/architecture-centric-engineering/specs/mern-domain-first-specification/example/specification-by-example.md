@@ -1,6 +1,6 @@
 # Specification by Example — Wire Payment (Recipients)
 
-**Sources / context:** MERN architecture specification template — `specs/mern/template/`; epic **Create Wire Payment**, sub-epic **Select Recipient**.
+**Sources / context:** MERN architecture specification — `templates/`; epic **Create Wire Payment**, sub-epic **Select Recipient**.
 
 ---
 

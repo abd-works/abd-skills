@@ -4,7 +4,7 @@ state: domain-spec
 
 # Module: Recipients (Wire Payment Example)
 
-Scope: Select Recipient sub-epic — enterprise beneficiaries eligible for wire payment. Example domain for `specs/mern/architecture-specification.md`.
+Scope: Select Recipient sub-epic — enterprise beneficiaries eligible for wire payment. Example domain for the MERN Domain-First specification.
 
 ---
 
@@ -86,7 +86,7 @@ Initialisation: loaded from persistence via **Recipients Repository**; validated
 ### references
 
 **Ref — shared Recipient class**
-Source: specs/mern/template/packages/recipients/shared/Recipient.ts
+Source: templates/packages/recipients/shared/Recipient.ts
 Locator: whole file
 Extract: whole
 
@@ -140,7 +140,7 @@ Server-side extension — adds persistence-backed load operations. Listed under 
 ### references
 
 **Ref — shared Recipients collection**
-Source: specs/mern/template/packages/recipients/shared/Recipients.ts
+Source: templates/packages/recipients/shared/Recipients.ts
 Locator: whole file
 Extract: whole
 
@@ -189,7 +189,7 @@ Initialisation: static factory methods; constructed from repository results wrap
 ### references
 
 **Ref — server RecipientsServer**
-Source: specs/mern/template/packages/recipients/server/RecipientsServer.ts
+Source: templates/packages/recipients/server/RecipientsServer.ts
 Locator: whole file
 Extract: whole
 
@@ -242,7 +242,7 @@ Initialisation: extends shared **Recipient** via `fromRecipient()`
 ### references
 
 **Ref — client RecipientsClient**
-Source: specs/mern/template/packages/recipients/client/RecipientsClient.ts
+Source: templates/packages/recipients/client/RecipientsClient.ts
 Locator: whole file
 Extract: whole
 
