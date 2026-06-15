@@ -7,7 +7,7 @@
 #
 # DESCRIPTION
 #   Self-contained deploy script (bash + python3 — no jq needed).
-#   Deploy root auto-resolves from skill-config.json when not provided.
+#   Deploy root resolves from explicit arg → .code-workspace file walk → repo root.
 #   Instructions are sourced from *.instructions.md and deployed to either IDE:
 #     - vscode: copied to .github/*.instructions.md
 #     - cursor: copied to .cursor/rules/*.mdc (extension renamed)
@@ -15,6 +15,7 @@
 # PARAMETERS
 #   ide         Target IDE: cursor or vscode. Default: cursor.
 #   DeployRoot  Explicit workspace root. Auto-resolved when omitted.
+#                 Resolution order: arg → find *.code-workspace → fallback to repo root.
 #   Package     Qualified package name or "all" (default: all).
 #               Format: "<top>/<name>" for family packages
 #               (e.g. "practices/story-driven-delivery")
@@ -39,7 +40,7 @@ json_get() {
     local file="$1" query="$2"
     python3 - "$file" "$query" <<'PYEOF'
 import json, sys
-with open(sys.argv[1]) as f:
+with open(sys.argv[1], encoding='utf-8-sig') as f:
     data = json.load(f)
 keys = sys.argv[2].split('.')
 val = data
@@ -48,27 +49,6 @@ for k in keys:
 if val is None:
     sys.exit(1)
 print(val)
-PYEOF
-}
-
-json_set() {
-    local file="$1" query="$2" value="$3"
-    python3 - "$file" "$query" "$value" <<'PYEOF'
-import json, sys
-file, query, value = sys.argv[1], sys.argv[2], sys.argv[3]
-try:
-    with open(file) as f:
-        data = json.load(f)
-except (FileNotFoundError, json.JSONDecodeError):
-    data = {}
-keys = query.split('.')
-obj = data
-for k in keys[:-1]:
-    obj = obj.setdefault(k, {})
-obj[keys[-1]] = value
-with open(file, 'w') as f:
-    json.dump(data, f, indent=4)
-    f.write('\n')
 PYEOF
 }
 
@@ -99,19 +79,6 @@ merge_directory_contents() {
     find "$source_dir" -mindepth 1 -maxdepth 1 -exec cp -a {} "$destination_dir/" \; 2>/dev/null || true
 }
 
-get_configured_deploy_root() {
-    local repo_root="$1"
-    local cfg_file="$repo_root/skill-config.json"
-    if [[ ! -f "$cfg_file" ]]; then return 1; fi
-    local path
-    path=$(json_get "$cfg_file" "workspace.active_skill_workspace" 2>/dev/null) || return 1
-    if [[ -n "$path" && -d "$path" ]]; then
-        cd "$path" && pwd
-        return 0
-    fi
-    return 1
-}
-
 get_workspace_deploy_root_from_pwd() {
     local start_path="$1"
     local current
@@ -139,9 +106,6 @@ resolve_deploy_root() {
         cd "$explicit_root" && pwd
         return 0
     fi
-    local from_config
-    from_config=$(get_configured_deploy_root "$repo_root" 2>/dev/null) || true
-    if [[ -n "$from_config" ]]; then echo "$from_config"; return 0; fi
     local from_workspace
     from_workspace=$(get_workspace_deploy_root_from_pwd "$(pwd)" 2>/dev/null) || true
     if [[ -n "$from_workspace" ]]; then echo "$from_workspace"; return 0; fi
@@ -203,9 +167,9 @@ import json, sys
 
 src_tasks, dst_tasks = sys.argv[1], sys.argv[2]
 
-with open(src_tasks) as f:
+with open(src_tasks, encoding='utf-8-sig') as f:
     incoming = json.load(f)
-with open(dst_tasks) as f:
+with open(dst_tasks, encoding='utf-8-sig') as f:
     existing = json.load(f)
 
 merged = {'version': '2.0.0'}
@@ -250,9 +214,9 @@ import json, sys
 
 src_settings, dst_settings = sys.argv[1], sys.argv[2]
 
-with open(src_settings) as f:
+with open(src_settings, encoding='utf-8-sig') as f:
     incoming = json.load(f)
-with open(dst_settings) as f:
+with open(dst_settings, encoding='utf-8-sig') as f:
     existing = json.load(f)
 
 existing.update(incoming)
@@ -433,9 +397,5 @@ for entry in "${selected[@]}"; do
     echo "  Deploying package: $name"
     deploy_package "$value" "$resolved_deploy_root" "$IDE"
 done
-
-# Update skill-config.json so the resolved deploy root becomes the new active workspace
-json_set "$REPO_ROOT/skill-config.json" "workspace.active_skill_workspace" "$resolved_deploy_root"
-echo "skill-config.json updated -> active_skill_workspace=$resolved_deploy_root"
 
 echo "Deploy complete. ide=$IDE package=$PACKAGE root=$resolved_deploy_root"
