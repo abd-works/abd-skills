@@ -40,7 +40,7 @@ function Find-HighestCursorRoot {
     param([string]$StartPath)
     $highest = $null
     $dir = [System.IO.DirectoryInfo]::new($StartPath)
-    while ($dir -ne $null) {
+    while ($null -ne $dir) {
         if (Test-Path -LiteralPath (Join-Path $dir.FullName '.cursor') -PathType Container) {
             $highest = $dir.FullName
         }
@@ -136,7 +136,7 @@ function Remove-Entry {
 }
 
 # --- Clean repo-local IDE links ---
-function Clean-LocalLinks {
+function Clear-LocalLinks {
     param([string]$Folder)
 
     $name       = (Split-Path $Folder -Leaf) -replace '_', '-'
@@ -155,11 +155,10 @@ function Clean-LocalLinks {
 }
 
 # --- Clean user-level junctions + user file links ---
-function Clean-GlobalEntry {
+function Clear-GlobalEntry {
     param([string]$Folder, [string]$JunctionRoot)
 
     $name       = (Split-Path $Folder -Leaf) -replace '_', '-'
-    $idePayload = Get-IdePayloadRoot -Root $Folder
 
     Write-Host "[$name]" -ForegroundColor White
 
@@ -169,7 +168,7 @@ function Clean-GlobalEntry {
 
 # === Local links ===
 Write-Host "=== Local links ===" -ForegroundColor Magenta
-foreach ($folder in $allFolders) { Clean-LocalLinks -Folder $folder }
+foreach ($folder in $allFolders) { Clear-LocalLinks -Folder $folder }
 
 # === Junctions ===
 Write-Host "`n=== Junctions ===" -ForegroundColor Magenta
@@ -181,14 +180,14 @@ $agentJunctionRoot_github = Join-Path $CursorRoot '.github\agents'
 
 Write-Host "`n-- Skills --" -ForegroundColor DarkMagenta
 foreach ($folder in $skillFolders) {
-    Clean-GlobalEntry -Folder $folder -JunctionRoot $skillJunctionRoot_cursor
-    Clean-GlobalEntry -Folder $folder -JunctionRoot $skillJunctionRoot_github
+    Clear-GlobalEntry -Folder $folder -JunctionRoot $skillJunctionRoot_cursor
+    Clear-GlobalEntry -Folder $folder -JunctionRoot $skillJunctionRoot_github
 }
 
 Write-Host "`n-- Agents --" -ForegroundColor DarkMagenta
 foreach ($folder in $agentFolders) {
-    Clean-GlobalEntry -Folder $folder -JunctionRoot $agentJunctionRoot_cursor
-    Clean-GlobalEntry -Folder $folder -JunctionRoot $agentJunctionRoot_github
+    Clear-GlobalEntry -Folder $folder -JunctionRoot $agentJunctionRoot_cursor
+    Clear-GlobalEntry -Folder $folder -JunctionRoot $agentJunctionRoot_github
 }
 
 # === Family package copies ===

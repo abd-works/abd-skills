@@ -38,7 +38,7 @@ $ErrorActionPreference = 'Stop'
 
 $RepoRoot = Resolve-Path (Join-Path $PSScriptRoot '..') | Select-Object -ExpandProperty Path
 
-function Ensure-Directory {
+function New-Directory {
     param([string]$Path)
     if (-not (Test-Path -LiteralPath $Path)) {
         New-Item -ItemType Directory -Path $Path -Force | Out-Null
@@ -53,7 +53,7 @@ function Remove-AndCopyDirectory {
     if (Test-Path -LiteralPath $Destination) {
         Remove-Item -LiteralPath $Destination -Recurse -Force
     }
-    Ensure-Directory -Path (Split-Path -Parent $Destination)
+    New-Directory -Path (Split-Path -Parent $Destination)
     Copy-Item -LiteralPath $Source -Destination $Destination -Recurse -Force
 }
 
@@ -63,7 +63,7 @@ function Merge-DirectoryContents {
         [string]$DestinationDir
     )
     if (-not (Test-Path -LiteralPath $SourceDir)) { return }
-    Ensure-Directory -Path $DestinationDir
+    New-Directory -Path $DestinationDir
     Copy-Item -Path (Join-Path $SourceDir '*') -Destination $DestinationDir -Recurse -Force -ErrorAction SilentlyContinue
 }
 
@@ -148,7 +148,7 @@ function Merge-VscodeFiles {
         [string]$DeployRoot
     )
     $vscodeDst = Join-Path $DeployRoot '.vscode'
-    Ensure-Directory -Path $vscodeDst
+    New-Directory -Path $vscodeDst
 
     # Merge tasks.json — combine tasks[] and inputs[] arrays
     $srcTasks = Join-Path $SourceDir 'tasks.json'
@@ -285,10 +285,10 @@ function Deploy-Package {
     if (Test-Path -LiteralPath $instructionsSrc) {
         Get-ChildItem -LiteralPath $instructionsSrc -Filter '*.instructions.md' -File | ForEach-Object {
             if ($Ide -eq 'vscode') {
-                Ensure-Directory -Path $githubInstructionsDst
+                New-Directory -Path $githubInstructionsDst
                 Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $githubInstructionsDst $_.Name) -Force
             } else {
-                Ensure-Directory -Path $rulesDst
+                New-Directory -Path $rulesDst
                 $base = $_.Name -replace '\.instructions\.md$', ''
                 $destName = "$base.mdc"
                 Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $rulesDst $destName) -Force
@@ -300,10 +300,10 @@ function Deploy-Package {
     if (Test-Path -LiteralPath $promptsSrc) {
         Get-ChildItem -LiteralPath $promptsSrc -Filter '*.prompt.md' -File | ForEach-Object {
             if ($Ide -eq 'vscode') {
-                Ensure-Directory -Path $githubPromptsDst
+                New-Directory -Path $githubPromptsDst
                 Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $githubPromptsDst $_.Name) -Force
             } else {
-                Ensure-Directory -Path $commandsDst
+                New-Directory -Path $commandsDst
                 Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $commandsDst $_.Name) -Force
             }
         }
@@ -316,7 +316,7 @@ function Deploy-Package {
 }
 
 $resolvedDeployRoot = Resolve-DeployRoot -ExplicitRoot $DeployRoot -RepoRoot $RepoRoot
-Ensure-Directory -Path $resolvedDeployRoot
+New-Directory -Path $resolvedDeployRoot
 
 $packageRoots = Get-PackageRoots -RepoRoot $RepoRoot
 if ($packageRoots.Count -eq 0) {
