@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="engineering">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>abd-embed-vectors — abd.works</title>
+<script src="/commons/brand-nav.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root {
+  --orange: #E5531A; --orange-hover: #C64514;
+  --bg: #0B0B0B; --surface: #111113; --raised: #1B1B20;
+  --border: #2A2A2A; --text: #F4F4F5; --muted: #9B9BA8;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); margin: 0;
+  font-family: var(--font-sans); font-size: 15px; line-height: 1.7;
+  -webkit-font-smoothing: antialiased; }
+a { color: var(--orange); text-decoration: none; }
+a:hover { color: var(--orange-hover); }
+.page-wrap { max-width: 860px; margin: 0 auto; padding: 48px clamp(16px,4vw,48px) 96px; }
+.back-link { display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+  margin-bottom: 40px; }
+.back-link:hover { color: var(--text); }
+h1 { font-size: clamp(24px,4vw,36px); font-weight: 800; letter-spacing: -0.03em;
+  line-height: 1.1; margin: 0 0 8px; color: var(--text); }
+.skill-category { font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--orange);
+  margin-bottom: 32px; display: block; }
+h2 { font-size: 1.15rem !important; font-weight: 700 !important; margin: 36px 0 12px !important;
+  padding-bottom: 8px !important; border-bottom: 1px solid var(--border) !important; color: #E5531A !important; }
+h3 { font-size: 1rem !important; font-weight: 700 !important; margin: 24px 0 8px !important; color: var(--text) !important; }
+h4 { font-size: 0.9rem !important; font-weight: 700 !important; margin: 20px 0 6px !important; color: var(--muted) !important; text-transform: uppercase !important; letter-spacing: 0.06em !important; }
+p { margin: 0 0 14px; }
+ul, ol { margin: 0 0 16px; padding-left: 1.4rem; }
+li { margin-bottom: 6px; }
+code { font-family: var(--font-mono); font-size: 0.855em;
+  background: rgba(255,255,255,0.07); padding: 2px 6px; border-radius: 3px; color: #F2A07A; }
+pre { background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+  padding: 20px 24px; overflow-x: auto; margin: 0 0 20px; }
+pre code { background: none; padding: 0; color: var(--text); font-size: 0.85rem; }
+blockquote { border-left: 3px solid var(--orange); margin: 0 0 16px;
+  padding: 10px 18px; background: var(--surface); border-radius: 0 4px 4px 0; }
+blockquote p { margin: 0; color: var(--muted); }
+hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+strong { font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+  <a class="back-link" href="/abd-skills-catalog/">← AI Garden</a>
+  <h1>abd-embed-vectors</h1>
+  <span class="skill-category">Context To Memory</span>
+  <p>Turn chunked markdown into <strong>vectors</strong> and store them in a <strong>local FAISS index</strong> so semantic search can return the right passages for a question — not only keyword matches.</p>
+<h2>How to embed</h2>
+<h3>From existing chunks</h3>
+<pre><code class="language-bash">python scripts/embed_and_index.py --path &lt;source_folder&gt;/memory</code></pre>
+<h3>Rebuild index from scratch</h3>
+<pre><code class="language-bash">python scripts/embed_and_index.py --path &lt;source_folder&gt;/memory --replace</code></pre>
+<p>The FAISS index is written to <code>&amp;lt;source_folder&amp;gt;/memory/rag/</code> — next to the chunks, not inside the skill directory.</p>
+<h2>Output layout</h2>
+<pre><code>&lt;source&gt;/memory/rag/
+  index.faiss       # vector index
+  metadata.json     # chunk paths and metadata</code></pre>
+<h2>Configuration</h2>
+<p><strong>Full detail:</strong> <a href="references/config.md">references/config.md</a>. <strong>Agent workspace policy:</strong> <strong><a href="../../../AGENTS.md">AGENTS.md</a></strong> (<em>Workspace (topic root) — config first</em>).</p>
+<h3>Required</h3>
+<p>Set <code>OPENAI_API_KEY</code> for the embedding model. Prefer <strong><code>agents/abd-context-to-memory/conf/.secrets</code></strong> (copy from <code>conf/.secrets.example</code>). The config module loads <strong><code>conf/.secrets</code></strong> → <strong><code>conf/.env</code></strong> → skill/orchestrator <code>.env</code> files → <code>cwd/.env</code> automatically.</p>
+<h3>Topic folder</h3>
+<p>Set <strong><code>CONTENT_MEMORY_ROOT=</code></strong> in <strong><code>conf/.secrets</code></strong> (recommended), pass <strong><code>--path</code></strong>, or <strong><code>cd</code></strong> to the corpus folder. When <code>--path</code> is omitted, embed uses <code>&amp;lt;ROOT&amp;gt;/memory</code> by default.</p>
+<h2>Dependencies</h2>
+<pre><code class="language-bash">pip install -r requirements-rag.txt</code></pre>
+<p>Requires <code>openai</code>, <code>faiss-cpu</code>, and related packages.</p>
+<h2>Gotchas</h2>
+<ul>
+<li>Embedding requires an API key and network access — it calls the OpenAI embedding endpoint.</li>
+<li>The index is written next to the corpus (<code>&amp;lt;source&amp;gt;/memory/rag/</code>), not inside the skill package.</li>
+<li>If chunks change, rebuild the index with <code>--replace</code> to avoid stale vectors.</li>
+<li>Each run embeds all chunks in the <code>memory/</code> folder; use <code>chunk_inputs</code> in the chunking spec (see <a href="../abd-chunk-markdown/SKILL.md">abd-chunk-markdown</a>) to control what gets chunked before embedding.</li>
+</ul>
+</div>
+</body>
+</html>

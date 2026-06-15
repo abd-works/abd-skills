@@ -1,0 +1,3 @@
+**Flow:** turn **source documents** into **Markdown** (under `markdown/` in the topic tree), **draft a chunking strategy** (`context_chunking_spec.yaml`), **split** into labeled chunks in `memory/`, **embed** into a **local FAISS** index under `memory/rag/`, then **search** semantically. Optionally **pause after the spec** so a human can review or edit the YAML before chunk + embed (**strategy pass**); otherwise run straight through. Hold basic quality across stages (real headings before chunking, sane splits after).
+
+Per-stage detail: **`skills/abd-context-to-memory/abd-*/SKILL.md`** and each skill's **`references/`**.

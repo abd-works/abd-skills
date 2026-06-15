@@ -1,0 +1,53 @@
+---
+description: Log and fix errors in skill output (skill-scoped only)
+alwaysApply: true
+---
+
+# Skill-error logging (skill-scoped)
+
+**Triggers (BOTH must hold):**
+
+1. You are executing, generating, or correcting the output of a **named skill** under `<family>/skills/<name>/`, legacy `skills/<name>/`, or `.cursor/skills/<name>/`. Either the skill is explicitly invoked, or the artifact under review traces to a skill's template/rules.
+2. The output is wrong, OR the user corrects how the skill itself should work.
+
+If either trigger is missing — ad-hoc work, slide content, scratch edits, conversational tweaks — this rule does **not** apply. Fix the thing and move on without logging.
+
+## Where the log lives — on disk, inside the skill
+
+- `<target-skill>/skill-errors-log.md` (or `<target-skill>/corrections-log.md` if one already exists). Append entries; do not start a new file when one is present.
+- Create from `skill-helpers/content/templates/skill-errors-log.md` only if no log exists in that skill folder yet.
+- Write the entry **in the same turn** as the fix or acknowledgement. Chat is not the record.
+
+## Fix the output first
+
+Never touch the skill's source, rules, or prompts before the deliverable is right.
+
+1. **Identify** — note the problem; open the on-disk log inside the skill.
+2. **Log (initial)** — append: **DO / DO NOT** (altered future behavior) + **Example (wrong)**. Leave **Example (correct)** blank.
+3. **Re-generate** — apply the correction; expect multiple turns.
+4. **Review** — refine and re-log; repeat until satisfied.
+5. **Confirm** — fill **Example (correct)**, set Status to `confirmed`.
+
+## Log entry fields
+
+| Field | Content |
+| --- | --- |
+| **Context** | Which skill / prompt / step produced the output |
+| **DO / DO NOT** | Forward-looking; mistake stays in Example (wrong) only |
+| **Example (wrong)** | What the output actually did |
+| **Example (correct)** | Fill only after confirmed |
+| **Likely source** | `prompt gap` · `instruction not read` · `edge case` · `automation gap` · `unclear expectation` |
+
+Duplicate violation → add another **Example (wrong)** to the same entry.
+
+## Improve the skill source — only when the user asks
+
+Read the full log, find root causes, **propose** fixes — do not implement without explicit go-ahead.
+
+## When this rule does NOT apply
+
+- Slide content, marketing copy, decorative text — not skill output.
+- README, mockup, scratch markdown — unless the file is a skill's defined deliverable.
+- Infrastructure, scripts, deploy tooling — outside any skill.
+- One-off phrasing corrections in chat that do not reference a skill.
+- Process or norm corrections that are not about a skill's behavior — acknowledge and adjust without logging.

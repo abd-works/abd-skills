@@ -7,52 +7,153 @@ description: >-
 
 ## Purpose
 
-Given a named architecture spec and story scope with domain context, generate acceptance tests then production code that follows the spec's instructions, templates, file layout, and rules. Use when writing code for a story that has a named spec, adding a feature module to an existing codebase, or reviewing generated code for architecture compliance.
+Given a **named architecture spec**, **domain context**, and **story scope**, generate executable tests then production code that instantiates the spec's `template/`, `templates/`, `rules/`, and **Testing Architecture** section. This skill orchestrates **`abd-story-acceptance-test`** (RED) and **`abd-clean-code`** (GREEN) inside the spec's file layout and layer order.
+
+**One scenario at a time: write test → write code → fix → pass → next test.** Work in small increments within each layer — never batch all tests then all code. Domain layer first, server second, client third, E2E last — matching the spec's testing architecture when tier names differ. Continue until the solution is installed, deployed, and working end-to-end.
 
 ---
 
 ## Agent Instructions
 
-> **MANDATORY — read the named spec's `architecture-specification.md`, every file in its `rules/`, and its `template/` before generating any artifact.**
+> **MANDATORY gates — do not generate any artifact until every gate passes. Use the AskQuestion tool when a required input is missing.**
 
-### 1. Read context
+### 0. Required inputs — resolve or ask
 
-Gather these inputs before writing anything:
+Gather **all** of these before reading the spec or writing a line of code.
 
-| Input | Where it comes from |
-| --- | --- |
-| **Spec** | User-supplied path to spec — `architecture-specification.md` within it |
-| **Spec rules** | `rules/*.md` inside the spec — DO / DO NOT norms every generated file must pass |
-| **Spec template** | `template/` inside the spec — canonical working code; match its structure and naming |
-| **Spec templates** | `templates/` inside the spec — parameterized scaffold; instantiate for the story |
-| **Story scope** | User-supplied stories, acceptance criteria, and/or scenarios |
-| **Domain context** | User-supplied domain class names, field names, key operations |
+| Input | Required | Resolution order | If missing |
+| --- | --- | --- | --- |
+| **Architecture spec** | Yes | User path; story-map node `architecture-spec`; project `docs/architecture/` | **AskQuestion** — which spec directory? |
+| **Domain context** | Yes | `domain-specification.md` (preferred) → `domain-model.md` | **AskQuestion** — which domain artifact? |
+| **Story scope** | Yes | Story specification (preferred) → acceptance criteria on the story | **AskQuestion** — which story / spec / AC file? |
 
-If the spec path or domain context is missing, ask before generating.
+**Story scope priority**
 
-### 2. Ask — what to generate
+1. **Story specification** — Given/When/Then scenarios with real domain values (e.g. `*-specification-by-example.md`, `abd-story-specification` output).
+2. **Acceptance criteria** — WHEN/THEN/AND/BUT on the story (`abd-story-acceptance-criteria` output).
+3. Neither found → **AskQuestion** before proceeding.
 
-Ask the user: tests only, code only, or both?
+**Domain context priority**
 
-### 3. Generate — tests first
+1. **`domain-specification.md`** — class model, operations, stereotypes.
+2. **`domain-model.md`** — typed domain surface.
+3. Neither found → **AskQuestion** before proceeding.
 
-#### 3a. Acceptance tests
+### 1. Read context — spec is law
 
-Follow **`abd-story-acceptance-test`** for test structure (one class per story, one method per scenario, orchestrator pattern, GWT helpers). Also follow the spec's testing architecture — tiers, test doubles, and naming conventions as shown in the spec's `template/`.
+**MANDATORY — read before any generation:**
 
-Produce tests before production code. Do not move to 3b until the test structure is correct.
+| Artifact | Path inside spec | Governs |
+| --- | --- | --- |
+| Architecture doc | `architecture-specification.md` (or `archiecture-specification.md`) | Mechanisms, participants, **Testing Architecture**, layer order |
+| Rules | `rules/*.md` | DO / DO NOT for every generated file |
+| Working example | `template/` | Canonical runnable code — match structure and naming exactly |
+| Scaffolds | `templates/` | Parameterized files to instantiate for the story |
+| Examples | `example/` when present | Worked domain + story mapping |
 
-#### 3b. Production code
+The spec's **example**, **template**, and **Testing Architecture** section dictate how **every layer** — including all test tiers — is created. Do not invent folders, file names, test tiers, or layer order not derivable from the spec.
 
-Instantiate the spec's `templates/` scaffold for the story's domain names. Follow the spec's file layout exactly:
+Also read:
 
-- Name every file after the pattern shown in `template/` (parameterized names from `templates/`).
-- Wire interfaces through constructor injection as the spec requires.
-- Implement only the behaviour the story's acceptance criteria describe — no extra methods.
+- **Domain artifact** resolved in step 0 — class names, operations, field names, invariants.
+- **Story artifact** resolved in step 0 — scenarios, acceptance criteria, actors.
 
-### 4. Validate — per-rule verdict required
+### 2. Downstream skills — mandatory, not optional
 
-Re-read every file in the spec's `rules/`. For each rule emit:
+| Phase | Skill | When |
+| --- | --- | --- |
+| **RED — tests** | **`abd-story-acceptance-test`** | Always, for every layer's tests |
+| **GREEN — production** | **`abd-clean-code`** | Always, for every production file |
+
+**`abd-story-acceptance-test`**
+
+- **MUST** read and follow that skill's `SKILL.md`, `rules/`, `reference/`, and matching language template.
+- **Input:** story specification scenarios when available; acceptance criteria when not.
+- **Plus:** the named spec's **Testing Architecture** — tier names, helper layout, test doubles, folder mapping from story hierarchy.
+- Declare file / class / method hierarchy per that skill before writing code.
+
+**`abd-clean-code`**
+
+- **MUST** read and follow that skill's `SKILL.md` and `rules/` when writing production code.
+- **Input:** failing tests from step 3; domain artifact for names and behaviour.
+- **Plus:** the named spec's `template/` patterns — constructor injection, layer placement, mechanism boundaries.
+
+If either skill package is not available in the workspace, **AskQuestion** — do not improvise test or production structure.
+
+### 3. Generate — layer order, one scenario at a time
+
+Work **one layer at a time**, and within each layer work **one scenario at a time**. The unit of progress is a single scenario (one `it` / `test` method) — not a whole story file, not a whole layer.
+
+**Default layer order** (use unless the spec's Testing Architecture names tiers differently — then map to the spec's order):
+
+| Order | Production layer | Test layer (typical) |
+| --- | --- | --- |
+| **1** | Domain / shared | Domain unit tests |
+| **2** | Server / API / persistence adapter | Server / HTTP adapter tests |
+| **3** | Client / presentation | Client / UI adapter tests |
+| **4** | — (full stack) | E2E / browser tests |
+
+Examples of spec-specific tier names: `shared/` + `*_server.test.ts` + `*_client.test.tsx` + `*_e2e.spec.ts` (MERN); `Module.HeroVirtualTabletop` + `Module.UnitTest` (hero-vtt). **Follow the spec's Testing Architecture table and `template/tests/` layout**, not a generic test folder.
+
+**Per-scenario loop (mandatory — repeat for every scenario in story order)**
+
+```
+  ┌─────────────────────────────────────────────────────────────┐
+  │  1. WRITE TEST   one scenario method + helpers it needs     │
+  │  2. RUN          confirm RED — fails for the right reason   │
+  │  3. WRITE CODE   minimum production code to satisfy it      │
+  │  4. RUN          confirm GREEN — this scenario passes        │
+  │  5. FIX          if fail → fix code or test; re-run until OK  │
+  │  6. NEXT TEST    only then add the next scenario              │
+  └─────────────────────────────────────────────────────────────┘
+```
+
+1. **Write test** — run **`abd-story-acceptance-test`** for **one scenario** in the current layer; add one `it` / `test` method and only the helpers that scenario needs.
+2. **Run (RED)** — execute the suite; confirm this scenario **fails for the right reason** (missing behaviour, not a typo or wiring mistake).
+3. **Write code** — run **`abd-clean-code`**; add the **minimum** production code that scenario requires — no ahead-of-scope methods.
+4. **Run (GREEN)** — execute again; this scenario **must pass** before any new test is written.
+5. **Fix** — if it still fails, fix production code or test setup; re-run until green. Do not skip to the next scenario while this one is red.
+6. **Next test** — pick the next scenario in story order; return to step 1.
+
+When every scenario in the current layer is green, move to the next layer and restart the per-scenario loop there.
+
+**Per-layer gate (mandatory)**
+
+- Do not start the next layer until **all scenarios** in the current layer pass.
+- Do not write multiple scenario tests upfront and implement code in bulk — that violates the increment rule.
+
+**DO NOT**
+
+- Batch-write all test methods for a story, then all production code.
+- Write production code before the scenario's test method exists.
+- Move to the next scenario while the current one is still failing.
+- Skip a layer or reorder layers contrary to the spec's Testing Architecture.
+- Implement methods, files, or test tiers not required by the current scenario or spec templates.
+- Use live/production seam types in unit or adapter tests when the spec designates fakes or mocks.
+
+### 4. Deploy and verify — working solution required
+
+The per-scenario loop continues through integration. After each layer's scenarios are green, and again when all layers are done:
+
+1. **Install** dependencies (`npm install`, `pip install`, or equivalent per spec) — fix resolution errors immediately.
+2. **Execute** the full test suite per spec scripts (`npm test`, `scripts/test.sh`, etc.) — fix any regressions before proceeding.
+3. **Start** composition roots (dev server, app host) per spec — verify boot without errors.
+4. **Smoke the flow** — walk the story's happy path in the running app (or E2E suite) to confirm the deployed solution actually works, not just that unit tests pass in isolation.
+5. **Fix** any integration, wiring, or runtime failures; re-run affected scenarios; repeat until the story works end-to-end.
+
+Do not proceed to validation until install succeeds, all tiers are green, the app runs, and the story flow works in the deployed environment.
+
+### 5. Validate — per-rule verdict required
+
+Re-read every file in the spec's `rules/` and this skill's `rules/`. Run spec scanners when present:
+
+```bash
+python foundational/skill-helpers/skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+  --skill-root <path-to-named-spec> \
+  --workspace <path-to-generated-code>
+```
+
+For each rule emit:
 
 ```
 Rule: <rule-filename>  ->  PASS
@@ -65,11 +166,14 @@ Fix every FAIL before declaring done.
 
 ## Validate
 
-**Goal:** Inspect what was generated — read the artifacts as a reviewer against the spec.
+**Goal:** Inspect generated artifacts as a reviewer against the named spec and downstream skills.
 
-- **Spec alignment** — every generated file matches the mechanism, participants, and file layout in `architecture-specification.md`.
-- **Tests first** — acceptance tests exist and are structurally correct before production code is reviewed.
-- **Rules pass** — every rule in the spec's `rules/` has an explicit PASS verdict; no silent skips.
-- **Template fidelity** — generated structure matches the spec's `template/` — same folder layout, naming conventions, test tier separation.
-- **Story scope** — generated code implements only what the story's acceptance criteria describe; no speculative methods.
-- **Constructor injection** — every class that crosses a mechanism boundary receives its dependencies via constructor; no static calls, no `new` of concrete seam types inside domain classes.
+- **Inputs gated** — architecture spec, domain artifact, and story scope resolved or explicitly chosen via AskQuestion; no silent assumptions.
+- **Skills invoked** — `abd-story-acceptance-test` for tests; `abd-clean-code` for production; both rule sets followed.
+- **Spec is law** — file layout, mechanism participants, test tiers, and helpers match `architecture-specification.md`, `template/`, and `templates/`.
+- **Layer order** — domain → server → client → E2E (or spec-equivalent order); each layer green before the next.
+- **One scenario at a time** — test → code → fix → pass → next test; no batched test-then-code dumps.
+- **Tests first** — RED before GREEN for every scenario; no production code without a failing test first.
+- **Story scope** — code and tests implement only what the current scenario requires.
+- **Deployed and working** — install succeeds; full suite green; app boots; story flow verified in the running solution.
+- **Rules pass** — every spec rule and skill rule has an explicit PASS verdict.

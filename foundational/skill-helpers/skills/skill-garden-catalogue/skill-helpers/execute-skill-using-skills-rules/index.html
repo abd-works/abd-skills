@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="engineering">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>execute-skill-using-skills-rules — abd.works</title>
+<script src="/commons/brand-nav.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root {
+  --orange: #E5531A; --orange-hover: #C64514;
+  --bg: #0B0B0B; --surface: #111113; --raised: #1B1B20;
+  --border: #2A2A2A; --text: #F4F4F5; --muted: #9B9BA8;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); margin: 0;
+  font-family: var(--font-sans); font-size: 15px; line-height: 1.7;
+  -webkit-font-smoothing: antialiased; }
+a { color: var(--orange); text-decoration: none; }
+a:hover { color: var(--orange-hover); }
+.page-wrap { max-width: 860px; margin: 0 auto; padding: 48px clamp(16px,4vw,48px) 96px; }
+.back-link { display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+  margin-bottom: 40px; }
+.back-link:hover { color: var(--text); }
+h1 { font-size: clamp(24px,4vw,36px); font-weight: 800; letter-spacing: -0.03em;
+  line-height: 1.1; margin: 0 0 8px; color: var(--text); }
+.skill-category { font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--orange);
+  margin-bottom: 32px; display: block; }
+h2 { font-size: 1.15rem !important; font-weight: 700 !important; margin: 36px 0 12px !important;
+  padding-bottom: 8px !important; border-bottom: 1px solid var(--border) !important; color: #E5531A !important; }
+h3 { font-size: 1rem !important; font-weight: 700 !important; margin: 24px 0 8px !important; color: var(--text) !important; }
+h4 { font-size: 0.9rem !important; font-weight: 700 !important; margin: 20px 0 6px !important; color: var(--muted) !important; text-transform: uppercase !important; letter-spacing: 0.06em !important; }
+p { margin: 0 0 14px; }
+ul, ol { margin: 0 0 16px; padding-left: 1.4rem; }
+li { margin-bottom: 6px; }
+code { font-family: var(--font-mono); font-size: 0.855em;
+  background: rgba(255,255,255,0.07); padding: 2px 6px; border-radius: 3px; color: #F2A07A; }
+pre { background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+  padding: 20px 24px; overflow-x: auto; margin: 0 0 20px; }
+pre code { background: none; padding: 0; color: var(--text); font-size: 0.85rem; }
+blockquote { border-left: 3px solid var(--orange); margin: 0 0 16px;
+  padding: 10px 18px; background: var(--surface); border-radius: 0 4px 4px 0; }
+blockquote p { margin: 0; color: var(--muted); }
+hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+strong { font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+  <a class="back-link" href="/abd-skills-catalog/">← AI Garden</a>
+  <h1>execute-skill-using-skills-rules</h1>
+  <span class="skill-category">Skill Helpers</span>
+  <h2>What you can do</h2>
+<p><strong>execute-skill-using-skills-rules</strong> gives you <strong>three</strong> practices you can drop into <strong>any</strong> agent or repo layout.</p>
+<p><strong>What to point at:</strong> Treat the skill being directly executed by the user or the agent as the center of attention — the <strong><code>--skill-root</code></strong> package. Read <strong>its</strong> <strong><code>rules/</code></strong>, run scanners against <strong>that</strong> skill, and validate <strong>its</strong> output.</p>
+<ol>
+<li><strong>When an agent uses a skill to produce output, have it read that skill&#x27;s rules first</strong> — Before substantive work, go through <strong><code>rules/*.md</code></strong> and the <strong>Bundled rules</strong> block in <strong><code>SKILL.md</code></strong>. The point is not &quot;I saw the headings&quot;; it is <strong>using the skill according to those rules</strong> (constraints, DO/DON&#x27;T, examples), not generic habits or a skim of <strong><code>SKILL.md</code></strong> alone. You can make that a <strong>hard gate</strong>: no main task until the pass is done. Walk it with <a href="./templates/quality-steps-checklist.md"><strong>quality-steps-checklist.md</strong></a> § Step 1.</li>
+</ol>
+<ol>
+<li><strong>Validate output against the rules</strong> — Do <strong>both</strong>: an <strong>AI / rules pass</strong> (read <strong><code>rules/*.md</code></strong> and bundled rules; judge whether the deliverable fits — not only &quot;scanners green&quot;) <strong>and</strong> a <strong>scanner pass</strong> (<strong><code>run_scanners.py</code></strong> on <strong><code>--workspace</code></strong>). Treat that pair as the normal &quot;does this match the rules?&quot; workflow. Save scanner output somewhere durable (for example <strong><code>scanner-report/</code></strong>); fix failures and re-run; the rules pass still matters even when scanners pass.</li>
+</ol>
+<ol>
+<li><strong>After something is wrong, follow the correction process</strong> — Use the <strong>correct_output</strong> skill. It provides the full loop: identify, log, re-generate, iterate on the <strong>output</strong> until correct, then optionally improve the source. See <strong><a href="../correct_output/SKILL.md">skills/correct_output/SKILL.md</a></strong> for the process and <strong><a href="../correct_output/templates/corrections-log.md">skills/correct_output/templates/corrections-log.md</a></strong> for the log template. Put the log under the engagement or project tree — not inside the installed skill package.</li>
+</ol>
+<h2>The Target Skill Layout</h2>
+<p>For this skill to work the <strong>target skill</strong> must have <strong><code>rules/*.md</code></strong> — the rule files produced when you build the skill with the flow that <strong>creates</strong> those rules. Otherwise the executor has nothing real to run.</p>
+<p>| Piece | Role | | --- | --- | | <strong><code>SKILL.md</code></strong> | Instructions for the agent; may include rule prose <strong>between</strong> <code>execute_rules:bundle_rules</code> markers (filled by the skill builder) | | <strong><code>rules/&amp;lt;name&amp;gt;.md</code></strong> | <strong>Source of truth</strong> for rule prose — edit here, not inside the bundled block | | <strong><code>scanners/*-scanner.py</code></strong> | Optional: CLI entrypoint per concern (beside scanner modules); linked from rule frontmatter via <strong><code>scanner:</code></strong> | | <strong><code>scripts/scanner_bases/</code></strong> | Shared <strong>Python</strong> package: abstract <strong><code>Scanner</code></strong>, <strong><code>Violation</code></strong>, <strong><code>EvalPaths</code></strong>, scan-context dataclasses, <strong><code>SimpleRule</code></strong>, <strong><code>vocabulary_helper</code></strong>. Story-domain types (<strong><code>StoryScanner</code></strong>, <strong><code>StoryMap</code></strong>, …) live in sibling <strong><a href="../story-graph-ops/">story-graph-ops</a></strong> (<strong><code>story_map</code></strong>, <strong><code>story_scanner</code></strong>, … on <strong><code>PYTHONPATH</code></strong>). See <strong><code>scripts/scanner_bases/README.md</code></strong>. <strong><code>scripts/scanner_runner.py</code></strong> runs any scanner with a caller-built <strong><code>ScanFilesContext</code></strong>. <strong><code>run_scanners.py</code></strong> prepends <strong><code>…/story-graph-ops/scripts</code></strong> then <strong><code>…/execute-skill-using-skills-rules/scripts</code></strong> to <strong><code>PYTHONPATH</code></strong>. |</p>
+<p>Rule file → scanner: put <strong><code>scanner: &amp;lt;stem&amp;gt;</code></strong> in the YAML frontmatter of <strong><code>rules/&amp;lt;stem&amp;gt;.md</code></strong> (or equivalent); the CLI script is expected at <strong><code>scanners/&amp;lt;stem&amp;gt;-scanner.py</code></strong> (next to scanner modules under <strong><code>scanners/</code></strong>).</p>
+<p>Text <strong>between</strong> the <strong><code>execute_rules:bundle_rules</code></strong> markers in <strong><code>SKILL.md</code></strong> is <strong>generated</strong> — editing it by hand is wasted work. Always change <strong><code>rules/*.md</code></strong>, then use the skill builder to re-bundle.</p>
+<h2>Commands</h2>
+<p><code>&amp;lt;execute-skill-using-skills-rules_root&amp;gt;</code> = directory that contains this skill&#x27;s <strong><code>scripts/</code></strong> (same folder as <strong><code>SKILL.md</code></strong> for <strong>execute-skill-using-skills-rules</strong>). Substitute your real path or <code>cd</code> there first.</p>
+<p><strong>1. Validate output (AI pass + scanner pass)</strong> — Treat this as <strong>one</strong> intent: check a deliverable against the <strong>target</strong> skill&#x27;s rules <strong>and</strong> run mechanical scanners. Do <strong>not</strong> skip straight to the script; the AI pass catches what scanners miss.</p>
+<ul>
+<li><strong>A — Rules / AI pass:</strong> With <strong><code>rules/*.md</code></strong> and the <strong>Bundled rules</strong> in <strong><code>SKILL.md</code></strong> for <strong><code>--skill-root</code></strong> in context, decide whether the output (the <strong><code>--workspace</code></strong> tree, or whatever the user points at) <strong>matches</strong> those rules — constraints, DO/DON&#x27;T, examples. Say what passes, what fails, and what is unclear.</li>
+</ul>
+<ul>
+<li><strong>B — Scanner pass:</strong> Then run <strong><code>run_scanners.py</code></strong> with the same <strong><code>--skill-root</code></strong> and <strong><code>--workspace</code></strong> so automated checkers run on disk.</li>
+</ul>
+<ul>
+<li><strong>User can say (examples):</strong> &quot;Validate this output against the rules.&quot; · &quot;Does this match the rules?&quot; · &quot;Rules check plus scanners on <code>&amp;lt;path&amp;gt;</code>.&quot; · &quot;Full validation for this skill and workspace.&quot;</li>
+</ul>
+<pre><code class="language-bash">python &lt;execute-skill-using-skills-rules_root&gt;/scripts/run_scanners.py --skill-root &lt;path-to-skill&gt; --workspace &lt;path-to-output-or-folder&gt;</code></pre>
+<p>Add <code>--language &amp;lt;lang&amp;gt;</code> (e.g. <code>--language python</code>, <code>--language javascript</code>) when the skill organises scanners into language-specific subfolders under <code>scanners/&amp;lt;lang&amp;gt;/</code>. The flag:</p>
+<ul>
+<li>resolves scanner scripts from <code>scanners/&amp;lt;lang&amp;gt;/</code> instead of <code>scanners/</code></li>
+<li>adds <code>scanners/&amp;lt;lang&amp;gt;/</code> to <code>PYTHONPATH</code> so language base classes are importable without package prefixes</li>
+</ul>
+<pre><code class="language-bash">python &lt;execute-skill-using-skills-rules_root&gt;/scripts/run_scanners.py --skill-root &lt;path-to-skill&gt; --workspace &lt;path&gt; --language python</code></pre>
+<p>Scanner subprocesses receive <strong><code>PYTHONPATH</code></strong> including <strong><code>&amp;lt;execute-skill-using-skills-rules_root&amp;gt;/scripts</code></strong>, so scripts may <strong><code>import scanner_bases</code></strong> (shared bases) when implementing checks.</p>
+<p><strong>Pytest / skill tests:</strong> From the <strong>agilebydesign-skills</strong> repo root, <code>pytest</code> discovers <strong><code>skills/<em>/tests</code></strong>. Use <strong><code>scripts/scanner_test_helper.py</code></strong> so in-process tests get the same path order as <strong><code>run_scanners.py</code></strong>: call <strong><code>prepend_scanner_pythonpath(skill_root=...)</code></strong> before importing <strong><code>story_map</code></strong> or a skill <strong><code>scanners/</em></code></strong> module; for subprocesses use <strong><code>build_scanner_env(...)</code></strong> or <strong><code>run_scanner_script(...)</code></strong>. The module exposes <strong><code>execute_skill_using_skills_rules_scripts()</code></strong> for the canonical <strong><code>…/execute-skill-using-skills-rules/scripts</code></strong> path.</p>
+<hr>
+<h2>For agents (terminology)</h2>
+<ul>
+<li><strong>Target / active skill</strong> — The directory passed as <strong><code>--skill-root</code></strong>: the skill package you are maintaining or using.</li>
+<li><strong>execute-skill-using-skills-rules</strong> — This skill package (these <strong><code>scripts/</code></strong>).</li>
+<li><strong>Workspace / engagement tree</strong> — Where the user&#x27;s project and artifacts (and often the corrections log) live — passed as <strong><code>--workspace</code></strong> for scanners when checking <strong>output</strong>, not the skill install root.</li>
+</ul>
+<hr>
+</div>
+</body>
+</html>

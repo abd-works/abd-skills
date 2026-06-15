@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Garden — abd-acceptance-criteria · SKILL.md</title>
+<script src="/commons/brand-nav.js?v=aigarden-4"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+/*
+  Agile Garden — AI Garden prelude + gardener lesson fragment.
+  Inlined via generate_abd_catalog.py. Max border-radius 6px; flat surfaces.
+  Brand split: orange-500 (#E5531A) for column chrome / rails; ai-blue (#4FC3F7 / #81D4FA)
+  on dense mono skill links — see abd-works-brand BRAND-GUIDELINES §3.1 (ai-blue-500).
+*/
+.catalog-prelude {
+  margin: 0 0 24px;
+  padding: 0 0 20px;
+  border-bottom: 1px solid #2A2A2A;
+}
+.catalog-prelude-heading {
+  margin: 0 0 12px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.25;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #2A2A2A;
+  scroll-margin-top: 48px;
+}
+.catalog-prelude-tagline {
+  margin: 0 0 14px;
+  max-width: 60rem;
+  font-size: 1rem;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+/* Mission row */
+.catalog-mission {
+  margin: 0 0 18px;
+}
+.catalog-mission-card {
+  background: #1B1B20;
+  border: 1px solid #2A2A2A;
+  border-left: 3px solid #E5531A;
+  border-radius: 4px;
+  padding: 14px 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 16px;
+}
+.catalog-mission-card h3 {
+  flex-shrink: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #F4F4F5;
+  margin: 0;
+  white-space: nowrap;
+}
+.catalog-mission-card p {
+  flex: 1 1 auto;
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+.catalog-mission-card--teal,
+.catalog-mission-card--amber,
+.catalog-mission-card--purple {
+  background: #1B1B20;
+  border: 1px solid #2A2A2A;
+  border-left: 3px solid #E5531A;
+}
+.catalog-mission-card--teal h3,
+.catalog-mission-card--amber h3,
+.catalog-mission-card--purple h3 {
+  color: #F4F4F5;
+}
+@media (max-width: 720px) {
+  .catalog-mission { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 480px) {
+  .catalog-mission { grid-template-columns: 1fr; }
+}
+
+/* Two-column skill lists */
+/* ── Section labels (full-width row above each grid) ── */
+.catalog-section-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0 10px;
+  margin: 24px 0 12px;
+  border-bottom: 1px solid #2A2A2A;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #E5531A;
+}
+.catalog-section-label--foundational {
+  margin-top: 28px;
+  color: #8A8A97;
+  border-bottom-color: #1A1A1E;
+}
+
+/* ── Practice grid — all 5 disciplines forced onto one row ── */
+.catalog-practice-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 0;
+}
+@media (max-width: 900px) {
+  .catalog-practice-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 600px) {
+  .catalog-practice-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Foundational grid — 2 wider columns ── */
+.catalog-foundational-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1px;
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
+  border-radius: 6px;
+  overflow: hidden;
+}
+@media (max-width: 600px) {
+  .catalog-foundational-grid { grid-template-columns: 1fr; }
+}
+
+/* ── In the practice grid, stack name above desc ── */
+.catalog-practice-grid .catalog-garden-row,
+.catalog-foundational-grid .catalog-garden-row {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  padding: 10px 16px;
+}
+.catalog-practice-grid .catalog-garden-name,
+.catalog-foundational-grid .catalog-garden-name {
+  flex: none;
+  font-size: 0.85rem;
+}
+.catalog-practice-grid .catalog-garden-desc,
+.catalog-foundational-grid .catalog-garden-desc {
+  display: block !important;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: #9B9BA8;
+}
+
+/* ── Agents grid — single wide column ── */
+.catalog-agents-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1px;
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.catalog-section-label--agents {
+  margin-top: 28px;
+  color: #E5531A;
+  border-bottom-color: #2A2A2A;
+}
+
+/* ── Shared column card ── */
+.catalog-garden-lists {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.catalog-garden-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px;
+  margin: 0 0 8px;
+}
+@media (max-width: 760px) {
+  .catalog-garden-grid { grid-template-columns: 1fr; }
+}
+.catalog-garden-agents-wrap {
+  margin-top: 8px;
+}
+.catalog-garden-col--agents {
+  margin-top: 0;
+}
+.catalog-garden-col {
+  background: #111113;
+  border: none;
+  border-radius: 0;
+  overflow: hidden;
+}
+.catalog-garden-col-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-bottom: 1px solid #2A2A2A;
+  background: #1B1B20;
+  color: #E5531A;
+  border-left: 3px solid #E5531A;
+}
+.catalog-garden-col-header--practice,
+.catalog-garden-col-header--foundational,
+.catalog-garden-col-header--agents {
+  background: #1B1B20;
+  color: #E5531A;
+  border-left: 3px solid #E5531A;
+}
+.catalog-garden-ico { flex-shrink: 0; display: block; }
+.catalog-garden-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 16px;
+  border-bottom: 1px solid #1A1A1E;
+  font-size: 0.85rem;
+}
+.catalog-garden-row:last-child { border-bottom: none; }
+/* Skill/agent links — mono names stay near-white; ai-blue hairline/hover (brand AI accent, not orange wall) */
+.catalog-garden-name {
+  font-weight: 700;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  flex: 0 0 11.5rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  color: #4FC3F7;
+}
+/* !important beats global `a { … }`, :visited, and concatenation order */
+.catalog-prelude .catalog-garden-name a,
+.catalog-garden-lists .catalog-garden-name a {
+  color: #4FC3F7 !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+  border-bottom: 1px solid rgba(79, 195, 247, 0.3);
+}
+.catalog-prelude .catalog-garden-name a:hover,
+.catalog-prelude .catalog-garden-name a:focus-visible,
+.catalog-garden-lists .catalog-garden-name a:hover,
+.catalog-garden-lists .catalog-garden-name a:focus-visible {
+  color: #81D4FA !important;
+  border-bottom-color: rgba(79, 195, 247, 0.95);
+}
+.catalog-garden-name--agent a,
+.catalog-garden-name--foundational a {
+  color: #4FC3F7 !important;
+  border-bottom: 1px solid rgba(79, 195, 247, 0.3);
+}
+.catalog-garden-name--agent a:hover,
+.catalog-garden-name--agent a:focus-visible,
+.catalog-garden-name--foundational a:hover,
+.catalog-garden-name--foundational a:focus-visible {
+  color: #81D4FA !important;
+  border-bottom-color: rgba(79, 195, 247, 0.92);
+}
+.catalog-garden-name--dim {
+  color: var(--muted);
+  opacity: 0.6;
+  font-weight: 600;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+}
+.catalog-garden-desc {
+  color: var(--muted);
+  font-size: 0.82rem;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.catalog-garden-desc--muted { opacity: 0.5; }
+
+:root {
+  /* Primary accent — borders, nav “you are here”; keep saturated */
+  --orange:       #E5531A;
+  --orange-hover: #C64514;
+  /* Brand ai-blue (BRAND-GUIDELINES §3.1) — dense skill listings + card hover cue */
+  --ai-blue-500:  #4FC3F7;
+  --ai-blue-300:  #81D4FA;
+  /* Body links — soft orange (prose); garden grid uses ai-blue in agile-garden-fragment.css */
+  --link-soft:        #FFB380;
+  --link-soft-hover:  #FFCCA3;
+  --link-muted:       #F2A07A;
+  --bg:           #0B0B0B;
+  --surface:      #111113;
+  --raised:       #1B1B20;
+  --border:       #2A2A2A;
+  --border-muted: #1e1e22;
+  --text:         #F4F4F5;
+  --muted:        #9B9BA8;
+  --radius:       6px;
+  --font-sans:    'Inter', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--link-muted); text-decoration: none; transition: color 120ms ease; }
+a:hover { color: var(--link-soft-hover); text-decoration: none; }
+
+/* Wayfinding stays strong accent */
+.nav a.nav__link--current {
+  color: var(--orange) !important;
+}
+strong { font-weight: 600; }
+code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: rgba(255,255,255,0.06);
+  padding: 2px 5px;
+  border-radius: 3px;
+  color: #F2A07A;
+}
+
+/* ── Page layout ── */
+.page-wrap {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 48px clamp(16px, 4vw, 48px) 96px;
+}
+
+/* ── Panel / legacy wrapper — flatten to plain surface ── */
+.panel {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  overflow: visible;
+}
+
+/* ── Page header (replaces old panel-header) ── */
+.panel-header {
+  margin-bottom: 40px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+  border-left: none;
+  background: transparent;
+  display: block;
+}
+
+.header-icon { display: none; }
+
+.header-text { display: block; }
+.brand { display: none; }
+.brand-row { display: none; }
+.brand-row .brand { display: none; }
+.brand-row .cap-badge { display: none; }
+
+h1 {
+  margin: 0 0 10px;
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--text);
+  font-family: var(--font-sans);
+}
+
+.tagline {
+  margin: 0;
+  font-size: 15px;
+  color: var(--muted);
+  max-width: 540px;
+  line-height: 1.65;
+  font-family: var(--font-sans);
+}
+
+.panel-body { padding: 0; }
+p { margin: 0 0 14px; }
+h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 32px 0 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+h2:first-child { margin-top: 0; }
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  margin: 0 0 18px;
+  padding: 0 0 14px;
+  border-bottom: 1px solid var(--border-muted);
+}
+.nav a {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.nav a.nav__link--current {
+  pointer-events: none;
+}
+/* Kanban is a different experience (full-screen deck) — keep it last and visually apart */
+.nav a.nav__link--kanban {
+  margin-left: auto;
+  padding-left: 18px;
+  border-left: 1px solid var(--border-muted);
+}
+.cap-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 14px;
+  margin: 18px 0 0;
+}
+.cap-card {
+  display: block;
+  text-decoration: none;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--orange);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  transition: background 0.15s, border-color 0.15s;
+  cursor: pointer;
+}
+a.cap-card {
+  color: var(--muted);
+}
+.cap-card:hover {
+  background: rgba(79, 195, 247, 0.06);
+  border-color: rgba(79, 195, 247, 0.32);
+  text-decoration: none;
+}
+.cap-card__title {
+  font-size: 0.97rem;
+  font-weight: 700;
+  color: #F4F4F5;
+  margin: 0 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+a.cap-card:hover .cap-card__title {
+  color: var(--ai-blue-300);
+}
+.cap-card__icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  color: rgba(79, 195, 247, 0.72);
+}
+a.cap-card:hover .cap-card__icon {
+  color: var(--ai-blue-500);
+}
+.cap-card__label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.55;
+  margin-bottom: 1px;
+}
+.cap-card__summary { font-size: 0.85rem; color: var(--muted); line-height: 1.45; margin: 0 0 8px; }
+.cap-card__meta { font-size: 0.75rem; color: var(--muted); font-family: var(--font-mono, 'JetBrains Mono', monospace); margin: 0 0 8px; opacity: 0.85; }
+.cap-card__more {
+  font-size: 0.78rem;
+  color: rgba(79, 195, 247, 0.82);
+  opacity: 1;
+  margin: 10px 0 0;
+}
+
+/* Entry detail pages (skill/*.html, agent/*.html) — overview-style */
+.entry-detail-header .back-link {
+  font-size: 0.82rem;
+  color: var(--muted);
+  display: inline-block;
+  margin: 0 0 10px;
+}
+.entry-detail-header .back-link:hover {
+  color: var(--orange);
+}
+.cap-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--orange);
+  background: rgba(255, 122, 0, 0.08);
+  border: 1px solid rgba(255, 122, 0, 0.25);
+  border-radius: 3px;
+  padding: 2px 8px;
+  margin: 0 0 8px;
+}
+.entry-caption {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin: 0 0 12px;
+}
+.entry-prose {
+  white-space: pre-wrap;
+  color: var(--text);
+  line-height: 1.65;
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+}
+.entry-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 26px 0;
+}
+.entry-contents-doc {
+  margin: 0 0 8px;
+}
+.entry-contents-files {
+  margin: 0;
+}
+.entry-md-section {
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius);
+  margin: 0 0 10px;
+  background: rgba(0, 0, 0, 0.14);
+}
+.entry-md-section > summary.entry-md-section__summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.98rem;
+  padding: 12px 14px;
+  list-style: none;
+  color: var(--text);
+  user-select: none;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.entry-md-section > summary.entry-md-section__summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.35em;
+  text-align: center;
+  font-weight: 800;
+  font-size: 1.05em;
+  line-height: 1.35;
+  color: var(--orange);
+}
+.entry-md-section[open] > summary.entry-md-section__summary::before {
+  content: "-";
+}
+.entry-md-section > summary.entry-md-section__summary::-webkit-details-marker {
+  display: none;
+}
+.entry-md-section .entry-md-section__body {
+  padding: 0 14px 14px 16px;
+  border-top: 1px solid var(--border-muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--text);
+}
+.entry-md-section .entry-md-section__body p {
+  margin: 0 0 12px;
+}
+.entry-md-section .entry-md-section__body p:last-child {
+  margin-bottom: 0;
+}
+.entry-md-section .entry-md-section__body ul {
+  margin: 0 0 12px;
+  padding-left: 1.35rem;
+}
+.entry-md-section .entry-md-section__body h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 18px 0 8px;
+  padding-bottom: 0;
+  border-bottom: none;
+  color: var(--text);
+}
+.entry-md-section .entry-md-section__body h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 14px 0 8px;
+  color: var(--text);
+}
+.entry-md-section .entry-md-section__body pre {
+  margin: 0 0 12px;
+  overflow-x: auto;
+}
+.entry-md-section .entry-md-section__body hr {
+  margin: 14px 0;
+  border: none;
+  border-top: 1px solid var(--border-muted);
+}
+.ascii-diagram {
+  background: #111114;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  overflow-x: auto;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.83em;
+  line-height: 1.55;
+  color: #b8b8c2;
+  margin: 0 0 18px;
+}
+.install-block {
+  margin: 22px 0 0;
+  padding: 16px 18px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius);
+  border-left: 3px solid var(--orange);
+}
+.install-block h2 {
+  margin-top: 0;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.install-block .install-hint {
+  font-size: 0.92rem;
+  color: var(--muted);
+  margin: 0 0 12px;
+}
+.install-snippet {
+  background: #111114;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  overflow-x: auto;
+  margin: 0;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.85em;
+  line-height: 1.5;
+  color: #d4d4d4;
+}
+.install-snippet code {
+  background: transparent;
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
+}
+.file-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.file-list li {
+  margin: 0 0 14px;
+  padding: 10px 12px 10px 14px;
+  border-left: 3px solid var(--border-muted);
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 0 4px 4px 0;
+}
+.file-list .file-meta {
+  color: var(--muted);
+  font-size: 0.9rem;
+  display: block;
+  margin-top: 4px;
+}
+.file-list a {
+  font-weight: 600;
+}
+.file-list--root {
+  margin-top: 4px;
+}
+.file-list--nested {
+  margin: 8px 0 0 0;
+  padding-left: 0;
+  border-left: 2px solid var(--border-muted);
+  margin-left: 2px;
+  padding-left: 10px;
+}
+.file-list--nested li {
+  margin-bottom: 10px;
+  padding: 8px 10px 8px 12px;
+  font-size: 0.95rem;
+}
+.file-list__nested-note {
+  margin: 8px 0 0 0;
+  padding: 6px 0 4px 4px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+/* Expandable folder tree (<details> / <summary>) */
+.file-list > li.file-list__folder {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 10px;
+  border: none;
+  background: transparent;
+  border-radius: 0;
+}
+.file-list__folder > .file-tree__details {
+  margin: 0 0 10px 0;
+}
+/* Match .entry-md-section: folder trees (rules, scanners, templates, …) */
+.file-tree__details {
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius);
+  background: rgba(0, 0, 0, 0.14);
+  overflow: hidden;
+}
+.file-tree__summary {
+  cursor: pointer;
+  padding: 12px 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.98rem;
+  color: var(--text);
+  user-select: none;
+  background: transparent;
+}
+.file-tree__summary::-webkit-details-marker {
+  display: none;
+}
+.file-tree__summary::marker {
+  content: "";
+  display: none;
+}
+.file-tree__summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.35em;
+  text-align: center;
+  font-weight: 800;
+  font-size: 1.05em;
+  line-height: 1.35;
+  color: var(--orange);
+}
+.file-tree__details[open] > .file-tree__summary::before {
+  content: "-";
+}
+.file-tree__summary:hover {
+  background: rgba(255, 122, 0, 0.06);
+}
+.file-tree__summary .file-meta {
+  display: inline;
+  margin-left: 6px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.file-tree__inner {
+  padding: 0 14px 14px 16px;
+  border-top: 1px solid var(--border-muted);
+}
+.file-tree__ul {
+  margin-top: 4px;
+}
+.file-tree__dir > .file-tree__details {
+  margin: 0;
+  border-radius: 4px;
+}
+.file-tree__dir--truncated {
+  font-size: 0.95rem;
+}
+.file-tree__file .file-meta {
+  display: block;
+  margin-top: 4px;
+}
+
+/* Agile Garden prelude + mission + lists: abd-works/commons/agile-garden-fragment.css (prepended by generate_abd_catalog.py) */
+
+/* Single-page hub (index.html): collapsible hub / skills / agents */
+.catalog-section {
+  border: 1px solid var(--border-muted);
+  border-radius: 8px;
+  margin: 0 0 16px;
+  background: rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+}
+.catalog-section > summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 14px 16px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.04);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+}
+.catalog-section > summary::-webkit-details-marker { display: none; }
+.catalog-section > summary::marker { content: ""; }
+.catalog-section > summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  line-height: 1.45rem;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border: 1px solid var(--border-muted);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+}
+.catalog-section[open] > summary::before { content: "\2212"; }
+.catalog-section[open] > summary {
+  border-bottom: 1px solid var(--border-muted);
+}
+.catalog-section .section-body {
+  padding: 18px 16px 22px;
+}
+.catalog-section .section-body > p:first-of-type { margin-top: 0; }
+.catalog-section .cap-grid { margin-top: 8px; }
+.catalog-section .count {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* Static markdown mirror pages (catalog/doc/...) */
+.rule-prose {
+  font-size: 1rem;
+  line-height: 1.65;
+  max-width: 52rem;
+}
+.rule-prose h1,
+.rule-prose h2,
+.rule-prose h3,
+.rule-prose h4 {
+  margin: 1.25em 0 0.5em;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--text);
+}
+.rule-prose h1:first-child,
+.rule-prose h2:first-child,
+.rule-prose h3:first-child {
+  margin-top: 0;
+}
+.rule-prose h1 { font-size: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.35em; }
+.rule-prose h2 { font-size: 1.25rem; border-bottom: 1px solid var(--border-muted); padding-bottom: 0.25em; }
+.rule-prose h3 { font-size: 1.1rem; }
+.rule-prose p { margin: 0 0 12px; }
+.rule-prose pre {
+  margin: 12px 0;
+  padding: 12px 14px;
+  overflow: auto;
+  background: #1f1f24;
+  border: 1px solid var(--border-muted);
+  border-radius: 6px;
+  font-size: 0.88em;
+  line-height: 1.45;
+}
+.rule-prose code { font-size: inherit; }
+.rule-prose ul,
+.rule-prose ol {
+  margin: 8px 0 12px 1.25rem;
+  padding: 0;
+}
+.rule-prose li { margin-bottom: 6px; }
+.rule-prose strong { color: var(--text); }
+.rule-prose hr {
+  border: 0;
+  border-top: 1px solid var(--border-muted);
+  margin: 1.25em 0;
+}
+.rule-prose .md-table-wrap {
+  overflow-x: auto;
+  margin: 12px 0 16px;
+  -webkit-overflow-scrolling: touch;
+}
+.rule-prose table.md-table {
+  width: max-content;
+  max-width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+.rule-prose table.md-table th,
+.rule-prose table.md-table td {
+  border: 1px solid var(--border-muted);
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+.rule-prose table.md-table th {
+  background: rgba(255, 122, 0, 0.08);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.rule-prose table.md-table td { background: var(--panel); }
+.rule-prose a { color: var(--accent, #ff7a00); text-decoration: underline; }
+.rule-prose a:hover { text-decoration: none; }
+
+.plugin-slots h3 {
+  margin: 28px 0 8px;
+  font-size: 1.05rem;
+}
+.plugin-slots h3:first-child { margin-top: 0; }
+.cap-grid--plugin-slot { margin-bottom: 8px; }
+
+</style>
+</head>
+<body>
+<div class="page-wrap">
+<div class="panel" role="main">
+
+<header class="panel-header entry-detail-header">
+  <div class="header-text">
+    <p class="brand"><strong>abd.works</strong> &middot; AI Garden</p>
+    <a class="back-link" href="../../../skill/abd-acceptance-criteria.html">← abd-acceptance-criteria</a>
+    <p class="cap-badge">Markdown</p>
+    <h1>SKILL.md</h1>
+    <p class="tagline">name: abd-acceptance-criteria</p>
+  </div>
+</header>
+
+<div class="panel-body">
+
+<nav class="nav" aria-label="AI Garden sections">
+  <a href="../../../index.html" class="nav__link">Complete</a>
+  <a href="../../../skills.html" class="nav__link nav__link--current">Skills</a>
+  <a href="../../../agents.html" class="nav__link">Agents</a>
+  <a href="../../../instructions.html" class="nav__link">Instructions</a>
+  <a href="../../../kanban-layout/index.html" class="nav__link nav__link--kanban">Delivery kanban</a>
+</nav>
+
+<h2>Content</h2>
+<div class="rule-prose"><p>﻿--- name: abd-acceptance-criteria catalog_garden_tier: practice catalog_garden_order: 30 catalogue_one_liner: &gt;- WHEN/THEN acceptance criteria for story-graph.json; ships rules and scanners for execute-skill-using-skills-rules. description: &gt;- Teaches exploration-phase acceptance criteria for story-graph.json: WHEN/THEN/AND/BUT, behavioral language, per-story domain terms, atomic AC, actor alternation, channel-specific detail, and verb–noun naming for story elements. Ships Markdown rules and Python scanners under this skill root for <strong>execute-skill-using-skills-rules</strong> (mechanical checks alongside human review). When building AC from sources, output <strong>all</strong> template artifacts in `templates/` (currently `acceptance-criteria.md`) with the same coverage. Use when writing or reviewing acceptance criteria, exploration behavior, WHEN/THEN quality, or story-graph.json AC arrays.</p>
+<hr>
+<h1>abd-acceptance-criteria</h1>
+<h2>Purpose</h2>
+<p>Build acceptance criteria per <strong>story</strong>, that explain what must be true when users and systems interact: observable triggers (<strong>WHEN</strong>), expected outcomes (<strong>THEN</strong>), chained effects (<strong>AND</strong>), and explicit negatives (<strong>BUT</strong>). These act as informal first-draft BDD-style steps that guide downstream scenario work. Focus on interactions using domain terms, avoid implementation detail unless the story is technical, and even then keep it minimal.</p>
+<p>This skill is the <strong>practice standard</strong> for that work: <strong>templates</strong> for deliverables, <strong>rules</strong> for what “good” means (atomic AC, actor alternation, domain emphasis, channel-specific detail, <strong>source evidence</strong> when AC come from documents), and <strong>scanners</strong> that can run predictable mechanical checks <strong>alongside</strong> human review.</p>
+<h2>When to use this skill</h2>
+<p>Load this skill when <strong>any</strong> of the following apply:</p>
+<ul>
+<li>You are writing or reviewing <strong>`acceptance_criteria`</strong> arrays on stories in <strong>`story-graph.json`</strong> (exploration phase — not scenario BDD steps).</li>
+<li>A user or agent wants to turn interviews, requirements documentation, or informal notes into <strong>concrete behavioral</strong> AC (WHEN/THEN/AND/BUT).</li>
+<li>You need to document user and system interaction at a finer grain , but still pre-specification / test case level of detail.eg: linear <strong>WHEN {action user},THEN {system response}, AND {another system response}, BUT {systems reaction that won&#x27;t happen}</strong></li>
+<li>An agent is asked to “explore” a story, “write AC”, “harden acceptance criteria”, or “align with exploration rules.”</li>
+</ul>
+<hr>
+<h2>Output file</h2>
+<p><strong>Where to write the deliverables (`&lt;deliverables-folder&gt;` resolution):</strong></p>
+<p>1. <strong>The path the user told you to use.</strong> If the user names a file or folder, use exactly that. 2. <strong>Where the engagement already keeps deliverables.</strong> Look at the workspace; if previous phase output (story map, Ubiquitous Language, `process.md`, `corrections-log.md`) already lives in a folder, write next to them in the <strong>same</strong> folder. 3. <strong>The workspace root.</strong> If neither applies, write to the workspace root.</p>
+<p>Do <strong>not</strong> assume a predetermined folder name like `stories/`, `ac/`, or `docs/`. The only DDD/story skill that creates a sub-folder is <strong>`abd-module-partition`</strong>.</p>
+<p><strong>File names:</strong> Default to the template filename — `acceptance-criteria.md`. Add a `&lt;name&gt;-` engagement prefix only when you need disambiguation — multiple products in the same workspace, multiple stories needing per-story AC files, or the user asks for it explicitly. Both `acceptance-criteria.md` and `&lt;name&gt;-acceptance-criteria.md` are valid. AC living <strong>inside</strong> `story-graph.json` (per-story `acceptance_criteria` arrays) follows the <strong>`story-graph-ops`</strong> path conventions and is unaffected.</p>
+<hr>
+<h2>Agent Instructions</h2>
+<p>1. <strong>Templates</strong> Generate content using <strong>every</strong> template file in this skill’s `templates/` folder.</p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td>`templates/acceptance-criteria.md`</td><td>Story-level AC using WHEN/THEN/AND/BUT per <strong>Core concepts</strong> and <strong>The shape of good acceptance criteria</strong> below. Per story, include a <strong>Domain terms</strong> section (see template): key words and phrases for concepts, state, actions, and rules used in that story’s AC. <strong>Source traceability:</strong> each numbered AC must cite <strong>Evidence</strong> (chapter, section, page, paragraph, chunk id, etc.) or a per-story <strong>Source evidence</strong> table—see template. Optional title or short context at the top is fine. <strong>Do not</strong> paste the template’s `## Instructions` section (or an equivalent rules summary) into generated project files — that material documents the template for skill maintainers, not stakeholders reading the criteria.</td></tr></tbody></table></div>
+<p><strong>Consistency:</strong> WHEN/THEN semantics, story coverage, <strong>domain terms</strong> (same vocabulary; italics on domain terms and domain list), <strong>source evidence per AC</strong>, and ordering must be complete throughout the `.md` artifact. Generated artifacts contain <strong>only</strong> stakeholder-facing sections from the templates (plus optional brief context); notation and heuristics stay in this skill and in `templates/` for reference.</p>
+<p><strong>If new files are added</strong> under `templates/` later, produce a corresponding artifact for <strong>each</strong> new template the same way.</p>
+<p>When you <strong>create or rewrite</strong> acceptance criteria from requirements, you <strong>must</strong> deliver <strong>one output artifact per file</strong> in `templates/`.</p>
+<p>2. <strong>Rules</strong></p>
+<ul>
+<li>Generate content following rules attached to this skill, listed below, assembled from rule files in `rules/`.</li>
+<li><strong>Non-negotiable before writing any Domain terms section:</strong> every term must already exist in a domain source artifact (ubiquitous language, domain sketch, CRC, object model, or any team-designated vocabulary file). If a term is missing, <strong>stop — list every missing term and ask the user how to proceed</strong> before writing it into AC. <strong>NEVER create `domain-terms.md` if any domain source file already exists.</strong> Only use `domain-terms.md` as a bootstrap when the engagement has no domain sources at all. See rule <strong>Domain terms must come from the domain model</strong>.</li>
+<li>Validate — once content is generated, take on the role of a <em>Peer Reviewer</em> and validate the content against each rule&#x27;s DO/DON&#x27;T constraints and examples.</li>
+</ul>
+<p>3. <strong>Assembling this Skill</strong> This Skill file is  assembled from all template files  `templates/` and all rules in `rules/`. Use <strong>`bundle_rules_into_skill_md.py`</strong> to reassemble this skill. When ever rules or templates change.</p>
+<p>2. <strong>Validate</strong> using rules mentioned in this skill.</p>
+<hr>
+<h2>What are acceptance criteria?</h2>
+<p><strong>Acceptance criteria</strong> (in this skill’s sense) are <strong>story-level, behavioral statements</strong> in `story-graph.json` that say <strong>under what conditions</strong> the product behaves <strong>how</strong>, including chained outcomes and explicit negatives. They sit <strong>above</strong> BDD <strong>scenarios</strong> (which use Given/When/Then on steps).</p>
+<p>Exploration-phase AC answer four questions for each story:</p>
+<p>1. <strong>When</strong> does the behavior apply? (trigger, precondition, or variant.) 2. <strong>Then</strong> what is observable? (primary user- or system-visible outcome.) 3. <strong>And</strong> what else happens in sequence? (extra outcomes, especially multiple system reactions — chain with AND, not a new WHEN for each micro-step unless the trigger truly changes.) 4. <strong>But</strong> what must <strong>not</strong> happen? (errors, prevention, no persistence — negative paths.)</p>
+<p>They are <strong>not</strong> implementation checklists (API names, class names, file formats) unless the story is explicitly <strong>`story_type: technical`</strong> and scoped that way. A good AC set can be read by a <strong>product owner</strong>, a <strong>tester</strong>, and a <strong>developer</strong> — all at once — and still be <strong>machine-checkable</strong> via rules/scanners where applicable.</p>
+<p><strong>Relationship to other artifacts:</strong></p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Artifact</th><th>Role</th><th>Typical keywords</th></tr></thead><tbody><tr><td><strong>acceptance_criteria</strong> (this skill)</td><td>Story-level outcomes in the graph</td><td>WHEN, THEN, AND, BUT</td></tr><tr><td><strong>scenarios</strong> (later / other workflow)</td><td>BDD flows with steps</td><td>Given, When, Then on <strong>steps</strong></td></tr></tbody></table></div>
+<p>Reserve <strong>Given</strong> for <strong>scenarios</strong>, not for lines inside <strong>`acceptance_criteria`</strong> (exploration convention).</p>
+<hr>
+<h2>Core concepts</h2>
+<h3>Step</h3>
+<p>AC describe <strong>observable</strong> user/system behavior in steps. Avoid implementation detail unless the story is explicitly technical.</p>
+<ul>
+<li><strong>WHEN</strong> sets scope; <strong>THEN</strong> is the main observable;</li>
+<li><strong>AND</strong> chains extra outcomes;</li>
+<li><strong>BUT</strong> guards negatives.</li>
+<li>Second AC is a <strong>delta</strong> (error or other path), not a full repeat of the happy path.</li>
+<li>Language stays <strong>behavioral</strong>,  <strong>channel-aware</strong> where the product has distinct surfaces, and <strong>system aware</strong> when interacting with multiple system actors</li>
+</ul>
+<ul>
+<li><strong>Prefer</strong> language a product owner can rehearse: who did what, on which surface, and what anyone can see or verify next. Example: WHEN the user submits the settlement file on the import screen, THEN the preview lists the filtered rows and the job status reads <em>Running</em>.</li>
+<li><strong>Prefer</strong> channel-specific detail when the product has more than one surface—real CLI paths (e.g. `cli.shape.validate`), quoted control labels, or API-visible outcomes—so testers know <em>where</em> to look. That is not the same as naming internal classes or private methods.</li>
+<li><strong>Avoid</strong> vague reassurance (“the system handles it”) with no observable signal, and avoid code-shaped triggers (`CliSession.submit()` unless the story is explicitly technical and scoped that way).</li>
+<li><strong>Never describe capability</strong> (“the customer can override”, “staff can contact”). AC describe <strong>state</strong>: something is displayed, shown, provided, or available. If the actor acts on it, that is a separate <strong>WHEN</strong>. Write “AND an override field is displayed” or “WHEN the customer overrides the field, THEN…” — never “AND the customer can override the field.”</li>
+</ul>
+<h3>Domain terms (vocabulary in AC)</h3>
+<p><strong>Domain terms</strong> are words or short phrases that name the important ideas in the problem space: things (<em>Settlement File</em>, <em>Import Job</em>), their <strong>state</strong> (<em>Queued</em>, <em>Committed</em>), <strong>actions</strong> (<em>Confirm import</em>), and <strong>rules or constraints</strong> (<em>Schema Validation</em>, <em>Transactional Limit</em>). They align story AC with how stakeholders talk and with how tests will read—part of a shared <strong>ubiquitous language</strong>.</p>
+<ul>
+<li>Each story includes a <strong>Domain terms</strong> subsection <strong>before</strong> its acceptance criteria (see template and <strong>Example</strong>). Keep the list tight: only terms that anchor that story’s AC.</li>
+<li>In <strong>`acceptance-criteria.md`</strong>, use <em>italics</em> and <em>Title Case</em> inside multi-word phrases in the Domain terms list and in AC lines. Reuse the same italicized phrase for the same concept. See <strong>Emphasize domain-significant terms</strong> in the bundled rules.</li>
+<li>Do not italicize filler, whole sentences, or low-signal words; spotlight <strong>domain meaning</strong>, not decoration.</li>
+</ul>
+<h3>WHEN / THEN / AND / BUT</h3>
+<ul>
+<li><strong>WHEN:</strong> Trigger or precondition—the event or situation that starts this slice of behavior.</li>
+<li><strong>THEN:</strong> Primary outcome—what becomes true or visible first.</li>
+<li><strong>AND:</strong> More outcomes in the same beat—especially a second or third <strong>system</strong> reaction—without inventing a new trigger (see <strong>Use AND for multiple reactions</strong>).</li>
+<li><strong>BUT:</strong> What <strong>does not</strong> happen—errors, prevention, or “no write” guarantees on negative paths.</li>
+</ul>
+<h3>Atomic AC</h3>
+<p>State the <strong>general</strong> case <strong>once</strong>; follow-on AC only describe <strong>deltas</strong>. Reduces duplicated WHEN/THEN blocks (see <strong>Atomic acceptance criteria</strong> rule).</p>
+<h3>Actor alternation</h3>
+<p>Interleave user-visible and system-visible emphasis. Avoid long runs of the same actor without switching (see <strong>Alternate actors in steps</strong> rule + scanner).</p>
+<h3>Domain consistency</h3>
+<p>As domains grow, keep <strong>parallel</strong> AC structure across related areas; <strong>split stories</strong> when one AC mixes incompatible domain behaviors.</p>
+<hr>
+<h3>Pitfalls for agents</h3>
+<p><strong>Don’t fabricate to fill gaps.</strong> When context is incomplete — a business rule is unclear, a system interaction is unknown, a domain term has no definition — do not invent AC to cover the gap. Instead, capture the unknown explicitly: record what is missing, what assumption you are making, and what validation action would resolve it (e.g. “confirm with SME whether failed payments retry automatically or require manual re-submission”). Unknowns surfaced are more valuable than plausible-sounding AC that turn out to be wrong.</p>
+<p><strong>Identify missing context dimensions.</strong> Before writing AC, assess whether the available context covers the perspectives needed: business logic, technical constraints, operational concerns, regulatory or compliance requirements, and user experience. If an entire dimension is absent (e.g. no technical input on system-to-system behaviour, or no business rules for edge cases), flag it. Writing AC from a single perspective produces AC that will churn when the missing perspective surfaces later.</p>
+<hr>
+<h2>Example</h2>
+<p><strong>Story:</strong> Export Report To PDF <strong>Story type:</strong> user</p>
+<p><strong>Domain terms</strong> (vocabulary for this story’s AC—things, state, actions, rules):</p>
+<ul>
+<li><em>Report UI</em> — screen where the user runs the report and starts export</li>
+<li><em>Export a PDF</em> — user-triggered action for this flow</li>
+<li><em>Export Job Progress</em> — visible status while the export runs</li>
+<li><em>Filtered Report Data</em> — row set after filters; input to the PDF</li>
+<li><em>Report Export</em> — the delivered artifact / job outcome the user waits on</li>
+<li><em>Download</em> — completed file handoff to the user</li>
+<li><em>Zero Rows</em> / <em>Filters</em> — empty result after filtering; edge case</li>
+<li><em>Feedback</em> / <em>Nothing To Export</em> — user-visible outcome when there is nothing to build</li>
+<li><em>Report Export Service</em> — downstream dependency; failure mode</li>
+<li><em>Retry</em> — user-visible recovery path</li>
+<li><em>Partial</em> / <em>Empty File</em> — invalid success shapes to reject</li>
+</ul>
+<p>1. <strong>WHEN</strong> the user chooses to <em>Export a PDF</em> on the <em>Report UI</em> <strong>THEN</strong> the <em>Report UI</em> indicates <em>Export Job Progress</em> <strong>AND</strong> the system builds a <em>PDF</em> from the current <em>Filtered Report Data</em> <strong>AND</strong> the user gets a normal completed <em>Download</em> for that <em>Report Export</em></p>
+<p>2. <strong>WHEN</strong> the <em>Report</em> has <em>Zero Rows</em> after <em>Filters</em> <strong>THEN</strong> the user sees clear <em>Feedback</em> that there is <em>Nothing To Export</em> <strong>BUT</strong> no <em>PDF</em> is created and no <em>Download</em> starts</p>
+<p>3. <strong>WHEN</strong> the <em>Report Export Service</em> is unavailable <strong>THEN</strong> the user sees that <em>Report Export</em> failed and can <em>Retry</em> later <strong>BUT</strong> no <em>Partial</em> or <em>Empty File</em> is treated as a successful <em>Report Export</em></p>
+<hr>
+<p>&lt;!-- execute_rules:bundle_rules:begin --&gt;</p>
+<h3>Rule: Alternate actors in steps</h3>
+<p><strong>Scanner:</strong> `scanners/actor-alternation-scanner.py` — <strong>`ActorAlternationScanner`</strong></p>
+<p>Alternate between actors every 1–2 steps. Show back-and-forth between user and system. System may chain 1–2 sequential actions before returning to the user.</p>
+<h4>DO</h4>
+<ul>
+<li>When the actor acts, the system responds; when the system completes, the user reacts (or the system continues briefly).</li>
+<li>Allow short system chains (e.g. validate → save) before the next user-visible step.</li>
+</ul>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Run more than <strong>two</strong> consecutive steps from the same actor without switching (warning heuristic in scanner).</li>
+<li>Stack many user-only lines without system response.</li>
+</ul>
+<h3>Rule: Behavioral AC at story level</h3>
+<p><strong>Scanner:</strong> `scanners/behavioral-ac-scanner.py` — <strong>`BehavioralACScanner`</strong></p>
+<p>Behavioral AC belongs at story level in `story-graph.json`. Use When/Then format (<strong>no Given</strong> in AC — reserve Given for scenarios). AC should describe behavioral outcomes, not technical implementation.</p>
+<h4>DO</h4>
+<ul>
+<li>Use behavioral language for user actions and system responses.</li>
+<li>Focus on observable outcomes and system responses.</li>
+<li>WHEN/THEN/AND may appear as separate lines in structured AC entries.</li>
+</ul>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Use technical implementation terms (config, json, api, sql, class, method) as the primary description.</li>
+<li>Use programming, database, or raw API terminology in place of behavior.</li>
+</ul>
+<h3>Rule: Document observed quirks until fix slice</h3>
+<p><strong>Scanner:</strong> Manual review</p>
+<p>On <strong>brownfield / current-state</strong> engagements, acceptance criteria describe <strong>what the system does today</strong>, including known defects. A quirk is <strong>observed behavior</strong> until a <strong>change slice</strong> explicitly approves a different outcome.</p>
+<h4>DO</h4>
+<ul>
+<li>Tag brownfield AC that encode legacy quirks with <strong>`intent: observed`</strong> in graph metadata or a leading comment in markdown export.</li>
+<li>Use <strong>WHEN/THEN/BUT</strong> for error and quirk paths traced from code — e.g. `BUT the client does not disconnect when SQLSTATE 24000 is ignored`.</li>
+<li>Separate <strong>characterization AC</strong> (must pass on current system) from <strong>change AC</strong> (must pass only after approved fix) — different stories or explicit slice labels.</li>
+<li>When a quirk is fixed in a change slice, <strong>update or supersede</strong> the observed AC — do not leave contradictory AC on the same story.</li>
+</ul>
+<p><strong>Example (pass):</strong></p>
+<pre><code>  WHEN the player enters game with a valid character slot
+  THEN the system loads the character from the database
+  AND forwards spawn to MapServer
+  BUT SQLCloseCursor may return SQLSTATE 24000 without failing the flow (observed)
+
+  --- change slice (separate story) ---
+  WHEN DBServer closes the cursor after character load
+  THEN no SQL error is logged for SQLSTATE 24000</code></pre>
+<p><strong>Example (fail):</strong></p>
+<pre><code>  WHEN the player enters game with a valid character slot
+  THEN the system loads the character from the database
+  AND no SQL errors are raised</code></pre>
+<p>Describes target behavior but claims to document current state. The 24000 quirk is silently &quot;fixed&quot; in the AC.</p>
+<h4>DO NOT</h4>
+<ul>
+<li>Write AC that describe <strong>desired</strong> behavior while claiming to document current state without labeling the slice as <strong>change</strong>.</li>
+<li>Silently &quot;fix&quot; legacy behavior in AC text during exploration on a characterize-only slice.</li>
+<li>Drop failure paths that code implements because they are inconvenient to test — note test gap in AC or war-room blocker instead.</li>
+<li>Use brownfield as excuse to skip <strong>`use-but-for-negative-conditions`</strong> — quirks still need explicit BUT/negative outcomes where relevant.</li>
+</ul>
+<h3>Rule: Domain terms must come from the domain model</h3>
+<p><strong>Scanner:</strong> `scanners/domain-terms-source-scanner.py` — `DomainTermsSourceScanner`</p>
+<p>Every term in a story&#x27;s <strong>Domain terms</strong> section must exist in a domain source artifact already present in the project. Domain sources include (but are not limited to):</p>
+<ul>
+<li>Ubiquitous Language (`ubiquitous-language.md`, `domain-language.md`)</li>
+<li>CRC model (`crc.md`)</li>
+<li>Object model (`object-model.md`)</li>
+<li>Domain sketch (`domain-sketch.md`)</li>
+<li>Any file the team designates as a domain vocabulary source</li>
+</ul>
+<h4>DO</h4>
+<ul>
+<li>Before writing any Domain terms section, look up each term in the project&#x27;s domain source files.</li>
+<li>Use the exact name and definition from the source. Do not paraphrase.</li>
+<li>If a term is missing from all domain sources, <strong>stop — list every missing term and ask the user how to proceed</strong> (add to ubiquitous language, use an existing term, skip it, etc.). Do not continue until the user decides.</li>
+</ul>
+<h4>DON&#x27;T</h4>
+<ul>
+<li><strong>NEVER create `domain-terms.md`</strong> (or any equivalent supplement file) if any domain source file already exists in the project. If domain sources exist, they are the only source of truth. There is no bypass file.</li>
+<li>Invent or define terms inline without backing in a domain source.</li>
+<li>Silently absorb unknown terms into a new file instead of flagging them.</li>
+</ul>
+<h4>`domain-terms.md` — bootstrap only, no domain sources present</h4>
+<p>`domain-terms.md` may only be created when the engagement has <strong>no domain source files at all</strong>. The moment any domain source exists, `domain-terms.md` must not be created. Any existing `domain-terms.md` should be merged into the real domain source and deleted.</p>
+<h3>Rule: Emphasize domain-significant terms</h3>
+<p><strong>Scanner:</strong> `scanners/emphasize-domain-terms-scanner.py` — <strong>`DomainTermEmphasisScanner`</strong></p>
+<p>Call out <strong>domain language</strong> — the nouns, verbs, and short phrases that belong to the problem space and show up in stories, tests, and talk with stakeholders — so readers see what is <em>specific</em> to this product versus generic wording.</p>
+<h4>DO</h4>
+<ul>
+<li>Wrap domain-significant terms in <em>italics</em>.</li>
+<li>Use <em>title-style capitalization</em> inside those phrases for multi-word concepts (e.g. <em>Report UI</em>, <em>Export Job Progress</em>, <em>Filtered Report Rows</em>). Keep acronyms and product names in their normal form (e.g. <em>PDF</em>).</li>
+<li>Apply emphasis consistently for the same concept across AC in a story.</li>
+<li>Prefer this pattern over <strong>exact</strong> quoted UI copy unless the literal string is required for a contract or compliance check.</li>
+</ul>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Italicize filler or purely grammatical words, or entire sentences.</li>
+<li>Use emphasis as decoration on every line — only mark terms that carry domain meaning.</li>
+<li>Replace behavioral clarity with a wall of highlighted words; if everything is emphasized, nothing is.</li>
+</ul>
+<h3>Rule: Enumerate all AC permutations</h3>
+<p><strong>Scanner:</strong> `scanners/enumerate-ac-permutations-scanner.py` — <strong>`EnumerateACPermutationsScanner`</strong> (policy; mechanical pass is currently a no-op)</p>
+<p>Enumerate <strong>all</strong> important acceptance criteria permutations: validation paths, calculation branches, happy path, errors, boundaries.</p>
+<h4>DO</h4>
+<ul>
+<li>Cover validation paths explicitly.</li>
+<li>Include happy path, error path, and edge cases.</li>
+<li>Cover calculation branches where applicable.</li>
+</ul>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Skip permutations (e.g. only happy path).</li>
+<li>Assume a single path when multiple outcomes exist.</li>
+</ul>
+<h3>Rule: Keep AC consistent across connected domains</h3>
+<p><strong>Scanner:</strong> `scanners/ac-domain-crossing-scanner.py` — <strong>`ACDomainCrossingScanner`</strong></p>
+<p>At small scale, AC can cover multiple domain objects. As behaviors diverge, scope AC to one domain and keep <strong>structure</strong> parallel across related domains. AC that mixes multiple domain behaviors signals <strong>split the story</strong>.</p>
+<h4>DO</h4>
+<ul>
+<li>Keep parallel structure for parallel domains (same depth and pattern).</li>
+<li>Split when one AC mixes distinct domain behaviors that deserve separate stories.</li>
+</ul>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Mix unrelated domain validations in one giant AC when at scale.</li>
+<li>Use inconsistent depth across connected domains without reason.</li>
+</ul>
+<h3>Rule: Stories have 4–9 acceptance criteria (heuristic)</h3>
+<p><strong>Scanner:</strong> `scanners/story-sizing-scanner.py` — <strong>`StorySizingScanner`</strong></p>
+<p>Stories should have enough acceptance criteria to reflect thorough exploration. The <strong>mechanical</strong> scanner counts <strong>WHEN</strong> + <strong>AND</strong> tokens across all AC text (see `scanners/story-sizing-scanner.py`). Target band in JSON: <strong>4–9</strong>; the scanner may use a <strong>4–10</strong> band — treat JSON as product intent and align the scanner when reconciling.</p>
+<h4>DO</h4>
+<ul>
+<li>Target enough AC to cover the behavior (happy path, errors, edges).</li>
+<li>Split stories that grow too large.</li>
+<li>Expand under-explored stories.</li>
+</ul>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Pad with trivial or redundant AC.</li>
+<li>Leave stories severely under-specified or monolithic.</li>
+</ul>
+<h3>Rule: Use AND for multiple reactions</h3>
+<p><strong>Scanner:</strong> `scanners/reaction-chaining-scanner.py` — <strong>`ReactionChainingScanner`</strong></p>
+<p>Chain sequential <strong>system</strong> reactions with <strong>AND</strong> under the same trigger. Avoid separate <strong>WHEN</strong> for each micro-step when the trigger is the same. Limit <strong>AND</strong> chains to a reasonable length (scanner warns when excessive).</p>
+<h4>DO</h4>
+<ul>
+<li>Chain related system outcomes with AND.</li>
+</ul>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Use separate WHEN/THEN pairs for sequential system-only actions that belong to one reaction chain.</li>
+</ul>
+<h3>Rule: Atomic acceptance criteria</h3>
+<p><strong>Scanner:</strong> `scanners/atomic-ac-scanner.py` — <strong>`AtomicACScanner`</strong></p>
+<p>Write atomic acceptance criteria. Avoid repeating common WHEN/THEN/AND blocks across multiple AC. State the general case once; additional AC should only state what differs.</p>
+<h4>DO</h4>
+<ul>
+<li>State general behavior once in the first acceptance criteria.</li>
+<li>Variations only state what differs from the general case.</li>
+<li>Edge cases state only the edge behavior.</li>
+<li>Use &quot;see previous&quot; only when unavoidable (should be rare).</li>
+</ul>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Repeat the same base logic across multiple acceptance criteria.</li>
+<li>Make variations repeat the full acceptance criteria text.</li>
+</ul>
+<h3>Rule: Use BUT for negative conditions</h3>
+<p><strong>Scanner:</strong> `scanners/negative-conditions-scanner.py` — <strong>`NegativeConditionsScanner`</strong></p>
+<p>When outcomes describe errors, validation failure, or prevention, include a <strong>BUT</strong> step stating what does <strong>not</strong> happen (e.g. does not save, does not allow).</p>
+<h4>DO</h4>
+<ul>
+<li>Add BUT when error/prevention language appears and a negative outcome needs to be explicit.</li>
+</ul>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Describe error outcomes without clarifying what is withheld or blocked.</li>
+</ul>
+<h3>Rule: Use channel-specific language</h3>
+<p><strong>Scanner:</strong> `scanners/channel-specific-language-scanner.py` — <strong>`ChannelSpecificLanguageScanner`</strong></p>
+<p>Prefer concrete CLI, Panel, or API surface detail over generic &quot;Bot/System&quot; wording when the product has distinct channels.</p>
+<h4>DO</h4>
+<ul>
+<li>Include concrete examples: `cli.` paths, quoted UI labels, explicit panel copy.</li>
+</ul>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Rely on generic &quot;Bot …&quot; steps without concrete syntax or UI cues (scanner warns).</li>
+</ul>
+<h3>Rule: Verb–noun format for story elements</h3>
+<p><strong>Scanner:</strong> `scanners/verb-noun-scanner.py` — <strong>`VerbNounScanner`</strong></p>
+<p>Use verb–noun format for <strong>epic, sub-epic, and story names</strong> (and align scenario/AC phrasing with the same bar). Prefer <strong>base verb forms</strong>; document actors separately (`story_type`, metadata).</p>
+<h4>DO</h4>
+<ul>
+<li>Verb + noun for scenario sentences and AC phrasing where applicable.</li>
+<li>Base verb forms (imperative / infinitive style): Select item, Display confirmation.</li>
+</ul>
+<h4>DON&#x27;T</h4>
+<ul>
+<li>Noun-only or capability labels where an action phrase is expected.</li>
+<li>Gerund-led titles (`Submitting order`) or third-person singular as the wrong pattern (`Selects item`).</li>
+</ul>
+<p>&lt;!-- execute_rules:bundle_rules:end --&gt;</p></div>
+
+</div>
+</div>
+</div>
+</body>
+</html>

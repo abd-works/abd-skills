@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="engineering">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>abd-build-practice-scanners — abd.works</title>
+<script src="/commons/brand-nav.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root {
+  --orange: #E5531A; --orange-hover: #C64514;
+  --bg: #0B0B0B; --surface: #111113; --raised: #1B1B20;
+  --border: #2A2A2A; --text: #F4F4F5; --muted: #9B9BA8;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); margin: 0;
+  font-family: var(--font-sans); font-size: 15px; line-height: 1.7;
+  -webkit-font-smoothing: antialiased; }
+a { color: var(--orange); text-decoration: none; }
+a:hover { color: var(--orange-hover); }
+.page-wrap { max-width: 860px; margin: 0 auto; padding: 48px clamp(16px,4vw,48px) 96px; }
+.back-link { display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+  margin-bottom: 40px; }
+.back-link:hover { color: var(--text); }
+h1 { font-size: clamp(24px,4vw,36px); font-weight: 800; letter-spacing: -0.03em;
+  line-height: 1.1; margin: 0 0 8px; color: var(--text); }
+.skill-category { font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--orange);
+  margin-bottom: 32px; display: block; }
+h2 { font-size: 1.15rem !important; font-weight: 700 !important; margin: 36px 0 12px !important;
+  padding-bottom: 8px !important; border-bottom: 1px solid var(--border) !important; color: #E5531A !important; }
+h3 { font-size: 1rem !important; font-weight: 700 !important; margin: 24px 0 8px !important; color: var(--text) !important; }
+h4 { font-size: 0.9rem !important; font-weight: 700 !important; margin: 20px 0 6px !important; color: var(--muted) !important; text-transform: uppercase !important; letter-spacing: 0.06em !important; }
+p { margin: 0 0 14px; }
+ul, ol { margin: 0 0 16px; padding-left: 1.4rem; }
+li { margin-bottom: 6px; }
+code { font-family: var(--font-mono); font-size: 0.855em;
+  background: rgba(255,255,255,0.07); padding: 2px 6px; border-radius: 3px; color: #F2A07A; }
+pre { background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+  padding: 20px 24px; overflow-x: auto; margin: 0 0 20px; }
+pre code { background: none; padding: 0; color: var(--text); font-size: 0.85rem; }
+blockquote { border-left: 3px solid var(--orange); margin: 0 0 16px;
+  padding: 10px 18px; background: var(--surface); border-radius: 0 4px 4px 0; }
+blockquote p { margin: 0; color: var(--muted); }
+hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+strong { font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+  <a class="back-link" href="/abd-skills-catalog/">← AI Garden</a>
+  <h1>abd-build-practice-scanners</h1>
+  <span class="skill-category">Skill Builder</span>
+  <h2>Purpose</h2>
+<p>Written <strong>DO / DO NOT</strong> rules are easy to <strong>ignore</strong> or <strong>misread</strong>. Small <strong>automated checks</strong> (scripts tied to those rules) make the same expectations <strong>repeatable</strong>: a failure means something concrete to fix, not a vague &quot;are we sure?&quot; moment.</p>
+<h2>When to use</h2>
+<ul>
+<li>The <strong>target</strong> practice already has <strong><code>SKILL.md</code></strong> and <strong><code>rules/*.md</code></strong> in <strong>stable</strong> shape.</li>
+<li>Some rules are <strong>checkable</strong> mechanically (patterns, files, forbidden phrases).</li>
+<li>You are ready to wire <strong><code>scanner:</code></strong> in rule frontmatter <strong>only</strong> where a matching <strong><code>scanners/&amp;lt;stem&amp;gt;-scanner.py</code></strong> exists.</li>
+</ul>
+<h2>Not in this pass</h2>
+<p><strong>Authoring</strong> or <strong>rewriting</strong> normative prose in <strong>SKILL.md</strong> or <strong><code>rules/*.md</code></strong> for meaning — only <strong>scanners</strong>, <strong><code>scanner:</code></strong> hooks, <strong><code>run_scanners.py</code></strong>, and <strong>re-bundle</strong>.</p>
+<h2>Prerequisites</h2>
+<ul>
+<li><strong><code>skills/&amp;lt;skill-name&amp;gt;/</code></strong> with finalized (or stable draft) <strong><code>SKILL.md</code></strong> and <strong><code>rules/*.md</code></strong>.</li>
+<li><strong><code>bundle_rules_into_skill_md.py</code></strong> has been run at least once after the latest rule edits.</li>
+</ul>
+<p>Read <strong><code>skills/execute-skill-using-skills-rules/SKILL.md</code></strong> sections <strong>Target Skill Layout</strong> and <strong>Commands</strong>.</p>
+<h2>Agent instructions</h2>
+<p>Apply the <strong>bundled rules</strong> at the end of this file so <strong><code>scanner:</code></strong> and scripts stay honest.</p>
+<ol>
+<li><strong>Choose checkable rules</strong> — Pick <strong><code>rules/*.md</code></strong> concerns that can be enforced mechanically (regex, file presence, forbidden phrases).</li>
+</ol>
+<ol>
+<li><strong>Implement scanners</strong> — Under <strong><code>scanners/</code></strong>:</li>
+<p>- <strong><code>scanners/&amp;lt;stem&amp;gt;-scanner.py</code></strong> — executable CLI; follow <strong><code>skills/abd-story-mapping/scanners/</code></strong> import pattern (<code>execute-skill-using-skills-rules/scripts</code>, <code>scanner_runner</code>, <code>scanner_bases</code>).</p>
+</ol>
+<ol>
+<li><strong>Wire frontmatter</strong> — Set <strong><code>scanner: &amp;lt;stem&amp;gt;</code></strong> on <strong><code>rules/&amp;lt;stem&amp;gt;.md</code></strong> (stem matches script name without <code>-scanner.py</code>).</li>
+</ol>
+<ol>
+<li><strong>Re-bundle</strong> — After editing rules:</li>
+</ol>
+<p><code>bash    python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/&amp;lt;skill-name&amp;gt;    </code></p>
+<ol>
+<li><strong>Run checks</strong> — Run <strong><code>run_scanners.py</code></strong> with <strong><code>--workspace</code></strong> when the skill produces files to scan; compare rule <strong>intent</strong> to scanner <strong>coverage</strong> as a critic.</li>
+</ol>
+<h2>Template starter</h2>
+<p>Practice <strong><code>SKILL.md</code></strong> skeleton (new packages) lives with <strong>abd-author-practice-skill</strong>: <strong><code>skills/abd-practice-skill-builder/abd-author-practice-skill/templates/SKILL_template.md</code></strong>. For scanners only: copy <strong><code>templates/scanner-readme-snippet.md</code></strong> from <strong>this</strong> skill into <strong><code>references/</code></strong> or <strong><code>scanners/README.md</code></strong>. Use <strong><code>templates/rule-stub.md</code></strong> only when <strong>adding</strong> a new <strong>scanner-backed</strong> rule; finish normative prose in <strong><code>rules/*.md</code></strong> before <strong><code>scanner:</code></strong> if needed.</p>
+<h2>Validate</h2>
+<p><strong>Goal:</strong> No false confidence from <strong>scanner:</strong> labels.</p>
+<ul>
+<li><strong>Parity</strong> — Every <strong><code>scanner:</code></strong> has <strong><code>scanners/&amp;lt;stem&amp;gt;-scanner.py</code></strong>; no <strong><code>scanner:</code></strong> without a script.</li>
+<li><strong>Messages</strong> — Failures are <strong>actionable</strong>; output points to what to change.</li>
+<li><strong>Bundle</strong> — <strong><code>SKILL.md</code></strong> bundled block matches <strong><code>rules/*.md</code></strong> after edits.</li>
+<li><strong>Coverage</strong> — Spot-check: each scanner still matches the <strong>rule</strong> it claims to enforce.</li>
+</ul>
+<hr>
+<p>&lt;!-- execute_rules:bundle_rules:begin --&gt;</p>
+<h3>Rule: Scanner wiring</h3>
+<p><strong>Scanner:</strong> Manual review</p>
+<h4>DO</h4>
+<ul>
+<li><strong>Implement first, then tag</strong> — <strong><code>scanners/&amp;lt;stem&amp;gt;-scanner.py</code></strong> exists and runs before <strong><code>scanner: &amp;lt;stem&amp;gt;</code></strong> appears in <strong><code>rules/&amp;lt;stem&amp;gt;.md</code></strong>.</li>
+<li><strong>Re-bundle</strong> after any <strong><code>rules/*.md</code></strong> or scanner change so <strong>SKILL.md</strong> stays truthful.</li>
+</ul>
+<h4>DO NOT</h4>
+<ul>
+<li>Add <strong><code>scanner:</code></strong> to <strong>sell</strong> rigor when the script is missing or stub-only.</li>
+<li>Use this pass to <strong>rewrite</strong> rule meaning — fix scanners or rule text in <strong>small</strong>, reviewable steps.</li>
+</ul>
+<p><strong>Source:</strong> Practice-skill builder convention (abd-build-practice-scanners). &lt;!-- execute_rules:bundle_rules:end --&gt;</p>
+</div>
+</body>
+</html>

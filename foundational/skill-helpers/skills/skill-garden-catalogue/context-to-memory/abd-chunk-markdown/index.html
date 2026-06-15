@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="engineering">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>abd-chunk-markdown — abd.works</title>
+<script src="/commons/brand-nav.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root {
+  --orange: #E5531A; --orange-hover: #C64514;
+  --bg: #0B0B0B; --surface: #111113; --raised: #1B1B20;
+  --border: #2A2A2A; --text: #F4F4F5; --muted: #9B9BA8;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); margin: 0;
+  font-family: var(--font-sans); font-size: 15px; line-height: 1.7;
+  -webkit-font-smoothing: antialiased; }
+a { color: var(--orange); text-decoration: none; }
+a:hover { color: var(--orange-hover); }
+.page-wrap { max-width: 860px; margin: 0 auto; padding: 48px clamp(16px,4vw,48px) 96px; }
+.back-link { display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+  margin-bottom: 40px; }
+.back-link:hover { color: var(--text); }
+h1 { font-size: clamp(24px,4vw,36px); font-weight: 800; letter-spacing: -0.03em;
+  line-height: 1.1; margin: 0 0 8px; color: var(--text); }
+.skill-category { font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--orange);
+  margin-bottom: 32px; display: block; }
+h2 { font-size: 1.15rem !important; font-weight: 700 !important; margin: 36px 0 12px !important;
+  padding-bottom: 8px !important; border-bottom: 1px solid var(--border) !important; color: #E5531A !important; }
+h3 { font-size: 1rem !important; font-weight: 700 !important; margin: 24px 0 8px !important; color: var(--text) !important; }
+h4 { font-size: 0.9rem !important; font-weight: 700 !important; margin: 20px 0 6px !important; color: var(--muted) !important; text-transform: uppercase !important; letter-spacing: 0.06em !important; }
+p { margin: 0 0 14px; }
+ul, ol { margin: 0 0 16px; padding-left: 1.4rem; }
+li { margin-bottom: 6px; }
+code { font-family: var(--font-mono); font-size: 0.855em;
+  background: rgba(255,255,255,0.07); padding: 2px 6px; border-radius: 3px; color: #F2A07A; }
+pre { background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+  padding: 20px 24px; overflow-x: auto; margin: 0 0 20px; }
+pre code { background: none; padding: 0; color: var(--text); font-size: 0.85rem; }
+blockquote { border-left: 3px solid var(--orange); margin: 0 0 16px;
+  padding: 10px 18px; background: var(--surface); border-radius: 0 4px 4px 0; }
+blockquote p { margin: 0; color: var(--muted); }
+hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+strong { font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+  <a class="back-link" href="/abd-skills-catalog/">← AI Garden</a>
+  <h1>abd-chunk-markdown</h1>
+  <span class="skill-category">Context To Memory</span>
+  <p>Split large Markdown files into <strong>retrieval-sized chunks</strong> with <strong>evidence labels</strong> so each piece is a coherent unit for search and prompting.</p>
+<h2>Two-step process</h2>
+<h3>1. Draft a chunking spec</h3>
+<p>Analyze converted markdown structure and produce <code>memory/context_chunking_spec.yaml</code> — the strategy for where to cut, how big chunks should be, and what labels to apply.</p>
+<pre><code class="language-bash">python scripts/draft_chunking_spec.py --path &lt;source_folder&gt;</code></pre>
+<p>This writes:</p>
+<ul>
+<li><code>markdown/structural_scan_report.txt</code> — heading/table metrics for the converted markdown</li>
+<li><code>memory/context_chunking_spec.yaml</code> — draft chunking rules (skipped if spec already exists; use <code>--force</code> to overwrite)</li>
+</ul>
+<h3>2. Chunk the markdown</h3>
+<pre><code class="language-bash">python scripts/chunk_markdown.py --path &lt;source_folder&gt; --output &lt;source_folder&gt;/memory</code></pre>
+<p>Cuts markdown into files under <code>memory/</code>. When a spec exists, chunks get YAML front matter with <code>chunk_id</code>, <code>evidence_type</code>, <code>chunk_type</code>, and <code>section_path</code>.</p>
+<h2>Strategy pass vs straight-through</h2>
+<p>If the user does not mention strategy, <strong>ask once</strong>: <strong>strategy pass</strong> (review/edit the YAML before chunking) vs <strong>straight through</strong> (chunk immediately with the draft spec). Do not assume straight-through.</p>
+<p><strong>Strategy pass workflow:</strong></p>
+<ol>
+<li>Run <code>draft_chunking_spec.py</code> to get the draft</li>
+<li>Review and edit <code>memory/context_chunking_spec.yaml</code> (especially taxonomy and boundaries)</li>
+<li>Then chunk: <code>chunk_markdown.py --path &amp;lt;source_folder&amp;gt;</code></li>
+</ol>
+<h2>Chunking spec shape</h2>
+<pre><code class="language-yaml">chunk_inputs: [&quot;markdown/PrimarySource.md&quot;]  # optional: restrict which files to chunk
+
+section_boundaries:
+  chapter_break_regex: &quot;^CHAPTER\\s+\\d+&quot;
+  section_break_regex: &quot;^##\\s+&quot;
+  all_caps_standalone: true
+
+splitting:
+  min_chunk_chars: 400
+  max_chunk_chars: 8000
+  keep_markdown_tables_intact: true
+  split_on_heading_level: 2
+
+defaults:
+  evidence_type: mixed
+  chunk_type: prose_block
+
+taxonomy:
+  evidence_type: []   # fill from actual corpus
+  chunk_type: []      # fill from actual corpus</code></pre>
+<p>For full spec detail, see <a href="references/chunking-spec.md">references/chunking-spec.md</a>.</p>
+<h2>Quality loop (agent obligation)</h2>
+<p>After chunking, <strong>check</strong> how many chunks were written and whether splits match the document. If results are wrong (e.g. one giant chunk, absurd split counts):</p>
+<ol>
+<li>Edit the spec (regexes, <code>split_on_heading_level</code>, <code>chunk_inputs</code>)</li>
+<li>Optionally preprocess markdown (inject headings, dedupe running headers)</li>
+<li>Re-run <code>chunk_markdown.py</code></li>
+<li>Re-verify</li>
+</ol>
+<p>Repeat until boundaries and sizes look right. Do not tell the user &quot;fix the spec yourself&quot; as the first response.</p>
+<h2>Chunk naming</h2>
+<ul>
+<li>PowerPoint: <code>&amp;lt;stem&amp;gt;__slide_01.md</code>, <code>__slide_02.md</code>, ...</li>
+<li>Prose: <code>&amp;lt;stem&amp;gt;__section_00.md</code>, <code>__section_01.md</code>, ...</li>
+<li>Short file (one chunk): <code>&amp;lt;stem&amp;gt;.md</code></li>
+</ul>
+<h2>evidence_type vs chunk_type</h2>
+<p>| Axis | Question | Examples | |------|----------|----------| | <code>evidence_type</code> | What does this chunk look like as text? (form) | <code>prose</code>, <code>table</code>, <code>list</code>, <code>mixed</code>, <code>metadata_noise</code> | | <code>chunk_type</code> | What role or structure in this manuscript? | Corpus-specific: <code>chapter</code>, <code>stat_block</code>, <code>powers</code>, <code>toc_or_index</code> |</p>
+<h2>Topic folder</h2>
+<p><strong>Workspace:</strong> <strong><a href="../../../AGENTS.md">AGENTS.md</a></strong> (<em>Workspace (topic root) — config first</em>). Set <strong><code>CONTENT_MEMORY_ROOT=</code></strong> in <strong><code>conf/.secrets</code></strong>, pass <strong><code>--path</code></strong>, or <strong><code>cd</code></strong> to the corpus folder. Chunks go to <code>&amp;lt;source&amp;gt;/memory/</code>. The spec lives at <code>&amp;lt;source&amp;gt;/memory/context_chunking_spec.yaml</code>.</p>
+<h2>Gotchas</h2>
+<ul>
+<li><code>draft_chunking_spec.py</code> leaves <code>taxonomy</code> lists empty by design — fill them after reading the source.</li>
+<li>The chunker only cuts along boundaries the markdown and spec already expose; it does not rebuild hierarchy from a wall of text. Fix structure in conversion (see <a href="../abd-convert-to-markdown/SKILL.md">abd-convert-to-markdown</a>).</li>
+<li><code>chunk_inputs</code> limits which <code>.md</code> files are chunked — use it when the folder has backups or duplicates.</li>
+</ul>
+</div>
+</body>
+</html>

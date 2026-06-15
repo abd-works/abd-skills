@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="engineering">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Garden — abd.works</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/commons/agile-garden-fragment.css">
+<script src="/commons/brand-nav.js"></script>
+<style>
+:root {
+  --orange:       #E5531A;
+  --bg:           #0B0B0B;
+  --surface:      #111113;
+  --raised:       #1B1B20;
+  --border:       #2A2A2A;
+  --border-muted: #1e1e22;
+  --text:         #F4F4F5;
+  --muted:        #9B9BA8;
+  --radius:       4px;
+  --font-sans:    'Inter', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  padding: 0 clamp(8px, 3vw, 32px) 80px;
+}
+
+a { color: var(--orange); text-decoration: none; }
+a:hover { color: #C64514; }
+strong { font-weight: 600; }
+code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: rgba(255,255,255,0.06);
+  padding: 2px 5px;
+  border-radius: 3px;
+  color: #F2A07A;
+}
+
+.page-wrap {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 48px clamp(16px, 2vw, 32px) 96px;
+}
+
+/* Page header injected by brand-nav.js — add page title here */
+.catalog-page-title {
+  margin: 0 0 8px;
+  font-size: clamp(26px, 4vw, 40px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--text);
+}
+.catalog-page-subtitle {
+  margin: 0 0 40px;
+  font-size: 14px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
+}
+
+/* Practice grid rows: show name + description stacked */
+.catalog-practice-grid .catalog-garden-row {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  padding: 11px 16px;
+}
+.catalog-practice-grid .catalog-garden-name {
+  flex: none;
+  font-size: 0.85rem;
+  min-width: 0;
+}
+.catalog-practice-grid .catalog-garden-desc {
+  display: block;
+  font-size: 0.81rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* ── Taxonomy cards ── */
+.taxonomy-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+  margin: 0 0 40px;
+}
+.tax-card {
+  background: #111113;
+  border: 1px solid #2A2A2A;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.tax-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  border-bottom: 1px solid #2A2A2A;
+}
+.tax-h--agent  { color: #E5531A; border-left: 3px solid #E5531A; background: #1B1B20; }
+.tax-h--skill  { color: #E5531A; border-left: 3px solid #E5531A; background: #1B1B20; }
+.tax-h--plugin { color: #E5531A; border-left: 3px solid #E5531A; background: #1B1B20; }
+.tax-h--tool   { color: #E5531A; border-left: 3px solid #E5531A; background: #1B1B20; }
+.tax-card-body { padding: 12px 16px; font-size: 0.82rem; line-height: 1.55; color: #9B9BA8; }
+.tax-tagline { font-weight: 600; color: #F4F4F5; margin: 0 0 6px; font-size: 0.82rem; font-style: italic; }
+.tax-card-body p { margin: 0; }
+.tax-card-body code { font-family: var(--font-mono); font-size: 0.8em; background: rgba(255,255,255,0.07); padding: 1px 5px; border-radius: 3px; color: #F2A07A; }
+
+@media (max-width: 768px) {
+  .page-wrap { padding: 24px 16px 64px; }
+  .taxonomy-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body
+  data-page-label="abd.works · Skill Garden"
+  data-page-title="AI Garden"
+  data-page-tagline="{{SKILL_COUNT}} deployed skills — practice disciplines and foundational helpers.">
+
+<div class="page-wrap">
+  <h1 class="catalog-page-title">AI Garden</h1>
+  <p class="catalog-page-subtitle">{{SKILL_COUNT}} deployed skills — practice disciplines and foundational helpers</p>
+
+  <div class="taxonomy-grid">
+    <div class="tax-card">
+      <div class="tax-card-header tax-h--agent">
+        <img src="/commons/images/icon-taxonomy-agent.svg" width="20" height="20" alt="" aria-hidden="true">
+        <span>AGENT</span>
+      </div>
+      <div class="tax-card-body">
+        <p class="tax-tagline">A role-based AI collaborator</p>
+        <p>Has a defined persona, goals, workflow &amp; checkpoint protocol. Examples: <code>abd-delivery-lead</code> (orchestrator), <code>abd-team-member</code> (Product Owner / Analyst / Engineer).</p>
+      </div>
+    </div>
+    <div class="tax-card">
+      <div class="tax-card-header tax-h--skill">
+        <img src="/commons/images/icon-taxonomy-skill.svg" width="20" height="20" alt="" aria-hidden="true">
+        <span>SKILL</span>
+      </div>
+      <div class="tax-card-body">
+        <p class="tax-tagline">A reusable domain expertise module</p>
+        <p><code>SKILL.md</code> + rules + scanners + templates + scripts. Claude auto-discovers and loads it when triggered. Example: <code>abd-story-mapping</code>, <code>abd-acceptance-criteria</code>.</p>
+      </div>
+    </div>
+    <div class="tax-card">
+      <div class="tax-card-header tax-h--plugin">
+        <img src="/commons/images/icon-taxonomy-plugin.svg" width="20" height="20" alt="" aria-hidden="true">
+        <span>PLUGIN</span>
+      </div>
+      <div class="tax-card-body">
+        <p class="tax-tagline">A deployable bundle</p>
+        <p>Groups agents + skills + slash commands + hooks into one installable package. Deploy to your whole team via managed settings in VSCode or Claude Code.</p>
+      </div>
+    </div>
+    <div class="tax-card">
+      <div class="tax-card-header tax-h--tool">
+        <img src="/commons/images/icon-taxonomy-tool.svg" width="20" height="20" alt="" aria-hidden="true">
+        <span>TOOL</span>
+      </div>
+      <div class="tax-card-body">
+        <p class="tax-tagline">A specific capability granted to an agent</p>
+        <p>Bash execution, file ops, web search, MCP server calls. Tools let agents <strong>DO</strong> things — not just know things. Every agent has a specific tool set.</p>
+      </div>
+    </div>
+  </div>
+
+  {{SKILL_SECTIONS}}
+</div>
+
+</body>
+</html>

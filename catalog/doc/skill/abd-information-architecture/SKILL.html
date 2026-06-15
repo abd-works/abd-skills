@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Garden — abd-information-architecture · SKILL.md</title>
+<script src="/commons/brand-nav.js?v=aigarden-4"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+/*
+  Agile Garden — AI Garden prelude + gardener lesson fragment.
+  Inlined via generate_abd_catalog.py. Max border-radius 6px; flat surfaces.
+  Brand split: orange-500 (#E5531A) for column chrome / rails; ai-blue (#4FC3F7 / #81D4FA)
+  on dense mono skill links — see abd-works-brand BRAND-GUIDELINES §3.1 (ai-blue-500).
+*/
+.catalog-prelude {
+  margin: 0 0 24px;
+  padding: 0 0 20px;
+  border-bottom: 1px solid #2A2A2A;
+}
+.catalog-prelude-heading {
+  margin: 0 0 12px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.25;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #2A2A2A;
+  scroll-margin-top: 48px;
+}
+.catalog-prelude-tagline {
+  margin: 0 0 14px;
+  max-width: 60rem;
+  font-size: 1rem;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+/* Mission row */
+.catalog-mission {
+  margin: 0 0 18px;
+}
+.catalog-mission-card {
+  background: #1B1B20;
+  border: 1px solid #2A2A2A;
+  border-left: 3px solid #E5531A;
+  border-radius: 4px;
+  padding: 14px 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 16px;
+}
+.catalog-mission-card h3 {
+  flex-shrink: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #F4F4F5;
+  margin: 0;
+  white-space: nowrap;
+}
+.catalog-mission-card p {
+  flex: 1 1 auto;
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+.catalog-mission-card--teal,
+.catalog-mission-card--amber,
+.catalog-mission-card--purple {
+  background: #1B1B20;
+  border: 1px solid #2A2A2A;
+  border-left: 3px solid #E5531A;
+}
+.catalog-mission-card--teal h3,
+.catalog-mission-card--amber h3,
+.catalog-mission-card--purple h3 {
+  color: #F4F4F5;
+}
+@media (max-width: 720px) {
+  .catalog-mission { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 480px) {
+  .catalog-mission { grid-template-columns: 1fr; }
+}
+
+/* Two-column skill lists */
+/* ── Section labels (full-width row above each grid) ── */
+.catalog-section-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0 10px;
+  margin: 24px 0 12px;
+  border-bottom: 1px solid #2A2A2A;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #E5531A;
+}
+.catalog-section-label--foundational {
+  margin-top: 28px;
+  color: #8A8A97;
+  border-bottom-color: #1A1A1E;
+}
+
+/* ── Practice grid — all 5 disciplines forced onto one row ── */
+.catalog-practice-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 0;
+}
+@media (max-width: 900px) {
+  .catalog-practice-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 600px) {
+  .catalog-practice-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Foundational grid — 2 wider columns ── */
+.catalog-foundational-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1px;
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
+  border-radius: 6px;
+  overflow: hidden;
+}
+@media (max-width: 600px) {
+  .catalog-foundational-grid { grid-template-columns: 1fr; }
+}
+
+/* ── In the practice grid, stack name above desc ── */
+.catalog-practice-grid .catalog-garden-row,
+.catalog-foundational-grid .catalog-garden-row {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  padding: 10px 16px;
+}
+.catalog-practice-grid .catalog-garden-name,
+.catalog-foundational-grid .catalog-garden-name {
+  flex: none;
+  font-size: 0.85rem;
+}
+.catalog-practice-grid .catalog-garden-desc,
+.catalog-foundational-grid .catalog-garden-desc {
+  display: block !important;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: #9B9BA8;
+}
+
+/* ── Agents grid — single wide column ── */
+.catalog-agents-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1px;
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.catalog-section-label--agents {
+  margin-top: 28px;
+  color: #E5531A;
+  border-bottom-color: #2A2A2A;
+}
+
+/* ── Shared column card ── */
+.catalog-garden-lists {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.catalog-garden-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px;
+  margin: 0 0 8px;
+}
+@media (max-width: 760px) {
+  .catalog-garden-grid { grid-template-columns: 1fr; }
+}
+.catalog-garden-agents-wrap {
+  margin-top: 8px;
+}
+.catalog-garden-col--agents {
+  margin-top: 0;
+}
+.catalog-garden-col {
+  background: #111113;
+  border: none;
+  border-radius: 0;
+  overflow: hidden;
+}
+.catalog-garden-col-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-bottom: 1px solid #2A2A2A;
+  background: #1B1B20;
+  color: #E5531A;
+  border-left: 3px solid #E5531A;
+}
+.catalog-garden-col-header--practice,
+.catalog-garden-col-header--foundational,
+.catalog-garden-col-header--agents {
+  background: #1B1B20;
+  color: #E5531A;
+  border-left: 3px solid #E5531A;
+}
+.catalog-garden-ico { flex-shrink: 0; display: block; }
+.catalog-garden-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 16px;
+  border-bottom: 1px solid #1A1A1E;
+  font-size: 0.85rem;
+}
+.catalog-garden-row:last-child { border-bottom: none; }
+/* Skill/agent links — mono names stay near-white; ai-blue hairline/hover (brand AI accent, not orange wall) */
+.catalog-garden-name {
+  font-weight: 700;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  flex: 0 0 11.5rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  color: #4FC3F7;
+}
+/* !important beats global `a { … }`, :visited, and concatenation order */
+.catalog-prelude .catalog-garden-name a,
+.catalog-garden-lists .catalog-garden-name a {
+  color: #4FC3F7 !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+  border-bottom: 1px solid rgba(79, 195, 247, 0.3);
+}
+.catalog-prelude .catalog-garden-name a:hover,
+.catalog-prelude .catalog-garden-name a:focus-visible,
+.catalog-garden-lists .catalog-garden-name a:hover,
+.catalog-garden-lists .catalog-garden-name a:focus-visible {
+  color: #81D4FA !important;
+  border-bottom-color: rgba(79, 195, 247, 0.95);
+}
+.catalog-garden-name--agent a,
+.catalog-garden-name--foundational a {
+  color: #4FC3F7 !important;
+  border-bottom: 1px solid rgba(79, 195, 247, 0.3);
+}
+.catalog-garden-name--agent a:hover,
+.catalog-garden-name--agent a:focus-visible,
+.catalog-garden-name--foundational a:hover,
+.catalog-garden-name--foundational a:focus-visible {
+  color: #81D4FA !important;
+  border-bottom-color: rgba(79, 195, 247, 0.92);
+}
+.catalog-garden-name--dim {
+  color: var(--muted);
+  opacity: 0.6;
+  font-weight: 600;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+}
+.catalog-garden-desc {
+  color: var(--muted);
+  font-size: 0.82rem;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.catalog-garden-desc--muted { opacity: 0.5; }
+
+:root {
+  /* Primary accent — borders, nav “you are here”; keep saturated */
+  --orange:       #E5531A;
+  --orange-hover: #C64514;
+  /* Brand ai-blue (BRAND-GUIDELINES §3.1) — dense skill listings + card hover cue */
+  --ai-blue-500:  #4FC3F7;
+  --ai-blue-300:  #81D4FA;
+  /* Body links — soft orange (prose); garden grid uses ai-blue in agile-garden-fragment.css */
+  --link-soft:        #FFB380;
+  --link-soft-hover:  #FFCCA3;
+  --link-muted:       #F2A07A;
+  --bg:           #0B0B0B;
+  --surface:      #111113;
+  --raised:       #1B1B20;
+  --border:       #2A2A2A;
+  --border-muted: #1e1e22;
+  --text:         #F4F4F5;
+  --muted:        #9B9BA8;
+  --radius:       6px;
+  --font-sans:    'Inter', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--link-muted); text-decoration: none; transition: color 120ms ease; }
+a:hover { color: var(--link-soft-hover); text-decoration: none; }
+
+/* Wayfinding stays strong accent */
+.nav a.nav__link--current {
+  color: var(--orange) !important;
+}
+strong { font-weight: 600; }
+code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: rgba(255,255,255,0.06);
+  padding: 2px 5px;
+  border-radius: 3px;
+  color: #F2A07A;
+}
+
+/* ── Page layout ── */
+.page-wrap {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 48px clamp(16px, 4vw, 48px) 96px;
+}
+
+/* ── Panel / legacy wrapper — flatten to plain surface ── */
+.panel {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  overflow: visible;
+}
+
+/* ── Page header (replaces old panel-header) ── */
+.panel-header {
+  margin-bottom: 40px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+  border-left: none;
+  background: transparent;
+  display: block;
+}
+
+.header-icon { display: none; }
+
+.header-text { display: block; }
+.brand { display: none; }
+.brand-row { display: none; }
+.brand-row .brand { display: none; }
+.brand-row .cap-badge { display: none; }
+
+h1 {
+  margin: 0 0 10px;
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--text);
+  font-family: var(--font-sans);
+}
+
+.tagline {
+  margin: 0;
+  font-size: 15px;
+  color: var(--muted);
+  max-width: 540px;
+  line-height: 1.65;
+  font-family: var(--font-sans);
+}
+
+.panel-body { padding: 0; }
+p { margin: 0 0 14px; }
+h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 32px 0 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+h2:first-child { margin-top: 0; }
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  margin: 0 0 18px;
+  padding: 0 0 14px;
+  border-bottom: 1px solid var(--border-muted);
+}
+.nav a {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.nav a.nav__link--current {
+  pointer-events: none;
+}
+/* Kanban is a different experience (full-screen deck) — keep it last and visually apart */
+.nav a.nav__link--kanban {
+  margin-left: auto;
+  padding-left: 18px;
+  border-left: 1px solid var(--border-muted);
+}
+.cap-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 14px;
+  margin: 18px 0 0;
+}
+.cap-card {
+  display: block;
+  text-decoration: none;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--orange);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  transition: background 0.15s, border-color 0.15s;
+  cursor: pointer;
+}
+a.cap-card {
+  color: var(--muted);
+}
+.cap-card:hover {
+  background: rgba(79, 195, 247, 0.06);
+  border-color: rgba(79, 195, 247, 0.32);
+  text-decoration: none;
+}
+.cap-card__title {
+  font-size: 0.97rem;
+  font-weight: 700;
+  color: #F4F4F5;
+  margin: 0 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+a.cap-card:hover .cap-card__title {
+  color: var(--ai-blue-300);
+}
+.cap-card__icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  color: rgba(79, 195, 247, 0.72);
+}
+a.cap-card:hover .cap-card__icon {
+  color: var(--ai-blue-500);
+}
+.cap-card__label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.55;
+  margin-bottom: 1px;
+}
+.cap-card__summary { font-size: 0.85rem; color: var(--muted); line-height: 1.45; margin: 0 0 8px; }
+.cap-card__meta { font-size: 0.75rem; color: var(--muted); font-family: var(--font-mono, 'JetBrains Mono', monospace); margin: 0 0 8px; opacity: 0.85; }
+.cap-card__more {
+  font-size: 0.78rem;
+  color: rgba(79, 195, 247, 0.82);
+  opacity: 1;
+  margin: 10px 0 0;
+}
+
+/* Entry detail pages (skill/*.html, agent/*.html) — overview-style */
+.entry-detail-header .back-link {
+  font-size: 0.82rem;
+  color: var(--muted);
+  display: inline-block;
+  margin: 0 0 10px;
+}
+.entry-detail-header .back-link:hover {
+  color: var(--orange);
+}
+.cap-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--orange);
+  background: rgba(255, 122, 0, 0.08);
+  border: 1px solid rgba(255, 122, 0, 0.25);
+  border-radius: 3px;
+  padding: 2px 8px;
+  margin: 0 0 8px;
+}
+.entry-caption {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin: 0 0 12px;
+}
+.entry-prose {
+  white-space: pre-wrap;
+  color: var(--text);
+  line-height: 1.65;
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+}
+.entry-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 26px 0;
+}
+.entry-contents-doc {
+  margin: 0 0 8px;
+}
+.entry-contents-files {
+  margin: 0;
+}
+.entry-md-section {
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius);
+  margin: 0 0 10px;
+  background: rgba(0, 0, 0, 0.14);
+}
+.entry-md-section > summary.entry-md-section__summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.98rem;
+  padding: 12px 14px;
+  list-style: none;
+  color: var(--text);
+  user-select: none;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.entry-md-section > summary.entry-md-section__summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.35em;
+  text-align: center;
+  font-weight: 800;
+  font-size: 1.05em;
+  line-height: 1.35;
+  color: var(--orange);
+}
+.entry-md-section[open] > summary.entry-md-section__summary::before {
+  content: "-";
+}
+.entry-md-section > summary.entry-md-section__summary::-webkit-details-marker {
+  display: none;
+}
+.entry-md-section .entry-md-section__body {
+  padding: 0 14px 14px 16px;
+  border-top: 1px solid var(--border-muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--text);
+}
+.entry-md-section .entry-md-section__body p {
+  margin: 0 0 12px;
+}
+.entry-md-section .entry-md-section__body p:last-child {
+  margin-bottom: 0;
+}
+.entry-md-section .entry-md-section__body ul {
+  margin: 0 0 12px;
+  padding-left: 1.35rem;
+}
+.entry-md-section .entry-md-section__body h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 18px 0 8px;
+  padding-bottom: 0;
+  border-bottom: none;
+  color: var(--text);
+}
+.entry-md-section .entry-md-section__body h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 14px 0 8px;
+  color: var(--text);
+}
+.entry-md-section .entry-md-section__body pre {
+  margin: 0 0 12px;
+  overflow-x: auto;
+}
+.entry-md-section .entry-md-section__body hr {
+  margin: 14px 0;
+  border: none;
+  border-top: 1px solid var(--border-muted);
+}
+.ascii-diagram {
+  background: #111114;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  overflow-x: auto;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.83em;
+  line-height: 1.55;
+  color: #b8b8c2;
+  margin: 0 0 18px;
+}
+.install-block {
+  margin: 22px 0 0;
+  padding: 16px 18px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius);
+  border-left: 3px solid var(--orange);
+}
+.install-block h2 {
+  margin-top: 0;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.install-block .install-hint {
+  font-size: 0.92rem;
+  color: var(--muted);
+  margin: 0 0 12px;
+}
+.install-snippet {
+  background: #111114;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  overflow-x: auto;
+  margin: 0;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.85em;
+  line-height: 1.5;
+  color: #d4d4d4;
+}
+.install-snippet code {
+  background: transparent;
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
+}
+.file-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.file-list li {
+  margin: 0 0 14px;
+  padding: 10px 12px 10px 14px;
+  border-left: 3px solid var(--border-muted);
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 0 4px 4px 0;
+}
+.file-list .file-meta {
+  color: var(--muted);
+  font-size: 0.9rem;
+  display: block;
+  margin-top: 4px;
+}
+.file-list a {
+  font-weight: 600;
+}
+.file-list--root {
+  margin-top: 4px;
+}
+.file-list--nested {
+  margin: 8px 0 0 0;
+  padding-left: 0;
+  border-left: 2px solid var(--border-muted);
+  margin-left: 2px;
+  padding-left: 10px;
+}
+.file-list--nested li {
+  margin-bottom: 10px;
+  padding: 8px 10px 8px 12px;
+  font-size: 0.95rem;
+}
+.file-list__nested-note {
+  margin: 8px 0 0 0;
+  padding: 6px 0 4px 4px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+/* Expandable folder tree (<details> / <summary>) */
+.file-list > li.file-list__folder {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 10px;
+  border: none;
+  background: transparent;
+  border-radius: 0;
+}
+.file-list__folder > .file-tree__details {
+  margin: 0 0 10px 0;
+}
+/* Match .entry-md-section: folder trees (rules, scanners, templates, …) */
+.file-tree__details {
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius);
+  background: rgba(0, 0, 0, 0.14);
+  overflow: hidden;
+}
+.file-tree__summary {
+  cursor: pointer;
+  padding: 12px 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.98rem;
+  color: var(--text);
+  user-select: none;
+  background: transparent;
+}
+.file-tree__summary::-webkit-details-marker {
+  display: none;
+}
+.file-tree__summary::marker {
+  content: "";
+  display: none;
+}
+.file-tree__summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.35em;
+  text-align: center;
+  font-weight: 800;
+  font-size: 1.05em;
+  line-height: 1.35;
+  color: var(--orange);
+}
+.file-tree__details[open] > .file-tree__summary::before {
+  content: "-";
+}
+.file-tree__summary:hover {
+  background: rgba(255, 122, 0, 0.06);
+}
+.file-tree__summary .file-meta {
+  display: inline;
+  margin-left: 6px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.file-tree__inner {
+  padding: 0 14px 14px 16px;
+  border-top: 1px solid var(--border-muted);
+}
+.file-tree__ul {
+  margin-top: 4px;
+}
+.file-tree__dir > .file-tree__details {
+  margin: 0;
+  border-radius: 4px;
+}
+.file-tree__dir--truncated {
+  font-size: 0.95rem;
+}
+.file-tree__file .file-meta {
+  display: block;
+  margin-top: 4px;
+}
+
+/* Agile Garden prelude + mission + lists: abd-works/commons/agile-garden-fragment.css (prepended by generate_abd_catalog.py) */
+
+/* Single-page hub (index.html): collapsible hub / skills / agents */
+.catalog-section {
+  border: 1px solid var(--border-muted);
+  border-radius: 8px;
+  margin: 0 0 16px;
+  background: rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+}
+.catalog-section > summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 14px 16px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.04);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+}
+.catalog-section > summary::-webkit-details-marker { display: none; }
+.catalog-section > summary::marker { content: ""; }
+.catalog-section > summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  line-height: 1.45rem;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border: 1px solid var(--border-muted);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+}
+.catalog-section[open] > summary::before { content: "\2212"; }
+.catalog-section[open] > summary {
+  border-bottom: 1px solid var(--border-muted);
+}
+.catalog-section .section-body {
+  padding: 18px 16px 22px;
+}
+.catalog-section .section-body > p:first-of-type { margin-top: 0; }
+.catalog-section .cap-grid { margin-top: 8px; }
+.catalog-section .count {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* Static markdown mirror pages (catalog/doc/...) */
+.rule-prose {
+  font-size: 1rem;
+  line-height: 1.65;
+  max-width: 52rem;
+}
+.rule-prose h1,
+.rule-prose h2,
+.rule-prose h3,
+.rule-prose h4 {
+  margin: 1.25em 0 0.5em;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--text);
+}
+.rule-prose h1:first-child,
+.rule-prose h2:first-child,
+.rule-prose h3:first-child {
+  margin-top: 0;
+}
+.rule-prose h1 { font-size: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.35em; }
+.rule-prose h2 { font-size: 1.25rem; border-bottom: 1px solid var(--border-muted); padding-bottom: 0.25em; }
+.rule-prose h3 { font-size: 1.1rem; }
+.rule-prose p { margin: 0 0 12px; }
+.rule-prose pre {
+  margin: 12px 0;
+  padding: 12px 14px;
+  overflow: auto;
+  background: #1f1f24;
+  border: 1px solid var(--border-muted);
+  border-radius: 6px;
+  font-size: 0.88em;
+  line-height: 1.45;
+}
+.rule-prose code { font-size: inherit; }
+.rule-prose ul,
+.rule-prose ol {
+  margin: 8px 0 12px 1.25rem;
+  padding: 0;
+}
+.rule-prose li { margin-bottom: 6px; }
+.rule-prose strong { color: var(--text); }
+.rule-prose hr {
+  border: 0;
+  border-top: 1px solid var(--border-muted);
+  margin: 1.25em 0;
+}
+.rule-prose .md-table-wrap {
+  overflow-x: auto;
+  margin: 12px 0 16px;
+  -webkit-overflow-scrolling: touch;
+}
+.rule-prose table.md-table {
+  width: max-content;
+  max-width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+.rule-prose table.md-table th,
+.rule-prose table.md-table td {
+  border: 1px solid var(--border-muted);
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+.rule-prose table.md-table th {
+  background: rgba(255, 122, 0, 0.08);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.rule-prose table.md-table td { background: var(--panel); }
+.rule-prose a { color: var(--accent, #ff7a00); text-decoration: underline; }
+.rule-prose a:hover { text-decoration: none; }
+
+.plugin-slots h3 {
+  margin: 28px 0 8px;
+  font-size: 1.05rem;
+}
+.plugin-slots h3:first-child { margin-top: 0; }
+.cap-grid--plugin-slot { margin-bottom: 8px; }
+
+</style>
+</head>
+<body>
+<div class="page-wrap">
+<div class="panel" role="main">
+
+<header class="panel-header entry-detail-header">
+  <div class="header-text">
+    <p class="brand"><strong>abd.works</strong> &middot; AI Garden</p>
+    <a class="back-link" href="../../../skill/abd-information-architecture.html">← abd-information-architecture</a>
+    <p class="cap-badge">Markdown</p>
+    <h1>SKILL.md</h1>
+    <p class="tagline">catalog_garden_tier: practice</p>
+  </div>
+</header>
+
+<div class="panel-body">
+
+<nav class="nav" aria-label="AI Garden sections">
+  <a href="../../../index.html" class="nav__link">Complete</a>
+  <a href="../../../skills.html" class="nav__link nav__link--current">Skills</a>
+  <a href="../../../agents.html" class="nav__link">Agents</a>
+  <a href="../../../instructions.html" class="nav__link">Instructions</a>
+  <a href="../../../kanban-layout/index.html" class="nav__link nav__link--kanban">Delivery kanban</a>
+</nav>
+
+<h2>Content</h2>
+<div class="rule-prose"><h1>abd-information-architecture</h1>
+<h2>Purpose</h2>
+<p>The purpose of this skill is to produce the <strong>initial information architecture</strong> for a solution scope.</p>
+<p><strong>Information architecture (IA)</strong> is the practice of structuring, organizing, and labeling the surfaces and content of a solution so users can find what they need and understand where they are. It covers two dimensions — <strong>navigation</strong> (how a user moves through the solution and the components that carry that movement) and <strong>content</strong> (what lives on each surface, how it is grouped, what it is called, and what users can do with it).</p>
+<p>A <strong>site map</strong> — the inventory of screens and the directed transitions between them — is one component of the IA: the navigation backbone. This skill produces it alongside the rest of the IA in a single low-fidelity pass.</p>
+<p>Doing this work early, before detailed design or development, flushes out gaps in functional and domain understanding, surfaces disagreements about scope, naming, and navigation when they are cheap to resolve, and gives the team a concrete picture to challenge and confirm before committing to wireframes or implementation. Functional requirements and stories written against a named screen inventory and content model become more precise: they reference agreed surfaces by name, missing coverage shows up as absent nodes, and edge-case states are identified before anyone has built against the wrong assumption.</p>
+<hr>
+<h2>When to use this skill</h2>
+<p>Use this skill when <strong>any</strong> of the following apply:</p>
+<ul>
+<li>You are starting work that involves a change in user behavior or user interaction with the solution.</li>
+<li>The team is not aligned on how users engage and interact with the solution — different people describe it differently, and there is no single agreed picture to point at.</li>
+<li>You want an initial view of interaction flow, navigation, and screen layout to complement your early understanding of the solution — without committing to any detail.</li>
+<li>You want to identify gaps, redundancies, or missing states in the solution before anyone invests time designing or building them.</li>
+<li>You need to scope and estimate the work — a named screen inventory and content model make it possible to reason about effort, coverage, and complexity before wireframes or stories exist.</li>
+<li>A previous IA no longer reflects how the team understands the solution, and you need to re-establish a clean structural baseline.</li>
+</ul>
+<hr>
+<h2>Core outputs</h2>
+<p>The IA is captured on a single canvas covering two dimensions.</p>
+<h3>Navigation</h3>
+<ul>
+<li><strong>Site map</strong> — screens as named boxes, with directed transitions between them showing how users flow from one screen to the next. There should be a simple, obvious mapping from stories to this layer: in-scope stories live on screens, and the events in those stories drive the transitions.</li>
+<li><strong>Per-screen layout</strong> — for each screen, the standard layout template it follows in conventional terms (e.g. `header + body + footer`, `header + left panel + body (2-column)`, `header + 3-column body`, `header + body grid (2 columns × 2 rows)`, `modal dialog`). The layout names the slots; the regions (next bullet) name what fills each slot.</li>
+<li><strong>Navigational components</strong> — each screen has an initial description and approximate layout of the persistent surfaces that carry navigation: menus, primary navigation, sidebars, headers, footers, breadcrumbs, link groups. Named regions only, no controls, no styling.</li>
+</ul>
+<h3>Content</h3>
+<ul>
+<li><strong>Content types</strong> — the kinds of things users read, create, or act on; where the context provides domain terms, concepts, or classes, a content type is typically one of those. Capture the hierarchy of each content type and any collections it belongs to.</li>
+<li><strong>Per-screen content layout</strong> — for each screen, a categorized layout of what content lives there, visually depicting high-level relationships (hierarchy, collection) and the key navigation between content.</li>
+<li><strong>Labels and tags</strong> — preliminary labels and tags needed to identify content elements on the canvas.</li>
+<li><strong>Key actions per content type</strong> — the headline things a user can do with each content type (browse, create, edit, archive, share, …). There should be a simple, obvious mapping from stories to actions: each in-scope story that acts on a content type contributes an action to that type. No controls, no copy.</li>
+</ul>
+<hr>
+<h2>Stories and domain as sources</h2>
+<p>The story map and the ubiquitous language are <strong>sources</strong> for this skill, not its subjects. They feed the IA but are not what it speaks in.</p>
+<ul>
+<li>Use <strong>UX terms</strong> on UX output — <em>screen</em>, <em>region</em>, <em>navigation</em>, <em>sidebar</em>, <em>header</em>, <em>footer</em>, <em>content type</em>, <em>action</em>, <em>label</em>, <em>tag</em>.</li>
+<li>When a story or a domain concept appears on the canvas, include only its <strong>name</strong> — the story title or the domain term — and a link to the full source. No acceptance criteria, no full definitions, no behavioral detail on the IA artifact.</li>
+<li>Stories and domain concepts in scope must be <strong>referenceable</strong> from the IA: every in-scope <em>user</em> story is reachable from a screen (as a story name listed on it, or as a transition trigger); every in-scope domain concept that the user perceives appears as a screen, content type, label, or action.</li>
+</ul>
+<hr>
+<h2>Core concepts</h2>
+<h3>Scope</h3>
+<p>The slice of the solution this IA covers — typically one <strong>increment</strong>, one <strong>epic</strong>, or one <strong>sprint</strong>. Only stories and domain concepts inside the scope contribute screens, navigation, content types, and labels.</p>
+<h3>Screen</h3>
+<p>A <strong>screen</strong> is a distinct user-visible state — what the user sees and acts on when one set of stories is active. Two states that differ only in transient data are the same screen; states that differ in which regions exist, which navigational components are present, or which actions are available are different screens.</p>
+<p><strong>Story budget signal:</strong> a screen should carry ~4 user stories. Consistently more than ~4 almost always means a tab state, a detail/edit screen, or a mode has not been separated out. Each story on a screen must be directly and visibly satisfied by a region or action on that screen — not by a region on a sibling or ancestor screen.</p>
+<h3>Transition</h3>
+<p>A <strong>transition</strong> is a directed move from one screen to another. Its label names the <strong>trigger</strong> — the user action or system event that causes the move — using a UX term when the trigger is structural (e.g. <em>opens primary nav</em>) or a domain concept name when the trigger is domain-specific (e.g. <em>submits valid path</em>), with a link to the source story or term.</p>
+<h3>Layout</h3>
+<p>The <strong>layout</strong> of a screen is the standard template it follows. Use one of the named templates below — the CLI enforces the slot geometry. Layout is captured per screen as a template name; precise dimensions, spacing, and visual styling belong in `abd-lo-fi` and `abd-hi-fi`.</p>
+<h4>Layout templates</h4>
+<p>Use `node $DUXCLI templates` to print the full list with ASCII diagrams. Available templates and their slots:</p>
+<pre><code>stack        — single column                          slot: body
+               +----------+
+               |   body   |
+               +----------+
+
+modal        — centered overlay dialog (rounded)      slot: body
+               +--[MODAL]---------+
+               |      body        |
+               +------------------+
+
+form         — single-column form (stacked inputs)    slot: body
+               +------------------+
+               | [field]          |
+               | [field]  [submit]|
+               +------------------+
+
+sidebar      — left panel + right workspace           slots: panel | body
+               +--------+----------+
+               | panel  |  body    |
+               +--------+----------+
+
+split-screen — two equal columns                      slots: left | right
+               +----------+----------+
+               |  left    |  right   |
+               +----------+----------+
+
+flyout       — main content + contextual side panel   slots: body | panel
+               +---------------+------+
+               |  body         |panel |
+               +---------------+------+
+
+holy-grail   — header + nav + body + aside + footer   slots: header, nav, body, aside, footer
+               +---------------------+
+               |      header         |
+               +-----+--------+------+
+               | nav |  body  |aside |
+               +-----+--------+------+
+               |      footer         |
+               +---------------------+</code></pre>
+<p>`header` and `footer` slots always render as full-width bands above and below the column section, regardless of template. Any region assigned an unknown slot falls through to `body` (or the first defined column).</p>
+<h3>Navigational component</h3>
+<p>A <strong>navigational component</strong> is a persistent surface that carries navigation across screens — menus, primary navigation, sidebars, headers, footers, breadcrumbs, link groups. Components are listed and named in UX terms, with the screens or content types they link to. They are not styled and they do not name controls.</p>
+<h3>Canvas layout convention</h3>
+<p>The diagram uses a <strong>column × row grid</strong>. Every screen gets a `--col` (horizontal) and `--row` (vertical) when added. <strong>Both are required — never rely on insertion order.</strong></p>
+<pre><code>screen ──► screen ──► screen          ← linear path: col increases, row = 0
+                │
+                ▼
+           option 1 ──► detail        ← option: same col, row increments; detail goes right (col+) at same row
+                ▼
+           option 2 ──► detail
+                ▼
+           option 3</code></pre>
+<h4>Decision rule — linear vs option (be aggressive)</h4>
+<p>Ask one question per screen: <strong>&quot;Can the user skip this and still complete the primary flow?&quot;</strong></p>
+<ul>
+<li><strong>No — always visited:</strong> linear. Put it in row 0, increment col.</li>
+<li><strong>Yes — sometimes visited:</strong> option. Keep col the same as its trigger, increment row.</li>
+</ul>
+<p>If in doubt, call it an option. Placing an optional screen in the linear row causes its column to push everything right, creating overlapping connections. The cost of calling it an option is zero — it just goes below.</p>
+<p><strong>Common examples:</strong></p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Screen</th><th>Linear or option?</th><th>Why</th></tr></thead><tbody><tr><td>Game dir prompt → crowd manager</td><td>Linear</td><td>Always happens on first run</td></tr><tr><td>Crowd manager → desktop</td><td>Linear</td><td>Always happens to start a session</td></tr><tr><td>Desktop → attack config</td><td>Linear</td><td>Always happens when attacking</td></tr><tr><td>Crowd manager → model browser</td><td><strong>Option</strong></td><td>Only if building a crowd from a model list</td></tr><tr><td>Crowd manager abilities → ability editor</td><td><strong>Option</strong></td><td>Only when editing an ability</td></tr><tr><td>Tab siblings (identities / abilities / movements)</td><td><strong>Options</strong></td><td>User picks one; stack in same col</td></tr></tbody></table></div>
+<h4>Placing screens</h4>
+<pre><code># Linear flow — row 0, cols 0 → N
+node $DUXCLI add-screen &quot;game directory prompt&quot;      --layout modal        --col 0 --row 0
+node $DUXCLI add-screen &quot;crowd manager — identities&quot; --layout sidebar      --col 1 --row 0
+node $DUXCLI add-screen &quot;desktop&quot;                    --layout split-screen --col 2 --row 0
+node $DUXCLI add-screen &quot;attack configuration&quot;       --layout flyout       --col 3 --row 0
+
+# Options off crowd manager col 1 — same col, rows 1+
+node $DUXCLI add-screen &quot;crowd manager — abilities&quot;  --layout sidebar --col 1 --row 1
+node $DUXCLI add-screen &quot;crowd manager — movements&quot;  --layout sidebar --col 1 --row 2
+node $DUXCLI add-screen &quot;model browser&quot;              --layout modal   --col 1 --row 3
+
+# Detail screens for options — right of their parent option, same row
+node $DUXCLI add-screen &quot;ability editor&quot;             --layout form    --col 2 --row 1</code></pre>
+<h4>Connection routing</h4>
+<ul>
+<li><strong>Cross-column connections</strong> (different col): mxGraph routes automatically — clean horizontal arrows.</li>
+<li><strong>Same-column connections</strong> (same col, different row): the CLI auto-routes these along the <strong>left edge</strong> of the column so they never cut through screen boxes. No manual intervention needed.</li>
+</ul>
+<h3>Tab state</h3>
+<p>A <strong>panel with N tabs generates N separate screens on the site map.</strong> Each tab state is a full screen node — named `{{parent screen}} — {{tab label}}` (e.g. `crowd manager — identities`, `crowd manager — abilities`). The inactive tabs are shown as greyed labels in the tab bar of each sibling screen. The transition between tab states is an arrow labeled &quot;selects {{tab}} tab&quot;.</p>
+<p>The outer chrome of a multi-tab screen (toolbar, side panel, status bar, etc.) is shared across all tab-state screens. On the canvas this chrome is drawn once on each sibling screen box but described only in the primary screen block in the spec — sibling blocks note `chrome: same as {{parent screen}}`.</p>
+<p>On the diagram, sibling-screen chrome is drawn with `add-chrome --dimmed`, which fills it with light grey (`#f5f5f5`). <strong>Grey is used only for this purpose</strong> — to de-emphasise chrome that repeats unchanged across sibling tab screens. Data rows and form fields are never grey.</p>
+<p><strong>Red flag:</strong> treating a tabbed panel as one screen with sub-regions is wrong. If you find yourself writing &quot;character detail panel — tab: Identities … tab: Abilities … tab: Movements&quot; inside one screen block, stop — each tab is a separate screen.</p>
+<h3>Content type</h3>
+<p>A <strong>content type</strong> is a kind of thing a user interacts with — typically a domain concept the user reads, edits, or acts on. Each content type carries a hierarchy, collections, labels and tags, and a small set of key actions.</p>
+<h3>User story</h3>
+<p>A <strong>user story</strong> is a story with a user-visible interaction. Each in-scope user story lives on at least one screen and contributes affordances and actions to that screen; the events in a user story drive transitions to or from the screen. On the IA a user story appears by <strong>name</strong> with a <strong>link</strong> to its full source — never by full text or acceptance criteria. The mapping from user stories to screens, transitions, and content actions is what makes the IA traceable back to scope.</p>
+<h3>System story</h3>
+<p>A <strong>system story</strong> has no user-visible interaction of its own. It does not get its own screen — it is grouped (by name, with a link) with the closest user-visible screen whose interaction surfaces it.</p>
+<h3>Domain term / concept / class</h3>
+<p>A <strong>domain term</strong>, <strong>concept</strong>, or <strong>class</strong> comes from the ubiquitous language, conceptual model, or class model of the solution and names something the team and its users care about. On the IA it appears by <strong>name</strong> with a <strong>link</strong> to its definition.</p>
+<p><strong>Visible-only rule:</strong> a domain term belongs on a screen only if it names something the user can see or directly interact with on that screen — a data field label, a list row type name, a region name, or a screen name. Internal model concepts that do not appear as visible text or a distinct UI element are excluded. The full sub-concept hierarchy of a KA is never listed wholesale; list only the sub-concepts that appear as named items in the UI.</p>
+<h3>Mental model alignment</h3>
+<p>Screen names, content type names, navigational component names, and the IA as a whole reflect the user&#x27;s mental model of the solution rather than the technical decomposition. In practice this means:</p>
+<ul>
+<li>When naming a screen, content type, or component, prefer the term the product owner, domain expert, or user uses unprompted in conversation. If you are reaching for a system or framework name (`MainShellViewModel`, `SettingsRoute`), stop and pick a domain or UX term instead.</li>
+<li>When deciding whether two states are one screen or two, ask &quot;does the user think of these as the same place?&quot; Same place → same screen.</li>
+<li>When grouping content into a region or assigning content to a navigational component, ask &quot;does the user perceive these as belonging together?&quot; If they do, the grouping is right.</li>
+<li>When the IA is drafted, read it back to a domain expert or product owner without translating. If they recognise what each screen, region, content type, and action refers to without explanation, alignment is good. If they need translation, the names are wrong — fix them before moving on.</li>
+</ul>
+<h3>Card sorting (informally)</h3>
+<p>Before drawing per-screen content layouts and per-component link groupings, candidate labels are grouped by affinity — what reads as one surface or one cluster to a user. The resulting groups become the named regions, content groupings, and component link sets.</p>
+<h3>Rules</h3>
+<p>`rules/<em>.md` validate the output (the named artifacts on the canvas and the saved `.md` spec, `.tldr`, and `.svg`). Build steps live in </em><em>Build</em>*.</p>
+<hr>
+<h2>The shape of a good initial IA</h2>
+<p>The reference pattern — each tab state is its own screen, list regions show representative rows, actions are a verb row, chrome is named but not described, and each screen carries ~4 stories.</p>
+<pre><code>[ game directory prompt ]                          modal dialog
+  ┌─────────────────────────────┐
+  │ COH game directory          │  — label only
+  │ directory path · browse     │  — field labels only
+  │ validation feedback         │  — conditional region label
+  │ continue                    │  — action gate
+  └─────────────────────────────┘
+  Stories (~2): Validate Game Directory · Prompt if Invalid
+  Domain terms: COH game directory
+
+       │ submits valid path
+       ▼
+
+[ crowd manager — identities ]                     left panel + body
+  ┌────────────────┬────────────────────────────┐
+  │ crowd tree     │ [ Identities ] Abilities   │  ← inactive tabs greyed; crowd tree
+  │ (chrome,       │   Movements                │    uses --slot panel in sidebar layout
+  │ --slot panel)  ├────────────────────────────┤    so it renders beside body, not above
+  │                │ identity row: name · type  │  ← representative row 1
+  │                │   active / default         │
+  │                │ identity row: name · type  │  ← representative row 2
+  │                │   active / default         │
+  │                │ add · remove · set default │  ← verb row (light fill, black border)
+  │                │   set active · reorder     │
+  └────────────────┴────────────────────────────┘
+  Stories (~4): Add Identity · Set Default Identity · Set Active Identity · Remove Identity
+  Domain terms: identity · model identity · costume identity · active identity · default identity
+
+  ↓ selects Abilities tab                ↓ selects Movements tab
+
+[ crowd manager — abilities ]           [ crowd manager — movements ]
+  ┌────────────────┬──────────────────┐   ┌────────────────┬──────────────────┐
+  │ crowd tree     │ Identities       │   │ crowd tree     │ Identities       │
+  │ (--panel left, │ [Abilities]      │   │ (--panel left, │ Abilities        │
+  │  --dimmed)     │ Movements        │   │  --dimmed)     │ [Movements]      │
+  │                ├──────────────────┤   │                ├──────────────────┤
+  │                │ ability row      │   │                │ movement row     │
+  │                │ ability row      │   │                │ movement row     │
+  │                │ create · delete  │   │                │ add · remove     │
+  │                │ play · stop      │   │                │ set default      │
+  │                │ set key · edit   │   │                │ set key · edit   │
+  └────────────────┴──────────────────┘   └────────────────┴──────────────────┘
+  crowd tree dimmed (--dimmed) = grey fill    crowd tree dimmed (--dimmed) = grey fill
+  signals &quot;same chrome as primary screen&quot;     signals &quot;same chrome as primary screen&quot;
+
+  edit──► [ ability editor screen ]
+  Stories (~4): Create Animated Ability       Stories (~3): Add Movement
+    Delete · Set Key · Toggle Persistence       Edit Movement Parameters
+  Domain terms: animated ability              Domain terms: character movement</code></pre>
+<p>No screen carries toolbar actions, navigation content, acceptance criteria, controls, copy, or wireframe-level detail. If a screen has more than ~4 user stories, a tab state or edit screen is missing.</p>
+<hr>
+<h2>Build</h2>
+<p><strong>Goal:</strong> Read the story map and ubiquitous language for a scope, identify the screens, transitions, navigational components, content types, per-screen content layouts, labels, and key actions, and save the result as `initial-ia.md` (structured spec) and `initial-ia.drawio` (diagram) in the engagement&#x27;s `docs/ux/` folder.</p>
+<p>1. <strong>Resolve inputs.</strong> Confirm three inputs are available: a path to `story-map.md`, a scope filter (increment number, epic name, sprint, or other), and a path to the ubiquitous-language file for that scope. If any is missing, ask the user.</p>
+<p>2. <strong>Filter the story map by scope.</strong> Read `story-map.md` and keep only stories inside the scope filter.</p>
+<p>3. <strong>Read the ubiquitous language.</strong> Read every term and definition in the supplied UL file. Domain concepts that appear on the canvas appear as <strong>names with a link</strong>; full definitions stay in the UL file.</p>
+<p>4. <strong>Identify screens by tab state, not by feature.</strong> For each in-scope story, decide which user-visible state it belongs to. A panel with N tabs produces N screens — name them `{{parent}} — {{tab label}}`. Group system stories with the closest user-visible screen. Check the story budget: if any screen accumulates more than ~4 user stories, look for a missed tab, a missing detail/edit screen, or a mode that should be separated. Fix before continuing.</p>
+<p>4a. <strong>Walk every story — produce a story trace table.</strong> Before assigning screens, create a table with one row per in-scope story: `| story title | screen | region | key action or transition trigger |`. Fill every cell. Any row where the region or action column cannot be filled means either (a) a region is missing from a screen, (b) an action is missing from a region, or (c) a screen is missing entirely. Do not proceed past this step until every GM story has a non-empty region and action/trigger. System stories need only a screen and a &quot;grouped&quot; note.</p>
+<p>This is the primary completeness gate. The most common failures are:</p>
+<ul>
+<li>A tabbed panel where only one tab&#x27;s stories appear (the other tabs&#x27; stories have no home)</li>
+<li>A contextual panel (attack configuration, modal, overlay) that was never added as a region</li>
+<li>A roster or list panel that is implied by add/remove/activate stories but never drawn</li>
+<li>Individual element-add stories (Add FX Element, Add MOV Element, …) that get collapsed into one &quot;add element&quot; action and effectively disappear</li>
+</ul>
+<p>4b. <strong>Walk every in-scope domain term — produce a domain term trace table.</strong> Create a table: `| domain term | appears as | on screen | in region |`. &quot;Appears as&quot; is one of: screen name, region name, sub-region name, content type name, label, key action, or annotation only. A term marked &quot;annotation only&quot; is incomplete — trace it to a visible element or explain why it is purely metadata. Terms with typed sub-concepts (option groups, collection members, element types) require one row per sub-type if users interact with each type individually.</p>
+<p>5. <strong>Identify transitions.</strong> For each pair of adjacent screens, find the user action or system event in the stories that moves the user between them. Label the arrow with that trigger.</p>
+<p>6. <strong>Identify navigational components.</strong> From the screens and the stories, extract the persistent navigation surfaces (menus, primary navigation, sidebars, headers, footers, breadcrumbs). Name each in UX terms and list the screens or content types it links to.</p>
+<p>7. <strong>Identify content types and their structure.</strong> For each in-scope domain concept the user perceives, decide whether it is a content type. For each content type, capture its hierarchy, the collections it belongs to, and a small set of key actions a user can perform on it.</p>
+<p>8. <strong>Lay out content per screen — rows, not prose.</strong> For each screen, list its regions. Follow these rules without exception:</p>
+<ul>
+<li><strong>Chrome regions</strong> (toolbar, sidebar, header, footer, crowd tree) — named boxes only. Do not list actions or data inside them.</li>
+<li><strong>Left-panel chrome</strong> (`--slot panel` in a `sidebar` or `flyout` layout) — when a screen&#x27;s layout places a tree or sidebar panel <em>beside</em> the content area (not above it), assign the chrome to `--slot panel`. This renders the panel as a left column alongside the body (list/form) regions. Never stack a panel region above list regions when the actual UI places them side by side.</li>
+<li><strong>Empty chrome</strong> — only add a chrome region if it has visible content at IA level (named items, labelled structure). Omit any toolbar, footer, or sidebar box that has nothing to show. A named empty box adds noise and signals an incomplete layout.</li>
+<li><strong>Grey = de-emphasis for repeated sibling chrome only</strong> — use `add-chrome --dimmed` for chrome that appears unchanged on every sibling tab screen. This fills it with light grey (`#f5f5f5`) to signal repetition. Never apply grey to data rows or form fields.</li>
+<li><strong>List/collection regions</strong> — show 2–3 representative item rows. Each row contains only the visible field names (e.g. `name · activation key · flags`). Below the rows, add a single verb row of actions (e.g. `create · remove · play · stop · edit · reorder`). Never write &quot;per item: …&quot; prose.</li>
+<li><strong>Edit/configure actions</strong> — if the verb row includes &quot;edit&quot; or &quot;configure&quot;, create a new named detail screen for the editor and add a transition arrow labeled &quot;opens {{name}} editor&quot;. The detail screen is a full site-map node.</li>
+<li><strong>Domain terms per screen</strong> — list only terms that name a visible field, row type, or region on this screen. Do not list internal model terms or the full KA hierarchy.</li>
+</ul>
+<p>9. <strong>Draft preliminary labels and tags.</strong> Where elements need identification on the canvas, choose labels in UX terms for structural pieces and domain term names (linked) for subject matter.</p>
+<p>10. <strong>Author or update `docs/ux/initial-ia.md` first.</strong> Copy `templates/initial-ia.md` into the engagement&#x27;s `docs/ux/` folder (or open the existing one) and fill in: scope, source paths (story map, UL), description, screens (regions, content types, actions, in-scope story names with links, grouped system story names with links), transitions, navigational components, and content-type details. This markdown is the structured spec the canvas is drawn from; the canvas is never authored without it.</p>
+<p>10a. <strong>Run the completeness test before touching the canvas.</strong> Walk the checklist in `rules/tab-states-and-domain-traceability.md`:</p>
+<ul>
+<li>Every tab/mode state fully decomposed in the spec.</li>
+<li>Every in-scope domain term visible as a region, sub-region, content type, or action label — not only in the annotation.</li>
+<li>Every in-scope domain concept&#x27;s typed sub-concepts listed as separate items where users interact with them.</li>
+<li>Every in-scope user story maps to a key action or transition trigger — no orphaned stories.</li>
+</ul>
+<p>Only proceed to the canvas when all items pass. Fix gaps in `initial-ia.md` first.</p>
+<p>11. <strong>Choose output mode.</strong> After `initial-ia.md` passes the completeness check, produce `initial-ia.drawio` using one of two modes — ask the user if not already specified:</p>
+<p><strong>Mode A — Internal (agent uses the `drawio-ux` CLI):</strong> Use `scripts/drawio-ux.mjs` — a Node.js CLI included in this skill — to build the diagram from a sequence of commands. No dependencies required; it generates mxGraph XML directly. The CLI enforces the style contract (white fill, black stroke, italic chrome, orthogonal edges) so the agent never touches raw XML.</p>
+<p>Resolve the CLI path:</p>
+<ul>
+<li>From the agilebydesign-skills repo: `node skills/user-experience-design/abd-information-architecture/scripts/drawio-ux.mjs`</li>
+<li>From a deployed project junction: `node .cursor/skills/abd-information-architecture/scripts/drawio-ux.mjs`</li>
+</ul>
+<p>Use this alias in the steps below: `DUXCLI=&lt;resolved path&gt;`</p>
+<p>Run these commands in sequence from the engagement root:</p>
+<pre><code>    # 1 — point at the output file
+    node $DUXCLI open docs/ux/initial-ia.drawio
+
+    # 2 — start fresh
+    node $DUXCLI clear
+
+    # 3 — add screens with named layout templates
+    node $DUXCLI add-screen &quot;game directory prompt&quot;      --layout modal
+    node $DUXCLI add-screen &quot;crowd manager — identities&quot; --layout sidebar
+    node $DUXCLI add-screen &quot;crowd manager — abilities&quot;  --layout sidebar --tab-of &quot;crowd manager — identities&quot;
+    node $DUXCLI add-screen &quot;crowd manager — movements&quot;  --layout sidebar --tab-of &quot;crowd manager — identities&quot;
+    # ... one add-screen per screen in initial-ia.md
+
+    # 4 — add regions using --slot to place them in the correct template slot
+    #
+    # modal: single &#x27;body&#x27; slot
+    node $DUXCLI add-form &quot;game directory prompt&quot; &quot;directory entry form&quot; \
+      --slot body --fields &quot;COH game directory · directory path · browse · validation feedback · continue&quot;
+
+    # sidebar: crowd tree in &#x27;panel&#x27;, content list in &#x27;body&#x27;
+    node $DUXCLI add-chrome &quot;crowd manager — identities&quot; &quot;crowd tree&quot; --slot panel
+    node $DUXCLI add-list   &quot;crowd manager — identities&quot; &quot;identity list&quot; \
+      --slot body --fields  &quot;name · type · active · default&quot; \
+                 --actions &quot;add · remove · set-default · set-active&quot;
+
+    # Sibling screens: repeated chrome uses --dimmed (grey fill).
+    # Grey signals &quot;same chrome as primary screen&quot; — ONLY valid use of grey.
+    node $DUXCLI add-chrome &quot;crowd manager — abilities&quot; &quot;crowd tree&quot; --slot panel --dimmed
+    node $DUXCLI add-list   &quot;crowd manager — abilities&quot; &quot;ability list&quot; \
+      --slot body --fields  &quot;name · activation key · persistent · attack flag&quot; \
+                 --actions &quot;create · delete · set-key · toggle-persistence · play · stop · edit&quot;
+
+    node $DUXCLI add-chrome &quot;crowd manager — movements&quot; &quot;crowd tree&quot; --slot panel --dimmed
+    node $DUXCLI add-list   &quot;crowd manager — movements&quot; &quot;movement list&quot; \
+      --slot body --fields  &quot;name · activation key · default · type&quot; \
+                 --actions &quot;add · remove · set-default · set-key · edit&quot;
+
+    # 5 — add transitions
+    node $DUXCLI connect &quot;game directory prompt&quot; &quot;crowd manager — identities&quot; \
+      --label &quot;submits valid path&quot;
+    node $DUXCLI connect &quot;crowd manager — identities&quot; &quot;crowd manager — abilities&quot; \
+      --label &quot;selects Abilities tab&quot; --dashed
+    node $DUXCLI connect &quot;crowd manager — identities&quot; &quot;crowd manager — movements&quot; \
+      --label &quot;selects Movements tab&quot; --dashed
+
+    # 6 — add callouts (stories + domain terms)
+    node $DUXCLI add-callout &quot;crowd manager — identities&quot; \
+      --stories &quot;Add Identity · Set Default Identity · Set Active Identity · Remove Identity&quot; \
+      --terms   &quot;identity · active identity · default identity · model identity&quot;
+
+    # 7 — generate the file
+    node $DUXCLI save</code></pre>
+<p>Check the current build state at any point with `node $DUXCLI status`. Overwrite `docs/ux/initial-ia.drawio` on every run — git carries the history.</p>
+<p><strong>Mode B — External (output a filled prompt for use anywhere):</strong> Fill the slots in `templates/initial-ia-prompt.md` from `docs/ux/initial-ia.md` and <strong>output the filled prompt to the user in chat</strong>. The user pastes it into any AI chat (ChatGPT, Claude.ai, Copilot, Cursor, etc.) and asks the AI to return draw.io XML. The prompt instructs the AI to follow the same style contract as Mode A (white boxes, black outlines) and return only raw mxGraph XML. Save the returned XML to `docs/ux/initial-ia.drawio`.</p>
+<p>12. <strong>Sync diagram changes back into `initial-ia.md`.</strong> If the diagram was edited directly in draw.io or via the drawio-ai plugin and structural changes were made (screens renamed, regions added/removed, transitions changed), update `docs/ux/initial-ia.md` to match. Append a row to the change log with date, direction (`drawio → md`), and a one-line summary.</p>
+<p>13. <strong>Apply the rules, then review like a peer.</strong> Walk every file under `rules/` against the drawn canvas, the saved files, and the markdown spec. Fix every violation.</p>
+<p>14. <strong>Keep the bundled rules block honest.</strong> Whenever you change a file under `rules/`, re-run the bundler so the rule prose inlined at the end of this `SKILL.md` matches what is on disk:</p>
+<pre><code>python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/user-experience-design/abd-information-architecture</code></pre>
+<ul>
+<li><strong>Outputs:</strong> `docs/ux/initial-ia.md` (structured spec) and `docs/ux/initial-ia.drawio` (diagram) — two artifacts in the engagement&#x27;s deliverables folder, kept in sync.</li>
+<li><strong>Per format:</strong> `.md` is the structured spec — created first, updated after diagram changes. `.drawio` is the visual diagram opened and edited in draw.io (VS Code draw.io extension or desktop app).</li>
+<li><strong>While writing:</strong> UX terms for structural pieces, domain term names (linked) for subject matter. No invented vocabulary. No acceptance criteria. No controls. No wireframe detail.</li>
+</ul>
+<hr>
+<h2>Validate</h2>
+<p><strong>Goal:</strong> Read the saved IA as reviewers, not a second authoring pass.</p>
+<ul>
+<li><strong>Who is checking:</strong> the product owner verifies that every in-scope story is referenceable from the IA (as part of a screen or as a transition trigger); a domain expert verifies that every domain concept appearing on the canvas is named and linked correctly; a UX practitioner verifies that the structural language is in UX terms and that the IA reads as navigation + content with no controls smuggled in.</li>
+<li><strong>Cross-artifact parity:</strong> `initial-ia.md` and `initial-ia.drawio` describe the same IA — the same screens, transitions, navigational components, content types, and actions.</li>
+</ul>
+<p>Walk the canvas and confirm:</p>
+<ul>
+<li>Every screen carries a name and a link to its source (domain concept or story).</li>
+<li>Every transition has a labeled trigger and a clear direction.</li>
+<li>Every navigational component is named in UX terms and lists what it links to.</li>
+<li>Every content type carries a name (linked), a hierarchy or collection, and a key-actions list.</li>
+<li>Every region label uses UX terms; every subject-matter label uses a domain term name with a link.</li>
+<li>No system story has its own screen; each is grouped with a user-visible screen.</li>
+<li>No screen carries acceptance criteria, controls, copy, or wireframe-level detail.</li>
+<li>`docs/ux/initial-ia.md` and `docs/ux/initial-ia.drawio` both exist and are in sync.</li>
+<li><strong>Each tab state is a separate screen node</strong> — no tab state is described as a sub-region of another screen.</li>
+<li><strong>Chrome regions (toolbar, nav, sidebar, header, footer) are named only</strong> — they carry no action lists in the layout. Chrome with no visible content at IA level is omitted entirely (no empty named boxes).</li>
+<li><strong>Left-panel chrome renders beside the body</strong> — crowd tree, sidebar, and nav panels that the real UI places side-by-side with the content region use `--slot panel` in a `sidebar` or `flyout` layout, not stacked above list regions.</li>
+<li><strong>Grey = repeated sibling chrome only</strong> — `--dimmed` (grey fill `#f5f5f5`) is used exclusively on chrome that repeats unchanged across sibling tab screens. Data rows and form fields carry no grey style.</li>
+<li><strong>List regions show representative rows</strong> — no &quot;per item: …&quot; prose; actions appear as a verb row below the list.</li>
+<li><strong>Every &quot;edit&quot; action connects to a named detail screen</strong> via a transition arrow.</li>
+<li><strong>Domain terms per screen are visible-only</strong> — no internal model terms, no wholesale KA hierarchy dumps.</li>
+<li><strong>Every screen has ~4 user stories</strong> — more than ~4 is a decomposition signal that was not resolved.</li>
+</ul>
+<hr>
+<h2>Deploy</h2>
+<p>This skill ships IDE-deployable files under `ide-files/`. Deploy them from the repo root using the standard repo-level script:</p>
+<pre><code>cd C:\dev\agilebydesign-skills
+.\scripts\deploy-skills.ps1 -ide cursor -Force</code></pre>
+<p>`deploy-skills.ps1` auto-discovers every skill under `skills/` with a `SKILL.md` and links its `ide-files/<em>.mdc` into `&lt;deploy-root&gt;/.cursor/rules/` and `ide-files/</em>.prompt.md` into `&lt;deploy-root&gt;/.cursor/commands/`. The deploy root is resolved from `skill-config.json`.</p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>File</th><th>Deploy target</th></tr></thead><tbody><tr><td>`ide-files/abd-information-architecture.mdc`</td><td>`.cursor/rules/` (Cursor always-on rule)</td></tr><tr><td>`ide-files/abd-information-architecture.instructions.md`</td><td>`.github/` when `-ide vscode` is used (VS Code — same body as `.mdc` after frontmatter)</td></tr><tr><td>`ide-files/abd-information-architecture.prompt.md`</td><td>`.cursor/commands/` (Cursor slash command); also `.github/prompts/` under VS Code</td></tr></tbody></table></div>
+<hr>
+<p>&lt;!-- execute_rules:bundle_rules:begin --&gt; &lt;!-- Rule prose is generated from rules/*.md — edit rules, then run: python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/user-experience-design/abd-information-architecture --&gt; &lt;!-- execute_rules:bundle_rules:end --&gt;</p></div>
+
+</div>
+</div>
+</div>
+</body>
+</html>
