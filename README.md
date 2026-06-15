@@ -28,7 +28,7 @@ abd-skills/
 ├── utilities/                   # proposal respond, research skills
 ├── stages/                      # stage-tier skills
 ├── catalog/                     # generated HTML
-├── scripts/                     # deploy-skills.ps1
+├── scripts/                     # deploy-skills.ps1 / .sh, clean-skills.ps1 / .sh
 └── skill-config.json            # active_skill_workspace (engagement root)
 ```
 
@@ -38,7 +38,7 @@ abd-skills/
 
 ## Practice plugins
 
-Deploy with [`scripts/deploy-skills.ps1`](scripts/deploy-skills.ps1).
+Deploy with [`scripts/deploy-skills.ps1`](scripts/deploy-skills.ps1) (Windows) or [`scripts/deploy-skills.sh`](scripts/deploy-skills.sh) (macOS/Linux).
 
 | Plugin | Folder | Summary |
 | --- | --- | --- |
@@ -187,21 +187,33 @@ Also used in shaping (stage-tier): `abd-impact-mapping` — [`stages/idea-shapin
 
 One command deploys all family plugins, standalone skills, and guidance:
 
+**Windows (PowerShell):**
 ```powershell
 & scripts/deploy-skills.ps1 -Force
 ```
 
-Deploy root resolves from `skill-config.json` → `active_skill_workspace`, or pass `-DeployRoot`:
+**macOS / Linux (bash):**
+```bash
+./scripts/deploy-skills.sh
+```
 
+Deploy root resolves from `skill-config.json` → `active_skill_workspace`, or pass a custom root:
+
+**PowerShell:**
 ```powershell
 & scripts/deploy-skills.ps1 -Force -DeployRoot "C:\dev\abd-pet-store-demo"
 ```
 
-| `--ide` | Target |
+**Bash:**
+```bash
+./scripts/deploy-skills.sh cursor /path/to/project
+```
+
+| Parameter | Description |
 | --- | --- |
-| `cursor` (default) | `.cursor/` (skills, agents, rules, commands, content) |
-| `vscode` | `.github/` (instructions, prompts, content) |
-| `both` | both trees |
+| `ide` (bash) / `-ide` (PS) | `cursor` (default) → `.cursor/` · `vscode` → `.github/` |
+| `deploy-root` / `-DeployRoot` | Override workspace root (auto-resolved when omitted) |
+| `package` / `-Package` | Specific package like `practices/kanban` or `all` (default) |
 
 Workspace helper: [`foundational/skill-helpers/reference/workspace.md`](foundational/skill-helpers/reference/workspace.md) · scripts `foundational/skill-helpers/scripts/get_workspace.py` / `set_workspace.py`.
 
