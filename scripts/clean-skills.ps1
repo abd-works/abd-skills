@@ -24,58 +24,23 @@
     <deploy-root>/.vscode/settings.json        — merged settings
 
 .PARAMETER DeployRoot
-  Explicit root to clean from (e.g. C:\dev\abd-pet-store-demo).
-  When omitted, falls back to skill-config.json -> workspace.active_skill_workspace.
+  Required — the engagement workspace to clean (e.g. C:\dev\abd-pet-store-demo).
 
 #>
 param(
-    [string] $DeployRoot = ""
+    [Parameter(Mandatory = $true)]
+    [string] $DeployRoot
 )
 
 $ErrorActionPreference = 'Stop'
 
 $RepoRoot = Resolve-Path (Join-Path $PSScriptRoot '..') | Select-Object -ExpandProperty Path
 
-function Find-HighestCursorRoot {
-    param([string]$StartPath)
-    $highest = $null
-    $dir = [System.IO.DirectoryInfo]::new($StartPath)
-    while ($null -ne $dir) {
-        if (Test-Path -LiteralPath (Join-Path $dir.FullName '.cursor') -PathType Container) {
-            $highest = $dir.FullName
-        }
-        $dir = $dir.Parent
-    }
-    if ($highest) { return $highest }
-
-    $parent = Split-Path $StartPath -Parent
-    if ($parent -and ($parent -notmatch '^[A-Za-z]:\\?$') -and (Test-Path -LiteralPath (Join-Path $parent '.cursor') -PathType Container)) {
-        return $parent
-    }
-    return $env:USERPROFILE
+if (-not (Test-Path -LiteralPath $DeployRoot -PathType Container)) {
+    Write-Error "Error: DeployRoot '$DeployRoot' does not exist or is not a directory."
+    exit 1
 }
-
-# Resolve CursorRoot: explicit -DeployRoot > skill-config.json; no fallback — crash if missing
-if ($DeployRoot -and (Test-Path -LiteralPath $DeployRoot -PathType Container)) {
-    $CursorRoot = $DeployRoot
-} else {
-    $skillConfig = Join-Path $RepoRoot 'skill-config.json'
-    if (-not (Test-Path -LiteralPath $skillConfig -PathType Leaf)) {
-        Write-Error "No skill-config.json found at '$skillConfig'. Run set_workspace.py or pass -DeployRoot explicitly."
-        exit 1
-    }
-    $cfg = Get-Content $skillConfig -Raw | ConvertFrom-Json
-    $configured = $cfg.workspace.active_skill_workspace
-    if (-not $configured) {
-        Write-Error "skill-config.json has no workspace.active_skill_workspace. Run set_workspace.py or pass -DeployRoot explicitly."
-        exit 1
-    }
-    if (-not (Test-Path -LiteralPath $configured -PathType Container)) {
-        Write-Error "workspace.active_skill_workspace '$configured' does not exist on disk. Run set_workspace.py or pass -DeployRoot explicitly."
-        exit 1
-    }
-    $CursorRoot = $configured
-}
+$CursorRoot = Resolve-Path -LiteralPath $DeployRoot | Select-Object -ExpandProperty Path
 
 Write-Host "`nRepo root   : $RepoRoot"  -ForegroundColor Cyan
 Write-Host "Deploy root : $CursorRoot" -ForegroundColor Cyan

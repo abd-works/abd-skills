@@ -1,11 +1,7 @@
-﻿{
-    "workspace":  {
-                      "active_skill_workspace":  "C:\\dev\\abd-ai-augmented-delivery-training",
-                      "known_skill_workspaces":  [
-
-                                                 ],
-                      "context_paths":  [
-
-                                        ]
-                  }
+{
+    "workspace": {
+        "active_skill_workspace": "",
+        "known_skill_workspaces": [],
+        "context_paths": []
+    }
 }

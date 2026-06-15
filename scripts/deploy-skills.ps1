@@ -4,7 +4,7 @@
 
 .DESCRIPTION
   Self-contained deploy script (no Python dependency).
-  Deploy root auto-resolves from skill-config.json when -DeployRoot is omitted.
+  Deploy root resolves from: explicit -DeployRoot → *.code-workspace walk → repo root.
   Instructions are sourced from *.instructions.md and can be deployed to either IDE:
     - vscode: copied to .github/*.instructions.md
     - cursor: copied to .cursor/rules/*.mdc (extension renamed)
@@ -13,7 +13,7 @@
   Target IDE: cursor or vscode. Default: cursor.
 
 .PARAMETER DeployRoot
-  Explicit workspace root. When omitted: skill-config.json → *.code-workspace walk → repo root.
+  Explicit workspace root. When omitted: *.code-workspace file walk → repo root fallback.
 
 .PARAMETER Force
   Accepted for backward compatibility (deploy always replaces).
@@ -67,22 +67,6 @@ function Merge-DirectoryContents {
     Copy-Item -Path (Join-Path $SourceDir '*') -Destination $DestinationDir -Recurse -Force -ErrorAction SilentlyContinue
 }
 
-function Get-ConfiguredDeployRoot {
-    param([string]$RepoRoot)
-    $cfgPath = Join-Path $RepoRoot 'skill-config.json'
-    if (-not (Test-Path -LiteralPath $cfgPath)) { return $null }
-    try {
-        $cfg = Get-Content -LiteralPath $cfgPath -Raw | ConvertFrom-Json
-        $p = [string]($cfg.workspace.active_skill_workspace)
-        if ($p -and (Test-Path -LiteralPath $p)) {
-            return (Resolve-Path -LiteralPath $p | Select-Object -ExpandProperty Path)
-        }
-    } catch {
-        # ignore malformed config and continue fallback chain
-    }
-    return $null
-}
-
 function Get-WorkspaceDeployRootFromPwd {
     param([string]$StartPath)
     $current = Resolve-Path -LiteralPath $StartPath | Select-Object -ExpandProperty Path
@@ -104,8 +88,6 @@ function Resolve-DeployRoot {
     if ($ExplicitRoot) {
         return (Resolve-Path -LiteralPath $ExplicitRoot | Select-Object -ExpandProperty Path)
     }
-    $fromConfig = Get-ConfiguredDeployRoot -RepoRoot $RepoRoot
-    if ($fromConfig) { return $fromConfig }
     $fromWorkspace = Get-WorkspaceDeployRootFromPwd -StartPath (Get-Location).Path
     if ($fromWorkspace) { return $fromWorkspace }
     return $RepoRoot
@@ -338,21 +320,6 @@ if ($Package -eq 'all') {
 foreach ($pkg in $selected) {
     Write-Host ("  Deploying package: {0}" -f $pkg.Name)
     Deploy-Package -PackageRoot $pkg.Value -DeployRoot $resolvedDeployRoot -Ide $ide
-}
-
-# Update skill-config.json so the resolved deploy root becomes the new active workspace
-$cfgPath = Join-Path $RepoRoot 'skill-config.json'
-try {
-    $cfg = if (Test-Path -LiteralPath $cfgPath) {
-        Get-Content -LiteralPath $cfgPath -Raw | ConvertFrom-Json
-    } else {
-        [pscustomobject]@{ workspace = [pscustomobject]@{ active_skill_workspace = ''; known_skill_workspaces = @(); context_paths = @() } }
-    }
-    $cfg.workspace.active_skill_workspace = $resolvedDeployRoot
-    $cfg | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath $cfgPath -Encoding UTF8
-    Write-Host ("skill-config.json updated -> active_skill_workspace={0}" -f $resolvedDeployRoot)
-} catch {
-    Write-Warning ("Could not update skill-config.json: {0}" -f $_.Exception.Message)
 }
 
 Write-Host ("Deploy complete. ide={0} package={1} root={2}" -f $ide, $Package, $resolvedDeployRoot)

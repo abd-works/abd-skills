@@ -27,8 +27,8 @@
 #     <deploy-root>/.vscode/settings.json        — merged settings
 #
 # PARAMETERS
-#   deploy-root   Explicit root to clean from (e.g. /home/user/projects/my-project).
-#                 When omitted, resolves from skill-config.json -> workspace.active_skill_workspace.
+#   deploy-root   Required. Path to the engagement workspace to clean
+#                 (e.g. /home/user/projects/my-project).
 #
 
 set -euo pipefail
@@ -39,24 +39,13 @@ REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 DEPLOY_ROOT="${1:-}"
 
-# ---------------------------------------------------------------------------
-# JSON helper (shared pattern — uses python3)
-# ---------------------------------------------------------------------------
-json_get() {
-    local file="$1" query="$2"
-    python3 - "$file" "$query" <<'PYEOF'
-import json, sys
-with open(sys.argv[1]) as f:
-    data = json.load(f)
-keys = sys.argv[2].split('.')
-val = data
-for k in keys:
-    val = val[k]
-if val is None:
-    sys.exit(1)
-print(val)
-PYEOF
-}
+if [[ -z "$DEPLOY_ROOT" || ! -d "$DEPLOY_ROOT" ]]; then
+    echo "Usage: $0 <deploy-root>" >&2
+    echo "Error: deploy-root is required — pass the path to clean (e.g. \$0 /path/to/engagement)" >&2
+    exit 1
+fi
+
+CURSOR_ROOT="$(cd "$DEPLOY_ROOT" && pwd)"
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -77,37 +66,6 @@ remove_entry() {
     rm -rf "$path"
     log_del "$path"
 }
-
-# ---------------------------------------------------------------------------
-# Resolve deploy root
-# ---------------------------------------------------------------------------
-resolve_deploy_root() {
-    if [[ -n "$DEPLOY_ROOT" && -d "$DEPLOY_ROOT" ]]; then
-        echo "$DEPLOY_ROOT"
-        return 0
-    fi
-
-    local skill_config="$REPO_ROOT/skill-config.json"
-    if [[ ! -f "$skill_config" ]]; then
-        echo "Error: No skill-config.json found at '$skill_config'. Pass deploy-root explicitly." >&2
-        exit 1
-    fi
-
-    local configured
-    configured=$(json_get "$skill_config" "workspace.active_skill_workspace" 2>/dev/null) || {
-        echo "Error: skill-config.json has no workspace.active_skill_workspace. Pass deploy-root explicitly." >&2
-        exit 1
-    }
-
-    if [[ ! -d "$configured" ]]; then
-        echo "Error: workspace.active_skill_workspace '$configured' does not exist on disk. Pass deploy-root explicitly." >&2
-        exit 1
-    fi
-
-    echo "$configured"
-}
-
-CURSOR_ROOT=$(resolve_deploy_root)
 
 log_info ""
 log_info "Repo root   : $REPO_ROOT"
