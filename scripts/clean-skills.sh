@@ -47,6 +47,26 @@ fi
 
 CURSOR_ROOT="$(cd "$DEPLOY_ROOT" && pwd)"
 
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+log_info()  { printf '\033[36m%s\033[0m\n' "$*"; }
+log_ok()    { printf '\033[32m%s\033[0m\n' "$*"; }
+log_warn()  { printf '\033[33m%s\033[0m\n' "$*"; }
+log_del()   { printf '  \033[31mDEL :\033[0m %s\n' "$*"; }
+log_miss()  { printf '  \033[90mMISS:\033[0m %s\n' "$*"; }
+log_skip()  { printf '  \033[90mSKIP (not empty):\033[0m %s\n' "$*"; }
+
+remove_entry() {
+    local path="$1"
+    if [[ ! -e "$path" ]]; then
+        log_miss "$path"
+        return
+    fi
+    rm -rf "$path"
+    log_del "$path"
+}
+
 log_info ""
 log_info "Repo root   : $REPO_ROOT"
 log_info "Deploy root : $CURSOR_ROOT"
