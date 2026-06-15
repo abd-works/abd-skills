@@ -123,6 +123,42 @@ Key rules:
 
 ## AI Workflow for Rendering
 
+**Per-KA tabs is the default.** Each KA gets its own tab with only its own classes plus directly connected boundary classes (supertypes only, not subtypes from other KAs). The full single-page mode is only used when explicitly requested.
+
+### Per-KA Tab Mode (Default)
+
+#### Boundary class rules
+
+| Rule | Include as boundary? |
+|------|---------------------|
+| Class from another KA directly connected via edge (association, composition, aggregation, dependency) | YES — dashed border, reduced opacity |
+| Supertype in another KA (this tab's class inherits from it) | YES — show the parent |
+| Subtype in another KA (another KA's class inherits from this tab's class) | NO — do not show children from other KAs |
+| Class from another KA connected only indirectly (2+ hops) | NO |
+
+#### Setup
+
+1. **Identify source** — read the domain model/specification file.
+2. **Determine KA membership** — map each class ID to its owning KA.
+3. **Build all tabs** — for each KA, compute boundary classes per the rules above, copy cells and edges, apply boundary styling.
+
+#### Per-KA tab construction
+
+For each KA:
+
+1. **Collect KA members** — all class cells belonging to this KA.
+2. **Find boundary classes** — scan all edges. For each edge where one end is in this KA and the other is not:
+   - If the edge is an inheritance edge: include the **parent** (supertype) as boundary only if it belongs to another KA. Do NOT include children (subtypes) from other KAs.
+   - If the edge is any other relationship: include the other end as boundary.
+3. **Copy cells** — KA members at original positions. Boundary classes repositioned closer to the KA cluster with dashed-border styling.
+4. **Copy edges** — only edges where both source and target are on this tab (KA members + boundary).
+5. **Copy edge labels** — cardinality labels and role names that parent to included edges.
+6. **Overview tab** — optionally include an "All KAs" first tab with everything on one page for navigation.
+
+### Full Single-Page Mode (Only When Requested)
+
+Use when the user explicitly says "full diagram", "single page", "all on one page", or passes `--full`.
+
 **Incremental first.** If the `.drawio` file already exists, use `update-class`, `add-class`, `delete-class`, and edge commands to apply only what changed — do not regenerate the whole file. Full regeneration destroys manual layout adjustments. Use the full workflow below only when creating a diagram for the first time.
 
 After producing domain model output for a slice:
