@@ -15,12 +15,13 @@ Generate **executable tests and production code** from a resolved architecture s
 
 ### `<spec-root>`
 
-The architecture spec **directory path resolved in step 0** (user path, story-map node, or project default). **Not hardcoded in this skill.** Every file name, folder, test tier, helper layout, and production layer placement is read from **`<spec-root>`** — `architecture-specification.md`, `rules/`, `templates/tests/`, and `example/tests/` when present. Agent memory of another stack or repo drift is not authority.
+The architecture spec **directory path resolved in step 0** (user path, story-map node, or project default). **Not hardcoded in this skill.** Every file name, folder, test tier, helper layout, and production layer placement is read from **`<spec-root>`** — `architecture-specification.md`, `rules/`, `templates/tests/`, and `example/tests/` when present.
 
 ### Orchestration
 
 | Phase | Skill | Output |
 | --- | --- | --- |
+| Setup | **`track_task`** | **`progress/`** checklists — one row per spec testing tier and production layer |
 | RED | **`abd-story-acceptance-test`** | Acceptance tests per **`<spec-root>`** Testing Architecture |
 | GREEN | **`abd-clean-code`** | Production code per **`<spec-root>`** `template/` patterns |
 
@@ -28,7 +29,7 @@ The architecture spec **directory path resolved in step 0** (user path, story-ma
 
 ### Per-scenario increment
 
-Work **one scenario at a time** within each layer: write test → run RED → write minimum code → run GREEN → fix → next scenario. Do not batch all tests then all code.
+Work **one scenario at a time** within each layer: write test → run RED → write code → run GREEN → fix → next scenario. Do not batch all tests then all code.
 
 **Layer order** — read from **`<spec-root>` Testing Architecture** first. When the spec is silent, default: domain → server → client → E2E (or spec-equivalent tier names).
 
@@ -103,6 +104,58 @@ All steps read from **`<spec-root>`** — never from agent memory of another pro
 
 See **`rules/scaffold-test-layout-before-scenarios.md`**.
 
+### 1c. Layer progress checklist — mandatory (`track_task`)
+
+**Do not start step 3 until this gate passes.** Persist session progress with **`track_task`** — not in chat alone.
+
+1. **Resolve workspace** — **`skill-config.json` → `workspace.active_skill_workspace`**, or **`python skill-helpers/scripts/get_workspace.py`** from the agilebydesign-skills repo root; if unset, ask the user to set workspace first.
+2. **Create progress tree** — **`<active_skill_workspace>/abd-architecture-code/progress/`** (do not overwrite existing checklists unless the user asks to reset).
+3. **Derive layers from `<spec-root>`** — same source as step **1b**: **Testing Architecture** tier names, production layer mapping, and layer order. Default only when the spec is silent: domain → server → client → E2E.
+4. **Write `process-checklist.md`** — one `- [ ]` line per workflow phase:
+
+   ```markdown
+   - [ ] 0 — Resolve inputs (<spec-root>, domain, story, UX, hierarchy)
+   - [ ] 1 — Read context; derive test + production layer inventory
+   - [ ] 1b — Scaffold test layout on disk
+   - [ ] 1c — Layer progress checklist created
+   - [ ] 3 — Generate tests and production (all spec layers)
+   - [ ] 4 — Deploy and verify end-to-end
+   - [ ] 4a — All spec-mandated test suites executed (full run, all pass)
+   - [ ] 5 — Validate rules and scanners
+   ```
+
+5. **Write `<scope-slug>-layers-checklist.md`** — **`<scope-slug>`** = increment, epic, or story scope label from step **0**. For **each lowest-level sub-epic** in scope, list **every testing tier and production layer** from the spec **in order**. **Three checkboxes per layer** (tests require both scenario runs and a full tier execution):
+
+   ```markdown
+   ## <sub-epic-slug>
+
+   ### <LayerName> (tests — <tier> per <spec-root>)
+   - [ ] Scenarios — each RED then GREEN (executed, not merely written) — `<test-tier-path-from-1b-inventory>`
+   - [ ] Tier suite — full test run executed, all pass — `<same-path>` via `<spec test command>`
+
+   ### <LayerName> (production — <spec-root> layer)
+   - [ ] Minimum code green for those scenarios — `<production-path-pattern-from-spec>`
+   ```
+
+   After all sub-epics, add **## Test execution — all tiers in scope** — one `- [ ]` line per **distinct test runner or tier** **`<spec-root>/rules/`** mandates (domain, server, client, E2E, etc.), with the command and scope path. Tick only after a **full run** passes — not a single scenario file in isolation when the spec requires the whole tier or suite.
+
+   ```markdown
+   ## Test execution — all tiers in scope
+
+   - [ ] Execute `<tier-or-runner-name>` — `<command>` — all tests in scope pass
+   ```
+
+   Repeat for each layer the spec names (names, paths, and commands come from **`<spec-root>`**, not from this example).
+
+6. **Tick step 0 and 1b items** — flip matching lines in **`process-checklist.md`** to `- [x]` for work already completed before this step.
+7. **Publish summary in chat** — table: sub-epic × layer × scenario-run × tier-executed × production checkbox (paths and commands from inventory).
+
+**During step 3** — after the **per-layer gate** passes (every scenario **executed** RED then GREEN, **full tier suite executed** for that layer, **and** production green), flip **all three** lines for that sub-epic × layer to `- [x]` before opening the next layer. **During step 4** — run and tick **Test execution — all tiers in scope** and **`- [ ] 4a`** only when every listed suite has been **executed** with all tests passing. **During step 4–5** — tick remaining **`process-checklist.md`** lines when each phase completes.
+
+**Resume** — read **`progress/`** first; first unchecked `- [ ]` in the layers file is next unless the user names a step.
+
+See **`rules/track-layer-completion-checklist.md`**.
+
 ### 2. Downstream skills — mandatory, not optional
 
 | Phase | Skill | When |
@@ -167,18 +220,22 @@ When every scenario in the current layer is green, move to the next layer and re
 
 **Per-layer gate (mandatory)**
 
-- Do not start the next layer until **all scenarios** in the current layer pass.
+- Do not start the next layer until **every scenario in the current tier has been executed** RED then GREEN, the **full tier test suite has been executed** and passes, **and** production for that layer is green.
+- After the gate passes, **check off** that layer's scenario-run, tier-executed, and production lines in **`<scope-slug>-layers-checklist.md`** (step **1c**) before opening the next spec layer.
 - Do not write multiple scenario tests upfront and implement code in bulk — that violates the increment rule.
 
 **DO NOT**
 
-- Start RED without completing step **1b** (inventory derived from **`<spec-root>`** + scaffolds on disk).
+- Start RED without completing steps **1b** (inventory + scaffolds) and **1c** (**`track_task`** layer checklist on disk).
 - Name test files after **stories** or **scenarios** when **`<spec-root>`** maps a higher story artifact (e.g. sub-epic) → file.
 - Ship a story-hierarchy unit with only some tiers when **`<spec-root>/rules/`** mandates all tiers for that unit.
 - Batch-write all test methods for a story, then all production code.
 - Write production code before the scenario's test method exists.
 - Move to the next scenario while the current one is still failing.
 - Skip a layer or reorder layers contrary to the spec's Testing Architecture.
+- Mark a layer done in chat without updating **`progress/`** checklists.
+- Start the next spec layer while any scenario-run, tier-executed, or production checkbox for the current layer is still `- [ ]`.
+- Mark tests done without **executing** them — writing test methods or seeing one scenario pass is not enough; run the full tier and every spec-mandated suite.
 - Implement production files not required by the current scenario — but **test tier files** for each sub-epic must exist upfront even if scenarios are filled incrementally.
 - Use live/production seam types in unit or adapter tests when the spec designates fakes or mocks.
 
@@ -187,12 +244,14 @@ When every scenario in the current layer is green, move to the next layer and re
 The per-scenario loop continues through integration. After each layer's scenarios are green, and again when all layers are done:
 
 1. **Install** dependencies (`npm install`, `pip install`, or equivalent per spec) — fix resolution errors immediately.
-2. **Execute** every test tier **`<spec-root>/rules/`** and scripts require (unit, adapter, E2E, etc.) — fix regressions before proceeding. Passing one runner when the spec mandates another is **not** done.
+2. **Execute** every test tier **`<spec-root>/rules/`** and scripts require (unit, adapter, E2E, etc.) — **run the full suite**, not a single file in isolation when the spec mandates the whole tier; fix regressions before proceeding. Passing one runner when the spec mandates another is **not** done. Tick **Test execution — all tiers in scope** and **`- [ ] 4a`** in **`progress/`** only after every listed command has been run and all tests pass.
 3. **Start** composition roots (dev server, app host) per spec — verify boot without errors.
 4. **Smoke the flow** — walk the story's happy path in the running app (or E2E suite) to confirm the deployed solution actually works, not just that unit tests pass in isolation.
 5. **Fix** any integration, wiring, or runtime failures; re-run affected scenarios; repeat until the story works end-to-end.
 
 Do not proceed to validation until install succeeds, all tiers are green, the app runs, and the story flow works in the deployed environment.
+
+When step **4** completes, tick **`- [ ] 4 — Deploy and verify end-to-end`** and **`- [ ] 4a — All spec-mandated test suites executed (full run, all pass)`** in **`process-checklist.md`**. Every line under **Test execution — all tiers in scope** must be `- [x]`.
 
 ### 5. Validate — per-rule verdict required
 
@@ -213,6 +272,8 @@ Rule: <rule-filename>  ->  FAIL  <offending line or reason>
 
 Fix every FAIL before declaring done.
 
+When step **5** completes, tick **`- [ ] 5 — Validate rules and scanners`** and **`- [ ] 3 — Generate tests and production (all spec layers)`** in **`process-checklist.md`**. Every line in **`<scope-slug>-layers-checklist.md`** must be `- [x]`.
+
 ---
 
 ## Validate
@@ -221,6 +282,7 @@ Fix every FAIL before declaring done.
 
 - **Inputs gated** — **`<spec-root>`**, domain artifact, story scope, story hierarchy, and UX (when UI) resolved or explicitly chosen via AskQuestion; no silent assumptions.
 - **Test layout scaffolded** — step 1b inventory derived from **`<spec-root>`**; every story-hierarchy unit has all spec-mandated tier files + helpers before scenarios were added.
+- **Layer progress tracked** — step 1c **`track_task`** checklists exist; every spec testing tier and production layer has an explicit `- [x]` when done; **every test tier and spec-mandated suite was executed** (full run, all pass); **`progress/`** matches actual layer gates (not chat-only claims).
 - **Skills invoked** — `abd-story-acceptance-test` for tests; `abd-clean-code` for production; both rule sets followed with **`<spec-root>`** overriding generic test paths.
 - **Spec is law** — file layout, mechanism participants, test tiers, and helpers match **`<spec-root>`** `architecture-specification.md`, `template/`, and `templates/`.
 - **Layer order** — domain → server → client → E2E (or spec-equivalent order); each layer green before the next.
