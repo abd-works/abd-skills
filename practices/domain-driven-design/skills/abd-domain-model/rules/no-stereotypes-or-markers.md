@@ -1,4 +1,4 @@
-﻿# Rule: No stereotypes or markers
+# Rule: No stereotypes or markers
 
 **Scanner:** Manual review
 

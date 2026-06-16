@@ -1,4 +1,4 @@
-﻿<!-- section: story_synthesizer.diagrams -->
+<!-- section: story_synthesizer.diagrams -->
 # Class Diagrams
 
 When a run produces or modifies domain model concepts, render the changes to a DrawIO class diagram. One page per foundational model. The diagram is the visual representation of `domain-model.md` — they stay in sync.

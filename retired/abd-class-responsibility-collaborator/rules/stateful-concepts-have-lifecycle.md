@@ -1,4 +1,4 @@
-﻿# Rule: Stateful concepts have lifecycle blocks
+# Rule: Stateful concepts have lifecycle blocks
 
 **Scanner:** Manual review
 

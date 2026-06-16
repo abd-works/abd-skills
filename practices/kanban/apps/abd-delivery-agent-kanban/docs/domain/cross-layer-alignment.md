@@ -1,4 +1,4 @@
-﻿# Cross-Layer Domain Alignment — Invocation Order
+# Cross-Layer Domain Alignment — Invocation Order
 
 Each row reads left-to-right in call order. Six layers:
 

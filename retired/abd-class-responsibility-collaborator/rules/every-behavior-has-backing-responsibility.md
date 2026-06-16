@@ -1,4 +1,4 @@
-﻿# Rule: Every Domain Language behavior has a backing responsibility
+# Rule: Every Domain Language behavior has a backing responsibility
 
 **Scanner:** Manual review
 

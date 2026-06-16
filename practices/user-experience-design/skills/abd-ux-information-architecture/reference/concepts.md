@@ -1,4 +1,4 @@
-﻿# abd-information-architecture — Concepts
+# abd-information-architecture — Concepts
 
 ## What is information architecture?
 

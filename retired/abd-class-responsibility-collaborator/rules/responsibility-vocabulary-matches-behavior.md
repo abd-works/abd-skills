@@ -1,4 +1,4 @@
-﻿# Rule: Responsibility vocabulary matches inspiring behavior
+# Rule: Responsibility vocabulary matches inspiring behavior
 
 **Scanner:** Manual review (grammar/vocabulary spot-check)
 

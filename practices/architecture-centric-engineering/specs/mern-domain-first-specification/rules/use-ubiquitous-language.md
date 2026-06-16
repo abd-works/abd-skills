@@ -1,4 +1,4 @@
-﻿---
+---
 scanner: ubiquitous_language_scanner.py
 ---
 

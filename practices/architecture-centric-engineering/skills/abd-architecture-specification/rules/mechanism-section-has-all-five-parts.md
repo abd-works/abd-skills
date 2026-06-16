@@ -1,4 +1,4 @@
-﻿### Rule: Mechanism section has all five parts
+### Rule: Mechanism section has all five parts
 
 Every mechanism in the produced reference document must contain the **same five-part shape** so the implementation skill can generalize across mechanisms. The five parts are **Principles & Patterns**, **File Structure**, **Participants** (class diagram or table), **Flow** (sequence diagram), and **Walkthrough Example**, followed by a **Testing the Mechanism** subsection. A reviewer should be able to land on any one mechanism and find every part without scrolling away. Passing means each mechanism reads as a self-contained recipe. Failing means a mechanism is missing a part, or parts are merged into prose that hides whether the structure is there.
 

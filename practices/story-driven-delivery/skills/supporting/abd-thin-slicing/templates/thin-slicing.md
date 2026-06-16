@@ -1,4 +1,4 @@
-﻿# Thin slicing -- incremental backlog  
+# Thin slicing -- incremental backlog  
 
 <!-- Thin-slicing / incremental backlog layout for this skill (conceptual only). -->  
 

@@ -1,4 +1,4 @@
-﻿---
+---
 scanner:
 ---
 # Rule: Every concept classified with explicit rationale

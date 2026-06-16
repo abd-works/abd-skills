@@ -1,4 +1,4 @@
-﻿# Agile Delivery Plan â€” No Inventory
+# Agile Delivery Plan ” No Inventory
 
 ## Context Assessment
 
@@ -6,7 +6,7 @@
 
 ## Risks
 
-- **Integration risk** â€” Acme SSO.
+- **Integration risk** ” Acme SSO.
 
 ## Strategy
 

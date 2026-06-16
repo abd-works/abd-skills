@@ -470,7 +470,7 @@ Proposal response, AI research assistant skills, and related utilities.
 | **abd-opportunity-canvas** | `practices` | Frame an opportunity, align on vision, and make assumptions and validation explicit before committing build. | [SKILL.md](../practices/idea-shaping/skills/abd-opportunity-generation/SKILL.md) |
 | **abd-simple-validated-learning** | `practices` | Turn surfaced assumptions into hypotheses, prioritise small tests, and run Plan / Validate / Learn before full build. | [SKILL.md](../practices/idea-shaping/skills/abd-simple-validated-learning/SKILL.md) |
 | **abd-cost-of-delay** | `practices` | Quantify urgency × value for backlog items; score CD3 and rank to prioritize by economic impact of delay. | [SKILL.md](../practices/idea-shaping/skills/abd-cost-of-delay/SKILL.md) |
-| **module-partition** | `practices` | After domain scan, partition the source corpus into modules by allocating source file references to per-module index files. No classes, no anchors â€” only module boundaries and file references to the source that belongs to each. Supports an Unallocated bucket for pending decisions and a Rejected … | [SKILL.md](../practices/domain-driven-design/skills/abd-module-partition/SKILL.md) |
+| **module-partition** | `practices` | After domain scan, partition the source corpus into modules by allocating source file references to per-module index files. No classes, no anchors ” only module boundaries and file references to the source that belongs to each. Supports an Unallocated bucket for pending decisions and a Rejected … | [SKILL.md](../practices/domain-driven-design/skills/abd-module-partition/SKILL.md) |
 | **domain-terms** | `practices` | Extract domain terms, group them into Key Abstractions, and produce a single domain-terms file — the shared vocabulary and building blocks for the module. | [SKILL.md](../practices/domain-driven-design/skills/abd-domain-terms/SKILL.md) |
 | **abd-ubiquitous-language** | `practices` | Build a shared, rigorous vocabulary for the scope you are modeling — extract terms, group them into Key Abstractions, and sketch each concept's behavior — all in one file every downstream artifact can rely on. | [SKILL.md](../practices/domain-driven-design/skills/abd-ubiquitous-language/SKILL.md) |
 | **class-responsibility-collaborator** | `practices` | For every domain concept: assign responsibilities, name collaborators, and declare invariants — all in one structured pass before object-model. | [SKILL.md](../practices/domain-driven-design/skills/abd-class-responsibility-collaborator/SKILL.md) |
@@ -640,17 +640,17 @@ This skill packages that method, it classifies the value type and urgency of eac
 
 **Summary:**
 
-After domain scan, partition the source corpus into modules by allocating source file references to per-module index files. No classes, no anchors â€” only module boundaries and file references to the source that belongs to each. Supports an Unallocated bucket for pending decisions and a Rejected …
+After domain scan, partition the source corpus into modules by allocating source file references to per-module index files. No classes, no anchors ” only module boundaries and file references to the source that belongs to each. Supports an Unallocated bucket for pending decisions and a Rejected …
 
 **Description (from Purpose / body):**
 
-Produce a root index (module-partition.md) plus per-module files under abd-domain-driven-design/modules/ â€” each containing scope, core terms, and source file references (not verbatim copies). No classes, no anchors, no UML, no stereotypes. Just boundaries and pointers to the source text that lives inside them.
+Produce a root index (module-partition.md) plus per-module files under abd-domain-driven-design/modules/ ” each containing scope, core terms, and source file references (not verbatim copies). No classes, no anchors, no UML, no stereotypes. Just boundaries and pointers to the source text that lives inside them.
 
-This is the scope cut before any class identification. It answers a single question for every chunk of source: which module does this text belong to â€” or is it unallocated (pending) or rejected (out of scope)?
+This is the scope cut before any class identification. It answers a single question for every chunk of source: which module does this text belong to ” or is it unallocated (pending) or rejected (out of scope)?
 
 ### Why references, not verbatim copies
 
-When the source is already structured as individually addressable files (corpus chunks, markdown files, scanned documents), copying their full content into the partition document is pure duplication. The partition's real value is the allocation decision â€” which files belong to which module. Downstream agents read the module …
+When the source is already structured as individually addressable files (corpus chunks, markdown files, scanned documents), copying their full content into the partition document is pure duplication. The partition's real value is the allocation decision ” which files belong to which module. Downstream agents read the module …
 
 **Repository layout:**
 
@@ -681,7 +681,7 @@ This is a single-pass skill. It does not produce a flat term list first and a KA
 - **[rules/](../practices/domain-driven-design/skills/abd-domain-terms/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
 - **[scanners/](../practices/domain-driven-design/skills/abd-domain-terms/scanners)** — Folder (3 items).
 - **[templates/](../practices/domain-driven-design/skills/abd-domain-terms/templates)** — Authoring templates and structural skeletons.
-- [corrections-log.md](../practices/domain-driven-design/skills/abd-domain-terms/corrections-log.md) — ��#   C o r r e c t i o n s   l o g 
+- [corrections-log.md](../practices/domain-driven-design/skills/abd-domain-terms/corrections-log.md) — ——#   C o r r e c t i o n s   l o g 
 - [SKILL.md](../practices/domain-driven-design/skills/abd-domain-terms/SKILL.md) — name: domain-terms
 
 ### abd-ubiquitous-language
@@ -729,7 +729,7 @@ CRC (Class-Responsibility-Collaborator) modeling, introduced by Ward Cunningham 
 - **[rules/](../practices/domain-driven-design/skills/abd-class-responsibility-collaborator/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
 - **[scanners/](../practices/domain-driven-design/skills/abd-class-responsibility-collaborator/scanners)** — Folder (4 items).
 - **[templates/](../practices/domain-driven-design/skills/abd-class-responsibility-collaborator/templates)** — Authoring templates and structural skeletons.
-- [corrections-log.md](../practices/domain-driven-design/skills/abd-class-responsibility-collaborator/corrections-log.md) — ��#   C o r r e c t i o n s   l o g 
+- [corrections-log.md](../practices/domain-driven-design/skills/abd-class-responsibility-collaborator/corrections-log.md) — ——#   C o r r e c t i o n s   l o g 
 - [skill-errors-log.md](../practices/domain-driven-design/skills/abd-class-responsibility-collaborator/skill-errors-log.md) — Skill Errors Log — abd-class-responsibility-collaborator
 - [SKILL.md](../practices/domain-driven-design/skills/abd-class-responsibility-collaborator/SKILL.md) — name: class-responsibility-collaborator
 
@@ -869,7 +869,7 @@ This document defines …
 - **[rules/](../practices/story-driven-delivery/skills/abd-story-mapping/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
 - **[scanners/](../practices/story-driven-delivery/skills/abd-story-mapping/scanners)** — Folder (6 items).
 - **[templates/](../practices/story-driven-delivery/skills/abd-story-mapping/templates)** — Authoring templates and structural skeletons.
-- [corrections-log.md](../practices/story-driven-delivery/skills/abd-story-mapping/corrections-log.md) — ��#   C o r r e c t i o n s   l o g 
+- [corrections-log.md](../practices/story-driven-delivery/skills/abd-story-mapping/corrections-log.md) — ——#   C o r r e c t i o n s   l o g 
 - [README.md](../practices/story-driven-delivery/skills/abd-story-mapping/README.md) — One line for catalogue cards and grids (YAML string).
 - [SKILL.md](../practices/story-driven-delivery/skills/abd-story-mapping/SKILL.md) — name: abd-story-mapping
 
@@ -913,7 +913,7 @@ This skill is the practice standard for that work: templates for deliverables, r
 - **[rules/](../practices/story-driven-delivery/skills/abd-acceptance-criteria/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
 - **[scanners/](../practices/story-driven-delivery/skills/abd-acceptance-criteria/scanners)** — Folder (14 items).
 - **[templates/](../practices/story-driven-delivery/skills/abd-acceptance-criteria/templates)** — Authoring templates and structural skeletons.
-- [corrections-log.md](../practices/story-driven-delivery/skills/abd-acceptance-criteria/corrections-log.md) — ��#   C o r r e c t i o n s   l o g 
+- [corrections-log.md](../practices/story-driven-delivery/skills/abd-acceptance-criteria/corrections-log.md) — ——#   C o r r e c t i o n s   l o g 
 - [README.md](../practices/story-driven-delivery/skills/abd-acceptance-criteria/README.md) — One line for catalogue cards and grids (YAML string).
 - [skill-errors-log.md](../practices/story-driven-delivery/skills/abd-acceptance-criteria/skill-errors-log.md) — Skill Errors Log — abd-acceptance-criteria
 - [SKILL.md](../practices/story-driven-delivery/skills/abd-acceptance-criteria/SKILL.md) — name: abd-acceptance-criteria
@@ -935,7 +935,7 @@ Write Given/When/Then scenarios that make a story's expected behavior concrete a
 - **[rules/](../practices/story-driven-delivery/skills/abd-specification-by-example/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
 - **[scanners/](../practices/story-driven-delivery/skills/abd-specification-by-example/scanners)** — Folder (3 items).
 - **[templates/](../practices/story-driven-delivery/skills/abd-specification-by-example/templates)** — Authoring templates and structural skeletons.
-- [corrections-log.md](../practices/story-driven-delivery/skills/abd-specification-by-example/corrections-log.md) — ��#   C o r r e c t i o n s   l o g 
+- [corrections-log.md](../practices/story-driven-delivery/skills/abd-specification-by-example/corrections-log.md) — ——#   C o r r e c t i o n s   l o g 
 - [README.md](../practices/story-driven-delivery/skills/abd-specification-by-example/README.md) — One line for catalogue cards and grids (YAML string).
 - [SKILL.md](../practices/story-driven-delivery/skills/abd-specification-by-example/SKILL.md) — name: abd-specification-by-example
 
@@ -962,7 +962,7 @@ The skill covers the full test quality bar: domain language in names, observable
 - **[rules/](../practices/story-driven-delivery/skills/abd-acceptance-test-driven-development/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
 - **[scanners/](../practices/story-driven-delivery/skills/abd-acceptance-test-driven-development/scanners)** — Folder (2 items).
 - **[templates/](../practices/story-driven-delivery/skills/abd-acceptance-test-driven-development/templates)** — Authoring templates and structural skeletons.
-- [corrections-log.md](../practices/story-driven-delivery/skills/abd-acceptance-test-driven-development/corrections-log.md) — ��#   C o r r e c t i o n s   l o g 
+- [corrections-log.md](../practices/story-driven-delivery/skills/abd-acceptance-test-driven-development/corrections-log.md) — ——#   C o r r e c t i o n s   l o g 
 - [README.md](../practices/story-driven-delivery/skills/abd-acceptance-test-driven-development/README.md) — One line for catalogue cards and grids (YAML string).
 - [SKILL.md](../practices/story-driven-delivery/skills/abd-acceptance-test-driven-development/SKILL.md) — name: abd-acceptance-test-driven-development
 
@@ -1120,11 +1120,11 @@ A team that cannot draw its system on one page also cannot agree on what to buil
 - **[scanners/](../practices/architecture-centric-engineering/skills/abd-architecture-outline/scanners)** — Folder (1 items).
 - **[scripts/](../practices/architecture-centric-engineering/skills/abd-architecture-outline/scripts)** — Build, catalogue, validation, or packaging automation.
 - **[templates/](../practices/architecture-centric-engineering/skills/abd-architecture-outline/templates)** — Authoring templates and structural skeletons.
-- [corrections-log.md](../practices/architecture-centric-engineering/skills/abd-architecture-outline/corrections-log.md) — ��#   C o r r e c t i o n s   l o g   �� �   a b d - a r c h i t e c t u r e - o u t l i n e 
+- [corrections-log.md](../practices/architecture-centric-engineering/skills/abd-architecture-outline/corrections-log.md) — ——#   C o r r e c t i o n s   l o g   —— —   a b d - a r c h i t e c t u r e - o u t l i n e 
 - [deployment-architecture.png](../practices/architecture-centric-engineering/skills/abd-architecture-outline/deployment-architecture.png) — IHDR  *  ~   ��1�   sRGB ��
 - [layered-architecture.png](../practices/architecture-centric-engineering/skills/abd-architecture-outline/layered-architecture.png) — IHDR  �  X   L��P   sRGB ��
 - [platform-architecture.png](../practices/architecture-centric-engineering/skills/abd-architecture-outline/platform-architecture.png) — IHDR  (  4   P�   sRGB ��
-- [process.docx](../practices/architecture-centric-engineering/skills/abd-architecture-outline/process.docx) — PK     ! ��
+- [process.docx](../practices/architecture-centric-engineering/skills/abd-architecture-outline/process.docx) — PK     ! ——
 - [SKILL.md](../practices/architecture-centric-engineering/skills/abd-architecture-outline/SKILL.md) — catalog_garden_tier: practice
 - [system-context.png](../practices/architecture-centric-engineering/skills/abd-architecture-outline/system-context.png) — IHDR    Y   ݸ��   sRGB ��
 
@@ -1188,7 +1188,7 @@ Architecture decisions usually live in someone's head, a deck, or a wiki page th
 - **[rules/](../practices/architecture-centric-engineering/skills/abd-architecture-template/rules)** — Practice rules (DO/DON'T) and constraints used with scanners.
 - **[scanner-report/](../practices/architecture-centric-engineering/skills/abd-architecture-template/scanner-report)** — Folder (1 items).
 - **[templates/](../practices/architecture-centric-engineering/skills/abd-architecture-template/templates)** — Authoring templates and structural skeletons.
-- [Key Mechanism Design.docx](../practices/architecture-centric-engineering/skills/abd-architecture-template/Key Mechanism Design.docx) — PK     ! �A�y  
+- [Key Mechanism Design.docx](../practices/architecture-centric-engineering/skills/abd-architecture-template/Key Mechanism Design.docx) — PK     ! —A—y  
 - [skill-errors-log.md](../practices/architecture-centric-engineering/skills/abd-architecture-template/skill-errors-log.md) — Skill errors log — abd-architecture-template
 - [SKILL.md](../practices/architecture-centric-engineering/skills/abd-architecture-template/SKILL.md) — catalog_garden_tier: practice
 

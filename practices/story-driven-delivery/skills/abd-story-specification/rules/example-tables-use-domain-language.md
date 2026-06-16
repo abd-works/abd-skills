@@ -1,4 +1,4 @@
-﻿---
+---
 scanner: example-tables-domain
 ---
 

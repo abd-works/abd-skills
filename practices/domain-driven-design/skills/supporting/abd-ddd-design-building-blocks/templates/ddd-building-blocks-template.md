@@ -1,4 +1,4 @@
-﻿# DDD Building Blocks — {{MODULE_NAME}}
+# DDD Building Blocks — {{MODULE_NAME}}
 
 **Source model:** {{SOURCE_ARTIFACT_PATH}}
 **Module:** {{MODULE_NAME}}

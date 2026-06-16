@@ -1,4 +1,4 @@
-﻿---
+---
 name: abd-build-architecture-skill
 catalog_garden_tier: practice
 catalog_garden_order: 50

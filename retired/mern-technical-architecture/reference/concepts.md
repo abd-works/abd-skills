@@ -1,4 +1,4 @@
-﻿# MERN Technical Architecture — Concepts
+# MERN Technical Architecture — Concepts
 
 ## What is Domain-First MERN Architecture?
 

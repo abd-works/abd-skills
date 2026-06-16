@@ -1,4 +1,4 @@
-﻿# Rule: Many-to-many association signals a new first-class concept
+# Rule: Many-to-many association signals a new first-class concept
 
 **Scanner:** Manual review
 

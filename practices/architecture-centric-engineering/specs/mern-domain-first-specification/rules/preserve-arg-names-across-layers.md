@@ -1,4 +1,4 @@
-﻿---
+---
 scanner: arg_naming_scanner.py
 ---
 

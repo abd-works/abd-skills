@@ -1,4 +1,4 @@
-﻿# abd-answers retrieval — abd-bounded-context-map
+# abd-answers retrieval — abd-bounded-context-map
 
 Retrieval date: 2026-05-18
 Queries: 4 Pinecone queries + 1 converted source document (stuff.docx → markdown/stuff.md)

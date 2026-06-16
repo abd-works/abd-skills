@@ -1,4 +1,4 @@
-﻿# Agile Delivery Plan â€” Risk-Only Rationales
+# Agile Delivery Plan ” Risk-Only Rationales
 
 ## Context inventory
 

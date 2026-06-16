@@ -1,4 +1,4 @@
-﻿# abd-ux-mockup — Concepts
+# abd-ux-mockup — Concepts
 
 ## What is a lo-fi mockup
 

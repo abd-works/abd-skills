@@ -1,4 +1,4 @@
-﻿# Class Responsibility Collaborator — Concepts
+# Class Responsibility Collaborator — Concepts
 
 For OO fundamentals (what is a class, decomposing responsibilities, relationships, inheritance and subtypes), read [`../../../reference/oo-concepts.md`](../../../reference/oo-concepts.md) in full before proceeding. The sections below cover only what is specific to the domain model format.
 

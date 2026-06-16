@@ -1,4 +1,4 @@
-﻿---
+---
 name: abd-thin-slicing
 catalog_garden_tier: practice
 catalog_garden_order: 20

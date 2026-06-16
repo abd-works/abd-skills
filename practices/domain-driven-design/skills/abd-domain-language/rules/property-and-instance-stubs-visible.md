@@ -1,4 +1,4 @@
-﻿# Rule: Properties belong on the parent concept — no stub heading for pure properties
+# Rule: Properties belong on the parent concept — no stub heading for pure properties
 
 **Scanner:** AI review
 

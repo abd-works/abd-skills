@@ -10,7 +10,7 @@ There are NO exceptions. Finishing the markdown edit is not done. The turn is no
 
 ## Golden rule
 
-**NEVER hand-edit `story-graph.json` directly.** Always use the **story-graph-ops** skill's CLI or Python modules (`scripts/story_graph_cli.py`, `story_map` package). Read the skill: **`skills/story-graph-ops/SKILL.md`** (or **`~/.cursor/skills/story-graph-ops/SKILL.md`**).
+**NEVER hand-edit `story-graph.json` directly.** Always use the **story-graph-ops** skill's CLI or Python modules (`scripts/story_graph_cli.py`, `story_map` package). Read the skill: **`../skills/story-graph-ops/SKILL.md`**.
 
 ## When a matching Markdown file is written or changed
 
@@ -36,4 +36,4 @@ See **`SKILL.md` → "Reordering epics, sub-epics, or increments"** for a copy-p
 After any successful update to `story-graph.json`, check whether companion **Draw.io diagrams** already exist alongside it (e.g. `story-graph.drawio`, `story-graph-exploration.drawio`, `story-graph-increments.drawio`).
 
 - If diagrams exist → **ask the user** whether to re-render them. Same prompt/auto/no convention.
-- Use the **drawio-story-sync** skill for rendering — read **`skills/drawio-story-sync/SKILL.md`** (or **`~/.cursor/skills/drawio-story-sync/SKILL.md`**).
+- Use the **drawio-story-sync** skill for rendering — read **`../skills/drawio-story-sync/SKILL.md`**.

@@ -22,6 +22,9 @@
   Qualified package name or "all" (default: all).
   Format: "<top>/<name>" for family packages (e.g. "practices/story-driven-delivery",
   "stages/discovery") or bare name for flat collections ("utilities", "others").
+
+.PARAMETER SkipChecks
+  Skip pre-deploy encoding and structure validation.
 #>
 param(
     [ValidateSet("cursor", "vscode")]
@@ -31,7 +34,11 @@ param(
 
     [string] $Package = "all",
 
-    [switch] $Force
+    [switch] $Force,
+
+    [switch] $SkipChecks,
+
+    [switch] $Status
 )
 
 $ErrorActionPreference = 'Stop'
@@ -297,7 +304,70 @@ function Deploy-Package {
     }
 }
 
+# ── Pre-deploy validation ──────────────────────────────────────────────────
+
+if (-not $SkipChecks) {
+    Write-Host "Running pre-deploy checks..."
+    $validationFailed = $false
+
+    # Encoding scan
+    try {
+        & python3 "$RepoRoot/scripts/scan_encoding.py" --check 2>&1 | ForEach-Object { Write-Host $_ }
+        if ($LASTEXITCODE -ne 0) { $validationFailed = $true }
+    } catch {
+        Write-Host "  ⚠️  Could not run encoding scan: $_"
+    }
+
+    # Deploy-path + structure test
+    try {
+        & python3 "$RepoRoot/tests/test_deploy_paths.py" 2>&1 | ForEach-Object { Write-Host $_ }
+        if ($LASTEXITCODE -ne 0) { $validationFailed = $true }
+    } catch {
+        Write-Host "  ⚠️  Could not run deploy-path test: $_"
+    }
+
+    if ($validationFailed) {
+        Write-Host ""
+        throw "Pre-deploy checks failed. Fix issues above or pass -SkipChecks to deploy anyway."
+    }
+    Write-Host "✅ Pre-deploy checks passed."
+    Write-Host ""
+}
+
+# ── Deploy ─────────────────────────────────────────────────────────────────
+
 $resolvedDeployRoot = Resolve-DeployRoot -ExplicitRoot $DeployRoot -RepoRoot $RepoRoot
+
+# Status check — compare source manifest with deployed receipt
+Write-Host "Checking deploy status..."
+try {
+    $deltaJson = & python3 "$RepoRoot/scripts/generate_manifest.py" --deployed "$resolvedDeployRoot" 2>$null
+    if ($deltaJson) {
+        $delta = $deltaJson | ConvertFrom-Json
+        switch ($delta.status) {
+            "current" {
+                Write-Host "✅ $($delta.message)"
+                if ($Status) { exit 0 }
+            }
+            "outdated" {
+                Write-Host "⚠️  $($delta.message)"
+                if ($Status) { exit 0 }
+            }
+            "fresh" {
+                Write-Host "🆕 $($delta.message)"
+                if ($Status) { exit 0 }
+            }
+        }
+    } else {
+        Write-Host "🆕 No previous deploy found — full deploy."
+        if ($Status) { exit 0 }
+    }
+} catch {
+    Write-Host "  (no previous deploy info)"
+    if ($Status) { exit 0 }
+}
+Write-Host ""
+
 New-Directory -Path $resolvedDeployRoot
 
 $packageRoots = Get-PackageRoots -RepoRoot $RepoRoot
@@ -323,3 +393,10 @@ foreach ($pkg in $selected) {
 }
 
 Write-Host ("Deploy complete. ide={0} package={1} root={2}" -f $ide, $Package, $resolvedDeployRoot)
+
+# Write deploy receipt
+try {
+    & python3 "$RepoRoot/scripts/generate_manifest.py" --write-receipt "$resolvedDeployRoot" --ide $ide 2>$null
+} catch {
+    # Receipt writing is best-effort
+}

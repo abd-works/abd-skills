@@ -1,4 +1,4 @@
-﻿---
+---
 name: abd-story-acceptance-criteria
 catalog_garden_tier: practice
 catalog_garden_order: 30

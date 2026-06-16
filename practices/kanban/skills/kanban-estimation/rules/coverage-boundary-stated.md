@@ -1,4 +1,4 @@
-﻿---
+---
 scanner: ~
 ---
 # Rule: Coverage boundary stated before estimates begin

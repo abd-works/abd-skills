@@ -1,4 +1,4 @@
-﻿# Rule: Collaborators trace to sketch
+# Rule: Collaborators trace to sketch
 
 **Scanner:** Manual review
 

@@ -1,4 +1,4 @@
-﻿### Rule: Include class and sequence diagrams for every mechanism
+### Rule: Include class and sequence diagrams for every mechanism
 
 Every mechanism must show its **participants** as either a Mermaid `classDiagram` block **or** a Markdown participants table (Class / Layer / Responsibility / Collaborators), and must show its **flow** as a Mermaid `sequenceDiagram` block. The flow diagram is mandatory because the implementation skill renders timing from it. The class view may be a table when the relationships are simple enough that a diagram adds no signal, but the **classes-and-layers information must be present** in some structured form — never just a paragraph of prose. Passing means a reader who only opens the Participants block and the Flow block already knows who the actors are and the order of calls. Failing means either block is missing, both are prose, or the sequence diagram is an ASCII sketch rather than Mermaid.
 

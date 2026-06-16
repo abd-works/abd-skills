@@ -1,4 +1,4 @@
-﻿---
+---
 name: abd-semantic-context-chunker
 description: >-
   Index scattered source content by the kind of context it provides — Story, Domain,

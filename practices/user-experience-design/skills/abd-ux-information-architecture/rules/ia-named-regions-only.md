@@ -1,4 +1,4 @@
-﻿# Rule: IA per screen lists named regions only — no controls
+# Rule: IA per screen lists named regions only — no controls
 
 **Scanner:** AI review
 

@@ -1,4 +1,4 @@
-﻿# Rule: Screen names use domain terms verbatim
+# Rule: Screen names use domain terms verbatim
 
 **Scanner:** AI review
 

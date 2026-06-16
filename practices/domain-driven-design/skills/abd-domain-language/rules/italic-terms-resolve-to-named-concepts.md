@@ -1,4 +1,4 @@
-﻿# Rule: Every italicized term resolves to a named concept, stub, or primitive
+# Rule: Every italicized term resolves to a named concept, stub, or primitive
 
 **Scanner:** Manual review (optional companion scanner — see `scanners/italic-terms-resolve-scanner.py` when present)
 

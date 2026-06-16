@@ -1,4 +1,4 @@
-﻿---
+---
 catalog_garden_tier: practice
 catalog_garden_order: 30
 name: abd-architecture-reference

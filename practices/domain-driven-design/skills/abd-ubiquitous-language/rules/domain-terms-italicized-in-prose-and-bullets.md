@@ -1,4 +1,4 @@
-﻿# Rule: Domain terms italicized in prose and bullets; every term has a concept block
+# Rule: Domain terms italicized in prose and bullets; every term has a concept block
 
 **Scanner:** Python — `domain-terms-coverage-scanner.py`
 

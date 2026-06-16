@@ -1,4 +1,4 @@
-﻿# Specification by Example — Core Concepts
+# Specification by Example — Core Concepts
 
 ## What is specification by example?
 

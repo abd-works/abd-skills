@@ -1,4 +1,4 @@
-﻿---
+---
 name: drawio-domain-sync
 catalog_garden_order: 7
 description: >-

@@ -1,5 +1,7 @@
 # The ABD Foundry
 
+**Version:** <!-- VERSION -->1.0.0<!-- /VERSION -->
+
 Reusable **plugins**, **skills**, and **agents** from [abd.works](https://agilebydesign.com) — story-driven delivery, domain modeling, UX, architecture, delivery orchestration, and skill authoring.
 
 | Browse the catalog | |
@@ -214,6 +216,10 @@ Deploy root resolves from `skill-config.json` → `active_skill_workspace`, or p
 | `ide` (bash) / `-ide` (PS) | `cursor` (default) → `.cursor/` · `vscode` → `.github/` |
 | `deploy-root` / `-DeployRoot` | Override workspace root (auto-resolved when omitted) |
 | `package` / `-Package` | Specific package like `practices/kanban` or `all` (default) |
+| `--skip-checks` / `-SkipChecks` | Skip pre-deploy encoding and structure validation |
+| `--status` / `-Status` | Check deploy status without deploying (compare manifest) |
+
+Before deploying, the script runs encoding and structure checks, then compares the source manifest with any existing deploy receipt in the target workspace. A `.abd-deploy.json` receipt is written after each deploy, enabling delta detection on subsequent deploys.
 
 Workspace helper: [`foundational/skill-helpers/reference/workspace.md`](foundational/skill-helpers/reference/workspace.md) · scripts `foundational/skill-helpers/scripts/get_workspace.py` / `set_workspace.py`.
 
@@ -242,3 +248,77 @@ Each skill page in the [catalog](catalog/index.html) shows the exact install lin
 ```bash
 ./skills.sh
 ```
+
+---
+
+## Encoding guard
+
+Markdown files must be clean UTF-8. This repo includes an automated scanner that catches mojibake (double-encoded Unicode), `` U+FFFD replacement characters, and UTF-8 BOM before they ship.
+
+### What it checks
+
+| Issue | Example | Cause |
+| --- | --- | --- |
+| **Mojibake** | `â€™` instead of `'` | UTF-8 text misread as Windows-1252 or Latin-1, then re-saved |
+| **U+FFFD** | `` | Bytes that couldn't decode; original character lost |
+| **UTF-8 BOM** | `EF BB BF` at file start | Windows editors inserting byte-order mark |
+
+### Run manually
+
+```bash
+# Report all issues
+python3 scripts/scan_encoding.py
+
+# Exit non-zero if any issues (for CI or hooks)
+python3 scripts/scan_encoding.py --check
+
+# Auto-fix: mojibake → correct Unicode, U+FFFD → em-dash, strip BOM
+python3 scripts/scan_encoding.py --fix
+
+# Strip BOM only
+python3 scripts/scan_encoding.py --fix-bom
+
+# Scan only staged files (used by pre-commit hook)
+python3 scripts/scan_encoding.py --staged --check
+```
+
+### Pre-commit hook
+
+Install once after cloning:
+
+```bash
+./scripts/install-hooks.sh
+```
+
+The hook runs `scan_encoding.py --check --staged` before every commit. If any staged `.md` / `.mdc` file has encoding issues, the commit is blocked.
+
+### CI (GitHub Actions)
+
+`.github/workflows/encoding-guard.yml` runs on every push and PR that touches `.md` / `.mdc` / `tests/` files:
+
+1. **Encoding scan** — `python3 scripts/scan_encoding.py --check`
+2. **Deploy-path & structure validation** — `python3 tests/test_deploy_paths.py`
+
+### Validation test
+
+`tests/test_deploy_paths.py` enforces IDE-agnostic conventions for all new content:
+
+| Check | What it catches |
+|---|---|
+| **No hardcoded `.cursor/skills/`** | Prompt/instruction files with Cursor-only paths |
+| **No bare `skills/` paths** | Missing `../` prefix that breaks deploy resolution |
+| **No `~/../skills/` paths** | Incorrect home-relative paths |
+| **No mojibake** | Double-encoded Unicode (smart quotes, em-dashes) |
+| **No U+FFFD** | Irrecoverable encoding corruption |
+| **No UTF-8 BOM** | Byte-order mark at file start |
+| **SKILL.md frontmatter** | Missing `name` or `description` fields |
+| **Agent entry files** | Agent dirs without `AGENT.md` / `AGENTS.md` |
+
+Run locally:
+```bash
+python3 tests/test_deploy_paths.py
+```
+
+### Codespaces note
+
+Skills are deployed to the target workspace by `scripts/deploy-skills.sh` (or `.ps1`). In Codespaces, run the deploy script after opening the workspace so that `.github/skills/` and `.github/prompts/` are populated for Copilot slash-command discovery.

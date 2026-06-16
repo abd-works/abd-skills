@@ -1,4 +1,4 @@
-﻿# Delivery Agent Kanban — Python domain layer
+# Delivery Agent Kanban — Python domain layer
 
 Canonical implementation of the domain model in `docs/domain/domain model.md` and `docs/domain/domain model-class-diagram.drawio`.
 

@@ -1,4 +1,4 @@
-﻿# DDD Design Building Blocks — Examples
+# DDD Design Building Blocks — Examples
 
 ## domain model before and after DDD building blocks
 

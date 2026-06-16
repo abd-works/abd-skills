@@ -1,4 +1,4 @@
-﻿### Rule: Walkthrough Example is numbered steps that name participants
+### Rule: Walkthrough Example is numbered steps that name participants
 
 The **Walkthrough Example** subsection must be an **ordered list** of steps, with each step naming the participant doing the work and the action taken — not a prose paragraph and not a bullet list. The walkthrough renders the same scenario as the sequence diagram, but in language a reviewer can read aloud while pointing at the diagram. Passing means a reader can pair each numbered step with a `participant` in the sequence diagram. Failing means the walkthrough is one block of paragraphs, uses unordered bullets, or describes "the system" / "the code" instead of naming a participant.
 

@@ -13,7 +13,7 @@
 
     ## **{{KAName}}**  
 
-    [Optional 1�2 sentence intro]  
+    [Optional 1—2 sentence intro]  
 
     ### **{{ka_name as a Class}}** << Stereotype >>      ? MUST appear first  
     + Constructor(param: Type)  
@@ -32,7 +32,7 @@
     + deltaProperty: Type  
 
     ### references                                       ? one per KA, peer to classes  
-    **Ref � title**  
+    **Ref — title**  
     Source: ...  
     Locator: ...  
     Extract: whole  
@@ -76,7 +76,7 @@ Scope: {{bounded slice or engagement scope}}
 
 ## **{{KAName}}**  
 
-{{Optional 1�2 sentence intro: what this KA owns at the typed-model level.}}  
+{{Optional 1—2 sentence intro: what this KA owns at the typed-model level.}}  
 
 ### **{{ka_name_as_a_Class}}** << {{Entity|ValueObject|Service|Factory|Repository|DomainEvent}} >>  
 
@@ -101,7 +101,7 @@ Scope: {{bounded slice or engagement scope}}
 
 ### references  
 
-**Ref � {{ref_title}}**  
+**Ref — {{ref_title}}**  
 Source: {{source_path}}  
 Locator: {{locator}}  
 Extract: {{whole or partial}}  
@@ -120,7 +120,7 @@ Extract: {{whole or partial}}
 
 ### **{{BoundaryClass}}** << {{Stereotype}} >>  
 
-Initialisation: {{factory method | internal | pre-defined instances � explanation}}  
+Initialisation: {{factory method | internal | pre-defined instances — explanation}}  
 ------  
 + {{property}}: {{Type}}  
 ----  
@@ -128,7 +128,7 @@ Initialisation: {{factory method | internal | pre-defined instances � explanat
 
 ### references  
 
-**Ref � {{ref_title}}**  
+**Ref — {{ref_title}}**  
 Source: {{source_path}}  
 Locator: {{locator}}  
 Extract: {{whole or partial}}  

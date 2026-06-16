@@ -1,4 +1,4 @@
-﻿# Rule: Behavior and its produced result on the same bullet
+# Rule: Behavior and its produced result on the same bullet
 
 **Scanner:** Manual review
 

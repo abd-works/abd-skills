@@ -1,4 +1,4 @@
-﻿# Acceptance Criteria — Core Concepts
+# Acceptance Criteria — Core Concepts
 
 ## What are acceptance criteria?
 

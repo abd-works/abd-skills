@@ -1,4 +1,4 @@
-﻿# Rule: All collaborators accounted for
+# Rule: All collaborators accounted for
 
 **Scanner:** Manual review
 

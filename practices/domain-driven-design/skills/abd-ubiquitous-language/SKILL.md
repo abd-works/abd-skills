@@ -1,4 +1,4 @@
-﻿---
+---
 name: abd-ubiquitous-language
 catalog_garden_order: 3
 description: >-

@@ -1,4 +1,4 @@
-﻿---
+---
 name: story-graph-ops
 catalog_garden_tier: foundational
 catalogue_one_liner: >-

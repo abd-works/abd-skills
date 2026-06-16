@@ -1,4 +1,4 @@
-﻿# Architecture template — Increment 1 (stub)
+# Architecture template — Increment 1 (stub)
 
 Mechanisms needed for the walk-in driver slice (from abd-pet-store-demo blueprint, trimmed).
 

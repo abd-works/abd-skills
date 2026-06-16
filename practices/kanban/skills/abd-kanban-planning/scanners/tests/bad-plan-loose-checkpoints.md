@@ -1,4 +1,4 @@
-﻿# Agile Delivery Plan â€” Loose Checkpoints Despite High Risk
+# Agile Delivery Plan ” Loose Checkpoints Despite High Risk
 
 ## Context inventory
 
@@ -7,8 +7,8 @@
 
 ## Risks
 
-- **Integration risk** â€” Acme SSO, undocumented.
-- **AI-model risk** â€” proprietary internals, no training data.
+- **Integration risk** ” Acme SSO, undocumented.
+- **AI-model risk** ” proprietary internals, no training data.
 
 ## Strategy
 
