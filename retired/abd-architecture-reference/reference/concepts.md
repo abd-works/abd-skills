@@ -1,4 +1,4 @@
-﻿# Architecture Reference (Implementation) — Concepts
+# Architecture Reference (Implementation) — Concepts
 
 ## Assign before create
 

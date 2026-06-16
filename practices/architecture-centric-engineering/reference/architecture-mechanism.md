@@ -1,4 +1,4 @@
-﻿# Architecture Mechanism — Shared Concept
+# Architecture Mechanism — Shared Concept
 
 This is the family-level definition of an **architecture mechanism**. The
 architecture skills (`abd-architecture-outline`, `abd-architecture-blueprint`,

@@ -1,4 +1,4 @@
-﻿---
+---
 name: class-responsibility-collaborator
 catalog_garden_tier: practice
 catalog_garden_order: 5

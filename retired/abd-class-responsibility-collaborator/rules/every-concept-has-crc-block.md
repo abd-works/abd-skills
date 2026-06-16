@@ -1,4 +1,4 @@
-﻿# Rule: Every concept from Domain Language has a domain model block
+# Rule: Every concept from Domain Language has a domain model block
 
 **Scanner:** Manual review
 

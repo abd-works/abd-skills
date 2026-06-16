@@ -1,12 +1,12 @@
 # Quality gate for practice skill authoring
 
-When you **create, edit, or fix** any practice skill — whether under `skills/<name>/` or `agents/<agent>/skills/<name>/` — you **must** use **`skills/abd-practice-skill-builder/abd-author-practice-skill/SKILL.md`**. **Read that skill and its bundled rules** before starting work; do not improvise from memory.
+When you **create, edit, or fix** any practice skill — whether under `skills/<name>/` or `agents/<agent>/skills/<name>/` — you **must** use **`../skills/abd-practice-skill-builder/abd-author-practice-skill/SKILL.md`**. **Read that skill and its bundled rules** before starting work; do not improvise from memory.
 
 ## Required flow
 
 1. **Rules before work.** Read `abd-author-practice-skill` bundled rules as the quality bar for the target skill. Apply them while writing, not after.
 2. **Validate after work.** Run the Validate checklist in `abd-author-practice-skill/SKILL.md` against the target. Run `mdc-instructions-parity-scanner` when `ide-files/` exists.
-3. **Log mistakes inside the skill being corrected — immediately, in the same turn.** When output is wrong, follow **`skills/correct_output/SKILL.md`** and write the corrections log entry at `<target-skill>/corrections-log.md` **in the same turn you fix the output**. Do not wait to be asked. Not the repo root, not chat. Every correction lives with the skill it belongs to.
+3. **Log mistakes inside the skill being corrected — immediately, in the same turn.** When output is wrong, follow **`../skills/correct_output/SKILL.md`** and write the corrections log entry at `<target-skill>/corrections-log.md` **in the same turn you fix the output**. Do not wait to be asked. Not the repo root, not chat. Every correction lives with the skill it belongs to.
 
 ## Key constraints
 
@@ -23,13 +23,13 @@ When you **create, edit, or fix** any practice skill — whether under `skills/<
 - Running or executing a finished skill — this rule is for **authoring** only.
 # Quality gate for practice skill authoring
 
-When you **create, edit, or fix** any practice skill — whether under `skills/<name>/` or `agents/<agent>/skills/<name>/` — you **must** use **`skills/abd-practice-skill-builder/abd-author-practice-skill/SKILL.md`**. **Read that skill and its bundled rules** before starting work; do not improvise from memory.
+When you **create, edit, or fix** any practice skill — whether under `skills/<name>/` or `agents/<agent>/skills/<name>/` — you **must** use **`../skills/abd-practice-skill-builder/abd-author-practice-skill/SKILL.md`**. **Read that skill and its bundled rules** before starting work; do not improvise from memory.
 
 ## Required flow
 
 1. **Rules before work.** Read `abd-author-practice-skill` bundled rules as the quality bar for the target skill. Apply them while writing, not after.
 2. **Validate after work.** Run the Validate checklist in `abd-author-practice-skill/SKILL.md` against the target. Run `mdc-instructions-parity-scanner` when `ide-files/` exists.
-3. **Log mistakes inside the skill being corrected — immediately, in the same turn.** When output is wrong, follow **`skills/correct_output/SKILL.md`** and write the corrections log entry at `<target-skill>/corrections-log.md` **in the same turn you fix the output**. Do not wait to be asked. Not the repo root, not chat. Every correction lives with the skill it belongs to.
+3. **Log mistakes inside the skill being corrected — immediately, in the same turn.** When output is wrong, follow **`../skills/correct_output/SKILL.md`** and write the corrections log entry at `<target-skill>/corrections-log.md` **in the same turn you fix the output**. Do not wait to be asked. Not the repo root, not chat. Every correction lives with the skill it belongs to.
 
 ## Key constraints
 

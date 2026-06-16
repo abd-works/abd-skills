@@ -1,4 +1,4 @@
-﻿# Rule: Every concept from Ubiquitous Language has a CRC block
+# Rule: Every concept from Ubiquitous Language has a CRC block
 
 **Scanner:** Manual review
 

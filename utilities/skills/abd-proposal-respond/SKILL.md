@@ -1,4 +1,4 @@
-﻿---
+---
 name: abd-proposal-respond
 catalogue_one_liner: >-
   RFP and proposal response: ingest to memory (abd-context-to-memory), strategy, batched Q&A with RAG.

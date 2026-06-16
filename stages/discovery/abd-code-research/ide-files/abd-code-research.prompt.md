@@ -3,7 +3,7 @@ name: abd-code-research
 description: Survey a codebase in two passes — Explorer (research paths + source notes) then Deep Dive (one deep-dive file per path) — to produce structured research that primes abd-architecture-outline, abd-architecture-blueprint, and abd-architecture-template.
 ---
 
-Read the skill at `.cursor/skills/abd-code-research/SKILL.md` and follow it to survey the codebase.
+Read the skill at `../skills/abd-code-research/SKILL.md` and follow it to survey the codebase.
 
 **Pass 1 — Explorer**
 - Map folder structure, identify entry points, scan significant files

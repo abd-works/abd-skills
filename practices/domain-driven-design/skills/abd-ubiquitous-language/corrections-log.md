@@ -1,4 +1,4 @@
-﻿# Corrections log
+# Corrections log
 
 Project: ubiquitous-language skill
 Source: ubiquitous-language skill (pipeline runs)
@@ -144,7 +144,7 @@ Source: ubiquitous-language skill (pipeline runs)
 
 - **Status:** confirmed
 - **Context:** DDD phase output filename
-- **DO / DO NOT:** DO default to the bare phase name � `domain-language.md`, `key-abstractions.md`, `ubiquitous-language.md`, `crc.md`, `object-model.md`, `walkthrough.md`. DO add a `<name>-` engagement prefix only when you need disambiguation: multiple products in the same workspace, or the user asks for it. DO NOT mandate the prefix as the only valid form. The skill template comments now show `[<name>-]<phase>.md` to signal optionality.
+- **DO / DO NOT:** DO default to the bare phase name — `domain-language.md`, `key-abstractions.md`, `ubiquitous-language.md`, `crc.md`, `object-model.md`, `walkthrough.md`. DO add a `<name>-` engagement prefix only when you need disambiguation: multiple products in the same workspace, or the user asks for it. DO NOT mandate the prefix as the only valid form. The skill template comments now show `[<name>-]<phase>.md` to signal optionality.
 - **Example (wrong, mandatory prefix):** Always writing `paw-place-ubiquitous-language.md` even though the engagement workspace only ever holds one product.
 - **Example (correct):** Default to `ubiquitous-language.md`. If the same workspace also hosts a `barkery-` product line and a `paw-place-` product line, prefix both to disambiguate: `paw-place-ubiquitous-language.md`, `barkery-ubiquitous-language.md`.
 - **Likely source:** the original skill text required `<name>-<phase>.md` unconditionally; in single-product engagements the prefix was redundant noise.
@@ -153,8 +153,8 @@ Source: ubiquitous-language skill (pipeline runs)
 ## Entry: Customer review missed authorship by customer account
 
 - **Status:** confirmed
-- **Context:** abd-ubiquitous-language � PawPlace engagement, Product Catalog KA, `customer review` concept block.
-- **DO / DO NOT:** DO surface authorship as a first-class relationship on any concept that is **created by an actor**: a review is **authored by exactly one customer account**, an order is **placed by a customer account or guest checkout**, an appointment is **booked by a customer account**, etc. Authorship belongs in **both** the authored concept's bullets and the authoring KA's invariants/aggregations, plus in the owning KA's `### decisions made` block as a two-sided relationship statement. DO NOT treat authored artifacts as floating facts attached only to their target (the product, in this case) � that hides the trust anchor and leaves invariants like `no anonymous reviews` undocumented.
+- **Context:** abd-ubiquitous-language — PawPlace engagement, Product Catalog KA, `customer review` concept block.
+- **DO / DO NOT:** DO surface authorship as a first-class relationship on any concept that is **created by an actor**: a review is **authored by exactly one customer account**, an order is **placed by a customer account or guest checkout**, an appointment is **booked by a customer account**, etc. Authorship belongs in **both** the authored concept's bullets and the authoring KA's invariants/aggregations, plus in the owning KA's `### decisions made` block as a two-sided relationship statement. DO NOT treat authored artifacts as floating facts attached only to their target (the product, in this case) — that hides the trust anchor and leaves invariants like `no anonymous reviews` undocumented.
 - **Example (wrong):**
   ```
   ### **customer review**
@@ -166,12 +166,12 @@ Source: ubiquitous-language skill (pipeline runs)
 - **Example (correct):**
   ```
   ### **customer review**
-  - is **authored by exactly one customer account** � anonymous reviews are not allowed
+  - is **authored by exactly one customer account** — anonymous reviews are not allowed
   - attaches a one-to-five star rating, optional written text, and optional photo to a product
   - contributes to the product's aggregate rating
   - **Invariant:** must always be attached to exactly one product **and** authored by exactly one customer account; guest checkout sessions cannot leave reviews
   ```
-  Plus on Customer Account: aggregates `�and authored customer reviews`.
+  Plus on Customer Account: aggregates `—and authored customer reviews`.
   Plus in Product Catalog `### decisions made`: `Customer review **authorship** belongs to **Customer Account**. Product Catalog *owns* the review system; Customer Account *authors* each review. Two-sided relationship.`
 - **Likely source:** the bundled rules in `abd-ubiquitous-language/SKILL.md` enforce concept verbs and invariants but don't explicitly demand an **authorship / created-by** relationship on any concept that an actor produces. A new bundled rule should require: for every concept that is the artifact of an actor's behavior, name the authoring KA explicitly in the concept's bullets, in the authoring KA's aggregations, and in the owning KA's `### decisions made` as a two-sided relationship statement.
 

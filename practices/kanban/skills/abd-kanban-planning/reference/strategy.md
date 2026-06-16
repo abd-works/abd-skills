@@ -2,12 +2,12 @@
 
 A **strategy** defines how work flows through the kanban board:
 
-- **Scope progression** â€” which scope levels apply at each stage (may differ from default)
-- **Scatter rules** â€” when and how to decompose tickets at scope boundaries
-- **Sprint grouping** â€” how to group stories into sprints (default 3â€“4, adjustable)
-- **JIT policy** â€” how far ahead to scatter (next 1â€“2 items by default)
-- **Checkpoint policy** â€” where to stop for feedback (per skill, per stage, per increment)
-- **Risk classification** â€” which risks are present and how they affect ordering
+- **Scope progression** ” which scope levels apply at each stage (may differ from default)
+- **Scatter rules** ” when and how to decompose tickets at scope boundaries
+- **Sprint grouping** ” how to group stories into sprints (default 3“4, adjustable)
+- **JIT policy** ” how far ahead to scatter (next 1“2 items by default)
+- **Checkpoint policy** ” where to stop for feedback (per skill, per stage, per increment)
+- **Risk classification** ” which risks are present and how they affect ordering
 
 ---
 
@@ -15,10 +15,10 @@ A **strategy** defines how work flows through the kanban board:
 
 Agents benefit from an explicit delivery lifecycle: not just *what* to do next, but **when scope changes**, **when to scatter**, **how to group work**, and **when to stop for feedback**. The strategy + kanban board provide the spine without pre-planning every assignment.
 
-- **Uncertainty is real** â€” keep the strategy living; update when corrections accumulate.
-- **Risk before volume** â€” order increments so the hardest unknowns fail early.
-- **JIT over pre-plan** â€” decompose only when needed, not everything upfront.
-- **Humans in the loop** â€” checkpoint policy makes confirmation predictable.
+- **Uncertainty is real** ” keep the strategy living; update when corrections accumulate.
+- **Risk before volume** ” order increments so the hardest unknowns fail early.
+- **JIT over pre-plan** ” decompose only when needed, not everything upfront.
+- **Humans in the loop** ” checkpoint policy makes confirmation predictable.
 
 ---
 
@@ -26,12 +26,12 @@ Agents benefit from an explicit delivery lifecycle: not just *what* to do next, 
 
 Classify risks to inform strategy selection:
 
-- **Value risk** â€” building the wrong thing. Signals: vague briefs, no research, conflicting goals.
-- **Technical risk** â€” wrong tech, infra, or architecture. Signals: proprietary APIs, unfamiliar stacks, scale unknowns.
-- **Delivery risk** â€” miss schedule or quality bar. Signals: large scope, dependencies, deadlines.
-- **Domain risk** â€” misunderstand business rules. Signals: regulatory regimes, complex rules, jargon.
-- **Integration risk** â€” external systems constrain design. Signals: legacy, quirky APIs, backward compat.
-- **AI-model risk** â€” agent likely to hallucinate. Signals: no training data, undocumented APIs.
+- **Value risk** ” building the wrong thing. Signals: vague briefs, no research, conflicting goals.
+- **Technical risk** ” wrong tech, infra, or architecture. Signals: proprietary APIs, unfamiliar stacks, scale unknowns.
+- **Delivery risk** ” miss schedule or quality bar. Signals: large scope, dependencies, deadlines.
+- **Domain risk** ” misunderstand business rules. Signals: regulatory regimes, complex rules, jargon.
+- **Integration risk** ” external systems constrain design. Signals: legacy, quirky APIs, backward compat.
+- **AI-model risk** ” agent likely to hallucinate. Signals: no training data, undocumented APIs.
 
 Risk types drive strategy selection and checkpoint tightness.
 
@@ -39,13 +39,13 @@ Risk types drive strategy selection and checkpoint tightness.
 
 ## Checkpoint granularity
 
-Matches kanban scope levels â€” pick the coarsest that still gives you confidence:
+Matches kanban scope levels ” pick the coarsest that still gives you confidence:
 
-- **Per skill** â€” after each skill completes on a ticket; finest; use for high uncertainty or early work
-- **Per story** â€” after all skills complete on a story-scope ticket
-- **Per sprint** â€” after all skills complete on a sprint-scope ticket (specification / engineering)
-- **Per increment** â€” after all skills complete on an increment-scope ticket (discovery / exploration)
-- **Per stage** â€” after the stage exit gate passes; use for well-understood, repeatable work
+- **Per skill** ” after each skill completes on a ticket; finest; use for high uncertainty or early work
+- **Per story** ” after all skills complete on a story-scope ticket
+- **Per sprint** ” after all skills complete on a sprint-scope ticket (specification / engineering)
+- **Per increment** ” after all skills complete on an increment-scope ticket (discovery / exploration)
+- **Per stage** ” after the stage exit gate passes; use for well-understood, repeatable work
 
 Default: start per-skill, relax as confidence builds.
 
@@ -55,9 +55,9 @@ Default: start per-skill, relax as confidence builds.
 
 ### Default heuristics
 
-- **all â†’ increment** â€” one ticket per increment from thin-slicing; scatter all
-- **increment â†’ sprint** â€” group 3â€“4 stories per sprint; scatter next 1â€“2 increments JIT
-- **sprint â†’ story** â€” rare; only if strategy requires per-story tickets
+- **all â†’ increment** ” one ticket per increment from thin-slicing; scatter all
+- **increment â†’ sprint** ” group 3“4 stories per sprint; scatter next 1“2 increments JIT
+- **sprint â†’ story** ” rare; only if strategy requires per-story tickets
 
 ### User overrides
 
@@ -83,13 +83,13 @@ When error rate is low (<5%):
 
 Each strategy file in `reference/strategies/` defines:
 
-- **When to use** â€” context signals and risk types that match this strategy
-- **Typical scope** â€” what boundary or area this applies to
-- **Kanban board stages** â€” stages, scope per stage, skills per stage (or reference to default)
-- **Scatter rules** â€” how tickets decompose at scope boundaries
-- **Sprint grouping** â€” stories per sprint, grouping heuristics
-- **JIT policy** â€” how far ahead to decompose
-- **Checkpoint policy** â€” where to stop for feedback
-- **Key constraints** â€” non-negotiable rules for this strategy
+- **When to use** ” context signals and risk types that match this strategy
+- **Typical scope** ” what boundary or area this applies to
+- **Kanban board stages** ” stages, scope per stage, skills per stage (or reference to default)
+- **Scatter rules** ” how tickets decompose at scope boundaries
+- **Sprint grouping** ” stories per sprint, grouping heuristics
+- **JIT policy** ” how far ahead to decompose
+- **Checkpoint policy** ” where to stop for feedback
+- **Key constraints** ” non-negotiable rules for this strategy
 
 See **[strategy-catalog.md](strategy-catalog.md)** for all available strategies.

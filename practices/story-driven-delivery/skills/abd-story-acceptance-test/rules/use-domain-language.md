@@ -1,4 +1,4 @@
-﻿---
+---
 scanner: business_readable_test_names_scanner.py
 ---
 

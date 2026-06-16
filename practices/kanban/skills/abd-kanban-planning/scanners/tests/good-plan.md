@@ -1,4 +1,4 @@
-﻿# Agile Delivery Plan â€” Acme Onboarding
+# Agile Delivery Plan ” Acme Onboarding
 
 ## Context Assessment
 
@@ -19,9 +19,9 @@
 
 ## Risks
 
-- **Integration risk** â€” Acme SSO API, undocumented.
-- **AI-model risk** â€” proprietary Acme internals; no training coverage.
-- **Domain risk** â€” billing rules tied to regulated jurisdictions.
+- **Integration risk** ” Acme SSO API, undocumented.
+- **AI-model risk** ” proprietary Acme internals; no training coverage.
+- **Domain risk** ” billing rules tied to regulated jurisdictions.
 
 ## Strategy
 

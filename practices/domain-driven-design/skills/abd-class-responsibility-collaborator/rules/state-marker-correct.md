@@ -1,4 +1,4 @@
-﻿# Rule: State marker is crc
+# Rule: State marker is crc
 
 **Scanner:** Manual review
 

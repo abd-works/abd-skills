@@ -1,4 +1,4 @@
-﻿# Rule: Property and instance stubs visible — no silently dropped terms
+# Rule: Property and instance stubs visible — no silently dropped terms
 
 **Scanner:** AI review
 

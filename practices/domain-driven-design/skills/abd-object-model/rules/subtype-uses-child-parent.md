@@ -1,4 +1,4 @@
-﻿# Rule: Subtypes use ClassName : ParentClass on the heading line
+# Rule: Subtypes use ClassName : ParentClass on the heading line
 
 **Scanner:** Manual review
 

@@ -1,4 +1,4 @@
-﻿---
+---
 description: >-
   Run all Discovery stage skills (executor + reviewer) for the active increment ticket.
 mode: agent

@@ -1,4 +1,4 @@
-﻿# Rule: Every behavior has a backing method
+# Rule: Every behavior has a backing method
 
 **Scanner:** Manual review
 

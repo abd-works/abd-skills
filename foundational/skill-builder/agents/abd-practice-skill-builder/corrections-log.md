@@ -1,4 +1,4 @@
-﻿# Corrections log
+# Corrections log
 
 Engagement: practice-skill-builder — norms for finishing **any** abd.works **practice skill** (`skills/<practice>/`: `SKILL.md`, `rules/`, `templates/`).
 

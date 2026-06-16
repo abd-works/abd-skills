@@ -1,4 +1,4 @@
-﻿## Story: `Update Cart Quantity`
+## Story: `Update Cart Quantity`
 
 ### Scenario Outline 1: `Quantity change recalculates line price and subtotal`
 

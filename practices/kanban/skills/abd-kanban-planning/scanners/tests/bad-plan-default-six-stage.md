@@ -1,4 +1,4 @@
-﻿# Agile Delivery Plan â€” Default Waterfall
+# Agile Delivery Plan ” Default Waterfall
 
 ## Context inventory
 
@@ -7,7 +7,7 @@
 
 ## Risks
 
-- **Integration risk** â€” Acme SSO.
+- **Integration risk** ” Acme SSO.
 
 ## Strategy
 

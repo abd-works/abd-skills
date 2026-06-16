@@ -1,4 +1,4 @@
-﻿# Scanner Report — mern-technical-architecture
+# Scanner Report — mern-technical-architecture
 
 **Workspace:** c:\dev\agilebydesign-skills\practices\kanban\apps\abd-delivery-agent-kanban
 **Date:** 2026-06-06 00:39:24

@@ -2,7 +2,7 @@
 
 ## Golden rule
 
-**NEVER hand-edit `story-graph.json` directly.** Always use the **story-graph-ops** skill's CLI or Python modules (`scripts/story_graph_cli.py`, `story_map` package). Read the skill: **`skills/story-driven-delivery/story-graph-ops/SKILL.md`**.
+**NEVER hand-edit `story-graph.json` directly.** Always use the **story-graph-ops** skill's CLI or Python modules (`scripts/story_graph_cli.py`, `story_map` package). Read the skill: **`../skills/story-graph-ops/SKILL.md`**.
 
 ## When a story-skill writes or changes a Markdown deliverable
 
@@ -19,4 +19,4 @@ After any skill that produces story-map, thin-slicing, or acceptance-criteria ma
 After any successful update to `story-graph.json`, check whether companion **Draw.io diagrams** exist alongside it.
 
 - If diagrams exist → **ask the user** whether to re-render them (`drawio_render: yes` by default).
-- Use the **drawio-story-sync** skill for rendering — read **`skills/story-driven-delivery/drawio-story-sync/SKILL.md`**.
+- Use the **drawio-story-sync** skill for rendering — read **`../skills/drawio-story-sync/SKILL.md`**.

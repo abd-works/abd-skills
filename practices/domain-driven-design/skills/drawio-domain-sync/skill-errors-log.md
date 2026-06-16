@@ -1,4 +1,4 @@
-﻿# drawio-domain-sync — skill errors log
+# drawio-domain-sync — skill errors log
 
 ---
 

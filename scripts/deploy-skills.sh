@@ -13,13 +13,10 @@
 #     - cursor: copied to .cursor/rules/*.mdc (extension renamed)
 #
 # PARAMETERS
-#   ide         Target IDE: cursor or vscode. Default: cursor.
-#   DeployRoot  Explicit workspace root. Auto-resolved when omitted.
-#                 Resolution order: arg → find *.code-workspace → fallback to repo root.
-#   Package     Qualified package name or "all" (default: all).
-#               Format: "<top>/<name>" for family packages
-#               (e.g. "practices/story-driven-delivery")
-#               or bare name for flat collections ("utilities", "others").
+#   ide             Target IDE: cursor or vscode. Default: cursor.
+#   DeployRoot      Explicit workspace root. Auto-resolved when omitted.
+#   Package         Qualified package name or "all" (default: all).
+#   --skip-checks   Skip pre-deploy encoding and structure validation.
 #
 
 set -euo pipefail
@@ -29,9 +26,25 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 # --- Defaults ---
-IDE="${1:-cursor}"
-DEPLOY_ROOT="${2:-}"
-PACKAGE="${3:-all}"
+IDE=""
+DEPLOY_ROOT=""
+PACKAGE=""
+SKIP_CHECKS=false
+STATUS_ONLY=false
+
+# Parse args — flags anywhere, positional args in order
+POSITIONAL=()
+for arg in "$@"; do
+    case "$arg" in
+        --skip-checks) SKIP_CHECKS=true ;;
+        --status) STATUS_ONLY=true ;;
+        *) POSITIONAL+=("$arg") ;;
+    esac
+done
+
+IDE="${POSITIONAL[0]:-cursor}"
+DEPLOY_ROOT="${POSITIONAL[1]:-}"
+PACKAGE="${POSITIONAL[2]:-all}"
 
 # ---------------------------------------------------------------------------
 # JSON helper — uses python3 (already a project dependency via skills.sh)
@@ -355,7 +368,87 @@ deploy_package() {
 # MAIN
 # =========================================================================
 
+# =========================================================================
+# Pre-deploy validation
+# =========================================================================
+
+if ! $SKIP_CHECKS; then
+    echo "Running pre-deploy checks..."
+    validation_failed=false
+
+    # Encoding scan
+    if ! python3 "$REPO_ROOT/scripts/scan_encoding.py" --check 2>&1; then
+        validation_failed=true
+    fi
+
+    # Deploy-path + structure test
+    if ! python3 "$REPO_ROOT/tests/test_deploy_paths.py" 2>&1; then
+        validation_failed=true
+    fi
+
+    if $validation_failed; then
+        echo "" >&2
+        echo "❌ Pre-deploy checks failed. Fix issues above or pass --skip-checks to deploy anyway." >&2
+        exit 1
+    fi
+    echo "✅ Pre-deploy checks passed."
+    echo ""
+fi
+
+# =========================================================================
+# Status check — compare source manifest with deployed receipt
+# =========================================================================
+
 resolved_deploy_root=$(resolve_deploy_root "$DEPLOY_ROOT" "$REPO_ROOT")
+
+echo "Checking deploy status..."
+delta_json=$(python3 "$REPO_ROOT/scripts/generate_manifest.py" --deployed "$resolved_deploy_root" 2>/dev/null) || true
+if [[ -n "$delta_json" ]]; then
+    status=$(echo "$delta_json" | python3 -c "import sys,json; print(json.load(sys.stdin)['status'])" 2>/dev/null) || true
+    message=$(echo "$delta_json" | python3 -c "import sys,json; print(json.load(sys.stdin)['message'])" 2>/dev/null) || true
+
+    case "$status" in
+        current)
+            echo "✅ $message"
+            if $STATUS_ONLY; then exit 0; fi
+            echo ""
+            ;;
+        outdated)
+            echo "⚠️  $message"
+            # Show file-level changes
+            echo "$delta_json" | python3 -c "
+import sys, json
+d = json.load(sys.stdin)
+changes = d.get('changes', {})
+for kind in ('added', 'modified', 'deleted'):
+    items = changes.get(kind, [])
+    if items:
+        label = {'added': '🟢 New', 'modified': '🟡 Modified', 'deleted': '🔴 Deleted'}[kind]
+        print(f'  {label}: {len(items)} file(s)')
+        for f in items[:5]:
+            print(f'    {f}')
+        if len(items) > 5:
+            print(f'    ... and {len(items) - 5} more')
+" 2>/dev/null || true
+            if $STATUS_ONLY; then exit 0; fi
+            echo ""
+            ;;
+        fresh)
+            echo "🆕 $message"
+            if $STATUS_ONLY; then exit 0; fi
+            echo ""
+            ;;
+    esac
+else
+    echo "🆕 No previous deploy found — full deploy."
+    if $STATUS_ONLY; then exit 0; fi
+    echo ""
+fi
+
+# =========================================================================
+# Deploy
+# =========================================================================
+
 ensure_directory "$resolved_deploy_root"
 
 # Collect package roots
@@ -399,3 +492,6 @@ for entry in "${selected[@]}"; do
 done
 
 echo "Deploy complete. ide=$IDE package=$PACKAGE root=$resolved_deploy_root"
+
+# Write deploy receipt
+python3 "$REPO_ROOT/scripts/generate_manifest.py" --write-receipt "$resolved_deploy_root" --ide "$IDE" 2>/dev/null || true

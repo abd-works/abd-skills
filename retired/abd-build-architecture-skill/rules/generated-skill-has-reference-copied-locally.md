@@ -1,4 +1,4 @@
-﻿### Rule: Generated skill ships its own copy of the architecture reference
+### Rule: Generated skill ships its own copy of the architecture reference
 
 The generated implementation skill must contain its own copy of the architecture reference at `inputs/architecture-reference.md` — a single file, mechanisms organized inside it as the upstream authoring chose (combined section or one section per mechanism). The generated skill is the source of truth for the architecture it implements; depending on a link to another skill folder is brittle, and a copy guarantees the generated skill stays self-contained when it is deployed or moved. Passing means a reviewer can open the generated skill, read `inputs/architecture-reference.md`, and recover the full reference. Failing means the generated skill only links out, copies a partial reference, or splits the file into pieces it was not authored as.
 

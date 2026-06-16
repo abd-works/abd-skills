@@ -1,4 +1,4 @@
-﻿# Rule: Explicit chain of responsibility — no nebulous behaviors
+# Rule: Explicit chain of responsibility — no nebulous behaviors
 
 **Scanner:** Manual review
 

@@ -1,4 +1,4 @@
-﻿# Domain Model — Concepts
+# Domain Model — Concepts
 
 For OO fundamentals (what is a class, decomposing responsibilities, relationships, inheritance and subtypes), read [`../../../reference/oo-concepts.md`](../../../reference/oo-concepts.md) in full before proceeding. The sections below cover what is specific to the domain model format.
 

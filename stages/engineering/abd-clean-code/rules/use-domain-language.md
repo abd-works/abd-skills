@@ -1,4 +1,4 @@
-﻿---
+---
 scanner: domain_language_code_scanner.py
 ---
 

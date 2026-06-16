@@ -1,4 +1,4 @@
-﻿# Rule: Slash terms resolved before model
+# Rule: Slash terms resolved before model
 
 **Scanner:** Manual review
 

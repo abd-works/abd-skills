@@ -1,4 +1,4 @@
-﻿---
+---
 scanner: emphasize-domain-terms-scenario
 ---
 

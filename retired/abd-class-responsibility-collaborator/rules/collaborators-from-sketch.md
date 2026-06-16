@@ -1,4 +1,4 @@
-﻿# Rule: Collaborators trace to sketch collaborations and subtype edges
+# Rule: Collaborators trace to sketch collaborations and subtype edges
 
 **Scanner:** Manual review
 

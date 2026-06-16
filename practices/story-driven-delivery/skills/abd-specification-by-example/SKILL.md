@@ -1,4 +1,4 @@
-﻿---
+---
 name: abd-specification-by-example
 catalog_garden_tier: practice
 catalog_garden_order: 40

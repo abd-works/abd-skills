@@ -1,4 +1,4 @@
-﻿# Rule: Introduce a collection class when the collection has unique behavior
+# Rule: Introduce a collection class when the collection has unique behavior
 
 **Scanner:** Manual review
 

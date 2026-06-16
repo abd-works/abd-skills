@@ -1,6 +1,6 @@
 # Run abd-architecture-blueprint
 
-Read `skills/architecture-centric-engineering/abd-architecture-blueprint/SKILL.md` and follow the Build steps.
+Read `../skills/abd-architecture-blueprint/SKILL.md` and follow the Build steps.
 
 When producing or updating an architecture blueprint:
 

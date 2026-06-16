@@ -1,4 +1,4 @@
-﻿---
+---
 name: ddd-design-building-blocks
 catalog_garden_order: 7
 catalogue_one_liner: >-

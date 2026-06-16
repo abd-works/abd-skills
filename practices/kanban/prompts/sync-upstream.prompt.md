@@ -21,7 +21,7 @@ What do you want to sync?
 
 ## Step 2 — Determine available artifacts from skills
 
-Before asking anything, scan the workspace for which skill directories exist under `.github/skills/` (or `.cursor/skills/`). Use that to build the list of available artifacts — only include an artifact if its corresponding skill folder is present:
+Before asking anything, scan the workspace for which skill directories exist under `.github/skills/` (or `../skills/`). Use that to build the list of available artifacts — only include an artifact if its corresponding skill folder is present:
 
 | Skill folder | Artifact |
 | --- | --- |

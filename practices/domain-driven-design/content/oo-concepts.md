@@ -1,4 +1,4 @@
-﻿# Object-Oriented Concepts
+# Object-Oriented Concepts
 
 Shared reference for all abd-domain-driven-design skills. This file owns the OO theory. Each skill owns its own notation and format.
 

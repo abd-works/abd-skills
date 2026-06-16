@@ -1,4 +1,4 @@
-﻿# Rule: Slash terms resolved before CRC
+# Rule: Slash terms resolved before CRC
 
 **Scanner:** Manual review
 

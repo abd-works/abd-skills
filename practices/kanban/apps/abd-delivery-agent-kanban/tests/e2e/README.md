@@ -1,4 +1,4 @@
-﻿# Kanban E2E fixtures
+# Kanban E2E fixtures
 
 | Fixture | Purpose | Planning root |
 | --- | --- | --- |

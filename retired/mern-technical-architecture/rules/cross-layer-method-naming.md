@@ -1,4 +1,4 @@
-﻿---
+---
 scanner: cross_layer_naming_scanner.py
 ---
 

@@ -1,4 +1,4 @@
-﻿# Rule: Screens and IA reflect the user's mental model, not the technical decomposition
+# Rule: Screens and IA reflect the user's mental model, not the technical decomposition
 
 **Scanner:** AI review
 

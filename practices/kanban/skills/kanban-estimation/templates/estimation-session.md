@@ -1,4 +1,4 @@
-﻿# Estimation Session
+# Estimation Session
 
 ## Session metadata
 

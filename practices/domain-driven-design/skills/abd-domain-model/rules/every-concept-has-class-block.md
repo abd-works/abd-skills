@@ -1,4 +1,4 @@
-﻿# Rule: Every concept has a class block
+# Rule: Every concept has a class block
 
 **Scanner:** Manual review
 

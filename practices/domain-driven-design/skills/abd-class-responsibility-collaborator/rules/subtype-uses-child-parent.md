@@ -1,4 +1,4 @@
-﻿# Rule: Subtypes use ConceptName : BaseConcept on the heading line
+# Rule: Subtypes use ConceptName : BaseConcept on the heading line
 
 **Scanner:** Manual review
 

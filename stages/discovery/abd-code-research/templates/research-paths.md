@@ -1,4 +1,4 @@
-﻿# Code Research — Explorer Pass
+# Code Research — Explorer Pass
 # Research Paths
 
 **Project:** <!-- e.g. Hero Virtual Tabletop -->

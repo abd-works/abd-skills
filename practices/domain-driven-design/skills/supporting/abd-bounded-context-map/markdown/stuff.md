@@ -1,4 +1,4 @@
-﻿<!-- Source: source/abd-bounded-context-map/stuff.docx | file:///C:/dev/abd-answers/source/abd-bounded-context-map/stuff.docx -->
+<!-- Source: source/abd-bounded-context-map/stuff.docx | file:///C:/dev/abd-answers/source/abd-bounded-context-map/stuff.docx -->
 
 “sufficient network bandwidth”. Technical tests are often written to verify non-functional requirements.
 

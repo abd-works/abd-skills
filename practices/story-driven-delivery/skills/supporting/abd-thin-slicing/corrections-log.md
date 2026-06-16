@@ -1,4 +1,4 @@
-﻿# Corrections log
+# Corrections log
 
 Project: abd-thin-slicing skill
 Source: abd-thin-slicing skill (pipeline runs)

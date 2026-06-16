@@ -1,4 +1,4 @@
-﻿# Bounded Context Map — Concepts
+# Bounded Context Map — Concepts
 
 ## Bounded context
 

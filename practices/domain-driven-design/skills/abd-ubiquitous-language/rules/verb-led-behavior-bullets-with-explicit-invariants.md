@@ -1,4 +1,4 @@
-﻿# Rule: Concept bullets tell the concept's story; invariants are explicit
+# Rule: Concept bullets tell the concept's story; invariants are explicit
 
 **Scanner:** Manual review
 

@@ -1,4 +1,4 @@
-﻿# Rule: Interaction variable names use domain language
+# Rule: Interaction variable names use domain language
 
 **Scanner:** Manual review
 

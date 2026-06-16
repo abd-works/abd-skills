@@ -1,4 +1,4 @@
-﻿# Rule: Every Ubiquitous Language behavior has a backing responsibility
+# Rule: Every Ubiquitous Language behavior has a backing responsibility
 
 **Scanner:** Manual review
 

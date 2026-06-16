@@ -8,7 +8,7 @@ After `story-graph.json` is updated (by any means — story-graph-ops CLI, Pytho
 2. If they exist → **ask the user** whether to re-render. Default is to prompt.
    - If the user has previously said **"auto"** in this session → render without asking.
    - If the user has previously said **"don't"** or **"no"** → skip.
-3. Use the **drawio-story-sync** skill's CLI to render. Read the skill: **`skills/drawio-story-sync/SKILL.md`** (or **`~/.cursor/skills/drawio-story-sync/SKILL.md`**).
+3. Use the **drawio-story-sync** skill's CLI to render. Read the skill: **`../skills/drawio-story-sync/SKILL.md`**.
 
 ## When a Draw.io outline diagram is saved or edited
 
