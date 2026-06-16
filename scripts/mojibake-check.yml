@@ -1,0 +1,159 @@
+# .github/workflows/mojibake-check.yml
+# -------------------------------------------------------
+# Reusable workflow: scan for UTF-8 mojibake in tracked files.
+#
+# Usage in any repo:
+#   jobs:
+#     mojibake:
+#       uses: abd-works/.github/.github/workflows/mojibake-check.yml@main
+#
+# Or paste this file directly into a repo's .github/workflows/.
+# -------------------------------------------------------
+name: "Mojibake check"
+
+on:
+  # Reusable — called by other workflows
+  workflow_call:
+  # Also runs directly if placed in a repo
+  push:
+    branches: [main, master]
+    paths:
+      - '**/*.md'
+      - '**/*.json'
+      - '**/*.yaml'
+      - '**/*.yml'
+      - '**/*.txt'
+      - '**/*.py'
+      - '**/*.ts'
+      - '**/*.js'
+      - '**/*.mdc'
+      - '**/*.prompt.md'
+      - '**/*.instructions.md'
+  pull_request:
+    paths:
+      - '**/*.md'
+      - '**/*.json'
+      - '**/*.yaml'
+      - '**/*.yml'
+      - '**/*.txt'
+      - '**/*.py'
+      - '**/*.ts'
+      - '**/*.js'
+      - '**/*.mdc'
+      - '**/*.prompt.md'
+      - '**/*.instructions.md'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  scan:
+    name: Detect mojibake (UTF-8 garble)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Scan for mojibake patterns
+        id: scan
+        shell: python3 {0}
+        run: |
+          import os, re, subprocess, sys
+
+          # ------------------------------------------------------------------
+          # Detect mojibake: UTF-8 text that was double-encoded through Latin-1.
+          #
+          # How mojibake happens:
+          #   1. Original file has UTF-8 bytes, e.g. U+00E9 = C3 A9
+          #   2. Tool reads those bytes as Latin-1, sees two chars: U+00C3 U+00A9
+          #   3. Tool saves those chars as UTF-8: C3 83 C2 A9 (double-encoded)
+          #
+          # Detection: after reading the file as UTF-8, look for text patterns
+          # where a Latin-1 high character (U+00C0-U+00FF) is adjacent to
+          # another character that completes a mojibake sequence.
+          #
+          # Key: we match on DECODED TEXT (not raw bytes), so legitimate
+          # characters like U+00E9 (e-acute) or U+2014 (em dash) are never
+          # flagged — only their garbled double-encoded forms.
+          #
+          # IMPORTANT: This file must pass its own scan. Use ONLY \\u escapes
+          # in the regex and codepoint names (U+00C3) in comments. Never embed
+          # raw high-Unicode characters.
+          # ------------------------------------------------------------------
+          MOJIBAKE_RE = re.compile(
+              # U+00C3 (A-tilde) or U+00C2 (A-circumflex) + U+0080-U+00BF
+              # = garbled accented letters (e.g. U+00C3+U+00A9 = garbled e-acute)
+              r'[\u00c3\u00c2][\u0080-\u00bf]'
+              # U+00E2 (a-circumflex) U+20AC (Euro) + curly quote/dash chars
+              # = garbled curly quotes, en/em dashes, ellipsis
+              r'|\u00e2\u20ac[\u2019\u201c\u201d\u2013\u2014\u2026\u20ac\u2122\u009d]'
+              # U+00C2 (A-circumflex) + U+00A0-U+00BF = garbled Latin-1 symbols
+              # (e.g. U+00C2+U+00A9 = garbled copyright, U+00C2+U+00AE = garbled registered)
+              r'|\u00c2[\u00a0-\u00bf]'
+          )
+
+          # Find tracked text files
+          result = subprocess.run(
+              ['git', 'ls-files'],
+              capture_output=True, text=True
+          )
+          all_files = result.stdout.strip().split('\n')
+
+          TEXT_EXTS = {'.md', '.json', '.yaml', '.yml', '.txt', '.py', '.ts',
+                       '.js', '.mdc', '.mdx', '.html', '.css', '.sh', '.ps1',
+                       '.toml', '.cfg', '.ini', '.conf', '.xml', '.csv'}
+
+          found = {}
+          for filepath in all_files:
+              if not filepath:
+                  continue
+              ext = os.path.splitext(filepath)[1]
+              if ext not in TEXT_EXTS:
+                  continue
+              try:
+                  with open(filepath, 'rb') as f:
+                      content = f.read()
+              except (OSError, PermissionError):
+                  continue
+              # Decode as UTF-8; skip files that aren't valid UTF-8
+              try:
+                  text = content.decode('utf-8')
+              except UnicodeDecodeError:
+                  continue
+              bad_lines = []
+              for i, line in enumerate(text.split('\n'), 1):
+                  if MOJIBAKE_RE.search(line):
+                      bad_lines.append((i, line.rstrip()))
+                      if len(bad_lines) >= 5:
+                          break
+              if bad_lines:
+                  found[filepath] = bad_lines
+
+          if found:
+              print("::error::Mojibake detected in the following files:")
+              for filepath, lines in found.items():
+                  print(f"::error file={filepath}::Contains garbled UTF-8 (mojibake)")
+                  for lineno, text in lines:
+                      print(f"::warning file={filepath}::{lineno}: {text}")
+              print()
+              print("=" * 40)
+              print("  MOJIBAKE DETECTED — fix before merge")
+              print("=" * 40)
+              print()
+              print("Common fix: replace garbled sequences with the intended Unicode characters.")
+              print("Or re-save the file as UTF-8 without BOM in your editor.")
+              sys.exit(1)
+          else:
+              print("✅ No mojibake detected.")
+
+      - name: Comment on PR (if applicable)
+        if: failure() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: '## 🚫 Mojibake detected\n\nThis PR contains garbled UTF-8 text (mojibake). Fix the affected files before merging.\n\nSee the **Mojibake check** job for details.'
+            })
