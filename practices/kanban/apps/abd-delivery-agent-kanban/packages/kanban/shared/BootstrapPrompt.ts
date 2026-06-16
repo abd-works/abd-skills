@@ -1,4 +1,4 @@
-﻿/**
+/**
  * domain model: BootstrapPrompt — assembled from an AgentDefinition by the KanbanLead.
  *      Workspace path is injected from the board's configuration, not derived
  *      from the AgentDefinition itself.

@@ -1,4 +1,4 @@
-﻿"""Scanner for design_api_through_failing_tests rule.
+"""Scanner for design_api_through_failing_tests rule.
 
 Checks that tests call real production APIs instead of using placeholder values.
 Flags tests that assign literal placeholder strings ('TODO', 'placeholder', 'FIXME',

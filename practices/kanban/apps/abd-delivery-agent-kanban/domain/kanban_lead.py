@@ -1,4 +1,4 @@
-﻿"""
+"""
 kanban_lead.py
 
 Domain area   : Kanban Board — Kanban Lead: Agent

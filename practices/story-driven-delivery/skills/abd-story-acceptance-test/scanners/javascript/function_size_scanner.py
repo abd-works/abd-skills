@@ -1,4 +1,4 @@
-﻿"""Scanner for detecting JavaScript functions that are too large."""
+"""Scanner for detecting JavaScript functions that are too large."""
 
 from typing import List, Dict, Any
 from pathlib import Path

@@ -1,4 +1,4 @@
-﻿{
+{
   "_comment": "Machine-readable vocabulary extracted from the domain model. Written alongside crc.md. Read by the specification-by-example scanner to validate example-table column names against domain concepts and attributes.",
   "concepts": {
     "ConceptName": {

@@ -6042,7 +6042,7 @@ html.foundry-scroll-pending {
 
           <h1 class="page-headline"><span class="skill-name-prefix">abd-</span>kanban-planning</h1>
 
-          <p class="body-lead">Strategy selection and system of work configuration â€” no pre-planned runs or slot tables.</p>
+          <p class="body-lead">Strategy selection and system of work configuration — no pre-planned runs or slot tables.</p>
 
         </td>
 
@@ -6068,13 +6068,13 @@ html.foundry-scroll-pending {
         <div class="aad-delivery-crosscut-row aad-crosscut-tier--practice" data-crosscut-group="kanban" data-family="kanban">
           <a class="kb-ticket aad-skill aad-crosscut-row-title aad-fam-delivery" href="abd-kanban-handoff.html">kanban</a>
           <div class="aad-delivery-crosscut-skills aad-delivery-crosscut-skills--collapsed">
-            <a class="kb-ticket aad-skill aad-fam-delivery has-skill-tooltip" href="abd-kanban-planning.html"><span class="kb-skill-tooltip-wrap">kanban planning<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">kanban planning</span><span class="kb-col-shape-tooltip__bullets">Kanban Planning configures how delivery flows â€” not what to build. It selects a strategy based on context and risk, configures the kanban board (stages, scope levels, stage work required), and defines scatter rules (how and when tickets decompose at scope boundaries). The result drives the JIT kanban board without pre-authoring every assignment.
+            <a class="kb-ticket aad-skill aad-fam-delivery has-skill-tooltip" href="abd-kanban-planning.html"><span class="kb-skill-tooltip-wrap">kanban planning<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">kanban planning</span><span class="kb-col-shape-tooltip__bullets">Kanban Planning configures how delivery flows — not what to build. It selects a strategy based on context and risk, configures the kanban board (stages, scope levels, stage work required), and defines scatter rules (how and when tickets decompose at scope boundaries). The result drives the JIT kanban board without pre-authoring every assignment.
 
-    Do not use this skill to produce artifacts (maps, slices, AC, tests, code). This skill is strictly about the delivery lifecycle spine â€” the kanban board stage configuration, strategy, and decomposition rules.</span></span></span></a>
+    Do not use this skill to produce artifacts (maps, slices, AC, tests, code). This skill is strictly about the delivery lifecycle spine — the kanban board stage configuration, strategy, and decomposition rules.</span></span></span></a>
             <a class="kb-ticket aad-skill aad-fam-delivery has-skill-tooltip" href="abd-kanban.html"><span class="kb-skill-tooltip-wrap">kanban<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">kanban</span><span class="kb-col-shape-tooltip__bullets">Configure the kanban board for a delivery engagement. The kanban board defines ordered stages, each with a scope level and stage work required. Tickets carry only a lazily-populated skill_progress map; the kanban board (kanban.json) is the single source of truth for which skills a stage require. The kanban app owns all board mechanics from there.</span></span></span></a>
             <a class="kb-ticket aad-skill aad-fam-delivery has-skill-tooltip" href="abd-kanban-repo.html"><span class="kb-skill-tooltip-wrap">kanban repo<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">kanban repo</span><span class="kb-col-shape-tooltip__bullets">Manage git history for a delivery engagement. Commits, branches, pushes, and PRs are driven by ticket state changes on the Kanban board — not by slots or runs.</span></span></span></a>
             <a class="kb-ticket aad-skill aad-fam-delivery has-skill-tooltip" href="kanban-estimation.html"><span class="kb-skill-tooltip-wrap">kanban estimation<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">kanban estimation</span><span class="kb-col-shape-tooltip__bullets">Teams estimate badly not because they lack a formula but because they skip the conversation. Effort gets assigned by one person&#x27;s hunch, contributing factors go unexamined, and nobody records why a number landed where it did  so every future re-estimate starts from scratch. Delivery estimation packages the facilitation pattern that makes sizing collaborative, factor-aware, and traceable: teams walk through backlog items one at a time, name what drives effort, agree on a category, and save the reasoning alongside the number.</span></span></span></a>
-            <a class="kb-ticket aad-skill aad-fam-delivery has-skill-tooltip" href="abd-kanban-handoff.html"><span class="kb-skill-tooltip-wrap">kanban handoff<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">kanban handoff</span><span class="kb-col-shape-tooltip__bullets">Produce a delivery resume document so a fresh agent knows where JIT kanban delivery left off � which stages and scopes have advanced, which increments have material under docs/increments/, and what to run next � without re-reading the whole repo or chat.
+            <a class="kb-ticket aad-skill aad-fam-delivery has-skill-tooltip" href="abd-kanban-handoff.html"><span class="kb-skill-tooltip-wrap">kanban handoff<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">kanban handoff</span><span class="kb-col-shape-tooltip__bullets">Produce a delivery resume document so a fresh agent knows where JIT kanban delivery left off — which stages and scopes have advanced, which increments have material under docs/increments/, and what to run next — without re-reading the whole repo or chat.
 
     Works with or without a live board: when board.json is missing or stale, infer progress from artifact presence and chat.</span></span></span></a>
           </div>
@@ -6188,89 +6188,89 @@ html.foundry-scroll-pending {
 <h2 class="skill-concepts-heading">Concepts</h2>
 <div class="skill-concept-body"><p>See <strong><a href="strategy.html">strategy</a></strong> for what a strategy is and <strong><a href="strategy-catalog.html">strategy-catalog</a></strong> for available options.</p>
 <hr></div>
-<details class="skill-concept"><summary>Step 1 â€” Context analysis</summary><div class="skill-concept-body"><p>Read all context. Identify:</p>
-<p>1. <strong>Known domains</strong> â€” strong training data, documented APIs. 2. <strong>Risky domains</strong> â€” proprietary, internal, novel logic. 3. <strong>Integration points</strong> â€” external systems, dependencies. 4. <strong>Complexity drivers</strong> â€” regulatory, multi-actor, concurrency. 5. <strong>Existing assets</strong> â€” prior story graphs, specs, tests, code.</p></div></details>
-<details class="skill-concept"><summary>Step 2 â€” Select strategy</summary><div class="skill-concept-body"><p>1. Open <code>reference/strategies/</code> in this skill folder. 2. Read each strategy&#x27;s <strong>When to use</strong> section. 3. Match context and risks to a strategy (or blend multiple). 4. If no strategy fits, design custom â€” offer to save later.</p></div></details>
-<details class="skill-concept"><summary>Step 3 â€” Configure kanban board stages</summary><div class="skill-concept-body"><p>From the selected strategy, write <code>kanban.json</code> (the kanban board stage configuration):</p>
+<details class="skill-concept"><summary>Step 1 — Context analysis</summary><div class="skill-concept-body"><p>Read all context. Identify:</p>
+<p>1. <strong>Known domains</strong> — strong training data, documented APIs. 2. <strong>Risky domains</strong> — proprietary, internal, novel logic. 3. <strong>Integration points</strong> — external systems, dependencies. 4. <strong>Complexity drivers</strong> — regulatory, multi-actor, concurrency. 5. <strong>Existing assets</strong> — prior story graphs, specs, tests, code.</p></div></details>
+<details class="skill-concept"><summary>Step 2 — Select strategy</summary><div class="skill-concept-body"><p>1. Open <code>reference/strategies/</code> in this skill folder. 2. Read each strategy&#x27;s <strong>When to use</strong> section. 3. Match context and risks to a strategy (or blend multiple). 4. If no strategy fits, design custom — offer to save later.</p></div></details>
+<details class="skill-concept"><summary>Step 3 — Configure kanban board stages</summary><div class="skill-concept-body"><p>From the selected strategy, write <code>kanban.json</code> (the kanban board stage configuration):</p>
 <ul>
 <li>Which stages are active</li>
 <li>Scope level per stage</li>
 <li>Ordered stage work required per stage with delivery role assignments</li>
 <li>Any optional skills (marked in strategy)</li>
 </ul></div></details>
-<details class="skill-concept"><summary>Step 4 â€” Define scatter and decomposition rules</summary><div class="skill-concept-body"><p>Write the <code>strategy</code> section in <code>kanban.json</code> with:</p>
+<details class="skill-concept"><summary>Step 4 — Define scatter and decomposition rules</summary><div class="skill-concept-body"><p>Write the <code>strategy</code> section in <code>kanban.json</code> with:</p>
 <ul>
-<li><strong>Scatter rules</strong>: which scope transitions scatter vs advance, sprint grouping (default 3â€“4), JIT policy</li>
+<li><strong>Scatter rules</strong>: which scope transitions scatter vs advance, sprint grouping (default 3“4), JIT policy</li>
 <li><strong>Ordering</strong>: priority source (story map, user override, risk-first)</li>
 <li><strong>Checkpoint policy</strong>: per-skill, per-stage, or per-increment</li>
 <li><strong>Autonomy</strong>: tight, moderate, or full</li>
 </ul></div></details>
-<details class="skill-concept"><summary>Step 5 â€” Present and confirm</summary><div class="skill-concept-body"><p>Present to user:</p>
+<details class="skill-concept"><summary>Step 5 — Present and confirm</summary><div class="skill-concept-body"><p>Present to user:</p>
 <p>1. Context assessment and classified risks. 2. Selected strategy (name, from which file, adaptations). 3. Kanban board stage configuration (stages, scope, skills). 4. Scatter rules and checkpoint policy.</p>
 <p><strong>CHECKPOINT.</strong> Wait for user confirm before setup.</p>
 <h1>Strategy catalog</h1></div></details>
 <details class="skill-concept"><summary>Available strategies</summary><div class="skill-concept-body"><ul>
-<li><strong><a href="./strategies/new-user-story.html">new-user-story.md</a></strong> â€” 1â€“3 stories on existing solution</li>
-<li><strong><a href="./strategies/new-thin-slice.html">new-thin-slice.md</a></strong> â€” vertical slice (~5â€“15 stories)</li>
-<li><strong><a href="./strategies/new-initiative-no-documented-architecture.html">new-initiative-no-documented-architecture.md</a></strong> â€” greenfield; no architecture</li>
-<li><strong><a href="./strategies/new-initiative-proprietary-technology-risk.html">new-initiative-proprietary-technology-risk.md</a></strong> â€” proprietary/undocumented systems</li>
-<li><strong><a href="./strategies/new-initiative-business-user-experience-risk.html">new-initiative-business-user-experience-risk.md</a></strong> â€” UX/domain risk dominant</li>
-<li><strong><a href="./strategies/brownfield-current-state.html">brownfield-current-state.md</a></strong> â€” map and test existing system</li>
-<li><strong><a href="./strategies/legacy-migration.html">legacy-migration.md</a></strong> â€” replace system; legacy is truth</li>
-<li><strong><a href="./strategies/regulatory-compliance-heavy.html">regulatory-compliance-heavy.md</a></strong> â€” regulation/compliance dominates</li>
-<li><strong><a href="./strategies/bug-fix.html">bug-fix.md</a></strong> â€” defect or regression</li>
-<li><strong><a href="./strategies/spike-proof-of-concept.html">spike-proof-of-concept.md</a></strong> â€” answer one question before delivery</li>
+<li><strong><a href="./strategies/new-user-story.html">new-user-story.md</a></strong> — 1“3 stories on existing solution</li>
+<li><strong><a href="./strategies/new-thin-slice.html">new-thin-slice.md</a></strong> — vertical slice (~5“15 stories)</li>
+<li><strong><a href="./strategies/new-initiative-no-documented-architecture.html">new-initiative-no-documented-architecture.md</a></strong> — greenfield; no architecture</li>
+<li><strong><a href="./strategies/new-initiative-proprietary-technology-risk.html">new-initiative-proprietary-technology-risk.md</a></strong> — proprietary/undocumented systems</li>
+<li><strong><a href="./strategies/new-initiative-business-user-experience-risk.html">new-initiative-business-user-experience-risk.md</a></strong> — UX/domain risk dominant</li>
+<li><strong><a href="./strategies/brownfield-current-state.html">brownfield-current-state.md</a></strong> — map and test existing system</li>
+<li><strong><a href="./strategies/legacy-migration.html">legacy-migration.md</a></strong> — replace system; legacy is truth</li>
+<li><strong><a href="./strategies/regulatory-compliance-heavy.html">regulatory-compliance-heavy.md</a></strong> — regulation/compliance dominates</li>
+<li><strong><a href="./strategies/bug-fix.html">bug-fix.md</a></strong> — defect or regression</li>
+<li><strong><a href="./strategies/spike-proof-of-concept.html">spike-proof-of-concept.md</a></strong> — answer one question before delivery</li>
 </ul></div></details>
 <details class="skill-concept"><summary>Adding a strategy</summary><div class="skill-concept-body"><p>After a custom engagement, save a new <code>&lt;slug&gt;.md</code> in <code>reference/strategies/</code> with the same sections. Reference bootcamp stages and scope levels. Include scatter rules and sprint grouping heuristics.</p></div></details>
 <details class="skill-concept"><summary>Adapting a strategy</summary><div class="skill-concept-body"><div class="spec-steps">
 <p class="spec-step">When selecting a strategy, adapt it:</p>
 </div>
-<p>1. <strong>Add/remove stages</strong> â€” bug fix skips shaping; spike skips engineering. 2. <strong>Add/remove skills</strong> â€” brownfield adds module partition; UX-heavy adds IA. 3. <strong>Change scope levels</strong> â€” if stories are huge, add sub-story scope. 4. <strong>Override sprint grouping</strong> â€” &quot;2 stories per sprint for this complex area.&quot; 5. <strong>Change JIT policy</strong> â€” &quot;scatter all increments now, we know the domain.&quot; 6. <strong>Adjust checkpoints</strong> â€” &quot;per-skill for increment 1, per-stage after.&quot;</p>
+<p>1. <strong>Add/remove stages</strong> — bug fix skips shaping; spike skips engineering. 2. <strong>Add/remove skills</strong> — brownfield adds module partition; UX-heavy adds IA. 3. <strong>Change scope levels</strong> — if stories are huge, add sub-story scope. 4. <strong>Override sprint grouping</strong> — &quot;2 stories per sprint for this complex area.&quot; 5. <strong>Change JIT policy</strong> — &quot;scatter all increments now, we know the domain.&quot; 6. <strong>Adjust checkpoints</strong> — &quot;per-skill for increment 1, per-stage after.&quot;</p>
 <h1>Strategy</h1>
 <p>A <strong>strategy</strong> defines how work flows through the kanban board:</p>
 <ul>
-<li><strong>Scope progression</strong> â€” which scope levels apply at each stage (may differ from default)</li>
-<li><strong>Scatter rules</strong> â€” when and how to decompose tickets at scope boundaries</li>
-<li><strong>Sprint grouping</strong> â€” how to group stories into sprints (default 3â€“4, adjustable)</li>
-<li><strong>JIT policy</strong> â€” how far ahead to scatter (next 1â€“2 items by default)</li>
-<li><strong>Checkpoint policy</strong> â€” where to stop for feedback (per skill, per stage, per increment)</li>
-<li><strong>Risk classification</strong> â€” which risks are present and how they affect ordering</li>
+<li><strong>Scope progression</strong> — which scope levels apply at each stage (may differ from default)</li>
+<li><strong>Scatter rules</strong> — when and how to decompose tickets at scope boundaries</li>
+<li><strong>Sprint grouping</strong> — how to group stories into sprints (default 3“4, adjustable)</li>
+<li><strong>JIT policy</strong> — how far ahead to scatter (next 1“2 items by default)</li>
+<li><strong>Checkpoint policy</strong> — where to stop for feedback (per skill, per stage, per increment)</li>
+<li><strong>Risk classification</strong> — which risks are present and how they affect ordering</li>
 </ul>
 <hr></div></details>
 <details class="skill-concept"><summary>Why Kanban Planning</summary><div class="skill-concept-body"><p>Agents benefit from an explicit delivery lifecycle: not just <em>what</em> to do next, but <strong>when scope changes</strong>, <strong>when to scatter</strong>, <strong>how to group work</strong>, and <strong>when to stop for feedback</strong>. The strategy + kanban board provide the spine without pre-planning every assignment.</p>
 <ul>
-<li><strong>Uncertainty is real</strong> â€” keep the strategy living; update when corrections accumulate.</li>
-<li><strong>Risk before volume</strong> â€” order increments so the hardest unknowns fail early.</li>
-<li><strong>JIT over pre-plan</strong> â€” decompose only when needed, not everything upfront.</li>
-<li><strong>Humans in the loop</strong> â€” checkpoint policy makes confirmation predictable.</li>
+<li><strong>Uncertainty is real</strong> — keep the strategy living; update when corrections accumulate.</li>
+<li><strong>Risk before volume</strong> — order increments so the hardest unknowns fail early.</li>
+<li><strong>JIT over pre-plan</strong> — decompose only when needed, not everything upfront.</li>
+<li><strong>Humans in the loop</strong> — checkpoint policy makes confirmation predictable.</li>
 </ul>
 <hr></div></details>
 <details class="skill-concept"><summary>Risk classification</summary><div class="skill-concept-body"><p>Classify risks to inform strategy selection:</p>
 <ul>
-<li><strong>Value risk</strong> â€” building the wrong thing. Signals: vague briefs, no research, conflicting goals.</li>
-<li><strong>Technical risk</strong> â€” wrong tech, infra, or architecture. Signals: proprietary APIs, unfamiliar stacks, scale unknowns.</li>
-<li><strong>Delivery risk</strong> â€” miss schedule or quality bar. Signals: large scope, dependencies, deadlines.</li>
-<li><strong>Domain risk</strong> â€” misunderstand business rules. Signals: regulatory regimes, complex rules, jargon.</li>
-<li><strong>Integration risk</strong> â€” external systems constrain design. Signals: legacy, quirky APIs, backward compat.</li>
-<li><strong>AI-model risk</strong> â€” agent likely to hallucinate. Signals: no training data, undocumented APIs.</li>
+<li><strong>Value risk</strong> — building the wrong thing. Signals: vague briefs, no research, conflicting goals.</li>
+<li><strong>Technical risk</strong> — wrong tech, infra, or architecture. Signals: proprietary APIs, unfamiliar stacks, scale unknowns.</li>
+<li><strong>Delivery risk</strong> — miss schedule or quality bar. Signals: large scope, dependencies, deadlines.</li>
+<li><strong>Domain risk</strong> — misunderstand business rules. Signals: regulatory regimes, complex rules, jargon.</li>
+<li><strong>Integration risk</strong> — external systems constrain design. Signals: legacy, quirky APIs, backward compat.</li>
+<li><strong>AI-model risk</strong> — agent likely to hallucinate. Signals: no training data, undocumented APIs.</li>
 </ul>
 <p>Risk types drive strategy selection and checkpoint tightness.</p>
 <hr></div></details>
-<details class="skill-concept"><summary>Checkpoint granularity</summary><div class="skill-concept-body"><p>Matches kanban scope levels â€” pick the coarsest that still gives you confidence:</p>
+<details class="skill-concept"><summary>Checkpoint granularity</summary><div class="skill-concept-body"><p>Matches kanban scope levels — pick the coarsest that still gives you confidence:</p>
 <ul>
-<li><strong>Per skill</strong> â€” after each skill completes on a ticket; finest; use for high uncertainty or early work</li>
-<li><strong>Per story</strong> â€” after all skills complete on a story-scope ticket</li>
-<li><strong>Per sprint</strong> â€” after all skills complete on a sprint-scope ticket (specification / engineering)</li>
-<li><strong>Per increment</strong> â€” after all skills complete on an increment-scope ticket (discovery / exploration)</li>
-<li><strong>Per stage</strong> â€” after the stage exit gate passes; use for well-understood, repeatable work</li>
+<li><strong>Per skill</strong> — after each skill completes on a ticket; finest; use for high uncertainty or early work</li>
+<li><strong>Per story</strong> — after all skills complete on a story-scope ticket</li>
+<li><strong>Per sprint</strong> — after all skills complete on a sprint-scope ticket (specification / engineering)</li>
+<li><strong>Per increment</strong> — after all skills complete on an increment-scope ticket (discovery / exploration)</li>
+<li><strong>Per stage</strong> — after the stage exit gate passes; use for well-understood, repeatable work</li>
 </ul>
 <p>Default: start per-skill, relax as confidence builds.</p>
 <hr></div></details>
 <details class="skill-concept"><summary>Scatter rules</summary><div class="skill-concept-body"><h3>Default heuristics</h3>
 <ul>
-<li><strong>all â†’ increment</strong> â€” one ticket per increment from thin-slicing; scatter all</li>
-<li><strong>increment â†’ sprint</strong> â€” group 3â€“4 stories per sprint; scatter next 1â€“2 increments JIT</li>
-<li><strong>sprint â†’ story</strong> â€” rare; only if strategy requires per-story tickets</li>
+<li><strong>all â†’ increment</strong> — one ticket per increment from thin-slicing; scatter all</li>
+<li><strong>increment â†’ sprint</strong> — group 3“4 stories per sprint; scatter next 1“2 increments JIT</li>
+<li><strong>sprint â†’ story</strong> — rare; only if strategy requires per-story tickets</li>
 </ul>
 <h3>User overrides</h3>
 <ul>
@@ -6298,14 +6298,14 @@ html.foundry-scroll-pending {
 <hr></div></details>
 <details class="skill-concept"><summary>Strategy file structure</summary><div class="skill-concept-body"><p>Each strategy file in <code>reference/strategies/</code> defines:</p>
 <ul>
-<li><strong>When to use</strong> â€” context signals and risk types that match this strategy</li>
-<li><strong>Typical scope</strong> â€” what boundary or area this applies to</li>
-<li><strong>Kanban board stages</strong> â€” stages, scope per stage, skills per stage (or reference to default)</li>
-<li><strong>Scatter rules</strong> â€” how tickets decompose at scope boundaries</li>
-<li><strong>Sprint grouping</strong> â€” stories per sprint, grouping heuristics</li>
-<li><strong>JIT policy</strong> â€” how far ahead to decompose</li>
-<li><strong>Checkpoint policy</strong> â€” where to stop for feedback</li>
-<li><strong>Key constraints</strong> â€” non-negotiable rules for this strategy</li>
+<li><strong>When to use</strong> — context signals and risk types that match this strategy</li>
+<li><strong>Typical scope</strong> — what boundary or area this applies to</li>
+<li><strong>Kanban board stages</strong> — stages, scope per stage, skills per stage (or reference to default)</li>
+<li><strong>Scatter rules</strong> — how tickets decompose at scope boundaries</li>
+<li><strong>Sprint grouping</strong> — stories per sprint, grouping heuristics</li>
+<li><strong>JIT policy</strong> — how far ahead to decompose</li>
+<li><strong>Checkpoint policy</strong> — where to stop for feedback</li>
+<li><strong>Key constraints</strong> — non-negotiable rules for this strategy</li>
 </ul>
 <p>See <strong><a href="strategy-catalog.html">strategy-catalog</a></strong> for all available strategies.</p></div></details>
 </div></div>
@@ -6318,13 +6318,13 @@ html.foundry-scroll-pending {
 </details>
 <details class="skill-rule">
 <summary class="skill-rule-header">Plan has an explicit context inventory</summary>
-<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Include a heading like ## Context inventory (or ### Context Inventory).</li><li>Under it, list or table both Provided context (concrete inputs used â€” file paths, repo URLs, doc links, API refs, versions) and Missing context (explicit &quot;not yet provided&quot; flags).</li><li>When critical context is missing, say what must happen before implementation runs (spike, doc pass, user drops links, clone repo).</li><li>Use neutral wording for gaps â€” not yet provided â€” not &quot;TBD&quot; buried in prose.</li></ul></div>
-<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Treat a named platform (Foundry, Salesforce, your monolith, Acme API, etc.) as understood without any provided source.</li><li>Skip the inventory because &quot;the brief is short.&quot; A short brief means the inventory is a one-liner â€” still write it.</li><li>Hide gaps inside run rationales instead of surfacing them in the inventory.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Include a heading like ## Context inventory (or ### Context Inventory).</li><li>Under it, list or table both Provided context (concrete inputs used — file paths, repo URLs, doc links, API refs, versions) and Missing context (explicit &quot;not yet provided&quot; flags).</li><li>When critical context is missing, say what must happen before implementation runs (spike, doc pass, user drops links, clone repo).</li><li>Use neutral wording for gaps — not yet provided — not &quot;TBD&quot; buried in prose.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Treat a named platform (Foundry, Salesforce, your monolith, Acme API, etc.) as understood without any provided source.</li><li>Skip the inventory because &quot;the brief is short.&quot; A short brief means the inventory is a one-liner — still write it.</li><li>Hide gaps inside run rationales instead of surfacing them in the inventory.</li></ul></div>
 </details>
 <details class="skill-rule">
 <summary class="skill-rule-header">Plan is not a default single-run five-stage waterfall</summary>
-<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Break the work into multiple runs that front-load risk.</li><li>Use strategies from reference/strategies/ as starting points â€” they decompose the run structure for you.</li><li>If the engagement truly is trivial, mark it with trivial: true in the plan&#x27;s YAML frontmatter, or add a section that states the engagement has no classified risk and explains why a single sweep is appropriate.</li></ul></div>
-<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Default to a one-run, five-stage sweep because it feels complete.</li><li>Hide the sweep behind renamed stages â€” use canonical stage names from the stage files in reference/stages/.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Break the work into multiple runs that front-load risk.</li><li>Use strategies from reference/strategies/ as starting points — they decompose the run structure for you.</li><li>If the engagement truly is trivial, mark it with trivial: true in the plan&#x27;s YAML frontmatter, or add a section that states the engagement has no classified risk and explains why a single sweep is appropriate.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Default to a one-run, five-stage sweep because it feels complete.</li><li>Hide the sweep behind renamed stages — use canonical stage names from the stage files in reference/stages/.</li></ul></div>
 </details>
 <details class="skill-rule">
 <summary class="skill-rule-header">Plan classifies risks against the six named types</summary>
@@ -6334,7 +6334,7 @@ html.foundry-scroll-pending {
 <details class="skill-rule">
 <summary class="skill-rule-header">Plan names the selected strategy (or proposes a new one)</summary>
 <div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Reference the strategy file(s) by filename (new-initiative-proprietary-technology-risk.md) or by canonical slug.</li><li>When more than one strategy is blended, name each and say how they combine.</li><li>When no strategy fits, include a section like ## Strategy: custom with a proposed slug for later save under reference/strategies/.</li></ul></div>
-<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Describe a strategy in prose without a name â€” reviewers cannot match it to the catalog.</li><li>Copy a strategy&#x27;s run table without citing the source file.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Describe a strategy in prose without a name — reviewers cannot match it to the catalog.</li><li>Copy a strategy&#x27;s run table without citing the source file.</li></ul></div>
 </details>
 <details class="skill-rule">
 <summary class="skill-rule-header">Plans configure the kanban board stage configuration</summary>

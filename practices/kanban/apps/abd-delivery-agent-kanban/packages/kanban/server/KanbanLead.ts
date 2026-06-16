@@ -1,4 +1,4 @@
-﻿import type { AgentDefinition } from './AgentDefinition';
+import type { AgentDefinition } from './AgentDefinition';
 import type { BootstrapPrompt } from '@deliveryforge/kanban-shared';
 import { SkillProgress } from '@deliveryforge/kanban-shared';
 import type { Ticket } from '@deliveryforge/kanban-shared';

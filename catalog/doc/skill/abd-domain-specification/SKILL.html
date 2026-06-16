@@ -1721,20 +1721,20 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <h2>Content</h2>
 <div class="rule-prose"><h1>abd-domain-specification</h1>
 <h2>Purpose</h2>
-<p>Build a typed Class Model for a module. When a domain model exists it is the primary input � the skill converts that behavioral model into a typed domain surface with far less effort. Without a domain model the skill can still produce an Class Model directly from domain knowledge.</p>
+<p>Build a typed Class Model for a module. When a domain model exists it is the primary input — the skill converts that behavioral model into a typed domain surface with far less effort. Without a domain model the skill can still produce an Class Model directly from domain knowledge.</p>
 <hr>
 <h2>Output file</h2>
-<p><strong>Deliverables folder:</strong> see <code>../agent-protocol.md</code> � Output file resolution.</p>
+<p><strong>Deliverables folder:</strong> see <code>../agent-protocol.md</code> — Output file resolution.</p>
 <p><strong>File name:</strong> <code>class-model.md</code>. Add a <code>&lt;name&gt;-</code> prefix only when disambiguation is needed. For multi-module engagements: <code>&lt;deliverables-folder&gt;/modules/&lt;module-name&gt;-class-model.md</code>.</p>
 <p>The file is <strong>not</strong> an in-place enrichment of the domain model file. It is a fresh artifact in the same flat heading shape every other DDD phase skill uses.</p>
 <hr>
 <h2>Agent Instructions</h2>
-<p>&gt; <strong>MANDATORY � read <code>../agent-protocol.md</code> before starting. It defines read-gates, output file resolution, and the per-rule verdict format.</strong></p>
+<p>&gt; <strong>MANDATORY — read <code>../agent-protocol.md</code> before starting. It defines read-gates, output file resolution, and the per-rule verdict format.</strong></p>
 <h3>1. Read context</h3>
 <p>Read these files:</p>
 <ul>
-<li><strong><code>reference/concepts.md</code></strong> � typed notation: properties, operations, object initialisation, relationships (aggregation/composition/association), collections, inheritance, invariants, interactions, entities and value objects, and the consistent file shape.</li>
-<li><strong><code>../../reference/oo-concepts.md</code></strong> � OO fundamentals (what is a class, decomposing responsibilities, relationships, inheritance and subtypes).</li>
+<li><strong><code>reference/concepts.md</code></strong> — typed notation: properties, operations, object initialisation, relationships (aggregation/composition/association), collections, inheritance, invariants, interactions, entities and value objects, and the consistent file shape.</li>
+<li><strong><code>../../reference/oo-concepts.md</code></strong> — OO fundamentals (what is a class, decomposing responsibilities, relationships, inheritance and subtypes).</li>
 </ul>
 <h3>2. Generate</h3>
 <p>Read every file in <strong><code>rules/</code></strong>; author to those rules.</p>
@@ -1751,22 +1751,22 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 </div>
 <hr>
 <h2>Validate</h2>
-<p><strong>Goal:</strong> Inspect what was built � read the artifacts as reviewers.</p>
+<p><strong>Goal:</strong> Inspect what was built — read the artifacts as reviewers.</p>
 <ul>
-<li><strong>Per-phase output file</strong> � named <code>[&lt;name&gt;-]class-model.md</code>. No prior or later phase content lives in it.</li>
-<li><strong>Every KA has a class that names it</strong> � <code>### **Class** &lt;&lt; Stereotype &gt;&gt;</code> matching the KA, listed first.</li>
-<li><strong>No sub-headings under classes</strong> � class member blocks live directly under each <code>### **Class**</code> heading.</li>
-<li><strong>References per KA</strong> � one <code>### references</code> per KA with fenced <code>source</code> blocks.</li>
-<li><strong>Decisions per KA</strong> � one <code>### decisions made</code> per KA listing class-model judgment calls.</li>
-<li><strong>Every property typed</strong> � justified by a domain responsibility that requires stored state.</li>
-<li><strong>Every operation fully typed</strong> � <code>+ methodName(param: Type): ReturnType</code>.</li>
-<li><strong>Object initialisation decided</strong> � constructor, internal, factory method, or factory object.</li>
-<li><strong>Relationship stereotypes present</strong> � <code>&lt;&lt; composition &gt;&gt;</code> or <code>&lt;&lt; aggregation &gt;&gt;</code> on owning properties.</li>
-<li><strong>Subtype deltas only</strong> � no inherited members repeated.</li>
-<li><strong>Interactions present where needed</strong> � no operation with multiple invariants lacks an <code>Interaction:</code> block.</li>
-<li><strong>Domain-language variable names</strong> � no generic placeholders in <code>Interaction:</code> blocks.</li>
-<li><strong>All domain model collaborators accounted for</strong> � in parameters, return types, properties, or <code>Interaction:</code> steps.</li>
-<li><strong>No bundle markers</strong> � <code>SKILL.md</code> has no <code>&lt;!-- execute_rules:bundle_rules --&gt;</code> markers.</li>
+<li><strong>Per-phase output file</strong> — named <code>[&lt;name&gt;-]class-model.md</code>. No prior or later phase content lives in it.</li>
+<li><strong>Every KA has a class that names it</strong> — <code>### **Class** &lt;&lt; Stereotype &gt;&gt;</code> matching the KA, listed first.</li>
+<li><strong>No sub-headings under classes</strong> — class member blocks live directly under each <code>### **Class**</code> heading.</li>
+<li><strong>References per KA</strong> — one <code>### references</code> per KA with fenced <code>source</code> blocks.</li>
+<li><strong>Decisions per KA</strong> — one <code>### decisions made</code> per KA listing class-model judgment calls.</li>
+<li><strong>Every property typed</strong> — justified by a domain responsibility that requires stored state.</li>
+<li><strong>Every operation fully typed</strong> — <code>+ methodName(param: Type): ReturnType</code>.</li>
+<li><strong>Object initialisation decided</strong> — constructor, internal, factory method, or factory object.</li>
+<li><strong>Relationship stereotypes present</strong> — <code>&lt;&lt; composition &gt;&gt;</code> or <code>&lt;&lt; aggregation &gt;&gt;</code> on owning properties.</li>
+<li><strong>Subtype deltas only</strong> — no inherited members repeated.</li>
+<li><strong>Interactions present where needed</strong> — no operation with multiple invariants lacks an <code>Interaction:</code> block.</li>
+<li><strong>Domain-language variable names</strong> — no generic placeholders in <code>Interaction:</code> blocks.</li>
+<li><strong>All domain model collaborators accounted for</strong> — in parameters, return types, properties, or <code>Interaction:</code> steps.</li>
+<li><strong>No bundle markers</strong> — <code>SKILL.md</code> has no <code>&lt;!-- execute_rules:bundle_rules --&gt;</code> markers.</li>
 </ul>
 <hr></div>
 

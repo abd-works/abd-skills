@@ -1,4 +1,4 @@
-﻿{
+{
   "_comment": "Machine-readable vocabulary extracted from the Domain Language. Written alongside the domain-language.md file. Read by the specification-by-example scanner to validate example-table column names against domain concepts and attributes.",
   "concepts": {
     "TermName": {

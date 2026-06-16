@@ -58,24 +58,24 @@ strong { font-weight: 600; }
   <p>﻿--- name: domain-language catalog_garden_order: 2 description: &gt;-   Build a shared, rigorous vocabulary for each module so every conversation,   document, and artifact uses the same domain language without translation.</p>
 <hr>
 <h2>Purpose</h2>
-<p>Build a shared, rigorous vocabulary for each module â€” the terms, behaviors, and rules that domain experts and modelers agree on â€” so that every conversation, document, and downstream artifact uses the same language without translation.</p>
+<p>Build a shared, rigorous vocabulary for each module — the terms, behaviors, and rules that domain experts and modelers agree on — so that every conversation, document, and downstream artifact uses the same language without translation.</p>
 <h2>When to use</h2>
 <ul>
 <li>The user asks to &quot;extract domain language,&quot; &quot;define terms,&quot; &quot;build the domain language,&quot; or &quot;what does each term mean.&quot;</li>
-<li>The next modeling step needs defined term behavior â€” not just a flat name list.</li>
+<li>The next modeling step needs defined term behavior — not just a flat name list.</li>
 </ul>
 <h2>Core concepts</h2>
 <h3>Domain language</h3>
 <p>A shared, rigorous vocabulary agreed between domain experts and modelers — every term has one meaning used in conversations, documents, and code without translation. When the language changes, the model changes with it.</p>
 <h3>What each term carries</h3>
-<p>A <strong>term</strong> is a named concept from the module&#x27;s domain. For each term, the skill captures <em>what it does</em> â€” its behavior, interactions, rules, and flows â€” as short prose statements grounded in source material. Every claim traces back to the context it came from. The emphasis is on observable behavior and interactions, not just definitions or constraints.</p>
+<p>A <strong>term</strong> is a named concept from the module&#x27;s domain. For each term, the skill captures <em>what it does</em> — its behavior, interactions, rules, and flows — as short prose statements grounded in source material. Every claim traces back to the context it came from. The emphasis is on observable behavior and interactions, not just definitions or constraints.</p>
 <h3>Boundary terms</h3>
-<p>A concept this module depends on but does not own. Another module is the single source of truth for it. If a term appears to be owned by multiple modules simultaneously, it is probably not a boundary term â€” it is a base abstraction that belongs in this module&#x27;s Core terms.</p>
+<p>A concept this module depends on but does not own. Another module is the single source of truth for it. If a term appears to be owned by multiple modules simultaneously, it is probably not a boundary term — it is a base abstraction that belongs in this module&#x27;s Core terms.</p>
 <h3>Found terms</h3>
 <p>Terms discovered in the source during extraction that were not in the original Core terms list but clearly belong to this module.</p>
 <hr>
 <h2>Output file</h2>
-<p>The growing module file lives at <code>&amp;lt;workspace&amp;gt;/abd-domain-driven-design/modules/&amp;lt;module-name&amp;gt;.md</code>. Each skill phase enriches this same file in place â€” no separate output file per phase.</p>
+<p>The growing module file lives at <code>&amp;lt;workspace&amp;gt;/abd-domain-driven-design/modules/&amp;lt;module-name&amp;gt;.md</code>. Each skill phase enriches this same file in place — no separate output file per phase.</p>
 <p><strong>Copy-output mode:</strong> when the user says &quot;copy output,&quot; write your additions to the growing file AND produce a snapshot at <code>&amp;lt;workspace&amp;gt;/abd-domain-driven-design/modules/&amp;lt;module-name&amp;gt;-domain-language.md</code>. The snapshot is read-only after creation.</p>
 <h2>Build</h2>
 <ol>
@@ -97,15 +97,15 @@ strong { font-weight: 600; }
 <li><strong>Behavior described per term.</strong> Every <code>###</code> term has an <code>#### Domain language</code> section with at least one prose statement describing its behavior.</li>
 <li><strong>Refs per term.</strong> Every <code>###</code> term has an <code>#### References</code> section with at least one full-format Ref entry.</li>
 <li><strong>Boundary terms have owners.</strong> Every <code>##</code> heading under <code># Boundary Domain</code> has an <code>Owned by:</code> field naming exactly one module.</li>
-<li><strong>No multi-owner boundaries.</strong> If a boundary term appears owned by multiple modules, it is a base abstraction â€” move to Core terms.</li>
+<li><strong>No multi-owner boundaries.</strong> If a boundary term appears owned by multiple modules, it is a base abstraction — move to Core terms.</li>
 <li><strong>State marker.</strong> Front matter reads <code>state: domain-language</code>.</li>
 <li><strong>No source gaps.</strong> Every in-scope source slice is evidenced by at least one Ref entry somewhere in the file.</li>
 </ol>
 <hr>
 <p>&lt;!-- execute_rules:bundle_rules:begin --&gt; ﻿--- scanner: all-core-terms-present</p>
 <hr>
-<h3>Rule: All core terms present â€” every Core term from module-partition must appear</h3>
-<p><strong>Scanner:</strong> <code>scanners/all-core-terms-present-scanner.py</code> â€” <strong><code>AllCoreTermsPresentScanner</code></strong></p>
+<h3>Rule: All core terms present — every Core term from module-partition must appear</h3>
+<p><strong>Scanner:</strong> <code>scanners/all-core-terms-present-scanner.py</code> — <strong><code>AllCoreTermsPresentScanner</code></strong></p>
 <p>Every term listed under <code><strong>Core terms</strong>:</code> in the module-partition file (<code>abd-domain-driven-design/modules/&amp;lt;module&amp;gt;.md</code>) must appear as a <code>###</code> heading in the DL file (<code>abd-domain-driven-design/domain-language.md</code>) under the matching <code># Module:</code> section. No term may be silently dropped.</p>
 <h4>DO</h4>
 <ul>
@@ -119,18 +119,18 @@ strong { font-weight: 600; }
 <ul>
 <li>Flag any Core term that has no matching <code>###</code> heading.</li>
 </ul>
-<p><strong>Example (pass):</strong> Scanner reports &quot;Core term &#x27;routine check&#x27; missing as ### heading&quot; â€” the agent adds the missing heading.</p>
+<p><strong>Example (pass):</strong> Scanner reports &quot;Core term &#x27;routine check&#x27; missing as ### heading&quot; — the agent adds the missing heading.</p>
 <h4>DO NOT</h4>
 <ul>
 <li>Silently skip a Core term because it seems redundant or covered by another term&#x27;s behavioral lines.</li>
 </ul>
-<p><strong>Example (fail):</strong> The partition lists <code>routine check</code> but the DL has no <code>### routine check</code> heading â€” the agent decided it was &quot;just a variant of check.&quot;</p>
+<p><strong>Example (fail):</strong> The partition lists <code>routine check</code> but the DL has no <code>### routine check</code> heading — the agent decided it was &quot;just a variant of check.&quot;</p>
 <ul>
-<li>Fold two Core terms into one heading without documenting the merge â€” each partition term gets its own heading.</li>
+<li>Fold two Core terms into one heading without documenting the merge — each partition term gets its own heading.</li>
 </ul>
 <p><strong>Example (fail):</strong> <code>### degree of success / degree of failure</code> as a single heading when the partition lists them separately.</p>
 <ul>
-<li>Assume found terms (terms discovered during extraction) substitute for missing Core terms â€” both must be present.</li>
+<li>Assume found terms (terms discovered during extraction) substitute for missing Core terms — both must be present.</li>
 </ul>
 <p><strong>Example (fail):</strong> <code>### critical hit</code> appears as a found term but <code>### critical hit</code> was already in the partition&#x27;s Core terms list and is not present as a Core term heading.</p>
 <h3>Rule: Boundary terms have owner — every boundary term must have an Owned by: field</h3>
@@ -197,8 +197,8 @@ strong { font-weight: 600; }
 <p><strong>Example (fail):</strong> <code>Refs: chunk_004 (lines 202–243)</code> — missing <code>Source:</code>, <code>Locator:</code>, <code>Extract:</code> structure.</p>
 <p>﻿--- scanner: terms-in-partition-order</p>
 <hr>
-<h3>Rule: Terms in partition order â€” Core terms must follow module-partition sequence</h3>
-<p><strong>Scanner:</strong> <code>scanners/terms-in-partition-order-scanner.py</code> â€” <strong><code>TermsInPartitionOrderScanner</code></strong></p>
+<h3>Rule: Terms in partition order — Core terms must follow module-partition sequence</h3>
+<p><strong>Scanner:</strong> <code>scanners/terms-in-partition-order-scanner.py</code> — <strong><code>TermsInPartitionOrderScanner</code></strong></p>
 <p>The <code>###</code> headings for Core terms in the DL file must appear in the same sequence as the <code><strong>Core terms</strong>:</code> list in the module-partition file. Found terms (added during extraction) appear after all Core terms and before <code>## Boundary terms</code>. Boundary terms follow their own section.</p>
 <h4>DO</h4>
 <ul>
@@ -211,11 +211,11 @@ strong { font-weight: 600; }
 <p><strong>Example (pass):</strong> Core terms end with <code>### surprised</code>; found terms <code>### staggered</code> and <code>### incapacitated</code> appear next, then <code>## Boundary terms</code>.</p>
 <h4>DO NOT</h4>
 <ul>
-<li>Reorder Core terms for thematic grouping â€” the partition order is the contract.</li>
+<li>Reorder Core terms for thematic grouping — the partition order is the contract.</li>
 </ul>
 <p><strong>Example (fail):</strong> Agent groups all condition terms together, moving <code>### dazed</code> before <code>### modifier</code> even though the partition lists modifier first.</p>
 <ul>
-<li>Interleave found terms among Core terms â€” found terms go after all Core terms.</li>
+<li>Interleave found terms among Core terms — found terms go after all Core terms.</li>
 </ul>
 <p><strong>Example (fail):</strong> <code>### team check</code> (a found term) inserted between <code>### check</code> and <code>### Difficulty Class (DC)</code>.</p>
 <ul>

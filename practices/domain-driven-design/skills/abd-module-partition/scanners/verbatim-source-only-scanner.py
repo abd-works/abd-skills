@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Scanner: every Source: line in module files must resolve to a file on disk."""
 from __future__ import annotations
 
@@ -37,7 +37,7 @@ GENERATED_SOURCE_MARKERS = [
 ]
 
 _REF_HEADER_RE = re.compile(
-    r"^\*\*(?:Ref|Extract)\s*â€”\s*(?P<title>.+?)\*\*\s*$", re.MULTILINE
+    r"^\*\*(?:Ref|Extract)\s*—\s*(?P<title>.+?)\*\*\s*$", re.MULTILINE
 )
 _SOURCE_LINE_RE = re.compile(
     r"^Source:\s*(?P<ref>.+)$", re.MULTILINE
@@ -62,7 +62,7 @@ def _has_source_files(workspace: Path) -> bool:
 
 
 def _resolve_source_ref(ref: str, workspace: Path) -> Path | None:
-    clean = ref.split("â€”")[0].strip().strip('"').strip("'")
+    clean = ref.split("—")[0].strip().strip('"').strip("'")
     candidate = workspace / clean
     if candidate.is_file():
         return candidate
@@ -145,7 +145,7 @@ class VerbatimSourceOnlyScanner(Scanner):
                             rule=self.rule,
                             violation_message=(
                                 f'Ref "{title}": Source line contains '
-                                f'generated-content marker "{marker}" â€” '
+                                f'generated-content marker "{marker}" — '
                                 f'"{source_ref}". '
                                 f"References must point to a file on disk."
                             ),

@@ -1,4 +1,4 @@
-﻿import type { AgentDefinition } from './AgentDefinition';
+import type { AgentDefinition } from './AgentDefinition';
 import { AgentSession } from './AgentSession';
 
 /**

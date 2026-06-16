@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Merge acceptance-criteria.md into an existing story-graph.json.
 
 Usage:

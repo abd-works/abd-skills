@@ -1,4 +1,4 @@
-﻿import type { BootstrapPrompt } from '@deliveryforge/kanban-shared';
+import type { BootstrapPrompt } from '@deliveryforge/kanban-shared';
 import { AgentOutputStream, type AgentOutputEvent } from './AgentOutputStream';
 
 /**

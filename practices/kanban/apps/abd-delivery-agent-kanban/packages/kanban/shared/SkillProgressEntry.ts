@@ -1,4 +1,4 @@
-﻿import type { SkillProgress } from './SkillProgress.schema';
+import type { SkillProgress } from './SkillProgress.schema';
 
 /**
  * Domain entity wrapping a skill progress record.

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * ## Instructions (for skill maintainers — do NOT paste this block into project test files)
  *
  * This template defines the required structure for acceptance test files produced by the

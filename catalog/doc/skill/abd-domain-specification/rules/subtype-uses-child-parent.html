@@ -1722,7 +1722,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <div class="rule-prose"><h1>Rule: Subtypes use ClassName : ParentClass on the heading line</h1>
 <p><strong>Scanner:</strong> Manual review</p>
 <div class="spec-steps">
-<p class="spec-step">When a class is a specialization of another, its class-model heading must use <code>#### **ClassName : ParentClass**</code> notation. The block states only delta members � typed properties, operations, and invariants that the subtype adds or overrides beyond the parent. Passing means subtypes are correctly notated and carry only deltas. Failing means subtypes use the wrong format or duplicate inherited members.</p>
+<p class="spec-step">When a class is a specialization of another, its class-model heading must use <code>#### **ClassName : ParentClass**</code> notation. The block states only delta members — typed properties, operations, and invariants that the subtype adds or overrides beyond the parent. Passing means subtypes are correctly notated and carry only deltas. Failing means subtypes use the wrong format or duplicate inherited members.</p>
 </div>
 <h2>DO</h2>
 <ul>
@@ -1734,18 +1734,18 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
   + resolve(opposing: Check): CheckResult
       Invariant: both sides resolve as standard Checks; higher result wins</code></pre>
 <ul>
-<li>State only delta members � typed properties and operations the subtype adds or overrides beyond the parent.</li>
+<li>State only delta members — typed properties and operations the subtype adds or overrides beyond the parent.</li>
 </ul>
 <p><strong>Example (pass):</strong> Parent <code>Check</code> owns <code>+ resolve(): CheckResult</code>; subtype <code>OpposedCheck : Check</code> overrides it with the opposing-check signature and adds its own invariants. No parent members are repeated.</p>
 <h2>DO NOT</h2>
 <ul>
 <li>Use the Domain Language English heading form in class-model headings.</li>
 </ul>
-<p><strong>Example (fail):</strong> <code>#### **Opposed Check** *(is a type of Check)*</code> � use <code>: ParentClass</code> in the heading, not the sketch&#x27;s English form.</p>
+<p><strong>Example (fail):</strong> <code>#### **Opposed Check** *(is a type of Check)*</code> — use <code>: ParentClass</code> in the heading, not the sketch&#x27;s English form.</p>
 <ul>
 <li>Use code-style syntax from the implementation language.</li>
 </ul>
-<p><strong>Example (fail):</strong> <code>class OpposedCheck extends Check</code> or <code>OpposedCheck(Check)</code> � the domain model uses its own notation, not a language keyword.</p>
+<p><strong>Example (fail):</strong> <code>class OpposedCheck extends Check</code> or <code>OpposedCheck(Check)</code> — the domain model uses its own notation, not a language keyword.</p>
 <ul>
 <li>Repeat inherited members in the subtype block.</li>
 </ul>

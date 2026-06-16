@@ -1720,20 +1720,20 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 
 <h2>Content</h2>
 <div class="rule-prose"><h1>Rule: Plan has an explicit context inventory</h1>
-<p><strong>Scanner:</strong> <code>scanners/plan-shape-scanner.py</code> â€” <code>PlanShapeScanner</code> (rule id <code>plan-has-context-inventory</code>)</p>
-<p>The saved plan at <code>&lt;workspace&gt;/docs/kanban/agile-delivery-plan.md</code> must include a <strong>context inventory</strong> section that lists <strong>Provided</strong> context and <strong>Missing</strong> (or &quot;not yet provided&quot;) context separately, and â€” when critical context is missing â€” the implications for run sequencing.</p>
+<p><strong>Scanner:</strong> <code>scanners/plan-shape-scanner.py</code> — <code>PlanShapeScanner</code> (rule id <code>plan-has-context-inventory</code>)</p>
+<p>The saved plan at <code>&lt;workspace&gt;/docs/kanban/agile-delivery-plan.md</code> must include a <strong>context inventory</strong> section that lists <strong>Provided</strong> context and <strong>Missing</strong> (or &quot;not yet provided&quot;) context separately, and — when critical context is missing — the implications for run sequencing.</p>
 <p>This exists so reviewers and downstream agents can see gaps immediately, instead of inferring from chat that a named platform / integration was &quot;probably understood.&quot;</p>
 <h2>DO</h2>
 <ul>
 <li>Include a heading like <code>## Context inventory</code> (or <code>### Context Inventory</code>).</li>
-<li>Under it, list or table both <strong>Provided context</strong> (concrete inputs used â€” file paths, repo URLs, doc links, API refs, versions) and <strong>Missing context</strong> (explicit &quot;not yet provided&quot; flags).</li>
+<li>Under it, list or table both <strong>Provided context</strong> (concrete inputs used — file paths, repo URLs, doc links, API refs, versions) and <strong>Missing context</strong> (explicit &quot;not yet provided&quot; flags).</li>
 <li>When critical context is missing, say what must happen before implementation runs (spike, doc pass, user drops links, clone repo).</li>
-<li>Use neutral wording for gaps â€” <em>not yet provided</em> â€” not &quot;TBD&quot; buried in prose.</li>
+<li>Use neutral wording for gaps — <em>not yet provided</em> — not &quot;TBD&quot; buried in prose.</li>
 </ul>
 <h2>DON&#x27;T</h2>
 <ul>
 <li>Treat a named platform (Foundry, Salesforce, your monolith, Acme API, etc.) as understood without any provided source.</li>
-<li>Skip the inventory because &quot;the brief is short.&quot; A short brief means the inventory is a one-liner â€” still write it.</li>
+<li>Skip the inventory because &quot;the brief is short.&quot; A short brief means the inventory is a one-liner — still write it.</li>
 <li>Hide gaps inside run rationales instead of surfacing them in the inventory.</li>
 </ul>
 <h2>Example (wrong)</h2>

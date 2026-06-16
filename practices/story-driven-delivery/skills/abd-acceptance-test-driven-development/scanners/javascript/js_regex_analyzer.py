@@ -1,4 +1,4 @@
-﻿"""Regex-based JavaScript analyzer for files that can't be AST-parsed."""
+"""Regex-based JavaScript analyzer for files that can't be AST-parsed."""
 
 import re
 from typing import List, Tuple, Dict

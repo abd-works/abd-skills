@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Scanner: every term in the **Terms** list must have a ### concept heading in Core Domain.
 
 Also flags obvious un-italicized domain term occurrences by checking that terms

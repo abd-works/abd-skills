@@ -1,4 +1,4 @@
-﻿"""Delivery Agent Kanban domain layer (domain model: docs/domain/domain model.md).
+"""Delivery Agent Kanban domain layer (domain model: docs/domain/domain model.md).
 
 All named domain model classes live here:
   KanbanBoard, Ticket, Stage (StageDef), StageWorkRequired, Skill (SkillDef),

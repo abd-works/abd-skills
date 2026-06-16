@@ -1,4 +1,4 @@
-﻿
+
 from typing import List, Dict, Any, Optional, TYPE_CHECKING
 from pathlib import Path
 from test_scanner import TestScanner

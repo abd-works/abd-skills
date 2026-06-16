@@ -1,4 +1,4 @@
-﻿"""Scanner for helper_extraction_and_reuse rule.
+"""Scanner for helper_extraction_and_reuse rule.
 
 Checks that test files extract duplicate setup into reusable helpers.
 Flags test classes where multiple test methods contain near-identical setup blocks

@@ -1711,7 +1711,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
     <p class="s-name">Markdown</p>
 
     <h1 class="page-headline">reference/concepts.md</h1>
-    <p class="body-lead">kanban-estimation � Concepts</p>
+    <p class="body-lead">kanban-estimation — Concepts</p>
   </div>
 </div>
 
@@ -1719,15 +1719,15 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <div class="wrap">
 
 <h2>Content</h2>
-<div class="rule-prose"><h1>kanban-estimation � Concepts</h1>
+<div class="rule-prose"><h1>kanban-estimation — Concepts</h1>
 <h2>Scope item</h2>
 <p>The <strong>thing being estimated</strong>. It can sit at any level of the backlog hierarchy. The skill works the same way regardless of granularity; what changes is the resolution of the contributing factors, the width of the estimation category, and what backlog changes are possible during discussion.</p>
 <p><strong>Scope types:</strong></p>
 <ul>
-<li><strong>Epic</strong> � a large user journey or capability area (e.g. &quot;Adopt a Pet&quot;). Estimating at this level gives rough portfolio sizing. Splits produce sub-epics or stories.</li>
-<li><strong>Sub-epic</strong> � a segment of an epic that is still too broad to implement directly (e.g. &quot;Submit and Track Adoption&quot;). Splits produce stories.</li>
-<li><strong>Story</strong> � a single user-valuable behaviour (e.g. &quot;Submit Adoption Application&quot;). The most common estimation level. Splits produce thin slices; merges combine stories that are too small to stand alone.</li>
-<li><strong>Thin slice</strong> � a minimal vertical slice through a story (e.g. &quot;Submit application with only required fields, happy path&quot;). The finest estimation granularity. Merges combine slices that are trivially small.</li>
+<li><strong>Epic</strong> — a large user journey or capability area (e.g. &quot;Adopt a Pet&quot;). Estimating at this level gives rough portfolio sizing. Splits produce sub-epics or stories.</li>
+<li><strong>Sub-epic</strong> — a segment of an epic that is still too broad to implement directly (e.g. &quot;Submit and Track Adoption&quot;). Splits produce stories.</li>
+<li><strong>Story</strong> — a single user-valuable behaviour (e.g. &quot;Submit Adoption Application&quot;). The most common estimation level. Splits produce thin slices; merges combine stories that are too small to stand alone.</li>
+<li><strong>Thin slice</strong> — a minimal vertical slice through a story (e.g. &quot;Submit application with only required fields, happy path&quot;). The finest estimation granularity. Merges combine slices that are trivially small.</li>
 </ul>
 <p>Before estimating, the team must agree on <strong>which delivery stages the estimate covers</strong>. Use the <strong>five bootcamp stages</strong> from the stage files in <code>reference/stages/</code>, plus cross-cutting test activities. Defaults apply unless the team opts in or out at session start.</p>
 <div class="md-table-wrap"><table class="md-table"><thead><tr><th>Bootcamp stage</th><th>What the estimate may include</th><th>Default</th></tr></thead><tbody><tr><td><strong>Shaping</strong></td><td>Outline map, module partition, architecture outline</td><td><em>Out</em></td></tr><tr><td><strong>Discovery</strong></td><td>Full map, domain/UX IA, blueprint, thin-slice placement</td><td><em>Out</em></td></tr><tr><td><strong>Exploration</strong></td><td>UL, acceptance criteria, UX mockups, architecture template</td><td><em>In</em> (AC at minimum; mockups/template opt in per session)</td></tr><tr><td><strong>Specification</strong></td><td>domain model, spec-by-example, clickable UX prototype, architecture reference</td><td><em>In</em></td></tr><tr><td><strong>Engineering</strong></td><td>domain code (BE), acceptance tests / ATDD (PO), production code incl. UI (Engineer)</td><td><em>In</em></td></tr><tr><td><strong>Regression testing</strong></td><td>Broader regression suite maintenance</td><td><em>In</em></td></tr><tr><td><strong>User testing / UAT</strong></td><td>End-user validation outside the team</td><td><em>Out</em></td></tr></tbody></table></div>
@@ -1735,9 +1735,9 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <p>An estimate without a stated coverage boundary is not comparable to another estimate. The session file records which stages are in and which are out.</p>
 <hr>
 <h2>Contributing factor</h2>
-<p>A <strong>dimension that drives effort</strong> for a particular scope item. Common factors include technical complexity, domain uncertainty, external dependencies, skill gaps on the team, integration surface, testing depth, and regulatory overhead � but the catalog is team-owned. At the start of a session the team reviews a seed list and adds or removes factors that matter for their context. Each factor is scored or noted per item so the team can see <strong>where</strong> effort concentrates, not just how much there is.</p>
+<p>A <strong>dimension that drives effort</strong> for a particular scope item. Common factors include technical complexity, domain uncertainty, external dependencies, skill gaps on the team, integration surface, testing depth, and regulatory overhead — but the catalog is team-owned. At the start of a session the team reviews a seed list and adds or removes factors that matter for their context. Each factor is scored or noted per item so the team can see <strong>where</strong> effort concentrates, not just how much there is.</p>
 <h2>Estimation category</h2>
-<p>A <strong>named range</strong> rather than a precise number. Categories keep the conversation honest � nobody pretends to know whether a story is 11 or 13 points. The skill supports any scheme the team agrees on (T-shirt sizes, modified Fibonacci, simple Small / Medium / Large / Extra-Large, or custom ranges). Categories are defined once per session and reused for every item so estimates stay comparable.</p>
+<p>A <strong>named range</strong> rather than a precise number. Categories keep the conversation honest — nobody pretends to know whether a story is 11 or 13 points. The skill supports any scheme the team agrees on (T-shirt sizes, modified Fibonacci, simple Small / Medium / Large / Extra-Large, or custom ranges). Categories are defined once per session and reused for every item so estimates stay comparable.</p>
 <h2>Split threshold</h2>
 <p>A <strong>guideline that triggers proactive decomposition</strong> when a story estimate lands above it. The threshold is set per session based on what the team considers &quot;too big to commit to without breaking it down.&quot;</p>
 <p>Default guidelines when estimating stories (coverage = exploration through engineering, including ATDD):</p>
@@ -1745,64 +1745,64 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <li><strong>Points schemes:</strong> &gt; 5 points ? suggest splitting into smaller stories</li>
 <li><strong>Day schemes:</strong> &gt; 8 days ? suggest splitting into smaller stories</li>
 </ul>
-<p>&quot;Days&quot; here means the full story lifecycle through <strong>engineering</strong> � exploration (AC), specification, acceptance tests, and implementation � not coding time alone. The threshold is a conversation trigger, not a hard rule: the team may keep a story whole if the estimate is confident and the contributing factors are well-understood. But crossing the threshold should always prompt the question: <em>Can this be broken into independently deliverable pieces?</em></p>
+<p>&quot;Days&quot; here means the full story lifecycle through <strong>engineering</strong> — exploration (AC), specification, acceptance tests, and implementation — not coding time alone. The threshold is a conversation trigger, not a hard rule: the team may keep a story whole if the estimate is confident and the contributing factors are well-understood. But crossing the threshold should always prompt the question: <em>Can this be broken into independently deliverable pieces?</em></p>
 <div class="spec-steps">
-<p class="spec-step">When a story crosses the threshold, use <strong><code>abd-thin-slicing</code></strong> (Discovery stage, last skill) to break it into thin slices. Each slice is estimated separately. The original story is marked &quot;split � see children&quot; in the session file.</p>
+<p class="spec-step">When a story crosses the threshold, use <strong><code>abd-thin-slicing</code></strong> (Discovery stage, last skill) to break it into thin slices. Each slice is estimated separately. The original story is marked &quot;split — see children&quot; in the session file.</p>
 </div>
 <h2>Team vote</h2>
-<p>The moment contributors <strong>individually commit</strong> to a category before discussion begins � the same principle as planning poker but applicable to any estimation scheme. Simultaneous reveal prevents anchoring. Disagreement is the signal, not the problem: when votes diverge, the highest and lowest voices explain their reasoning, contributing factors get re-examined, and the team votes again. The final category is the team&#x27;s consensus, not an average.</p>
+<p>The moment contributors <strong>individually commit</strong> to a category before discussion begins — the same principle as planning poker but applicable to any estimation scheme. Simultaneous reveal prevents anchoring. Disagreement is the signal, not the problem: when votes diverge, the highest and lowest voices explain their reasoning, contributing factors get re-examined, and the team votes again. The final category is the team&#x27;s consensus, not an average.</p>
 <h2>Estimate record</h2>
-<p>The <strong>saved output</strong> for one scope item: the chosen category, the contributing-factor breakdown, any comments or risks surfaced during discussion, and � critically � new stories or acceptance criteria that emerged because estimation forced the team to think concretely. Estimate records accumulate into the session log and become the input for delivery planning, capacity allocation, and future re-estimation.</p>
+<p>The <strong>saved output</strong> for one scope item: the chosen category, the contributing-factor breakdown, any comments or risks surfaced during discussion, and — critically — new stories or acceptance criteria that emerged because estimation forced the team to think concretely. Estimate records accumulate into the session log and become the input for delivery planning, capacity allocation, and future re-estimation.</p>
 <h2>Interactive estimation</h2>
-<p>Estimation is <strong>item-by-item and conversational</strong>, not a batch operation. The agent (or facilitator) presents one scope item, proposes an initial category based on contributing factors, and the team discusses and votes before moving to the next. This deliberate pace is what makes estimation a discovery activity: rushing through a list defeats the purpose because the side-conversations � &quot;wait, does this include the API migration?&quot; � are where hidden scope and risk surface.</p>
+<p>Estimation is <strong>item-by-item and conversational</strong>, not a batch operation. The agent (or facilitator) presents one scope item, proposes an initial category based on contributing factors, and the team discusses and votes before moving to the next. This deliberate pace is what makes estimation a discovery activity: rushing through a list defeats the purpose because the side-conversations — &quot;wait, does this include the API migration?&quot; — are where hidden scope and risk surface.</p>
 <hr>
 <h2>Backlog changes during estimation</h2>
 <p>Estimation forces concrete thinking, and concrete thinking changes the backlog. Four kinds of change happen naturally during a session:</p>
 <ul>
-<li><strong>New acceptance criteria</strong> � discussion reveals missing WHEN/THEN behaviour. Record and feed to <strong><code>abd-story-acceptance-criteria</code></strong> (Exploration, Product Owner).</li>
-<li><strong>New domain or UX artifacts needed</strong> � record and note <strong>Business Expert</strong> or <strong>UX Designer</strong> extension work in the relevant stage.</li>
-<li><strong>New items</strong> � work not on the map. Record and feed to <strong><code>abd-story-mapping</code></strong> (Discovery).</li>
-<li><strong>Split</strong> � an item is too large or uncertain to estimate as one piece. The team breaks it apart. What it becomes depends on what it was:</li>
+<li><strong>New acceptance criteria</strong> — discussion reveals missing WHEN/THEN behaviour. Record and feed to <strong><code>abd-story-acceptance-criteria</code></strong> (Exploration, Product Owner).</li>
+<li><strong>New domain or UX artifacts needed</strong> — record and note <strong>Business Expert</strong> or <strong>UX Designer</strong> extension work in the relevant stage.</li>
+<li><strong>New items</strong> — work not on the map. Record and feed to <strong><code>abd-story-mapping</code></strong> (Discovery).</li>
+<li><strong>Split</strong> — an item is too large or uncertain to estimate as one piece. The team breaks it apart. What it becomes depends on what it was:</li>
 <li>Epic ? sub-epics or stories (<strong><code>abd-story-mapping</code></strong>)</li>
 <li>Story ? thin slices (<strong><code>abd-thin-slicing</code></strong>)</li>
 <li>Thin slice ? rarely split further; consider whether it is really a story</li>
-<li><strong>Merge</strong> � two or more items are too small or too similar to justify separate estimates. Combine them into one item at the same scope level (<strong><code>abd-story-mapping</code></strong>).</li>
+<li><strong>Merge</strong> — two or more items are too small or too similar to justify separate estimates. Combine them into one item at the same scope level (<strong><code>abd-story-mapping</code></strong>).</li>
 </ul>
 <p>After any backlog change, use <strong><code>story-graph-ops</code></strong> to persist the update to <code>story-graph.json</code> so the map and the estimates stay in sync.</p>
 <hr>
 <h2>The shape of estimation output</h2>
-<p>An estimation session produces two kinds of file. The <strong>session file</strong> frames the whole pass � what is being estimated, what the estimate covers, which factors drive effort, and what categories the team agreed on. Each <strong>estimate record</strong> captures one item&#x27;s category, factor breakdown, vote rounds, discussion, and any scope that surfaced.</p>
+<p>An estimation session produces two kinds of file. The <strong>session file</strong> frames the whole pass — what is being estimated, what the estimate covers, which factors drive effort, and what categories the team agreed on. Each <strong>estimate record</strong> captures one item&#x27;s category, factor breakdown, vote rounds, discussion, and any scope that surfaced.</p>
 <h3>Session file (from <code>templates/estimation-session.md</code>)</h3>
-<pre><code>Session metadata   � date, facilitator, participants
-Scope              � granularity (epic / sub-epic / story / thin slice)
+<pre><code>Session metadata   — date, facilitator, participants
+Scope              — granularity (epic / sub-epic / story / thin slice)
                      source (story map, sprint backlog, etc.)
                      coverage boundary checklist (bootcamp stages):
                        [ ] shaping (not default)
                        [ ] discovery (not default)
-                       [x] exploration � AC (default); mockups/template optional
+                       [x] exploration — AC (default); mockups/template optional
                        [x] specification
-                       [x] engineering � ATDD + implementation (prototype optional)
+                       [x] engineering — ATDD + implementation (prototype optional)
                        [x] regression testing
                        [ ] user testing / UAT (not default)
-Factors catalog    � team-agreed dimensions that drive effort
+Factors catalog    — team-agreed dimensions that drive effort
                      e.g. complexity, uncertainty, dependencies,
                      skill gaps, integration, testing depth
-Category scheme    � the ranges the team will vote with
+Category scheme    — the ranges the team will vote with
                      e.g. S / M / L / XL with rough meanings
                      split threshold (items above it trigger decomposition)
-Items estimated    � priority-ordered table (priority, item, category, split?, notes)
+Items estimated    — priority-ordered table (priority, item, category, split?, notes)
                      AI suggests order; team reorders before starting
-Session summary    � totals, flagged items, new stories/AC found</code></pre>
+Session summary    — totals, flagged items, new stories/AC found</code></pre>
 <h3>Estimate record (from <code>templates/estimate-record.md</code>)</h3>
-<pre><code>Item               � name, scope level, source
-Estimate           � chosen category, coverage
-Factor breakdown   � per-factor score + why (specific to this item)
-Team vote          � round 1 votes, divergence discussion,
+<pre><code>Item               — name, scope level, source
+Estimate           — chosen category, coverage
+Factor breakdown   — per-factor score + why (specific to this item)
+Team vote          — round 1 votes, divergence discussion,
                      round 2 if needed, final consensus
-Discussion notes   � what the team talked about
-Emergent scope     � new AC, new stories, splits, merges, open questions
+Discussion notes   — what the team talked about
+Emergent scope     — new AC, new stories, splits, merges, open questions
                      each tagged with the downstream skill to action it
-Follow-up          � spike, decompose, or none</code></pre></div>
+Follow-up          — spike, decompose, or none</code></pre></div>
 
 </div>
 </div>

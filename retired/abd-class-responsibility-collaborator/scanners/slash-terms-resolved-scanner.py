@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Scanner: slash terms (A / B) must be resolved before CRC — none may appear in headings.
 
 Any concept named A / B in the Domain Language must be resolved to one canonical name before

@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Scanner: domain-language files must not contain premature design commitments.
 
 Flags:

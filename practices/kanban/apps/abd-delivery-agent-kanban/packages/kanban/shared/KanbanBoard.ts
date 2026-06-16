@@ -1,4 +1,4 @@
-﻿import { Ticket } from './Ticket';
+import { Ticket } from './Ticket';
 import { SkillCatalog } from './SkillCatalog';
 import type { KanbanColumn, KanbanColumnView } from './Ticket';
 import type { RawTicket } from './Ticket.schema';

@@ -1726,7 +1726,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <ul>
 <li>Place the operation on the class that performs the action.</li>
 </ul>
-<p><strong>Example (pass):</strong> A character makes a resistance check against a power effect. <code>OngoingEffects</code> owns <code>+ resist(effect: PowerEffect, check: Check): void</code>. <code>PowerEffect</code> owns <code>+ resistanceTrait: Trait</code> (declaring how it is resisted) � not a <code>resist</code> operation.</p>
+<p><strong>Example (pass):</strong> A character makes a resistance check against a power effect. <code>OngoingEffects</code> owns <code>+ resist(effect: PowerEffect, check: Check): void</code>. <code>PowerEffect</code> owns <code>+ resistanceTrait: Trait</code> (declaring how it is resisted) — not a <code>resist</code> operation.</p>
 <p><strong>Example (pass):</strong> A condition is applied to a character. <code>ImposedConditions</code> owns <code>+ applyCondition(source: ConditionSource, condition: Condition): void</code>. <code>Character</code> does not own <code>+ receiveCondition(...)</code>.</p>
 <h2>DO NOT</h2>
 <ul>

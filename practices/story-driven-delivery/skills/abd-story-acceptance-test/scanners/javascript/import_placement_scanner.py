@@ -1,4 +1,4 @@
-﻿"""Scanner for import/require placement in JavaScript/TypeScript (client and server).
+"""Scanner for import/require placement in JavaScript/TypeScript (client and server).
 Equivalent to Python ImportPlacementScanner: all imports at top of file.
 """
 

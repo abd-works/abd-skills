@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 drawio_domain_cli.py — unified domain model → Draw.io class diagram CLI
 

@@ -1,4 +1,4 @@
-﻿"""Scanner for detecting improper exception handling in JavaScript."""
+"""Scanner for detecting improper exception handling in JavaScript."""
 
 from typing import List, Dict, Any
 from pathlib import Path

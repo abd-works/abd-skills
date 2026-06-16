@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 scan_encoding.py — Guard against mojibake, U+FFFD replacement characters,
-and UTF-8 BOM in .md / .mdc files.
+and UTF-8 BOM in text files (.md, .mdc, .html, .py, …).
 
 Usage:
     python3 scripts/scan_encoding.py              # report all issues
@@ -43,34 +43,56 @@ MOJIBAKE = {
     "\u00e2\u0080\u009d": "\u201d (right double quote)",
     "\u00e2\u0080\u00a2": "\u2022 (bullet)",
     "\u00e2\u0080\u00a6": "\u2026 (ellipsis)",
+    # cp1252 misread of UTF-8 ellipsis/dash (â + € + trailing byte)
+    "\u00e2\u20ac\u00a6": "\u2026 (ellipsis cp1252)",
+    "\u00e2\u20ac\u201d": "\u2014 (em-dash cp1252)",
 }
 
 REPLACEMENT = "\ufffd"  # U+FFFD
 
+TEXT_EXTENSIONS = (
+    ".md", ".mdc", ".json", ".yaml", ".yml", ".txt", ".py", ".ts", ".js",
+    ".html", ".css", ".sh", ".ps1", ".toml", ".cfg",
+)
+
+# Files that intentionally contain mojibake literals (detector patterns, docs).
+SKIP_PATHS = {
+    "scripts/pre-commit-mojibake.sh",
+    "ENCODING-GUARD-REPORT.md",
+    "README.md",
+    "catalog/outline.md",
+}
+
+def should_scan(path):
+    normalized = path.replace("\\", "/").lstrip("./")
+    return normalized not in SKIP_PATHS
+
 # ── Helpers ────────────────────────────────────────────────────────────────
 
-def staged_md_files():
-    """Return list of .md/.mdc files currently staged in git."""
+def is_text_file(path):
+    return path.endswith(TEXT_EXTENSIONS) and should_scan(path)
+
+
+def staged_text_files():
+    """Return list of staged text files currently in git."""
     try:
         out = subprocess.check_output(
             ["git", "diff", "--cached", "--name-only", "--diff-filter=ACMR"],
             text=True,
         )
-        return [
-            f for f in out.strip().splitlines()
-            if f.endswith(".md") or f.endswith(".mdc")
-        ]
+        return [f for f in out.strip().splitlines() if is_text_file(f)]
     except subprocess.CalledProcessError:
         return []
 
 
-def walk_md_files(root="."):
-    """Walk the repo and yield .md/.mdc paths, skipping .git and node_modules."""
+def walk_text_files(root="."):
+    """Walk the repo and yield text file paths, skipping .git and node_modules."""
     for dirpath, dirnames, filenames in os.walk(root):
         dirnames[:] = [d for d in dirnames if d not in (".git", "node_modules")]
         for f in filenames:
-            if f.endswith(".md") or f.endswith(".mdc"):
-                yield os.path.join(dirpath, f)
+            path = os.path.join(dirpath, f)
+            if is_text_file(path):
+                yield path
 
 
 def is_binary_preview_line(line):
@@ -134,6 +156,8 @@ MOJIBAKE_FIX = {
     "\u00e2\u0080\u009d": "\u201d",  # " right double quote (latin1)
     "\u00e2\u0080\u00a2": "\u2022",  # • bullet (latin1)
     "\u00e2\u0080\u00a6": "\u2026",  # … ellipsis (latin1)
+    "\u00e2\u20ac\u00a6": "\u2026",  # … ellipsis (cp1252)
+    "\u00e2\u20ac\u201d": "\u2014",  # — em-dash (cp1252)
 }
 
 
@@ -191,9 +215,9 @@ def main():
     staged_only = "--staged" in args
 
     if staged_only:
-        paths = [f for f in staged_md_files() if os.path.isfile(f)]
+        paths = [f for f in staged_text_files() if os.path.isfile(f)]
     else:
-        paths = sorted(walk_md_files())
+        paths = sorted(walk_text_files())
 
     results = {}
     for path in paths:
@@ -253,7 +277,7 @@ def main():
 
         # Re-scan to show remaining
         remaining = {}
-        for path in sorted(walk_md_files()):
+        for path in sorted(walk_text_files()):
             issues = scan_file(path)
             if issues:
                 remaining[path] = issues

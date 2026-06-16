@@ -924,7 +924,7 @@ a.cap-card:hover .cap-card__icon {
     </div>
     <a class="back-link" href="../skills.html">← All skills</a>
     <h1>module-partition</h1>
-    <p class="tagline">After domain scan, partition the source corpus into modules by allocating source file references to per-module index files. No classes, no anchors â€” only module boundaries and file references to the source that belongs to each. Supports an Unallocated bucket for pending decisions and a Rejected …</p>
+    <p class="tagline">After domain scan, partition the source corpus into modules by allocating source file references to per-module index files. No classes, no anchors — only module boundaries and file references to the source that belongs to each. Supports an Unallocated bucket for pending decisions and a Rejected …</p>
   </div>
 </header>
 
@@ -939,13 +939,13 @@ a.cap-card:hover .cap-card__icon {
 </nav>
 
 <h2>Description</h2>
-<div class="entry-prose">Produce a root index (module-partition.md) plus per-module files under abd-domain-driven-design/modules/ â€” each containing scope, core terms, and source file references (not verbatim copies). No classes, no anchors, no UML, no stereotypes. Just boundaries and pointers to the source text that lives inside them.<br>
+<div class="entry-prose">Produce a root index (module-partition.md) plus per-module files under abd-domain-driven-design/modules/ — each containing scope, core terms, and source file references (not verbatim copies). No classes, no anchors, no UML, no stereotypes. Just boundaries and pointers to the source text that lives inside them.<br>
 <br>
-This is the scope cut before any class identification. It answers a single question for every chunk of source: which module does this text belong to â€” or is it unallocated (pending) or rejected (out of scope)?<br>
+This is the scope cut before any class identification. It answers a single question for every chunk of source: which module does this text belong to — or is it unallocated (pending) or rejected (out of scope)?<br>
 <br>
 ### Why references, not verbatim copies<br>
 <br>
-When the source is already structured as individually addressable files (corpus chunks, markdown files, scanned documents), copying their full content into the partition document is pure duplication. The partition&#x27;s real value is the allocation decision â€” which files belong to which module. Downstream agents read the module file to get the file list, then read the actual source files as needed. This keeps module files small, avoids duplication, and supports parallel agents working one module at a time.</div>
+When the source is already structured as individually addressable files (corpus chunks, markdown files, scanned documents), copying their full content into the partition document is pure duplication. The partition&#x27;s real value is the allocation decision — which files belong to which module. Downstream agents read the module file to get the file list, then read the actual source files as needed. This keeps module files small, avoids duplication, and supports parallel agents working one module at a time.</div>
 
 <section class="install-block" aria-labelledby="install-npx-heading">
   <h2 id="install-npx-heading">Install with npx</h2>
@@ -962,13 +962,13 @@ When the source is already structured as individually addressable files (corpus 
 
 <h2 id="entry-contents">Contents</h2>
 <div class="entry-contents-doc">
-<details class="entry-md-section" id="md-overview"><summary class="entry-md-section__summary">Overview</summary><div class="entry-md-section__body"><p>﻿--- name: module-partition catalog_garden_order: 1 description: &gt;- After domain scan, partition the source corpus into modules by allocating source file references to per-module index files. No classes, no anchors â€” only module boundaries and file references to the source that belongs to each. Supports an Unallocated bucket for pending decisions and a Rejected bucket for out-of-scope context. Modules are flat by default and nested only when the source itself supports a sub-module. Use when the user asks to &quot;partition the source&quot;, &quot;allocate context to modules&quot;, &quot;draw module boundaries&quot;, or needs a defensible scope cut before any class-level modeling.</p>
+<details class="entry-md-section" id="md-overview"><summary class="entry-md-section__summary">Overview</summary><div class="entry-md-section__body"><p>﻿--- name: module-partition catalog_garden_order: 1 description: &gt;- After domain scan, partition the source corpus into modules by allocating source file references to per-module index files. No classes, no anchors — only module boundaries and file references to the source that belongs to each. Supports an Unallocated bucket for pending decisions and a Rejected bucket for out-of-scope context. Modules are flat by default and nested only when the source itself supports a sub-module. Use when the user asks to &quot;partition the source&quot;, &quot;allocate context to modules&quot;, &quot;draw module boundaries&quot;, or needs a defensible scope cut before any class-level modeling.</p>
 <hr>
 <h1>module-partition</h1></div></details>
-<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p>Produce a <strong>root index</strong> (`module-partition.md`) plus <strong>per-module files</strong> under `abd-domain-driven-design/modules/` â€” each containing scope, core terms, and <strong>source file references</strong> (not verbatim copies). No classes, no anchors, no UML, no stereotypes. Just boundaries and pointers to the source text that lives inside them.</p>
-<p>This is the <em>scope cut</em> before any class identification. It answers a single question for every chunk of source: <strong>which module does this text belong to</strong> â€” or is it <strong>unallocated</strong> (pending) or <strong>rejected</strong> (out of scope)?</p>
+<details class="entry-md-section" id="purpose"><summary class="entry-md-section__summary">Purpose</summary><div class="entry-md-section__body"><p>Produce a <strong>root index</strong> (`module-partition.md`) plus <strong>per-module files</strong> under `abd-domain-driven-design/modules/` — each containing scope, core terms, and <strong>source file references</strong> (not verbatim copies). No classes, no anchors, no UML, no stereotypes. Just boundaries and pointers to the source text that lives inside them.</p>
+<p>This is the <em>scope cut</em> before any class identification. It answers a single question for every chunk of source: <strong>which module does this text belong to</strong> — or is it <strong>unallocated</strong> (pending) or <strong>rejected</strong> (out of scope)?</p>
 <h3>Why references, not verbatim copies</h3>
-<p>When the source is already structured as individually addressable files (corpus chunks, markdown files, scanned documents), copying their full content into the partition document is pure duplication. The partition&#x27;s real value is the <strong>allocation decision</strong> â€” which files belong to which module. Downstream agents read the module file to get the file list, then read the actual source files as needed. This keeps module files small, avoids duplication, and supports parallel agents working one module at a time.</p></div></details>
+<p>When the source is already structured as individually addressable files (corpus chunks, markdown files, scanned documents), copying their full content into the partition document is pure duplication. The partition&#x27;s real value is the <strong>allocation decision</strong> — which files belong to which module. Downstream agents read the module file to get the file list, then read the actual source files as needed. This keeps module files small, avoids duplication, and supports parallel agents working one module at a time.</p></div></details>
 <details class="entry-md-section" id="when-to-use-this-skill"><summary class="entry-md-section__summary">When to use this skill</summary><div class="entry-md-section__body"><p>Load this skill when <strong>any</strong> of the following apply:</p>
 <ul>
 <li>`<strong>domain-scan-results.md</strong>` exists and you need to commit to <strong>module boundaries</strong> before extracting terms or sketching classes.</li>
@@ -980,35 +980,35 @@ When the source is already structured as individually addressable files (corpus 
 <hr></div></details>
 <details class="entry-md-section" id="agent-instructions"><summary class="entry-md-section__summary">Agent Instructions</summary><div class="entry-md-section__body"><p>1. <strong>Templates</strong></p>
 <p>Generate content using <strong>every</strong> template file in this skill&#x27;s `templates/` folder. <strong>Do not</strong> emit only Markdown or only plain text unless the user <strong>explicitly</strong> asks for a single format.</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td>`templates/module-partition-template.md`</td><td>Root index `module-partition.md` under `&lt;active_skill_workspace&gt;/abd-domain-driven-design/` â€” lists all modules with scope, core terms, chunk ranges, and links to per-module files.</td></tr><tr><td>`templates/module-file-template.md`</td><td>One file per module under `&lt;active_skill_workspace&gt;/abd-domain-driven-design/modules/` â€” scope, core terms, and <strong>source file references</strong> (file path + locator per source file, no verbatim content). Also produce `modules/rejected.md` and optionally `modules/unallocated.md`.</td></tr></tbody></table></div>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td>`templates/module-partition-template.md`</td><td>Root index `module-partition.md` under `&lt;active_skill_workspace&gt;/abd-domain-driven-design/` — lists all modules with scope, core terms, chunk ranges, and links to per-module files.</td></tr><tr><td>`templates/module-file-template.md`</td><td>One file per module under `&lt;active_skill_workspace&gt;/abd-domain-driven-design/modules/` — scope, core terms, and <strong>source file references</strong> (file path + locator per source file, no verbatim content). Also produce `modules/rejected.md` and optionally `modules/unallocated.md`.</td></tr></tbody></table></div>
 <p>2. <strong>Rules</strong></p>
 <ul>
-<li><strong>Source files on disk are the only allowed input.</strong> Every `Source:` reference must point to a file the reviewer can open and verify (corpus chunk, scanned document, user-supplied context file). If no source files exist, <strong>stop and tell the user</strong> â€” do not generate, reconstruct, or summarize content from training data or domain knowledge as a substitute.</li>
+<li><strong>Source files on disk are the only allowed input.</strong> Every `Source:` reference must point to a file the reviewer can open and verify (corpus chunk, scanned document, user-supplied context file). If no source files exist, <strong>stop and tell the user</strong> — do not generate, reconstruct, or summarize content from training data or domain knowledge as a substitute.</li>
 <li>Follow the <strong>Allocation rules</strong> and <strong>Reference format</strong> sections below for what counts as a module, when to nest, and how to label references.</li>
 <li>Source file references must be accurate: the file must exist, the locator must be correct. No invented file paths or fabricated locators.</li>
 <li>After drafting, act as a <em>peer reviewer</em>: every reference has a locator and lives under exactly one module file (or `unallocated` / `rejected`); no module exists without references; no nesting exists without source-supported justification.</li>
 </ul>
 <p>3. <strong>Who is checking</strong></p>
-<p>A <strong>boundary reviewer</strong> â€” someone who needs to defend the scope cut to the team. They read the file front-to-back and ask: <em>can I trust that every paragraph in the source ended up exactly one place, and that the place is justified by the source itself?</em></p>
+<p>A <strong>boundary reviewer</strong> — someone who needs to defend the scope cut to the team. They read the file front-to-back and ask: <em>can I trust that every paragraph in the source ended up exactly one place, and that the place is justified by the source itself?</em></p>
 <hr></div></details>
-<details class="entry-md-section" id="what-is-module-partitioning"><summary class="entry-md-section__summary">What is module partitioning?</summary><div class="entry-md-section__body"><p>A <strong>module</strong> is a named region of the domain â€” a slice of the source the modeler intends to treat as one bounded scope in later passes. At this fidelity, a module is <strong>only</strong> a name + a body of source extracts; it carries <strong>no classes, no anchors, no behavior</strong>.</p>
+<details class="entry-md-section" id="what-is-module-partitioning"><summary class="entry-md-section__summary">What is module partitioning?</summary><div class="entry-md-section__body"><p>A <strong>module</strong> is a named region of the domain — a slice of the source the modeler intends to treat as one bounded scope in later passes. At this fidelity, a module is <strong>only</strong> a name + a body of source extracts; it carries <strong>no classes, no anchors, no behavior</strong>.</p>
 <p>A <strong>partition</strong> is the assignment of every meaningful chunk of source to exactly one of:</p>
-<p>1. A <strong>named module</strong> (top-level or â€” only when the source supports it â€” a sub-module of one), 2. <strong>`Unallocated`</strong> â€” text that clearly matters but whose home is undecided, 3. <strong>`Rejected`</strong> â€” text that is intentionally <strong>out of scope</strong> (front matter, marketing prose, settings/adventures, license, etc.).</p>
-<p><strong>Partitioning is a commitment.</strong> Each piece of source has one home. If you find yourself wanting to put the same passage in two modules, that is a <strong>tension</strong> â€” record it under the module you chose and note the alternative, or move it to `Unallocated` until a later pass resolves it.</p>
+<p>1. A <strong>named module</strong> (top-level or — only when the source supports it — a sub-module of one), 2. <strong>`Unallocated`</strong> — text that clearly matters but whose home is undecided, 3. <strong>`Rejected`</strong> — text that is intentionally <strong>out of scope</strong> (front matter, marketing prose, settings/adventures, license, etc.).</p>
+<p><strong>Partitioning is a commitment.</strong> Each piece of source has one home. If you find yourself wanting to put the same passage in two modules, that is a <strong>tension</strong> — record it under the module you chose and note the alternative, or move it to `Unallocated` until a later pass resolves it.</p>
 <p><strong>Prerequisites:</strong> `domain-scan-results.md` from `<strong>domain-scan`</strong>, plus access to the source memory chunks. Do <strong>not</strong> rescan the corpus; work from the scan map and <strong>targeted</strong> re-reads.</p>
-<h3>Hard prerequisite â€” source files must exist</h3>
+<h3>Hard prerequisite — source files must exist</h3>
 <p><strong>STOP</strong> if there are no readable source files (corpus chunks, scanned documents, or user-supplied context files) on disk. This skill copies verbatim text from source files into module sections. If the source files do not exist, there is nothing to copy and the skill <strong>cannot run</strong>.</p>
 <ul>
-<li><strong>Do not</strong> generate, reconstruct, or summarize domain knowledge from the agent&#x27;s training data as a substitute for source files. That is not partitioning â€” it is authoring, and it belongs to a different skill.</li>
+<li><strong>Do not</strong> generate, reconstruct, or summarize domain knowledge from the agent&#x27;s training data as a substitute for source files. That is not partitioning — it is authoring, and it belongs to a different skill.</li>
 <li><strong>Do not</strong> write &quot;domain-knowledge&quot; extracts, paraphrased descriptions, or memory-based rule summaries into the `\`\`\`source` blocks. Every byte inside a source block must be traceable to a file the reviewer can open and verify.</li>
 <li>If the user asks to partition but the corpus is empty, <strong>tell the user</strong> that source material must be loaded first and offer to help populate the source directory. Do not silently proceed with generated content.</li>
 </ul>
 <hr></div></details>
-<details class="entry-md-section" id="what-is-and-is-not-a-module-ddd-grounded"><summary class="entry-md-section__summary">What is â€” and is not â€” a module (DDD-grounded)</summary><div class="entry-md-section__body"><p>&gt; &quot;MODULES are a communications mechanism. The meaning of the objects being partitioned needs to drive the choice of MODULES. When you place some classes together in a MODULE, you are telling the next developer who looks at your design to <strong>think about them together</strong>.&quot; â€” Eric Evans, <em>Domain-Driven Design</em>, Ch. 5 &gt; &gt; &quot;<strong>High cohesion</strong> of objects with related responsibilities allows modeling and design work to concentrate within a single MODULE â€” a scale of complexity a human mind can easily handle.&quot; â€” Evans</p>
+<details class="entry-md-section" id="what-is-and-is-not-a-module-ddd-grounded"><summary class="entry-md-section__summary">What is — and is not — a module (DDD-grounded)</summary><div class="entry-md-section__body"><p>&gt; &quot;MODULES are a communications mechanism. The meaning of the objects being partitioned needs to drive the choice of MODULES. When you place some classes together in a MODULE, you are telling the next developer who looks at your design to <strong>think about them together</strong>.&quot; — Eric Evans, <em>Domain-Driven Design</em>, Ch. 5 &gt; &gt; &quot;<strong>High cohesion</strong> of objects with related responsibilities allows modeling and design work to concentrate within a single MODULE — a scale of complexity a human mind can easily handle.&quot; — Evans</p>
 <p>A module in this skill is the same <strong>MODULE</strong> Evans describes in DDD: a named, <strong>high-cohesion / low-coupling</strong> region of the domain. It is <strong>not</strong> a heading, a feature, a single concept, or a section title in the source.</p>
 <h3>The independence test (the only test that matters)</h3>
 <p>For any candidate boundary, ask:</p>
-<p>&gt; <strong>Can a reader, modeler, or downstream pass reason about <em>this</em> slice with meaningful independence from the <em>other</em> slices â€” without needing to constantly cross-reference them?</strong></p>
+<p>&gt; <strong>Can a reader, modeler, or downstream pass reason about <em>this</em> slice with meaningful independence from the <em>other</em> slices — without needing to constantly cross-reference them?</strong></p>
 <ul>
 <li>If two clusters of source <strong>must</strong> be reasoned about together (one constantly references rules, terms, or invariants of the other), they belong in <strong>one</strong> module. Forcing a boundary between them creates a coupling magnet you&#x27;ll have to untangle later.</li>
 <li>If a cluster can be <strong>discussed, modified, taught, or modeled</strong> with only an arm&#x27;s-length reference to its neighbours, it earns its own boundary.</li>
@@ -1018,94 +1018,94 @@ When the source is already structured as individually addressable files (corpus 
 <p>For each <em>pair of mechanics</em> inside a candidate module, ask:</p>
 <p>&gt; <strong>Can mechanic A run completely without mechanic B?</strong></p>
 <ul>
-<li>If yes â€” if you could write down mechanic A in full and a reader could use it without ever knowing mechanic B exists â€” then A and B do <strong>not</strong> belong in the same module. They may <em>reference</em> each other in play, but each is its own bounded mechanism and earns its own scope.</li>
-<li>If no â€” if you cannot describe mechanic A without invoking the rules or vocabulary of mechanic B (e.g. &quot;a wire transfer is a funds transfer with same-day settlement and a regulatory message&quot; â€” you cannot say &quot;wire transfer&quot; without &quot;funds transfer&quot;) â€” they are the <strong>same</strong> mechanism in different applications, and they belong together.</li>
+<li>If yes — if you could write down mechanic A in full and a reader could use it without ever knowing mechanic B exists — then A and B do <strong>not</strong> belong in the same module. They may <em>reference</em> each other in play, but each is its own bounded mechanism and earns its own scope.</li>
+<li>If no — if you cannot describe mechanic A without invoking the rules or vocabulary of mechanic B (e.g. &quot;a wire transfer is a funds transfer with same-day settlement and a regulatory message&quot; — you cannot say &quot;wire transfer&quot; without &quot;funds transfer&quot;) — they are the <strong>same</strong> mechanism in different applications, and they belong together.</li>
 </ul>
 <p>This is the sharper form of the independence test for <strong>procedural / rules-style</strong> domains, where the unit of analysis is a <em>mechanic</em> rather than a concept. Use it in addition to (not in place of) the kind-test:</p>
 <ul>
 <li>The <strong>kind-test</strong> catches modules that mix unrelated <em>kinds</em> (resolution + state vocabulary + meta-currency stuffed into one bag).</li>
-<li>The <strong>standalone-mechanic test</strong> catches modules that mix unrelated <em>mechanisms within the same kind</em> â€” for example, two distinct resource-economies under one resource-economy umbrella, or two unrelated state vocabularies forced under one state-module heading.</li>
+<li>The <strong>standalone-mechanic test</strong> catches modules that mix unrelated <em>mechanisms within the same kind</em> — for example, two distinct resource-economies under one resource-economy umbrella, or two unrelated state vocabularies forced under one state-module heading.</li>
 </ul>
 <p>Two short illustrations from a payments / banking domain:</p>
 <ul>
 <li><em>Wire Transfer</em> and <em>ACH Transfer</em> are both forms of <em>Funds Transfer</em>. You cannot describe either without invoking the underlying transfer mechanism (debit a source account, credit a destination account, reconcile). <strong>Same mechanism, different applications â†’ same module</strong> (a `[Funds Transfer]` module).</li>
-<li><em>Refund</em> (merchant-initiated reversal of a captured payment) and <em>Chargeback</em> (customer-initiated dispute that reverses a captured payment) reference each other in their rules â€” an issued refund pre-empts a chargeback; a successful chargeback often blocks a follow-up refund â€” but each runs on its own with its own triggers, actors, and SLA. The user can defensibly keep them together (because they are the <em>same kind</em> â€” payment-reversal mechanics â€” and the cross-references are dense) or split them (because each is a self-contained mechanism). The test surfaces the choice rather than dictating it. The deciding factor is usually whether splitting forces the reader to bounce between modules to follow a single mechanic; if so, merge.</li>
+<li><em>Refund</em> (merchant-initiated reversal of a captured payment) and <em>Chargeback</em> (customer-initiated dispute that reverses a captured payment) reference each other in their rules — an issued refund pre-empts a chargeback; a successful chargeback often blocks a follow-up refund — but each runs on its own with its own triggers, actors, and SLA. The user can defensibly keep them together (because they are the <em>same kind</em> — payment-reversal mechanics — and the cross-references are dense) or split them (because each is a self-contained mechanism). The test surfaces the choice rather than dictating it. The deciding factor is usually whether splitting forces the reader to bounce between modules to follow a single mechanic; if so, merge.</li>
 </ul>
 <h3>Cohesion and coupling, in practice</h3>
 <ul>
 <li><strong>Cohesion (inside the boundary):</strong> Every extract in the module shares a single overarching subject. The terms, rules, and invariants reinforce each other; removing any one would leave the module noticeably less complete.</li>
-<li><strong>Coupling (across the boundary):</strong> Modules will reference each other â€” that&#x27;s fine and expected â€” but the references are <em>named pointers</em>, not a shared web of intermingled rules. If Module A&#x27;s text only makes sense when Module B&#x27;s text is at hand, they are coupled, not bounded.</li>
+<li><strong>Coupling (across the boundary):</strong> Modules will reference each other — that&#x27;s fine and expected — but the references are <em>named pointers</em>, not a shared web of intermingled rules. If Module A&#x27;s text only makes sense when Module B&#x27;s text is at hand, they are coupled, not bounded.</li>
 </ul>
 <h3>Modules are not the source&#x27;s headings</h3>
 <p>This is the most common mistake. A book&#x27;s chapter, section, or subsection structure is <strong>organizational scaffolding for readers</strong>, not a domain partition. In particular:</p>
 <ul>
-<li>A single source heading often belongs <em>inside</em> a module â€” it is a <strong>content-level heading inside one bounded scope</strong>, not a module of its own.</li>
+<li>A single source heading often belongs <em>inside</em> a module — it is a <strong>content-level heading inside one bounded scope</strong>, not a module of its own.</li>
 <li>A single module often spans <strong>multiple</strong> source headings, sometimes across multiple chapters.</li>
 <li>&quot;I see a `####` in the source&quot; is <strong>not</strong> a reason to create a module. Promote a heading to a module only if it survives the independence test.</li>
 </ul>
-<h3>Watch for <em>kind-mixing</em> â€” when one source heading hides multiple modules</h3>
+<h3>Watch for <em>kind-mixing</em> — when one source heading hides multiple modules</h3>
 <p>When a source&#x27;s organizational heading (a TOC chapter, an all-caps section break, a named cluster like `OPERATIONS`, `RULES`, or `WORKFLOW`) shelves content of <strong>multiple kinds</strong> under one umbrella, the heading is <strong>editorial shelving</strong>, not a domain partition. Forcing the heading to become a module creates a coupling magnet that fails the independence test on inspection.</p>
 <p>After drafting modules, ask of each one: <strong>*what kind of thing is this module about?</strong>* If the answer is &quot;more than one kind&quot;, split.</p>
-<p>Common kinds in rules-style and procedural domains (rough catalog, not exhaustive â€” examples are deliberately <strong>not</strong> drawn from the corpus you are partitioning):</p>
+<p>Common kinds in rules-style and procedural domains (rough catalog, not exhaustive — examples are deliberately <strong>not</strong> drawn from the corpus you are partitioning):</p>
 <ul>
-<li><strong>Resolution</strong> â€” how outcomes of uncertain operations are determined (validation rules, eligibility checks, authorization steps).</li>
-<li><strong>Scaling / Measure</strong> â€” how trait or quantity values translate to real-world values (rate cards, conversion tables, unit-of-measure mappings).</li>
-<li><strong>Actor</strong> â€” entities that take action (customers, merchants, accounts, claims, agents).</li>
-<li><strong>Temporal structure</strong> â€” billing cycle, turn, phase, sequence; the time grid of the process.</li>
-<li><strong>State vocabulary</strong> â€” statuses, modes, lifecycle stages an entity can be in (Pending, Authorized, Captured, Refunded, Disputed, Settled).</li>
-<li><strong>Resource economies / meta-currency</strong> â€” internal currencies that gate behavior (account balance, credit limit, loyalty points, refund credits).</li>
-<li><strong>Behavior catalogs</strong> â€” explicit lists of capabilities, products, or features (product catalog, fee schedule, promotion list).</li>
-<li><strong>Constraint systems</strong> â€” limits, thresholds, regulatory rules (KYC tier, transaction caps, eligibility constraints).</li>
+<li><strong>Resolution</strong> — how outcomes of uncertain operations are determined (validation rules, eligibility checks, authorization steps).</li>
+<li><strong>Scaling / Measure</strong> — how trait or quantity values translate to real-world values (rate cards, conversion tables, unit-of-measure mappings).</li>
+<li><strong>Actor</strong> — entities that take action (customers, merchants, accounts, claims, agents).</li>
+<li><strong>Temporal structure</strong> — billing cycle, turn, phase, sequence; the time grid of the process.</li>
+<li><strong>State vocabulary</strong> — statuses, modes, lifecycle stages an entity can be in (Pending, Authorized, Captured, Refunded, Disputed, Settled).</li>
+<li><strong>Resource economies / meta-currency</strong> — internal currencies that gate behavior (account balance, credit limit, loyalty points, refund credits).</li>
+<li><strong>Behavior catalogs</strong> — explicit lists of capabilities, products, or features (product catalog, fee schedule, promotion list).</li>
+<li><strong>Constraint systems</strong> — limits, thresholds, regulatory rules (KYC tier, transaction caps, eligibility constraints).</li>
 </ul>
 <p>A module that draws extracts from more than one of these kinds is almost always two-modules-disguised-as-one, even when a single source heading puts them together. Two warning signs:</p>
 <p>1. The <strong>Core terms</strong> list visibly clusters into separate vocabularies (one cluster of process verbs, one cluster of unrelated state nouns, one cluster of currency terms). 2. The module name keeps wanting to be a compound or generic noun (`[Operations]`, `[Foundations]`, `[Basics]`, `[Core]`) because no single kind fits.</p>
 <p>When you see those signs, split until each module has <strong>one kind</strong>.</p>
-<h3>Modules are not (necessarily) single concepts â€” but they ARE single-kind</h3>
+<h3>Modules are not (necessarily) single concepts — but they ARE single-kind</h3>
 <p>A module is a <strong>collection</strong> of related domain content of a single kind. Two clarifications follow:</p>
 <ul>
-<li>A small, <em>single-kind</em> bounded scope <strong>is</strong> a legitimate module, even if its vocabulary is short. In a payments domain, `[Loyalty Points]` (an internal currency with a small set of earn-and-spend rules) is a legitimate module â€” it is one kind (resource economy) with its own bounded vocabulary. `[Order Status]` (a state vocabulary of named statuses with transition rules) is a legitimate module of a different kind (state vocabulary). They are not &quot;single concepts&quot; â€” each is a small bounded scope.</li>
-<li>A single <em>concept</em> â€” one rule, one term, one feature â€” that does not carry its own vocabulary or invariants is an <strong>anchor or class inside another module</strong>, not a module itself. A single status name like `Authorized` would be an anchor inside `[Order Status]`; it does not earn its own scope.</li>
+<li>A small, <em>single-kind</em> bounded scope <strong>is</strong> a legitimate module, even if its vocabulary is short. In a payments domain, `[Loyalty Points]` (an internal currency with a small set of earn-and-spend rules) is a legitimate module — it is one kind (resource economy) with its own bounded vocabulary. `[Order Status]` (a state vocabulary of named statuses with transition rules) is a legitimate module of a different kind (state vocabulary). They are not &quot;single concepts&quot; — each is a small bounded scope.</li>
+<li>A single <em>concept</em> — one rule, one term, one feature — that does not carry its own vocabulary or invariants is an <strong>anchor or class inside another module</strong>, not a module itself. A single status name like `Authorized` would be an anchor inside `[Order Status]`; it does not earn its own scope.</li>
 </ul>
 <p>The distinction is <strong>kind + bounded vocabulary</strong>, not size. Some legitimate modules are large; some are small; the test is the same.</p>
 <p>If you have produced more than ~10 top-level modules from a corpus, or every section in the TOC has become a module, you have <strong>over-partitioned</strong>. Collapse aggressively to bounded scopes that pass the independence test, then revisit.</p>
 <h3>Heuristics for naming a real module</h3>
 <p>A module name should answer <strong>&quot;what bounded scope is this?&quot;</strong> in one short, source-grounded noun phrase that names the <strong>kind</strong>.</p>
-<p><strong>Single-noun rule.</strong> If you can pick a single noun (or tight noun phrase) the source itself uses for the kind, that is the right name. If you keep reaching for compounds or generic glue (`[Operations]`, `[Authorization &amp; Capture]`, `[Foundations]`, `[Core]`, `[Basics]`), you are almost certainly trying to name a multi-kind bag â€” split until each module accepts a single-noun name.</p>
-<p>(Examples below are drawn from a payments / banking domain â€” illustrative, not the corpus you are partitioning.)</p>
+<p><strong>Single-noun rule.</strong> If you can pick a single noun (or tight noun phrase) the source itself uses for the kind, that is the right name. If you keep reaching for compounds or generic glue (`[Operations]`, `[Authorization &amp; Capture]`, `[Foundations]`, `[Core]`, `[Basics]`), you are almost certainly trying to name a multi-kind bag — split until each module accepts a single-noun name.</p>
+<p>(Examples below are drawn from a payments / banking domain — illustrative, not the corpus you are partitioning.)</p>
 <div class="md-table-wrap"><table class="md-table"><thead><tr><th>Name</th><th>Verdict</th><th>Reason</th></tr></thead><tbody><tr><td>`[Funds Transfer]`, `[Authorization]`, `[Settlement]`, `[Order Status]`, `[Loyalty Points]`, `[Billing Cycle]`, `[Catalog]`, `[Customer]`</td><td>âœ…</td><td>Single kind, source-grounded, short noun.</td></tr><tr><td>`[Operations]`, `[Foundations]`, `[Basics]`, `[Core]`, `[Mechanics]`, `[Workflow]`</td><td>âš ï¸</td><td>Generic / multi-kind. Often a TOC heading rather than a kind. Split or rename.</td></tr><tr><td>`[Refund &amp; Chargeback]`, `[Authorization &amp; Capture]`</td><td>âš ï¸</td><td>Compound names usually signal two kinds (or two mechanisms) glued together. Split unless the conjunction is genuinely indivisible.</td></tr><tr><td>`[Chapter 1]`, `[Section 3.2]`, `[Part II]`</td><td>âŒ</td><td>Source-structure naming, not domain naming.</td></tr><tr><td>`[Misc]`, `[Other]`, `[Foundation]` (without source grounding)</td><td>âŒ</td><td>Generic placeholders that hide ambiguity.</td></tr></tbody></table></div>
 <h3>Module decisions coevolve with the model</h3>
-<p>Module boundaries are <strong>not</strong> final on first pass â€” but they are deliberately costlier to change than later artifacts. Evans:</p>
-<p>&gt; &quot;Refactoring MODULES is more work and more disruptive than refactoring classes, and probably can&#x27;t be as frequent. [â€¦] Letting the MODULES reflect changing understanding of the domain will also allow more freedom for the objects within them to evolve.&quot;</p>
+<p>Module boundaries are <strong>not</strong> final on first pass — but they are deliberately costlier to change than later artifacts. Evans:</p>
+<p>&gt; &quot;Refactoring MODULES is more work and more disruptive than refactoring classes, and probably can&#x27;t be as frequent. […] Letting the MODULES reflect changing understanding of the domain will also allow more freedom for the objects within them to evolve.&quot;</p>
 <p>Choose conservative, well-justified boundaries now; expect them to refine as `term-registry`, `nouns-verbs-rules-and-states`, and `domain-model-skeleton` reveal deeper structure.</p>
 <hr></div></details>
 <details class="entry-md-section" id="core-concepts"><summary class="entry-md-section__summary">Core concepts</summary><div class="entry-md-section__body"><h3>Workspace</h3>
 <p>Output directory: `&lt;active_skill_workspace&gt;/abd-domain-driven-design/` (engagement root from the parent agent&#x27;s `<strong>workspace`</strong> skill).</p>
 <p>Files produced:</p>
 <ul>
-<li>`abd-domain-driven-design/module-partition.md` â€” root index listing all modules</li>
-<li>`abd-domain-driven-design/modules/&lt;module-name&gt;.md` â€” one per module, with source file references</li>
-<li>`abd-domain-driven-design/modules/rejected.md` â€” rejected files with reasons</li>
-<li>`abd-domain-driven-design/modules/unallocated.md` â€” (optional) pending allocation decisions</li>
+<li>`abd-domain-driven-design/module-partition.md` — root index listing all modules</li>
+<li>`abd-domain-driven-design/modules/&lt;module-name&gt;.md` — one per module, with source file references</li>
+<li>`abd-domain-driven-design/modules/rejected.md` — rejected files with reasons</li>
+<li>`abd-domain-driven-design/modules/unallocated.md` — (optional) pending allocation decisions</li>
 </ul>
-<h3>Modules â€” flat by default, hierarchical only when the source earns it</h3>
+<h3>Modules — flat by default, hierarchical only when the source earns it</h3>
 <ul>
-<li><strong>Default shape is flat.</strong> Most corpora produce <strong>4â€“10 top-level modules for the entire corpus</strong> (not per chapter, not per section). A single chapter often produces zero, one, or two modules â€” never one per heading. If you find yourself producing more than ~10 modules total, re-apply the <strong>independence test</strong> above and collapse aggressively.</li>
-<li><strong>Nest only when the source itself supports a real sub-module</strong> â€” a self-contained slice that has its own bounded behavior, terminology, and extract set, <em>and</em> whose existence is independently visible in the source (a dedicated chapter, a named subsystem, a clearly separated rule cluster).</li>
-<li><strong>Do not nest just to organize.</strong> A nested heading without its own non-trivial extract set is wrong â€” collapse it back into the parent or promote it to a top-level module.</li>
+<li><strong>Default shape is flat.</strong> Most corpora produce <strong>4“10 top-level modules for the entire corpus</strong> (not per chapter, not per section). A single chapter often produces zero, one, or two modules — never one per heading. If you find yourself producing more than ~10 modules total, re-apply the <strong>independence test</strong> above and collapse aggressively.</li>
+<li><strong>Nest only when the source itself supports a real sub-module</strong> — a self-contained slice that has its own bounded behavior, terminology, and extract set, <em>and</em> whose existence is independently visible in the source (a dedicated chapter, a named subsystem, a clearly separated rule cluster).</li>
+<li><strong>Do not nest just to organize.</strong> A nested heading without its own non-trivial extract set is wrong — collapse it back into the parent or promote it to a top-level module.</li>
 <li><strong>Do not nest by section/paragraph proximity.</strong> Source structure (chapter â†’ section â†’ subsection) is <strong>not</strong> the same as module structure. A single chapter often produces multiple top-level modules; a module often draws extracts from many chapters.</li>
-<li><strong>Stay at module level.</strong> Even when nested, every level is still a module â€” no sub-module decomposes into classes, properties, or operations here.</li>
+<li><strong>Stay at module level.</strong> Even when nested, every level is still a module — no sub-module decomposes into classes, properties, or operations here.</li>
 </ul>
 <p>If you cannot point at the source and say &quot;this sub-module has its own extracts and its own boundary&quot;, do not nest.</p>
 <h3>Section titles</h3>
 <ul>
-<li>Each module is introduced by `## Module: [Name]` at top level. Sub-modules use `### [Name]` (the `Module:` prefix is implicit at deeper levels because they sit under a `## Module: â€¦` parent). The `Module:` prefix on top-level headings makes it unambiguous to a reviewer that the heading is a partition module â€” not a content-level heading copied or paraphrased from the source.</li>
+<li>Each module is introduced by `## Module: [Name]` at top level. Sub-modules use `### [Name]` (the `Module:` prefix is implicit at deeper levels because they sit under a `## Module: …` parent). The `Module:` prefix on top-level headings makes it unambiguous to a reviewer that the heading is a partition module — not a content-level heading copied or paraphrased from the source.</li>
 <li>Brackets around the name; <strong>no</strong> ` module` suffix in the heading (`## Module: [Combat]`, not `## Module: [Combat module]`).</li>
-<li>Reserved names â€” used <strong>exactly</strong> once each: `## Module: [Unallocated]`, `## Module: [Rejected]`. They are top-level only and never nested under another module.</li>
+<li>Reserved names — used <strong>exactly</strong> once each: `## Module: [Unallocated]`, `## Module: [Rejected]`. They are top-level only and never nested under another module.</li>
 <li>Names are short, source-grounded, and stable. Prefer the noun the source itself uses; fall back to a one-word descriptive name only if no source noun fits.</li>
 </ul>
 <h3>Allocation rules</h3>
 <p>For every source file you decide to allocate:</p>
-<p>1. <strong>Pick the module</strong> whose scope best matches the file&#x27;s <em>primary</em> subject. If two modules match equally, the file is a tension â€” pick one and note the alternative in the reference header, or move to `Unallocated`. 2. <strong>Decide whole vs partial.</strong> Whole references allocate the entire file. Partial references allocate a contiguous slice; non-contiguous selection is two references, not one. 3. <strong>Reference the source file on disk.</strong> Every `Source:` line must point to a real file the reviewer can open. No paraphrase, no reconstruction, no agent-generated content. If you cannot point to a file path, the reference does not belong in this artifact. 4. <strong>Label.</strong> Every reference gets a header block (see <strong>Reference format</strong>) with locator, whole/partial, and â€” if partial â€” a clause naming exactly which part is allocated. 5. <strong>Stop when the file has a home.</strong> Do not add a paraphrase or summary alongside the reference. The source file is the content.</p>
+<p>1. <strong>Pick the module</strong> whose scope best matches the file&#x27;s <em>primary</em> subject. If two modules match equally, the file is a tension — pick one and note the alternative in the reference header, or move to `Unallocated`. 2. <strong>Decide whole vs partial.</strong> Whole references allocate the entire file. Partial references allocate a contiguous slice; non-contiguous selection is two references, not one. 3. <strong>Reference the source file on disk.</strong> Every `Source:` line must point to a real file the reviewer can open. No paraphrase, no reconstruction, no agent-generated content. If you cannot point to a file path, the reference does not belong in this artifact. 4. <strong>Label.</strong> Every reference gets a header block (see <strong>Reference format</strong>) with locator, whole/partial, and — if partial — a clause naming exactly which part is allocated. 5. <strong>Stop when the file has a home.</strong> Do not add a paraphrase or summary alongside the reference. The source file is the content.</p>
 <h3>When to use Unallocated</h3>
 <p>A chunk goes to `## [Unallocated]` when <strong>all</strong> of these are true:</p>
 <ul>
@@ -1117,14 +1117,14 @@ When the source is already structured as individually addressable files (corpus 
 <h3>When to use Rejected</h3>
 <p>A chunk goes to `## [Rejected]` when it is <strong>intentionally out of scope</strong> for the domain model. Typical rejections:</p>
 <ul>
-<li>Front matter â€” cover, credits, table of contents, license, index.</li>
-<li>Setting / lore / flavor prose â€” proper nouns, history, geography, character bios â€” when the model is for <em>rules</em>, not <em>content</em>.</li>
+<li>Front matter — cover, credits, table of contents, license, index.</li>
+<li>Setting / lore / flavor prose — proper nouns, history, geography, character bios — when the model is for <em>rules</em>, not <em>content</em>.</li>
 <li>Worked examples and adventure scripts that illustrate but do not define rules.</li>
 <li>Marketing copy, designer notes, &quot;under the hood&quot; sidebars when they do not change behavior.</li>
 </ul>
-<p>Each `Rejected` extract carries a `Reason:` line stating <em>why</em> it is out of scope. <strong>Never delete a rejection silently</strong> â€” the rejection record is the audit trail.</p>
-<h3>Core terms â€” a lightweight read-out of what each module <em>contains</em></h3>
-<p>Module partitioning is a scope cut, <strong>not</strong> a term registry. The full term-capture loop (Targets, Values, Evidence files, Notes labels, anchor stereotypes) belongs to `<strong>term-registry</strong>` â€” <strong>do not</strong> do that work here.</p>
+<p>Each `Rejected` extract carries a `Reason:` line stating <em>why</em> it is out of scope. <strong>Never delete a rejection silently</strong> — the rejection record is the audit trail.</p>
+<h3>Core terms — a lightweight read-out of what each module <em>contains</em></h3>
+<p>Module partitioning is a scope cut, <strong>not</strong> a term registry. The full term-capture loop (Targets, Values, Evidence files, Notes labels, anchor stereotypes) belongs to `<strong>term-registry</strong>` — <strong>do not</strong> do that work here.</p>
 <p>But each module section does carry a short, source-grounded <strong>Core terms</strong> list directly under the module heading and scope statement, <em>before</em> the verbatim extracts. The point is purely diagnostic: at a glance, a reviewer (and you) can see whether the module is the bounded scope you claim it is, or whether the terms inside it actually pull in two directions and the module needs to split.</p>
 <p><strong>What goes in the list</strong></p>
 <ul>
@@ -1134,50 +1134,50 @@ When the source is already structured as individually addressable files (corpus 
 </ul>
 <p><strong>What does NOT go in the list</strong></p>
 <ul>
-<li>No targets, values, or stereotypes (`&lt;&lt;Anchor&gt;&gt;`, `Module.Class`, etc.) â€” that is `<strong>term-registry</strong>`.</li>
+<li>No targets, values, or stereotypes (`&lt;&lt;Anchor&gt;&gt;`, `Module.Class`, etc.) — that is `<strong>term-registry</strong>`.</li>
 <li>No `EVD-NNN` evidence IDs, no evidence files. The verbatim extracts in the same module section <em>are</em> the evidence at this fidelity.</li>
-<li>No `Notes:` labels (`High Confidence Anchor`, `Sibling Candidate`, `Tension`, etc.) â€” that is `<strong>term-registry</strong>`.</li>
+<li>No `Notes:` labels (`High Confidence Anchor`, `Sibling Candidate`, `Tension`, etc.) — that is `<strong>term-registry</strong>`.</li>
 <li>No tables. A simple bullet list.</li>
 <li>No invented terms, no synonyms the source does not use.</li>
 </ul>
 <p><strong>How to use the list to test the boundary (back to the independence test)</strong></p>
 <p>Once each module has its Core terms list, ask:</p>
-<p>1. <strong>Does the list read as one bounded vocabulary?</strong> If the terms feel like <em>two</em> coherent vocabularies stuck together (e.g. one cluster of process verbs + one cluster of unrelated geometry nouns), the module probably needs to split. 2. <strong>Does the list lean heavily on terms defined in another module?</strong> If most entries are forward references to another module&#x27;s anchors, your scope cut is probably misplaced â€” the content belongs in that other module, or this module is really a sub-scope of it. 3. <strong>Is the list trivially short (one or two terms)?</strong> Then the &quot;module&quot; is almost certainly a single concept and should fold into a larger one. 4. <strong>Is the list overwhelming and uneven (50+ terms with no center of gravity)?</strong> Then the module is probably too coarse and may genuinely contain two bounded scopes the source treats together.</p>
+<p>1. <strong>Does the list read as one bounded vocabulary?</strong> If the terms feel like <em>two</em> coherent vocabularies stuck together (e.g. one cluster of process verbs + one cluster of unrelated geometry nouns), the module probably needs to split. 2. <strong>Does the list lean heavily on terms defined in another module?</strong> If most entries are forward references to another module&#x27;s anchors, your scope cut is probably misplaced — the content belongs in that other module, or this module is really a sub-scope of it. 3. <strong>Is the list trivially short (one or two terms)?</strong> Then the &quot;module&quot; is almost certainly a single concept and should fold into a larger one. 4. <strong>Is the list overwhelming and uneven (50+ terms with no center of gravity)?</strong> Then the module is probably too coarse and may genuinely contain two bounded scopes the source treats together.</p>
 <p>The Core terms list is the cheapest possible way to make the cohesion-and-coupling argument visible <em>inside the partition file itself</em>, without crossing into term-registry territory.</p>
 <h3>Tensions inside an allocation</h3>
-<p>If an extract is allocated to a module but also has meaningful pull toward another, add an `Also relates to:` line in its header. This is <strong>not</strong> a second allocation â€” the extract still lives in exactly one section. It is a flag for downstream skills (especially `term-registry`) that the boundary is contested.</p>
+<p>If an extract is allocated to a module but also has meaningful pull toward another, add an `Also relates to:` line in its header. This is <strong>not</strong> a second allocation — the extract still lives in exactly one section. It is a flag for downstream skills (especially `term-registry`) that the boundary is contested.</p>
 <h3>What you do not do here</h3>
 <ul>
 <li>Do <strong>not</strong> identify classes, anchors, properties, operations, or responsibilities.</li>
-<li>Do <strong>not</strong> rename source terms or normalize vocabulary â€” that is `<strong>refine-names</strong>`.</li>
+<li>Do <strong>not</strong> rename source terms or normalize vocabulary — that is `<strong>refine-names</strong>`.</li>
 <li>Do <strong>not</strong> invent modules for concepts the source does not name as a coherent scope.</li>
 <li>Do <strong>not</strong> add `note:` lines, `[dms]` tags, or any UML notation. The artifact is a partitioned reading list, not a model.</li>
 </ul>
 <hr></div></details>
 <details class="entry-md-section" id="reference-format"><summary class="entry-md-section__summary">Reference format</summary><div class="entry-md-section__body"><p>Every source file reference sits inside a <strong>per-module file</strong> under a <strong>reference header</strong> so a reviewer can verify allocation without re-opening the source.</p>
 <h3>Reference header (required for every source file)</h3>
-<pre><code>**Ref â€” {{short title}}**
+<pre><code>**Ref — {{short title}}**
 Source: {{relative_path_to_source_file}}
-Locator: {{chapter / page / lines / topic â€” whatever is precise for this source type}}
+Locator: {{chapter / page / lines / topic — whatever is precise for this source type}}
 Extract: {{whole | partial}}
-{{Part: {{which slice is relevant â€” required when Extract: partial}}}}
-{{Also relates to: [{{other module name}}] â€” {{one-line why}}}}
-{{Reason: {{why this lives in Unallocated or Rejected â€” required in those sections}}}}</code></pre>
+{{Part: {{which slice is relevant — required when Extract: partial}}}}
+{{Also relates to: [{{other module name}}] — {{one-line why}}}}
+{{Reason: {{why this lives in Unallocated or Rejected — required in those sections}}}}</code></pre>
 <ul>
 <li>The `Extract:` line is `whole` when the entire file is allocated to this module, `partial` when only a slice is relevant.</li>
-<li>When `Extract: partial`, the `Part:` line is <strong>mandatory</strong> and names the slice in source-grounded terms (e.g. <em>paragraphs 1â€“2 of &quot;Refund Eligibility&quot; subsection</em>, <em>lines 14â€“22</em>).</li>
+<li>When `Extract: partial`, the `Part:` line is <strong>mandatory</strong> and names the slice in source-grounded terms (e.g. <em>paragraphs 1“2 of &quot;Refund Eligibility&quot; subsection</em>, <em>lines 14“22</em>).</li>
 <li>`Also relates to:` is optional, used to flag tensions on an otherwise clean allocation.</li>
 <li>`Reason:` is required in `rejected.md` and `unallocated.md`; omit in module files.</li>
 </ul>
-<h3>No verbatim copy â€” reference only</h3>
+<h3>No verbatim copy — reference only</h3>
 <p>The reference header points to the source file; the file itself is the authoritative content. Downstream agents read the module file to learn which source files belong to the module, then read those files directly. This avoids duplication and keeps module files small.</p>
 <h3>One reference = one allocation</h3>
-<p>If a single source file has two unrelated parts that belong in two different modules, that is <strong>two references</strong> â€” one in each module file, each with `Extract: partial` + `Part:` line. Never split across modules without splitting the reference.</p>
+<p>If a single source file has two unrelated parts that belong in two different modules, that is <strong>two references</strong> — one in each module file, each with `Extract: partial` + `Part:` line. Never split across modules without splitting the reference.</p>
 <hr></div></details>
 <details class="entry-md-section" id="the-shape-of-good-output"><summary class="entry-md-section__summary">The shape of good output</summary><div class="entry-md-section__body"><p>The output is a <strong>root index</strong> plus <strong>per-module files</strong>. The root index is thin; the detail lives in the module files.</p>
 <h3>Root index: `module-partition.md`</h3>
 <p>Lists every module with its scope, file reference, and chunk range. No verbatim content.</p>
-<pre><code># Module Partitioning â€” {{project_name}}
+<pre><code># Module Partitioning — {{project_name}}
 
 Source: {{source directory or scan map reference}}
 Modules: {{N}}  Unallocated: {{count}}  Rejected: {{count}}
@@ -1191,18 +1191,18 @@ Modules: {{N}}  Unallocated: {{count}}  Rejected: {{count}}
 <pre><code>
 ### Per-module file: `modules/{{module-name}}.md`
 
-Each module file has scope, core terms, and source file references â€” no verbatim content.
+Each module file has scope, core terms, and source file references — no verbatim content.
 </code></pre></div></details>
 <details class="entry-md-section" id="module-modulename-2"><summary class="entry-md-section__summary">Module: [{{ModuleName}}]</summary><div class="entry-md-section__body"><p>Scope: {{one or two source-grounded sentences}}.</p>
 <p><strong>Core terms</strong>:</p>
 <ul>
 <li>{{noun phrase the source uses}}</li>
 <li>{{noun phrase the source uses}}</li>
-<li>â€¦</li>
+<li>…</li>
 </ul>
 <hr>
-<p><strong>Ref â€” {{short title}}</strong> Source: {{relative/path/to/source/file.md}} Locator: {{lines, chapter, page â€” precise}} Extract: whole</p>
-<p><strong>Ref â€” {{short title}}</strong> Source: {{relative/path/to/source/file.md}} Locator: {{lines, chapter, page}} Extract: partial Part: {{which slice}} Also relates to: [{{OtherModule}}] â€” {{why}}</p>
+<p><strong>Ref — {{short title}}</strong> Source: {{relative/path/to/source/file.md}} Locator: {{lines, chapter, page — precise}} Extract: whole</p>
+<p><strong>Ref — {{short title}}</strong> Source: {{relative/path/to/source/file.md}} Locator: {{lines, chapter, page}} Extract: partial Part: {{which slice}} Also relates to: [{{OtherModule}}] — {{why}}</p>
 <pre><code>
 ### Rejected/Unallocated files
 
@@ -1211,16 +1211,16 @@ Same format as module files but with `Reason:` lines on each reference.
 Modules are listed in the order they earn their boundary in the source (or in scan-map order). `[Unallocated]` and `[Rejected]` are always last, in that order.
 
 ---</code></pre></div></details>
-<details class="entry-md-section" id="example"><summary class="entry-md-section__summary">Example</summary><div class="entry-md-section__body"><p>A small worked example showing the root index and a per-module file with references. <strong>Drawn from a payments / banking domain â€” illustrative, not the corpus you are partitioning.</strong> Adapt to your own corpus.</p>
+<details class="entry-md-section" id="example"><summary class="entry-md-section__summary">Example</summary><div class="entry-md-section__body"><p>A small worked example showing the root index and a per-module file with references. <strong>Drawn from a payments / banking domain — illustrative, not the corpus you are partitioning.</strong> Adapt to your own corpus.</p>
 <h3>Root index (`module-partition.md`)</h3>
-<pre><code># Module Partitioning â€” Payments Platform
+<pre><code># Module Partitioning — Payments Platform
 
 Source: context/rulebook/
 Modules: 2  Unallocated: 0  Rejected: 1
 
 ---</code></pre></div></details>
-<details class="entry-md-section" id="module-funds-transfer"><summary class="entry-md-section__summary">Module: [Funds Transfer]</summary><div class="entry-md-section__body"><p>File: modules/funds-transfer.md Chunks: section_03â€“section_05 (3 files) Scope: how an instruction to move funds is validated, executed, and reconciled.</p></div></details>
-<details class="entry-md-section" id="module-customer"><summary class="entry-md-section__summary">Module: [Customer]</summary><div class="entry-md-section__body"><p>File: modules/customer.md Chunks: section_01â€“section_02 (2 files) Scope: customer identity, KYC tiers, onboarding.</p>
+<details class="entry-md-section" id="module-funds-transfer"><summary class="entry-md-section__summary">Module: [Funds Transfer]</summary><div class="entry-md-section__body"><p>File: modules/funds-transfer.md Chunks: section_03“section_05 (3 files) Scope: how an instruction to move funds is validated, executed, and reconciled.</p></div></details>
+<details class="entry-md-section" id="module-customer"><summary class="entry-md-section__summary">Module: [Customer]</summary><div class="entry-md-section__body"><p>File: modules/customer.md Chunks: section_01“section_02 (2 files) Scope: customer identity, KYC tiers, onboarding.</p>
 <hr></div></details>
 <details class="entry-md-section" id="rejected-2"><summary class="entry-md-section__summary">[Rejected]</summary><div class="entry-md-section__body"><p>File: modules/rejected.md Chunks: section_00 (1 file)</p>
 <pre><code>
@@ -1238,71 +1238,71 @@ Modules: 2  Unallocated: 0  Rejected: 1
 <li>Internal Book Transfer</li>
 </ul>
 <hr>
-<p><strong>Ref â€” Funds Transfer (overview)</strong> Source: context/rulebook/PaymentsRulebook__section_03.md Locator: Ch.3 Â§Funds Transfer Extract: whole</p>
-<p><strong>Ref â€” Wire Transfer limits</strong> Source: context/rulebook/PaymentsRulebook__section_05_02.md Locator: Ch.5 Â§Wire Transfer â€” bullet list of limits Extract: partial Part: the three-bullet list under &quot;The following limits apply to outbound wire transfers:&quot; Also relates to: [Customer] â€” the per-customer caps reference the customer&#x27;s KYC tier set during onboarding.</p>
+<p><strong>Ref — Funds Transfer (overview)</strong> Source: context/rulebook/PaymentsRulebook__section_03.md Locator: Ch.3 Â§Funds Transfer Extract: whole</p>
+<p><strong>Ref — Wire Transfer limits</strong> Source: context/rulebook/PaymentsRulebook__section_05_02.md Locator: Ch.5 Â§Wire Transfer — bullet list of limits Extract: partial Part: the three-bullet list under &quot;The following limits apply to outbound wire transfers:&quot; Also relates to: [Customer] — the per-customer caps reference the customer&#x27;s KYC tier set during onboarding.</p>
 <pre><code>
 ### Rejected file (`modules/rejected.md`)
 </code></pre></div></details>
-<details class="entry-md-section" id="rejected-3"><summary class="entry-md-section__summary">[Rejected]</summary><div class="entry-md-section__body"><p><strong>Ref â€” Cover / Disclosures / ToC</strong> Source: context/rulebook/PaymentsRulebook__section_00.md Locator: Front matter Extract: whole Reason: Front matter â€” regulatory disclosures and table of contents; no domain rules; out of scope.</p>
+<details class="entry-md-section" id="rejected-3"><summary class="entry-md-section__summary">[Rejected]</summary><div class="entry-md-section__body"><p><strong>Ref — Cover / Disclosures / ToC</strong> Source: context/rulebook/PaymentsRulebook__section_00.md Locator: Front matter Extract: whole Reason: Front matter — regulatory disclosures and table of contents; no domain rules; out of scope.</p>
 <pre><code>
 ---</code></pre></div></details>
 <details class="entry-md-section" id="build"><summary class="entry-md-section__summary">Build</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Author `module-partition.md` (root index) and `modules/*.md` (per-module files) from `domain-scan-results.md` and the source files.</p>
-<p>1. <strong>Verify source files exist.</strong> List the source directory (corpus chunks, context files, or scan results). If it is empty or missing, <strong>stop and tell the user</strong> â€” do not proceed with agent-generated content as a substitute. 2. <strong>Draft the module list first</strong> â€” from the scan map&#x27;s high-signal rows, propose 4â€“10 top-level module names (no nesting yet). Names must be source-grounded. 3. <strong>Walk the corpus once, in source order</strong>, and assign each meaningful source file to exactly one module, `Unallocated`, or `Rejected`. Record the file path and locator â€” do not copy file content. 4. <strong>Write per-module files</strong> under `abd-domain-driven-design/modules/`. Each file contains scope, core terms, and source file references. One file per module, plus `rejected.md` and optionally `unallocated.md`. 5. <strong>Write the root index</strong> at `abd-domain-driven-design/module-partition.md` listing all modules with scope, chunk ranges, and links to per-module files. 6. <strong>Apply the kind-test before declaring the partition done.</strong> For each module, name its kind in one word (Resolution, Measure, Actor, Temporal structure, State vocabulary, Resource economy, Behavior catalog, Constraint systemâ€¦). If a module&#x27;s Core terms list visibly clusters into more than one kind, <strong>split it</strong>. Symptoms: the module name keeps wanting to be a compound or generic glue word; the Core terms list reads as two coherent vocabularies stuck together; you cannot describe what changes inside the module without referencing a different kind. If you find yourself naming a module after the source&#x27;s TOC heading rather than the kind, suspect kind-mixing. 7. <strong>Apply the standalone-mechanic test for procedural domains.</strong> For each pair of named mechanics inside a candidate module, ask: <em>can mechanic A run completely without mechanic B?</em> If yes for several internal pairs, the module is a bag of co-located mechanisms â€” split. Conversely, if mechanic A&#x27;s text constantly invokes mechanic B&#x27;s vocabulary, they are one mechanism in different applications and belong together. Use this on top of the kind-test: kind-test catches <em>kind</em> mixing; standalone-mechanic test catches <em>mechanism</em> mixing within the same kind. 8. <strong>Re-read your `Unallocated` pile</strong> after the first pass. Most entries either find a home (move them) or reveal a missing module (promote a new top-level section). A small residual Unallocated set is healthy and expected. 9. <strong>Re-read your `Rejected` pile</strong> to confirm each rejection is <em>intentional</em> and audit-grade â€” not an accidental drop. 10. <strong>Consider nesting only at the end.</strong> For each top-level module, ask: does this module contain two or more <em>bounded</em> sub-scopes that the source itself separates? If yes, introduce `### [SubModule]` headings and re-allocate the relevant references. If not, leave flat. 11. <strong>Persistence:</strong> engagement root from parent agent `workspace`; files live at `abd-domain-driven-design/module-partition.md` and `abd-domain-driven-design/modules/*.md`.</p>
+<p>1. <strong>Verify source files exist.</strong> List the source directory (corpus chunks, context files, or scan results). If it is empty or missing, <strong>stop and tell the user</strong> — do not proceed with agent-generated content as a substitute. 2. <strong>Draft the module list first</strong> — from the scan map&#x27;s high-signal rows, propose 4“10 top-level module names (no nesting yet). Names must be source-grounded. 3. <strong>Walk the corpus once, in source order</strong>, and assign each meaningful source file to exactly one module, `Unallocated`, or `Rejected`. Record the file path and locator — do not copy file content. 4. <strong>Write per-module files</strong> under `abd-domain-driven-design/modules/`. Each file contains scope, core terms, and source file references. One file per module, plus `rejected.md` and optionally `unallocated.md`. 5. <strong>Write the root index</strong> at `abd-domain-driven-design/module-partition.md` listing all modules with scope, chunk ranges, and links to per-module files. 6. <strong>Apply the kind-test before declaring the partition done.</strong> For each module, name its kind in one word (Resolution, Measure, Actor, Temporal structure, State vocabulary, Resource economy, Behavior catalog, Constraint system…). If a module&#x27;s Core terms list visibly clusters into more than one kind, <strong>split it</strong>. Symptoms: the module name keeps wanting to be a compound or generic glue word; the Core terms list reads as two coherent vocabularies stuck together; you cannot describe what changes inside the module without referencing a different kind. If you find yourself naming a module after the source&#x27;s TOC heading rather than the kind, suspect kind-mixing. 7. <strong>Apply the standalone-mechanic test for procedural domains.</strong> For each pair of named mechanics inside a candidate module, ask: <em>can mechanic A run completely without mechanic B?</em> If yes for several internal pairs, the module is a bag of co-located mechanisms — split. Conversely, if mechanic A&#x27;s text constantly invokes mechanic B&#x27;s vocabulary, they are one mechanism in different applications and belong together. Use this on top of the kind-test: kind-test catches <em>kind</em> mixing; standalone-mechanic test catches <em>mechanism</em> mixing within the same kind. 8. <strong>Re-read your `Unallocated` pile</strong> after the first pass. Most entries either find a home (move them) or reveal a missing module (promote a new top-level section). A small residual Unallocated set is healthy and expected. 9. <strong>Re-read your `Rejected` pile</strong> to confirm each rejection is <em>intentional</em> and audit-grade — not an accidental drop. 10. <strong>Consider nesting only at the end.</strong> For each top-level module, ask: does this module contain two or more <em>bounded</em> sub-scopes that the source itself separates? If yes, introduce `### [SubModule]` headings and re-allocate the relevant references. If not, leave flat. 11. <strong>Persistence:</strong> engagement root from parent agent `workspace`; files live at `abd-domain-driven-design/module-partition.md` and `abd-domain-driven-design/modules/*.md`.</p>
 <p><strong>While writing:</strong></p>
 <ul>
 <li>One reference = one allocation. Split into partial references if a single source file straddles modules.</li>
-<li>References only â€” no verbatim content. Headers and labels are yours; the source files are the content.</li>
-<li>`Also relates to:` flags do not move the reference â€” they only annotate it.</li>
+<li>References only — no verbatim content. Headers and labels are yours; the source files are the content.</li>
+<li>`Also relates to:` flags do not move the reference — they only annotate it.</li>
 <li><strong>Parallel-agent friendly:</strong> each module file is independent, so separate agents can work on separate modules concurrently.</li>
 </ul>
 <hr></div></details>
-<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Read the partition as a boundary reviewer â€” coverage and traceability, not a second scan.</p>
+<details class="entry-md-section" id="validate"><summary class="entry-md-section__summary">Validate</summary><div class="entry-md-section__body"><p><strong>Goal:</strong> Read the partition as a boundary reviewer — coverage and traceability, not a second scan.</p>
 <h3>Coverage</h3>
 <ul>
 <li>Every module file has at least one source reference. <strong>Empty modules are deleted</strong> or moved to a follow-up note.</li>
 <li>`rejected.md` exists; `unallocated.md` exists if any files are unallocated. If either is empty, a one-line note states <em>why</em> (e.g. &quot;no front matter in this corpus&quot;, &quot;every section landed cleanly on first pass&quot;).</li>
-<li>The scan map&#x27;s <strong>High</strong> and <strong>Medium</strong> signal rows in `domain-scan-results.md` each show up in <strong>at least one</strong> reference somewhere â€” module, unallocated, or rejected. Low-signal rows are typically rejected; that is fine, but they should appear.</li>
+<li>The scan map&#x27;s <strong>High</strong> and <strong>Medium</strong> signal rows in `domain-scan-results.md` each show up in <strong>at least one</strong> reference somewhere — module, unallocated, or rejected. Low-signal rows are typically rejected; that is fine, but they should appear.</li>
 </ul>
 <h3>Allocation discipline</h3>
 <ul>
 <li>No source file appears in two modules (unless split with `Extract: partial` + different `Part:` slices).</li>
-<li>Every `Extract: partial` line is paired with a `Part:` line that names the slice in source-grounded terms â€” not &quot;the relevant bit&quot; or &quot;the important paragraph&quot;.</li>
+<li>Every `Extract: partial` line is paired with a `Part:` line that names the slice in source-grounded terms — not &quot;the relevant bit&quot; or &quot;the important paragraph&quot;.</li>
 <li>Every reference in `unallocated.md` and `rejected.md` has a `Reason:` line.</li>
-<li>Reference discipline: pick three random references, verify the source file exists on disk and the locator is correct. If any reference points to a non-existent file or uses a generated-content marker (e.g. `Source: domain-knowledge`), <strong>remove it</strong> â€” only real files on disk are valid references.</li>
+<li>Reference discipline: pick three random references, verify the source file exists on disk and the locator is correct. If any reference points to a non-existent file or uses a generated-content marker (e.g. `Source: domain-knowledge`), <strong>remove it</strong> — only real files on disk are valid references.</li>
 </ul>
 <h3>Boundary discipline</h3>
 <ul>
-<li>Module names are source-grounded. No generic placeholders (&quot;Misc&quot;, &quot;Core&quot;, &quot;Foundation&quot;) â€” replace or merge them.</li>
-<li>Nesting (`###` and deeper) is justified by the source. For each nested heading, the parent module&#x27;s body is <strong>not</strong> what the sub-module covers â€” the sub-module has its own bounded extract set. If you cannot say what the sub-module covers in one source-grounded sentence, collapse the nesting.</li>
+<li>Module names are source-grounded. No generic placeholders (&quot;Misc&quot;, &quot;Core&quot;, &quot;Foundation&quot;) — replace or merge them.</li>
+<li>Nesting (`###` and deeper) is justified by the source. For each nested heading, the parent module&#x27;s body is <strong>not</strong> what the sub-module covers — the sub-module has its own bounded extract set. If you cannot say what the sub-module covers in one source-grounded sentence, collapse the nesting.</li>
 <li>`Also relates to:` flags are present where the boundary is genuinely contested. Spot-check a few to make sure the flagged tension is real.</li>
 </ul>
 <h3>Core terms list (per module)</h3>
 <ul>
 <li>Every module section has a <strong>Core terms</strong> bullet list directly under the heading and scope statement, before the extracts.</li>
-<li>Terms are <strong>source-grounded noun phrases</strong> the source itself uses inside the module&#x27;s extracts â€” not invented, not normalized, not classified.</li>
-<li>The list contains <strong>no</strong> Targets, Values, evidence IDs, stereotypes, or Notes labels â€” those belong to `<strong>term-registry</strong>`. If you find yourself writing `&lt;&lt;Anchor&gt;&gt;` or `EVD-NNN` here, stop and move that to the term registry pass.</li>
+<li>Terms are <strong>source-grounded noun phrases</strong> the source itself uses inside the module&#x27;s extracts — not invented, not normalized, not classified.</li>
+<li>The list contains <strong>no</strong> Targets, Values, evidence IDs, stereotypes, or Notes labels — those belong to `<strong>term-registry</strong>`. If you find yourself writing `&lt;&lt;Anchor&gt;&gt;` or `EVD-NNN` here, stop and move that to the term registry pass.</li>
 <li>Sanity-check the list against the <strong>independence test</strong>: does it read as one bounded vocabulary? Does it lean heavily on terms defined elsewhere? Is it trivially short, or unevenly enormous? Any &quot;yes&quot; is a flag to revisit the boundary, not to enrich the list.</li>
 </ul>
 <h3>Kind-test (per module)</h3>
 <ul>
 <li>For each module, write the module&#x27;s <strong>kind</strong> in one word: <em>Resolution, Measure, Actor, Temporal structure, State vocabulary, Resource economy, Behavior catalog, Constraint system,</em> etc. If you cannot pick one, the module is mixed.</li>
 <li>Read the module&#x27;s <strong>Core terms</strong> with that kind in mind. Every term should belong to that kind; if a sub-cluster of terms belongs to a different kind, split that cluster into its own module.</li>
-<li>Check the module&#x27;s <strong>name</strong> against the kind. Generic glue or compound names (`[Operations]`, `[Foundations]`, `[Basics]`, `[Core]`, `[Authorization &amp; Capture]`) are red flags â€” they usually indicate the module is two kinds glued together.</li>
-<li>Cross-check against the corpus&#x27;s source-organization (TOC headings, all-caps section breaks, named clusters): if a single source heading produced more than one of your modules, that is <strong>good</strong> â€” it confirms the source heading was editorial shelving and the kind-test caught a real boundary the source did not draw.</li>
+<li>Check the module&#x27;s <strong>name</strong> against the kind. Generic glue or compound names (`[Operations]`, `[Foundations]`, `[Basics]`, `[Core]`, `[Authorization &amp; Capture]`) are red flags — they usually indicate the module is two kinds glued together.</li>
+<li>Cross-check against the corpus&#x27;s source-organization (TOC headings, all-caps section breaks, named clusters): if a single source heading produced more than one of your modules, that is <strong>good</strong> — it confirms the source heading was editorial shelving and the kind-test caught a real boundary the source did not draw.</li>
 </ul>
 <h3>Standalone-mechanic test (per pair of mechanics inside a module)</h3>
 <ul>
-<li>For each pair of named mechanics inside a candidate module, ask: <em>can mechanic A run completely without mechanic B?</em> If yes for several internal pairs, the module is a bag of co-located mechanisms rather than one mechanic â€” split.</li>
-<li>The reverse also holds: if a candidate split would force the reader to bounce between modules to understand a single mechanic&#x27;s full text (e.g. you cannot describe Wire Transfer without describing Funds Transfer, or 3-D Secure Step-Up without describing Authorization), the split is wrong â€” collapse them.</li>
-<li>For tightly cross-referenced same-kind mechanics (e.g. two payment-reversal mechanics â€” Refund and Chargeback â€” that gate or pre-empt each other), prefer to <strong>merge</strong> rather than split: dense cross-references inside one kind are a signal that the two mechanics are one bounded scope from the modeler&#x27;s point of view.</li>
+<li>For each pair of named mechanics inside a candidate module, ask: <em>can mechanic A run completely without mechanic B?</em> If yes for several internal pairs, the module is a bag of co-located mechanisms rather than one mechanic — split.</li>
+<li>The reverse also holds: if a candidate split would force the reader to bounce between modules to understand a single mechanic&#x27;s full text (e.g. you cannot describe Wire Transfer without describing Funds Transfer, or 3-D Secure Step-Up without describing Authorization), the split is wrong — collapse them.</li>
+<li>For tightly cross-referenced same-kind mechanics (e.g. two payment-reversal mechanics — Refund and Chargeback — that gate or pre-empt each other), prefer to <strong>merge</strong> rather than split: dense cross-references inside one kind are a signal that the two mechanics are one bounded scope from the modeler&#x27;s point of view.</li>
 </ul>
 <h3>Hand-off readiness</h3>
 <p>A reviewer (or downstream agent) running `<strong>term-registry</strong>` next should be able to:</p>
 <ul>
-<li>Read a single module file, get the list of source files for that scope, and read those files to seed terms â€” the module file is the authoritative index for that bounded scope.</li>
-<li>Trust that source files <strong>not referenced</strong> in any module file are intentionally outside (in `rejected.md`) or pending (in `unallocated.md`) â€” not silently dropped.</li>
+<li>Read a single module file, get the list of source files for that scope, and read those files to seed terms — the module file is the authoritative index for that bounded scope.</li>
+<li>Trust that source files <strong>not referenced</strong> in any module file are intentionally outside (in `rejected.md`) or pending (in `unallocated.md`) — not silently dropped.</li>
 </ul>
-<p>If the partition is thin, vague, or leaks across boundaries, <strong>improve in place</strong> with targeted re-reads â€” not a wholesale rescan unless the source or the project goals changed.</p>
+<p>If the partition is thin, vague, or leaks across boundaries, <strong>improve in place</strong> with targeted re-reads — not a wholesale rescan unless the source or the project goals changed.</p>
 <hr>
 <p>&lt;!-- execute_rules:bundle_rules:begin --&gt;</p>
 <h3>Rule: Full source coverage — every source file must appear in the partition</h3>

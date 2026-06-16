@@ -1711,7 +1711,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
     <p class="s-name">Rule</p>
 
     <h1 class="page-headline">rules/explicit-chain-of-responsibility.md</h1>
-    <p class="body-lead">Rule: Explicit chain of responsibility � no nebulous operations</p>
+    <p class="body-lead">Rule: Explicit chain of responsibility — no nebulous operations</p>
   </div>
 </div>
 
@@ -1719,7 +1719,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <div class="wrap">
 
 <h2>Content</h2>
-<div class="rule-prose"><h1>Rule: Explicit chain of responsibility � no nebulous operations</h1>
+<div class="rule-prose"><h1>Rule: Explicit chain of responsibility — no nebulous operations</h1>
 <p><strong>Scanner:</strong> Manual review</p>
 <div class="spec-steps">
 <p class="spec-step">When a typed operation implies a chain of actors or steps, every actor in that chain must be traceable to a typed property or operation with explicit parameters in the Class Model. Nothing may be left implied or nebulous. &quot;May&quot; and &quot;requires&quot; language in a behavior must be fully modeled as typed members.</p>
@@ -1734,8 +1734,8 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
   + &lt;&lt; aggregation &gt;&gt; ongoingTargets: List&lt;Character&gt;
   + resist(effect: PowerEffect, check: Check): void    ? on OngoingEffects, not PowerEffect
       Invariant: resistance check made at end of each of the character&#x27;s turns while effect is active</code></pre>
-<p><strong>Example (pass):</strong> Behavior: &quot;supersedes a less severe condition from the same source � removing the lesser.&quot;</p>
-<p>This implies: someone knows the supersession hierarchy, and someone performs the removal. Both must appear � <code>+ supersedes: Condition</code> on <code>Condition</code> and <code>+ applyCondition(...)</code> with the supersession invariant on <code>ImposedConditions</code>.</p>
+<p><strong>Example (pass):</strong> Behavior: &quot;supersedes a less severe condition from the same source — removing the lesser.&quot;</p>
+<p>This implies: someone knows the supersession hierarchy, and someone performs the removal. Both must appear — <code>+ supersedes: Condition</code> on <code>Condition</code> and <code>+ applyCondition(...)</code> with the supersession invariant on <code>ImposedConditions</code>.</p>
 <h2>DO NOT</h2>
 <ul>
 <li>Write a property and leave the downstream action it implies without an owning operation.</li>

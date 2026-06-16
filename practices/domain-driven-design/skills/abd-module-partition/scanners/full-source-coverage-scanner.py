@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Scanner: every source file in the workspace must be referenced across module files."""
 from __future__ import annotations
 
@@ -27,7 +27,7 @@ from scanner_bases.resources.scan_context import (  # noqa: E402
 _SOURCE_DIRS = ("context", "corpus", "source", "data")
 
 _REF_HEADER_RE = re.compile(
-    r"^\*\*(?:Ref|Extract)\s*â€”\s*(?P<title>.+?)\*\*\s*$", re.MULTILINE
+    r"^\*\*(?:Ref|Extract)\s*—\s*(?P<title>.+?)\*\*\s*$", re.MULTILINE
 )
 _SOURCE_LINE_RE = re.compile(
     r"^Source:\s*(?P<ref>.+)$", re.MULTILINE
@@ -63,7 +63,7 @@ def _collect_all_references(module_files: List[Path], workspace: Path) -> Set[st
                 continue
 
             raw_ref = source_match.group("ref").strip()
-            clean = raw_ref.split("â€”")[0].strip().strip('"').strip("'")
+            clean = raw_ref.split("—")[0].strip().strip('"').strip("'")
             normalised = clean.replace("\\", "/").lower()
 
             refs.add(normalised)

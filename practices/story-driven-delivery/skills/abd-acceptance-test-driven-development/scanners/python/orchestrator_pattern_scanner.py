@@ -1,4 +1,4 @@
-﻿"""Scanner for pytest_bdd_orchestrator_pattern rule.
+"""Scanner for pytest_bdd_orchestrator_pattern rule.
 
 Checks that test files use the orchestrator pattern:
 - Test methods should be under 20 lines showing Given-When-Then flow.

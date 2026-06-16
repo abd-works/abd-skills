@@ -1,4 +1,4 @@
-﻿"""Scanner for bug_fix_test_first rule.
+"""Scanner for bug_fix_test_first rule.
 
 Checks that test files contain bug-reproducing tests with proper RED-GREEN workflow
 indicators: comments referencing bug reproduction, failure verification, or fix verification.

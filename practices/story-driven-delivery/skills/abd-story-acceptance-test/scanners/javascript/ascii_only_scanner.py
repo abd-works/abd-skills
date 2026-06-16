@@ -1,4 +1,4 @@
-﻿"""Scanner for ASCII-only in JavaScript/TypeScript code (client and server)."""
+"""Scanner for ASCII-only in JavaScript/TypeScript code (client and server)."""
 
 from typing import List, Dict, Any, Optional, TYPE_CHECKING
 from pathlib import Path

@@ -1,4 +1,4 @@
-﻿"""Scanner: verify Domain Language in class and method names.
+"""Scanner: verify Domain Language in class and method names.
 
 Uses tree-sitter TypeScript AST to check:
 1. No class names end with forbidden technical suffixes:

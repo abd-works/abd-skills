@@ -1,4 +1,4 @@
-﻿"""Scanner: verify naming conventions for each tier.
+"""Scanner: verify naming conventions for each tier.
 
 Checks that:
 - server/ contains: *.routes.ts, *.controller.ts, *.service.ts, *.repository.ts

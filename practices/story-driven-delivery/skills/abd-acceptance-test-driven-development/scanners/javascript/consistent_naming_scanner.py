@@ -1,4 +1,4 @@
-﻿"""Scanner for checking naming convention consistency in JavaScript."""
+"""Scanner for checking naming convention consistency in JavaScript."""
 
 from typing import List, Dict, Any, Set
 from pathlib import Path

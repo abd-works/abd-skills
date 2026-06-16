@@ -1,4 +1,4 @@
-﻿"""Base scanner for JavaScript code validation."""
+"""Base scanner for JavaScript code validation."""
 
 from abc import abstractmethod
 from typing import List, Dict, Any, Optional, Tuple, TYPE_CHECKING

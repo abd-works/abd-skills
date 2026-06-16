@@ -1,4 +1,4 @@
-﻿/**
+/**
  * domain model: Agent — delivery roles that perform skills on tickets.
  * domain model: TeamMembership — pair counts per agent role; 1 membership per team role.
  * Invariant: Count must be >= 0.

@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 Build a Draw.io class diagram from the Delivery Agent Kanban domain model.
 

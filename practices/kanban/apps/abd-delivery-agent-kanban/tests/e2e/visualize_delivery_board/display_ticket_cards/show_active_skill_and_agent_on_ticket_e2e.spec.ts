@@ -1,4 +1,4 @@
-﻿import { test, expect } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import { BOARD_JSON_PATH, goToBoard, resetPawPlaceStubsFixture, ticketCard, updateJsonFile } from '../../e2e_support';
 
 test.describe('Show Active Skill and Agent on Ticket', () => {

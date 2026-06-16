@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Delivery Agent Kanban domain model (domain model: docs/domain/domain model.md).
 
 Canonical home: practices/kanban/apps/abd-delivery-agent-kanban/domain/

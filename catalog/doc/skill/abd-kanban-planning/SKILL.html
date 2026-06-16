@@ -1721,11 +1721,11 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <h2>Content</h2>
 <div class="rule-prose"><h1>abd-kanban-planning</h1>
 <h2>Purpose</h2>
-<p>Kanban Planning configures <em>how</em> delivery flows â€” not <em>what</em> to build. It selects a <strong>strategy</strong> based on context and risk, configures the <strong>kanban board</strong> (stages, scope levels, stage work required), and defines <strong>scatter rules</strong> (how and when tickets decompose at scope boundaries). The result drives the JIT kanban board without pre-authoring every assignment.</p>
-<p>Do <strong>not</strong> use this skill to produce artifacts (maps, slices, AC, tests, code). This skill is strictly about the delivery lifecycle spine â€” the kanban board stage configuration, strategy, and decomposition rules.</p>
+<p>Kanban Planning configures <em>how</em> delivery flows — not <em>what</em> to build. It selects a <strong>strategy</strong> based on context and risk, configures the <strong>kanban board</strong> (stages, scope levels, stage work required), and defines <strong>scatter rules</strong> (how and when tickets decompose at scope boundaries). The result drives the JIT kanban board without pre-authoring every assignment.</p>
+<p>Do <strong>not</strong> use this skill to produce artifacts (maps, slices, AC, tests, code). This skill is strictly about the delivery lifecycle spine — the kanban board stage configuration, strategy, and decomposition rules.</p>
 <hr>
 <h2>Output file</h2>
-<p><strong>Deliverables folder:</strong> see <a href="../../reference/artifact-layout.html">artifact-layout.md</a> â€” Output file resolution.</p>
+<p><strong>Deliverables folder:</strong> see <a href="../../reference/artifact-layout.html">artifact-layout.md</a> — Output file resolution.</p>
 <p><strong>File names:</strong> Strategy output is written to:</p>
 <pre><code>&lt;workspace&gt;/docs/kanban/
   kanban.json                # Stages, scope, stage work required, strategy, team</code></pre>
@@ -1738,12 +1738,12 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <li><code>reference/strategy.md</code> - strategy concepts, risk classification, checkpoint granularity, scatter rules.</li>
 <li><code>reference/selecting-a-strategy.md</code> - strategy selection procedure.</li>
 <li><code>reference/strategy-catalog.md</code> - available strategies, how to add and adapt.</li>
-<li><strong><code>reference/strategies/*.md</code></strong> â€” one prepackaged strategy per file; read each strategy&#x27;s &quot;When to use&quot; section to match context.</li>
+<li><strong><code>reference/strategies/*.md</code></strong> — one prepackaged strategy per file; read each strategy&#x27;s &quot;When to use&quot; section to match context.</li>
 </ul>
 <h3>2. Generate</h3>
 <p>Read every file in <strong><code>rules/</code></strong>; author to those rules.</p>
 <p>Follow the <strong>strategy selection procedure</strong> from <code>reference/selecting-a-strategy.md</code>:</p>
-<p>1. <strong>Context analysis</strong> â€” identify known domains, risky domains, integration points, complexity drivers, existing assets. 2. <strong>Select strategy</strong> â€” match context and risks to a strategy from <code>reference/strategies/</code> (or blend/custom). 3. <strong>Configure kanban board</strong> â€” write <code>kanban.json</code> (stages, stage work required, strategy, team). 4. <strong>Present and confirm</strong> â€” present context assessment, kanban board configuration, scatter rules. <strong>CHECKPOINT</strong> â€” wait for user confirm.</p>
+<p>1. <strong>Context analysis</strong> — identify known domains, risky domains, integration points, complexity drivers, existing assets. 2. <strong>Select strategy</strong> — match context and risks to a strategy from <code>reference/strategies/</code> (or blend/custom). 3. <strong>Configure kanban board</strong> — write <code>kanban.json</code> (stages, stage work required, strategy, team). 4. <strong>Present and confirm</strong> — present context assessment, kanban board configuration, scatter rules. <strong>CHECKPOINT</strong> — wait for user confirm.</p>
 <p><strong>Scripts:</strong> Use <code>scripts/append_plan_revision.py</code> to append revisions to the strategy.</p>
 <h3>3. Validate</h3>
 <p>Run the scanners:</p>
@@ -1755,15 +1755,15 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 </div>
 <hr>
 <h2>Validate</h2>
-<p><strong>Goal:</strong> Inspect what was built â€” read the artifacts as reviewers.</p>
+<p><strong>Goal:</strong> Inspect what was built — read the artifacts as reviewers.</p>
 <ul>
-<li><strong>Strategy named</strong> â€” a specific strategy from <code>reference/strategies/</code> is cited (or a custom one is defined).</li>
-<li><strong>System of work complete</strong> â€” stages, scope per stage, and ordered skills per stage are all populated.</li>
-<li><strong>Risks classified</strong> â€” context assessment names risk types with signals.</li>
-<li><strong>Scatter rules explicit</strong> â€” scope transitions, sprint grouping, and JIT policy are stated.</li>
-<li><strong>Checkpoints match risk</strong> â€” high-risk areas have tighter checkpoints.</li>
-<li><strong>Not a default six-stage copy</strong> â€” the plan reflects context, not a rote template.</li>
-<li><strong>No bundle markers</strong> â€” <code>SKILL.md</code> has no <code>&lt;!-- execute_rules:bundle_rules --&gt;</code> markers.</li>
+<li><strong>Strategy named</strong> — a specific strategy from <code>reference/strategies/</code> is cited (or a custom one is defined).</li>
+<li><strong>System of work complete</strong> — stages, scope per stage, and ordered skills per stage are all populated.</li>
+<li><strong>Risks classified</strong> — context assessment names risk types with signals.</li>
+<li><strong>Scatter rules explicit</strong> — scope transitions, sprint grouping, and JIT policy are stated.</li>
+<li><strong>Checkpoints match risk</strong> — high-risk areas have tighter checkpoints.</li>
+<li><strong>Not a default six-stage copy</strong> — the plan reflects context, not a rote template.</li>
+<li><strong>No bundle markers</strong> — <code>SKILL.md</code> has no <code>&lt;!-- execute_rules:bundle_rules --&gt;</code> markers.</li>
 </ul>
 <hr></div>
 

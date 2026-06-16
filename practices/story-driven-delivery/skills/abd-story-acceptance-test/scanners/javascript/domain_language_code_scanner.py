@@ -1,4 +1,4 @@
-﻿"""Scanner for domain language in JavaScript/TypeScript code (client and server).
+"""Scanner for domain language in JavaScript/TypeScript code (client and server).
 Equivalent to Python DomainLanguageCodeScanner: class/function/param names should use domain terms.
 """
 
