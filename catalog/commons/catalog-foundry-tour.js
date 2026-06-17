@@ -35,6 +35,44 @@
     '<div class="foundry-guide__executable-row foundry-guide__executable-row--arc"><span class="foundry-guide__executable-name">Architecture</span><span class="foundry-guide__executable-desc">Interface contracts / templates the engine can follow</span></div>' +
     '</div>';
 
+  var CHANGE_SLIDE_HTML =
+    '<p class="foundry-guide__lead">Context-Driven Delivery will fundamentally change how people work. AI is moving people towards a <strong>builder culture</strong>.</p>' +
+    '<div class="foundry-guide__change-rows">' +
+    '<div class="foundry-guide__change-row foundry-guide__change-row--sdd">' +
+    '<span class="foundry-guide__change-name">Story-driven delivery</span>' +
+    '<ul class="foundry-guide__change-bullets">' +
+    '<li>Stories, automated acceptance tests, and production code are one continuous loop—not handoffs between roles.</li>' +
+    '<li>Every test tier (E2E, UI, API, stubs) iterates the same way: write tests, write code, run, fix—not as separate stages.</li>' +
+    '</ul></div>' +
+    '<div class="foundry-guide__change-row foundry-guide__change-row--ddd">' +
+    '<span class="foundry-guide__change-name">Domain-driven design</span>' +
+    '<ul class="foundry-guide__change-bullets">' +
+    '<li>Business logic scattered across stories and tests breeds conflicting context—humans navigate it; AI cannot.</li>' +
+    '<li>Domain and business concepts must be explicit artifacts—mandatory at scale.</li>' +
+    '<li>Isolate business logic code from scaffolding code and infrastructure code so AI can verify code against domain logic.</li>' +
+    '</ul></div>' +
+    '<div class="foundry-guide__change-row foundry-guide__change-row--uxd">' +
+    '<span class="foundry-guide__change-name">User experience</span>' +
+    '<ul class="foundry-guide__change-bullets">' +
+    '<li>UX must keep evolving and be refined along with stories, domain, and architecture—not arrive in one complete pass.</li>' +
+    '<li>Agree on decisions that can be decided at lower fidelity, information flow and navigation before controls and labels—overall picture first, detail second.</li>' +
+    '</ul></div>' +
+    '<div class="foundry-guide__change-row foundry-guide__change-row--arc">' +
+    '<span class="foundry-guide__change-name">Architecture</span>' +
+    '<ul class="foundry-guide__change-bullets">' +
+    '<li>Refine the engineering footprint when required, before specifying it in a form that is <em>executable</em>.</li>' +
+    '<li>Templatized code, documented code patterns, and explicit contracts accelerate AI when extending systems already in production.</li>' +
+    '</ul></div>' +
+    '<div class="foundry-guide__change-row foundry-guide__change-row--team">' +
+    '<span class="foundry-guide__change-name">The team</span>' +
+    '<ul class="foundry-guide__change-bullets">' +
+    '<li>Large squads (9–12) working on a single outcome will only accelerate dysfunction.</li>' +
+    '<li>At this pace, the days of a team member disappearing for a couple of days to work in isolation are no longer feasible.</li>' +
+    '<li>Groups of 3–4 highly interactive and paired work—in the same room, virtual or physical; hand-offs are frequent and teamwork needs to be real across legacy job functions.</li>' +
+    '<li>Expertise builds context, skills, and scaffolding; specialists validate output. The goal is builder capability and culture across the team.</li>' +
+    '</ul></div>' +
+    '</div>';
+
   var PAUSE_BEFORE_STEP_MS = 320;
   var PAUSE_BEFORE_RING_MS = 480;
   var TEXT_EXPAND_MS = 480;
@@ -221,6 +259,13 @@
     };
   }
 
+  function ringIsAnimating() {
+    if (!ring.getAnimations) return false;
+    return ring.getAnimations().some(function (a) {
+      return a.playState === 'running' || a.playState === 'pending';
+    });
+  }
+
   function clearLanded() {
     Array.prototype.forEach.call(
       document.querySelectorAll('.is-ring-landed'),
@@ -229,8 +274,16 @@
   }
 
   function hideRing() {
+    cancelRingAnimations();
     ring.classList.remove('is-visible');
     ring.style.opacity = '0';
+  }
+
+  function prepareRingFlight(fromRect) {
+    cancelRingAnimations();
+    ring.classList.remove('is-visible');
+    ring.style.opacity = '0';
+    if (fromRect) placeRing(fromRect);
   }
 
   function placeRing(r) {
@@ -327,7 +380,6 @@
   function flyRingToTargets(fromRect, elements, pad, opts) {
     opts = opts || {};
     var targetRect = unionRect(elements, pad);
-    rememberRingTargets(elements, pad);
     return flyRingRect(fromRect, targetRect, {
       runId: opts.runId,
       duration: opts.duration || 400,
@@ -339,6 +391,7 @@
 
   function syncRingToTargets() {
     if (!lastRingTargets || !lastRingTargets.length) return;
+    if (ringIsAnimating()) return;
     var r = unionRect(lastRingTargets, lastRingPad);
     placeRing(r);
     lastRingRect = r;
@@ -352,8 +405,9 @@
     var duration = opts.duration || 360;
     var hold = opts.hold || 80;
 
-    cancelRingAnimations();
-    placeRing(fromRect);
+    prepareRingFlight(fromRect);
+    clearLanded();
+    void ring.offsetWidth;
     ring.classList.add('is-visible');
     ring.style.opacity = '1';
 
@@ -389,8 +443,6 @@
     var hold = opts.hold || 120;
     var pad = opts.pad != null ? opts.pad : 3;
 
-    cancelRingAnimations();
-
     var from = rectInSurface(fromEl);
     var toRaw = rectInSurface(toEl);
     var to = {
@@ -400,7 +452,9 @@
       height: toRaw.height + pad * 2
     };
 
-    placeRing(from);
+    prepareRingFlight(from);
+    clearLanded();
+    void ring.offsetWidth;
     ring.classList.add('is-visible');
     ring.style.opacity = '1';
 
@@ -448,11 +502,14 @@
   function bumpRun() {
     currentRunId++;
     cancelRingAnimations();
+    hideRing();
+    lastRingRect = null;
+    lastRingTargets = null;
     tourBusy = false;
   }
 
   function hideGuideText() {
-    guideText.classList.remove('is-expanding', 'is-revealed');
+    guideText.classList.remove('is-expanding', 'is-revealed', 'is-tall');
     guideText.innerHTML = '';
   }
 
@@ -470,6 +527,7 @@
     cancelRingAnimations();
     hideRing();
     lastRingRect = null;
+    lastRingTargets = null;
     guidePanel.classList.add('is-tour-active');
     guideTag.textContent = '…';
     guideTag.classList.add('is-waiting');
@@ -480,7 +538,7 @@
   function revealGuideText(tag, html, opts) {
     opts = opts || {};
     guidePanel.classList.add('is-tour-active');
-    guideText.classList.remove('is-expanding', 'is-revealed');
+    guideText.classList.remove('is-expanding', 'is-revealed', 'is-tall');
     guideText.innerHTML = html;
 
     var chain = opts.skipInitialPause ? Promise.resolve() : pause(PAUSE_BEFORE_STEP_MS);
@@ -491,6 +549,7 @@
         guideTag.textContent = tag;
         return new Promise(function (resolve) {
           window.requestAnimationFrame(function () {
+            if (opts.tall) guideText.classList.add('is-tall');
             guideText.classList.add('is-expanding');
             resolve();
           });
@@ -613,6 +672,29 @@
     ]);
   }
 
+  /** Click 4: change implications — final panel; no ring. */
+  function animateChangeImplications() {
+    clearLanded();
+    hideRing();
+    lastRingRect = null;
+    lastRingTargets = null;
+    mode = 'change';
+    guidePanel.classList.add('is-tour-active');
+
+    return runTour([
+      function (runId) {
+        return revealGuideText(
+          'Change implications',
+          CHANGE_SLIDE_HTML,
+          { skipInitialPause: true, skipRingPause: true, tall: true }
+        ).then(function () {
+          if (runId !== currentRunId) return;
+          hideRing();
+        });
+      }
+    ]);
+  }
+
   function advanceMode() {
     if (tourBusy) return;
     if (mode === 'idle') {
@@ -628,6 +710,10 @@
       return;
     }
     if (mode === 'column') {
+      animateChangeImplications();
+      return;
+    }
+    if (mode === 'change') {
       resetTour();
     }
   }

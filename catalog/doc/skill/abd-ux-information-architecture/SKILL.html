@@ -10,15 +10,15 @@
 <link rel="stylesheet" href="../../../commons/site.css?v=foundry-3">
 <style>
 /*
-  ABD Foundry — catalog prelude + gardener lesson fragment.
+  Agile Garden — AI Garden prelude + gardener lesson fragment.
   Inlined via generate_abd_catalog.py. Max border-radius 6px; flat surfaces.
-  Brand split: --accent (#E5531A) for column chrome / rails; --ai-accent on dense
-  mono skill links (engineering mode only — executive overrides in catalog.css).
+  Brand split: orange-500 (#E5531A) for column chrome / rails; ai-blue (#4FC3F7 / #81D4FA)
+  on dense mono skill links — see abd-works-brand BRAND-GUIDELINES §3.1 (ai-blue-500).
 */
 .catalog-prelude {
   margin: 0 0 24px;
   padding: 0 0 20px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #2A2A2A;
 }
 .catalog-prelude-heading {
   margin: 0 0 12px;
@@ -27,7 +27,7 @@
   color: var(--text);
   line-height: 1.25;
   padding-bottom: 8px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #2A2A2A;
   scroll-margin-top: 48px;
 }
 .catalog-prelude-tagline {
@@ -43,9 +43,9 @@
   margin: 0 0 18px;
 }
 .catalog-mission-card {
-  background: var(--raised);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
+  background: #1B1B20;
+  border: 1px solid #2A2A2A;
+  border-left: 3px solid #E5531A;
   border-radius: 4px;
   padding: 14px 20px;
   display: flex;
@@ -57,7 +57,7 @@
   flex-shrink: 0;
   font-size: 0.95rem;
   font-weight: 700;
-  color: var(--text);
+  color: #F4F4F5;
   margin: 0;
   white-space: nowrap;
 }
@@ -71,14 +71,14 @@
 .catalog-mission-card--teal,
 .catalog-mission-card--amber,
 .catalog-mission-card--purple {
-  background: var(--raised);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
+  background: #1B1B20;
+  border: 1px solid #2A2A2A;
+  border-left: 3px solid #E5531A;
 }
 .catalog-mission-card--teal h3,
 .catalog-mission-card--amber h3,
 .catalog-mission-card--purple h3 {
-  color: var(--text);
+  color: #F4F4F5;
 }
 @media (max-width: 720px) {
   .catalog-mission { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -95,17 +95,17 @@
   gap: 10px;
   padding: 8px 0 10px;
   margin: 24px 0 12px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #2A2A2A;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: #E5531A;
 }
 .catalog-section-label--foundational {
   margin-top: 28px;
-  color: var(--muted);
-  border-bottom-color: var(--border-muted);
+  color: #8A8A97;
+  border-bottom-color: #1A1A1E;
 }
 
 /* ── Practice grid — all 5 disciplines forced onto one row ── */
@@ -113,8 +113,8 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
   border-radius: 6px;
   overflow: hidden;
   margin: 0;
@@ -131,8 +131,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
   border-radius: 6px;
   overflow: hidden;
 }
@@ -158,7 +158,7 @@
   display: block !important;
   font-size: 0.82rem;
   line-height: 1.5;
-  color: var(--muted);
+  color: #9B9BA8;
 }
 
 /* ── Agents grid — single wide column ── */
@@ -166,15 +166,15 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
   border-radius: 6px;
   overflow: hidden;
 }
 .catalog-section-label--agents {
   margin-top: 28px;
-  color: var(--accent);
-  border-bottom-color: var(--border);
+  color: #E5531A;
+  border-bottom-color: #2A2A2A;
 }
 
 /* ── Shared column card ── */
@@ -199,7 +199,7 @@
   margin-top: 0;
 }
 .catalog-garden-col {
-  background: var(--surface);
+  background: #111113;
   border: none;
   border-radius: 0;
   overflow: hidden;
@@ -213,17 +213,17 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  border-bottom: 1px solid var(--border);
-  background: var(--raised);
-  color: var(--accent);
-  border-left: 3px solid var(--accent);
+  border-bottom: 1px solid #2A2A2A;
+  background: #1B1B20;
+  color: #E5531A;
+  border-left: 3px solid #E5531A;
 }
 .catalog-garden-col-header--practice,
 .catalog-garden-col-header--foundational,
 .catalog-garden-col-header--agents {
-  background: var(--raised);
-  color: var(--accent);
-  border-left: 3px solid var(--accent);
+  background: #1B1B20;
+  color: #E5531A;
+  border-left: 3px solid #E5531A;
 }
 .catalog-garden-ico { flex-shrink: 0; display: block; }
 .catalog-garden-row {
@@ -231,11 +231,11 @@
   align-items: center;
   gap: 10px;
   padding: 6px 16px;
-  border-bottom: 1px solid var(--border-muted);
+  border-bottom: 1px solid #1A1A1E;
   font-size: 0.85rem;
 }
 .catalog-garden-row:last-child { border-bottom: none; }
-/* Skill/agent links — mono names; ai-accent on dark (engineering mode) */
+/* Skill/agent links — mono names stay near-white; ai-blue hairline/hover (brand AI accent, not orange wall) */
 .catalog-garden-name {
   font-weight: 700;
   font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
@@ -243,11 +243,12 @@
   min-width: 0;
   overflow-wrap: anywhere;
   word-break: break-word;
-  color: var(--ai-accent);
+  color: #4FC3F7;
 }
+/* !important beats global `a { … }`, :visited, and concatenation order */
 .catalog-prelude .catalog-garden-name a,
 .catalog-garden-lists .catalog-garden-name a {
-  color: var(--ai-accent) !important;
+  color: #4FC3F7 !important;
   font-weight: 700 !important;
   text-decoration: none !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
@@ -256,19 +257,19 @@
 .catalog-prelude .catalog-garden-name a:focus-visible,
 .catalog-garden-lists .catalog-garden-name a:hover,
 .catalog-garden-lists .catalog-garden-name a:focus-visible {
-  color: var(--ai-accent-soft) !important;
+  color: #81D4FA !important;
   border-bottom-color: rgba(79, 195, 247, 0.95);
 }
 .catalog-garden-name--agent a,
 .catalog-garden-name--foundational a {
-  color: var(--ai-accent) !important;
+  color: #4FC3F7 !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
 }
 .catalog-garden-name--agent a:hover,
 .catalog-garden-name--agent a:focus-visible,
 .catalog-garden-name--foundational a:hover,
 .catalog-garden-name--foundational a:focus-visible {
-  color: var(--ai-accent-soft) !important;
+  color: #81D4FA !important;
   border-bottom-color: rgba(79, 195, 247, 0.92);
 }
 .catalog-garden-name--dim {
@@ -791,6 +792,18 @@ a.cap-card:hover .cap-card__more {
   padding: 0;
   font-size: inherit;
   color: inherit;
+}
+.install-source {
+  margin: 12px 0 0;
+  font-size: 0.92rem;
+}
+.install-source a {
+  font-weight: 600;
+}
+.install-source-path {
+  color: var(--muted);
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.82em;
 }
 .file-list {
   list-style: none;
@@ -1702,7 +1715,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 </style>
 <script src="../../../commons/catalog-nav.js?v=foundry-10"></script>
 </head>
-<body data-nav-prefix="../../../" data-nav-current="skills" data-nav-site-base="../../../../../abd-works-website/">
+<body data-nav-prefix="../../../" data-nav-current="skills" data-nav-site-base="https://abd.works/">
 <main id="main-content">
 
 <div class="page-hero page-hero--detail">
@@ -1738,15 +1751,18 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <h3>2. Generate</h3>
 <p>Read every file in <strong><code>rules/</code></strong>; author to those rules.</p>
 <p><strong>Produce output from every template:</strong></p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td><code>templates/initial-ia.md</code></td><td>Structured spec: scope, source paths, screens (regions, content types, actions, stories, domain terms), transitions, navigational components, content-type details.</td></tr></tbody></table></div>
-<p><strong>Method (13-step build):</strong></p>
-<p>1. Resolve inputs: story map, scope filter, Domain Language file. 2. Filter story map by scope; read the Domain Language. 3. Identify screens by tab state (N tabs = N screens). Check ~4 story budget per screen. 4. Walk every story — produce a <strong>story trace table</strong> (story → screen → region → action/trigger). Every cell must be filled before proceeding. 5. Walk every in-scope domain term — produce a <strong>domain term trace table</strong> (term → appears as → on screen → in region). 6. Identify transitions with labeled triggers. 7. Identify navigational components in UX terms. 8. Identify content types with hierarchy, collections, key actions. 9. Lay out content per screen as rows (representative data rows + verb row), not prose. 10. Draft labels and tags. 11. Author <code>docs/ux/initial-ia.md</code> from the template. 12. Run the completeness test from <code>rules/tab-states-and-domain-traceability.md</code> — fix gaps before touching the canvas. 13. Choose output mode (Mode A: <code>drawio-ux</code> CLI; Mode B: filled prompt for external AI) and produce <code>initial-ia.drawio</code>.</p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td><code>templates/initial-ia.md</code></td><td>Structured spec: scope, source paths, screen flow map, screens (regions, content types, actions, stories, domain terms), transitions, navigational components, content-type details.</td></tr></tbody></table></div>
+<p><strong>Method (14-step build):</strong></p>
+<p>1. Resolve inputs: story map, scope filter, Domain Language file. 2. Filter story map by scope; read the Domain Language. 3. Identify screens by tab state (N tabs = N screens). Check ~4 story budget per screen. 4. Walk every story — produce a <strong>story trace table</strong> (story → screen → region → action/trigger). Every cell must be filled before proceeding. 5. Walk every in-scope domain term — produce a <strong>domain term trace table</strong> (term → appears as → on screen → in region). 6. Identify transitions with labeled triggers. 7. Identify navigational components in UX terms. 8. Identify content types with hierarchy, collections, key actions. 9. Lay out content per screen as rows (representative data rows + verb row), not prose. 10. Draft labels and tags. 11. Author the <strong>Screen flow — complete connection map</strong> section of <code>docs/ux/initial-ia.md</code>: one ASCII block showing navigation components (drawer nav, secondary nav, etc.) then each screen → [type] action → destination screen, using the format in <code>templates/initial-ia.md</code>. 12. Author the rest of <code>docs/ux/initial-ia.md</code> from the template. 13. Run the completeness test from <code>rules/tab-states-and-domain-traceability.md</code> — fix gaps before touching the canvas. 14. Choose output mode (Mode A: <code>drawio-ux</code> CLI; Mode B: filled prompt for external AI) and produce <code>initial-ia.drawio</code>. The CLI <code>save</code> command always writes <strong>two pages</strong>: Page 1 — Detailed IA (full screen layouts); Page 2 — Site Map (one box per screen, arrows only).</p>
 <p><strong>CLI (Mode A — from skill&#x27;s scripts/):</strong></p>
 <pre><code>node scripts/drawio-ux.mjs open docs/ux/initial-ia.drawio
 node scripts/drawio-ux.mjs add-screen &quot;screen name&quot; --layout sidebar --col 0 --row 0
 node scripts/drawio-ux.mjs add-list &quot;screen name&quot; &quot;region&quot; --slot body --fields &quot;...&quot; --actions &quot;...&quot;
 node scripts/drawio-ux.mjs connect &quot;source&quot; &quot;target&quot; --label &quot;trigger&quot;
-node scripts/drawio-ux.mjs save</code></pre>
+node scripts/drawio-ux.mjs save
+# save always produces two diagram pages:
+#   Page 1 — &quot;Detailed IA&quot;  (full screen layouts with regions and callouts)
+#   Page 2 — &quot;Site Map&quot;     (one titled box per screen, labeled connector arrows)</code></pre>
 <h3>3. Validate</h3>
 <p>Run the scanners:</p>
 <pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
@@ -1759,7 +1775,7 @@ node scripts/drawio-ux.mjs save</code></pre>
 <h2>Validate</h2>
 <p><strong>Goal:</strong> Read the saved IA as reviewers, not a second authoring pass.</p>
 <ul>
-<li><strong>Cross-artifact parity</strong> — <code>initial-ia.md</code> and <code>initial-ia.drawio</code> describe the same IA — same screens, transitions, components, content types, and actions.</li>
+<li><strong>Cross-artifact parity</strong> — <code>initial-ia.md</code> and <code>initial-ia.drawio</code> describe the same IA — same screens, transitions, components, content types, and actions. The drawio <strong>Site Map page</strong> matches the <strong>Screen flow — complete connection map</strong> section in <code>initial-ia.md</code> (same screens, same labeled arrows).</li>
 <li><strong>Every screen</strong> has a name and linked source (domain concept or story).</li>
 <li><strong>Every transition</strong> has a labeled trigger and clear direction.</li>
 <li><strong>Every navigational component</strong> is named in UX terms with what it links to.</li>

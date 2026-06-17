@@ -21,6 +21,8 @@ This skill produces a reference document by joining two kinds of input: **archit
 
 The shape of a finished reference is shown by the **filled illustrative example block at the bottom of [`templates/architecture-specification.md`](../templates/architecture-specification.md)** — a worked Error Handling mechanism complete with principles, file structure, participants, flow, walkthrough, and a tested fragment. Read it once before authoring new sections so the shape stays consistent. The skill keeps this example **inside the template** so the skill is self-contained and does not depend on any other repository or sibling skill being present.
 
+The **runnable module shape** for the template slice is in [`reference/example.ts`](../reference/example.ts) — all template files merged into one parameterized TypeScript file (shared, server, client tiers). The AI Garden catalog uses this file as the skill hero preview, not a class diagram.
+
 ## Outputs
 
 The reference document this skill produces is **not** stored under this skill. It is written into the **target project** (or under the implementation skill that will consume it) as a single file:

@@ -4,7 +4,8 @@
 
   var FILTER_KEY = 'abd-foundry-skill-nav-filter';
   var STAGE_FILTER_KEY = 'abd-foundry-skill-nav-stage-filter';
-  var SKILLS_EXPANDED_KEY = 'abd-foundry-skill-page-skills-expanded';
+  var SKILLS_EXPANDED_KEY_SKILL = 'abd-foundry-skill-page-skills-expanded';
+  var SKILLS_EXPANDED_KEY_HUB = 'abd-foundry-hub-skills-expanded';
   var CROSSCUT_KEY = 'abd-foundry-skill-nav-crosscut';
   var KANBAN_SCROLL_PARAM = 'kanbanScroll';
 
@@ -106,13 +107,21 @@
     } catch (err) {}
   }
 
+  function isHubKanban() {
+    return !surface.getAttribute('data-initial-family');
+  }
+
+  function skillsExpandedStorageKey() {
+    return isHubKanban() ? SKILLS_EXPANDED_KEY_HUB : SKILLS_EXPANDED_KEY_SKILL;
+  }
+
   function readSkillsExpandedPref() {
-    try { return window.sessionStorage.getItem(SKILLS_EXPANDED_KEY) === '1'; }
+    try { return window.sessionStorage.getItem(skillsExpandedStorageKey()) === '1'; }
     catch (err) { return false; }
   }
 
   function saveSkillsExpandedPref(expanded) {
-    try { window.sessionStorage.setItem(SKILLS_EXPANDED_KEY, expanded ? '1' : '0'); }
+    try { window.sessionStorage.setItem(skillsExpandedStorageKey(), expanded ? '1' : '0'); }
     catch (err) {}
   }
 
@@ -333,7 +342,7 @@
     if (!board) return;
     var famRows = FAMILY_ROW_ORDER.map(function (family) {
       if (skillsExpanded) return ROW_H;
-      if (selectedFamilies.size === 0) return ROW_H;
+      if (selectedFamilies.size === 0) return ZERO_ROW;
       return selectedFamilies.has(family) ? ROW_H : ZERO_ROW;
     });
     var stageGap = ZERO_ROW;
@@ -345,7 +354,7 @@
       } else {
         otherTracks = [ROW_H, ZERO_ROW, ZERO_ROW];
       }
-    } else if (selectedFamilies.size === 0 || selectedFamilies.has('other')) {
+    } else if (selectedFamilies.has('other')) {
       otherTracks = [ROW_H, ZERO_ROW, ZERO_ROW];
     }
     board.style.gridTemplateRows = [

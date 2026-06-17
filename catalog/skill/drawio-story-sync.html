@@ -23,15 +23,15 @@
 <style>
 
 /*
-  ABD Foundry — catalog prelude + gardener lesson fragment.
+  Agile Garden — AI Garden prelude + gardener lesson fragment.
   Inlined via generate_abd_catalog.py. Max border-radius 6px; flat surfaces.
-  Brand split: --accent (#E5531A) for column chrome / rails; --ai-accent on dense
-  mono skill links (engineering mode only — executive overrides in catalog.css).
+  Brand split: orange-500 (#E5531A) for column chrome / rails; ai-blue (#4FC3F7 / #81D4FA)
+  on dense mono skill links — see abd-works-brand BRAND-GUIDELINES §3.1 (ai-blue-500).
 */
 .catalog-prelude {
   margin: 0 0 24px;
   padding: 0 0 20px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #2A2A2A;
 }
 .catalog-prelude-heading {
   margin: 0 0 12px;
@@ -40,7 +40,7 @@
   color: var(--text);
   line-height: 1.25;
   padding-bottom: 8px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #2A2A2A;
   scroll-margin-top: 48px;
 }
 .catalog-prelude-tagline {
@@ -56,9 +56,9 @@
   margin: 0 0 18px;
 }
 .catalog-mission-card {
-  background: var(--raised);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
+  background: #1B1B20;
+  border: 1px solid #2A2A2A;
+  border-left: 3px solid #E5531A;
   border-radius: 4px;
   padding: 14px 20px;
   display: flex;
@@ -70,7 +70,7 @@
   flex-shrink: 0;
   font-size: 0.95rem;
   font-weight: 700;
-  color: var(--text);
+  color: #F4F4F5;
   margin: 0;
   white-space: nowrap;
 }
@@ -84,14 +84,14 @@
 .catalog-mission-card--teal,
 .catalog-mission-card--amber,
 .catalog-mission-card--purple {
-  background: var(--raised);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
+  background: #1B1B20;
+  border: 1px solid #2A2A2A;
+  border-left: 3px solid #E5531A;
 }
 .catalog-mission-card--teal h3,
 .catalog-mission-card--amber h3,
 .catalog-mission-card--purple h3 {
-  color: var(--text);
+  color: #F4F4F5;
 }
 @media (max-width: 720px) {
   .catalog-mission { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -108,17 +108,17 @@
   gap: 10px;
   padding: 8px 0 10px;
   margin: 24px 0 12px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #2A2A2A;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: #E5531A;
 }
 .catalog-section-label--foundational {
   margin-top: 28px;
-  color: var(--muted);
-  border-bottom-color: var(--border-muted);
+  color: #8A8A97;
+  border-bottom-color: #1A1A1E;
 }
 
 /* ── Practice grid — all 5 disciplines forced onto one row ── */
@@ -126,8 +126,8 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
   border-radius: 6px;
   overflow: hidden;
   margin: 0;
@@ -144,8 +144,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
   border-radius: 6px;
   overflow: hidden;
 }
@@ -171,7 +171,7 @@
   display: block !important;
   font-size: 0.82rem;
   line-height: 1.5;
-  color: var(--muted);
+  color: #9B9BA8;
 }
 
 /* ── Agents grid — single wide column ── */
@@ -179,15 +179,15 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
   border-radius: 6px;
   overflow: hidden;
 }
 .catalog-section-label--agents {
   margin-top: 28px;
-  color: var(--accent);
-  border-bottom-color: var(--border);
+  color: #E5531A;
+  border-bottom-color: #2A2A2A;
 }
 
 /* ── Shared column card ── */
@@ -212,7 +212,7 @@
   margin-top: 0;
 }
 .catalog-garden-col {
-  background: var(--surface);
+  background: #111113;
   border: none;
   border-radius: 0;
   overflow: hidden;
@@ -226,17 +226,17 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  border-bottom: 1px solid var(--border);
-  background: var(--raised);
-  color: var(--accent);
-  border-left: 3px solid var(--accent);
+  border-bottom: 1px solid #2A2A2A;
+  background: #1B1B20;
+  color: #E5531A;
+  border-left: 3px solid #E5531A;
 }
 .catalog-garden-col-header--practice,
 .catalog-garden-col-header--foundational,
 .catalog-garden-col-header--agents {
-  background: var(--raised);
-  color: var(--accent);
-  border-left: 3px solid var(--accent);
+  background: #1B1B20;
+  color: #E5531A;
+  border-left: 3px solid #E5531A;
 }
 .catalog-garden-ico { flex-shrink: 0; display: block; }
 .catalog-garden-row {
@@ -244,11 +244,11 @@
   align-items: center;
   gap: 10px;
   padding: 6px 16px;
-  border-bottom: 1px solid var(--border-muted);
+  border-bottom: 1px solid #1A1A1E;
   font-size: 0.85rem;
 }
 .catalog-garden-row:last-child { border-bottom: none; }
-/* Skill/agent links — mono names; ai-accent on dark (engineering mode) */
+/* Skill/agent links — mono names stay near-white; ai-blue hairline/hover (brand AI accent, not orange wall) */
 .catalog-garden-name {
   font-weight: 700;
   font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
@@ -256,11 +256,12 @@
   min-width: 0;
   overflow-wrap: anywhere;
   word-break: break-word;
-  color: var(--ai-accent);
+  color: #4FC3F7;
 }
+/* !important beats global `a { … }`, :visited, and concatenation order */
 .catalog-prelude .catalog-garden-name a,
 .catalog-garden-lists .catalog-garden-name a {
-  color: var(--ai-accent) !important;
+  color: #4FC3F7 !important;
   font-weight: 700 !important;
   text-decoration: none !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
@@ -269,19 +270,19 @@
 .catalog-prelude .catalog-garden-name a:focus-visible,
 .catalog-garden-lists .catalog-garden-name a:hover,
 .catalog-garden-lists .catalog-garden-name a:focus-visible {
-  color: var(--ai-accent-soft) !important;
+  color: #81D4FA !important;
   border-bottom-color: rgba(79, 195, 247, 0.95);
 }
 .catalog-garden-name--agent a,
 .catalog-garden-name--foundational a {
-  color: var(--ai-accent) !important;
+  color: #4FC3F7 !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
 }
 .catalog-garden-name--agent a:hover,
 .catalog-garden-name--agent a:focus-visible,
 .catalog-garden-name--foundational a:hover,
 .catalog-garden-name--foundational a:focus-visible {
-  color: var(--ai-accent-soft) !important;
+  color: #81D4FA !important;
   border-bottom-color: rgba(79, 195, 247, 0.92);
 }
 .catalog-garden-name--dim {
@@ -804,6 +805,18 @@ a.cap-card:hover .cap-card__more {
   padding: 0;
   font-size: inherit;
   color: inherit;
+}
+.install-source {
+  margin: 12px 0 0;
+  font-size: 0.92rem;
+}
+.install-source a {
+  font-weight: 600;
+}
+.install-source-path {
+  color: var(--muted);
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.82em;
 }
 .file-list {
   list-style: none;
@@ -4874,6 +4887,10 @@ html[data-theme="engineering"] .foundry-kanban-surface {
   max-height: 32em;
   margin-top: 8px;
 }
+.foundry-guide__body.is-expanding.is-tall {
+  max-height: min(62em, 72vh);
+  overflow-y: auto;
+}
 .foundry-guide__body.is-revealed {
   opacity: 1;
   transform: translateY(0);
@@ -5014,6 +5031,57 @@ html[data-theme="engineering"] .foundry-kanban-surface {
 .foundry-guide__executable-row--arc .foundry-guide__executable-name { color: var(--fam-arc); }
 
 .foundry-guide__executable-desc { flex: 1; color: var(--text); }
+
+.foundry-guide__change-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.foundry-guide__change-row {
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.foundry-guide__change-row--sdd { border-left: 3px solid var(--fam-sdd); }
+.foundry-guide__change-row--ddd { border-left: 3px solid var(--fam-ddd); }
+.foundry-guide__change-row--uxd { border-left: 3px solid var(--fam-uxd); }
+.foundry-guide__change-row--arc { border-left: 3px solid var(--fam-arc); }
+.foundry-guide__change-row--team { border-left: 3px solid var(--fam-delivery); }
+
+.foundry-guide__change-name {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.foundry-guide__change-row--sdd .foundry-guide__change-name { color: var(--fam-sdd); }
+.foundry-guide__change-row--ddd .foundry-guide__change-name { color: var(--fam-ddd); }
+.foundry-guide__change-row--uxd .foundry-guide__change-name { color: var(--fam-uxd); }
+.foundry-guide__change-row--arc .foundry-guide__change-name { color: var(--fam-arc); }
+.foundry-guide__change-row--team .foundry-guide__change-name { color: var(--fam-delivery); }
+
+.foundry-guide__change-bullets {
+  margin: 0;
+  padding: 0 0 0 16px;
+  color: var(--text);
+}
+
+.foundry-guide__change-bullets li {
+  margin-bottom: 4px;
+}
+
+.foundry-guide__change-bullets li:last-child {
+  margin-bottom: 0;
+}
 
 @media (max-width: 720px) {
   .foundry-guide__scale { grid-template-columns: repeat(2, 1fr); }
@@ -5224,8 +5292,8 @@ html[data-theme="engineering"] .foundry-kanban-surface {
   grid-template-rows: auto repeat(4, var(--foundry-skill-row-h)) var(--foundry-stage-skills-gap-h) repeat(var(--foundry-stage-skill-rows), var(--foundry-skill-row-h));
 }
 .foundry-kanban-surface.foundry-skills-collapsed .foundry-board-grid {
-  /* Keep practice-rail family row tracks; clip stage-other rows when collapsed. */
-  grid-template-rows: auto repeat(4, var(--foundry-skill-row-h)) 0px var(--foundry-skill-row-h) 0px 0px;
+  /* Collapsed idle: zero family row tracks; JS refines when filter active or expanded. */
+  grid-template-rows: auto 0px 0px 0px 0px 0px 0px 0px 0px;
 }
 .foundry-kanban-surface--supporting-only .foundry-skills-extra {
   grid-template-rows: 1fr;
@@ -5395,10 +5463,27 @@ html.foundry-scroll-pending {
 .foundry-kanban-surface.foundry-skills-collapsed.foundry-skill-filter-active:not(.foundry-skill-filter-other) .foundry-practice-col__other-practices {
   display: none !important;
 }
-.foundry-kanban-surface.foundry-skills-collapsed .foundry-practice-col__card,
-.foundry-kanban-surface.foundry-skills-collapsed .foundry-practice-col .foundry-family-toggle,
-.foundry-kanban-surface.foundry-skills-collapsed .foundry-practice-col__other-practices,
-.foundry-kanban-surface.foundry-skills-collapsed .foundry-practice-col__other-practices .foundry-family-toggle {
+/* Collapsed idle: hide practice-rail families — only Skills toggle stays visible */
+.foundry-kanban-surface.foundry-skills-collapsed.foundry-skill-filter-idle .foundry-practice-col__card,
+.foundry-kanban-surface.foundry-skills-collapsed.foundry-skill-filter-idle .foundry-practice-col .foundry-family-toggle,
+.foundry-kanban-surface.foundry-skills-collapsed.foundry-skill-filter-idle .foundry-practice-col__other-practices,
+.foundry-kanban-surface.foundry-skills-collapsed.foundry-skill-filter-idle .foundry-practice-col__other-practices .foundry-family-toggle,
+.foundry-kanban-surface.foundry-skills-collapsed.foundry-skill-filter-idle .foundry-practice-col__stage-spacer {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  overflow: hidden;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Expanded: show all practice-rail family chips */
+.foundry-kanban-surface.foundry-skills-expanded .foundry-practice-col__card,
+.foundry-kanban-surface.foundry-skills-expanded .foundry-practice-col .foundry-family-toggle,
+.foundry-kanban-surface.foundry-skills-expanded .foundry-practice-col__other-practices,
+.foundry-kanban-surface.foundry-skills-expanded .foundry-practice-col__other-practices .foundry-family-toggle {
   opacity: 1 !important;
   pointer-events: auto !important;
   visibility: visible !important;
@@ -5406,6 +5491,15 @@ html.foundry-scroll-pending {
   min-width: 0;
   max-width: 100%;
   box-sizing: border-box;
+}
+
+/* Collapsed focus mode: ticked families stay visible in the practice rail */
+.foundry-kanban-surface.foundry-skills-collapsed.foundry-skill-filter-active .foundry-practice-col .foundry-family-toggle.is-selected,
+.foundry-kanban-surface.foundry-skills-collapsed.foundry-skill-filter-active .foundry-practice-col__other-practices .foundry-family-toggle.is-selected {
+  display: flex !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  visibility: visible !important;
 }
 
 /* Board row grid slots — explicit subgrid slots keep stage columns aligned */
@@ -5928,9 +6022,6 @@ html.foundry-scroll-pending {
   gap: 0 6px;
   margin: 8px 6px 0;
 }
-.foundry-kanban-surface.foundry-skills-collapsed .kanban-stage-questions {
-  display: none;
-}
 .kanban-stage-questions--foundry .kanban-stage-questions__list {
   list-style: none;
   margin: 0;
@@ -6024,7 +6115,7 @@ html.foundry-scroll-pending {
 
 </head>
 
-<body data-nav-prefix="../" data-nav-current="skills" data-nav-site-base="../../../abd-works-website/">
+<body data-nav-prefix="../" data-nav-current="skills" data-nav-site-base="https://abd.works/">
 
 <!-- nav + footer injected by catalog-nav.js -->
 
@@ -6116,7 +6207,7 @@ html.foundry-scroll-pending {
     The map answers four questions in order: Why are we doing this? Who can help or hinder? How should behaviour change? What could we do to support that change? Good maps surface assumptions, limit scope creep by tying ideas to impacts, and support shared ownership when business and delivery build them together.</span></span></span></a>
           </div>
           <div class="aad-skill-row aad-fam-arc" data-family="architecture-centric-engineering">
-            <a class="kb-ticket aad-skill aad-fam-arc has-skill-tooltip" data-id="tk-architecture-centric-engineering-shaping-abd-architecture-outline" data-perspective="arc" data-stage="shaping" data-skill-href="abd-architecture-outline.html" href="abd-architecture-outline.html?stage=shaping"><span class="kb-skill-tooltip-wrap">architecture outline<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture outline</span><span class="kb-col-shape-tooltip__bullets">A team that cannot describe every element of its system cannot agree on what to build next. Outlines fix that. This skill produces the first architecture artifact for a system: two element-inventory markdown files (one per diagram), two draw.io diagrams built from those inventories, and a consolidated outline document that brings them together with a mechanisms catalogue, guiding principles, tech stack, major systems, and ADRs. Engineers, product, and stakeholders share a single auditable picture of the layers, the neighbours and protocols, each system&#x27;s functions and platform technology, the mechanism commitments, and the decisions behind them. When the outline is in place, deeper architecture work (blueprint, reference) can start without re-litigating what the system is or what mechanisms it commits to.</span></span></span></a>
+            <a class="kb-ticket aad-skill aad-fam-arc has-skill-tooltip" data-id="tk-architecture-centric-engineering-shaping-abd-architecture-outline" data-perspective="arc" data-stage="shaping" data-skill-href="abd-architecture-outline.html" href="abd-architecture-outline.html?stage=shaping"><span class="kb-skill-tooltip-wrap">architecture outline<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture outline</span><span class="kb-col-shape-tooltip__bullets">A team that cannot describe every element of its system cannot agree on what to build next. Outlines fix that. This skill produces the first architecture artifact for a system: a system context element-inventory markdown file, a draw.io diagram built from that inventory, and a consolidated outline document that brings them together with a mechanisms catalogue, guiding principles, tech stack, major systems, and ADRs. Engineers, product, and stakeholders share a single auditable picture of the neighbours and protocols, each system&#x27;s functions and platform technology, the mechanism commitments, and the decisions behind them. When the outline is in place, deeper architecture work (blueprint, reference) can start without re-litigating what the system is or what mechanisms it commits to.</span></span></span></a>
           </div>
           <div class="aad-stage-skills-gap" aria-hidden="true"></div>
           <div class="aad-skill-row aad-skill-row--stage-other" data-family="other">
@@ -6159,7 +6250,7 @@ html.foundry-scroll-pending {
             <a class="kb-ticket aad-skill aad-fam-uxd has-skill-tooltip" data-id="tk-user-experience-design-discovery-abd-information-architecture" data-perspective="uxd" data-stage="discovery" data-skill-href="abd-ux-information-architecture.html" href="abd-ux-information-architecture.html?stage=discovery"><span class="kb-skill-tooltip-wrap">information architecture<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">information architecture</span><span class="kb-col-shape-tooltip__bullets">Doing IA work early — before detailed design or development — flushes out gaps in functional and domain understanding, surfaces disagreements about scope, naming, and navigation when they are cheap to resolve, and gives the team a concrete picture to challenge and confirm before committing to wireframes or implementation. Functional requirements and stories written against a named screen inventory and content model become more precise: they reference agreed surfaces by name, missing coverage shows up as absent nodes, and edge-case states are identified before anyone has built against the wrong assumption.</span></span></span></a>
           </div>
           <div class="aad-skill-row aad-fam-arc" data-family="architecture-centric-engineering">
-            <a class="kb-ticket aad-skill aad-fam-arc has-skill-tooltip" data-id="tk-architecture-centric-engineering-discovery-abd-architecture-blueprint" data-perspective="arc" data-stage="discovery" data-skill-href="abd-architecture-blueprint.html" href="abd-architecture-blueprint.html?stage=discovery"><span class="kb-skill-tooltip-wrap">architecture blueprint<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture blueprint</span><span class="kb-col-shape-tooltip__bullets">The outline answers &quot;what is this system, what does it commit to mechanistically, and why?&quot; — the blueprint answers &quot;what does it actually run as and what is it made of?&quot;. It is the document a tech lead opens to see the full platform runtime, the deployment environments, how components are laid out and interact, and how each mechanism from the outline plays out in terms of specific components, platform infrastructure, and runtime behaviour. When the blueprint is in place, the architecture reference can go deep on one mechanism at a time without re-explaining the platform or the component landscape to its reader.</span></span></span></a>
+            <a class="kb-ticket aad-skill aad-fam-arc has-skill-tooltip" data-id="tk-architecture-centric-engineering-discovery-abd-architecture-blueprint" data-perspective="arc" data-stage="discovery" data-skill-href="abd-architecture-blueprint.html" href="abd-architecture-blueprint.html?stage=discovery"><span class="kb-skill-tooltip-wrap">architecture blueprint<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture blueprint</span><span class="kb-col-shape-tooltip__bullets">Architecture documents often describe what a system is without saying what it means to write code against it. This skill makes architecture legible for the whole team: every mechanism names the constraint it places on code, every module states its business scope and dependencies, diagrams show how requests flow through the mechanisms at runtime, and the testing flow diagram shows which layers each test tier actually exercises.</span></span></span></a>
           </div>
           <div class="aad-stage-skills-gap" aria-hidden="true"></div>
           <div class="aad-skill-row aad-skill-row--stage-other" data-family="other">
@@ -6266,7 +6357,9 @@ html.foundry-scroll-pending {
 
           </div>
           <div class="aad-skill-row aad-fam-arc" data-family="architecture-centric-engineering">
-            <a class="kb-ticket aad-skill aad-fam-arc has-skill-tooltip" data-id="tk-architecture-centric-engineering-engineering-abd-architecture-code" data-perspective="arc" data-stage="engineering" data-skill-href="abd-architecture-code.html" href="abd-architecture-code.html?stage=engineering"><span class="kb-skill-tooltip-wrap">architecture code<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture code</span><span class="kb-col-shape-tooltip__bullets">Given a named architecture spec and story scope with domain context, generate acceptance tests then production code that follows the spec&#x27;s instructions, templates, file layout, and rules. Use when writing code for a story that has a named spec, adding a feature module to an existing codebase, or reviewing generated code for architecture compliance.</span></span></span></a>
+            <a class="kb-ticket aad-skill aad-fam-arc has-skill-tooltip" data-id="tk-architecture-centric-engineering-engineering-abd-architecture-code" data-perspective="arc" data-stage="engineering" data-skill-href="abd-architecture-code.html" href="abd-architecture-code.html?stage=engineering"><span class="kb-skill-tooltip-wrap">architecture code<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture code</span><span class="kb-col-shape-tooltip__bullets">Given a named architecture spec and story scope with domain context, generate acceptance tests then production code that follows the spec&#x27;s instructions, templates, file layout, and rules. Use when writing code for a story that has a named spec, adding a feature module to an existing codebase, or reviewing generated code for architecture compliance.
+
+    The companion abd-architecture-specification skill shows the parameterized template shape; this skill shows filled-in output — see reference/example.ts for a concrete Recipients module merged from mern-domain-first-specification.</span></span></span></a>
           </div>
           <div class="aad-stage-skills-gap" aria-hidden="true"></div>
           <div class="aad-skill-row aad-skill-row--stage-other" data-family="other">
@@ -6351,9 +6444,13 @@ html.foundry-scroll-pending {
 
         Every DDD building block — Entity, Value Object, Aggregate, Service, Domain Event — looks technical but exposes a question only the business can answer. This skill models these elements by understanding business requirements for identity semantics, consistency boundaries, immutability guarantees, and integration contracts across business concepts and systems.</span></span></span></a>
                 <a class="kb-ticket aad-skill aad-fam-ddd has-skill-tooltip" href="abd-domain-walk.html"><span class="kb-skill-tooltip-wrap">domain walk<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">domain walk</span><span class="kb-col-shape-tooltip__bullets">Walk concrete scenarios through the typed Class Model (or domain model where the Class Model is not yet built). Each step must map to a class and an operation from the prior phase&#x27;s file. When a step crosses a state change or must respect a guard, align with the invariants and interactions captured upstream. If a step has no owner, record a gap and revise upstream artifacts.</span></span></span></a>
-                <a class="kb-ticket aad-skill aad-fam-ddd has-skill-tooltip" href="drawio-domain-sync.html"><span class="kb-skill-tooltip-wrap">drawio domain sync<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">drawio domain sync</span><span class="kb-col-shape-tooltip__bullets">This skill turns any domain model artifact — a Domain Language, Domain Model, or Domain Specification — into a Draw.io class diagram the whole team can read, annotate, and edit. Each Key Abstraction in the source file becomes its own page in the diagram, keeping visual scope manageable and per-abstraction structure clear. When the team edits the diagram in Draw.io, the skill syncs those changes back to the source model file, so diagram and text never drift apart.
+                <a class="kb-ticket aad-skill aad-fam-ddd has-skill-tooltip" href="drawio-domain-sync.html"><span class="kb-skill-tooltip-wrap">drawio domain sync<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">drawio domain sync</span><span class="kb-col-shape-tooltip__bullets">This skill turns any domain model artifact — a Domain Language, Domain Model, or Domain Specification — into a Draw.io class diagram the whole team can read, annotate, and edit.
 
-        Positioning and layout are AI-driven: the agent reads the source, reasons about class relationships and inheritance chains, and places elements where the diagram reads best. There are no fixed grid scripts to run.</span></span></span></a>
+        Default mode: per-KA tabs. Each Key Abstraction gets its own tab/page. Boundary classes (directly connected classes from other KAs) appear as dashed-border context, but only supertypes — a base class does not pull in subtypes from other KAs. This keeps each tab focused and readable.
+
+        Full-page mode (optional): When the user explicitly requests a single-page diagram (e.g. --full), all KAs render on one page. This is the exception, not the default.
+
+        When the team edits the diagram in Draw.io, the skill syncs those changes back to the source model file, so diagram and text never drift apart.</span></span></span></a>
               </div>
             </div>
             <div class="aad-delivery-crosscut-row aad-crosscut-tier--practice" data-crosscut-group="story-driven-delivery" data-family="story-driven-delivery">
@@ -6444,6 +6541,7 @@ html.foundry-scroll-pending {
   <h2 id="install-npx-heading">Install with npx</h2>
   <p class="install-hint">Install this package from <a href="https://github.com/abd-works/abd-skills">https://github.com/abd-works/abd-skills</a> into your project or global agent skills directory (see <a href="https://skills.sh/">skills.sh</a> / Open Agent Skills).</p>
   <pre class="install-snippet"><code>npx skills add abd-works/abd-skills@drawio-story-sync -y</code></pre>
+  <p class="install-source"><a href="https://github.com/abd-works/abd-skills/tree/main/practices/story-driven-delivery/skills/supporting/drawio-story-sync" target="_blank" rel="noopener noreferrer">View source</a> <span class="install-source-path">practices/story-driven-delivery/skills/supporting/drawio-story-sync</span></p>
 </section>
 
 
@@ -6457,8 +6555,8 @@ html.foundry-scroll-pending {
 
 </main>
 
-<script src="../commons/catalog-foundry-tour.js?v=foundry-21"></script>
-<script src="../commons/catalog-foundry-skill-nav.js?v=foundry-28"></script>
+<script src="../commons/catalog-foundry-tour.js?v=foundry-36"></script>
+<script src="../commons/catalog-foundry-skill-nav.js?v=foundry-29"></script>
 
 </body>
 

@@ -10,15 +10,15 @@
 <link rel="stylesheet" href="../../../../commons/site.css?v=foundry-3">
 <style>
 /*
-  ABD Foundry — catalog prelude + gardener lesson fragment.
+  Agile Garden — AI Garden prelude + gardener lesson fragment.
   Inlined via generate_abd_catalog.py. Max border-radius 6px; flat surfaces.
-  Brand split: --accent (#E5531A) for column chrome / rails; --ai-accent on dense
-  mono skill links (engineering mode only — executive overrides in catalog.css).
+  Brand split: orange-500 (#E5531A) for column chrome / rails; ai-blue (#4FC3F7 / #81D4FA)
+  on dense mono skill links — see abd-works-brand BRAND-GUIDELINES §3.1 (ai-blue-500).
 */
 .catalog-prelude {
   margin: 0 0 24px;
   padding: 0 0 20px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #2A2A2A;
 }
 .catalog-prelude-heading {
   margin: 0 0 12px;
@@ -27,7 +27,7 @@
   color: var(--text);
   line-height: 1.25;
   padding-bottom: 8px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #2A2A2A;
   scroll-margin-top: 48px;
 }
 .catalog-prelude-tagline {
@@ -43,9 +43,9 @@
   margin: 0 0 18px;
 }
 .catalog-mission-card {
-  background: var(--raised);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
+  background: #1B1B20;
+  border: 1px solid #2A2A2A;
+  border-left: 3px solid #E5531A;
   border-radius: 4px;
   padding: 14px 20px;
   display: flex;
@@ -57,7 +57,7 @@
   flex-shrink: 0;
   font-size: 0.95rem;
   font-weight: 700;
-  color: var(--text);
+  color: #F4F4F5;
   margin: 0;
   white-space: nowrap;
 }
@@ -71,14 +71,14 @@
 .catalog-mission-card--teal,
 .catalog-mission-card--amber,
 .catalog-mission-card--purple {
-  background: var(--raised);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
+  background: #1B1B20;
+  border: 1px solid #2A2A2A;
+  border-left: 3px solid #E5531A;
 }
 .catalog-mission-card--teal h3,
 .catalog-mission-card--amber h3,
 .catalog-mission-card--purple h3 {
-  color: var(--text);
+  color: #F4F4F5;
 }
 @media (max-width: 720px) {
   .catalog-mission { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -95,17 +95,17 @@
   gap: 10px;
   padding: 8px 0 10px;
   margin: 24px 0 12px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #2A2A2A;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: #E5531A;
 }
 .catalog-section-label--foundational {
   margin-top: 28px;
-  color: var(--muted);
-  border-bottom-color: var(--border-muted);
+  color: #8A8A97;
+  border-bottom-color: #1A1A1E;
 }
 
 /* ── Practice grid — all 5 disciplines forced onto one row ── */
@@ -113,8 +113,8 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
   border-radius: 6px;
   overflow: hidden;
   margin: 0;
@@ -131,8 +131,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
   border-radius: 6px;
   overflow: hidden;
 }
@@ -158,7 +158,7 @@
   display: block !important;
   font-size: 0.82rem;
   line-height: 1.5;
-  color: var(--muted);
+  color: #9B9BA8;
 }
 
 /* ── Agents grid — single wide column ── */
@@ -166,15 +166,15 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
   border-radius: 6px;
   overflow: hidden;
 }
 .catalog-section-label--agents {
   margin-top: 28px;
-  color: var(--accent);
-  border-bottom-color: var(--border);
+  color: #E5531A;
+  border-bottom-color: #2A2A2A;
 }
 
 /* ── Shared column card ── */
@@ -199,7 +199,7 @@
   margin-top: 0;
 }
 .catalog-garden-col {
-  background: var(--surface);
+  background: #111113;
   border: none;
   border-radius: 0;
   overflow: hidden;
@@ -213,17 +213,17 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  border-bottom: 1px solid var(--border);
-  background: var(--raised);
-  color: var(--accent);
-  border-left: 3px solid var(--accent);
+  border-bottom: 1px solid #2A2A2A;
+  background: #1B1B20;
+  color: #E5531A;
+  border-left: 3px solid #E5531A;
 }
 .catalog-garden-col-header--practice,
 .catalog-garden-col-header--foundational,
 .catalog-garden-col-header--agents {
-  background: var(--raised);
-  color: var(--accent);
-  border-left: 3px solid var(--accent);
+  background: #1B1B20;
+  color: #E5531A;
+  border-left: 3px solid #E5531A;
 }
 .catalog-garden-ico { flex-shrink: 0; display: block; }
 .catalog-garden-row {
@@ -231,11 +231,11 @@
   align-items: center;
   gap: 10px;
   padding: 6px 16px;
-  border-bottom: 1px solid var(--border-muted);
+  border-bottom: 1px solid #1A1A1E;
   font-size: 0.85rem;
 }
 .catalog-garden-row:last-child { border-bottom: none; }
-/* Skill/agent links — mono names; ai-accent on dark (engineering mode) */
+/* Skill/agent links — mono names stay near-white; ai-blue hairline/hover (brand AI accent, not orange wall) */
 .catalog-garden-name {
   font-weight: 700;
   font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
@@ -243,11 +243,12 @@
   min-width: 0;
   overflow-wrap: anywhere;
   word-break: break-word;
-  color: var(--ai-accent);
+  color: #4FC3F7;
 }
+/* !important beats global `a { … }`, :visited, and concatenation order */
 .catalog-prelude .catalog-garden-name a,
 .catalog-garden-lists .catalog-garden-name a {
-  color: var(--ai-accent) !important;
+  color: #4FC3F7 !important;
   font-weight: 700 !important;
   text-decoration: none !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
@@ -256,19 +257,19 @@
 .catalog-prelude .catalog-garden-name a:focus-visible,
 .catalog-garden-lists .catalog-garden-name a:hover,
 .catalog-garden-lists .catalog-garden-name a:focus-visible {
-  color: var(--ai-accent-soft) !important;
+  color: #81D4FA !important;
   border-bottom-color: rgba(79, 195, 247, 0.95);
 }
 .catalog-garden-name--agent a,
 .catalog-garden-name--foundational a {
-  color: var(--ai-accent) !important;
+  color: #4FC3F7 !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
 }
 .catalog-garden-name--agent a:hover,
 .catalog-garden-name--agent a:focus-visible,
 .catalog-garden-name--foundational a:hover,
 .catalog-garden-name--foundational a:focus-visible {
-  color: var(--ai-accent-soft) !important;
+  color: #81D4FA !important;
   border-bottom-color: rgba(79, 195, 247, 0.92);
 }
 .catalog-garden-name--dim {
@@ -791,6 +792,18 @@ a.cap-card:hover .cap-card__more {
   padding: 0;
   font-size: inherit;
   color: inherit;
+}
+.install-source {
+  margin: 12px 0 0;
+  font-size: 0.92rem;
+}
+.install-source a {
+  font-weight: 600;
+}
+.install-source-path {
+  color: var(--muted);
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.82em;
 }
 .file-list {
   list-style: none;
@@ -1702,7 +1715,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 </style>
 <script src="../../../../commons/catalog-nav.js?v=foundry-10"></script>
 </head>
-<body data-nav-prefix="../../../../" data-nav-current="skills" data-nav-site-base="../../../../../../abd-works-website/">
+<body data-nav-prefix="../../../../" data-nav-current="skills" data-nav-site-base="https://abd.works/">
 <main id="main-content">
 
 <div class="page-hero page-hero--detail">
@@ -1720,14 +1733,9 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 
 <h2>Content</h2>
 <div class="rule-prose"><h1>{SystemName} — Architecture Outline</h1>
-<p>&gt; <strong>Status:</strong> Draft / Approved / Superseded by … &gt; <strong>Owner:</strong> {team-or-person} &gt; <strong>Last updated:</strong> YYYY-MM-DD &gt; &gt; <strong>Purpose.</strong> One-page picture of {SystemName} — what it is, what it sits next to, the platform technology each system commits to, the mechanisms that address cross-cutting concerns, and the principles that guide every deeper decision. Deployment and platform runtime detail live in the <strong>architecture blueprint</strong> linked from section 7.</p>
+<p>&gt; <strong>Status:</strong> Draft / Approved / Superseded by … &gt; <strong>Owner:</strong> {team-or-person} &gt; <strong>Last updated:</strong> YYYY-MM-DD &gt; &gt; <strong>Purpose.</strong> One-page picture of {SystemName} — what it is, what it sits next to, the platform technology each system commits to, the mechanisms that address cross-cutting concerns, and the principles that guide every deeper decision. Deployment and platform runtime detail live in the <strong>architecture blueprint</strong> linked from section 5.</p>
 <hr>
-<h2>1. Layered Architecture + Tech Stack</h2>
-<p>!<a href="./diagrams/layered-architecture.png">Layered Architecture</a></p>
-<p>&gt; Source: <a href="./diagrams/layered-architecture.drawio"><code>diagrams/layered-architecture.drawio</code></a>. Edit in draw.io Desktop and re-export with <code>scripts\arch-drawio.ps1 export</code>. &gt; Element inventory: <a href="./diagrams/layered-architecture-elements.html"><code>diagrams/layered-architecture-elements.md</code></a></p>
-<p><strong>Caption.</strong> {SystemName} is a {form factor} structured in {N} layers: {Presentation (framework · libraries)}, {Application (runtime · framework)}, {Domain — shared/ (language, zero framework imports)}, {Infrastructure (database driver, external adapters)}. Dependencies flow strictly downward; Infrastructure implements Domain interfaces and is never imported upward by name.</p>
-<hr>
-<h2>2. System Context</h2>
+<h2>1. System Context</h2>
 <p>!<a href="./diagrams/system-context.png">System Context</a></p>
 <p>&gt; Source: <a href="./diagrams/system-context.drawio"><code>diagrams/system-context.drawio</code></a>. &gt; Element inventory: <a href="./diagrams/system-context-elements.html"><code>diagrams/system-context-elements.md</code></a></p>
 <p><strong>Caption.</strong> {Two or three sentences: who uses the system, which external systems integrate, and the dominant protocol pattern across boundaries.}</p>
@@ -1743,42 +1751,42 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <p><strong>Tech:</strong> {runtime · framework} | <strong>Persistence:</strong> {database} | <strong>Libs / tools:</strong> {key libraries, observability, build}</p>
 <p><em>(One subsection per owned system. Mirror the element inventory — do not introduce systems not in the diagram.)</em></p>
 <hr>
-<h2>3. Architecture Mechanisms</h2>
+<h2>2. Architecture Mechanisms</h2>
 <p>The mechanisms below are the cross-cutting concerns the architecture commits to. Each entry states the <strong>technology or platform choice</strong>, a <strong>paragraph or two</strong> on how it works at this level, and the <strong>key non-functional requirement or justification</strong> that drove the choice. Mechanisms that are novel or context-specific to this system are included alongside the standard set.</p>
-<h3>3.1 Security</h3>
+<h3>2.1 Security</h3>
 <p><strong>Technology choice:</strong> {Auth provider / JWT / mTLS / API gateway policy / etc.}</p>
 <p>{Paragraph 1: what the mechanism protects, who controls identity, where in the request pipeline authentication and authorisation occur.}</p>
 <p>{Paragraph 2 (if warranted): key NFR or constraint that shaped this choice — e.g. compliance requirement, zero-trust policy, multi-tenancy boundary.}</p>
-<h3>3.2 Error Handling &amp; Resilience</h3>
+<h3>2.2 Error Handling &amp; Resilience</h3>
 <p><strong>Technology choice:</strong> {Result type / circuit-breaker library / retry policy / dead-letter queue / etc.}</p>
 <p>{How failures are represented and propagated. Where the boundary between domain errors and infrastructure errors lies. How the system degrades under partial failure.}</p>
 <p>{Key NFR: availability target, acceptable degradation, or recovery time objective that justifies the approach.}</p>
-<h3>3.3 Logging &amp; Observability</h3>
+<h3>2.3 Logging &amp; Observability</h3>
 <p><strong>Technology choice:</strong> {Logging library · trace provider · metrics sink — e.g. Pino + OpenTelemetry → Datadog}</p>
 <p>{What is captured, at what level, and how correlation IDs cross system boundaries. Whether structured or unstructured log output.}</p>
 <p>{Key NFR: MTTR target, audit requirement, or regulatory constraint that drove the choice.}</p>
-<h3>3.4 Validation</h3>
+<h3>2.4 Validation</h3>
 <p><strong>Technology choice:</strong> {Schema library · validation framework — e.g. Zod, Joi, Bean Validation, Pydantic}</p>
 <p>{Where validation runs (edge vs domain), what it protects against, and how validation failures surface to callers.}</p>
-<h3>3.5 Configuration &amp; Secrets</h3>
+<h3>2.5 Configuration &amp; Secrets</h3>
 <p><strong>Technology choice:</strong> {Config source — e.g. AWS Secrets Manager · Vault · environment variables via dotenv}</p>
 <p>{When config is read (startup vs runtime), how secrets are rotated, and what code is and is not allowed to read <code>process.env</code> / equivalent directly.}</p>
-<h3>3.6 Caching</h3>
+<h3>2.6 Caching</h3>
 <p><strong>Technology choice:</strong> {Cache technology and pattern — e.g. Redis write-through, in-process LRU, CDN edge cache}</p>
 <p>{What is cached, for how long, and how cache invalidation is handled. Any consistency guarantees or explicitly accepted staleness.}</p>
 <p>{Key NFR: latency budget or throughput target that makes caching necessary.}</p>
-<h3>3.7 Persistence</h3>
+<h3>2.7 Persistence</h3>
 <p><strong>Technology choice:</strong> {Database technology and access pattern — e.g. PostgreSQL via repository pattern, DynamoDB single-table}</p>
 <p>{How data ownership boundaries are enforced, how cross-aggregate consistency is handled, and whether the system uses an outbox or saga pattern.}</p>
-<h3>3.8 Communication</h3>
+<h3>2.8 Communication</h3>
 <p><strong>Technology choice:</strong> {Synchronous: REST / gRPC / GraphQL. Async: AMQP broker / Kafka / SNS+SQS / etc.}</p>
 <p>{How systems and components communicate — synchronous protocols for reads and writes, async messaging for events and long-running processes. Contract versioning approach if any.}</p>
-<h3>3.{N} {Bespoke Mechanism Name} <em>(if applicable)</em></h3>
+<h3>2.{N} {Bespoke Mechanism Name} <em>(if applicable)</em></h3>
 <p><strong>Technology choice:</strong> {Named tool, library, or platform capability}</p>
 <p>{1–2 paragraphs: what problem this addresses that the standard mechanisms do not, and the NFR or constraint that makes it necessary in this specific context.}</p>
 <p><em>(Add one subsection per additional novel or bespoke mechanism. Remove this placeholder when none is needed.)</em></p>
 <hr>
-<h2>4. Guiding Principles</h2>
+<h2>3. Guiding Principles</h2>
 <p>The principles below are the one-sentence stances that govern every deeper architectural decision. Each one is decidable against a real piece of code or a design proposal.</p>
 <ul>
 <li><strong>Domain never imports infrastructure.</strong> Domain classes depend on interfaces; concrete database / HTTP / message-bus types are referenced only from the Infrastructure layer.</li>
@@ -1791,17 +1799,17 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 </ul>
 <p><em>(Keep 5–10 principles. Each one must be one sentence, must be decidable, and must name what it constrains.)</em></p>
 <hr>
-<h2>5. Technology Stack</h2>
+<h2>4. Technology Stack</h2>
 <div class="md-table-wrap"><table class="md-table"><thead><tr><th>Layer</th><th>Technology</th><th>Version</th><th>Purpose</th></tr></thead><tbody><tr><td>Presentation</td><td>React</td><td>18.x</td><td>SPA framework</td></tr><tr><td>Presentation</td><td>TanStack Query</td><td>5.x</td><td>Server-state fetching/caching</td></tr><tr><td>Application / API</td><td>Node.js</td><td>20.x LTS</td><td>Runtime</td></tr><tr><td>Application / API</td><td>Fastify</td><td>4.x</td><td>HTTP framework</td></tr><tr><td>Domain</td><td>TypeScript</td><td>5.x</td><td>Domain modelling language</td></tr><tr><td>Infrastructure</td><td>Postgres</td><td>15.x</td><td>Primary data store</td></tr><tr><td>Infrastructure</td><td>Redis</td><td>7.x</td><td>Cache + ephemeral state</td></tr><tr><td>Cross-cutting</td><td>OpenTelemetry</td><td>1.x</td><td>Tracing + metrics</td></tr><tr><td>Build / CI</td><td>GitHub Actions</td><td>n/a</td><td>CI/CD</td></tr></tbody></table></div>
 <p><em>(One row per material technology. Omit transitive dependencies, lint configuration, and small utilities.)</em></p>
 <hr>
-<h2>6. Major Systems</h2>
+<h2>5. Major Systems</h2>
 <div class="md-table-wrap"><table class="md-table"><thead><tr><th>System</th><th>One-line description</th><th>Primary owner / module</th></tr></thead><tbody><tr><td><strong>{System A}</strong></td><td>{What it does in one line.}</td><td><code>{packages/system-a}</code></td></tr><tr><td><strong>{System B}</strong></td><td>{What it does in one line.}</td><td><code>{packages/system-b}</code></td></tr></tbody></table></div>
 <p><em>(One row per major system the architecture distinguishes. No internal components, no mechanisms, no patterns — those go in the blueprint and reference.)</em></p>
 <hr>
-<h2>7. Decision Records</h2>
+<h2>6. Decision Records</h2>
 <p>The outline-level decisions — including mechanism choices — are listed below. Each one has a full record at <code>docs/architecture/decisions/ADR-NNN-{slug}.md</code> using the <a href="./decision-record.html">decision-record template</a>.</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>ID</th><th>Decision</th><th>One-line consequence</th></tr></thead><tbody><tr><td><a href="../decisions/ADR-001-spa-plus-rest-api-platform.html">ADR-001</a></td><td>SPA + REST API platform</td><td>All client code is browser-side; no server rendering, no GraphQL surface area.</td></tr><tr><td><a href="../decisions/ADR-002-layered-clean-architecture.html">ADR-002</a></td><td>Layered/clean architecture with one-way dependencies</td><td>Domain stays portable; mocking infrastructure is free.</td></tr><tr><td><a href="../decisions/ADR-003-auth0-identity.html">ADR-003</a></td><td>Auth0 for identity</td><td>No homegrown password store; vendor lock at the identity layer is accepted.</td></tr><tr><td><a href="../decisions/ADR-004-result-types-not-exceptions.html">ADR-004</a></td><td>Domain returns <code>Result&lt;T, E&gt;</code>, not exceptions</td><td>Failure handling is type-checked; the HTTP boundary is the only translator.</td></tr><tr><td><a href="../decisions/ADR-005-redis-write-through-cache.html">ADR-005</a></td><td>Redis write-through cache for catalogue</td><td>Predictable freshness at accepted write overhead.</td></tr></tbody></table></div>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>ID</th><th>Decision</th><th>One-line consequence</th></tr></thead><tbody><tr><td><a href="../decisions/ADR-001-spa-plus-rest-api-platform.html">ADR-001</a></td><td>SPA + REST API platform</td><td>All client code is browser-side; no server rendering, no GraphQL surface area.</td></tr><tr><td><a href="../decisions/ADR-002-auth0-identity.html">ADR-002</a></td><td>Auth0 for identity</td><td>No homegrown password store; vendor lock at the identity layer is accepted.</td></tr><tr><td><a href="../decisions/ADR-003-result-types-not-exceptions.html">ADR-003</a></td><td>Domain returns <code>Result&lt;T, E&gt;</code>, not exceptions</td><td>Failure handling is type-checked; the HTTP boundary is the only translator.</td></tr><tr><td><a href="../decisions/ADR-004-redis-write-through-cache.html">ADR-004</a></td><td>Redis write-through cache for catalogue</td><td>Predictable freshness at accepted write overhead.</td></tr></tbody></table></div>
 <p><em>(Mechanism choices produce ADRs here. Blueprint-level decisions — component boundaries, test-tier vocabulary — continue numbering in the blueprint.)</em></p>
 <hr>
 <h2>See also</h2>

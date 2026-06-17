@@ -10,15 +10,15 @@
 <link rel="stylesheet" href="../../../commons/site.css?v=foundry-3">
 <style>
 /*
-  ABD Foundry — catalog prelude + gardener lesson fragment.
+  Agile Garden — AI Garden prelude + gardener lesson fragment.
   Inlined via generate_abd_catalog.py. Max border-radius 6px; flat surfaces.
-  Brand split: --accent (#E5531A) for column chrome / rails; --ai-accent on dense
-  mono skill links (engineering mode only — executive overrides in catalog.css).
+  Brand split: orange-500 (#E5531A) for column chrome / rails; ai-blue (#4FC3F7 / #81D4FA)
+  on dense mono skill links — see abd-works-brand BRAND-GUIDELINES §3.1 (ai-blue-500).
 */
 .catalog-prelude {
   margin: 0 0 24px;
   padding: 0 0 20px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #2A2A2A;
 }
 .catalog-prelude-heading {
   margin: 0 0 12px;
@@ -27,7 +27,7 @@
   color: var(--text);
   line-height: 1.25;
   padding-bottom: 8px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #2A2A2A;
   scroll-margin-top: 48px;
 }
 .catalog-prelude-tagline {
@@ -43,9 +43,9 @@
   margin: 0 0 18px;
 }
 .catalog-mission-card {
-  background: var(--raised);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
+  background: #1B1B20;
+  border: 1px solid #2A2A2A;
+  border-left: 3px solid #E5531A;
   border-radius: 4px;
   padding: 14px 20px;
   display: flex;
@@ -57,7 +57,7 @@
   flex-shrink: 0;
   font-size: 0.95rem;
   font-weight: 700;
-  color: var(--text);
+  color: #F4F4F5;
   margin: 0;
   white-space: nowrap;
 }
@@ -71,14 +71,14 @@
 .catalog-mission-card--teal,
 .catalog-mission-card--amber,
 .catalog-mission-card--purple {
-  background: var(--raised);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
+  background: #1B1B20;
+  border: 1px solid #2A2A2A;
+  border-left: 3px solid #E5531A;
 }
 .catalog-mission-card--teal h3,
 .catalog-mission-card--amber h3,
 .catalog-mission-card--purple h3 {
-  color: var(--text);
+  color: #F4F4F5;
 }
 @media (max-width: 720px) {
   .catalog-mission { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -95,17 +95,17 @@
   gap: 10px;
   padding: 8px 0 10px;
   margin: 24px 0 12px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #2A2A2A;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: #E5531A;
 }
 .catalog-section-label--foundational {
   margin-top: 28px;
-  color: var(--muted);
-  border-bottom-color: var(--border-muted);
+  color: #8A8A97;
+  border-bottom-color: #1A1A1E;
 }
 
 /* ── Practice grid — all 5 disciplines forced onto one row ── */
@@ -113,8 +113,8 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
   border-radius: 6px;
   overflow: hidden;
   margin: 0;
@@ -131,8 +131,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
   border-radius: 6px;
   overflow: hidden;
 }
@@ -158,7 +158,7 @@
   display: block !important;
   font-size: 0.82rem;
   line-height: 1.5;
-  color: var(--muted);
+  color: #9B9BA8;
 }
 
 /* ── Agents grid — single wide column ── */
@@ -166,15 +166,15 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
   border-radius: 6px;
   overflow: hidden;
 }
 .catalog-section-label--agents {
   margin-top: 28px;
-  color: var(--accent);
-  border-bottom-color: var(--border);
+  color: #E5531A;
+  border-bottom-color: #2A2A2A;
 }
 
 /* ── Shared column card ── */
@@ -199,7 +199,7 @@
   margin-top: 0;
 }
 .catalog-garden-col {
-  background: var(--surface);
+  background: #111113;
   border: none;
   border-radius: 0;
   overflow: hidden;
@@ -213,17 +213,17 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  border-bottom: 1px solid var(--border);
-  background: var(--raised);
-  color: var(--accent);
-  border-left: 3px solid var(--accent);
+  border-bottom: 1px solid #2A2A2A;
+  background: #1B1B20;
+  color: #E5531A;
+  border-left: 3px solid #E5531A;
 }
 .catalog-garden-col-header--practice,
 .catalog-garden-col-header--foundational,
 .catalog-garden-col-header--agents {
-  background: var(--raised);
-  color: var(--accent);
-  border-left: 3px solid var(--accent);
+  background: #1B1B20;
+  color: #E5531A;
+  border-left: 3px solid #E5531A;
 }
 .catalog-garden-ico { flex-shrink: 0; display: block; }
 .catalog-garden-row {
@@ -231,11 +231,11 @@
   align-items: center;
   gap: 10px;
   padding: 6px 16px;
-  border-bottom: 1px solid var(--border-muted);
+  border-bottom: 1px solid #1A1A1E;
   font-size: 0.85rem;
 }
 .catalog-garden-row:last-child { border-bottom: none; }
-/* Skill/agent links — mono names; ai-accent on dark (engineering mode) */
+/* Skill/agent links — mono names stay near-white; ai-blue hairline/hover (brand AI accent, not orange wall) */
 .catalog-garden-name {
   font-weight: 700;
   font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
@@ -243,11 +243,12 @@
   min-width: 0;
   overflow-wrap: anywhere;
   word-break: break-word;
-  color: var(--ai-accent);
+  color: #4FC3F7;
 }
+/* !important beats global `a { … }`, :visited, and concatenation order */
 .catalog-prelude .catalog-garden-name a,
 .catalog-garden-lists .catalog-garden-name a {
-  color: var(--ai-accent) !important;
+  color: #4FC3F7 !important;
   font-weight: 700 !important;
   text-decoration: none !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
@@ -256,19 +257,19 @@
 .catalog-prelude .catalog-garden-name a:focus-visible,
 .catalog-garden-lists .catalog-garden-name a:hover,
 .catalog-garden-lists .catalog-garden-name a:focus-visible {
-  color: var(--ai-accent-soft) !important;
+  color: #81D4FA !important;
   border-bottom-color: rgba(79, 195, 247, 0.95);
 }
 .catalog-garden-name--agent a,
 .catalog-garden-name--foundational a {
-  color: var(--ai-accent) !important;
+  color: #4FC3F7 !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
 }
 .catalog-garden-name--agent a:hover,
 .catalog-garden-name--agent a:focus-visible,
 .catalog-garden-name--foundational a:hover,
 .catalog-garden-name--foundational a:focus-visible {
-  color: var(--ai-accent-soft) !important;
+  color: #81D4FA !important;
   border-bottom-color: rgba(79, 195, 247, 0.92);
 }
 .catalog-garden-name--dim {
@@ -791,6 +792,18 @@ a.cap-card:hover .cap-card__more {
   padding: 0;
   font-size: inherit;
   color: inherit;
+}
+.install-source {
+  margin: 12px 0 0;
+  font-size: 0.92rem;
+}
+.install-source a {
+  font-weight: 600;
+}
+.install-source-path {
+  color: var(--muted);
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.82em;
 }
 .file-list {
   list-style: none;
@@ -1702,7 +1715,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 </style>
 <script src="../../../commons/catalog-nav.js?v=foundry-10"></script>
 </head>
-<body data-nav-prefix="../../../" data-nav-current="skills" data-nav-site-base="../../../../../abd-works-website/">
+<body data-nav-prefix="../../../" data-nav-current="skills" data-nav-site-base="https://abd.works/">
 <main id="main-content">
 
 <div class="page-hero page-hero--detail">
@@ -1721,50 +1734,53 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <h2>Content</h2>
 <div class="rule-prose"><h1>abd-architecture-blueprint</h1>
 <h2>Purpose</h2>
-<p>The outline answers &quot;what is this system, what does it commit to mechanistically, and why?&quot; — the blueprint answers &quot;what does it actually run as and what is it made of?&quot;. It is the document a tech lead opens to see the full platform runtime, the deployment environments, how components are laid out and interact, and how each mechanism from the outline plays out in terms of specific components, platform infrastructure, and runtime behaviour. When the blueprint is in place, the <strong>architecture reference</strong> can go deep on one mechanism at a time without re-explaining the platform or the component landscape to its reader.</p>
+<p>Architecture documents often describe what a system is without saying what it means to write code against it. This skill makes architecture legible for the whole team: every mechanism names the constraint it places on code, every module states its business scope and dependencies, diagrams show how requests flow through the mechanisms at runtime, and the testing flow diagram shows which layers each test tier actually exercises.</p>
 <hr>
 <h2>Output files</h2>
-<p><strong>Deliverables folder:</strong> see <code>../agent-protocol.md</code> — Output file resolution.</p>
+<p><strong>Deliverables folder:</strong> see <code>../agent-protocol.md</code> ? Output file resolution.</p>
 <p><strong>Primary file:</strong> <code>architecture-blueprint.md</code>. Add a <code>&lt;name&gt;-</code> prefix only when disambiguation is needed.</p>
-<p><strong>Diagram element files</strong> (under <code>docs/architecture/diagrams/</code>):</p>
+<p><strong>Diagram element files</strong> (under <code>docs/architecture/</code>):</p>
 <ul>
 <li><code>platform-architecture-elements.md</code></li>
-<li><code>deployment-architecture-elements.md</code></li>
 </ul>
-<p><strong>Draw.io sources</strong> (under <code>docs/architecture/diagrams/</code>):</p>
+<p><strong>Draw.io sources</strong> (under <code>docs/architecture/</code>):</p>
 <ul>
 <li><code>platform-architecture.drawio</code></li>
-<li><code>deployment-architecture.drawio</code></li>
-<li><code>component-overview.drawio</code></li>
-<li><code>entity-relationships.drawio</code></li>
+<li><code>module-overview.drawio</code></li>
+<li><code>architecture-flow.drawio</code></li>
+<li><code>testing-flow.drawio</code></li>
 </ul>
 <hr>
 <h2>Agent Instructions</h2>
-<p>&gt; <strong>MANDATORY — read <code>../agent-protocol.md</code> before starting. It defines read-gates, output file resolution, and the per-rule verdict format.</strong></p>
+<p>&gt; <strong>MANDATORY ? read <code>../agent-protocol.md</code> before starting. It defines read-gates, output file resolution, and the per-rule verdict format.</strong></p>
 <h3>1. Read context</h3>
 <p>Read these files:</p>
 <ul>
-<li><strong><code>reference/concepts.md</code></strong> — what a blueprint is, the platform and deployment diagrams (new at this level), components vs systems, how mechanisms are deepened from the outline (component interactions + platform/deployment detail), data architecture, testing architecture, decision records, and what the blueprint does NOT contain.</li>
-<li><strong><code>reference/examples.md</code></strong> — typical blueprint file tree and the shape of a good blueprint.</li>
+<li><strong><code>reference/concepts.md</code></strong> ? what a blueprint is, the platform diagram, modules vs mechanisms, how mechanisms are deepened from the outline (module interactions + platform detail), testing architecture, decision records, and what the blueprint does NOT contain.</li>
+<li><strong><code>reference/examples.md</code></strong> ? typical blueprint file tree and the shape of a good blueprint.</li>
 </ul>
-<p>Also read the project&#x27;s <strong><code>architecture-outline.md</code></strong> to obtain the mechanism technology choices, NFR justifications, and guiding principles before starting. The blueprint deepens the outline — it does not re-state or re-decide what the outline recorded.</p>
+<p>Also read the project&#x27;s <strong><code>architecture-outline.md</code></strong> to obtain the mechanism technology choices, NFR justifications, and guiding principles before starting. The blueprint deepens the outline ? it does not re-state or re-decide what the outline recorded.</p>
 <h3>2. Generate</h3>
 <p>Read every file in <strong><code>rules/</code></strong>; author to those rules.</p>
-<p><strong>Step 2a — Produce the two new element-inventory files first:</strong></p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>Output file</th></tr></thead><tbody><tr><td><code>templates/platform-architecture-elements.md</code></td><td><code>docs/architecture/diagrams/platform-architecture-elements.md</code></td></tr><tr><td><code>templates/deployment-architecture-elements.md</code></td><td><code>docs/architecture/diagrams/deployment-architecture-elements.md</code></td></tr></tbody></table></div>
-<p>Fill every section with real names and 1–2 sentence descriptions; no placeholder tokens (<code>{…}</code>) should remain. For the deployment file, include an <strong>Operating systems</strong> table when more than one OS image is in use across containers.</p>
-<p><strong>Step 2b — Produce the blueprint document:</strong></p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td><code>templates/architecture-blueprint.md</code></td><td>The blueprint document — scope, platform runtime (diagram + runtime-components table), deployment topology (diagram + environments table + OS table if needed), components, mechanisms in depth, data architecture, testing architecture, extension (if applicable), and ADR list.</td></tr><tr><td><code>templates/decision-record.md</code></td><td>One ADR per blueprint-level decision (component boundaries, test-tier vocabulary, data ownership patterns, extension contracts) under <code>docs/architecture/decisions/</code>. Number continues from the outline.</td></tr></tbody></table></div>
-<p><strong>Mechanism guidance:</strong> For every mechanism named in the outline, produce a blueprint subsection that adds:</p>
+<p><strong>Step 2a ? Produce the platform element-inventory file:</strong></p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>Output file</th></tr></thead><tbody><tr><td><code>templates/platform-architecture-elements.md</code></td><td><code>docs/architecture/platform-architecture-elements.md</code></td></tr></tbody></table></div>
+<p>Fill every section with real names and 1?2 sentence descriptions; no placeholder tokens (<code>{?}</code>) should remain.</p>
+<p><strong>Step 2b ? Produce the blueprint document:</strong></p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td><code>templates/architecture-blueprint.md</code></td><td>The blueprint document ? scope, platform runtime (diagram + runtime-components table), mechanisms (technology + how modules implement each), architecture flow diagram(s), modules (mechanism-modules + domain modules), testing architecture, and ADR list.</td></tr><tr><td><code>templates/decision-record.md</code></td><td>One ADR per blueprint-level decision (module boundaries, test-tier vocabulary, data ownership patterns) under <code>docs/architecture/decisions/</code>. Number continues from the outline.</td></tr></tbody></table></div>
+<p><strong>Mechanism guidance:</strong> Mechanisms go first ? they define the code shapes modules must adopt. For each mechanism:</p>
 <ul>
-<li><strong>Participating components</strong> — which named components from section 4 implement or depend on the mechanism</li>
-<li><strong>Platform / deployment detail</strong> — how the mechanism is configured in the running platform (secrets store, broker endpoint, cache cluster mode, sidecar, OS-level tooling, etc.)</li>
-<li><strong>Runtime behaviour</strong> — step-by-step description of steady-state operation and key failure modes</li>
-<li><strong>Component interactions</strong> — how participating components call into each other through the mechanism; what crosses component boundaries and in what direction</li>
+<li>Technology and platform (brief)</li>
+<li>1?2 prose paragraphs: how modules implement or extend the mechanism (the code shape it requires)</li>
+<li>Note if the mechanism also has a concrete module surface (e.g. Security ? Identity module)</li>
+</ul>
+<p><strong>Module guidance:</strong> Modules come after mechanisms. Two kinds:</p>
+<ul>
+<li><strong>Mechanism-modules</strong> ? mechanisms that also have a concrete implementation surface; describe their functional behaviour and surface API in 1?2 paragraphs</li>
+<li><strong>Domain modules</strong> ? 1?2 sentence business scope; mechanisms used (list, using <em>common set</em> shorthand + module-specific extras); dependencies on other modules</li>
 </ul>
 <p><strong>Diagram workflow:</strong></p>
-<p>1. Seed diagrams: <code>.\scripts\arch-drawio.ps1 init -ProjectRoot &lt;target-project-root&gt;</code> 2. Fill <code>platform-architecture.drawio</code>, <code>deployment-architecture.drawio</code>, <code>component-overview.drawio</code>, and <code>entity-relationships.drawio</code> from the matching element-inventory files and component subsections. 3. Export PNGs: <code>.\scripts\arch-drawio.ps1 export -ProjectRoot &lt;target-project-root&gt;</code> 4. Reference the PNGs from sections 2, 3, 4, and 6.</p>
-<p><strong>Quality bar:</strong> Platform and deployment element files fully described. Components described in 1–2 paragraphs. Every mechanism has participating components, platform/deployment detail, runtime behaviour, and component interactions. Data architecture is entity-level. OS table present when multiple OS images are in use.</p>
+<p>1. Seed diagrams: <code>.\scripts\arch-drawio.ps1 init -ProjectRoot &lt;target-project-root&gt;</code> 2. Fill <code>platform-architecture.drawio</code>, <code>module-overview.drawio</code>, and <code>architecture-flow.drawio</code> from the element-inventory file and module subsections. 3. Fill <code>testing-flow.drawio</code> from the testing architecture tiers. 4. Export PNGs: <code>.\scripts\arch-drawio.ps1 export -ProjectRoot &lt;target-project-root&gt;</code></p>
+<p><strong>Quality bar:</strong> Platform element file fully described. Mechanisms described in prose (code shape each module must adopt). Mechanism-modules described with functional surface. Domain modules described in 1?2 sentences + mechanisms + dependencies. Module diagram has legend for universal mechanisms.</p>
 <h3>3. Validate</h3>
 <p>Run the scanners:</p>
 <pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
@@ -1779,27 +1795,23 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 </div>
 <hr>
 <h2>Validate</h2>
-<p><strong>Goal:</strong> Inspect what was built — read the artifacts as reviewers.</p>
+<p><strong>Goal:</strong> Inspect what was built ? read the artifacts as reviewers.</p>
 <ul>
-<li><strong>Platform element file present</strong> — <code>platform-architecture-elements.md</code> under <code>docs/architecture/diagrams/</code>, fully described, no placeholder tokens.</li>
-<li><strong>Deployment element file present</strong> — <code>deployment-architecture-elements.md</code> under <code>docs/architecture/diagrams/</code>, fully described, no placeholder tokens.</li>
-<li><strong>OS table present when multiple OS images exist</strong> — if more than one container OS image is used, the deployment section includes a named OS/image table with a reason per entry.</li>
-<li><strong>Paired drawio for platform</strong> — <code>platform-architecture.drawio</code> exists; verify prints PASS.</li>
-<li><strong>Paired drawio for deployment</strong> — <code>deployment-architecture.drawio</code> exists; verify prints PASS.</li>
-<li><strong>Paired drawio for component overview</strong> — <code>component-overview.drawio</code> exists; verify prints PASS.</li>
-<li><strong>Paired drawio for entity relationships</strong> — <code>entity-relationships.drawio</code> exists; verify prints PASS.</li>
-<li><strong>Components in paragraphs, not internals</strong> — every component has 1–2 paragraphs covering purpose, dependencies, and interactions; no class lists, no method tables, no file trees.</li>
-<li><strong>Component descriptions reference mechanisms</strong> — at least the mechanisms each component participates in are named in the component&#x27;s interactions paragraph.</li>
-<li><strong>Every mechanism has all four depth fields</strong> — participating components, platform/deployment detail, runtime behaviour, and component interactions are present for every mechanism; no field is a placeholder.</li>
-<li><strong>No new mechanisms invented here</strong> — the blueprint deepens outline mechanisms; it does not introduce mechanism technology choices not already in the outline.</li>
-<li><strong>Bespoke outline mechanisms deepened</strong> — every novel or bespoke mechanism from the outline has a corresponding blueprint subsection at the same depth as the standard set.</li>
-<li><strong>Data architecture is entity-level</strong> — entity relationship diagram and ownership table; no schemas, no DDL.</li>
-<li><strong>Testing architecture is common-across-the-system</strong> — tiers, boundaries, common doubles only.</li>
-<li><strong>Extension section present only when warranted</strong> — no &quot;TBD&quot; placeholder.</li>
-<li><strong>ADRs exist on disk</strong> — every blueprint-level ADR cited has a matching file; numbering continues from the outline.</li>
-<li><strong>No outline-level material re-stated</strong> — no technology stack table, no guiding principles list, no major-systems one-liners, no mechanism technology choice ADRs.</li>
-<li><strong>No reference-level material</strong> — no code walkthroughs, no sequence diagrams with more than three participants.</li>
-<li><strong>No bundle markers</strong> — <code>SKILL.md</code> has no <code>&lt;!-- execute_rules:bundle_rules --&gt;</code> markers.</li>
+<li><strong>Platform element file present</strong> ? <code>platform-architecture-elements.md</code> under <code>docs/architecture/</code>, fully described, no placeholder tokens.</li>
+<li><strong>Paired drawio for platform</strong> ? <code>platform-architecture.drawio</code> exists; verify prints PASS.</li>
+<li><strong>Paired drawio for module overview</strong> ? <code>module-overview.drawio</code> exists; verify prints PASS.</li>
+<li><strong>Paired drawio for architecture flow</strong> ? <code>architecture-flow.drawio</code> exists; mechanism labels visible on diagram.</li>
+<li><strong>Paired drawio for testing flow</strong> ? <code>testing-flow.drawio</code> exists; all four tiers (Domain/Application/Integration/E2E) present as columns; entry points blue; real layers green; faked layers yellow.</li>
+<li><strong>Mechanisms described as code shapes</strong> ? each mechanism section has technology + 1?2 prose paragraphs on how modules implement it; no bullet lists of features.</li>
+<li><strong>Mechanism-modules described with surface</strong> ? App Server Bootstrap and Identity (or equivalent) described with functional behaviour and surface in 1?2 paragraphs.</li>
+<li><strong>Domain modules described in 1?2 sentences</strong> ? each domain module has: business scope (1?2 sentences), mechanisms used (universal set via legend + module-specific), and dependencies list.</li>
+<li><strong>No new mechanisms invented here</strong> ? the blueprint deepens outline mechanisms; it does not introduce mechanism technology choices not already in the outline.</li>
+<li><strong>Bespoke outline mechanisms deepened</strong> ? every novel or bespoke mechanism from the outline has a corresponding blueprint subsection.</li>
+<li><strong>Testing architecture is common-across-the-system</strong> ? tiers, boundaries, common doubles, and testing-flow.drawio reference only.</li>
+<li><strong>ADRs exist on disk</strong> ? every blueprint-level ADR cited has a matching file; numbering continues from the outline.</li>
+<li><strong>No outline-level material re-stated</strong> ? no technology stack table, no guiding principles list, no major-systems one-liners, no mechanism technology choice ADRs.</li>
+<li><strong>No reference-level material</strong> ? no code walkthroughs, no sequence diagrams with more than three participants.</li>
+<li><strong>No bundle markers</strong> ? <code>SKILL.md</code> has no <code>&lt;!-- execute_rules:bundle_rules --&gt;</code> markers.</li>
 </ul>
 <hr></div>
 

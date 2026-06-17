@@ -23,15 +23,15 @@
 <style>
 
 /*
-  ABD Foundry — catalog prelude + gardener lesson fragment.
+  Agile Garden — AI Garden prelude + gardener lesson fragment.
   Inlined via generate_abd_catalog.py. Max border-radius 6px; flat surfaces.
-  Brand split: --accent (#E5531A) for column chrome / rails; --ai-accent on dense
-  mono skill links (engineering mode only — executive overrides in catalog.css).
+  Brand split: orange-500 (#E5531A) for column chrome / rails; ai-blue (#4FC3F7 / #81D4FA)
+  on dense mono skill links — see abd-works-brand BRAND-GUIDELINES §3.1 (ai-blue-500).
 */
 .catalog-prelude {
   margin: 0 0 24px;
   padding: 0 0 20px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #2A2A2A;
 }
 .catalog-prelude-heading {
   margin: 0 0 12px;
@@ -40,7 +40,7 @@
   color: var(--text);
   line-height: 1.25;
   padding-bottom: 8px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #2A2A2A;
   scroll-margin-top: 48px;
 }
 .catalog-prelude-tagline {
@@ -56,9 +56,9 @@
   margin: 0 0 18px;
 }
 .catalog-mission-card {
-  background: var(--raised);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
+  background: #1B1B20;
+  border: 1px solid #2A2A2A;
+  border-left: 3px solid #E5531A;
   border-radius: 4px;
   padding: 14px 20px;
   display: flex;
@@ -70,7 +70,7 @@
   flex-shrink: 0;
   font-size: 0.95rem;
   font-weight: 700;
-  color: var(--text);
+  color: #F4F4F5;
   margin: 0;
   white-space: nowrap;
 }
@@ -84,14 +84,14 @@
 .catalog-mission-card--teal,
 .catalog-mission-card--amber,
 .catalog-mission-card--purple {
-  background: var(--raised);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
+  background: #1B1B20;
+  border: 1px solid #2A2A2A;
+  border-left: 3px solid #E5531A;
 }
 .catalog-mission-card--teal h3,
 .catalog-mission-card--amber h3,
 .catalog-mission-card--purple h3 {
-  color: var(--text);
+  color: #F4F4F5;
 }
 @media (max-width: 720px) {
   .catalog-mission { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -108,17 +108,17 @@
   gap: 10px;
   padding: 8px 0 10px;
   margin: 24px 0 12px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #2A2A2A;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: #E5531A;
 }
 .catalog-section-label--foundational {
   margin-top: 28px;
-  color: var(--muted);
-  border-bottom-color: var(--border-muted);
+  color: #8A8A97;
+  border-bottom-color: #1A1A1E;
 }
 
 /* ── Practice grid — all 5 disciplines forced onto one row ── */
@@ -126,8 +126,8 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
   border-radius: 6px;
   overflow: hidden;
   margin: 0;
@@ -144,8 +144,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
   border-radius: 6px;
   overflow: hidden;
 }
@@ -171,7 +171,7 @@
   display: block !important;
   font-size: 0.82rem;
   line-height: 1.5;
-  color: var(--muted);
+  color: #9B9BA8;
 }
 
 /* ── Agents grid — single wide column ── */
@@ -179,15 +179,15 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
   border-radius: 6px;
   overflow: hidden;
 }
 .catalog-section-label--agents {
   margin-top: 28px;
-  color: var(--accent);
-  border-bottom-color: var(--border);
+  color: #E5531A;
+  border-bottom-color: #2A2A2A;
 }
 
 /* ── Shared column card ── */
@@ -212,7 +212,7 @@
   margin-top: 0;
 }
 .catalog-garden-col {
-  background: var(--surface);
+  background: #111113;
   border: none;
   border-radius: 0;
   overflow: hidden;
@@ -226,17 +226,17 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  border-bottom: 1px solid var(--border);
-  background: var(--raised);
-  color: var(--accent);
-  border-left: 3px solid var(--accent);
+  border-bottom: 1px solid #2A2A2A;
+  background: #1B1B20;
+  color: #E5531A;
+  border-left: 3px solid #E5531A;
 }
 .catalog-garden-col-header--practice,
 .catalog-garden-col-header--foundational,
 .catalog-garden-col-header--agents {
-  background: var(--raised);
-  color: var(--accent);
-  border-left: 3px solid var(--accent);
+  background: #1B1B20;
+  color: #E5531A;
+  border-left: 3px solid #E5531A;
 }
 .catalog-garden-ico { flex-shrink: 0; display: block; }
 .catalog-garden-row {
@@ -244,11 +244,11 @@
   align-items: center;
   gap: 10px;
   padding: 6px 16px;
-  border-bottom: 1px solid var(--border-muted);
+  border-bottom: 1px solid #1A1A1E;
   font-size: 0.85rem;
 }
 .catalog-garden-row:last-child { border-bottom: none; }
-/* Skill/agent links — mono names; ai-accent on dark (engineering mode) */
+/* Skill/agent links — mono names stay near-white; ai-blue hairline/hover (brand AI accent, not orange wall) */
 .catalog-garden-name {
   font-weight: 700;
   font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
@@ -256,11 +256,12 @@
   min-width: 0;
   overflow-wrap: anywhere;
   word-break: break-word;
-  color: var(--ai-accent);
+  color: #4FC3F7;
 }
+/* !important beats global `a { … }`, :visited, and concatenation order */
 .catalog-prelude .catalog-garden-name a,
 .catalog-garden-lists .catalog-garden-name a {
-  color: var(--ai-accent) !important;
+  color: #4FC3F7 !important;
   font-weight: 700 !important;
   text-decoration: none !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
@@ -269,19 +270,19 @@
 .catalog-prelude .catalog-garden-name a:focus-visible,
 .catalog-garden-lists .catalog-garden-name a:hover,
 .catalog-garden-lists .catalog-garden-name a:focus-visible {
-  color: var(--ai-accent-soft) !important;
+  color: #81D4FA !important;
   border-bottom-color: rgba(79, 195, 247, 0.95);
 }
 .catalog-garden-name--agent a,
 .catalog-garden-name--foundational a {
-  color: var(--ai-accent) !important;
+  color: #4FC3F7 !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
 }
 .catalog-garden-name--agent a:hover,
 .catalog-garden-name--agent a:focus-visible,
 .catalog-garden-name--foundational a:hover,
 .catalog-garden-name--foundational a:focus-visible {
-  color: var(--ai-accent-soft) !important;
+  color: #81D4FA !important;
   border-bottom-color: rgba(79, 195, 247, 0.92);
 }
 .catalog-garden-name--dim {
@@ -804,6 +805,18 @@ a.cap-card:hover .cap-card__more {
   padding: 0;
   font-size: inherit;
   color: inherit;
+}
+.install-source {
+  margin: 12px 0 0;
+  font-size: 0.92rem;
+}
+.install-source a {
+  font-weight: 600;
+}
+.install-source-path {
+  color: var(--muted);
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.82em;
 }
 .file-list {
   list-style: none;
@@ -4874,6 +4887,10 @@ html[data-theme="engineering"] .foundry-kanban-surface {
   max-height: 32em;
   margin-top: 8px;
 }
+.foundry-guide__body.is-expanding.is-tall {
+  max-height: min(62em, 72vh);
+  overflow-y: auto;
+}
 .foundry-guide__body.is-revealed {
   opacity: 1;
   transform: translateY(0);
@@ -5014,6 +5031,57 @@ html[data-theme="engineering"] .foundry-kanban-surface {
 .foundry-guide__executable-row--arc .foundry-guide__executable-name { color: var(--fam-arc); }
 
 .foundry-guide__executable-desc { flex: 1; color: var(--text); }
+
+.foundry-guide__change-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.foundry-guide__change-row {
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.foundry-guide__change-row--sdd { border-left: 3px solid var(--fam-sdd); }
+.foundry-guide__change-row--ddd { border-left: 3px solid var(--fam-ddd); }
+.foundry-guide__change-row--uxd { border-left: 3px solid var(--fam-uxd); }
+.foundry-guide__change-row--arc { border-left: 3px solid var(--fam-arc); }
+.foundry-guide__change-row--team { border-left: 3px solid var(--fam-delivery); }
+
+.foundry-guide__change-name {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.foundry-guide__change-row--sdd .foundry-guide__change-name { color: var(--fam-sdd); }
+.foundry-guide__change-row--ddd .foundry-guide__change-name { color: var(--fam-ddd); }
+.foundry-guide__change-row--uxd .foundry-guide__change-name { color: var(--fam-uxd); }
+.foundry-guide__change-row--arc .foundry-guide__change-name { color: var(--fam-arc); }
+.foundry-guide__change-row--team .foundry-guide__change-name { color: var(--fam-delivery); }
+
+.foundry-guide__change-bullets {
+  margin: 0;
+  padding: 0 0 0 16px;
+  color: var(--text);
+}
+
+.foundry-guide__change-bullets li {
+  margin-bottom: 4px;
+}
+
+.foundry-guide__change-bullets li:last-child {
+  margin-bottom: 0;
+}
 
 @media (max-width: 720px) {
   .foundry-guide__scale { grid-template-columns: repeat(2, 1fr); }
@@ -5224,8 +5292,8 @@ html[data-theme="engineering"] .foundry-kanban-surface {
   grid-template-rows: auto repeat(4, var(--foundry-skill-row-h)) var(--foundry-stage-skills-gap-h) repeat(var(--foundry-stage-skill-rows), var(--foundry-skill-row-h));
 }
 .foundry-kanban-surface.foundry-skills-collapsed .foundry-board-grid {
-  /* Keep practice-rail family row tracks; clip stage-other rows when collapsed. */
-  grid-template-rows: auto repeat(4, var(--foundry-skill-row-h)) 0px var(--foundry-skill-row-h) 0px 0px;
+  /* Collapsed idle: zero family row tracks; JS refines when filter active or expanded. */
+  grid-template-rows: auto 0px 0px 0px 0px 0px 0px 0px 0px;
 }
 .foundry-kanban-surface--supporting-only .foundry-skills-extra {
   grid-template-rows: 1fr;
@@ -5395,10 +5463,27 @@ html.foundry-scroll-pending {
 .foundry-kanban-surface.foundry-skills-collapsed.foundry-skill-filter-active:not(.foundry-skill-filter-other) .foundry-practice-col__other-practices {
   display: none !important;
 }
-.foundry-kanban-surface.foundry-skills-collapsed .foundry-practice-col__card,
-.foundry-kanban-surface.foundry-skills-collapsed .foundry-practice-col .foundry-family-toggle,
-.foundry-kanban-surface.foundry-skills-collapsed .foundry-practice-col__other-practices,
-.foundry-kanban-surface.foundry-skills-collapsed .foundry-practice-col__other-practices .foundry-family-toggle {
+/* Collapsed idle: hide practice-rail families — only Skills toggle stays visible */
+.foundry-kanban-surface.foundry-skills-collapsed.foundry-skill-filter-idle .foundry-practice-col__card,
+.foundry-kanban-surface.foundry-skills-collapsed.foundry-skill-filter-idle .foundry-practice-col .foundry-family-toggle,
+.foundry-kanban-surface.foundry-skills-collapsed.foundry-skill-filter-idle .foundry-practice-col__other-practices,
+.foundry-kanban-surface.foundry-skills-collapsed.foundry-skill-filter-idle .foundry-practice-col__other-practices .foundry-family-toggle,
+.foundry-kanban-surface.foundry-skills-collapsed.foundry-skill-filter-idle .foundry-practice-col__stage-spacer {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  overflow: hidden;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Expanded: show all practice-rail family chips */
+.foundry-kanban-surface.foundry-skills-expanded .foundry-practice-col__card,
+.foundry-kanban-surface.foundry-skills-expanded .foundry-practice-col .foundry-family-toggle,
+.foundry-kanban-surface.foundry-skills-expanded .foundry-practice-col__other-practices,
+.foundry-kanban-surface.foundry-skills-expanded .foundry-practice-col__other-practices .foundry-family-toggle {
   opacity: 1 !important;
   pointer-events: auto !important;
   visibility: visible !important;
@@ -5406,6 +5491,15 @@ html.foundry-scroll-pending {
   min-width: 0;
   max-width: 100%;
   box-sizing: border-box;
+}
+
+/* Collapsed focus mode: ticked families stay visible in the practice rail */
+.foundry-kanban-surface.foundry-skills-collapsed.foundry-skill-filter-active .foundry-practice-col .foundry-family-toggle.is-selected,
+.foundry-kanban-surface.foundry-skills-collapsed.foundry-skill-filter-active .foundry-practice-col__other-practices .foundry-family-toggle.is-selected {
+  display: flex !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  visibility: visible !important;
 }
 
 /* Board row grid slots — explicit subgrid slots keep stage columns aligned */
@@ -5928,9 +6022,6 @@ html.foundry-scroll-pending {
   gap: 0 6px;
   margin: 8px 6px 0;
 }
-.foundry-kanban-surface.foundry-skills-collapsed .kanban-stage-questions {
-  display: none;
-}
 .kanban-stage-questions--foundry .kanban-stage-questions__list {
   list-style: none;
   margin: 0;
@@ -6024,7 +6115,7 @@ html.foundry-scroll-pending {
 
 </head>
 
-<body data-nav-prefix="../" data-nav-current="skills" data-nav-site-base="../../../abd-works-website/">
+<body data-nav-prefix="../" data-nav-current="skills" data-nav-site-base="https://abd.works/">
 
 <!-- nav + footer injected by catalog-nav.js -->
 
@@ -6116,7 +6207,7 @@ html.foundry-scroll-pending {
     The map answers four questions in order: Why are we doing this? Who can help or hinder? How should behaviour change? What could we do to support that change? Good maps surface assumptions, limit scope creep by tying ideas to impacts, and support shared ownership when business and delivery build them together.</span></span></span></a>
           </div>
           <div class="aad-skill-row aad-fam-arc is-filter-visible" data-family="architecture-centric-engineering">
-            <a class="kb-ticket aad-skill aad-fam-arc has-skill-tooltip" data-id="tk-architecture-centric-engineering-shaping-abd-architecture-outline" data-perspective="arc" data-stage="shaping" data-skill-href="abd-architecture-outline.html" href="abd-architecture-outline.html?stage=shaping"><span class="kb-skill-tooltip-wrap">architecture outline<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture outline</span><span class="kb-col-shape-tooltip__bullets">A team that cannot describe every element of its system cannot agree on what to build next. Outlines fix that. This skill produces the first architecture artifact for a system: two element-inventory markdown files (one per diagram), two draw.io diagrams built from those inventories, and a consolidated outline document that brings them together with a mechanisms catalogue, guiding principles, tech stack, major systems, and ADRs. Engineers, product, and stakeholders share a single auditable picture of the layers, the neighbours and protocols, each system&#x27;s functions and platform technology, the mechanism commitments, and the decisions behind them. When the outline is in place, deeper architecture work (blueprint, reference) can start without re-litigating what the system is or what mechanisms it commits to.</span></span></span></a>
+            <a class="kb-ticket aad-skill aad-fam-arc has-skill-tooltip" data-id="tk-architecture-centric-engineering-shaping-abd-architecture-outline" data-perspective="arc" data-stage="shaping" data-skill-href="abd-architecture-outline.html" href="abd-architecture-outline.html?stage=shaping"><span class="kb-skill-tooltip-wrap">architecture outline<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture outline</span><span class="kb-col-shape-tooltip__bullets">A team that cannot describe every element of its system cannot agree on what to build next. Outlines fix that. This skill produces the first architecture artifact for a system: a system context element-inventory markdown file, a draw.io diagram built from that inventory, and a consolidated outline document that brings them together with a mechanisms catalogue, guiding principles, tech stack, major systems, and ADRs. Engineers, product, and stakeholders share a single auditable picture of the neighbours and protocols, each system&#x27;s functions and platform technology, the mechanism commitments, and the decisions behind them. When the outline is in place, deeper architecture work (blueprint, reference) can start without re-litigating what the system is or what mechanisms it commits to.</span></span></span></a>
           </div>
           <div class="aad-stage-skills-gap" aria-hidden="true"></div>
           <div class="aad-skill-row aad-skill-row--stage-other" data-family="other">
@@ -6159,7 +6250,7 @@ html.foundry-scroll-pending {
             <a class="kb-ticket aad-skill aad-fam-uxd has-skill-tooltip" data-id="tk-user-experience-design-discovery-abd-information-architecture" data-perspective="uxd" data-stage="discovery" data-skill-href="abd-ux-information-architecture.html" href="abd-ux-information-architecture.html?stage=discovery"><span class="kb-skill-tooltip-wrap">information architecture<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">information architecture</span><span class="kb-col-shape-tooltip__bullets">Doing IA work early — before detailed design or development — flushes out gaps in functional and domain understanding, surfaces disagreements about scope, naming, and navigation when they are cheap to resolve, and gives the team a concrete picture to challenge and confirm before committing to wireframes or implementation. Functional requirements and stories written against a named screen inventory and content model become more precise: they reference agreed surfaces by name, missing coverage shows up as absent nodes, and edge-case states are identified before anyone has built against the wrong assumption.</span></span></span></a>
           </div>
           <div class="aad-skill-row aad-fam-arc is-filter-visible" data-family="architecture-centric-engineering">
-            <a class="kb-ticket aad-skill aad-fam-arc has-skill-tooltip" data-id="tk-architecture-centric-engineering-discovery-abd-architecture-blueprint" data-perspective="arc" data-stage="discovery" data-skill-href="abd-architecture-blueprint.html" href="abd-architecture-blueprint.html?stage=discovery"><span class="kb-skill-tooltip-wrap">architecture blueprint<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture blueprint</span><span class="kb-col-shape-tooltip__bullets">The outline answers &quot;what is this system, what does it commit to mechanistically, and why?&quot; — the blueprint answers &quot;what does it actually run as and what is it made of?&quot;. It is the document a tech lead opens to see the full platform runtime, the deployment environments, how components are laid out and interact, and how each mechanism from the outline plays out in terms of specific components, platform infrastructure, and runtime behaviour. When the blueprint is in place, the architecture reference can go deep on one mechanism at a time without re-explaining the platform or the component landscape to its reader.</span></span></span></a>
+            <a class="kb-ticket aad-skill aad-fam-arc has-skill-tooltip" data-id="tk-architecture-centric-engineering-discovery-abd-architecture-blueprint" data-perspective="arc" data-stage="discovery" data-skill-href="abd-architecture-blueprint.html" href="abd-architecture-blueprint.html?stage=discovery"><span class="kb-skill-tooltip-wrap">architecture blueprint<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture blueprint</span><span class="kb-col-shape-tooltip__bullets">Architecture documents often describe what a system is without saying what it means to write code against it. This skill makes architecture legible for the whole team: every mechanism names the constraint it places on code, every module states its business scope and dependencies, diagrams show how requests flow through the mechanisms at runtime, and the testing flow diagram shows which layers each test tier actually exercises.</span></span></span></a>
           </div>
           <div class="aad-stage-skills-gap" aria-hidden="true"></div>
           <div class="aad-skill-row aad-skill-row--stage-other" data-family="other">
@@ -6266,7 +6357,9 @@ html.foundry-scroll-pending {
 
           </div>
           <div class="aad-skill-row aad-fam-arc is-filter-visible" data-family="architecture-centric-engineering">
-            <a class="kb-ticket aad-skill aad-fam-arc has-skill-tooltip" data-id="tk-architecture-centric-engineering-engineering-abd-architecture-code" data-perspective="arc" data-stage="engineering" data-skill-href="abd-architecture-code.html" href="abd-architecture-code.html?stage=engineering"><span class="kb-skill-tooltip-wrap">architecture code<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture code</span><span class="kb-col-shape-tooltip__bullets">Given a named architecture spec and story scope with domain context, generate acceptance tests then production code that follows the spec&#x27;s instructions, templates, file layout, and rules. Use when writing code for a story that has a named spec, adding a feature module to an existing codebase, or reviewing generated code for architecture compliance.</span></span></span></a>
+            <a class="kb-ticket aad-skill aad-fam-arc has-skill-tooltip" data-id="tk-architecture-centric-engineering-engineering-abd-architecture-code" data-perspective="arc" data-stage="engineering" data-skill-href="abd-architecture-code.html" href="abd-architecture-code.html?stage=engineering"><span class="kb-skill-tooltip-wrap">architecture code<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture code</span><span class="kb-col-shape-tooltip__bullets">Given a named architecture spec and story scope with domain context, generate acceptance tests then production code that follows the spec&#x27;s instructions, templates, file layout, and rules. Use when writing code for a story that has a named spec, adding a feature module to an existing codebase, or reviewing generated code for architecture compliance.
+
+    The companion abd-architecture-specification skill shows the parameterized template shape; this skill shows filled-in output — see reference/example.ts for a concrete Recipients module merged from mern-domain-first-specification.</span></span></span></a>
           </div>
           <div class="aad-stage-skills-gap" aria-hidden="true"></div>
           <div class="aad-skill-row aad-skill-row--stage-other" data-family="other">
@@ -6351,9 +6444,13 @@ html.foundry-scroll-pending {
 
         Every DDD building block — Entity, Value Object, Aggregate, Service, Domain Event — looks technical but exposes a question only the business can answer. This skill models these elements by understanding business requirements for identity semantics, consistency boundaries, immutability guarantees, and integration contracts across business concepts and systems.</span></span></span></a>
                 <a class="kb-ticket aad-skill aad-fam-ddd has-skill-tooltip" href="abd-domain-walk.html"><span class="kb-skill-tooltip-wrap">domain walk<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">domain walk</span><span class="kb-col-shape-tooltip__bullets">Walk concrete scenarios through the typed Class Model (or domain model where the Class Model is not yet built). Each step must map to a class and an operation from the prior phase&#x27;s file. When a step crosses a state change or must respect a guard, align with the invariants and interactions captured upstream. If a step has no owner, record a gap and revise upstream artifacts.</span></span></span></a>
-                <a class="kb-ticket aad-skill aad-fam-ddd has-skill-tooltip" href="drawio-domain-sync.html"><span class="kb-skill-tooltip-wrap">drawio domain sync<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">drawio domain sync</span><span class="kb-col-shape-tooltip__bullets">This skill turns any domain model artifact — a Domain Language, Domain Model, or Domain Specification — into a Draw.io class diagram the whole team can read, annotate, and edit. Each Key Abstraction in the source file becomes its own page in the diagram, keeping visual scope manageable and per-abstraction structure clear. When the team edits the diagram in Draw.io, the skill syncs those changes back to the source model file, so diagram and text never drift apart.
+                <a class="kb-ticket aad-skill aad-fam-ddd has-skill-tooltip" href="drawio-domain-sync.html"><span class="kb-skill-tooltip-wrap">drawio domain sync<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">drawio domain sync</span><span class="kb-col-shape-tooltip__bullets">This skill turns any domain model artifact — a Domain Language, Domain Model, or Domain Specification — into a Draw.io class diagram the whole team can read, annotate, and edit.
 
-        Positioning and layout are AI-driven: the agent reads the source, reasons about class relationships and inheritance chains, and places elements where the diagram reads best. There are no fixed grid scripts to run.</span></span></span></a>
+        Default mode: per-KA tabs. Each Key Abstraction gets its own tab/page. Boundary classes (directly connected classes from other KAs) appear as dashed-border context, but only supertypes — a base class does not pull in subtypes from other KAs. This keeps each tab focused and readable.
+
+        Full-page mode (optional): When the user explicitly requests a single-page diagram (e.g. --full), all KAs render on one page. This is the exception, not the default.
+
+        When the team edits the diagram in Draw.io, the skill syncs those changes back to the source model file, so diagram and text never drift apart.</span></span></span></a>
               </div>
             </div>
             <div class="aad-delivery-crosscut-row aad-crosscut-tier--practice" data-crosscut-group="story-driven-delivery" data-family="story-driven-delivery">
@@ -6436,8 +6533,363 @@ html.foundry-scroll-pending {
 
 <div class="skill-hero-img-wrap">
 
-<!-- drawio-rev:1781285438 --><div class="skill-drawio-wrap" data-drawio-rev="1781285438"><div class="mxgraph" data-mxgraph="{&quot;highlight&quot;: &quot;#e5531a&quot;, &quot;nav&quot;: false, &quot;resize&quot;: false, &quot;zoom&quot;: 0.75, &quot;toolbar&quot;: &quot;zoom lightbox&quot;, &quot;xml&quot;: &quot;&lt;mxfile host=\&quot;65bd71144e\&quot;&gt;\n    &lt;diagram id=\&quot;page_domain_module_participants\&quot; name=\&quot;Domain Module Participants\&quot;&gt;\n        &lt;mxGraphModel dx=\&quot;1096\&quot; dy=\&quot;1573\&quot; grid=\&quot;1\&quot; gridSize=\&quot;10\&quot; guides=\&quot;1\&quot; tooltips=\&quot;1\&quot; connect=\&quot;1\&quot; arrows=\&quot;1\&quot; fold=\&quot;1\&quot; page=\&quot;1\&quot; pageScale=\&quot;1\&quot; pageWidth=\&quot;1460\&quot; pageHeight=\&quot;900\&quot; math=\&quot;0\&quot; shadow=\&quot;0\&quot;&gt;\n            &lt;root&gt;\n                &lt;mxCell id=\&quot;0\&quot;/&gt;\n                &lt;mxCell id=\&quot;1\&quot; parent=\&quot;0\&quot;/&gt;\n                &lt;mxCell id=\&quot;3\&quot; value=\&quot;&amp;lt;p style=&amp;quot;margin:0px;margin-top:4px;text-align:center;&amp;quot;&amp;gt;&amp;lt;i style=&amp;quot;font-size:9px;color:#888;&amp;quot;&amp;gt;\u00abshared entity\u00bb&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;b&amp;gt;&amp;amp;lt;&amp;amp;lt;Entity&amp;amp;gt;&amp;amp;gt;&amp;lt;/b&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;+ +&amp;amp;lt;&amp;amp;lt;operation&amp;amp;gt;&amp;amp;gt;()&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;\&quot; style=\&quot;verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;770\&quot; y=\&quot;-70\&quot; width=\&quot;260\&quot; height=\&quot;96\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;5\&quot; value=\&quot;&amp;lt;p style=&amp;quot;margin:0px;margin-top:4px;text-align:center;&amp;quot;&amp;gt;&amp;lt;i style=&amp;quot;font-size:9px;color:#888;&amp;quot;&amp;gt;\u00abshared interface\u00bb&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;b&amp;gt;&amp;amp;lt;&amp;amp;lt;Entity&amp;amp;gt;&amp;amp;gt;Repository&amp;lt;/b&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;+ +&amp;amp;lt;&amp;amp;lt;operation&amp;amp;gt;&amp;amp;gt;(args)&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;\&quot; style=\&quot;verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1190\&quot; y=\&quot;340\&quot; width=\&quot;260\&quot; height=\&quot;96\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;6\&quot; value=\&quot;&amp;lt;p style=&amp;quot;margin:0px;margin-top:4px;text-align:center;&amp;quot;&amp;gt;&amp;lt;i style=&amp;quot;font-size:9px;color:#888;&amp;quot;&amp;gt;\u00abclient domain JS\u00bb&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;b&amp;gt;&amp;amp;lt;&amp;amp;lt;Entity&amp;amp;gt;&amp;amp;gt;Client&amp;lt;/b&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;+ +&amp;amp;lt;&amp;amp;lt;operation&amp;amp;gt;&amp;amp;gt;()&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;\&quot; style=\&quot;verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;330\&quot; y=\&quot;170\&quot; width=\&quot;260\&quot; height=\&quot;96\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;8\&quot; value=\&quot;&amp;lt;p style=&amp;quot;margin:0px;margin-top:4px;text-align:center;&amp;quot;&amp;gt;&amp;lt;i style=&amp;quot;font-size: 9px; color: rgb(136, 136, 136);&amp;quot;&amp;gt;\u00abserver\u00bb&amp;lt;/i&amp;gt;&amp;lt;br&amp;gt;&amp;lt;b&amp;gt;&amp;amp;lt;&amp;amp;lt;Entity&amp;amp;gt;&amp;amp;gt; Server&amp;lt;/b&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;&amp;lt;br&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;+ +&amp;amp;lt;&amp;amp;lt;operation&amp;amp;gt;&amp;amp;gt;(args, repo)&amp;lt;br&amp;gt;&amp;lt;/p&amp;gt;\&quot; style=\&quot;verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;1020\&quot; y=\&quot;150\&quot; width=\&quot;260\&quot; height=\&quot;96\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;11\&quot; value=\&quot;&amp;lt;p style=&amp;quot;margin:0px;margin-top:4px;text-align:center;&amp;quot;&amp;gt;&amp;lt;i style=&amp;quot;font-size:9px;color:#888;&amp;quot;&amp;gt;\u00abclient HTTP\u00bb&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;b&amp;gt;&amp;amp;lt;&amp;amp;lt;Entity&amp;amp;gt;&amp;amp;gt;Api&amp;lt;/b&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;+ +&amp;amp;lt;&amp;amp;lt;operation&amp;amp;gt;&amp;amp;gt;(args)&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;\&quot; style=\&quot;verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;670\&quot; y=\&quot;190\&quot; width=\&quot;260\&quot; height=\&quot;96\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;12\&quot; value=\&quot;&amp;lt;p style=&amp;quot;margin:0px;margin-top:4px;text-align:center;&amp;quot;&amp;gt;&amp;lt;i style=&amp;quot;font-size:9px;color:#888;&amp;quot;&amp;gt;\u00abserver\u00bb&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;b&amp;gt;&amp;amp;lt;&amp;amp;lt;Entity&amp;amp;gt;&amp;amp;gt;Router&amp;lt;/b&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;+ +&amp;amp;lt;&amp;amp;lt;operation&amp;amp;gt;&amp;amp;gt;(req, res)&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;\&quot; style=\&quot;verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;860\&quot; y=\&quot;360\&quot; width=\&quot;260\&quot; height=\&quot;96\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;15\&quot; value=\&quot;&amp;lt;p style=&amp;quot;margin:0px;margin-top:4px;text-align:center;&amp;quot;&amp;gt;&amp;lt;i style=&amp;quot;font-size:9px;color:#888;&amp;quot;&amp;gt;\u00abclient view\u00bb&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;b&amp;gt;&amp;amp;lt;&amp;amp;lt;Entity&amp;amp;gt;&amp;amp;gt;CardView&amp;lt;/b&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;\&quot; style=\&quot;verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;430\&quot; y=\&quot;354\&quot; width=\&quot;260\&quot; height=\&quot;96\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;18\&quot; value=\&quot;\&quot; style=\&quot;endArrow=block;endSize=16;endFill=0;html=1;exitX=0.5;exitY=0;entryX=0.83;entryY=1.021;exitDx=0;exitDy=0;entryDx=0;entryDy=0;entryPerimeter=0;\&quot; parent=\&quot;1\&quot; source=\&quot;8\&quot; target=\&quot;3\&quot; edge=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;31\&quot; value=\&quot;&amp;lt;&amp;lt;operation&amp;gt;&amp;gt;\&quot; style=\&quot;rounded=1;endArrow=open;endSize=12;html=1;exitX=0.3;exitY=0;entryX=0.7;entryY=1;exitDx=0;exitDy=0;entryDx=0;entryDy=0;\&quot; parent=\&quot;1\&quot; source=\&quot;15\&quot; target=\&quot;6\&quot; edge=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;32\&quot; value=\&quot;\&quot; style=\&quot;rounded=1;endArrow=open;endSize=12;html=1;\&quot; parent=\&quot;1\&quot; source=\&quot;12\&quot; target=\&quot;8\&quot; edge=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;37\&quot; value=\&quot;&amp;lt;div&amp;gt;loads / saves&amp;lt;/div&amp;gt;\&quot; style=\&quot;rounded=1;endArrow=open;endSize=12;html=1;entryX=0.463;entryY=0.063;entryDx=0;entryDy=0;entryPerimeter=0;fontStyle=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;8\&quot; target=\&quot;5\&quot;&gt;\n                    &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;&gt;\n                        &lt;mxPoint x=\&quot;1250\&quot; y=\&quot;330\&quot; as=\&quot;sourcePoint\&quot;/&gt;\n                        &lt;mxPoint x=\&quot;1158\&quot; y=\&quot;266\&quot; as=\&quot;targetPoint\&quot;/&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;39\&quot; value=\&quot;calls\&quot; style=\&quot;rounded=1;endArrow=open;endSize=12;html=1;exitX=0.878;exitY=0.992;exitDx=0;exitDy=0;exitPerimeter=0;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;11\&quot; target=\&quot;12\&quot;&gt;\n                    &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;&gt;\n                        &lt;mxPoint x=\&quot;722\&quot; y=\&quot;246\&quot; as=\&quot;sourcePoint\&quot;/&gt;\n                        &lt;mxPoint x=\&quot;690\&quot; y=\&quot;330\&quot; as=\&quot;targetPoint\&quot;/&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;40\&quot; value=\&quot;\&quot; style=\&quot;endArrow=block;endSize=16;endFill=0;html=1;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;6\&quot; target=\&quot;3\&quot;&gt;\n                    &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;&gt;\n                        &lt;mxPoint x=\&quot;825\&quot; y=\&quot;170\&quot; as=\&quot;sourcePoint\&quot;/&gt;\n                        &lt;mxPoint x=\&quot;908\&quot; y=\&quot;56\&quot; as=\&quot;targetPoint\&quot;/&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;41\&quot; value=\&quot;&amp;lt;div&amp;gt;loads / saves&amp;lt;/div&amp;gt;\&quot; style=\&quot;rounded=1;endArrow=open;endSize=12;html=1;exitX=0.398;exitY=1.066;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitPerimeter=0;\&quot; edge=\&quot;1\&quot; parent=\&quot;1\&quot; source=\&quot;3\&quot; target=\&quot;11\&quot;&gt;\n                    &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;&gt;\n                        &lt;mxPoint x=\&quot;697\&quot; y=\&quot;60\&quot; as=\&quot;sourcePoint\&quot;/&gt;\n                        &lt;mxPoint x=\&quot;670\&quot; y=\&quot;185\&quot; as=\&quot;targetPoint\&quot;/&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n            &lt;/root&gt;\n        &lt;/mxGraphModel&gt;\n    &lt;/diagram&gt;\n&lt;/mxfile&gt;&quot;}"></div></div><script type="text/javascript" src="https://viewer.diagrams.net/js/viewer-static.min.js"></script>
-<script src="../commons/catalog-drawio.js?v=foundry-3"></script>
+<div class='skill-code-preview'><div class='skill-code-lang'>typescript · example.ts</div><pre><code class='language-typescript'>/**
+ * example.ts — MERN Domain Module: all template files merged into one file.
+ *
+ * Replace every placeholder before using:
+ *   {{DomainName}}   → PascalCase entity name  (e.g. Recipient)
+ *   {{DomainNames}}  → PascalCase plural        (e.g. Recipients)
+ *   {{domainName}}   → camelCase singular       (e.g. recipient)
+ *   {{domainNames}}  → camelCase plural          (e.g. recipients)
+ *   {{appName}}      → npm scope / monorepo name (e.g. app)
+ *
+ * File layout this merges:
+ *   packages/{{domainName}}/
+ *     shared/
+ *       {{DomainName}}.ts              — entity + value objects (zero framework imports)
+ *       {{domainName}}.schema.ts       — Zod schema, DTO types, input types
+ *       {{DomainName}}s.ts             — collection class (shared client + server)
+ *       {{DomainName}}Repository.ts   — repository interface
+ *       index.ts                       — barrel
+ *     server/
+ *       {{domainName}}.repository.ts  — MongoDB implementation of the repository
+ *       {{domainName}}.routes.ts      — Express router factory
+ *       index.ts                       — barrel
+ *     client/
+ *       {{domainName}}.api.ts         — fetch wrapper (one function per route)
+ *       use{{DomainNames}}.ts          — React hook
+ *       {{DomainName}}ListView.tsx    — container view
+ *       {{DomainName}}CardView.tsx    — item view
+ *       index.ts                       — barrel
+ */
+
+// ─────────────────────────────────────────────────────────────────────────────
+// shared/{{DomainName}}.ts
+// Entity and value objects — zero framework imports.
+// ─────────────────────────────────────────────────────────────────────────────
+
+export type {{DomainName}}StatusType = &#x27;Active&#x27; | &#x27;Pending&#x27; | &#x27;Inactive&#x27;;
+
+export class {{DomainName}}Status {
+  constructor(
+    public readonly status: {{DomainName}}StatusType,
+    public readonly createdAt: Date
+  ) {}
+
+  isActive(): boolean {
+    return this.status === &#x27;Active&#x27;;
+  }
+
+  isPending(): boolean {
+    return this.status === &#x27;Pending&#x27;;
+  }
+}
+
+export interface {{DomainName}} {
+  id: string;
+  name: string;
+  status: {{DomainName}}Status;
+  createdAt: Date;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// shared/{{domainName}}.schema.ts
+// Zod schema used at repository boundary (.parse()) and API/form boundary (.safeParse()).
+// Both client/ and server/ import this — single source of truth.
+// ─────────────────────────────────────────────────────────────────────────────
+
+import { z } from &#x27;zod&#x27;;
+
+export const {{DomainName}}Schema = z.object({
+  id: z.string().uuid(),
+  name: z.string().min(1, &#x27;{{DomainName}} name is required&#x27;).max(140),
+  status: z.enum([&#x27;Active&#x27;, &#x27;Pending&#x27;, &#x27;Inactive&#x27;]),
+  createdAt: z.coerce.date(),
+});
+
+export const Create{{DomainName}}InputSchema = z.object({
+  name: z.string().min(1, &#x27;Name is required&#x27;).max(140),
+});
+
+export type Create{{DomainName}}Input = {
+  name: string;
+};
+
+export type {{DomainName}}DTO = {
+  id: string;
+  name: string;
+  status: &#x27;Active&#x27; | &#x27;Pending&#x27; | &#x27;Inactive&#x27;;
+  createdAt: Date;
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// shared/{{DomainName}}s.ts
+// Collection class — wraps {{DomainName}}[] with fluent query methods.
+// Used identically on client and server: same logic, zero duplication.
+// ─────────────────────────────────────────────────────────────────────────────
+
+export class {{DomainName}}s {
+  constructor(private readonly items: {{DomainName}}[]) {}
+
+  filterByStatus(status: {{DomainName}}StatusType): {{DomainName}}s {
+    return new {{DomainName}}s(this.items.filter(r =&gt; r.status.status === status));
+  }
+
+  search(query: string): {{DomainName}}s {
+    const lower = query.toLowerCase();
+    return new {{DomainName}}s(
+      this.items.filter(r =&gt; r.name.toLowerCase().includes(lower))
+    );
+  }
+
+  toArray(): {{DomainName}}[] {
+    return [...this.items];
+  }
+
+  get length(): number {
+    return this.items.length;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// shared/{{DomainName}}Repository.ts
+// Repository interface — server provides the concrete implementation.
+// ─────────────────────────────────────────────────────────────────────────────
+
+export interface {{DomainName}}Repository {
+  findAll(): Promise&lt;{{DomainName}}[]&gt;;
+  findById(id: string): Promise&lt;{{DomainName}} | null&gt;;
+  save(input: Create{{DomainName}}Input): Promise&lt;{{DomainName}}&gt;;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// shared/index.ts
+// ─────────────────────────────────────────────────────────────────────────────
+
+// export * from &#x27;./{{DomainName}}&#x27;;
+// export * from &#x27;./{{domainName}}.schema&#x27;;
+// export * from &#x27;./{{DomainName}}s&#x27;;
+// export * from &#x27;./{{DomainName}}Repository&#x27;;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// server/{{domainName}}.repository.ts
+// MongoDB implementation. Validates raw docs with the shared Zod schema at the
+// repository boundary — only typed domain entities propagate further.
+// ─────────────────────────────────────────────────────────────────────────────
+
+import { Collection, Db } from &#x27;mongodb&#x27;;
+
+function toDomainEntity(dto: {{DomainName}}DTO): {{DomainName}} {
+  return {
+    id: dto.id,
+    name: dto.name,
+    status: new {{DomainName}}Status(dto.status, dto.createdAt),
+    createdAt: dto.createdAt,
+  };
+}
+
+export class {{DomainName}}sRepository implements {{DomainName}}Repository {
+  private collection: Collection;
+
+  constructor(db: Db) {
+    this.collection = db.collection(&#x27;{{domainNames}}&#x27;);
+  }
+
+  async findAll(): Promise&lt;{{DomainName}}[]&gt; {
+    const docs = await this.collection.find().toArray();
+    return docs.map(doc =&gt; toDomainEntity({{DomainName}}Schema.parse(doc)));
+  }
+
+  async findById(id: string): Promise&lt;{{DomainName}} | null&gt; {
+    const doc = await this.collection.findOne({ id });
+    if (!doc) return null;
+    return toDomainEntity({{DomainName}}Schema.parse(doc));
+  }
+
+  async save(input: Create{{DomainName}}Input): Promise&lt;{{DomainName}}&gt; {
+    const doc = {
+      id: crypto.randomUUID(),
+      name: input.name,
+      status: &#x27;Pending&#x27;,
+      createdAt: new Date(),
+    };
+    await this.collection.insertOne(doc);
+    return toDomainEntity({{DomainName}}Schema.parse(doc));
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// server/{{domainName}}.routes.ts
+// Express router factory. Route paths use kebab-case of the domain verb.
+// Every route has a corresponding function in client/{{domainName}}.api.ts.
+// ─────────────────────────────────────────────────────────────────────────────
+
+import { Router } from &#x27;express&#x27;;
+
+export function create{{DomainName}}sRouter(repo: {{DomainName}}sRepository): Router {
+  const router = Router();
+
+  router.get(&#x27;/&#x27;, async (req, res) =&gt; {
+    const all = await repo.findAll();
+    const activeOnly = req.query.active_only === &#x27;true&#x27;;
+    let collection = new {{DomainName}}s(all);
+    if (activeOnly) {
+      collection = collection.filterByStatus(&#x27;Active&#x27;);
+    }
+    res.json(collection.toArray());
+  });
+
+  router.get(&#x27;/:id&#x27;, async (req, res) =&gt; {
+    const item = await repo.findById(req.params.id);
+    if (!item) {
+      res.status(404).json({ error: &#x27;Not found&#x27; });
+      return;
+    }
+    res.json(item);
+  });
+
+  router.post(&#x27;/&#x27;, async (req, res) =&gt; {
+    const validation = Create{{DomainName}}InputSchema.safeParse(req.body);
+    if (!validation.success) {
+      res.status(400).json({ error: validation.error.issues[0].message });
+      return;
+    }
+    const created = await repo.save(validation.data);
+    res.status(201).json(created);
+  });
+
+  return router;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// server/index.ts
+// ─────────────────────────────────────────────────────────────────────────────
+
+// export { {{DomainName}}sRepository } from &#x27;./{{domainName}}.repository&#x27;;
+// export { create{{DomainName}}sRouter } from &#x27;./{{domainName}}.routes&#x27;;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// client/{{domainName}}.api.ts
+// Fetch wrapper — one function per server route. Function names match the domain
+// verb exactly. Wire format → typed objects via the shared schema happens here.
+// ─────────────────────────────────────────────────────────────────────────────
+
+const API_BASE = &#x27;/api/{{domainNames}}&#x27;;
+
+export async function list{{DomainName}}s(
+  filters?: { activeOnly?: boolean }
+): Promise&lt;{{DomainName}}[]&gt; {
+  const params = new URLSearchParams();
+  if (filters?.activeOnly) params.set(&#x27;active_only&#x27;, &#x27;true&#x27;);
+  const response = await fetch(`${API_BASE}?${params}`);
+  return response.json();
+}
+
+export async function get{{DomainName}}(id: string): Promise&lt;{{DomainName}}&gt; {
+  const response = await fetch(`${API_BASE}/${id}`);
+  return response.json();
+}
+
+export async function create{{DomainName}}(
+  input: Record&lt;string, unknown&gt;
+): Promise&lt;{{DomainName}}&gt; {
+  const response = await fetch(API_BASE, {
+    method: &#x27;POST&#x27;,
+    headers: { &#x27;Content-Type&#x27;: &#x27;application/json&#x27; },
+    body: JSON.stringify(input),
+  });
+  return response.json();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// client/use{{DomainNames}}.ts
+// React hook — loads domain entities from the API, exposes search/filter using
+// the SHARED {{DomainName}}s collection class (same logic as server-side).
+// ─────────────────────────────────────────────────────────────────────────────
+
+import { useState, useEffect, useCallback } from &#x27;react&#x27;;
+
+export function use{{DomainName}}s() {
+  const [items, setItems] = useState&lt;{{DomainName}}[]&gt;([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() =&gt; {
+    setLoading(true);
+    list{{DomainName}}s({ activeOnly: true })
+      .then(setItems)
+      .finally(() =&gt; setLoading(false));
+  }, []);
+
+  const filterBySearch = useCallback((query: string) =&gt; {
+    const collection = new {{DomainName}}s(items);
+    return collection.search(query).toArray();
+  }, [items]);
+
+  return { items, loading, filterBySearch };
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// client/{{DomainName}}ListView.tsx
+// Container view — search input + list of card views.
+// No business logic: delegates to the hook; hook delegates to the collection class.
+// ─────────────────────────────────────────────────────────────────────────────
+
+export function {{DomainName}}ListView({ onSelectItem }: { onSelectItem?: (item: {{DomainName}}) =&gt; void }) {
+  const { items, loading, filterBySearch } = use{{DomainName}}s();
+  const [searchQuery, setSearchQuery] = useState(&#x27;&#x27;);
+
+  const displayed = searchQuery ? filterBySearch(searchQuery) : items;
+
+  if (loading) return &lt;p&gt;Loading...&lt;/p&gt;;
+
+  return (
+    &lt;div className=&quot;{{domainName}}-list&quot;&gt;
+      &lt;input
+        type=&quot;search&quot;
+        placeholder=&quot;Search...&quot;
+        value={searchQuery}
+        onChange={(e: any) =&gt; setSearchQuery(e.target.value)}
+      /&gt;
+      {displayed.map(item =&gt; (
+        &lt;{{DomainName}}CardView key={item.id} item={item} onSelect={onSelectItem} /&gt;
+      ))}
+    &lt;/div&gt;
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// client/{{DomainName}}CardView.tsx
+// Item view — presentational, one entity per card.
+// Receives a {{DomainName}} and delegates any interaction to the caller.
+// ─────────────────────────────────────────────────────────────────────────────
+
+export function {{DomainName}}CardView({
+  item,
+  onSelect,
+}: {
+  item: {{DomainName}};
+  onSelect?: (item: {{DomainName}}) =&gt; void;
+}) {
+  return (
+    &lt;div
+      className=&quot;{{domainName}}-card&quot;
+      onClick={() =&gt; onSelect?.(item)}
+      role={onSelect ? &#x27;button&#x27; : undefined}
+    &gt;
+      &lt;h3&gt;{item.name}&lt;/h3&gt;
+      &lt;span className=&quot;status&quot;&gt;{item.status.status}&lt;/span&gt;
+    &lt;/div&gt;
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// client/index.ts
+// ─────────────────────────────────────────────────────────────────────────────
+
+// export { {{DomainName}}ListView } from &#x27;./{{DomainName}}ListView&#x27;;
+// export { {{DomainName}}CardView } from &#x27;./{{DomainName}}CardView&#x27;;
+// export { use{{DomainName}}s } from &#x27;./use{{DomainName}}s&#x27;;
+</code></pre></div>
 
 
 </div>
@@ -6446,6 +6898,7 @@ html.foundry-scroll-pending {
   <h2 id="install-npx-heading">Install with npx</h2>
   <p class="install-hint">Install this package from <a href="https://github.com/abd-works/abd-skills">https://github.com/abd-works/abd-skills</a> into your project or global agent skills directory (see <a href="https://skills.sh/">skills.sh</a> / Open Agent Skills).</p>
   <pre class="install-snippet"><code>npx skills add abd-works/abd-skills@abd-architecture-specification -y</code></pre>
+  <p class="install-source"><a href="https://github.com/abd-works/abd-skills/tree/main/practices/architecture-centric-engineering/skills/abd-architecture-specification" target="_blank" rel="noopener noreferrer">View source</a> <span class="install-source-path">practices/architecture-centric-engineering/skills/abd-architecture-specification</span></p>
 </section>
 
 
@@ -6599,8 +7052,8 @@ html.foundry-scroll-pending {
 
 </main>
 
-<script src="../commons/catalog-foundry-tour.js?v=foundry-21"></script>
-<script src="../commons/catalog-foundry-skill-nav.js?v=foundry-28"></script>
+<script src="../commons/catalog-foundry-tour.js?v=foundry-36"></script>
+<script src="../commons/catalog-foundry-skill-nav.js?v=foundry-29"></script>
 
 </body>
 

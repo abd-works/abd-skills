@@ -132,6 +132,7 @@ from catalog_repo_urls import (  # noqa: E402
     GITHUB_BLOB_MAIN,
     GITHUB_RAW_MAIN,
     GITHUB_REPO_URL,
+    GITHUB_TREE_MAIN,
     HTMLPREVIEW_PREFIX,
     NPX_SKILLS_REPO_SLUG,
 )
@@ -688,10 +689,12 @@ def _html_attr(text: str) -> str:
     return text.replace("&", "&amp;").replace('"', "&quot;")
 
 
-def _npx_skills_install_block(skill_package_name: str) -> str:
-    """HTML: copy-paste `npx skills add` line using @skill (matches `npx skills` discover names)."""
+def _npx_skills_install_block(skill_package_name: str, pkg_rel_posix: str) -> str:
+    """HTML: copy-paste `npx skills add` line plus GitHub folder link for the skill package."""
     name = skill_package_name.strip()
     cmd = f"npx skills add {NPX_SKILLS_REPO_SLUG}@{name} -y"
+    rel_display = pkg_rel_posix.replace("\\", "/").strip("/")
+    source_href = _repo_href(GITHUB_TREE_MAIN, rel_display)
     return (
         '<section class="install-block" aria-labelledby="install-npx-heading">\n'
         '  <h2 id="install-npx-heading">Install with npx</h2>\n'
@@ -701,6 +704,10 @@ def _npx_skills_install_block(skill_package_name: str) -> str:
         '  <pre class="install-snippet"><code>'
         + _h(cmd)
         + "</code></pre>\n"
+        '  <p class="install-source">'
+        f'<a href="{_h(source_href)}"{_REPO_LINK_NEW_TAB}>View source</a>'
+        f' <span class="install-source-path">{_h(rel_display)}</span>'
+        "</p>\n"
         "</section>\n"
     )
 
@@ -2290,7 +2297,7 @@ def write_entry_detail_pages(
             ascii_art = _ascii_placeholder_no_readme()
         how_block = _html_how_it_fits_block(ascii_art)
         file_list = _html_contents_list(repo_root, pkg, href_to_repo)
-        install_block = _npx_skills_install_block(s.name)
+        install_block = _npx_skills_install_block(s.name, s.pkg_rel_posix)
         entry_md = (
             _html_package_md_collapsible_sections(body)
             if body.strip()

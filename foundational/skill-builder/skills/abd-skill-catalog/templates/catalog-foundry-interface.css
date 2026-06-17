@@ -185,6 +185,10 @@ html[data-theme="engineering"] .foundry-kanban-surface {
   max-height: 32em;
   margin-top: 8px;
 }
+.foundry-guide__body.is-expanding.is-tall {
+  max-height: min(62em, 72vh);
+  overflow-y: auto;
+}
 .foundry-guide__body.is-revealed {
   opacity: 1;
   transform: translateY(0);
@@ -325,6 +329,57 @@ html[data-theme="engineering"] .foundry-kanban-surface {
 .foundry-guide__executable-row--arc .foundry-guide__executable-name { color: var(--fam-arc); }
 
 .foundry-guide__executable-desc { flex: 1; color: var(--text); }
+
+.foundry-guide__change-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.foundry-guide__change-row {
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.foundry-guide__change-row--sdd { border-left: 3px solid var(--fam-sdd); }
+.foundry-guide__change-row--ddd { border-left: 3px solid var(--fam-ddd); }
+.foundry-guide__change-row--uxd { border-left: 3px solid var(--fam-uxd); }
+.foundry-guide__change-row--arc { border-left: 3px solid var(--fam-arc); }
+.foundry-guide__change-row--team { border-left: 3px solid var(--fam-delivery); }
+
+.foundry-guide__change-name {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.foundry-guide__change-row--sdd .foundry-guide__change-name { color: var(--fam-sdd); }
+.foundry-guide__change-row--ddd .foundry-guide__change-name { color: var(--fam-ddd); }
+.foundry-guide__change-row--uxd .foundry-guide__change-name { color: var(--fam-uxd); }
+.foundry-guide__change-row--arc .foundry-guide__change-name { color: var(--fam-arc); }
+.foundry-guide__change-row--team .foundry-guide__change-name { color: var(--fam-delivery); }
+
+.foundry-guide__change-bullets {
+  margin: 0;
+  padding: 0 0 0 16px;
+  color: var(--text);
+}
+
+.foundry-guide__change-bullets li {
+  margin-bottom: 4px;
+}
+
+.foundry-guide__change-bullets li:last-child {
+  margin-bottom: 0;
+}
 
 @media (max-width: 720px) {
   .foundry-guide__scale { grid-template-columns: repeat(2, 1fr); }
@@ -535,8 +590,8 @@ html[data-theme="engineering"] .foundry-kanban-surface {
   grid-template-rows: auto repeat(4, var(--foundry-skill-row-h)) var(--foundry-stage-skills-gap-h) repeat(var(--foundry-stage-skill-rows), var(--foundry-skill-row-h));
 }
 .foundry-kanban-surface.foundry-skills-collapsed .foundry-board-grid {
-  /* Keep practice-rail family row tracks; clip stage-other rows when collapsed. */
-  grid-template-rows: auto repeat(4, var(--foundry-skill-row-h)) 0px var(--foundry-skill-row-h) 0px 0px;
+  /* Collapsed idle: zero family row tracks; JS refines when filter active or expanded. */
+  grid-template-rows: auto 0px 0px 0px 0px 0px 0px 0px 0px;
 }
 .foundry-kanban-surface--supporting-only .foundry-skills-extra {
   grid-template-rows: 1fr;
@@ -706,10 +761,27 @@ html.foundry-scroll-pending {
 .foundry-kanban-surface.foundry-skills-collapsed.foundry-skill-filter-active:not(.foundry-skill-filter-other) .foundry-practice-col__other-practices {
   display: none !important;
 }
-.foundry-kanban-surface.foundry-skills-collapsed .foundry-practice-col__card,
-.foundry-kanban-surface.foundry-skills-collapsed .foundry-practice-col .foundry-family-toggle,
-.foundry-kanban-surface.foundry-skills-collapsed .foundry-practice-col__other-practices,
-.foundry-kanban-surface.foundry-skills-collapsed .foundry-practice-col__other-practices .foundry-family-toggle {
+/* Collapsed idle: hide practice-rail families — only Skills toggle stays visible */
+.foundry-kanban-surface.foundry-skills-collapsed.foundry-skill-filter-idle .foundry-practice-col__card,
+.foundry-kanban-surface.foundry-skills-collapsed.foundry-skill-filter-idle .foundry-practice-col .foundry-family-toggle,
+.foundry-kanban-surface.foundry-skills-collapsed.foundry-skill-filter-idle .foundry-practice-col__other-practices,
+.foundry-kanban-surface.foundry-skills-collapsed.foundry-skill-filter-idle .foundry-practice-col__other-practices .foundry-family-toggle,
+.foundry-kanban-surface.foundry-skills-collapsed.foundry-skill-filter-idle .foundry-practice-col__stage-spacer {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  overflow: hidden;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Expanded: show all practice-rail family chips */
+.foundry-kanban-surface.foundry-skills-expanded .foundry-practice-col__card,
+.foundry-kanban-surface.foundry-skills-expanded .foundry-practice-col .foundry-family-toggle,
+.foundry-kanban-surface.foundry-skills-expanded .foundry-practice-col__other-practices,
+.foundry-kanban-surface.foundry-skills-expanded .foundry-practice-col__other-practices .foundry-family-toggle {
   opacity: 1 !important;
   pointer-events: auto !important;
   visibility: visible !important;
@@ -717,6 +789,15 @@ html.foundry-scroll-pending {
   min-width: 0;
   max-width: 100%;
   box-sizing: border-box;
+}
+
+/* Collapsed focus mode: ticked families stay visible in the practice rail */
+.foundry-kanban-surface.foundry-skills-collapsed.foundry-skill-filter-active .foundry-practice-col .foundry-family-toggle.is-selected,
+.foundry-kanban-surface.foundry-skills-collapsed.foundry-skill-filter-active .foundry-practice-col__other-practices .foundry-family-toggle.is-selected {
+  display: flex !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  visibility: visible !important;
 }
 
 /* Board row grid slots — explicit subgrid slots keep stage columns aligned */
@@ -1238,9 +1319,6 @@ html.foundry-scroll-pending {
   grid-template-columns: 168px repeat(5, minmax(0, 1fr));
   gap: 0 6px;
   margin: 8px 6px 0;
-}
-.foundry-kanban-surface.foundry-skills-collapsed .kanban-stage-questions {
-  display: none;
 }
 .kanban-stage-questions--foundry .kanban-stage-questions__list {
   list-style: none;

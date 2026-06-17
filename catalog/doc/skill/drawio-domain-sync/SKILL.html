@@ -10,15 +10,15 @@
 <link rel="stylesheet" href="../../../commons/site.css?v=foundry-3">
 <style>
 /*
-  ABD Foundry — catalog prelude + gardener lesson fragment.
+  Agile Garden — AI Garden prelude + gardener lesson fragment.
   Inlined via generate_abd_catalog.py. Max border-radius 6px; flat surfaces.
-  Brand split: --accent (#E5531A) for column chrome / rails; --ai-accent on dense
-  mono skill links (engineering mode only — executive overrides in catalog.css).
+  Brand split: orange-500 (#E5531A) for column chrome / rails; ai-blue (#4FC3F7 / #81D4FA)
+  on dense mono skill links — see abd-works-brand BRAND-GUIDELINES §3.1 (ai-blue-500).
 */
 .catalog-prelude {
   margin: 0 0 24px;
   padding: 0 0 20px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #2A2A2A;
 }
 .catalog-prelude-heading {
   margin: 0 0 12px;
@@ -27,7 +27,7 @@
   color: var(--text);
   line-height: 1.25;
   padding-bottom: 8px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #2A2A2A;
   scroll-margin-top: 48px;
 }
 .catalog-prelude-tagline {
@@ -43,9 +43,9 @@
   margin: 0 0 18px;
 }
 .catalog-mission-card {
-  background: var(--raised);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
+  background: #1B1B20;
+  border: 1px solid #2A2A2A;
+  border-left: 3px solid #E5531A;
   border-radius: 4px;
   padding: 14px 20px;
   display: flex;
@@ -57,7 +57,7 @@
   flex-shrink: 0;
   font-size: 0.95rem;
   font-weight: 700;
-  color: var(--text);
+  color: #F4F4F5;
   margin: 0;
   white-space: nowrap;
 }
@@ -71,14 +71,14 @@
 .catalog-mission-card--teal,
 .catalog-mission-card--amber,
 .catalog-mission-card--purple {
-  background: var(--raised);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
+  background: #1B1B20;
+  border: 1px solid #2A2A2A;
+  border-left: 3px solid #E5531A;
 }
 .catalog-mission-card--teal h3,
 .catalog-mission-card--amber h3,
 .catalog-mission-card--purple h3 {
-  color: var(--text);
+  color: #F4F4F5;
 }
 @media (max-width: 720px) {
   .catalog-mission { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -95,17 +95,17 @@
   gap: 10px;
   padding: 8px 0 10px;
   margin: 24px 0 12px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #2A2A2A;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: #E5531A;
 }
 .catalog-section-label--foundational {
   margin-top: 28px;
-  color: var(--muted);
-  border-bottom-color: var(--border-muted);
+  color: #8A8A97;
+  border-bottom-color: #1A1A1E;
 }
 
 /* ── Practice grid — all 5 disciplines forced onto one row ── */
@@ -113,8 +113,8 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
   border-radius: 6px;
   overflow: hidden;
   margin: 0;
@@ -131,8 +131,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
   border-radius: 6px;
   overflow: hidden;
 }
@@ -158,7 +158,7 @@
   display: block !important;
   font-size: 0.82rem;
   line-height: 1.5;
-  color: var(--muted);
+  color: #9B9BA8;
 }
 
 /* ── Agents grid — single wide column ── */
@@ -166,15 +166,15 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
   border-radius: 6px;
   overflow: hidden;
 }
 .catalog-section-label--agents {
   margin-top: 28px;
-  color: var(--accent);
-  border-bottom-color: var(--border);
+  color: #E5531A;
+  border-bottom-color: #2A2A2A;
 }
 
 /* ── Shared column card ── */
@@ -199,7 +199,7 @@
   margin-top: 0;
 }
 .catalog-garden-col {
-  background: var(--surface);
+  background: #111113;
   border: none;
   border-radius: 0;
   overflow: hidden;
@@ -213,17 +213,17 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  border-bottom: 1px solid var(--border);
-  background: var(--raised);
-  color: var(--accent);
-  border-left: 3px solid var(--accent);
+  border-bottom: 1px solid #2A2A2A;
+  background: #1B1B20;
+  color: #E5531A;
+  border-left: 3px solid #E5531A;
 }
 .catalog-garden-col-header--practice,
 .catalog-garden-col-header--foundational,
 .catalog-garden-col-header--agents {
-  background: var(--raised);
-  color: var(--accent);
-  border-left: 3px solid var(--accent);
+  background: #1B1B20;
+  color: #E5531A;
+  border-left: 3px solid #E5531A;
 }
 .catalog-garden-ico { flex-shrink: 0; display: block; }
 .catalog-garden-row {
@@ -231,11 +231,11 @@
   align-items: center;
   gap: 10px;
   padding: 6px 16px;
-  border-bottom: 1px solid var(--border-muted);
+  border-bottom: 1px solid #1A1A1E;
   font-size: 0.85rem;
 }
 .catalog-garden-row:last-child { border-bottom: none; }
-/* Skill/agent links — mono names; ai-accent on dark (engineering mode) */
+/* Skill/agent links — mono names stay near-white; ai-blue hairline/hover (brand AI accent, not orange wall) */
 .catalog-garden-name {
   font-weight: 700;
   font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
@@ -243,11 +243,12 @@
   min-width: 0;
   overflow-wrap: anywhere;
   word-break: break-word;
-  color: var(--ai-accent);
+  color: #4FC3F7;
 }
+/* !important beats global `a { … }`, :visited, and concatenation order */
 .catalog-prelude .catalog-garden-name a,
 .catalog-garden-lists .catalog-garden-name a {
-  color: var(--ai-accent) !important;
+  color: #4FC3F7 !important;
   font-weight: 700 !important;
   text-decoration: none !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
@@ -256,19 +257,19 @@
 .catalog-prelude .catalog-garden-name a:focus-visible,
 .catalog-garden-lists .catalog-garden-name a:hover,
 .catalog-garden-lists .catalog-garden-name a:focus-visible {
-  color: var(--ai-accent-soft) !important;
+  color: #81D4FA !important;
   border-bottom-color: rgba(79, 195, 247, 0.95);
 }
 .catalog-garden-name--agent a,
 .catalog-garden-name--foundational a {
-  color: var(--ai-accent) !important;
+  color: #4FC3F7 !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
 }
 .catalog-garden-name--agent a:hover,
 .catalog-garden-name--agent a:focus-visible,
 .catalog-garden-name--foundational a:hover,
 .catalog-garden-name--foundational a:focus-visible {
-  color: var(--ai-accent-soft) !important;
+  color: #81D4FA !important;
   border-bottom-color: rgba(79, 195, 247, 0.92);
 }
 .catalog-garden-name--dim {
@@ -791,6 +792,18 @@ a.cap-card:hover .cap-card__more {
   padding: 0;
   font-size: inherit;
   color: inherit;
+}
+.install-source {
+  margin: 12px 0 0;
+  font-size: 0.92rem;
+}
+.install-source a {
+  font-weight: 600;
+}
+.install-source-path {
+  color: var(--muted);
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.82em;
 }
 .file-list {
   list-style: none;
@@ -1702,7 +1715,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 </style>
 <script src="../../../commons/catalog-nav.js?v=foundry-10"></script>
 </head>
-<body data-nav-prefix="../../../" data-nav-current="skills" data-nav-site-base="../../../../../abd-works-website/">
+<body data-nav-prefix="../../../" data-nav-current="skills" data-nav-site-base="https://abd.works/">
 <main id="main-content">
 
 <div class="page-hero page-hero--detail">
@@ -1721,12 +1734,17 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <h2>Content</h2>
 <div class="rule-prose"><h1>drawio-domain-sync</h1>
 <h2>Purpose</h2>
-<p>This skill turns any domain model artifact — a Domain Language, Domain Model, or Domain Specification — into a Draw.io class diagram the whole team can read, annotate, and edit. Each Key Abstraction in the source file becomes its own page in the diagram, keeping visual scope manageable and per-abstraction structure clear. When the team edits the diagram in Draw.io, the skill syncs those changes back to the source model file, so diagram and text never drift apart.</p>
-<p>Positioning and layout are AI-driven: the agent reads the source, reasons about class relationships and inheritance chains, and places elements where the diagram reads best. There are no fixed grid scripts to run.</p>
+<p>This skill turns any domain model artifact — a Domain Language, Domain Model, or Domain Specification — into a Draw.io class diagram the whole team can read, annotate, and edit.</p>
+<p><strong>Default mode: per-KA tabs.</strong> Each Key Abstraction gets its own tab/page. Boundary classes (directly connected classes from other KAs) appear as dashed-border context, but only supertypes — a base class does not pull in subtypes from other KAs. This keeps each tab focused and readable.</p>
+<p><strong>Full-page mode (optional):</strong> When the user explicitly requests a single-page diagram (e.g. <code>--full</code>), all KAs render on one page. This is the exception, not the default.</p>
+<div class="spec-steps">
+<p class="spec-step">When the team edits the diagram in Draw.io, the skill syncs those changes back to the source model file, so diagram and text never drift apart.</p>
+</div>
 <hr>
 <h2>Output file</h2>
 <p><strong>Deliverables folder:</strong> see <code>../agent-protocol.md</code> — Output file resolution.</p>
-<p><strong>File name:</strong> <code>&lt;name&gt;-class-diagram.drawio</code> alongside the source model file.</p>
+<p><strong>Default (per-KA tabs):</strong> <code>&lt;name&gt;-class-diagram.drawio</code> alongside the source model file. The file contains one tab per KA plus an optional &quot;All KAs (Overview)&quot; tab.</p>
+<p><strong>Full-page mode:</strong> Same file name, single page containing all KAs. Only produced when the user explicitly requests it (e.g. <code>--full</code>, &quot;full diagram&quot;, &quot;single page&quot;).</p>
 <hr>
 <h2>Agent Instructions</h2>
 <p>&gt; <strong>MANDATORY — read <code>../agent-protocol.md</code> before starting. It defines read-gates, output file resolution, and the per-rule verdict format.</strong></p>
@@ -1736,15 +1754,44 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <li><strong><code>reference/concepts.md</code></strong> — source types (Domain Language, Domain Model, Domain Specification), page-per-KA convention, AI-driven layout, sync-back rules, incremental vs full rendering, build script persistence, and CLI reference pointer.</li>
 <li><strong><code>diagrams.md</code></strong> — full CLI command reference, layout guidelines, UML relationship selection, and cross-model import conventions.</li>
 </ul>
-<h3>2. Generate</h3>
+<h3>2. Generate — Per-KA Tabs (Default Mode)</h3>
 <p>Read every file in <strong><code>rules/</code></strong>; author to those rules.</p>
-<p><strong>Rendering (source → diagram):</strong></p>
-<p>1. <strong>Identify the source file</strong> — locate <code>&lt;name&gt;-domain-specification.md</code> / <code>class-model.md</code>, <code>&lt;name&gt;-domain-model.md</code> / <code>domain-model.md</code>, or <code>&lt;name&gt;-domain-language.md</code> / <code>domain-language.md</code>. Prefer highest fidelity available (Domain Specification &gt; Domain Model &gt; Domain Language). 2. <strong>For each Key Abstraction</strong>, init a page, plan layout (bases above derived), add imported ancestors, add local classes with rows/collaborators per source fidelity, add edges (inheritance → composition → association → dependency), inspect for overlaps, verify sync. 3. <strong>Persist build scripts</strong> when full renders produce bespoke Python scripts.</p>
+<p><strong>This is the default. Unless the user explicitly asks for a full single-page diagram, produce per-KA tabs.</strong></p>
+<p><strong>Per-KA tab rules:</strong></p>
+<p>1. <strong>One tab per KA</strong> — Each Key Abstraction gets its own page/tab in the <code>.drawio</code> file. 2. <strong>Boundary classes (directly connected only)</strong> — On each KA&#x27;s tab, include classes from other KAs that are <em>directly connected</em> via an edge (association, composition, aggregation, or dependency) to a class in this KA. These appear with dashed borders and reduced opacity to signal they are context, not the focus. 3. <strong>Supertypes only, not subtypes</strong> — A subtype that crosses KA boundaries pulls in its supertype as a boundary class. A supertype does NOT pull in subtypes from other KAs. The rule: if a class on this tab inherits from a class in another KA, show the parent. If a class on this tab is inherited by a class in another KA, do NOT show the child. 4. <strong>Exact layout from source</strong> — Use the same positions as the source diagram for all classes within the KA. Boundary classes are repositioned closer to the KA cluster they connect to. 5. <strong>Edge labels preserved</strong> — Role names (e.g. &quot;fromAccount&quot;, &quot;destinationAccount&quot;) on edges carry through to per-KA tabs. 6. <strong>Optional overview tab</strong> — Include an &quot;All KAs (Overview)&quot; tab as the first page showing everything on one canvas. This gives context but the per-KA tabs are the primary working view.</p>
+<p><strong>Workflow:</strong></p>
+<p>1. <strong>Identify the source file</strong> — locate the domain model or specification markdown. Prefer highest fidelity available (Domain Specification &gt; Domain Model &gt; Domain Language).</p>
+<p><strong>If a domain model diagram already exists</strong> — use <code>--base-diagram</code> to copy the existing diagram and update cells in place rather than re-laying-out from scratch.</p>
+<p>2. <strong>Render all KAs</strong> — Build the multi-tab file. For each KA:</p>
+<ul>
+<li>Place all classes belonging to that KA on its tab.</li>
+<li>Identify boundary classes (directly connected from other KAs, supertypes only).</li>
+<li>Add boundary classes with dashed/opacity styling.</li>
+<li>Draw all edges where both source and target are on the tab.</li>
+<li>Include edge labels (cardinality, role names).</li>
+</ul>
+<p>3. <strong>Audit</strong> — Run <code>audit_diagram_report()</code> on each tab. Fix overlaps.</p>
+<p>4. <strong>Report</strong> — Tell the user the diagram is ready for review.</p>
 <p><strong>CLI (from skill&#x27;s scripts/):</strong></p>
-<pre><code>python scripts/drawio_class_cli.py init &lt;drawio-file&gt; --page &quot;&lt;KA Name&gt;&quot;
-python scripts/drawio_class_cli.py inspect &lt;drawio-file&gt; --page &quot;&lt;KA Name&gt;&quot;
-python scripts/drawio_class_cli.py sync-to-model &lt;drawio-file&gt; --page &quot;&lt;KA Name&gt;&quot; --model &lt;source-file&gt;</code></pre>
+<pre><code># Default: per-KA tabs
+python scripts/drawio_domain_cli.py &lt;source.md&gt; --output &lt;file.drawio&gt;
+
+# Full single-page (only when explicitly requested):
+python scripts/drawio_domain_cli.py &lt;source.md&gt; --output &lt;file.drawio&gt; --full
+
+# From a base diagram (domain spec inherits domain model layout):
+python scripts/drawio_domain_cli.py &lt;spec.md&gt; --base-diagram &lt;existing.drawio&gt; --output &lt;spec-diagram.drawio&gt;
+
+# Inspect:
+python scripts/drawio_domain_cli.py inspect &lt;file.drawio&gt;
+
+# Sync back:
+python scripts/drawio_class_cli.py sync-to-model &lt;file.drawio&gt; --page &quot;&lt;KA Name&gt;&quot; --model &lt;source-file&gt;</code></pre>
+<p><strong><code>--base-diagram</code> workflow:</strong> When rendering a domain specification and a domain model diagram already exists, pass <code>--base-diagram &lt;model-diagram.drawio&gt;</code>. This copies the existing layout, updates each class cell in place with specification-level detail (typed properties, operations, invariants), adds new classes near their related classes, and redraws edges from the spec relationships.</p>
 <p><strong>Sync back (diagram → source):</strong> Run <code>sync-to-model</code> to surface the diff; review with the user; apply confirmed changes to the source model.</p>
+<h3>2b. Generate — Full Single-Page (Only When Requested)</h3>
+<p>Use this mode only when the user explicitly asks for it (says &quot;full diagram&quot;, &quot;single page&quot;, &quot;all on one page&quot;, or passes <code>--full</code>).</p>
+<p>1. <strong>For each Key Abstraction</strong>, init a page, plan layout (bases above derived), add imported ancestors, add local classes with rows/collaborators per source fidelity, add edges (inheritance → composition → association → dependency), inspect for overlaps, verify sync. 2. <strong>Persist build scripts</strong> when full renders produce bespoke Python scripts.</p>
 <h3>3. Validate</h3>
 <p>Run the scanners:</p>
 <pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
@@ -1759,14 +1806,13 @@ python scripts/drawio_class_cli.py sync-to-model &lt;drawio-file&gt; --page &quo
 <ul>
 <li><strong>Source identified</strong> — a Domain Language, Domain Model, or Domain Specification file was located before any diagram work began; the agent read the full file.</li>
 <li><strong>Rules read</strong> — all <code>rules/*.md</code> in this skill were consulted before placing any class on any page.</li>
-<li><strong>One page per KA</strong> — the <code>.drawio</code> file has one page per <code>## **KA**</code> heading; page names match KA headings exactly.</li>
-<li><strong>All KA concepts represented</strong> — every concept listed under a KA appears as a class on that KA&#x27;s page.</li>
-<li><strong>Domain Language bullets become rows</strong> — when source is a Domain Language file, every behavior bullet renders as a row, every italicized term resolves to a collaborator, cross-concept references are folded into one association edge, subtype headings produce inheritance edges, boundary stubs render as imported cards.</li>
-<li><strong>Cross-KA ancestors imported</strong> — ancestor classes from other KAs appear as imported classes (dashed border, <code>«from: KA Name»</code> stereotype).</li>
+<li><strong>Per-KA tabs produced (default)</strong> — each KA has its own tab/page in the .drawio file unless the user explicitly requested full single-page mode.</li>
+<li><strong>Boundary classes correct</strong> — only directly connected classes from other KAs appear as boundary (dashed). Supertypes are included; subtypes from other KAs are NOT.</li>
+<li><strong>No extraneous boundary classes</strong> — classes that are only indirectly connected (e.g. two hops away) do not appear on a KA&#x27;s tab.</li>
+<li><strong>Edge labels preserved</strong> — role names and cardinality carry through to per-KA tabs.</li>
+<li><strong>All KA concepts represented</strong> — every concept listed under a KA appears as a class on its tab.</li>
 <li><strong>Base classes above derived</strong> — base and imported classes are at lower y-coordinates than their children.</li>
 <li><strong>Distinct anchor points</strong> — no two edges from the same side use the same default anchor.</li>
-<li><strong>Build script persisted</strong> — when a full render used a bespoke build script, it was saved to <code>scripts/build_&lt;name&gt;_diagram.py</code>.</li>
-<li><strong>Sync verified</strong> — after rendering each page, <code>sync-to-model</code> reported &quot;no changes&quot;.</li>
 <li><strong>Audit clean</strong> — <code>audit_diagram_report()</code> shows zero <code>edge_crosses_class</code> violations.</li>
 <li><strong>No bundle markers</strong> — <code>SKILL.md</code> has no <code>&lt;!-- execute_rules:bundle_rules --&gt;</code> markers.</li>
 </ul>

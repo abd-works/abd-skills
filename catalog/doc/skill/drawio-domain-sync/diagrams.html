@@ -10,15 +10,15 @@
 <link rel="stylesheet" href="../../../commons/site.css?v=foundry-3">
 <style>
 /*
-  ABD Foundry — catalog prelude + gardener lesson fragment.
+  Agile Garden — AI Garden prelude + gardener lesson fragment.
   Inlined via generate_abd_catalog.py. Max border-radius 6px; flat surfaces.
-  Brand split: --accent (#E5531A) for column chrome / rails; --ai-accent on dense
-  mono skill links (engineering mode only — executive overrides in catalog.css).
+  Brand split: orange-500 (#E5531A) for column chrome / rails; ai-blue (#4FC3F7 / #81D4FA)
+  on dense mono skill links — see abd-works-brand BRAND-GUIDELINES §3.1 (ai-blue-500).
 */
 .catalog-prelude {
   margin: 0 0 24px;
   padding: 0 0 20px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #2A2A2A;
 }
 .catalog-prelude-heading {
   margin: 0 0 12px;
@@ -27,7 +27,7 @@
   color: var(--text);
   line-height: 1.25;
   padding-bottom: 8px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #2A2A2A;
   scroll-margin-top: 48px;
 }
 .catalog-prelude-tagline {
@@ -43,9 +43,9 @@
   margin: 0 0 18px;
 }
 .catalog-mission-card {
-  background: var(--raised);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
+  background: #1B1B20;
+  border: 1px solid #2A2A2A;
+  border-left: 3px solid #E5531A;
   border-radius: 4px;
   padding: 14px 20px;
   display: flex;
@@ -57,7 +57,7 @@
   flex-shrink: 0;
   font-size: 0.95rem;
   font-weight: 700;
-  color: var(--text);
+  color: #F4F4F5;
   margin: 0;
   white-space: nowrap;
 }
@@ -71,14 +71,14 @@
 .catalog-mission-card--teal,
 .catalog-mission-card--amber,
 .catalog-mission-card--purple {
-  background: var(--raised);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
+  background: #1B1B20;
+  border: 1px solid #2A2A2A;
+  border-left: 3px solid #E5531A;
 }
 .catalog-mission-card--teal h3,
 .catalog-mission-card--amber h3,
 .catalog-mission-card--purple h3 {
-  color: var(--text);
+  color: #F4F4F5;
 }
 @media (max-width: 720px) {
   .catalog-mission { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -95,17 +95,17 @@
   gap: 10px;
   padding: 8px 0 10px;
   margin: 24px 0 12px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #2A2A2A;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: #E5531A;
 }
 .catalog-section-label--foundational {
   margin-top: 28px;
-  color: var(--muted);
-  border-bottom-color: var(--border-muted);
+  color: #8A8A97;
+  border-bottom-color: #1A1A1E;
 }
 
 /* ── Practice grid — all 5 disciplines forced onto one row ── */
@@ -113,8 +113,8 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
   border-radius: 6px;
   overflow: hidden;
   margin: 0;
@@ -131,8 +131,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
   border-radius: 6px;
   overflow: hidden;
 }
@@ -158,7 +158,7 @@
   display: block !important;
   font-size: 0.82rem;
   line-height: 1.5;
-  color: var(--muted);
+  color: #9B9BA8;
 }
 
 /* ── Agents grid — single wide column ── */
@@ -166,15 +166,15 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
   border-radius: 6px;
   overflow: hidden;
 }
 .catalog-section-label--agents {
   margin-top: 28px;
-  color: var(--accent);
-  border-bottom-color: var(--border);
+  color: #E5531A;
+  border-bottom-color: #2A2A2A;
 }
 
 /* ── Shared column card ── */
@@ -199,7 +199,7 @@
   margin-top: 0;
 }
 .catalog-garden-col {
-  background: var(--surface);
+  background: #111113;
   border: none;
   border-radius: 0;
   overflow: hidden;
@@ -213,17 +213,17 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  border-bottom: 1px solid var(--border);
-  background: var(--raised);
-  color: var(--accent);
-  border-left: 3px solid var(--accent);
+  border-bottom: 1px solid #2A2A2A;
+  background: #1B1B20;
+  color: #E5531A;
+  border-left: 3px solid #E5531A;
 }
 .catalog-garden-col-header--practice,
 .catalog-garden-col-header--foundational,
 .catalog-garden-col-header--agents {
-  background: var(--raised);
-  color: var(--accent);
-  border-left: 3px solid var(--accent);
+  background: #1B1B20;
+  color: #E5531A;
+  border-left: 3px solid #E5531A;
 }
 .catalog-garden-ico { flex-shrink: 0; display: block; }
 .catalog-garden-row {
@@ -231,11 +231,11 @@
   align-items: center;
   gap: 10px;
   padding: 6px 16px;
-  border-bottom: 1px solid var(--border-muted);
+  border-bottom: 1px solid #1A1A1E;
   font-size: 0.85rem;
 }
 .catalog-garden-row:last-child { border-bottom: none; }
-/* Skill/agent links — mono names; ai-accent on dark (engineering mode) */
+/* Skill/agent links — mono names stay near-white; ai-blue hairline/hover (brand AI accent, not orange wall) */
 .catalog-garden-name {
   font-weight: 700;
   font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
@@ -243,11 +243,12 @@
   min-width: 0;
   overflow-wrap: anywhere;
   word-break: break-word;
-  color: var(--ai-accent);
+  color: #4FC3F7;
 }
+/* !important beats global `a { … }`, :visited, and concatenation order */
 .catalog-prelude .catalog-garden-name a,
 .catalog-garden-lists .catalog-garden-name a {
-  color: var(--ai-accent) !important;
+  color: #4FC3F7 !important;
   font-weight: 700 !important;
   text-decoration: none !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
@@ -256,19 +257,19 @@
 .catalog-prelude .catalog-garden-name a:focus-visible,
 .catalog-garden-lists .catalog-garden-name a:hover,
 .catalog-garden-lists .catalog-garden-name a:focus-visible {
-  color: var(--ai-accent-soft) !important;
+  color: #81D4FA !important;
   border-bottom-color: rgba(79, 195, 247, 0.95);
 }
 .catalog-garden-name--agent a,
 .catalog-garden-name--foundational a {
-  color: var(--ai-accent) !important;
+  color: #4FC3F7 !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
 }
 .catalog-garden-name--agent a:hover,
 .catalog-garden-name--agent a:focus-visible,
 .catalog-garden-name--foundational a:hover,
 .catalog-garden-name--foundational a:focus-visible {
-  color: var(--ai-accent-soft) !important;
+  color: #81D4FA !important;
   border-bottom-color: rgba(79, 195, 247, 0.92);
 }
 .catalog-garden-name--dim {
@@ -791,6 +792,18 @@ a.cap-card:hover .cap-card__more {
   padding: 0;
   font-size: inherit;
   color: inherit;
+}
+.install-source {
+  margin: 12px 0 0;
+  font-size: 0.92rem;
+}
+.install-source a {
+  font-weight: 600;
+}
+.install-source-path {
+  color: var(--muted);
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.82em;
 }
 .file-list {
   list-style: none;
@@ -1702,7 +1715,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 </style>
 <script src="../../../commons/catalog-nav.js?v=foundry-10"></script>
 </head>
-<body data-nav-prefix="../../../" data-nav-current="skills" data-nav-site-base="../../../../../abd-works-website/">
+<body data-nav-prefix="../../../" data-nav-current="skills" data-nav-site-base="https://abd.works/">
 <main id="main-content">
 
 <div class="page-hero page-hero--detail">
@@ -1711,7 +1724,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
     <p class="s-name">Markdown</p>
 
     <h1 class="page-headline">diagrams.md</h1>
-    <p class="body-lead">﻿&lt;!-- section: story_synthesizer.diagrams --&gt;</p>
+    <p class="body-lead">&lt;!-- section: story_synthesizer.diagrams --&gt;</p>
   </div>
 </div>
 
@@ -1719,7 +1732,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <div class="wrap">
 
 <h2>Content</h2>
-<div class="rule-prose"><p>﻿&lt;!-- section: story_synthesizer.diagrams --&gt;</p>
+<div class="rule-prose"><p>&lt;!-- section: story_synthesizer.diagrams --&gt;</p>
 <h1>Class Diagrams</h1>
 <div class="spec-steps">
 <p class="spec-step">When a run produces or modifies domain model concepts, render the changes to a DrawIO class diagram. One page per foundational model. The diagram is the visual representation of <code>domain-model.md</code> — they stay in sync.</p>
@@ -1745,6 +1758,8 @@ python drawio_class_cli.py &lt;command&gt; &lt;drawio-file&gt; [options]</code><
 <div class="md-table-wrap"><table class="md-table"><thead><tr><th>Command</th><th>Style</th><th>Usage</th></tr></thead><tbody><tr><td><code>add-inheritance</code></td><td>Hollow triangle (straight or orthogonal)</td><td><code>--child &lt;Child&gt; --parent &lt;Parent&gt; [--orthogonal]</code></td></tr><tr><td><code>add-composition</code></td><td>Filled diamond on owner (orthogonal)</td><td><code>--owner &lt;Owner&gt; --part &lt;Part&gt; [--straight]</code></td></tr><tr><td><code>add-aggregation</code></td><td>Hollow diamond on owner (orthogonal)</td><td><code>--owner &lt;Owner&gt; --part &lt;Part&gt; [--straight]</code></td></tr><tr><td><code>add-association</code></td><td>Open arrow (orthogonal)</td><td><code>--from &lt;Source&gt; --to &lt;Target&gt; [--straight]</code></td></tr><tr><td><code>add-dependency</code></td><td>Dashed open arrow (straight)</td><td><code>--from &lt;Source&gt; --to &lt;Target&gt; [--label &lt;text&gt;]</code></td></tr><tr><td><code>delete-edge</code></td><td>—</td><td><code>--from &lt;Source&gt; --to &lt;Target&gt;</code></td></tr></tbody></table></div>
 <h2>Layout Guidelines</h2>
 <ul>
+<li><strong>Key Abstraction cohesion:</strong> Classes within the same Key Abstraction form a tight cluster; different KAs are separated by visible distance (≥200px gap). Cross-KA edges are naturally longer, communicating that the connection crosses a boundary. Instance notes sit inside their KA cluster, near the class they describe.</li>
+<li><strong>Constrained inherited properties:</strong> When a subtype constrains an inherited property (fixed value, narrower format, locked instance), the constraint is modeled as a <strong>new subtype of the property&#x27;s type</strong> — not as a text invariant on the child class. The constrained subtype appears as its own class cell on the diagram with an inheritance edge (hollow triangle) to the base property type and an association edge from the child class. This applies to any constraint that narrows a type: fixed currency, restricted destination, format-specific identifiers. If you find yourself writing an invariant that says &quot;X is always Y,&quot; create the type instead. See <code>abd-domain-model/rules/constrained-inherited-property-gets-subtype.md</code>.</li>
 <li><strong>Inheritance:</strong> Base on top, extensions below. Straight vertical lines preferred when parent and child are in the same column. Use <code>inheritance-orthogonal</code> when the child is in a different column from the parent — straight diagonal lines cut through intervening classes.</li>
 <li><strong>Composition/aggregation:</strong> Orthogonal routing (right-angle corners). Diamond on the owner (parent) side.</li>
 <li><strong>Association:</strong> Orthogonal routing. Use <code>--straight</code> when classes are on the same row to avoid bends.</li>
@@ -1790,6 +1805,22 @@ python drawio_class_cli.py &lt;command&gt; &lt;drawio-file&gt; [options]</code><
 <li><strong>Edge routing</strong> — explicit exit/entry points when multiple edges share a source (<code>domain-ooa-diagram-edge-routing.md</code>)</li>
 </ul>
 <h2>AI Workflow for Rendering</h2>
+<p><strong>Per-KA tabs is the default.</strong> Each KA gets its own tab with only its own classes plus directly connected boundary classes (supertypes only, not subtypes from other KAs). The full single-page mode is only used when explicitly requested.</p>
+<h3>Per-KA Tab Mode (Default)</h3>
+<h4>Boundary class rules</h4>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Rule</th><th>Include as boundary?</th></tr></thead><tbody><tr><td>Class from another KA directly connected via edge (association, composition, aggregation, dependency)</td><td>YES — dashed border, reduced opacity</td></tr><tr><td>Supertype in another KA (this tab&#x27;s class inherits from it)</td><td>YES — show the parent</td></tr><tr><td>Subtype in another KA (another KA&#x27;s class inherits from this tab&#x27;s class)</td><td>NO — do not show children from other KAs</td></tr><tr><td>Class from another KA connected only indirectly (2+ hops)</td><td>NO</td></tr></tbody></table></div>
+<h4>Setup</h4>
+<p>1. <strong>Identify source</strong> — read the domain model/specification file. 2. <strong>Determine KA membership</strong> — map each class ID to its owning KA. 3. <strong>Build all tabs</strong> — for each KA, compute boundary classes per the rules above, copy cells and edges, apply boundary styling.</p>
+<h4>Per-KA tab construction</h4>
+<p>For each KA:</p>
+<p>1. <strong>Collect KA members</strong> — all class cells belonging to this KA. 2. <strong>Find boundary classes</strong> — scan all edges. For each edge where one end is in this KA and the other is not:</p>
+<ul>
+<li>If the edge is an inheritance edge: include the <strong>parent</strong> (supertype) as boundary only if it belongs to another KA. Do NOT include children (subtypes) from other KAs.</li>
+<li>If the edge is any other relationship: include the other end as boundary.</li>
+</ul>
+<p>3. <strong>Copy cells</strong> — KA members at original positions. Boundary classes repositioned closer to the KA cluster with dashed-border styling. 4. <strong>Copy edges</strong> — only edges where both source and target are on this tab (KA members + boundary). 5. <strong>Copy edge labels</strong> — cardinality labels and role names that parent to included edges. 6. <strong>Overview tab</strong> — optionally include an &quot;All KAs&quot; first tab with everything on one page for navigation.</p>
+<h3>Full Single-Page Mode (Only When Requested)</h3>
+<p>Use when the user explicitly says &quot;full diagram&quot;, &quot;single page&quot;, &quot;all on one page&quot;, or passes <code>--full</code>.</p>
 <p><strong>Incremental first.</strong> If the <code>.drawio</code> file already exists, use <code>update-class</code>, <code>add-class</code>, <code>delete-class</code>, and edge commands to apply only what changed — do not regenerate the whole file. Full regeneration destroys manual layout adjustments. Use the full workflow below only when creating a diagram for the first time.</p>
 <p>After producing domain model output for a slice:</p>
 <p>1. <strong>Review <code>class_diagram</code> rules</strong> — apply positioning and edge conventions from <code>rules/domain-ooa-diagram-*.md</code> 2. <strong>Init</strong> page if needed: <code>init &lt;file&gt; --page &quot;&lt;Model Name&gt;&quot;</code> 3. <strong>Add classes</strong> with rows and invariants at planned grid positions (base classes top, children below). <strong>Always include collaborator types</strong> — every row must show its collaborators using <code>name : Collaborator</code> notation (e.g., <code>character : Character</code>, <code>resist : Character, Trait, Graded Check Result</code>). The source determines where the collaborators come from:</p>

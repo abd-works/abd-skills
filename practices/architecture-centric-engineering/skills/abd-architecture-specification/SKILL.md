@@ -118,6 +118,7 @@ The spec directory's own `templates/` folder (e.g. `specs/mern/templates/`) hold
 
 Read all of these before doing anything else:
 - **`reference/concepts.md`** and **`reference/examples.md`** — the ideas and worked examples behind this skill.
+- **`reference/example.ts`** — merged template module (all tiers in one file); catalog hero and shape reference for the runnable template slice.
 - Every file in **`rules/`** — the pass/fail bar for the specification document.
 - **`templates/architecture-specification.md`** — the document skeleton and placeholder vocabulary.
 

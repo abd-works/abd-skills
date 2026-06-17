@@ -10,15 +10,15 @@
 <link rel="stylesheet" href="../../../../commons/site.css?v=foundry-3">
 <style>
 /*
-  ABD Foundry — catalog prelude + gardener lesson fragment.
+  Agile Garden — AI Garden prelude + gardener lesson fragment.
   Inlined via generate_abd_catalog.py. Max border-radius 6px; flat surfaces.
-  Brand split: --accent (#E5531A) for column chrome / rails; --ai-accent on dense
-  mono skill links (engineering mode only — executive overrides in catalog.css).
+  Brand split: orange-500 (#E5531A) for column chrome / rails; ai-blue (#4FC3F7 / #81D4FA)
+  on dense mono skill links — see abd-works-brand BRAND-GUIDELINES §3.1 (ai-blue-500).
 */
 .catalog-prelude {
   margin: 0 0 24px;
   padding: 0 0 20px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #2A2A2A;
 }
 .catalog-prelude-heading {
   margin: 0 0 12px;
@@ -27,7 +27,7 @@
   color: var(--text);
   line-height: 1.25;
   padding-bottom: 8px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #2A2A2A;
   scroll-margin-top: 48px;
 }
 .catalog-prelude-tagline {
@@ -43,9 +43,9 @@
   margin: 0 0 18px;
 }
 .catalog-mission-card {
-  background: var(--raised);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
+  background: #1B1B20;
+  border: 1px solid #2A2A2A;
+  border-left: 3px solid #E5531A;
   border-radius: 4px;
   padding: 14px 20px;
   display: flex;
@@ -57,7 +57,7 @@
   flex-shrink: 0;
   font-size: 0.95rem;
   font-weight: 700;
-  color: var(--text);
+  color: #F4F4F5;
   margin: 0;
   white-space: nowrap;
 }
@@ -71,14 +71,14 @@
 .catalog-mission-card--teal,
 .catalog-mission-card--amber,
 .catalog-mission-card--purple {
-  background: var(--raised);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
+  background: #1B1B20;
+  border: 1px solid #2A2A2A;
+  border-left: 3px solid #E5531A;
 }
 .catalog-mission-card--teal h3,
 .catalog-mission-card--amber h3,
 .catalog-mission-card--purple h3 {
-  color: var(--text);
+  color: #F4F4F5;
 }
 @media (max-width: 720px) {
   .catalog-mission { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -95,17 +95,17 @@
   gap: 10px;
   padding: 8px 0 10px;
   margin: 24px 0 12px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #2A2A2A;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: #E5531A;
 }
 .catalog-section-label--foundational {
   margin-top: 28px;
-  color: var(--muted);
-  border-bottom-color: var(--border-muted);
+  color: #8A8A97;
+  border-bottom-color: #1A1A1E;
 }
 
 /* ── Practice grid — all 5 disciplines forced onto one row ── */
@@ -113,8 +113,8 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
   border-radius: 6px;
   overflow: hidden;
   margin: 0;
@@ -131,8 +131,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
   border-radius: 6px;
   overflow: hidden;
 }
@@ -158,7 +158,7 @@
   display: block !important;
   font-size: 0.82rem;
   line-height: 1.5;
-  color: var(--muted);
+  color: #9B9BA8;
 }
 
 /* ── Agents grid — single wide column ── */
@@ -166,15 +166,15 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
   border-radius: 6px;
   overflow: hidden;
 }
 .catalog-section-label--agents {
   margin-top: 28px;
-  color: var(--accent);
-  border-bottom-color: var(--border);
+  color: #E5531A;
+  border-bottom-color: #2A2A2A;
 }
 
 /* ── Shared column card ── */
@@ -199,7 +199,7 @@
   margin-top: 0;
 }
 .catalog-garden-col {
-  background: var(--surface);
+  background: #111113;
   border: none;
   border-radius: 0;
   overflow: hidden;
@@ -213,17 +213,17 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  border-bottom: 1px solid var(--border);
-  background: var(--raised);
-  color: var(--accent);
-  border-left: 3px solid var(--accent);
+  border-bottom: 1px solid #2A2A2A;
+  background: #1B1B20;
+  color: #E5531A;
+  border-left: 3px solid #E5531A;
 }
 .catalog-garden-col-header--practice,
 .catalog-garden-col-header--foundational,
 .catalog-garden-col-header--agents {
-  background: var(--raised);
-  color: var(--accent);
-  border-left: 3px solid var(--accent);
+  background: #1B1B20;
+  color: #E5531A;
+  border-left: 3px solid #E5531A;
 }
 .catalog-garden-ico { flex-shrink: 0; display: block; }
 .catalog-garden-row {
@@ -231,11 +231,11 @@
   align-items: center;
   gap: 10px;
   padding: 6px 16px;
-  border-bottom: 1px solid var(--border-muted);
+  border-bottom: 1px solid #1A1A1E;
   font-size: 0.85rem;
 }
 .catalog-garden-row:last-child { border-bottom: none; }
-/* Skill/agent links — mono names; ai-accent on dark (engineering mode) */
+/* Skill/agent links — mono names stay near-white; ai-blue hairline/hover (brand AI accent, not orange wall) */
 .catalog-garden-name {
   font-weight: 700;
   font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
@@ -243,11 +243,12 @@
   min-width: 0;
   overflow-wrap: anywhere;
   word-break: break-word;
-  color: var(--ai-accent);
+  color: #4FC3F7;
 }
+/* !important beats global `a { … }`, :visited, and concatenation order */
 .catalog-prelude .catalog-garden-name a,
 .catalog-garden-lists .catalog-garden-name a {
-  color: var(--ai-accent) !important;
+  color: #4FC3F7 !important;
   font-weight: 700 !important;
   text-decoration: none !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
@@ -256,19 +257,19 @@
 .catalog-prelude .catalog-garden-name a:focus-visible,
 .catalog-garden-lists .catalog-garden-name a:hover,
 .catalog-garden-lists .catalog-garden-name a:focus-visible {
-  color: var(--ai-accent-soft) !important;
+  color: #81D4FA !important;
   border-bottom-color: rgba(79, 195, 247, 0.95);
 }
 .catalog-garden-name--agent a,
 .catalog-garden-name--foundational a {
-  color: var(--ai-accent) !important;
+  color: #4FC3F7 !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
 }
 .catalog-garden-name--agent a:hover,
 .catalog-garden-name--agent a:focus-visible,
 .catalog-garden-name--foundational a:hover,
 .catalog-garden-name--foundational a:focus-visible {
-  color: var(--ai-accent-soft) !important;
+  color: #81D4FA !important;
   border-bottom-color: rgba(79, 195, 247, 0.92);
 }
 .catalog-garden-name--dim {
@@ -791,6 +792,18 @@ a.cap-card:hover .cap-card__more {
   padding: 0;
   font-size: inherit;
   color: inherit;
+}
+.install-source {
+  margin: 12px 0 0;
+  font-size: 0.92rem;
+}
+.install-source a {
+  font-weight: 600;
+}
+.install-source-path {
+  color: var(--muted);
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.82em;
 }
 .file-list {
   list-style: none;
@@ -1702,7 +1715,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 </style>
 <script src="../../../../commons/catalog-nav.js?v=foundry-10"></script>
 </head>
-<body data-nav-prefix="../../../../" data-nav-current="skills" data-nav-site-base="../../../../../../abd-works-website/">
+<body data-nav-prefix="../../../../" data-nav-current="skills" data-nav-site-base="https://abd.works/">
 <main id="main-content">
 
 <div class="page-hero page-hero--detail">
@@ -1720,138 +1733,116 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 
 <h2>Content</h2>
 <div class="rule-prose"><h1>{SystemName} — Architecture Blueprint</h1>
-<p>&gt; <strong>Status:</strong> Draft / Approved &gt; <strong>Owner:</strong> {team-or-person} &gt; <strong>Last updated:</strong> YYYY-MM-DD &gt; &gt; <strong>Purpose.</strong> Second-level architecture document for {SystemName}, building on <code>architecture-outline.md</code>. Shows the platform runtime, deployment topology, and per-OS environment picture. Names every architectural component. Deepens each mechanism from the outline — now in terms of which components interact, how the mechanism participates in deployment, and what the platform runtime provides. Sketches the data architecture and captures the common testing strategy. Decision records continue from the outline.</p>
+<p>&gt; <strong>Status:</strong> Draft / Approved &gt; <strong>Owner:</strong> {team-or-person} &gt; <strong>Last updated:</strong> YYYY-MM-DD &gt; &gt; <strong>Purpose.</strong> Second-level architecture document for {SystemName}, building on <code>architecture-outline.md</code>. Describes architecture as <strong>mechanisms and modules</strong>: mechanisms define the code shapes every module must adopt; modules are the major domain and infrastructure areas. Mechanism-first descriptions with code shape, an architecture flow diagram, a module catalogue, testing architecture, and ADRs.</p>
 <hr>
 <h2>1. Scope</h2>
-<p>This blueprint extends <a href="./architecture-outline.html"><code>architecture-outline.md</code></a>. Deep mechanism walkthroughs — code, sequence diagrams, test code, file structures — defer to <a href="./architecture-reference.html"><code>architecture-reference.md</code></a>. Outline-level concerns (system-context diagram, functions and tech per system, mechanism technology choices, layered diagram, guiding principles, tech stack table, major systems catalogue, mechanism-choice ADRs) stay in the outline and are not repeated here.</p>
+<p>This blueprint extends <a href="./architecture-outline.html"><code>architecture-outline.md</code></a>. Deep mechanism walkthroughs — code, sequence diagrams beyond three participants, per-file structures — defer to architecture specification documents (one or more, one per mechanism or group). Outline-level concerns (system-context diagram, mechanism technology choices, guiding principles, tech stack, major systems, mechanism ADRs) stay in the outline and are not repeated here.</p>
 <hr>
-<h2>2. Platform Architecture</h2>
-<p>!<a href="./diagrams/platform-architecture.png">Platform Architecture</a></p>
-<p>&gt; Source: <a href="./diagrams/platform-architecture.drawio"><code>diagrams/platform-architecture.drawio</code></a>. Edit in draw.io Desktop and re-export with <code>scripts\arch-drawio.ps1 export</code>. &gt; Element inventory: <a href="./diagrams/platform-architecture-elements.html"><code>diagrams/platform-architecture-elements.md</code></a></p>
-<p><strong>Caption.</strong> {Describe the platform runtime in two to three sentences: client apps, backend services, data stores, CDN/edge, and the major third-party integrations. Name the runtime technologies and how the pieces connect.}</p>
-<h3>Runtime components</h3>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Component</th><th>Technology</th><th>Role</th></tr></thead><tbody><tr><td>{Client app name}</td><td>{React / iOS / Android / etc.}</td><td>{User-facing purpose}</td></tr><tr><td>{Backend service name}</td><td>{Node.js/Fastify / Spring Boot / Django / etc.}</td><td>{Request handling role}</td></tr><tr><td>{Data store name}</td><td>{PostgreSQL / MongoDB / DynamoDB / etc.}</td><td>{What is persisted here}</td></tr><tr><td>{Cache / broker}</td><td>{Redis / Kafka / SQS / etc.}</td><td>{Role in the platform}</td></tr><tr><td>{CDN / edge}</td><td>{CloudFront / Cloudflare / etc.}</td><td>{What is cached or proxied}</td></tr></tbody></table></div>
+<h2>2. Architecture Mechanisms</h2>
+<p>Mechanisms go first — they define the code shape that all or some modules must adopt. For each mechanism: the technology choice (brief), then one to two prose paragraphs describing the code shape it imposes. If a mechanism also has a concrete implementation surface (its own routes, API, or bootstrap entry point) it is also a module and is marked <em>(mechanism + module)</em>; its functional behaviour is described in Section 4.</p>
+<h3>2.1 Security <em>(mechanism + module)</em></h3>
+<p><strong>Technology:</strong> {OAuth 2.0 / OIDC, JWT. Identity provider name. Auth middleware library.}</p>
+<p>{Describe how Security shapes the system: where tokens are validated, what every authenticated route must receive (e.g. a Principal passed through method arguments — not ambient state), how role guards are applied. No domain service reads a token directly; the mechanism injects a typed Principal before the domain layer is reached.}</p>
+<p>{Note that Security has a concrete module surface — an Identity module with its own middleware, routes, and JWKS client. That functional surface is described in Section 4.}</p>
 <hr>
-<h2>3. Deployment Topology</h2>
-<p>!<a href="./diagrams/deployment-architecture.png">Deployment Topology</a></p>
-<p>&gt; Source: <a href="./diagrams/deployment-architecture.drawio"><code>diagrams/deployment-architecture.drawio</code></a>. &gt; Element inventory: <a href="./diagrams/deployment-architecture-elements.html"><code>diagrams/deployment-architecture-elements.md</code></a></p>
-<p><strong>Caption.</strong> {Describe the deployment topology in two to three sentences: where production runs, the redundancy model, and how staging and preview environments relate.}</p>
-<h3>Environments</h3>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Environment</th><th>Host / provider</th><th>Availability</th><th>Purpose</th></tr></thead><tbody><tr><td>Production</td><td>{AWS / GCP / Azure / on-prem · region}</td><td>{99.9% / multi-AZ / etc.}</td><td>Live traffic</td></tr><tr><td>Staging</td><td>{Single-AZ mirror / same provider}</td><td>Best-effort</td><td>Pre-release testing</td></tr><tr><td>{Preview / Dev} <em>(if applicable)</em></td><td>{Ephemeral / shared staging}</td><td>On-demand</td><td>PR previews / local dev</td></tr></tbody></table></div>
-<h3>Operating systems <em>(if more than one)</em></h3>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Node / container</th><th>OS / runtime image</th><th>Notes</th></tr></thead><tbody><tr><td>{API containers}</td><td>{Amazon Linux 2023 / Ubuntu 22.04 / Alpine}</td><td>{Why this OS — e.g. minimal attack surface, FIPS compliance}</td></tr><tr><td>{Worker containers}</td><td>{OS image}</td><td>{Notes}</td></tr><tr><td>{Database managed service}</td><td>{Managed by provider — no OS access}</td><td>n/a</td></tr></tbody></table></div>
-<p><em>(Omit this sub-section when all containers share a single OS image.)</em></p>
+<h3>2.2 Error Handling &amp; Resilience</h3>
+<p><strong>Technology:</strong> {Result&lt;T, E&gt; type or equivalent. Retry / circuit-breaker library if used.}</p>
+<p>{Describe how the mechanism shapes domain services: all service operations return a Result type — no thrown exceptions for expected failures. Domain error types are explicit and named. API edge translates Result failures to HTTP status codes using a single error translator — not per-route conditionals.}</p>
+<p>{Describe resilience: how external calls are wrapped (retry with back-off, circuit breaker, timeout). Name the wrapper or pattern. State whether circuit-breaker state is in-process per replica or shared.}</p>
 <hr>
-<h2>4. Components</h2>
-<p>Each subsection takes one major system from the outline and names its 2–4 components. Each component description covers <strong>purpose</strong>, <strong>dependencies</strong>, and <strong>interactions</strong> — no internal structure, no class lists, no method tables.</p>
-<p>!<a href="./diagrams/component-overview.png">Component Overview</a></p>
-<p>&gt; Source: <a href="./diagrams/component-overview.drawio"><code>diagrams/component-overview.drawio</code></a>. Edit in draw.io Desktop and re-export with <code>scripts\arch-drawio.ps1 export</code>. The diagram captures the same information as the subsections below; keep them in sync.</p>
-<h3>4.1 {System A} components</h3>
-<h4>{ComponentName}</h4>
-<p><strong>Purpose.</strong> {What this component is responsible for within the system.}</p>
-<p><strong>Dependencies.</strong> {Interfaces and collaborators it receives through injection. Which platform services or data stores it uses.}</p>
-<p><strong>Interactions.</strong> {How it is called, what it calls, what events it publishes or subscribes to. Reference any mechanism it participates in — e.g. &quot;all calls to external HTTP go through the Resilience mechanism&#x27;s <code>Resilient&lt;T&gt;</code> wrapper&quot; or &quot;persisted writes go through the Persistence mechanism&#x27;s outbox helper&quot;.}</p>
-<h4>{ComponentName}</h4>
-<p><strong>Purpose.</strong> {What this component is responsible for.}</p>
-<p><strong>Dependencies.</strong> {Interfaces and collaborators.}</p>
-<p><strong>Interactions.</strong> {How it is called and what it calls.}</p>
-<h3>4.2 {System B} components</h3>
-<h4>{ComponentName}</h4>
-<p><strong>Purpose.</strong> {What this component is responsible for.}</p>
-<p><strong>Dependencies.</strong> {Interfaces and collaborators.}</p>
-<p><strong>Interactions.</strong> {How it is called and what it calls.}</p>
+<h3>2.3 Logging &amp; Observability</h3>
+<p><strong>Technology:</strong> {Structured logging library (e.g. Pino / Winston). Trace propagation — W3C traceparent or equivalent. Aggregation target.}</p>
+<p>{Describe how logging shapes every component: a correlation ID is injected at the API edge and propagated on every downstream and outbound call. Loggers are constructor-injected into domain services — no direct console or global logger calls in domain code. Every cross-component call emits a span.}</p>
 <hr>
-<h2>5. Architecture Mechanisms — Detail</h2>
-<p>The outline names each mechanism and states its technology choice and NFR justification. This section repeats every mechanism but goes deeper: it names the <strong>components that participate</strong>, references the <strong>platform or deployment specifics</strong> that shape the mechanism, and describes how the mechanism <strong>behaves at runtime</strong> in this system. Novel or bespoke mechanisms introduced in the outline are described here at the same depth as the standard set.</p>
-<h3>5.1 Security</h3>
-<p><strong>Outline reference:</strong> {ADR-NNN — auth technology chosen}</p>
-<p><strong>Participating components:</strong> {IdentityService, API middleware, …}</p>
-<p><strong>Platform / deployment detail.</strong> {Where secrets are stored at rest (e.g. AWS Secrets Manager, Vault). How the identity provider integrates with the platform — e.g. Auth0 SDK loaded in the backend service container; JWT public keys cached in Redis. Load-balancer or API-gateway policy if any.}</p>
-<p><strong>Runtime behaviour.</strong> {Step-by-step token lifecycle: token issuance, request validation, role-claims extraction, per-component Principal propagation. Which component enforces what check. What happens on token expiry or revocation.}</p>
-<p><strong>Component interactions.</strong> {How IdentityService calls Auth0 over HTTPS at login. How the API middleware validates tokens on every request and passes a <code>Principal</code> downstream. How domain services receive the <code>Principal</code> through method arguments rather than thread-local or ambient context.}</p>
+<h3>2.4 Validation</h3>
+<p><strong>Technology:</strong> {Zod / Joi / yup / class-validator or equivalent. Shared schema package or folder.}</p>
+<p>{Describe how validation shapes modules: schemas live in a shared package or folder so both client-side pre-submission and server-side authoritative checks use the same definition. The API layer calls <code>Schema.safeParse(body)</code> (or equivalent) before passing data to the domain service. Business-rule validation inside domain services returns domain errors via Result, not thrown exceptions.}</p>
 <hr>
-<h3>5.2 Error Handling &amp; Resilience</h3>
-<p><strong>Outline reference:</strong> {ADR-NNN — Result type / circuit-breaker choice}</p>
-<p><strong>Participating components:</strong> {All application-layer services, API error translator, external HTTP adapters}</p>
-<p><strong>Platform / deployment detail.</strong> {How the circuit-breaker state is tracked — in-process per container replica, or centralised in Redis. How dead-letter behaviour maps to an SQS / database outbox queue. Health-check endpoints used by the load balancer to route around degraded replicas.}</p>
-<p><strong>Runtime behaviour.</strong> {<code>Result&lt;T, DomainError&gt;</code> returned through the domain and application layers. <code>ErrorTranslator</code> at the API edge maps domain error codes to HTTP status codes. <code>Resilient&lt;T&gt;</code> wrapper around every external call: retry with exponential backoff, circuit breaker per named dependency.}</p>
-<p><strong>Component interactions.</strong> {OrderService returns <code>Result&lt;Order, OrderError&gt;</code> to the API controller. API controller passes it to <code>ErrorTranslator</code>. <code>CatalogueAdapter</code> wraps all Catalogue HTTP calls in <code>Resilient&lt;CatalogueResponse&gt;</code>; breaker state stored in Redis so all replicas share the same open/closed state.}</p>
+<h3>2.5 Configuration &amp; Secrets</h3>
+<p><strong>Technology:</strong> {Secrets store — AWS Secrets Manager / HashiCorp Vault / environment variables. Config loading pattern.}</p>
+<p>{Describe how config shapes the composition root: all <code>process.env</code> reads happen once at startup in the bootstrap; a frozen Config object is constructed and injected into every component through constructor injection. No component reads environment variables directly.}</p>
 <hr>
-<h3>5.3 Logging &amp; Observability</h3>
-<p><strong>Outline reference:</strong> {ADR-NNN — logging/tracing stack}</p>
-<p><strong>Participating components:</strong> {All components — logging is cross-cutting}</p>
-<p><strong>Platform / deployment detail.</strong> {Log aggregation target (CloudWatch, Datadog, ELK). Trace collector sidecar or OpenTelemetry Collector deployment. Dashboard and alerting tooling.}</p>
-<p><strong>Runtime behaviour.</strong> {Correlation ID injected at the API edge and propagated as a W3C <code>traceparent</code> header across all internal and external HTTP calls. Each component logs at INFO on public-method entry/exit and at WARN/ERROR on non-success <code>Result</code>. Metrics emitted through OpenTelemetry SDK; spans cover every cross-component call.}</p>
-<p><strong>Component interactions.</strong> {Logging middleware injects <code>correlationId</code> into the request context. Components receive the logger/tracer through constructor injection. External adapters emit a span for each outbound call, tagging HTTP status and latency.}</p>
+<h3>2.6 Caching</h3>
+<p><strong>Technology:</strong> {Redis / in-process LRU cache / TanStack Query (client-side). Cache pattern — write-through, cache-aside, stale-while-revalidate.}</p>
+<p>{Describe the caching pattern(s) in use and how modules interact with it. Which modules depend on a cache interface. TTL, invalidation approach, and which layer owns cache invalidation.}</p>
+<p><em>(Remove this section if caching is not used.)</em></p>
 <hr>
-<h3>5.4 Validation</h3>
-<p><strong>Outline reference:</strong> {ADR-NNN — schema/validation library}</p>
-<p><strong>Participating components:</strong> {API layer (edge schemas), domain services (business rules)}</p>
-<p><strong>Platform / deployment detail.</strong> {Whether schemas are shared as a published package between API and client. How schema versioning is handled in CI.}</p>
-<p><strong>Runtime behaviour.</strong> {Zod (or equivalent) schemas parse and validate every inbound request body and query at the API edge; invalid input returns a 422 with a structured error list before reaching the application layer. Business-rule validation inside domain services returns <code>Result</code> failures.}</p>
-<p><strong>Component interactions.</strong> {API route handler calls <code>RequestSchema.parse(body)</code>; on success it passes a typed DTO to the application service. Domain service calls domain validator helpers that return <code>Result&lt;void, ValidationError&gt;</code>.}</p>
+<h3>2.7 Persistence</h3>
+<p><strong>Technology:</strong> {PostgreSQL / MongoDB / DynamoDB / etc. ORM or driver. Migration tooling.}</p>
+<p>{Describe the repository pattern: each domain module owns its own collection, table, or schema — no cross-module direct reads or writes. Repositories implement a named interface and are injected into domain services. The interface lives in the same shared package as the domain entity it persists so the domain layer stays framework-free.}</p>
 <hr>
-<h3>5.5 Configuration &amp; Secrets</h3>
-<p><strong>Outline reference:</strong> {ADR-NNN — config source}</p>
-<p><strong>Participating components:</strong> {Bootstrap / composition root, all components that receive config}</p>
-<p><strong>Platform / deployment detail.</strong> {Which secrets store is used per environment. How container task definitions reference secret ARNs. Secret-rotation approach — re-deploy vs in-process refresh.}</p>
-<p><strong>Runtime behaviour.</strong> {<code>Bootstrap.loadConfig()</code> called once at container startup. Secrets pulled from AWS Secrets Manager (or equivalent) at boot time. Frozen <code>Config</code> object injected into every component constructor. No <code>process.env</code> calls outside the composition root.}</p>
-<p><strong>Component interactions.</strong> {Bootstrap reads all config and secret values, constructs the <code>Config</code> record, and passes it into the dependency injection container. Components receive config through constructor injection; none read environment variables directly.}</p>
+<h3>2.8 Communication</h3>
+<p><strong>Technology:</strong> {REST / gRPC for synchronous. SQS / Kafka / SFTP / HTTPS for async or file-based. Protocol and contract-versioning approach.}</p>
+<p>{Describe the communication pattern(s): synchronous request/response for user-initiated operations; async, file-based, or event-driven for cross-system side effects. Describe how external adapter interfaces are defined, where they live, and how the mechanism requires them to be faked in tests (not integration-tested against real external systems by default).}</p>
 <hr>
-<h3>5.6 Caching</h3>
-<p><strong>Outline reference:</strong> {ADR-NNN — cache technology and pattern}</p>
-<p><strong>Participating components:</strong> {Components that read or write cached data — e.g. CatalogueService, IdentityService}</p>
-<p><strong>Platform / deployment detail.</strong> {Redis cluster topology in each environment (standalone, sentinel, cluster mode). How Redis TLS and auth token are injected. Eviction policy and memory configuration.}</p>
-<p><strong>Runtime behaviour.</strong> {Write-through: cache is updated atomically with the primary store write. Cache-aside fallback for read-heavy paths where write-through is not practical. TTL and explicit invalidation for each key namespace.}</p>
-<p><strong>Component interactions.</strong> {<code>CatalogueService.getProduct(sku)</code> checks <code>IProductCache</code>; on miss reads <code>IProductRepository</code> and fills the cache. <code>CatalogueAdminService.updateProduct(sku, …)</code> writes to Postgres and calls <code>IProductCache.invalidate(sku)</code> in the same transaction to prevent stale reads.}</p>
+<h3>2.9 UI Rendering</h3>
+<p><strong>Technology:</strong> {React / Vue / Angular / server-side template engine. Build tooling — Vite / webpack / Next.js.}</p>
+<p>{Describe how the UI Rendering mechanism shapes client modules: component naming and file structure conventions, state management pattern for server state (e.g. TanStack Query) vs local UI state (e.g. React state), routing approach. What every module&#x27;s client surface must provide.}</p>
+<p><em>(Remove this section if the system has no browser client.)</em></p>
 <hr>
-<h3>5.7 Persistence</h3>
-<p><strong>Outline reference:</strong> {ADR-NNN — persistence pattern}</p>
-<p><strong>Participating components:</strong> {All repository components, outbox publisher if present}</p>
-<p><strong>Platform / deployment detail.</strong> {Database server configuration per environment (multi-AZ, connection pooler, replica for reads). Migration toolchain and how it runs in CI and on deploy. Backup and restore policy.}</p>
-<p><strong>Runtime behaviour.</strong> {Each aggregate root has exactly one repository; no component writes to another&#x27;s aggregate. The outbox pattern (if used): state-change row and event row committed in a single Postgres transaction; a background poller publishes pending events and marks them delivered.}</p>
-<p><strong>Component interactions.</strong> {<code>OrderService</code> calls <code>IOrderRepository.save(order)</code>, which commits the <code>orders</code> row and inserts an <code>outbox_events</code> row in one transaction. The <code>OutboxPublisher</code> background worker polls the <code>outbox_events</code> table and calls <code>IEventPublisher.publish(event)</code> for each pending row.}</p>
+<h3>2.10 App Server <em>(mechanism + module)</em></h3>
+<p><strong>Technology:</strong> {Express / Fastify / Hapi / Koa / etc. Port, startup/shutdown.}</p>
+<p>{Describe how App Server shapes the system: it is the composition root for all HTTP concerns. Every domain module adds one or more routers to the server. Middleware (correlation ID, JWT validation, error translation) is mounted globally — not repeated per router. The server registers all module routers in a single place at startup.}</p>
+<p>{The App Server Bootstrap module&#x27;s functional surface — startup sequence, config loading, dependency wiring, graceful drain — is described in Section 4.}</p>
 <hr>
-<h3>5.8 Communication</h3>
-<p><strong>Outline reference:</strong> {ADR-NNN — synchronous protocol and async bus choice}</p>
-<p><strong>Participating components:</strong> {All components that call external systems or publish/consume events}</p>
-<p><strong>Platform / deployment detail.</strong> {Message broker deployment — managed service (SQS, EventBridge, Confluent) or self-hosted Kafka in the cluster. Topic and queue naming conventions. Dead-letter queue configuration.}</p>
-<p><strong>Runtime behaviour.</strong> {Synchronous REST (or gRPC) for request/response paths. Async event publication through the domain event mechanism for cross-system side effects. Contract versioning — schema registry or envelope version field.}</p>
-<p><strong>Component interactions.</strong> {<code>OrderService</code> publishes <code>OrderPlaced</code> and <code>OrderFulfilled</code> domain events via <code>IEventPublisher</code>. <code>NotificationDispatcher</code> subscribes to the same event bus and routes each event type to the appropriate outbound channel. <code>CatalogueAdapter</code> calls the Catalogue system over HTTPS/REST; request/response is wrapped in the Resilience mechanism.}</p>
-<hr>
-<h3>5.{N} {Bespoke Mechanism Name} <em>(if applicable)</em></h3>
-<p><strong>Outline reference:</strong> {ADR-NNN — bespoke mechanism choice}</p>
-<p><strong>Participating components:</strong> {Named components that implement or depend on this mechanism}</p>
-<p><strong>Platform / deployment detail.</strong> {Relevant platform services, infrastructure configuration, or OS-level tooling this mechanism relies on.}</p>
-<p><strong>Runtime behaviour.</strong> {How the mechanism works end-to-end: initialisation, steady-state operation, failure modes.}</p>
-<p><strong>Component interactions.</strong> {How the participating components call into or configure the mechanism. Which components produce data, which consume it, and what crosses the component boundaries.}</p>
+<h3>2.{N} {Bespoke Mechanism Name} <em>(bespoke)</em></h3>
+<p><strong>Technology:</strong> {Technology and package structure.}</p>
+<p>{Describe how this bespoke mechanism shapes the codebase. What structural or naming constraint does it impose? Which layers does it touch? How does a change to the mechanism propagate — a rule change in the shared package propagates identically to all consumers without requiring per-module updates.}</p>
 <p><em>(Repeat for each additional bespoke mechanism from the outline. Remove this placeholder when none is needed.)</em></p>
 <hr>
-<h2>6. Data Architecture</h2>
-<h3>6.1 Entity overview</h3>
-<p>!<a href="./diagrams/entity-relationships.png">Entity Relationships</a></p>
-<p>&gt; Source: <a href="./diagrams/entity-relationships.drawio"><code>diagrams/entity-relationships.drawio</code></a>. Each colour groups aggregates by owning component named in section 4. Schemas, indexes, and ORM mappings live with the persistence mechanism reference, not here.</p>
-<h3>6.2 Ownership boundaries</h3>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Aggregate</th><th>Owning component</th><th>Cross-aggregate access</th></tr></thead><tbody><tr><td><code>{AggregateA}</code></td><td><code>{ComponentName}</code></td><td>{How other components access it — via service call, read-only query, or events only}</td></tr><tr><td><code>{AggregateB}</code></td><td><code>{ComponentName}</code></td><td>{Cross-aggregate access policy}</td></tr></tbody></table></div>
-<p>Cross-aggregate consistency is <strong>{synchronous via two-phase / eventual via domain events — choose one}</strong>.</p>
+<h2>3. Architecture Flow</h2>
+<p>The table below is the authoritative text form of the flow diagram. Each row is one layer or boundary in a typical end-to-end request; the right column names every mechanism active at that step. The diagram annotates the same steps visually — both must be kept in sync.</p>
+<p>&gt; Source: <a href="./architecture-flow.drawio"><code>diagrams/architecture-flow.drawio</code></a>. Edit in draw.io Desktop and re-export.</p>
+<p>!<a href="./architecture-flow.png">Architecture Flow</a></p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Step</th><th>Layer / File</th><th>Mechanisms active</th></tr></thead><tbody><tr><td>1</td><td><strong>User</strong> performs <code>{operation}</code></td><td>—</td></tr><tr><td>2</td><td><code>{client-app}/{Feature}View</code> · root router entry point</td><td>UI Rendering</td></tr><tr><td>3</td><td><code>{domain}/client/{Entity}View</code> · <code>use{Entity}s</code> (server-state hook) · imports <code>{Entity}</code> type from <code>shared/</code></td><td>UI Rendering · Unified Domain Logic · Caching</td></tr><tr><td>4</td><td><code>{domain}/client/{Entity}sClient</code> · schema <code>safeParse(form)</code> [from <code>shared/</code>] · <code>fetch /api/…</code></td><td>Unified Domain Logic · Validation (client) · Communication</td></tr><tr><td>—</td><td><strong>NETWORK BOUNDARY</strong> — <code>{protocol}</code> <code>{verb} /api/{domain}/…</code></td><td>Communication</td></tr><tr><td>5</td><td><code>{app-server}/app</code> (composition root) › CORS › correlationId › auth validation › route dispatch</td><td>App Server · Security · Logging</td></tr><tr><td>6</td><td><code>{domain}/server/{Entity}Router</code> › <code>RequestSchema.safeParse(req.body)</code> › calls service › <code>Result → HTTP</code></td><td>App Server · Validation (server) · Error Handling</td></tr><tr><td>7</td><td><code>{domain}/server/{Entity}sServer</code> (domain service — extends <code>shared/</code>) › returns <code>Result&lt;T, E&gt;</code></td><td>Unified Domain Logic · Error Handling · Logging</td></tr><tr><td>8</td><td><code>{domain}/shared/</code> — <code>{Entity}</code> · <code>{Entity}Schema</code> · <code>{Builder / ValueObject}</code></td><td>Unified Domain Logic</td></tr><tr><td>9</td><td><code>{domain}/server/{Entity}RepositoryServer</code> implements <code>I{Entity}Repository</code></td><td>Persistence · Unified Domain Logic</td></tr><tr><td>10</td><td><code>{data store}</code></td><td>Persistence</td></tr><tr><td>—</td><td><strong>NETWORK BOUNDARY</strong> — <code>{protocol}</code> response</td><td>Communication</td></tr><tr><td>11</td><td>Server-state cache updates → view re-renders with fresh data</td><td>UI Rendering · Caching</td></tr></tbody></table></div>
+<p><em>Note: Unified Domain Logic spans the full stack — <code>shared/</code> is imported by <code>client/</code> (entity types, client-side schema validation) and extended by <code>server/</code> (domain service, repository). Add rows for bespoke mechanisms (e.g. file generation, field masking) where they intersect the flow.</em></p>
 <hr>
-<h2>7. Testing Architecture</h2>
+<h2>4. Modules</h2>
+<p>All modules — both mechanism-modules and domain modules — are shown in <a href="./module-overview.drawio"><code>diagrams/module-overview.drawio</code></a>. Mechanisms shared by all domain modules are listed in a legend; module-specific mechanisms are listed per module.</p>
+<h3>4.1 Mechanism-Modules</h3>
+<p>Mechanisms that also have a concrete implementation surface are also modules. Described here by functional behaviour and surface.</p>
+<h4>{MechanismModule — e.g. App Server Bootstrap}</h4>
+<p>{1–2 sentences: what the module does as a functional unit. Composition root; wires all dependencies; mounts global middleware chain; registers domain routers; starts and drains the HTTP server.}</p>
+<p>Uses: {mechanism list}</p>
+<hr>
+<h4>{MechanismModule — e.g. Identity}</h4>
+<p>{1–2 sentences: validates tokens, extracts role claims, attaches a typed Principal to the request context. Exposes a login/logout/refresh route group if applicable.}</p>
+<p>Uses: {mechanism list}</p>
+<hr>
+<h3>4.2 Domain Modules</h3>
+<p>One subsection per domain area. Business scope in 1–2 sentences; mechanisms list uses <em>common set</em> as shorthand for all mechanisms every domain module shares; additional module-specific mechanisms follow explicitly.</p>
+<p><strong>Common set (all domain modules use):</strong> {e.g. Unified Domain Logic · Security · Validation · Error Handling &amp; Resilience · Logging &amp; Observability · UI Rendering · App Server · Persistence}</p>
+<hr>
+<h4>{ModuleName — e.g. Orders}</h4>
+<p>{1–2 sentences describing what this module does for the business.}</p>
+<p>Uses: <em>common set</em> + {module-specific mechanisms, e.g. Communication · Caching}</p>
+<p>Dependencies: {App Server Bootstrap · Identity · other modules this module calls}</p>
+<hr>
+<h4>{ModuleName}</h4>
+<p>{1–2 sentences.}</p>
+<p>Uses: <em>common set</em> + {module-specific mechanisms}</p>
+<p>Dependencies: {dependencies}</p>
+<hr>
+<p><em>(Repeat for each domain module. Remove the placeholder entries when done.)</em></p>
+<p>&gt; Source: <a href="./module-overview.drawio"><code>diagrams/module-overview.drawio</code></a>. Edit in draw.io Desktop and re-export.</p>
+<p>!<a href="./module-overview.png">Module Overview</a></p>
+<hr>
+<h2>5. Testing Architecture</h2>
 <p>Test tiers common to the whole system:</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Tier</th><th>Scope</th><th>Test doubles</th><th>Where it runs</th></tr></thead><tbody><tr><td><strong>Domain</strong></td><td>One aggregate, no infrastructure</td><td>Real domain objects, no doubles</td><td>In-process, no DB</td></tr><tr><td><strong>Application</strong></td><td>One use case through the service layer</td><td>Fake repositories, fake providers</td><td>In-process, no DB</td></tr><tr><td><strong>Integration</strong></td><td>One component against real infrastructure</td><td>Real DB (testcontainer), fake external HTTP</td><td>CI, slower</td></tr><tr><td><strong>E2E</strong></td><td>One key user path through the deployed system</td><td>Real everything, against staging</td><td>Pre-prod</td></tr></tbody></table></div>
-<p>Common test doubles: <code>{FakeClock}</code>, <code>{FakeEventPublisher}</code>, <code>{FakeEmailProvider}</code>, <code>{FakeCatalogueClient}</code>. Per-mechanism testing detail defers to each mechanism&#x27;s architecture reference section.</p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Tier</th><th>Scope</th><th>Test doubles</th><th>Where it runs</th></tr></thead><tbody><tr><td><strong>Domain</strong></td><td>One <code>shared/</code> entity, schema, or builder; pure TypeScript</td><td>None</td><td>In-process, Vitest / Jest, no DB</td></tr><tr><td><strong>Application</strong></td><td>One module&#x27;s server service; full use case</td><td><code>Fake*Repository</code>, fake external adapters</td><td>In-process, Vitest / Jest, no DB</td></tr><tr><td><strong>Integration</strong></td><td>One module&#x27;s router + real DB</td><td>Real DB (test container); external adapters still faked</td><td>CI, Vitest / Jest, requires DB</td></tr><tr><td><strong>E2E</strong></td><td>Key user journey; full deployed stack</td><td>Real everything, against staging</td><td>Pre-release, Playwright / Cypress</td></tr></tbody></table></div>
+<p>Common doubles: <code>{FakeClock}</code>, <code>{Fake*Repository}</code>, <code>{FakeExternalAdapter}</code>.</p>
+<p>See <a href="./testing-flow.drawio"><code>diagrams/testing-flow.drawio</code></a> for a side-by-side view of which stack layers are real, faked, or not reached in each tier, with annotated entry and assertion points.</p>
+<p>!<a href="./testing-flow.png">Testing Flow</a></p>
 <hr>
-<h2>8. Extension &amp; Evolution <em>(if applicable)</em></h2>
-<p>{Only include when the system has real plug-in points: a documented adapter contract, a registry-driven extension, a SaaS multi-tenancy isolation seam. Remove this section if none exist.}</p>
-<hr>
-<h2>9. Decision Records</h2>
+<h2>6. Decision Records</h2>
 <p>Blueprint-level decisions (continuing ADR numbering from the outline):</p>
 <div class="md-table-wrap"><table class="md-table"><thead><tr><th>ID</th><th>Decision</th><th>One-line consequence</th></tr></thead><tbody><tr><td><a href="../decisions/ADR-{NNN}-{slug}.html">ADR-{NNN}</a></td><td>{Decision}</td><td>{One-line consequence}</td></tr></tbody></table></div>
-<p><em>(Mechanism technology choices have their ADRs in the outline. Blueprint ADRs cover: component boundaries, test-tier vocabulary, data ownership patterns, extension seam contracts.)</em></p>
+<p><em>(Blueprint ADRs cover: module boundaries, package structure, test-tier vocabulary, data ownership patterns. Mechanism technology choices have their ADRs in the outline.)</em></p>
 <hr>
 <h2>See also</h2>
 <ul>
-<li><a href="./architecture-outline.html"><code>architecture-outline.md</code></a> — one-page outline (layered diagram, system context with functions + tech, mechanisms catalogue, principles, tech stack, major systems, mechanism ADRs).</li>
-<li><a href="./architecture-reference.html"><code>architecture-reference.md</code></a> — deep-dive per mechanism (code walkthroughs, sequence diagrams, tests).</li>
+<li><a href="./architecture-outline.html"><code>architecture-outline.md</code></a> — mechanism technology choices, guiding principles, tech stack, major systems, mechanism ADRs.</li>
+<li><a href="./&lt;mechanism&gt;-architecture-specification.html"><code>&lt;mechanism&gt;-architecture-specification.md</code></a> — spec (module layout, layer qualifiers, worked examples) for one or more mechanisms mentioned here.</li>
 <li><a href="./service-level-objectives.html"><code>service-level-objectives.md</code></a> — non-functional requirements per major system.</li>
 </ul></div>
 

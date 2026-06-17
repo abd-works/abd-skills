@@ -70,7 +70,7 @@ Scope: The interactive kanban surface — family filter, skills expand/collapse,
 
 - groups one or more *practice skills* (both *stage skills* and *supporting skills*)
 - is *active* when ticked by the user; is *inactive* when unticked
-- **Invariant:** a *skill family* header chip in the practice rail is always visible whether *active* or *inactive*
+- **Invariant:** a *skill family* header chip in the *Practice Rail* is visible when *Skills Toggle* is expanded, or when collapsed with that family *active* (ticked)
 
 ### active
 
@@ -93,7 +93,7 @@ Scope: The interactive kanban surface — family filter, skills expand/collapse,
 - organises all *skills* by *skill family* row and *stage* column
 - shows all *skill family* rows when no *skill family* is *active*; filters to *active* families when one or more are ticked
 - shows all *stage* columns when no *stage* is *focused*; filters to the *focused stage* column when the user clicks a *stage column head*
-- **Invariant:** all *skill family* header chips in the practice rail are always visible regardless of active/inactive, expand/collapse, or *stage* focus state
+- **Invariant:** all *skill family* header chips in the *Practice Rail* are visible when *Skills Toggle* is expanded; when collapsed, chips follow *Idle State* / *Filter Active State* rules (hidden when idle, ticked-only when filter active)
 
 ### stage focus
 
@@ -135,17 +135,22 @@ Source: observed behavior, stated requirements, and working session — Jun 11 2
 - *Board Row* — a horizontal row of skill tickets for one practice family across all stage columns
 - *Stage Column* — a vertical column for a delivery stage (Shaping, Discovery, Exploration, Specification, Engineering)
 - *Skills Toggle* — button that expands or collapses individual skill rows in the board
-- *Idle State* — no family filter active; all rows visible
+- *Idle State* — no family filter active; when expanded, all rows visible; when collapsed, no families or skill tickets shown
 - *Other Practices Chip* — filter chip at the bottom of the *Practice Rail* for foundational / cross-family skills
 
 ### Acceptance criteria
 
-1. **WHEN** the *Kanban Surface* loads with no saved filter
+1. **WHEN** the *Kanban Surface* loads on the hub index with no saved filter and *Skills Toggle* is collapsed (default)
+   **THEN** no *Family Toggle* buttons appear in the *Practice Rail* — only the *Skills Toggle* is visible
+   **AND** no *Board Rows* or skill tickets are visible in the *Stage Columns*
+   **AND** the surface is in *Idle State*
+   **Evidence:** stated requirement — hub first load hides practice families until skills expanded
+
+1b. **WHEN** the *Kanban Surface* is expanded with no family filter active
    **THEN** all *Family Toggle* buttons appear in the *Practice Rail*
    **AND** all four practice-family *Board Rows* are visible across all *Stage Columns*
    **AND** *other practices* stage-folder skills are hidden until the *Other Practices Chip* is ticked
-   **AND** the surface is in *Idle State*
-   **Evidence:** stated requirement — hub default shows practice families; other rows on demand only
+   **Evidence:** stated requirement — expanded idle shows all practice families; other rows on demand only
 
 2. **WHEN** *Skills Toggle* is collapsed and a family filter is active
    **THEN** only *Ticked Families* show individual skill tickets in the *Stage Columns*
@@ -156,7 +161,9 @@ Source: observed behavior, stated requirements, and working session — Jun 11 2
 
 3. **WHEN** *Skills Toggle* is collapsed and no family filter is active
    **THEN** no individual skill tickets are visible in the *Stage Columns*
-   **Evidence:** collapsed idle state — nothing selected, no tickets shown
+   **AND** no *Family Toggle* buttons are visible in the *Practice Rail*
+   **AND** the *Stage Questions Row* (column footer bullet overviews) remains visible under each *Stage Column*
+   **Evidence:** collapsed idle state — no families or tickets; stage footers always shown
 
 4. **WHEN** *Skills Toggle* is expanded
    **THEN** ALL *Family Toggle* header chips are visible in the board area regardless of filter state
@@ -303,8 +310,8 @@ Source: observed behavior, stated requirements, and working session — Jun 11 2
 
 - *Skills Toggle Button* — the `–` / `+` control in the top-left of the *Kanban Surface*
 - *Expanded State* — individual skill tickets visible in each *Board Row*; `foundry-skills-expanded` class on surface
-- *Collapsed State* — only family header chips visible in the board; `foundry-skills-collapsed` class on surface
-- *Skills Expanded Preference* — persisted `sessionStorage` value remembering the last toggle state
+- *Collapsed State* — family header chips hidden in the *Practice Rail* when idle; skill tickets hidden unless a family filter is active; `foundry-skills-collapsed` class on surface
+- *Skills Expanded Preference* — persisted `sessionStorage` value per surface type (hub index vs skill page) remembering the last toggle state
 
 ### Acceptance criteria
 
@@ -315,7 +322,6 @@ Source: observed behavior, stated requirements, and working session — Jun 11 2
 
 2. **WHEN** the surface enters *Expanded State*
    **THEN** skill tickets appear inside every visible *Board Row*
-   **AND** the *Stage Questions Row* (perspective bullets under stage columns) is visible
    **AND** the *Supporting Section* becomes visible with its *Crosscut Rows*
    **Evidence:** stated requirement — supporting section only shown when skills expanded
 
@@ -323,14 +329,14 @@ Source: observed behavior, stated requirements, and working session — Jun 11 2
    **THEN** individual skill tickets are hidden in *Board Rows* unless a family filter is active
    **AND** when a family filter is active, only *Ticked Families* show skill tickets in *Stage Columns*
    **AND** inactive *Family Header Chips* are hidden from the *Practice Rail* and their grid tracks collapse
-   **AND** the *Stage Questions Row* is hidden
+   **AND** the *Stage Questions Row* (column footer bullet overviews) remains visible under each *Stage Column*
    **AND** supporting *Crosscut Rows* and skill chips are hidden
    **BUT** the *Supporting Section* shell may keep its section label visible
-   **Evidence:** stated requirement — collapse is focus mode; observed defect — column widened instead of collapsing inactive families
+   **Evidence:** stated requirement — collapse hides skill tickets, not stage column footers
 
 4. **WHEN** the user reloads or navigates back to the *Kanban Surface*
-   **THEN** the surface restores the *Skills Expanded Preference* from the last session
-   **Evidence:** `sessionStorage` persistence, `readSkillsExpandedPref()`
+   **THEN** the surface restores the *Skills Expanded Preference* for that surface type (hub index or skill page) from the last session
+   **Evidence:** `sessionStorage` persistence via `readSkillsExpandedPref()` with separate hub/skill-page keys
 
 ---
 
@@ -408,6 +414,81 @@ Source: observed behavior, stated requirements, and working session — Jun 11 2
 
 ---
 
+## Story: Skill Page Install and View Source
+
+**Story type:** user
+
+### Domain terms
+
+- *Install Block* — the `install-block` section on a *Skill Page* with the `npx skills add` command
+- *View Source Link* — link directly under the install snippet; opens the skill package folder on GitHub
+- *Skill Package Path* — repo-relative path to the skill folder (e.g. `practices/story-driven-delivery/skills/abd-story-mapping`)
+
+### Acceptance criteria
+
+1. **WHEN** a *Skill Page* loads
+   **THEN** an *Install Block* appears below the hero with heading "Install with npx"
+   **AND** a copy-paste `npx skills add abd-works/abd-skills@<skill-name> -y` command
+   **Evidence:** `_npx_skills_install_block` in `generate_abd_catalog.py`
+
+2. **WHEN** the *Install Block* is rendered
+   **THEN** a *View Source Link* labeled "View source" appears directly under the install snippet
+   **AND** the link target is `https://github.com/abd-works/abd-skills/tree/main/<Skill Package Path>/`
+   **AND** the *Skill Package Path* is shown beside the link in monospace
+   **AND** the link opens in a new tab
+   **Evidence:** `_repo_href(GITHUB_TREE_MAIN, pkg_rel_posix)`; `_REPO_LINK_NEW_TAB`
+
+3. **WHEN** an agent or plugin detail page loads
+   **THEN** no *Install Block* or *View Source Link* is shown
+   **Evidence:** agent pages set `{{INSTALL_BLOCK}}` to empty
+
+---
+
+## Story: CDD Overview Tour (Travel Ring)
+
+**Story type:** user
+
+### Domain terms
+
+- *CDD Toggle Button* — the "Click for overview" control above the *Kanban Surface*; advances the guided tour one step per click
+- *Guide Panel* — the expanding copy block (`foundry-cdd-panel`) that reveals tour text for each step
+- *Travel Ring* — the single orange bordered highlight (`#travel-ring`) that flies from the *CDD Toggle Button* onto tour targets
+- *Tour Step* — one advance of the tour: Context scope → Context perspectives → Executable context → Change implications → reset
+- *Tour Target* — the element or group the *Travel Ring* frames (column heads, perspective labels, or a stage column)
+- *Landed Ring* — *Travel Ring* resting on *Tour Targets* after a flight completes
+
+### Acceptance criteria
+
+1. **WHEN** the user clicks the *CDD Toggle Button* to enter or advance a *Tour Step*
+   **THEN** the *Guide Panel* reveals copy for that step
+   **AND** after the copy finishes expanding, the *Travel Ring* flies from the *CDD Toggle Button* onto the step's *Tour Targets*
+   **Evidence:** `catalog-foundry-tour.js` — `revealGuideText` then `flyRingToTargets`
+
+2. **WHEN** a new *Tour Step* begins before the previous step's ring has been dismissed
+   **THEN** the previous *Travel Ring* disappears immediately — no stale orange frame remains at prior *Tour Targets*
+   **AND** at most one *Travel Ring* is visible on screen at any time
+   **Evidence:** observed defect — stale ring lingered during guide-panel resize; fixed by clearing `lastRingTargets` and hiding ring on step transition
+
+3. **WHEN** the *Guide Panel* resizes during copy reveal between *Tour Steps*
+   **THEN** the *Travel Ring* is not re-shown at the previous step's *Tour Targets*
+   **BUT** after a flight completes, layout changes may re-sync the *Landed Ring* to the current step's targets only
+   **Evidence:** `ResizeObserver` + `syncRingToTargets`; must not sync while `ringIsAnimating()` or when `lastRingTargets` is cleared
+
+4. **WHEN** a *Travel Ring* flight is in progress
+   **THEN** layout or resize handlers must not restore a second ring or jump the ring to the destination before the animation finishes
+   **Evidence:** `ringIsAnimating()` guard on `syncRingToTargets`
+
+5. **WHEN** the user reaches the *Change implications* *Tour Step* (after Executable context)
+   **THEN** the *Guide Panel* shows color-coded bullets for Story-driven delivery, Domain-driven design, User experience, Architecture, and The team
+   **AND** no *Travel Ring* is shown — the ring is hidden for this step
+   **Evidence:** `animateChangeImplications()` — `hideRing()`, `skipRingPause: true`
+
+6. **WHEN** the user completes the final *Tour Step* and clicks the *CDD Toggle Button* again
+   **THEN** the tour resets to idle, the *Travel Ring* is hidden, and the *Guide Panel* returns to its default prompt
+   **Evidence:** `resetTour()` — `hideRing()`, `lastRingTargets = null`
+
+---
+
 ## Story: Return to Catalog Hub via Forge Nav
 
 ### Domain terms
@@ -436,7 +517,7 @@ Source: observed behavior, stated requirements, and working session — Jun 11 2
 
 | Story | AC # | Source |
 |---|---|---|
-| View Kanban With No Filter Selected | 1–3 | Hub default behavior; working session Jun 11 2026 |
+| View Kanban With No Filter Selected | 1–3, 1b | Hub collapsed default; stage footers when collapsed; working session Jun 11 2026 |
 | Select Practice Family Filter | 1 | Stated requirement: "ALL skills header chips should show" |
 | Select Practice Family Filter | 2–3 | Stated requirement: board rows filter to selected family |
 | Select Practice Family Filter | 4 | Stated requirement: "supporting only [family] and the skills left to right" |
@@ -444,7 +525,9 @@ Source: observed behavior, stated requirements, and working session — Jun 11 2
 | Select Practice Family Filter | 7 | Stated requirement: practice and stage filters are independent |
 | Select Stage Column Filter | 1–6 | Stated requirement: stage columns toggle like family chips; multi-select supported |
 | Deselect Practice Family Filter | 1–2 | Stated requirement: "click again they all disappear/reappear" |
-| Expand and Collapse Practice Skills | 1–4 | Hub expand/collapse; sessionStorage persistence |
+| Expand and Collapse Practice Skills | 1–4 | Hub expand/collapse; stage footers when collapsed; separate hub/skill sessionStorage keys |
+| CDD Overview Tour (Travel Ring) | 1–6 | Tour ring animation; change-implications step; stale ring fix |
 | View Supporting Section Crosscut Skills | 1–5 | Stated requirements: crosscut layout, foundational colors, skill-page parity |
 | Navigate From Kanban to Skill Page | 1–4 | `data-initial-family`; sessionStorage FILTER_KEY; `kanbanScroll` restore |
+| Skill Page Install and View Source | 1–3 | npx install block; GitHub tree link via `pkg_rel_posix` |
 | Return to Catalog Hub via Forge Nav | 1–3 | Stated requirement: single forge link to catalog main page |

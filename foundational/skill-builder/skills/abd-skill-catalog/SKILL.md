@@ -48,6 +48,8 @@ and in the flat skills grid but are omitted from the delivery kanban.
 Skill detail pages include an **Install with npx** block: a single fenced-style command
 `npx skills add abd-works/abd-skills@<frontmatter name> -y`, matching the
 skill id from `npx skills add https://github.com/abd-works/abd-skills -l`.
+Directly under that block, a **View source** link opens the skill package folder on GitHub
+(`tree/main/<pkg_rel_posix>` — e.g. `practices/.../skills/<skill-name>`).
 Agent pages omit that block (agents are not separate `npx skills` packages in this repo).
 
 Each listed package includes:

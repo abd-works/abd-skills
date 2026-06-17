@@ -10,15 +10,15 @@
 <link rel="stylesheet" href="../../../../commons/site.css?v=foundry-3">
 <style>
 /*
-  ABD Foundry — catalog prelude + gardener lesson fragment.
+  Agile Garden — AI Garden prelude + gardener lesson fragment.
   Inlined via generate_abd_catalog.py. Max border-radius 6px; flat surfaces.
-  Brand split: --accent (#E5531A) for column chrome / rails; --ai-accent on dense
-  mono skill links (engineering mode only — executive overrides in catalog.css).
+  Brand split: orange-500 (#E5531A) for column chrome / rails; ai-blue (#4FC3F7 / #81D4FA)
+  on dense mono skill links — see abd-works-brand BRAND-GUIDELINES §3.1 (ai-blue-500).
 */
 .catalog-prelude {
   margin: 0 0 24px;
   padding: 0 0 20px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #2A2A2A;
 }
 .catalog-prelude-heading {
   margin: 0 0 12px;
@@ -27,7 +27,7 @@
   color: var(--text);
   line-height: 1.25;
   padding-bottom: 8px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #2A2A2A;
   scroll-margin-top: 48px;
 }
 .catalog-prelude-tagline {
@@ -43,9 +43,9 @@
   margin: 0 0 18px;
 }
 .catalog-mission-card {
-  background: var(--raised);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
+  background: #1B1B20;
+  border: 1px solid #2A2A2A;
+  border-left: 3px solid #E5531A;
   border-radius: 4px;
   padding: 14px 20px;
   display: flex;
@@ -57,7 +57,7 @@
   flex-shrink: 0;
   font-size: 0.95rem;
   font-weight: 700;
-  color: var(--text);
+  color: #F4F4F5;
   margin: 0;
   white-space: nowrap;
 }
@@ -71,14 +71,14 @@
 .catalog-mission-card--teal,
 .catalog-mission-card--amber,
 .catalog-mission-card--purple {
-  background: var(--raised);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
+  background: #1B1B20;
+  border: 1px solid #2A2A2A;
+  border-left: 3px solid #E5531A;
 }
 .catalog-mission-card--teal h3,
 .catalog-mission-card--amber h3,
 .catalog-mission-card--purple h3 {
-  color: var(--text);
+  color: #F4F4F5;
 }
 @media (max-width: 720px) {
   .catalog-mission { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -95,17 +95,17 @@
   gap: 10px;
   padding: 8px 0 10px;
   margin: 24px 0 12px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #2A2A2A;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: #E5531A;
 }
 .catalog-section-label--foundational {
   margin-top: 28px;
-  color: var(--muted);
-  border-bottom-color: var(--border-muted);
+  color: #8A8A97;
+  border-bottom-color: #1A1A1E;
 }
 
 /* ── Practice grid — all 5 disciplines forced onto one row ── */
@@ -113,8 +113,8 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
   border-radius: 6px;
   overflow: hidden;
   margin: 0;
@@ -131,8 +131,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
   border-radius: 6px;
   overflow: hidden;
 }
@@ -158,7 +158,7 @@
   display: block !important;
   font-size: 0.82rem;
   line-height: 1.5;
-  color: var(--muted);
+  color: #9B9BA8;
 }
 
 /* ── Agents grid — single wide column ── */
@@ -166,15 +166,15 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
   border-radius: 6px;
   overflow: hidden;
 }
 .catalog-section-label--agents {
   margin-top: 28px;
-  color: var(--accent);
-  border-bottom-color: var(--border);
+  color: #E5531A;
+  border-bottom-color: #2A2A2A;
 }
 
 /* ── Shared column card ── */
@@ -199,7 +199,7 @@
   margin-top: 0;
 }
 .catalog-garden-col {
-  background: var(--surface);
+  background: #111113;
   border: none;
   border-radius: 0;
   overflow: hidden;
@@ -213,17 +213,17 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  border-bottom: 1px solid var(--border);
-  background: var(--raised);
-  color: var(--accent);
-  border-left: 3px solid var(--accent);
+  border-bottom: 1px solid #2A2A2A;
+  background: #1B1B20;
+  color: #E5531A;
+  border-left: 3px solid #E5531A;
 }
 .catalog-garden-col-header--practice,
 .catalog-garden-col-header--foundational,
 .catalog-garden-col-header--agents {
-  background: var(--raised);
-  color: var(--accent);
-  border-left: 3px solid var(--accent);
+  background: #1B1B20;
+  color: #E5531A;
+  border-left: 3px solid #E5531A;
 }
 .catalog-garden-ico { flex-shrink: 0; display: block; }
 .catalog-garden-row {
@@ -231,11 +231,11 @@
   align-items: center;
   gap: 10px;
   padding: 6px 16px;
-  border-bottom: 1px solid var(--border-muted);
+  border-bottom: 1px solid #1A1A1E;
   font-size: 0.85rem;
 }
 .catalog-garden-row:last-child { border-bottom: none; }
-/* Skill/agent links — mono names; ai-accent on dark (engineering mode) */
+/* Skill/agent links — mono names stay near-white; ai-blue hairline/hover (brand AI accent, not orange wall) */
 .catalog-garden-name {
   font-weight: 700;
   font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
@@ -243,11 +243,12 @@
   min-width: 0;
   overflow-wrap: anywhere;
   word-break: break-word;
-  color: var(--ai-accent);
+  color: #4FC3F7;
 }
+/* !important beats global `a { … }`, :visited, and concatenation order */
 .catalog-prelude .catalog-garden-name a,
 .catalog-garden-lists .catalog-garden-name a {
-  color: var(--ai-accent) !important;
+  color: #4FC3F7 !important;
   font-weight: 700 !important;
   text-decoration: none !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
@@ -256,19 +257,19 @@
 .catalog-prelude .catalog-garden-name a:focus-visible,
 .catalog-garden-lists .catalog-garden-name a:hover,
 .catalog-garden-lists .catalog-garden-name a:focus-visible {
-  color: var(--ai-accent-soft) !important;
+  color: #81D4FA !important;
   border-bottom-color: rgba(79, 195, 247, 0.95);
 }
 .catalog-garden-name--agent a,
 .catalog-garden-name--foundational a {
-  color: var(--ai-accent) !important;
+  color: #4FC3F7 !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
 }
 .catalog-garden-name--agent a:hover,
 .catalog-garden-name--agent a:focus-visible,
 .catalog-garden-name--foundational a:hover,
 .catalog-garden-name--foundational a:focus-visible {
-  color: var(--ai-accent-soft) !important;
+  color: #81D4FA !important;
   border-bottom-color: rgba(79, 195, 247, 0.92);
 }
 .catalog-garden-name--dim {
@@ -791,6 +792,18 @@ a.cap-card:hover .cap-card__more {
   padding: 0;
   font-size: inherit;
   color: inherit;
+}
+.install-source {
+  margin: 12px 0 0;
+  font-size: 0.92rem;
+}
+.install-source a {
+  font-weight: 600;
+}
+.install-source-path {
+  color: var(--muted);
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.82em;
 }
 .file-list {
   list-style: none;
@@ -1702,7 +1715,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 </style>
 <script src="../../../../commons/catalog-nav.js?v=foundry-10"></script>
 </head>
-<body data-nav-prefix="../../../../" data-nav-current="skills" data-nav-site-base="../../../../../../abd-works-website/">
+<body data-nav-prefix="../../../../" data-nav-current="skills" data-nav-site-base="https://abd.works/">
 <main id="main-content">
 
 <div class="page-hero page-hero--detail">
@@ -1711,7 +1724,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
     <p class="s-name">Rule</p>
 
     <h1 class="page-headline">rules/outline-leads-with-three-diagrams.md</h1>
-    <p class="body-lead">Rule: Outline leads with three diagrams</p>
+    <p class="body-lead">Rule: Outline leads with system context diagram</p>
   </div>
 </div>
 
@@ -1719,43 +1732,35 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <div class="wrap">
 
 <h2>Content</h2>
-<div class="rule-prose"><h1>Rule: Outline leads with three diagrams</h1>
-<p>The outline answers &quot;what is this system?&quot; through diagrams first and prose second. The first three numbered sections of <code>architecture-outline.md</code> are the <strong>layered architecture + tech stack diagram</strong>, the <strong>system context diagram</strong>, and the <strong>deployment topology diagram</strong>, in that order, each with its own heading and a caption of three sentences or fewer. Failing means the document opens with paragraphs of prose before the first diagram, has fewer than three diagrams, reorders the three, or has a caption that runs to half a page.</p>
+<div class="rule-prose"><h1>Rule: Outline leads with system context diagram</h1>
+<p>The outline answers &quot;what is this system?&quot; through the system context diagram first and prose second. The first numbered section of <code>architecture-outline.md</code> is the <strong>system context diagram</strong>, followed by the mechanisms and principles sections. Failing means the document opens with paragraphs of prose before the diagram appears, has no diagram, or has a caption that runs to half a page.</p>
 <h2>DO</h2>
 <ul>
-<li>The first three numbered sections of <code>architecture-outline.md</code> are <code>## 1. Layered Architecture + Tech Stack</code>, <code>## 2. System Context</code>, <code>## 3. Deployment Topology</code>, in that order. Sections 4+ are principles, tech stack, systems, ADRs.</li>
+<li>The first numbered section of <code>architecture-outline.md</code> is <code>## 1. System Context</code>. Sections 2+ are mechanisms, principles, tech stack, systems, ADRs.</li>
 </ul>
-<p><strong>Example (pass):</strong> <code>architecture-outline.md</code> headings 1–3 are exactly those three titles. Section 4 is <code>## 4. Guiding Principles</code>.</p>
+<p><strong>Example (pass):</strong> <code>architecture-outline.md</code> heading 1 is exactly <code>## 1. System Context</code>. Section 2 is <code>## 2. Architecture Mechanisms</code>.</p>
 <ul>
-<li>The layered architecture diagram includes technology badges on each layer band — runtime framework, major libraries, language — so a reader sees both the logical structure and the technology in one view. There is no separate platform-architecture diagram.</li>
+<li>The system context diagram caption is three sentences or fewer and names what the reader should see.</li>
 </ul>
-<p><strong>Example (pass):</strong> Section 1 caption: &quot;PawPlace is a MERN application in four layers: Presentation (React 18 / React Router 6 / TanStack Query 5), Application (Node.js 20 / Express 4), Domain — <code>shared/</code> (TypeScript 5 / Zod 3, zero framework imports), and Infrastructure (MongoDB 7, external API adapters). Dependencies flow strictly downward.&quot;</p>
+<p><strong>Example (pass):</strong> Caption: &quot;PawPlace connects three actors — Pet Owners, Vets, and Admins — to the core platform over HTTPS. Two external systems integrate: Auth0 for identity and Stripe for payments. All synchronous calls use REST; async notifications use AMQP.&quot;</p>
 <ul>
-<li>Every caption under a diagram is three sentences or fewer and names what the reader should see.</li>
+<li>The diagram uses a <code>.drawio</code> source paired with an exported PNG referenced in the outline.</li>
 </ul>
-<p><strong>Example (pass):</strong> Layered diagram caption: &quot;Dependencies point one way only: Presentation depends on Application, Application on Domain, Domain on Infrastructure interfaces (never their implementations). Technology badges on each band show the resident runtime and major frameworks.&quot;</p>
-<ul>
-<li>A single diagram notation is used consistently across all three diagrams within one outline (all PNG references, all drawio links, or all mermaid blocks — not a mix).</li>
-</ul>
-<p><strong>Example (pass):</strong> All three sections embed <code>![…](./diagrams/&lt;name&gt;.png)</code> with a drawio source link. No section switches to a mermaid block.</p>
+<p><strong>Example (pass):</strong> Section 1 embeds <code>![System Context](./diagrams/system-context.png)</code> with a link to <code>system-context.drawio</code> and <code>system-context-elements.md</code>.</p>
 <h2>DO NOT</h2>
 <ul>
-<li>Produce a separate platform-architecture diagram alongside a layered-architecture diagram. The two are redundant. Merge tech-stack details into the layered diagram instead.</li>
+<li>Open the outline with a prose-only section before the system context diagram appears.</li>
 </ul>
-<p><strong>Example (fail):</strong> Outline has both <code>## 1. Platform Diagram</code> (showing React SPA → API → MongoDB boxes) and <code>## 2. Layered Architecture</code> (showing layer bands). One diagram must cover both concerns.</p>
+<p><strong>Example (fail):</strong> Section 1 is <code>## Introduction</code> with five paragraphs of project history. The diagram does not appear until section 4.</p>
 <ul>
-<li>Open the outline with a prose-only section before the first diagram appears.</li>
+<li>Include a layered architecture, platform architecture, or deployment topology diagram in the outline. Those live in the blueprint.</li>
 </ul>
-<p><strong>Example (fail):</strong> Section 1 is <code>## Introduction</code> with five paragraphs of project history. The layered diagram does not appear until section 6.</p>
+<p><strong>Example (fail):</strong> Outline has <code>## 1. Layered Architecture</code> and <code>## 2. System Context</code>. The layered diagram is blueprint-level content and does not belong at this level.</p>
 <ul>
-<li>Ship the outline with fewer than three diagrams.</li>
+<li>Caption the diagram with a multi-paragraph rationale.</li>
 </ul>
-<p><strong>Example (fail):</strong> Outline has only Layered and Context diagrams but no Deployment Topology — readers cannot answer &quot;where does this run?&quot; from the page.</p>
-<ul>
-<li>Caption a diagram with a multi-paragraph rationale.</li>
-</ul>
-<p><strong>Example (fail):</strong> Layered diagram caption is six paragraphs explaining why hexagonal architecture was tried first. That rationale belongs in an ADR, not the caption.</p>
-<p><strong>Source:</strong> Practice-skill authoring convention (abd-architecture-outline); the outline is &quot;the one-page picture of the system&quot; and three diagrams are its load-bearing content.</p></div>
+<p><strong>Example (fail):</strong> System context caption is six paragraphs explaining why a microservices split was chosen. That rationale belongs in an ADR, not the caption.</p>
+<p><strong>Source:</strong> Practice-skill authoring convention (abd-architecture-outline); the outline is &quot;the one-page picture of the system&quot; and the system context diagram is its load-bearing content.</p></div>
 
 </div>
 </div>

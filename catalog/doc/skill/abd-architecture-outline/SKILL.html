@@ -10,15 +10,15 @@
 <link rel="stylesheet" href="../../../commons/site.css?v=foundry-3">
 <style>
 /*
-  ABD Foundry — catalog prelude + gardener lesson fragment.
+  Agile Garden — AI Garden prelude + gardener lesson fragment.
   Inlined via generate_abd_catalog.py. Max border-radius 6px; flat surfaces.
-  Brand split: --accent (#E5531A) for column chrome / rails; --ai-accent on dense
-  mono skill links (engineering mode only — executive overrides in catalog.css).
+  Brand split: orange-500 (#E5531A) for column chrome / rails; ai-blue (#4FC3F7 / #81D4FA)
+  on dense mono skill links — see abd-works-brand BRAND-GUIDELINES §3.1 (ai-blue-500).
 */
 .catalog-prelude {
   margin: 0 0 24px;
   padding: 0 0 20px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #2A2A2A;
 }
 .catalog-prelude-heading {
   margin: 0 0 12px;
@@ -27,7 +27,7 @@
   color: var(--text);
   line-height: 1.25;
   padding-bottom: 8px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #2A2A2A;
   scroll-margin-top: 48px;
 }
 .catalog-prelude-tagline {
@@ -43,9 +43,9 @@
   margin: 0 0 18px;
 }
 .catalog-mission-card {
-  background: var(--raised);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
+  background: #1B1B20;
+  border: 1px solid #2A2A2A;
+  border-left: 3px solid #E5531A;
   border-radius: 4px;
   padding: 14px 20px;
   display: flex;
@@ -57,7 +57,7 @@
   flex-shrink: 0;
   font-size: 0.95rem;
   font-weight: 700;
-  color: var(--text);
+  color: #F4F4F5;
   margin: 0;
   white-space: nowrap;
 }
@@ -71,14 +71,14 @@
 .catalog-mission-card--teal,
 .catalog-mission-card--amber,
 .catalog-mission-card--purple {
-  background: var(--raised);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
+  background: #1B1B20;
+  border: 1px solid #2A2A2A;
+  border-left: 3px solid #E5531A;
 }
 .catalog-mission-card--teal h3,
 .catalog-mission-card--amber h3,
 .catalog-mission-card--purple h3 {
-  color: var(--text);
+  color: #F4F4F5;
 }
 @media (max-width: 720px) {
   .catalog-mission { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -95,17 +95,17 @@
   gap: 10px;
   padding: 8px 0 10px;
   margin: 24px 0 12px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #2A2A2A;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: #E5531A;
 }
 .catalog-section-label--foundational {
   margin-top: 28px;
-  color: var(--muted);
-  border-bottom-color: var(--border-muted);
+  color: #8A8A97;
+  border-bottom-color: #1A1A1E;
 }
 
 /* ── Practice grid — all 5 disciplines forced onto one row ── */
@@ -113,8 +113,8 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
   border-radius: 6px;
   overflow: hidden;
   margin: 0;
@@ -131,8 +131,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
   border-radius: 6px;
   overflow: hidden;
 }
@@ -158,7 +158,7 @@
   display: block !important;
   font-size: 0.82rem;
   line-height: 1.5;
-  color: var(--muted);
+  color: #9B9BA8;
 }
 
 /* ── Agents grid — single wide column ── */
@@ -166,15 +166,15 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
   border-radius: 6px;
   overflow: hidden;
 }
 .catalog-section-label--agents {
   margin-top: 28px;
-  color: var(--accent);
-  border-bottom-color: var(--border);
+  color: #E5531A;
+  border-bottom-color: #2A2A2A;
 }
 
 /* ── Shared column card ── */
@@ -199,7 +199,7 @@
   margin-top: 0;
 }
 .catalog-garden-col {
-  background: var(--surface);
+  background: #111113;
   border: none;
   border-radius: 0;
   overflow: hidden;
@@ -213,17 +213,17 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  border-bottom: 1px solid var(--border);
-  background: var(--raised);
-  color: var(--accent);
-  border-left: 3px solid var(--accent);
+  border-bottom: 1px solid #2A2A2A;
+  background: #1B1B20;
+  color: #E5531A;
+  border-left: 3px solid #E5531A;
 }
 .catalog-garden-col-header--practice,
 .catalog-garden-col-header--foundational,
 .catalog-garden-col-header--agents {
-  background: var(--raised);
-  color: var(--accent);
-  border-left: 3px solid var(--accent);
+  background: #1B1B20;
+  color: #E5531A;
+  border-left: 3px solid #E5531A;
 }
 .catalog-garden-ico { flex-shrink: 0; display: block; }
 .catalog-garden-row {
@@ -231,11 +231,11 @@
   align-items: center;
   gap: 10px;
   padding: 6px 16px;
-  border-bottom: 1px solid var(--border-muted);
+  border-bottom: 1px solid #1A1A1E;
   font-size: 0.85rem;
 }
 .catalog-garden-row:last-child { border-bottom: none; }
-/* Skill/agent links — mono names; ai-accent on dark (engineering mode) */
+/* Skill/agent links — mono names stay near-white; ai-blue hairline/hover (brand AI accent, not orange wall) */
 .catalog-garden-name {
   font-weight: 700;
   font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
@@ -243,11 +243,12 @@
   min-width: 0;
   overflow-wrap: anywhere;
   word-break: break-word;
-  color: var(--ai-accent);
+  color: #4FC3F7;
 }
+/* !important beats global `a { … }`, :visited, and concatenation order */
 .catalog-prelude .catalog-garden-name a,
 .catalog-garden-lists .catalog-garden-name a {
-  color: var(--ai-accent) !important;
+  color: #4FC3F7 !important;
   font-weight: 700 !important;
   text-decoration: none !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
@@ -256,19 +257,19 @@
 .catalog-prelude .catalog-garden-name a:focus-visible,
 .catalog-garden-lists .catalog-garden-name a:hover,
 .catalog-garden-lists .catalog-garden-name a:focus-visible {
-  color: var(--ai-accent-soft) !important;
+  color: #81D4FA !important;
   border-bottom-color: rgba(79, 195, 247, 0.95);
 }
 .catalog-garden-name--agent a,
 .catalog-garden-name--foundational a {
-  color: var(--ai-accent) !important;
+  color: #4FC3F7 !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
 }
 .catalog-garden-name--agent a:hover,
 .catalog-garden-name--agent a:focus-visible,
 .catalog-garden-name--foundational a:hover,
 .catalog-garden-name--foundational a:focus-visible {
-  color: var(--ai-accent-soft) !important;
+  color: #81D4FA !important;
   border-bottom-color: rgba(79, 195, 247, 0.92);
 }
 .catalog-garden-name--dim {
@@ -791,6 +792,18 @@ a.cap-card:hover .cap-card__more {
   padding: 0;
   font-size: inherit;
   color: inherit;
+}
+.install-source {
+  margin: 12px 0 0;
+  font-size: 0.92rem;
+}
+.install-source a {
+  font-weight: 600;
+}
+.install-source-path {
+  color: var(--muted);
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.82em;
 }
 .file-list {
   list-style: none;
@@ -1702,7 +1715,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 </style>
 <script src="../../../commons/catalog-nav.js?v=foundry-10"></script>
 </head>
-<body data-nav-prefix="../../../" data-nav-current="skills" data-nav-site-base="../../../../../abd-works-website/">
+<body data-nav-prefix="../../../" data-nav-current="skills" data-nav-site-base="https://abd.works/">
 <main id="main-content">
 
 <div class="page-hero page-hero--detail">
@@ -1721,19 +1734,17 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <h2>Content</h2>
 <div class="rule-prose"><h1>abd-architecture-outline</h1>
 <h2>Purpose</h2>
-<p>A team that cannot describe every element of its system cannot agree on what to build next. Outlines fix that. This skill produces the first architecture artifact for a system: two element-inventory markdown files (one per diagram), two draw.io diagrams built from those inventories, and a consolidated outline document that brings them together with a mechanisms catalogue, guiding principles, tech stack, major systems, and ADRs. Engineers, product, and stakeholders share a single auditable picture of the layers, the neighbours and protocols, each system&#x27;s functions and platform technology, the mechanism commitments, and the decisions behind them. When the outline is in place, deeper architecture work (blueprint, reference) can start without re-litigating what the system <em>is</em> or what mechanisms it commits to.</p>
+<p>A team that cannot describe every element of its system cannot agree on what to build next. Outlines fix that. This skill produces the first architecture artifact for a system: a system context element-inventory markdown file, a draw.io diagram built from that inventory, and a consolidated outline document that brings them together with a mechanisms catalogue, guiding principles, tech stack, major systems, and ADRs. Engineers, product, and stakeholders share a single auditable picture of the neighbours and protocols, each system&#x27;s functions and platform technology, the mechanism commitments, and the decisions behind them. When the outline is in place, deeper architecture work (blueprint, reference) can start without re-litigating what the system <em>is</em> or what mechanisms it commits to.</p>
 <hr>
 <h2>Output files</h2>
 <p><strong>Deliverables folder:</strong> see <code>../agent-protocol.md</code> — Output file resolution.</p>
 <p><strong>Primary file:</strong> <code>architecture-outline.md</code>. Add a <code>&lt;name&gt;-</code> prefix only when disambiguation is needed.</p>
-<p><strong>Diagram element files</strong> (under <code>docs/architecture/diagrams/</code>):</p>
+<p><strong>Diagram element file</strong> (under <code>docs/architecture/diagrams/</code>):</p>
 <ul>
-<li><code>layered-architecture-elements.md</code> <em>(includes technology badges per layer)</em></li>
 <li><code>system-context-elements.md</code> <em>(includes functions + platform tech per system, protocols on relationships)</em></li>
 </ul>
-<p><strong>Draw.io sources</strong> (under <code>docs/architecture/diagrams/</code>):</p>
+<p><strong>Draw.io source</strong> (under <code>docs/architecture/diagrams/</code>):</p>
 <ul>
-<li><code>layered-architecture.drawio</code> <em>(tech-stack detail embedded per layer band)</em></li>
 <li><code>system-context.drawio</code></li>
 </ul>
 <hr>
@@ -1742,33 +1753,30 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <h3>1. Read context</h3>
 <p>Read these files:</p>
 <ul>
-<li><strong><code>reference/concepts.md</code></strong> — what an outline is, the two diagrams, the extended system-context scope (functions + tech + protocols), the mechanisms catalogue concept, guiding principles, major systems catalogue, decision records, and what the outline does NOT contain.</li>
-<li><strong><code>reference/examples.md</code></strong> — a typical outline tree, the shape of a good outline, and filled examples of element-inventory files.</li>
+<li><strong><code>reference/concepts.md</code></strong> — what an outline is, the system context diagram, the extended system-context scope (functions + tech + protocols), the mechanisms catalogue concept, guiding principles, major systems catalogue, and decision records.</li>
+<li><strong><code>reference/system-context.md</code></strong> — deeper guidance on the system context diagram.</li>
 </ul>
 <h3>2. Generate</h3>
 <p>Read every file in <strong><code>rules/</code></strong>; author to those rules.</p>
-<p><strong>Step 2a — Produce the two element-inventory files first:</strong></p>
-<p>Using <code>templates/&lt;name&gt;-elements.md</code> as the starting structure, fill in every section with real system names and 1–2 sentence descriptions. No placeholder tokens (<code>{…}</code>) should remain.</p>
-<ul>
-<li>For the <strong>layered-architecture</strong> file: add a <strong>Technology</strong> badge line to every layer entry (runtime, framework, major libraries).</li>
-<li>For the <strong>system-context</strong> file: add <strong>Major functions</strong> and <strong>Platform technology</strong> (app stack, persistence, tools/libs) to every owned system entry; add <strong>Protocol</strong> to every relationship entry.</li>
-</ul>
-<p>Complete both files before proceeding to step 2b.</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>Output file</th></tr></thead><tbody><tr><td><code>templates/layered-architecture-elements.md</code></td><td><code>docs/architecture/diagrams/layered-architecture-elements.md</code></td></tr><tr><td><code>templates/system-context-elements.md</code></td><td><code>docs/architecture/diagrams/system-context-elements.md</code></td></tr></tbody></table></div>
-<p><strong>Step 2b — Produce the draw.io sources and outline document:</strong></p>
-<p>Only after the element files are complete:</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td><code>templates/architecture-outline.md</code></td><td>The outline document — two diagram sections, a Systems section describing each owned system, an Architecture Mechanisms section with tech-choice + NFR justification per mechanism, guiding principles, tech stack table, major systems table, and ADR list.</td></tr><tr><td><code>templates/decision-record.md</code></td><td>One ADR file per outline-level decision (platform, architectural style, each mechanism technology choice) under <code>docs/architecture/decisions/</code>.</td></tr></tbody></table></div>
+<p><strong>Step 2a — Produce the element-inventory file first:</strong></p>
+<p>Using <code>templates/system-context-elements.md</code> as the starting structure, fill in every section with real system names and 1–2 sentence descriptions. No placeholder tokens (<code>{…}</code>) should remain.</p>
+<p>For the <strong>system-context</strong> file: add <strong>Major functions</strong> and <strong>Platform technology</strong> (app stack, persistence, tools/libs) to every owned system entry; add <strong>Protocol</strong> to every relationship entry.</p>
+<p>Complete the element file before proceeding to step 2b.</p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>Output file</th></tr></thead><tbody><tr><td><code>templates/system-context-elements.md</code></td><td><code>docs/architecture/diagrams/system-context-elements.md</code></td></tr></tbody></table></div>
+<p><strong>Step 2b — Produce the draw.io source and outline document:</strong></p>
+<p>Only after the element file is complete:</p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td><code>templates/architecture-outline.md</code></td><td>The outline document — a System Context section describing each owned system, an Architecture Mechanisms section with tech-choice + NFR justification per mechanism, guiding principles, tech stack table, major systems table, and ADR list.</td></tr><tr><td><code>templates/decision-record.md</code></td><td>One ADR file per outline-level decision (platform, architectural style, each mechanism technology choice) under <code>docs/architecture/decisions/</code>.</td></tr></tbody></table></div>
 <p><strong>Mechanism guidance:</strong> Cover all eight standard mechanisms (Security, Error Handling &amp; Resilience, Logging &amp; Observability, Validation, Configuration &amp; Secrets, Caching, Persistence, Communication). Then identify any context-specific or bespoke mechanisms this system requires that the standard set does not cover and add them as additional subsections. Do not leave any mechanism empty or placeholder; derive real choices from the project context.</p>
 <p><strong>Diagram workflow:</strong></p>
-<p>1. Seed diagrams: <code>.\scripts\arch-drawio.ps1 init -ProjectRoot &lt;target-project-root&gt;</code> 2. Fill placeholders in each <code>.drawio</code> file using the matching element-inventory file as the source of truth. 3. Export PNGs: <code>.\scripts\arch-drawio.ps1 export -ProjectRoot &lt;target-project-root&gt;</code> 4. Reference the PNGs and link the element files from the outline markdown.</p>
-<p><strong>Quality bar:</strong> Two element-inventory files present and fully described (no placeholder tokens). System context element file includes functions + platform tech per system and protocol per relationship. Two diagrams present (layered + tech stack, system context), each matching its element file and accompanied by a caption of three sentences or fewer. Every mechanism has a named technology choice and NFR justification. ADRs on disk for all mechanism choices and platform decisions.</p>
+<p>1. Seed diagram: <code>.\scripts\arch-drawio.ps1 init -ProjectRoot &lt;target-project-root&gt;</code> 2. Fill placeholders in <code>system-context.drawio</code> using the element-inventory file as the source of truth. 3. Export PNG: <code>.\scripts\arch-drawio.ps1 export -ProjectRoot &lt;target-project-root&gt;</code> 4. Reference the PNG and link the element file from the outline markdown.</p>
+<p><strong>Quality bar:</strong> Element-inventory file present and fully described (no placeholder tokens). System context element file includes functions + platform tech per system and protocol per relationship. Diagram present and matching its element file, accompanied by a caption of three sentences or fewer. Every mechanism has a named technology choice and NFR justification. ADRs on disk for all mechanism choices and platform decisions.</p>
 <h3>3. Validate</h3>
 <p>Run the scanners:</p>
 <pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
   --skill-root skills/abd-architecture-outline \
   --workspace &lt;path-to-output&gt;</code></pre>
 <div class="spec-steps">
-<p class="spec-step">Then verify diagrams:</p>
+<p class="spec-step">Then verify diagram:</p>
 </div>
 <pre><code>.\scripts\arch-drawio.ps1 verify -ProjectRoot &lt;target-project-root&gt;</code></pre>
 <div class="spec-steps">
@@ -1778,18 +1786,16 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <h2>Validate</h2>
 <p><strong>Goal:</strong> Inspect what was built — read the artifacts as reviewers.</p>
 <ul>
-<li><strong>Two element-inventory files present</strong> — <code>layered-architecture-elements.md</code>, <code>system-context-elements.md</code> — each under <code>docs/architecture/diagrams/</code>.</li>
+<li><strong>Element-inventory file present</strong> — <code>system-context-elements.md</code> — under <code>docs/architecture/diagrams/</code>.</li>
 <li><strong>Every element has a 1–2 sentence description</strong> — no entry has a blank body, a single-word body, or an unfilled placeholder token.</li>
-<li><strong>Layered element file has Technology badge per layer</strong> — each layer entry includes a <code>**Technology:** …</code> line naming runtime, framework, and major libraries.</li>
 <li><strong>System context element file has functions + tech per system</strong> — every owned system entry has a <code>**Major functions:**</code> list and a <code>**Platform technology:**</code> block with app stack, persistence, and tools.</li>
 <li><strong>System context element file has protocol per relationship</strong> — every relationship entry includes a <code>**Protocol:**</code> line.</li>
-<li><strong>Element file and diagram are in sync</strong> — every element named in the element file appears in the matching <code>.drawio</code>; no element is in the diagram without a file entry.</li>
-<li><strong>Two diagrams present</strong> — layered + tech stack, system context — each with a caption of three sentences or fewer.</li>
-<li><strong>No separate platform-architecture or deployment-architecture diagram</strong> — those live in the blueprint; no <code>platform-architecture.drawio</code>, <code>platform-architecture-elements.md</code>, <code>deployment-architecture.drawio</code>, or <code>deployment-architecture-elements.md</code> at this level.</li>
-<li><strong>Each diagram has a paired <code>.drawio</code> source</strong> — <code>.\scripts\arch-drawio.ps1 verify</code> prints PASS.</li>
-<li><strong>Each diagram section in the outline links its element file</strong> — <code>&gt; Element inventory: [diagrams/&lt;name&gt;-elements.md](…)</code> is present under each diagram reference.</li>
-<li><strong>Canonical filenames used</strong> — <code>layered-architecture.drawio</code>, <code>system-context.drawio</code>.</li>
-<li><strong>Layered diagram shows dependency direction</strong> — arrows are one-way, no cycles drawn.</li>
+<li><strong>Element file and diagram are in sync</strong> — every element named in the element file appears in the <code>.drawio</code>; no element is in the diagram without a file entry.</li>
+<li><strong>System context diagram present</strong> — with a caption of three sentences or fewer.</li>
+<li><strong>No separate platform-architecture, layered-architecture, or deployment-architecture diagram</strong> — those live in the blueprint; no <code>layered-architecture.drawio</code>, <code>platform-architecture.drawio</code>, <code>deployment-architecture.drawio</code> or their element files at this level.</li>
+<li><strong>Diagram has a paired <code>.drawio</code> source</strong> — <code>.\scripts\arch-drawio.ps1 verify</code> prints PASS.</li>
+<li><strong>Diagram section in the outline links its element file</strong> — <code>&gt; Element inventory: [diagrams/system-context-elements.md](…)</code> is present under the diagram reference.</li>
+<li><strong>Canonical filename used</strong> — <code>system-context.drawio</code>.</li>
 <li><strong>Systems section present</strong> — the outline describes every owned system with functions and tech; content mirrors the system-context-elements.md.</li>
 <li><strong>Mechanisms section present</strong> — all eight standard mechanisms have a named technology choice, 1–2 paragraphs, and an NFR or justification sentence.</li>
 <li><strong>Bespoke mechanisms present when context demands</strong> — at least one novel mechanism added if the standard set does not fully cover the system&#x27;s concerns.</li>

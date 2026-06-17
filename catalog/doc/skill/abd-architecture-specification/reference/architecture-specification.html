@@ -10,15 +10,15 @@
 <link rel="stylesheet" href="../../../../commons/site.css?v=foundry-3">
 <style>
 /*
-  ABD Foundry — catalog prelude + gardener lesson fragment.
+  Agile Garden — AI Garden prelude + gardener lesson fragment.
   Inlined via generate_abd_catalog.py. Max border-radius 6px; flat surfaces.
-  Brand split: --accent (#E5531A) for column chrome / rails; --ai-accent on dense
-  mono skill links (engineering mode only — executive overrides in catalog.css).
+  Brand split: orange-500 (#E5531A) for column chrome / rails; ai-blue (#4FC3F7 / #81D4FA)
+  on dense mono skill links — see abd-works-brand BRAND-GUIDELINES §3.1 (ai-blue-500).
 */
 .catalog-prelude {
   margin: 0 0 24px;
   padding: 0 0 20px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #2A2A2A;
 }
 .catalog-prelude-heading {
   margin: 0 0 12px;
@@ -27,7 +27,7 @@
   color: var(--text);
   line-height: 1.25;
   padding-bottom: 8px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #2A2A2A;
   scroll-margin-top: 48px;
 }
 .catalog-prelude-tagline {
@@ -43,9 +43,9 @@
   margin: 0 0 18px;
 }
 .catalog-mission-card {
-  background: var(--raised);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
+  background: #1B1B20;
+  border: 1px solid #2A2A2A;
+  border-left: 3px solid #E5531A;
   border-radius: 4px;
   padding: 14px 20px;
   display: flex;
@@ -57,7 +57,7 @@
   flex-shrink: 0;
   font-size: 0.95rem;
   font-weight: 700;
-  color: var(--text);
+  color: #F4F4F5;
   margin: 0;
   white-space: nowrap;
 }
@@ -71,14 +71,14 @@
 .catalog-mission-card--teal,
 .catalog-mission-card--amber,
 .catalog-mission-card--purple {
-  background: var(--raised);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--accent);
+  background: #1B1B20;
+  border: 1px solid #2A2A2A;
+  border-left: 3px solid #E5531A;
 }
 .catalog-mission-card--teal h3,
 .catalog-mission-card--amber h3,
 .catalog-mission-card--purple h3 {
-  color: var(--text);
+  color: #F4F4F5;
 }
 @media (max-width: 720px) {
   .catalog-mission { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -95,17 +95,17 @@
   gap: 10px;
   padding: 8px 0 10px;
   margin: 24px 0 12px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid #2A2A2A;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--accent);
+  color: #E5531A;
 }
 .catalog-section-label--foundational {
   margin-top: 28px;
-  color: var(--muted);
-  border-bottom-color: var(--border-muted);
+  color: #8A8A97;
+  border-bottom-color: #1A1A1E;
 }
 
 /* ── Practice grid — all 5 disciplines forced onto one row ── */
@@ -113,8 +113,8 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
   border-radius: 6px;
   overflow: hidden;
   margin: 0;
@@ -131,8 +131,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
   border-radius: 6px;
   overflow: hidden;
 }
@@ -158,7 +158,7 @@
   display: block !important;
   font-size: 0.82rem;
   line-height: 1.5;
-  color: var(--muted);
+  color: #9B9BA8;
 }
 
 /* ── Agents grid — single wide column ── */
@@ -166,15 +166,15 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
   border-radius: 6px;
   overflow: hidden;
 }
 .catalog-section-label--agents {
   margin-top: 28px;
-  color: var(--accent);
-  border-bottom-color: var(--border);
+  color: #E5531A;
+  border-bottom-color: #2A2A2A;
 }
 
 /* ── Shared column card ── */
@@ -199,7 +199,7 @@
   margin-top: 0;
 }
 .catalog-garden-col {
-  background: var(--surface);
+  background: #111113;
   border: none;
   border-radius: 0;
   overflow: hidden;
@@ -213,17 +213,17 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  border-bottom: 1px solid var(--border);
-  background: var(--raised);
-  color: var(--accent);
-  border-left: 3px solid var(--accent);
+  border-bottom: 1px solid #2A2A2A;
+  background: #1B1B20;
+  color: #E5531A;
+  border-left: 3px solid #E5531A;
 }
 .catalog-garden-col-header--practice,
 .catalog-garden-col-header--foundational,
 .catalog-garden-col-header--agents {
-  background: var(--raised);
-  color: var(--accent);
-  border-left: 3px solid var(--accent);
+  background: #1B1B20;
+  color: #E5531A;
+  border-left: 3px solid #E5531A;
 }
 .catalog-garden-ico { flex-shrink: 0; display: block; }
 .catalog-garden-row {
@@ -231,11 +231,11 @@
   align-items: center;
   gap: 10px;
   padding: 6px 16px;
-  border-bottom: 1px solid var(--border-muted);
+  border-bottom: 1px solid #1A1A1E;
   font-size: 0.85rem;
 }
 .catalog-garden-row:last-child { border-bottom: none; }
-/* Skill/agent links — mono names; ai-accent on dark (engineering mode) */
+/* Skill/agent links — mono names stay near-white; ai-blue hairline/hover (brand AI accent, not orange wall) */
 .catalog-garden-name {
   font-weight: 700;
   font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
@@ -243,11 +243,12 @@
   min-width: 0;
   overflow-wrap: anywhere;
   word-break: break-word;
-  color: var(--ai-accent);
+  color: #4FC3F7;
 }
+/* !important beats global `a { … }`, :visited, and concatenation order */
 .catalog-prelude .catalog-garden-name a,
 .catalog-garden-lists .catalog-garden-name a {
-  color: var(--ai-accent) !important;
+  color: #4FC3F7 !important;
   font-weight: 700 !important;
   text-decoration: none !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
@@ -256,19 +257,19 @@
 .catalog-prelude .catalog-garden-name a:focus-visible,
 .catalog-garden-lists .catalog-garden-name a:hover,
 .catalog-garden-lists .catalog-garden-name a:focus-visible {
-  color: var(--ai-accent-soft) !important;
+  color: #81D4FA !important;
   border-bottom-color: rgba(79, 195, 247, 0.95);
 }
 .catalog-garden-name--agent a,
 .catalog-garden-name--foundational a {
-  color: var(--ai-accent) !important;
+  color: #4FC3F7 !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
 }
 .catalog-garden-name--agent a:hover,
 .catalog-garden-name--agent a:focus-visible,
 .catalog-garden-name--foundational a:hover,
 .catalog-garden-name--foundational a:focus-visible {
-  color: var(--ai-accent-soft) !important;
+  color: #81D4FA !important;
   border-bottom-color: rgba(79, 195, 247, 0.92);
 }
 .catalog-garden-name--dim {
@@ -791,6 +792,18 @@ a.cap-card:hover .cap-card__more {
   padding: 0;
   font-size: inherit;
   color: inherit;
+}
+.install-source {
+  margin: 12px 0 0;
+  font-size: 0.92rem;
+}
+.install-source a {
+  font-weight: 600;
+}
+.install-source-path {
+  color: var(--muted);
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.82em;
 }
 .file-list {
   list-style: none;
@@ -1702,7 +1715,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 </style>
 <script src="../../../../commons/catalog-nav.js?v=foundry-10"></script>
 </head>
-<body data-nav-prefix="../../../../" data-nav-current="skills" data-nav-site-base="../../../../../../abd-works-website/">
+<body data-nav-prefix="../../../../" data-nav-current="skills" data-nav-site-base="https://abd.works/">
 <main id="main-content">
 
 <div class="page-hero page-hero--detail">
@@ -1711,7 +1724,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
     <p class="s-name">Markdown</p>
 
     <h1 class="page-headline">reference/architecture-specification.md</h1>
-    <p class="body-lead">MERN Domain-First Architecture Specification</p>
+    <p class="body-lead">Architecture Flow</p>
   </div>
 </div>
 
@@ -1719,51 +1732,8 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <div class="wrap">
 
 <h2>Content</h2>
-<div class="rule-prose"><h1>MERN Domain-First Architecture Specification</h1>
-<h2>Table of Contents</h2>
-<ul>
-<li><a href="#overview">Overview</a></li>
-<li><a href="#instantiating-the-domain">Instantiating the Domain</a></li>
-<li><a href="#principles">Principles</a></li>
-<li><a href="#architecture-flow">Architecture Flow</a></li>
-<li><a href="#module-layout">Module Layout</a></li>
-<li><a href="#participants">Participants</a></li>
-<li><a href="#mechanisms">Mechanisms</a></li>
-<li><a href="#mechanism-web-client">Mechanism: Web Client</a></li>
-<li><a href="#mechanism-app-server">Mechanism: App Server</a></li>
-<li><a href="#mechanism-persistence">Mechanism: Persistence</a></li>
-<li><a href="#testing-architecture">Testing Architecture</a></li>
-<li><a href="#principles-1">Principles</a></li>
-<li><a href="#testing-scope">Testing Scope</a></li>
-<li><a href="#module-layout-1">Module Layout</a></li>
-<li><a href="#participants-1">Participants</a></li>
-<li><a href="#example">Example</a></li>
-<li><a href="#rules-and-validation">Rules and Validation</a></li>
-<li><a href="#references">References</a></li>
-</ul>
-<hr>
-<h2>Overview</h2>
-<p>MERN Domain-First is the <strong>architecture specification</strong> for this stack — the authoritative output of <code>abd-architecture-specification</code>. It is a <strong>domain-module-organized full-stack TypeScript architecture</strong> (MongoDB, Express, React, Node.js) built on three runtime mechanisms and one organizing principle:</p>
-<p>1. <strong>Instantiating the domain</strong> — every artifact maps to a domain class (<code>&lt;&lt;Entity&gt;&gt;</code>) and/or operation (<code>&lt;&lt;operation&gt;&gt;</code>); shared core in <code>shared/</code>; tiers extend shared. 2. <strong>Web client</strong> — React views, hooks, and type-safe HTTP client under <code>app-client/</code> and <code>&lt;&lt;domain&gt;&gt;/client/</code>. 3. <strong>App server</strong> — Express composition root, route handlers, and <code>&lt;&lt;domain&gt;&gt;-server</code> classes under <code>app-server/</code> and <code>&lt;&lt;domain&gt;&gt;/server/</code>. 4. <strong>Persistence</strong> — repository and MongoDB; only <code>&lt;&lt;domain&gt;&gt;-server</code> touches it.</p>
-<p>&gt; Sources: <code>mern-technical-architecture/reference/concepts.md</code>, <code>mern-technical-architecture/inputs/mern-architecture.md</code>. Example story: <strong>Create Wire Payment</strong> → <strong>Select Recipient</strong>; domain module <strong>Recipients</strong> with <code>specification-by-example.md</code> and <code>domain-spec.md</code> in <code>template/</code>.</p>
-<hr>
-<h2>Instantiating the Domain</h2>
-<p>How domain classes and operations from the domain model become code in this architecture. <strong>Common to every architecture reference</strong> — the mechanism sections below differ by tech stack; this section defines the domain-to-code mapping rules.</p>
-<h3>Principles</h3>
-<ul>
-<li><strong>Every artifact instantiates from the domain</strong> — file names, class names, and method names derive from domain classes and operations defined in the domain model. No generic <code>Manager</code>, <code>Handler</code>, or CRUD synonym.</li>
-<li><strong>Domain modules over technical layers</strong> — organize by business capability first (<code>packages/&lt;domain&gt;/</code>), then by tier within each module.</li>
-<li><strong>Shared domain core</strong> — entities, value objects, Zod schemas, and collection classes live in <code>shared/</code>. Zero framework imports.</li>
-<li><strong>Layer qualifiers on extensions</strong> — <code>shared/</code> keeps plain domain names (<code>Recipient</code>, <code>Recipients</code>). Every instantiation or extension in <code>client/</code> or <code>server/</code> adds a layer qualifier (<code>RecipientClient</code>, <code>RecipientsServer</code>, <code>RecipientApi</code>, <code>RecipientRouter</code>, <code>RecipientRepositoryServer</code>). The word <strong>Domain</strong> is never part of a class name.</li>
-<li><strong>Cross-layer naming</strong> — the same <code>{verbNoun}</code> method stem flows through every tier where the operation appears; arg names preserved across boundaries — only types narrow; <code>camelCase</code> in TypeScript, <code>snake_case</code> in JSON and MongoDB documents.</li>
-<li><strong>Composition roots</strong> — <code>app-client</code> and <code>app-server</code> wire domain packages into a running app. Domain packages never import from a composition root.</li>
-</ul>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Layer</th><th>Qualifier</th><th>Class naming</th><th>Example</th></tr></thead><tbody><tr><td><strong>shared/</strong></td><td><em>(none)</em></td><td><code>&lt;&lt;Entity&gt;&gt;</code>, <code>&lt;&lt;Entity&gt;&gt;s</code>, <code>&lt;&lt;Entity&gt;&gt;Repository</code> (interface)</td><td><code>Recipient</code>, <code>Recipients</code>, <code>RecipientRepository</code></td></tr><tr><td><strong>client/</strong></td><td><code>Client</code>, <code>Api</code></td><td><code>&lt;&lt;Entity&gt;&gt;Client</code>, <code>&lt;&lt;Entity&gt;&gt;sClient</code>, <code>&lt;&lt;Entity&gt;&gt;Api</code></td><td><code>RecipientClient</code>, <code>RecipientsClient</code>, <code>RecipientApi</code></td></tr><tr><td><strong>server/</strong></td><td><code>Server</code>, <code>Router</code>, <code>RepositoryServer</code></td><td><code>&lt;&lt;Entity&gt;&gt;sServer</code>, <code>&lt;&lt;Entity&gt;&gt;Router</code>, <code>&lt;&lt;Entity&gt;&gt;RepositoryServer</code></td><td><code>RecipientsServer</code>, <code>RecipientRouter</code>, <code>RecipientRepositoryServer</code></td></tr></tbody></table></div>
-<p><strong>DO NOT</strong> prefix shared classes with <code>Domain</code>, reuse bare shared class names in client/server when the tier adds behaviour, or put tier qualifiers on shared artefacts (<code>RecipientShared</code>).</p>
-<p>Worked example: <code>specs/mern/template/packages/recipients/</code>.</p>
-<h3>Architecture Flow</h3>
+<div class="rule-prose"><h3>Architecture Flow</h3>
 <p>One user interaction from view through network to persistence and back:</p>
-<p>&gt; See <a href="./architecture-flow.drawio"><code>architecture-flow.drawio</code></a> for the visual diagram.</p>
 <pre><code>User performs &lt;&lt;operation&gt;&gt;
         │
         ▼
@@ -1854,7 +1824,89 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <p>Class relationships for one domain module — inheritance (<code>--|&gt;</code>), interface implementation (<code>..|&gt;</code>), composition and delegation (<code>--&gt;</code>), cross-boundary dependency (<code>..&gt;</code>). The same <code>&lt;&lt;operation&gt;&gt;</code> name flows from shared domain through client and server tiers.</p>
 <p><strong>Views and client-side domain.</strong> React views (<code>&lt;&lt;Entity&gt;&gt;ListView</code>, <code>&lt;&lt;Entity&gt;&gt;CardView</code>) contain no business logic — they delegate to <code>use&lt;&lt;Entity&gt;&gt;s</code>, which holds <code>&lt;&lt;Entity&gt;&gt;sClient</code> state. The hook exposes <code>&lt;&lt;Entity&gt;&gt;Client[]</code> (via <code>toPresentation()</code>). <code>&lt;&lt;Entity&gt;&gt;CardView</code> receives each <code>&lt;&lt;Entity&gt;&gt;Client</code> and calls its presentation <code>&lt;&lt;operation&gt;&gt;</code> — that is where client-side domain JS wraps DOM behaviour.</p>
 <p><code>&lt;&lt;Entity&gt;&gt;Api</code> is not view hydration. It only fetches JSON over HTTP, validates with <code>&lt;&lt;Entity&gt;&gt;Schema</code>, builds <code>&lt;&lt;Entity&gt;&gt;</code> via <code>fromDto</code>, wraps in <code>&lt;&lt;Entity&gt;&gt;Client</code>, and returns to <code>&lt;&lt;Entity&gt;&gt;sClient</code>. That is wire-format → typed objects at the network boundary — not React DOM hydration.</p>
-<p>&gt; See <a href="./participants-class-diagram.drawio"><code>participants-class-diagram.drawio</code></a> — built by <code>scripts/build_participants_diagram.py</code>.</p>
+<pre><code>classDiagram
+    direction TB
+
+    class Entity [&quot;&lt;&lt;Entity&gt;&gt;&quot;] {
+        &lt;&lt;shared entity&gt;&gt;
+        +&lt;&lt;operation&gt;&gt;()
+    }
+    class Entities [&quot;&lt;&lt;Entity&gt;&gt;s&quot;] {
+        &lt;&lt;shared collection&gt;&gt;
+        +&lt;&lt;operation&gt;&gt;()
+    }
+    class EntityStatus [&quot;&lt;&lt;Entity&gt;&gt;Status&quot;] {
+        &lt;&lt;shared value object&gt;&gt;
+    }
+    class EntityRepository [&quot;&lt;&lt;Entity&gt;&gt;Repository&quot;] {
+        &lt;&lt;shared interface&gt;&gt;
+        +&lt;&lt;operation&gt;&gt;(args)
+    }
+
+    class EntityClient [&quot;&lt;&lt;Entity&gt;&gt;Client&quot;] {
+        &lt;&lt;client domain JS — DOM&gt;&gt;
+        +&lt;&lt;operation&gt;&gt;()
+    }
+    class EntitiesClient [&quot;&lt;&lt;Entity&gt;&gt;sClient&quot;] {
+        &lt;&lt;client domain JS&gt;&gt;
+        +&lt;&lt;operation&gt;&gt;()
+        +toPresentation()
+    }
+    class EntityApi [&quot;&lt;&lt;Entity&gt;&gt;Api&quot;] {
+        &lt;&lt;client&gt;&gt;
+        +&lt;&lt;operation&gt;&gt;(args)
+    }
+    class useEntities [&quot;use&lt;&lt;Entity&gt;&gt;s&quot;] {
+        &lt;&lt;client hook&gt;&gt;
+        +&lt;&lt;operation&gt;&gt;()
+    }
+    class EntityListView [&quot;&lt;&lt;Entity&gt;&gt;ListView&quot;] {
+        &lt;&lt;client view&gt;&gt;
+    }
+    class EntityCardView [&quot;&lt;&lt;Entity&gt;&gt;CardView&quot;] {
+        &lt;&lt;client view&gt;&gt;
+    }
+    class FeatureView [&quot;&lt;&lt;Feature&gt;&gt;View&quot;] {
+        &lt;&lt;app-client&gt;&gt;
+    }
+
+    class EntitiesServer [&quot;&lt;&lt;Entity&gt;&gt;sServer&quot;] {
+        &lt;&lt;server&gt;&gt;
+        +&lt;&lt;operation&gt;&gt;(args, repo)
+    }
+    class EntityRouter [&quot;&lt;&lt;Entity&gt;&gt;Router&quot;] {
+        &lt;&lt;server&gt;&gt;
+        +&lt;&lt;operation&gt;&gt;(req, res)
+    }
+    class EntityRepositoryServer [&quot;&lt;&lt;Entity&gt;&gt;RepositoryServer&quot;] {
+        &lt;&lt;server&gt;&gt;
+        +&lt;&lt;operation&gt;&gt;(args)
+    }
+
+    EntityClient --|&gt; Entity : extends
+    EntitiesClient --|&gt; Entities : extends
+    EntitiesServer --|&gt; Entities : extends
+    EntityRepositoryServer ..|&gt; EntityRepository : implements
+
+    Entities o-- Entity : contains
+    Entity --&gt; EntityStatus : uses
+
+    EntitiesClient --&gt; EntityApi : &lt;&lt;operation&gt;&gt;
+    EntityApi --&gt; EntitiesClient : returns &lt;&lt;Entity&gt;&gt;Client[]
+    EntityApi ..&gt; EntityRouter : uses
+    EntityApi ..&gt; Entity : fromDto via &lt;&lt;Entity&gt;&gt;Schema
+    EntitiesClient ..&gt; EntityClient : toPresentation
+
+    EntityListView --&gt; useEntities : delegates
+    useEntities --&gt; EntitiesClient : holds state
+    useEntities ..&gt; EntityRouter : uses
+    FeatureView --&gt; EntityListView : composes
+    EntityListView --&gt; EntityCardView : renders
+    EntityCardView --&gt; EntityClient : &lt;&lt;operation&gt;&gt;
+
+    EntityRouter --&gt; EntitiesServer : &lt;&lt;operation&gt;&gt;
+    EntitiesServer --&gt; EntityRepository : &lt;&lt;operation&gt;&gt;
+    EntityRepositoryServer ..&gt; Entity : maps via &lt;&lt;Entity&gt;&gt;Schema</code></pre>
 <div class="md-table-wrap"><table class="md-table"><thead><tr><th>Class</th><th>Package</th><th>Relationship to shared</th><th><code>&lt;&lt;operation&gt;&gt;</code> role</th></tr></thead><tbody><tr><td><code>&lt;&lt;Entity&gt;&gt;</code></td><td><code>shared/</code></td><td>Domain entity — plain name, no qualifier</td><td>Defines business <code>&lt;&lt;operation&gt;&gt;</code> (e.g. eligibility, lifecycle)</td></tr><tr><td><code>&lt;&lt;Entity&gt;&gt;s</code></td><td><code>shared/</code></td><td>Domain collection — plain name</td><td>Defines collection <code>&lt;&lt;operation&gt;&gt;</code> (e.g. filter, search)</td></tr><tr><td><code>&lt;&lt;Entity&gt;&gt;Repository</code></td><td><code>shared/</code></td><td>Persistence contract (interface)</td><td>Declares persistence <code>&lt;&lt;operation&gt;&gt;</code> (e.g. find, save)</td></tr><tr><td><code>&lt;&lt;Entity&gt;&gt;Client</code></td><td><code>client/</code></td><td><code>extends &lt;&lt;Entity&gt;&gt;</code> — client domain JS</td><td>Presentation <code>&lt;&lt;operation&gt;&gt;</code> — wraps DOM; called by <code>&lt;&lt;Entity&gt;&gt;CardView</code></td></tr><tr><td><code>&lt;&lt;Entity&gt;&gt;sClient</code></td><td><code>client/</code></td><td><code>extends &lt;&lt;Entity&gt;&gt;s</code> — client domain JS</td><td>Client <code>&lt;&lt;operation&gt;&gt;</code> (load, toggleSelection); <code>toPresentation()</code> → <code>&lt;&lt;Entity&gt;&gt;Client[]</code></td></tr><tr><td><code>&lt;&lt;Entity&gt;&gt;Api</code></td><td><code>client/</code></td><td>HTTP client — one method per server route</td><td>fetch JSON → <code>&lt;&lt;Entity&gt;&gt;Schema</code> → <code>&lt;&lt;Entity&gt;&gt;.fromDto</code> → <code>&lt;&lt;Entity&gt;&gt;Client</code>; returns to <code>&lt;&lt;Entity&gt;&gt;sClient</code>; <code>..&gt;</code> uses <code>&lt;&lt;Entity&gt;&gt;Router</code></td></tr><tr><td><code>&lt;&lt;Entity&gt;&gt;ListView</code></td><td><code>client/</code></td><td>React view — no domain logic</td><td>Delegates to <code>use&lt;&lt;Entity&gt;&gt;s</code>; renders <code>&lt;&lt;Entity&gt;&gt;CardView</code> per item</td></tr><tr><td><code>&lt;&lt;Feature&gt;&gt;View</code></td><td><code>app-client/</code></td><td>Top-level feature view — no domain logic</td><td>Composes <code>&lt;&lt;Entity&gt;&gt;ListView</code> and other domain views — e.g. <code>WirePaymentView</code></td></tr><tr><td><code>&lt;&lt;Entity&gt;&gt;CardView</code></td><td><code>client/</code></td><td>React view — one item</td><td>Receives <code>&lt;&lt;Entity&gt;&gt;Client</code>; calls <code>&lt;&lt;operation&gt;&gt;</code> on client domain JS for render</td></tr><tr><td><code>use&lt;&lt;Entity&gt;&gt;s</code></td><td><code>client/</code></td><td>Thin React bridge</td><td>Holds <code>&lt;&lt;Entity&gt;&gt;sClient</code>; exposes <code>&lt;&lt;operation&gt;&gt;</code> and <code>&lt;&lt;Entity&gt;&gt;Client[]</code> to views; <code>..&gt;</code> uses <code>&lt;&lt;Entity&gt;&gt;Router</code></td></tr><tr><td><code>&lt;&lt;Entity&gt;&gt;sServer</code></td><td><code>server/</code></td><td><code>extends &lt;&lt;Entity&gt;&gt;s</code> — persistence-backed</td><td>Adds server <code>&lt;&lt;operation&gt;&gt;</code>; uses <code>&lt;&lt;Entity&gt;&gt;Repository</code></td></tr><tr><td><code>&lt;&lt;Entity&gt;&gt;Router</code></td><td><code>server/</code></td><td>HTTP adapter</td><td>Maps HTTP request to <code>&lt;&lt;operation&gt;&gt;</code> on <code>&lt;&lt;Entity&gt;&gt;sServer</code>; <code>..&gt;</code> used by <code>&lt;&lt;Entity&gt;&gt;Api</code> and <code>use&lt;&lt;Entity&gt;&gt;s</code></td></tr><tr><td><code>&lt;&lt;Entity&gt;&gt;RepositoryServer</code></td><td><code>server/</code></td><td><code>implements &lt;&lt;Entity&gt;&gt;Repository</code></td><td>Implements persistence <code>&lt;&lt;operation&gt;&gt;</code> — validates with <code>&lt;&lt;Entity&gt;&gt;Schema</code></td></tr></tbody></table></div>
 <p>Worked example: <code>specs/mern/template/packages/recipients/</code> — top-level view <code>app-client/WirePaymentView.tsx</code> composes <code>RecipientListView</code>.</p>
 <p>&gt; <strong>Note:</strong> Other engagements (e.g. kanban) may use same-name extends with a <code>Domain</code><em> import alias. This MERN specification uses </em><em>layer qualifiers on extensions</em>* — shared stays unqualified; client and server carry <code>Client</code>, <code>Server</code>, <code>Api</code>, <code>Router</code>, etc.</p>
@@ -2216,7 +2268,7 @@ export const RecipientSchema = z.object({
 <hr>
 <h2>Testing Architecture</h2>
 <div class="spec-steps">
-<p class="spec-step">When generating tests from this specification, use the <strong><code>abd-story-acceptance-test</code></strong> skill. That skill owns the test file shape, helper naming, orchestrator pattern, and RED-GREEN-REFACTOR cycle. This section defines the MERN-specific layer structure; <code>abd-story-acceptance-test</code> defines how to write the code within each layer.</p>
+<p class="spec-step">When generating tests from this specification, use the <code>**abd-story-acceptance-test**</code> skill. That skill owns the test file shape, helper naming, orchestrator pattern, and RED-GREEN-REFACTOR cycle. This section defines the MERN-specific layer structure; <code>abd-story-acceptance-test</code> defines how to write the code within each layer.</p>
 </div>
 <p>Testing is the counterpart to <strong>Instantiating the Domain</strong> — where domain maps every artifact to a class or operation, testing maps every story artifact to a test artifact. The same three questions apply: <em>What is the principle? What is the pattern? How does it actually run?</em> — but the answers describe layers of test coverage rather than layers of runtime code.</p>
 <h3>Principles</h3>
@@ -2271,7 +2323,7 @@ export const RecipientSchema = z.object({
     &lt;entity&gt;.schema.ts
     &lt;entity&gt;s.test.ts          ← domain unit tests — live here, next to the classes</code></pre>
 <p>Story hierarchy maps the acceptance test folder and file structure:</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Story artifact</th><th>Test artifact</th></tr></thead><tbody><tr><td>Epic</td><td>folder</td></tr><tr><td>Mid-level sub-epic</td><td>intermediate folder (only when it has children)</td></tr><tr><td><strong>Lowest-level sub-epic</strong></td><td><strong>file</strong> (<code>&lt;sub-epic&gt;_&lt;tier&gt;.test.ts</code>)</td></tr><tr><td><strong>Story</strong></td><td><strong><code>describe</code> block</strong> inside the file</td></tr><tr><td><strong>Scenario</strong></td><td><strong><code>it</code> / <code>test</code> block</strong> inside the describe</td></tr></tbody></table></div>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Story artifact</th><th>Test artifact</th></tr></thead><tbody><tr><td>Epic</td><td>folder</td></tr><tr><td>Mid-level sub-epic</td><td>intermediate folder (only when it has children)</td></tr><tr><td><strong>Lowest-level sub-epic</strong></td><td><strong>file</strong> (<code>&lt;sub-epic&gt;_&lt;tier&gt;.test.ts</code>)</td></tr><tr><td><strong>Story</strong></td><td><code>**describe</code> block** inside the file</td></tr><tr><td><strong>Scenario</strong></td><td><code>**it</code> / <code>test</code> block** inside the describe</td></tr></tbody></table></div>
 <pre><code>tests/
 └── &lt;epic&gt;/                                        # Epic → folder
     ├── &lt;lowest-sub-epic&gt;_server.test.ts           # Sub-epic → file
@@ -2297,33 +2349,33 @@ export const RecipientSchema = z.object({
             └── ...</code></pre>
 <h3>Participants</h3>
 <p>The base helper is the <strong>domain test</strong> — it expresses scenarios entirely in business terms with no knowledge of HTTP, DOM, or browsers. Each tier helper extends it to wire those same domain scenarios to a specific test infrastructure. The Given/When/Then names are the same; only the mechanism beneath them differs.</p>
-<div class="md-table-wrap"><table class="md-table"><tbody><tr><td></td><td>Domain test (base)</td><td>Server tier</td><td>Client tier</td><td>E2E tier</td></tr><tr><td>-</td><td>--------------------</td><td>-------------</td><td>-------------</td><td>----------</td></tr><tr><td><strong>Layer</strong></td><td>Pure domain — business language only</td><td>HTTP adapter</td><td>React/DOM adapter</td><td>Full browser</td></tr><tr><td><strong>Given</strong></td><td>business scenario language</td><td>seeds MongoDB</td><td>configures <code>vi.mock</code></td><td>seeds via test API/fixture</td></tr><tr><td><strong>When</strong></td><td>(abstract — no transport)</td><td><code>request(app).get(...)</code> Supertest</td><td><code>render(&lt;View /&gt;)</code> Testing Library</td><td><code>page.goto(...)</code> Playwright</td></tr><tr><td><strong>Then</strong></td><td>(abstract — no assertion target)</td><td>HTTP status + JSON response body</td><td>DOM elements via <code>screen</code></td><td>Page elements via <code>page.getByRole</code></td></tr><tr><td><strong>Test data constants</strong></td><td>✓ here</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th></th><th>Domain test (base)</th><th>Server tier</th><th>Client tier</th><th>E2E tier</th></tr></thead><tbody><tr><td><strong>Layer</strong></td><td>Pure domain — business language only</td><td>HTTP adapter</td><td>React/DOM adapter</td><td>Full browser</td></tr><tr><td><strong>Given</strong></td><td>business scenario language</td><td>seeds MongoDB</td><td>configures <code>vi.mock</code></td><td>seeds via test API/fixture</td></tr><tr><td><strong>When</strong></td><td>(abstract — no transport)</td><td><code>request(app).get(...)</code> Supertest</td><td><code>render(&lt;View /&gt;)</code> Testing Library</td><td><code>page.goto(...)</code> Playwright</td></tr><tr><td><strong>Then</strong></td><td>(abstract — no assertion target)</td><td>HTTP status + JSON response body</td><td>DOM elements via <code>screen</code></td><td>Page elements via <code>page.getByRole</code></td></tr><tr><td><strong>Test data constants</strong></td><td>✓ here</td><td>—</td><td>—</td><td>—</td></tr></tbody></table></div>
 <pre><code>classDiagram
-    class BaseHelper [&quot;&amp;lt;sub-epic&amp;gt;BaseHelper&quot;] {
+    class BaseHelper [&quot;&lt;sub-epic&gt;BaseHelper&quot;] {
         &lt;&lt;domain test&gt;&gt;
         +givenUserLoggedIn()
-        +givenEnterpriseHas&amp;lt;&amp;lt;Entity&amp;gt;&amp;gt;(data)
+        +givenEnterpriseHas&lt;&lt;Entity&gt;&gt;(data)
         #seedRecipients(data)
         #seedUser(opts)
         +cleanup()
     }
-    class ServerHelper [&quot;&amp;lt;sub-epic&amp;gt;ServerHelper&quot;] {
+    class ServerHelper [&quot;&lt;sub-epic&gt;ServerHelper&quot;] {
         &lt;&lt;HTTP adapter test&gt;&gt;
         #seedRecipients() MongoDB insert
-        +whenUserInitiates&amp;lt;&amp;lt;Operation&amp;gt;&amp;gt;() Supertest HTTP
-        +then&amp;lt;&amp;lt;Assertion&amp;gt;&amp;gt;() status + JSON body
+        +whenUserInitiates&lt;&lt;Operation&gt;&gt;() Supertest HTTP
+        +then&lt;&lt;Assertion&gt;&gt;() status + JSON body
     }
-    class ClientHelper [&quot;&amp;lt;sub-epic&amp;gt;ClientHelper&quot;] {
+    class ClientHelper [&quot;&lt;sub-epic&gt;ClientHelper&quot;] {
         &lt;&lt;React adapter test&gt;&gt;
         #seedRecipients() vi.mock RecipientApi
-        +when&amp;lt;&amp;lt;View&amp;gt;&amp;gt;Renders() render component
-        +then&amp;lt;&amp;lt;Assertion&amp;gt;&amp;gt;Visible() screen.getByText
+        +when&lt;&lt;View&gt;&gt;Renders() render component
+        +then&lt;&lt;Assertion&gt;&gt;Visible() screen.getByText
     }
-    class E2eHelper [&quot;&amp;lt;sub-epic&amp;gt;E2eHelper&quot;] {
+    class E2eHelper [&quot;&lt;sub-epic&gt;E2eHelper&quot;] {
         &lt;&lt;browser test&gt;&gt;
         #seedRecipients() test API fixture
-        +whenUserOpens&amp;lt;&amp;lt;Feature&amp;gt;&amp;gt;Page() page.goto
-        +then&amp;lt;&amp;lt;View&amp;gt;&amp;gt;Visible() page.getByRole
+        +whenUserOpens&lt;&lt;Feature&gt;&gt;Page() page.goto
+        +then&lt;&lt;View&gt;&gt;Visible() page.getByRole
     }
     ServerHelper --|&gt; BaseHelper : extends
     ClientHelper --|&gt; BaseHelper : extends
@@ -2482,8 +2534,8 @@ test.describe(&#x27;View Active Recipients for Wire Payment&#x27;, () =&gt; {
 });</code></pre>
 <hr>
 <h2>Example Files</h2>
-<p>The worked example implements the <strong>Create Wire Payment → Select Recipient</strong> story using all three mechanisms (web client, app server, persistence) and the Recipients domain module.</p>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Artifact</th><th>Path</th><th>What it is</th></tr></thead><tbody><tr><td>Architecture flow diagram</td><td><code>reference/example.drawio</code></td><td>Visual flow — layers, participants, boundaries</td></tr><tr><td>Runnable code</td><td><code>template/packages/</code></td><td><code>app-client/</code>, <code>app-server/</code>, <code>recipients/{shared,client,server}</code></td></tr><tr><td>Specification by example</td><td><code>template/specification-by-example.md</code></td><td>Given/When/Then scenarios for the story</td></tr><tr><td>Domain spec</td><td><code>template/domain-spec.md</code></td><td><code>Recipient</code>, <code>Recipients</code>, <code>RecipientStatus</code>, client/server extensions</td></tr><tr><td>Tests</td><td><code>template/tests/</code></td><td>Server, client, and E2E helpers + test files</td></tr></tbody></table></div>
+<p>The worked example lives in <code>template/</code>. It implements the <strong>Create Wire Payment → Select Recipient</strong> story using all three mechanisms (web client, app server, persistence) and the Recipients domain module.</p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Artifact</th><th>Path</th><th>What it is</th></tr></thead><tbody><tr><td>Runnable code</td><td><code>template/packages/</code></td><td><code>app-client/</code>, <code>app-server/</code>, <code>recipients/{shared,client,server}</code></td></tr><tr><td>Specification by example</td><td><code>template/specification-by-example.md</code></td><td>Given/When/Then scenarios for the story</td></tr><tr><td>Domain spec</td><td><code>template/domain-spec.md</code></td><td><code>Recipient</code>, <code>Recipients</code>, <code>RecipientStatus</code>, client/server extensions</td></tr><tr><td>Tests</td><td><code>template/tests/</code></td><td>Server, client, and E2E helpers + test files</td></tr></tbody></table></div>
 <hr>
 <h2>Rules and Validation</h2>
 <p>Rules live in <code>rules/</code>. Scanners live in <code>scanners/typescript/</code>. When generating code from this specification, read every rule first, then run the scanners against the generated workspace before declaring done.</p>
