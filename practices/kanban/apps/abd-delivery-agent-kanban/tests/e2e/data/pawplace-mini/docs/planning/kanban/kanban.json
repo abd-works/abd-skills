@@ -3,7 +3,7 @@
   "stage_configuration": "pawplace-mini",
   "definitions": {
     "pawplace-mini": {
-      "label": "PawPlace micro � 1 increment, full skill rails",
+      "label": "PawPlace micro — 1 increment, full skill rails",
       "strategy": {
         "scatter_rules": {
           "all_to_increment": "one ticket per increment from discovery/stories/thin-slicing.md",

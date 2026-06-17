@@ -1,4 +1,4 @@
-﻿# Rule: Invariants present for lifecycle concepts
+# Rule: Invariants present for lifecycle concepts
 
 **Scanner:** Manual review
 

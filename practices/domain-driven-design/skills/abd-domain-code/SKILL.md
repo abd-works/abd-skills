@@ -1,4 +1,4 @@
-﻿---
+---
 name: abd-domain-code
 catalog_garden_tier: practice
 catalog_garden_order: 5

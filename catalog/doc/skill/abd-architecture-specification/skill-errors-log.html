@@ -1724,7 +1724,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
     <p class="s-name">Markdown</p>
 
     <h1 class="page-headline">skill-errors-log.md</h1>
-    <p class="body-lead">Skill errors log � abd-architecture-specification</p>
+    <p class="body-lead">Skill errors log — abd-architecture-specification</p>
   </div>
 </div>
 
@@ -1732,13 +1732,13 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <div class="wrap">
 
 <h2>Content</h2>
-<div class="rule-prose"><h1>Skill errors log � abd-architecture-specification</h1>
+<div class="rule-prose"><h1>Skill errors log — abd-architecture-specification</h1>
 <h3>Code and test examples hard-coded to abd-clean-code / abd-story-acceptance-test</h3>
 <ul>
 <li><strong>Context:</strong> YAML description, Agent Instructions step 4, Build step 4, Validate checklist, rule <code>code-examples-follow-project-coding-and-testing-standards.md</code></li>
-<li><strong>DO / DO NOT:</strong> Walkthrough code samples must follow the <strong>project&#x27;s coding standard</strong> and test snippets must follow the <strong>project&#x27;s testing standard</strong> � <em>whichever the project has agreed</em>. <code>abd-clean-code</code> and <code>abd-story-acceptance-test</code> are the defaults when in scope, not universal hard requirements. Do <strong>not</strong> say &quot;code examples come from the abd-clean-code and ATDD skills&quot; as if no other standard could possibly apply.</li>
-<li><strong>Example (wrong):</strong> YAML description originally said: &quot;Use this skill when you have a layered architecture from abd-architecture-description and a list of mechanisms from abd-architecture-mechanisms&quot; � treated the two skills as required input sources.</li>
-<li><strong>Example (correct):</strong> YAML description now says: &quot;Use this skill when you have a layered architecture description and a list of mechanisms with intent&quot; � source-agnostic; conditional references say &quot;defaulting to abd-clean-code when it is in scope&quot; and &quot;defaulting to abd-story-acceptance-test when it is in scope&quot;.</li>
+<li><strong>DO / DO NOT:</strong> Walkthrough code samples must follow the <strong>project&#x27;s coding standard</strong> and test snippets must follow the <strong>project&#x27;s testing standard</strong> — <em>whichever the project has agreed</em>. <code>abd-clean-code</code> and <code>abd-story-acceptance-test</code> are the defaults when in scope, not universal hard requirements. Do <strong>not</strong> say &quot;code examples come from the abd-clean-code and ATDD skills&quot; as if no other standard could possibly apply.</li>
+<li><strong>Example (wrong):</strong> YAML description originally said: &quot;Use this skill when you have a layered architecture from abd-architecture-description and a list of mechanisms from abd-architecture-mechanisms&quot; — treated the two skills as required input sources.</li>
+<li><strong>Example (correct):</strong> YAML description now says: &quot;Use this skill when you have a layered architecture description and a list of mechanisms with intent&quot; — source-agnostic; conditional references say &quot;defaulting to abd-clean-code when it is in scope&quot; and &quot;defaulting to abd-story-acceptance-test when it is in scope&quot;.</li>
 <li><strong>Likely source:</strong> prompt gap</li>
 <li><strong>Status:</strong> confirmed</li>
 </ul>
@@ -1746,19 +1746,19 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <h3>External dependency on mern-technical-architecture</h3>
 <ul>
 <li><strong>Context:</strong> Agent Instructions step 1 in SKILL.md</li>
-<li><strong>DO / DO NOT:</strong> The skill must be self-contained. Worked examples for tone/shape calibration live <strong>inside this skill</strong> in the template&#x27;s illustrative-example block � not as a relative link to a sibling skill&#x27;s input files. Pointing at a sibling skill creates a hard dependency that breaks when this skill is deployed elsewhere.</li>
-<li><strong>Example (wrong):</strong> Agent Instructions step 1 originally ended with: &quot;The closest worked example of the reference document this skill produces is <strong><code>mern-architecture.md</code></strong>(../mern-technical-architecture/inputs/mern-architecture.md) � read it before generating new sections so the shape stays consistent.&quot;</li>
-<li><strong>Example (correct):</strong> &quot;For shape and tone, the filled illustrative example block at the bottom of <code>templates/architecture-specification.md</code> is a worked example of what one mechanism section should look like when complete. Read it once before generating new sections.&quot; � example lives inside the skill. Current SKILL.md has this correct text.</li>
+<li><strong>DO / DO NOT:</strong> The skill must be self-contained. Worked examples for tone/shape calibration live <strong>inside this skill</strong> in the template&#x27;s illustrative-example block — not as a relative link to a sibling skill&#x27;s input files. Pointing at a sibling skill creates a hard dependency that breaks when this skill is deployed elsewhere.</li>
+<li><strong>Example (wrong):</strong> Agent Instructions step 1 originally ended with: &quot;The closest worked example of the reference document this skill produces is <strong><code>mern-architecture.md</code></strong>(../mern-technical-architecture/inputs/mern-architecture.md) — read it before generating new sections so the shape stays consistent.&quot;</li>
+<li><strong>Example (correct):</strong> &quot;For shape and tone, the filled illustrative example block at the bottom of <code>templates/architecture-specification.md</code> is a worked example of what one mechanism section should look like when complete. Read it once before generating new sections.&quot; — example lives inside the skill. Current SKILL.md has this correct text.</li>
 <li><strong>Likely source:</strong> prompt gap</li>
 <li><strong>Status:</strong> confirmed</li>
 </ul>
 <hr>
 <h3>Instructions named specific skills to read, not what information to gather</h3>
 <ul>
-<li><strong>Context:</strong> Agent Instructions step 1, Build steps 1�2, Core concepts &quot;Mechanism&quot; and &quot;Layered description vs. mechanism reference&quot; sections, rule <code>grounded-in-architecture-description-and-mechanisms.md</code></li>
-<li><strong>DO / DO NOT:</strong> When an instruction step needs information, describe <strong>what information</strong> the agent must have in front of it, not <strong>which sibling skill produces it</strong>. Sibling skills may be mentioned as one possible source � not as required inputs.</li>
-<li><strong>Example (wrong):</strong> Core concepts said &quot;Mechanisms come from the <strong>abd-architecture-mechanisms</strong> output.&quot; and &quot;<strong>abd-architecture-description</strong> answers <em>what are the layers and what tech sits in each</em>.&quot; � frames the work as fetching from specific skills.</li>
-<li><strong>Example (correct):</strong> Core concepts now says &quot;Mechanisms come from whatever the team uses as its architecture source of truth � an ADR, a wiki page, a decision document, or a sibling skill&#x27;s output.&quot; and &quot;The <strong>layered description</strong> answers <em>what are the layers and what tech sits in each</em>.&quot; Also the YAML description now says &quot;layered architecture description and a list of mechanisms with intent&quot; without naming specific skills.</li>
+<li><strong>Context:</strong> Agent Instructions step 1, Build steps 1—2, Core concepts &quot;Mechanism&quot; and &quot;Layered description vs. mechanism reference&quot; sections, rule <code>grounded-in-architecture-description-and-mechanisms.md</code></li>
+<li><strong>DO / DO NOT:</strong> When an instruction step needs information, describe <strong>what information</strong> the agent must have in front of it, not <strong>which sibling skill produces it</strong>. Sibling skills may be mentioned as one possible source — not as required inputs.</li>
+<li><strong>Example (wrong):</strong> Core concepts said &quot;Mechanisms come from the <strong>abd-architecture-mechanisms</strong> output.&quot; and &quot;<strong>abd-architecture-description</strong> answers <em>what are the layers and what tech sits in each</em>.&quot; — frames the work as fetching from specific skills.</li>
+<li><strong>Example (correct):</strong> Core concepts now says &quot;Mechanisms come from whatever the team uses as its architecture source of truth — an ADR, a wiki page, a decision document, or a sibling skill&#x27;s output.&quot; and &quot;The <strong>layered description</strong> answers <em>what are the layers and what tech sits in each</em>.&quot; Also the YAML description now says &quot;layered architecture description and a list of mechanisms with intent&quot; without naming specific skills.</li>
 <li><strong>Likely source:</strong> prompt gap</li>
 <li><strong>Status:</strong> confirmed</li>
 </ul>
@@ -1766,29 +1766,29 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <h3>Rule &quot;grounded-in&quot; named specific skills as required vocabulary source</h3>
 <ul>
 <li><strong>Context:</strong> <code>rules/grounded-in-architecture-description-and-mechanisms.md</code></li>
-<li><strong>DO / DO NOT:</strong> The rule that checks vocabulary consistency should refer to the &quot;architecture&#x27;s source of truth&quot; � whatever form that takes � not mandate that layers/mechanisms come specifically from abd-architecture-description or abd-architecture-mechanisms. Those skills are one possible source.</li>
+<li><strong>DO / DO NOT:</strong> The rule that checks vocabulary consistency should refer to the &quot;architecture&#x27;s source of truth&quot; — whatever form that takes — not mandate that layers/mechanisms come specifically from abd-architecture-description or abd-architecture-mechanisms. Those skills are one possible source.</li>
 <li><strong>Example (wrong):</strong> Rule title was &quot;Reference is grounded in abd-architecture-description and abd-architecture-mechanisms&quot;; content required layers to match &quot;the output of abd-architecture-description&quot; and mechanisms to match &quot;the output of abd-architecture-mechanisms&quot;.</li>
-<li><strong>Example (correct):</strong> Rule renamed to <code>grounded-in-architecture-source-of-truth.md</code>, title is &quot;Reference is grounded in the architecture&#x27;s source of truth&quot;. Content says layers and mechanism names must match &quot;the agreed source of truth for the same architecture � whatever form that takes (an ADR, a wiki page, a decision document, a sibling skill&#x27;s output, or any other agreed record).&quot; SKILL.md rebundled from updated <code>rules/*.md</code>.</li>
+<li><strong>Example (correct):</strong> Rule renamed to <code>grounded-in-architecture-source-of-truth.md</code>, title is &quot;Reference is grounded in the architecture&#x27;s source of truth&quot;. Content says layers and mechanism names must match &quot;the agreed source of truth for the same architecture — whatever form that takes (an ADR, a wiki page, a decision document, a sibling skill&#x27;s output, or any other agreed record).&quot; SKILL.md rebundled from updated <code>rules/*.md</code>.</li>
 <li><strong>Likely source:</strong> prompt gap</li>
 <li><strong>Status:</strong> confirmed</li>
 </ul>
 <hr>
 <h3>Template and example text referenced specific sibling skills as required sources</h3>
 <ul>
-<li><strong>Context:</strong> <code>templates/architecture-specification.md</code> � Sources line, Architecture Layers comment, References section; illustrative example block in SKILL.md</li>
+<li><strong>Context:</strong> <code>templates/architecture-specification.md</code> — Sources line, Architecture Layers comment, References section; illustrative example block in SKILL.md</li>
 <li><strong>DO / DO NOT:</strong> Template placeholders and comments must tell the practitioner to cite <strong>whatever source they used</strong>, not to copy from specific skill outputs. Sibling skills may be mentioned as one example option.</li>
 <li><strong>Example (wrong):</strong> Template had <code>&gt; Sources: layers from **abd-architecture-description**; mechanisms list from **abd-architecture-mechanisms**.</code> and <code>&lt;!-- Paste / summarize the layer block from abd-architecture-description verbatim. --&gt;</code> and References listed <code>output of **abd-architecture-description**</code> and <code>output of **abd-architecture-mechanisms**</code> as if those skills were always the source.</li>
-<li><strong>Example (correct):</strong> Template now has <code>&gt; Sources: [cite the architecture&#x27;s source of truth � ADR, wiki, decision doc, or sibling-skill output]; mechanisms from [cite source].</code> and the comment says <code>&lt;!-- Paste / summarize the layer block from the architecture&#x27;s agreed source of truth (ADR, wiki, decision doc, or sibling skill). --&gt;</code> References now show bracketed placeholders with sibling skills listed as optional examples.</li>
+<li><strong>Example (correct):</strong> Template now has <code>&gt; Sources: [cite the architecture&#x27;s source of truth — ADR, wiki, decision doc, or sibling-skill output]; mechanisms from [cite source].</code> and the comment says <code>&lt;!-- Paste / summarize the layer block from the architecture&#x27;s agreed source of truth (ADR, wiki, decision doc, or sibling skill). --&gt;</code> References now show bracketed placeholders with sibling skills listed as optional examples.</li>
 <li><strong>Likely source:</strong> prompt gap</li>
 <li><strong>Status:</strong> confirmed</li>
 </ul>
 <hr>
 <h3>&quot;When to use&quot; described reference as locking an artifact list, not design+implementation guidance</h3>
 <ul>
-<li><strong>Context:</strong> <code>When to use this skill</code> section � second bullet</li>
+<li><strong>Context:</strong> <code>When to use this skill</code> section — second bullet</li>
 <li><strong>DO / DO NOT:</strong> When summarising what the reference captures, say it locks <strong>both the design and implementation constraints / guidance</strong>. Do <strong>not</strong> enumerate the artifacts (principles, patterns, file layout, diagrams, etc.); the user-facing value is the two-sided contract.</li>
-<li><strong>Example (wrong):</strong> &quot;you want to <strong>lock the principles, patterns, and file layout</strong> before any production code is written.&quot; � lists artifacts; reader must infer the two-sided contract.</li>
-<li><strong>Example (correct):</strong> &quot;you want to <strong>lock both the design and implementation constraints / guidance</strong> before any production code is written.&quot; � current SKILL.md has this exact corrected text.</li>
+<li><strong>Example (wrong):</strong> &quot;you want to <strong>lock the principles, patterns, and file layout</strong> before any production code is written.&quot; — lists artifacts; reader must infer the two-sided contract.</li>
+<li><strong>Example (correct):</strong> &quot;you want to <strong>lock both the design and implementation constraints / guidance</strong> before any production code is written.&quot; — current SKILL.md has this exact corrected text.</li>
 <li><strong>Likely source:</strong> unclear expectation</li>
 <li><strong>Status:</strong> confirmed</li>
 </ul>

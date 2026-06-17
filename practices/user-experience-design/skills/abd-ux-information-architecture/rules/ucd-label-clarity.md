@@ -1,4 +1,4 @@
-﻿# Rule: Labels are clear, single-purpose, and consistently named
+# Rule: Labels are clear, single-purpose, and consistently named
 
 **Scanner:** AI review
 

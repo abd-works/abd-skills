@@ -1,4 +1,4 @@
-﻿"""Assign Team Member Agent to Ticket — manual-mode intent, delegation, execution
+"""Assign Team Member Agent to Ticket — manual-mode intent, delegation, execution
 
 Epic:      Operate Board in Manual Mode
 Sub-epic:  Assign Team Member Agent to Ticket

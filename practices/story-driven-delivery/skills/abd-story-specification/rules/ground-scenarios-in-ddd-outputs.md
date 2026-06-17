@@ -1,4 +1,4 @@
-﻿# Rule: Ground scenarios in domain model content when available
+# Rule: Ground scenarios in domain model content when available
 
 When Class Model, domain model, or domain language content exists in the workspace or has been provided as context, scenario language must use the exact concept names and relationships that content defines.
 

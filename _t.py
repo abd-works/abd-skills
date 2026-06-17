@@ -1,4 +1,4 @@
-﻿import pathlib
+import pathlib
 p = pathlib.Path(r"c:\dev\agilebydesign-skills\skills\abd-story-mapping\SKILL.md")
 text = p.read_text(encoding="utf-8")
 for line in text.split("\n"):

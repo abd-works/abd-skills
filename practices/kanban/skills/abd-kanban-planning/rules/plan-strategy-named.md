@@ -1,10 +1,10 @@
-﻿---
+---
 scanner: plan-shape
 ---
 
 # Rule: Plan names the selected strategy (or proposes a new one)
 
-**Scanner:** `scanners/plan-shape-scanner.py` â€” `PlanShapeScanner` (rule id `plan-strategy-named`)
+**Scanner:** `scanners/plan-shape-scanner.py` ” `PlanShapeScanner` (rule id `plan-strategy-named`)
 
 The plan must name the strategy (or strategies) selected from `skills/abd-kanban-planning/reference/strategies/*.md`, OR explicitly mark itself as a custom strategy candidate with a proposed slug.
 
@@ -18,7 +18,7 @@ Naming the strategy locks in the run shape and makes the decision reviewable. If
 
 ## DON'T
 
-- Describe a strategy in prose without a name â€” reviewers cannot match it to the catalog.
+- Describe a strategy in prose without a name ” reviewers cannot match it to the catalog.
 - Copy a strategy's run table without citing the source file.
 
 ## Example (wrong)

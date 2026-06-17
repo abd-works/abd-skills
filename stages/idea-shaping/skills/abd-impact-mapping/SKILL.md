@@ -1,4 +1,4 @@
-﻿---
+---
 name: abd-impact-mapping
 catalog_ready: false
 catalog_garden_tier: practice

@@ -1,0 +1,127 @@
+<mxfile host="65bd71144e">
+    <diagram id="platform-architecture" name="Platform Architecture">
+        <mxGraphModel dx="666" dy="457" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="900" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="title" value="{SystemName} — Platform Architecture" style="text;html=1;align=center;verticalAlign=middle;fontSize=18;fontStyle=1;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="20" width="1020" height="32" as="geometry"/>
+                </mxCell>
+                <mxCell id="clientLayer" value="Client / Access Layer" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;verticalAlign=top;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="60" y="70" width="980" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="client1" value="{ClientType — e.g. Web SPA}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="110" width="220" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="client1sub" value="{Framework — e.g. React 18}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e6f0fa;strokeColor=#6c8ebf;fontSize=10;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="120" y="150" width="180" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="client2" value="{ClientType — e.g. Mobile App}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#6c8ebf;fontSize=11;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="400" y="110" width="220" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="client2sub" value="{Framework — e.g. React Native}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e6f0fa;strokeColor=#6c8ebf;fontSize=10;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="420" y="150" width="180" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="client3" value="{ClientType — e.g. Admin Console}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="700" y="110" width="240" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="client3sub" value="{Internal-only tooling}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fffde6;strokeColor=#d6b656;fontSize=10;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="720" y="150" width="200" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="proto1" value="HTTPS / JSON" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;dashed=1;strokeWidth=2;fontSize=10;fontColor=#000000;" parent="1" source="client1" target="apiGateway" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="proto2" value="HTTPS / JSON" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;dashed=1;strokeWidth=2;fontSize=10;fontColor=#000000;" parent="1" source="client2" target="apiGateway" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="proto3" value="HTTPS / JSON (auth)" style="endArrow=classic;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;dashed=1;strokeWidth=2;fontSize=10;fontColor=#000000;" parent="1" source="client3" target="apiGateway" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="appLayer" value="Application Layer — {RuntimeName}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;verticalAlign=top;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="60" y="290" width="980" height="320" as="geometry"/>
+                </mxCell>
+                <mxCell id="apiGateway" value="API Gateway / Edge" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;fontStyle=1;verticalAlign=top;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="330" width="900" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="apiAuth" value="Auth middleware" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e8f5e8;strokeColor=#82b366;fontSize=10;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="120" y="358" width="180" height="24" as="geometry"/>
+                </mxCell>
+                <mxCell id="apiRouting" value="Request routing" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e8f5e8;strokeColor=#82b366;fontSize=10;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="320" y="358" width="180" height="24" as="geometry"/>
+                </mxCell>
+                <mxCell id="apiValidate" value="Input validation" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e8f5e8;strokeColor=#82b366;fontSize=10;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="520" y="358" width="180" height="24" as="geometry"/>
+                </mxCell>
+                <mxCell id="apiErrors" value="Error translation" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e8f5e8;strokeColor=#82b366;fontSize=10;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="720" y="358" width="180" height="24" as="geometry"/>
+                </mxCell>
+                <mxCell id="appServices" value="Application Services" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;fontStyle=1;verticalAlign=top;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="410" width="600" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="appSvc1" value="{SystemA} Service" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e8f5e8;strokeColor=#82b366;fontSize=10;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="120" y="440" width="180" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="appSvc2" value="{SystemB} Service" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e8f5e8;strokeColor=#82b366;fontSize=10;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="320" y="440" width="180" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="appSvc3" value="{SystemC} Service" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e8f5e8;strokeColor=#82b366;fontSize=10;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="520" y="440" width="180" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="domainLayer" value="Domain Layer" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;fontStyle=1;verticalAlign=top;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="720" y="410" width="280" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="domainEntities" value="Entities &amp;amp; Aggregates" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="740" y="440" width="240" height="32" as="geometry"/>
+                </mxCell>
+                <mxCell id="domainRules" value="Business Rules" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="740" y="478" width="240" height="32" as="geometry"/>
+                </mxCell>
+                <mxCell id="domainEvents" value="Domain Events" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="740" y="516" width="240" height="32" as="geometry"/>
+                </mxCell>
+                <mxCell id="domainPorts" value="Outbound Ports (interfaces)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="740" y="554" width="240" height="32" as="geometry"/>
+                </mxCell>
+                <mxCell id="infraAdapters" value="Infrastructure Adapters" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#82b366;fontSize=11;fontStyle=1;verticalAlign=top;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="510" width="600" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="infraRepo" value="Repositories" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e8f5e8;strokeColor=#82b366;fontSize=10;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="120" y="540" width="180" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="infraClient" value="External API Clients" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e8f5e8;strokeColor=#82b366;fontSize=10;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="320" y="540" width="180" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="infraEvents" value="Event Publisher" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e8f5e8;strokeColor=#82b366;fontSize=10;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="520" y="540" width="180" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="dataLayer" value="Data &amp;amp; External Services Layer" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;verticalAlign=top;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="60" y="660" width="980" height="160" as="geometry"/>
+                </mxCell>
+                <mxCell id="data1" value="{PrimaryStore — e.g. Postgres}" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffffff;strokeColor=#b85450;fontSize=11;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="700" width="160" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="data2" value="{Cache — e.g. Redis}" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffffff;strokeColor=#b85450;fontSize=11;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="300" y="700" width="160" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="data3" value="{MessageBus — e.g. SQS / Kafka}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#b85450;fontSize=11;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="500" y="710" width="200" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="data4" value="{ExternalService — e.g. Auth0}" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5d6d4;strokeColor=#b85450;fontSize=11;fontColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="740" y="710" width="220" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="appToData1" style="endArrow=classic;html=1;dashed=1;strokeWidth=2;fontColor=#000000;" parent="1" source="infraRepo" target="data1" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="appToData2" style="endArrow=classic;html=1;dashed=1;strokeWidth=2;fontColor=#000000;" parent="1" source="infraRepo" target="data2" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="appToData3" style="endArrow=classic;html=1;dashed=1;strokeWidth=2;fontColor=#000000;" parent="1" source="infraEvents" target="data3" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="appToData4" style="endArrow=classic;html=1;dashed=1;strokeWidth=2;fontColor=#000000;" parent="1" source="infraClient" target="data4" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

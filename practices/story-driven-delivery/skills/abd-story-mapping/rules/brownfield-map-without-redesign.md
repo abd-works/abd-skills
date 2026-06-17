@@ -1,4 +1,4 @@
-﻿# Rule: Brownfield map without redesign
+# Rule: Brownfield map without redesign
 
 **Scanner:** Manual review
 

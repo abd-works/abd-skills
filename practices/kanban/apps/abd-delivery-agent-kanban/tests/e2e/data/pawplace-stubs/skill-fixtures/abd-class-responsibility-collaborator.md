@@ -1,4 +1,4 @@
-﻿---
+---
 state: domain-model
 increment_scope: Increment 1 — Find products and check store stock
 ---

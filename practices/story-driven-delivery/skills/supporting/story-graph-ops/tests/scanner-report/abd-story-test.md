@@ -1,4 +1,4 @@
-﻿# Scanner Report — abd-story-acceptance-test
+# Scanner Report — abd-story-acceptance-test
 
 **Workspace:** c:\dev\agilebydesign-skills\skills\story-driven-delivery\story-graph-ops\tests
 **Date:** 2026-05-09 16:23:56

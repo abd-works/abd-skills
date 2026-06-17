@@ -1735,52 +1735,52 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <div class="rule-prose"><h1>Strategy</h1>
 <p>A <strong>strategy</strong> defines how work flows through the kanban board:</p>
 <ul>
-<li><strong>Scope progression</strong> â€” which scope levels apply at each stage (may differ from default)</li>
-<li><strong>Scatter rules</strong> â€” when and how to decompose tickets at scope boundaries</li>
-<li><strong>Sprint grouping</strong> â€” how to group stories into sprints (default 3â€“4, adjustable)</li>
-<li><strong>JIT policy</strong> â€” how far ahead to scatter (next 1â€“2 items by default)</li>
-<li><strong>Checkpoint policy</strong> â€” where to stop for feedback (per skill, per stage, per increment)</li>
-<li><strong>Risk classification</strong> â€” which risks are present and how they affect ordering</li>
+<li><strong>Scope progression</strong> — which scope levels apply at each stage (may differ from default)</li>
+<li><strong>Scatter rules</strong> — when and how to decompose tickets at scope boundaries</li>
+<li><strong>Sprint grouping</strong> — how to group stories into sprints (default 3“4, adjustable)</li>
+<li><strong>JIT policy</strong> — how far ahead to scatter (next 1“2 items by default)</li>
+<li><strong>Checkpoint policy</strong> — where to stop for feedback (per skill, per stage, per increment)</li>
+<li><strong>Risk classification</strong> — which risks are present and how they affect ordering</li>
 </ul>
 <hr>
 <h2>Why Kanban Planning</h2>
 <p>Agents benefit from an explicit delivery lifecycle: not just <em>what</em> to do next, but <strong>when scope changes</strong>, <strong>when to scatter</strong>, <strong>how to group work</strong>, and <strong>when to stop for feedback</strong>. The strategy + kanban board provide the spine without pre-planning every assignment.</p>
 <ul>
-<li><strong>Uncertainty is real</strong> â€” keep the strategy living; update when corrections accumulate.</li>
-<li><strong>Risk before volume</strong> â€” order increments so the hardest unknowns fail early.</li>
-<li><strong>JIT over pre-plan</strong> â€” decompose only when needed, not everything upfront.</li>
-<li><strong>Humans in the loop</strong> â€” checkpoint policy makes confirmation predictable.</li>
+<li><strong>Uncertainty is real</strong> — keep the strategy living; update when corrections accumulate.</li>
+<li><strong>Risk before volume</strong> — order increments so the hardest unknowns fail early.</li>
+<li><strong>JIT over pre-plan</strong> — decompose only when needed, not everything upfront.</li>
+<li><strong>Humans in the loop</strong> — checkpoint policy makes confirmation predictable.</li>
 </ul>
 <hr>
 <h2>Risk classification</h2>
 <p>Classify risks to inform strategy selection:</p>
 <ul>
-<li><strong>Value risk</strong> â€” building the wrong thing. Signals: vague briefs, no research, conflicting goals.</li>
-<li><strong>Technical risk</strong> â€” wrong tech, infra, or architecture. Signals: proprietary APIs, unfamiliar stacks, scale unknowns.</li>
-<li><strong>Delivery risk</strong> â€” miss schedule or quality bar. Signals: large scope, dependencies, deadlines.</li>
-<li><strong>Domain risk</strong> â€” misunderstand business rules. Signals: regulatory regimes, complex rules, jargon.</li>
-<li><strong>Integration risk</strong> â€” external systems constrain design. Signals: legacy, quirky APIs, backward compat.</li>
-<li><strong>AI-model risk</strong> â€” agent likely to hallucinate. Signals: no training data, undocumented APIs.</li>
+<li><strong>Value risk</strong> — building the wrong thing. Signals: vague briefs, no research, conflicting goals.</li>
+<li><strong>Technical risk</strong> — wrong tech, infra, or architecture. Signals: proprietary APIs, unfamiliar stacks, scale unknowns.</li>
+<li><strong>Delivery risk</strong> — miss schedule or quality bar. Signals: large scope, dependencies, deadlines.</li>
+<li><strong>Domain risk</strong> — misunderstand business rules. Signals: regulatory regimes, complex rules, jargon.</li>
+<li><strong>Integration risk</strong> — external systems constrain design. Signals: legacy, quirky APIs, backward compat.</li>
+<li><strong>AI-model risk</strong> — agent likely to hallucinate. Signals: no training data, undocumented APIs.</li>
 </ul>
 <p>Risk types drive strategy selection and checkpoint tightness.</p>
 <hr>
 <h2>Checkpoint granularity</h2>
-<p>Matches kanban scope levels â€” pick the coarsest that still gives you confidence:</p>
+<p>Matches kanban scope levels — pick the coarsest that still gives you confidence:</p>
 <ul>
-<li><strong>Per skill</strong> â€” after each skill completes on a ticket; finest; use for high uncertainty or early work</li>
-<li><strong>Per story</strong> â€” after all skills complete on a story-scope ticket</li>
-<li><strong>Per sprint</strong> â€” after all skills complete on a sprint-scope ticket (specification / engineering)</li>
-<li><strong>Per increment</strong> â€” after all skills complete on an increment-scope ticket (discovery / exploration)</li>
-<li><strong>Per stage</strong> â€” after the stage exit gate passes; use for well-understood, repeatable work</li>
+<li><strong>Per skill</strong> — after each skill completes on a ticket; finest; use for high uncertainty or early work</li>
+<li><strong>Per story</strong> — after all skills complete on a story-scope ticket</li>
+<li><strong>Per sprint</strong> — after all skills complete on a sprint-scope ticket (specification / engineering)</li>
+<li><strong>Per increment</strong> — after all skills complete on an increment-scope ticket (discovery / exploration)</li>
+<li><strong>Per stage</strong> — after the stage exit gate passes; use for well-understood, repeatable work</li>
 </ul>
 <p>Default: start per-skill, relax as confidence builds.</p>
 <hr>
 <h2>Scatter rules</h2>
 <h3>Default heuristics</h3>
 <ul>
-<li><strong>all â†’ increment</strong> â€” one ticket per increment from thin-slicing; scatter all</li>
-<li><strong>increment â†’ sprint</strong> â€” group 3â€“4 stories per sprint; scatter next 1â€“2 increments JIT</li>
-<li><strong>sprint â†’ story</strong> â€” rare; only if strategy requires per-story tickets</li>
+<li><strong>all â†’ increment</strong> — one ticket per increment from thin-slicing; scatter all</li>
+<li><strong>increment â†’ sprint</strong> — group 3“4 stories per sprint; scatter next 1“2 increments JIT</li>
+<li><strong>sprint â†’ story</strong> — rare; only if strategy requires per-story tickets</li>
 </ul>
 <h3>User overrides</h3>
 <ul>
@@ -1809,14 +1809,14 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <h2>Strategy file structure</h2>
 <p>Each strategy file in <code>reference/strategies/</code> defines:</p>
 <ul>
-<li><strong>When to use</strong> â€” context signals and risk types that match this strategy</li>
-<li><strong>Typical scope</strong> â€” what boundary or area this applies to</li>
-<li><strong>Kanban board stages</strong> â€” stages, scope per stage, skills per stage (or reference to default)</li>
-<li><strong>Scatter rules</strong> â€” how tickets decompose at scope boundaries</li>
-<li><strong>Sprint grouping</strong> â€” stories per sprint, grouping heuristics</li>
-<li><strong>JIT policy</strong> â€” how far ahead to decompose</li>
-<li><strong>Checkpoint policy</strong> â€” where to stop for feedback</li>
-<li><strong>Key constraints</strong> â€” non-negotiable rules for this strategy</li>
+<li><strong>When to use</strong> — context signals and risk types that match this strategy</li>
+<li><strong>Typical scope</strong> — what boundary or area this applies to</li>
+<li><strong>Kanban board stages</strong> — stages, scope per stage, skills per stage (or reference to default)</li>
+<li><strong>Scatter rules</strong> — how tickets decompose at scope boundaries</li>
+<li><strong>Sprint grouping</strong> — stories per sprint, grouping heuristics</li>
+<li><strong>JIT policy</strong> — how far ahead to decompose</li>
+<li><strong>Checkpoint policy</strong> — where to stop for feedback</li>
+<li><strong>Key constraints</strong> — non-negotiable rules for this strategy</li>
 </ul>
 <p>See <strong><a href="strategy-catalog.html">strategy-catalog</a></strong> for all available strategies.</p></div>
 

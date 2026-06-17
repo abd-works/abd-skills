@@ -1,4 +1,4 @@
-﻿﻿# Corrections log
+# Corrections log
 
 Project: abd-domain-walk skill
 Source: abd-domain-walk skill (pipeline runs)

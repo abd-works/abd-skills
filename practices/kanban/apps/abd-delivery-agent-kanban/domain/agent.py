@@ -1,4 +1,4 @@
-﻿"""
+"""
 agent.py
 
 Domain area   : Kanban Board — Agent, Team Member: Agent

@@ -1,4 +1,4 @@
-﻿<!--  
+<!--  
   Normative shape for the domain model phase output.  
 
   Output: <deliverables-folder>/[<name>-]crc.md  

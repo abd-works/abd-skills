@@ -1736,7 +1736,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <p><strong>Scanner:</strong> Manual review</p>
 <p>Every collaborator listed for a domain model responsibility must appear somewhere in the corresponding typed property or operation. A collaborator may be accounted for as:</p>
 <p>1. A <strong>parameter</strong> to the operation 2. The <strong>return type</strong> of the operation 3. A <strong>type</strong> on the property 4. A step in the <strong><code>Interaction:</code></strong> block</p>
-<p>If a collaborator appears nowhere in 1�4, it has been silently dropped. That is a modeling gap � either the collaborator belongs in the signature, the property type, or the interaction, or a deliberate decision to exclude it must be recorded.</p>
+<p>If a collaborator appears nowhere in 1—4, it has been silently dropped. That is a modeling gap — either the collaborator belongs in the signature, the property type, or the interaction, or a deliberate decision to exclude it must be recorded.</p>
 <h2>DO</h2>
 <ul>
 <li>Account for every collaborator in the parameter list, return type, or interaction.</li>
@@ -1755,18 +1755,18 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <ul>
 <li>Account for a collaborator as a property type when the responsibility becomes a property.</li>
 </ul>
-<p><strong>Example (pass):</strong> domain model responsibility: <code>difficulty ladder | Difficulty Ladder</code> becomes <code>+ difficultyLadder: DifficultyLadder</code> � collaborator is the property type.</p>
+<p><strong>Example (pass):</strong> domain model responsibility: <code>difficulty ladder | Difficulty Ladder</code> becomes <code>+ difficultyLadder: DifficultyLadder</code> — collaborator is the property type.</p>
 <h2>DO NOT</h2>
 <ul>
 <li>Drop a collaborator silently.</li>
 </ul>
 <p><strong>Example (fail):</strong> domain model responsibility <code>resolve | D20, Trait, Circumstance Modifier, Difficulty Class, Check Result</code> becomes:</p>
 <pre><code>  + resolve(): CheckResult</code></pre>
-<p>with no <code>Interaction:</code> block � D20, Trait, CircumstanceModifier, and DifficultyClass are all unaccounted for.</p>
+<p>with no <code>Interaction:</code> block — D20, Trait, CircumstanceModifier, and DifficultyClass are all unaccounted for.</p>
 <ul>
 <li>Assume a collaborator is &quot;obvious&quot; and omit it from the model.</li>
 </ul>
-<p><strong>Example (fail):</strong> Interaction traces <code>d20.roll()</code> but never references <code>trait.rank</code> or <code>dc.value</code> � Trait and DifficultyClass are dropped.</p>
+<p><strong>Example (fail):</strong> Interaction traces <code>d20.roll()</code> but never references <code>trait.rank</code> or <code>dc.value</code> — Trait and DifficultyClass are dropped.</p>
 <h2>When a collaborator is intentionally excluded</h2>
 <p>Record it as a decision: state which collaborator is excluded and why (e.g., &quot;D20 is an internal implementation detail not exposed at this fidelity level&quot;). Without an explicit decision, any missing collaborator is a gap.</p>
 <p><strong>Source:</strong> Engagement convention (class-model skill).</p></div>

@@ -287,7 +287,7 @@ describe('resolveSlotState', () => {
 });
 
 describe('countRoleEngagement', () => {
-  it('counts only live execution or review � not idle queued active tickets', () => {
+  it('counts only live execution or review — not idle queued active tickets', () => {
     const sprint1 = ticket({
       ticketId: 'inc-8-sprint-1-reviews',
       priority: 1,

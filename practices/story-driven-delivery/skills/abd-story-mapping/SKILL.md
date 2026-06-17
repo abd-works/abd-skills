@@ -1,4 +1,4 @@
-﻿---
+---
 name: abd-story-mapping
 catalog_garden_tier: practice
 catalog_garden_order: 10

@@ -1,4 +1,4 @@
-﻿import type { StageId, StageBucket, StageSkillRail } from './Stage';
+import type { StageId, StageBucket, StageSkillRail } from './Stage';
 import { Stage } from './Stage';
 import { Ticket } from './Ticket';
 import type { KanbanColumnView } from './Ticket';

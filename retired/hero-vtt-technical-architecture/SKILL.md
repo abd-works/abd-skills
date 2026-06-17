@@ -1,4 +1,4 @@
-﻿---
+---
 name: hero-vtt-technical-architecture
 catalog_garden_family: architecture-centric-engineering
 catalogue_one_liner: >-

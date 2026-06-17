@@ -1,4 +1,4 @@
-﻿# Rule: State marker correct
+# Rule: State marker correct
 
 **Scanner:** Manual review
 

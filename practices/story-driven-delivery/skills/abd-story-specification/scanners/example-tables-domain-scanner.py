@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Validate that scenario outline example-table columns match domain model attributes.
 
 Reads ``domain.json`` from the workspace (written by the domain model, Domain Language,

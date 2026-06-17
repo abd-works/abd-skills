@@ -1,4 +1,4 @@
-﻿# Specification by Example — `<Module Name>`
+# Specification by Example — `<Module Name>`
 
 **Sources / context:** `<source files used>`
 

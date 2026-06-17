@@ -1,4 +1,4 @@
-﻿---
+---
 name: mern-technical-architecture
 catalog_garden_tier: practice
 catalog_garden_family: architecture-centric-engineering

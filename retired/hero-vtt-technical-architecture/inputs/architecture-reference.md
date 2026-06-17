@@ -1,4 +1,4 @@
-﻿# Hero Virtual Tabletop — Architecture Reference
+# Hero Virtual Tabletop — Architecture Reference
 
 > **Purpose.** This document is the single canonical answer to "how does this architecture work for cross-cutting concerns?" Every new feature, refactor, and code-review should pass the decisions recorded here. When the rules below are followed, the codebase stays navigable and testable without City of Heroes being installed. This reference was produced through reverse engineering the existing codebase and setting the forward standard simultaneously — the **AS-IS** is noted where it diverges from the target.
 

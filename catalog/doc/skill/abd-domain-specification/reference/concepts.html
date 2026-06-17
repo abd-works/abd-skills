@@ -1724,7 +1724,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
     <p class="s-name">Markdown</p>
 
     <h1 class="page-headline">reference/concepts.md</h1>
-    <p class="body-lead">Class Model � Concepts</p>
+    <p class="body-lead">Class Model — Concepts</p>
   </div>
 </div>
 
@@ -1732,28 +1732,28 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <div class="wrap">
 
 <h2>Content</h2>
-<div class="rule-prose"><h1>Class Model � Concepts</h1>
+<div class="rule-prose"><h1>Class Model — Concepts</h1>
 <p>For OO fundamentals (what is a class, decomposing responsibilities, relationships, inheritance and subtypes), read <a href="../../../reference/oo-concepts.html"><code>../../../reference/oo-concepts.md</code></a> in full before proceeding. The sections below cover what is specific to class-model fidelity: typed notation and relationship flavors.</p>
 <h2>Properties</h2>
 <p>Write each property as <code>+ propertyName: Type</code>. Type it where the domain makes the type obvious (<code>String</code>, <code>Boolean</code>, <code>Money</code>, <code>List&lt;Item&gt;</code>, etc.); leave it untyped only when the domain is genuinely ambiguous. Typed constants and enum-like value sets (<code>UPPER_CASE</code> names) are grouped under a named constant block.</p>
 <h2>Operations</h2>
 <p>Write each operation as <code>+ methodName(param: Type): ReturnType</code>. Parameters come from the information the method needs but does not already hold as a property; the return type reflects what the caller expects back. Keep signatures at the domain level: no infrastructure, no UI, no framework types. Omit the return type only when the operation is genuinely void.</p>
-<p>Use <code>+</code> for public operations that external collaborators call. Use <code>-</code> for private helpers that are only called internally by the class itself � extracted sub-logic, tie-breakers, guard checks, etc.</p>
-<p><strong>When the right name is unclear, name it after the invariant.</strong> If an operation&#x27;s invariant says &quot;incoming supersedes existing&quot;, the operation is <code>incomingSupersedes</code>. The invariant is already the correct domain statement � the name should match it directly rather than inventing a separate label.</p>
+<p>Use <code>+</code> for public operations that external collaborators call. Use <code>-</code> for private helpers that are only called internally by the class itself — extracted sub-logic, tie-breakers, guard checks, etc.</p>
+<p><strong>When the right name is unclear, name it after the invariant.</strong> If an operation&#x27;s invariant says &quot;incoming supersedes existing&quot;, the operation is <code>incomingSupersedes</code>. The invariant is already the correct domain statement — the name should match it directly rather than inventing a separate label.</p>
 <h2>Object initialisation</h2>
 <p>For every class, determine how its objects are initialised. Choose from the following approaches based on scenario and context:</p>
-<p><strong>Constructor injection</strong> � pass a dependency in when the class references but does not own it (association), or when a required value must be present for the object to be valid. Write as <code>+ ClassName(param: Type, ...)</code>. Include only what is needed to bootstrap a fully valid object; never leave an object half-initialised. Write multiple constructors when different valid bootstrap configurations exist in the domain.</p>
-<p><strong>Internal initialisation</strong> � create or derive it inside the class when the class owns the thing (composition) or when the value is derived from properties the object already holds. The caller should not be responsible for assembling parts the class owns.</p>
-<p><strong>Factory method</strong> � use a static factory <em>on the class itself</em> when construction is complex, can fail gracefully, or needs to return different subtypes based on input. The factory method replaces <code>new</code> for callers � it is a named static operation on the class.</p>
-<p><strong>Factory object</strong> � delegate construction entirely to a separate domain object when the assembly logic is itself a domain concern, when multiple unrelated callers need the same complex build, or when the assembled object requires coordinating many collaborators the caller should not know about.</p>
+<p><strong>Constructor injection</strong> — pass a dependency in when the class references but does not own it (association), or when a required value must be present for the object to be valid. Write as <code>+ ClassName(param: Type, ...)</code>. Include only what is needed to bootstrap a fully valid object; never leave an object half-initialised. Write multiple constructors when different valid bootstrap configurations exist in the domain.</p>
+<p><strong>Internal initialisation</strong> — create or derive it inside the class when the class owns the thing (composition) or when the value is derived from properties the object already holds. The caller should not be responsible for assembling parts the class owns.</p>
+<p><strong>Factory method</strong> — use a static factory <em>on the class itself</em> when construction is complex, can fail gracefully, or needs to return different subtypes based on input. The factory method replaces <code>new</code> for callers — it is a named static operation on the class.</p>
+<p><strong>Factory object</strong> — delegate construction entirely to a separate domain object when the assembly logic is itself a domain concern, when multiple unrelated callers need the same complex build, or when the assembled object requires coordinating many collaborators the caller should not know about.</p>
 <h2>Relationships</h2>
 <p>The three questions in <code>oo-concepts.md</code> (<code>## Relationships</code>) determine the dependency nature. At this level of fidelity, each answer maps to a named type of relationship:</p>
 <ul>
-<li><strong>Aggregation</strong> � the parent exists to collect or group its children; the parent has no identity without them.</li>
-<li><strong>Composition</strong> � the child has no identity without the parent; the parent owns the child&#x27;s lifecycle.</li>
-<li><strong>Association</strong> � both sides have independent lifecycles.</li>
+<li><strong>Aggregation</strong> — the parent exists to collect or group its children; the parent has no identity without them.</li>
+<li><strong>Composition</strong> — the child has no identity without the parent; the parent owns the child&#x27;s lifecycle.</li>
+<li><strong>Association</strong> — both sides have independent lifecycles.</li>
 </ul>
-<p><strong>Association is the default</strong> � no annotation needed. Mark composition and aggregation directly on the property with a stereotype; no separate relationship line is required.</p>
+<p><strong>Association is the default</strong> — no annotation needed. Mark composition and aggregation directly on the property with a stereotype; no separate relationship line is required.</p>
 <pre><code>+ &lt;&lt; composition &gt;&gt; stages: List&lt;DifficultyStage&gt;   ? ownership is on the property
 + linkedTrait: Trait                                 ? plain association; no stereotype</code></pre>
 <p>The property type already implies cardinality direction: a single type is 1..1; <code>List&lt;T&gt;</code> or <code>Dictionary&lt;K,T&gt;</code> is one-to-many. Use an invariant on the property when the cardinality constraint needs to be made explicit.</p>
@@ -1762,43 +1762,43 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <p class="spec-step">When a class holds multiple instances of another class, type the property using one of two generic forms:</p>
 </div>
 <ul>
-<li><strong><code>List&lt;ClassName&gt;</code></strong> � an ordered or unordered set where you iterate or process all members. No key needed.</li>
-<li><strong><code>Dictionary&lt;KeyType, ClassName&gt;</code></strong> � a keyed set where you need to look up a specific member directly.</li>
+<li><strong><code>List&lt;ClassName&gt;</code></strong> — an ordered or unordered set where you iterate or process all members. No key needed.</li>
+<li><strong><code>Dictionary&lt;KeyType, ClassName&gt;</code></strong> — a keyed set where you need to look up a specific member directly.</li>
 </ul>
-<p>The name of the property should reflect the domain collection concept, not the data structure � <code>appliedConditions</code>, not <code>conditionList</code>. When the collection itself has unique behavior, introduce a named collection class.</p>
+<p>The name of the property should reflect the domain collection concept, not the data structure — <code>appliedConditions</code>, not <code>conditionList</code>. When the collection itself has unique behavior, introduce a named collection class.</p>
 <h2>Inheritance</h2>
-<p>Use <code>ChildClass : ParentClass</code> on the class heading. The child block contains only delta members � typed properties, operations, and relationships that add or override the parent. Inherited members are never repeated.</p>
-<p>Mark each class with its stereotype on the heading � see <code>### Entities and Value Objects</code> below.</p>
+<p>Use <code>ChildClass : ParentClass</code> on the class heading. The child block contains only delta members — typed properties, operations, and relationships that add or override the parent. Inherited members are never repeated.</p>
+<p>Mark each class with its stereotype on the heading — see <code>### Entities and Value Objects</code> below.</p>
 <h2>Invariants</h2>
-<p>Write each invariant as a single tab-indented line directly under the property or operation it constrains: <code>	Invariant: ...</code>. Keep it declarative � &quot;must&quot;, &quot;cannot&quot;, &quot;only if&quot;. One line per constraint.</p>
+<p>Write each invariant as a single tab-indented line directly under the property or operation it constrains: <code>	Invariant: ...</code>. Keep it declarative — &quot;must&quot;, &quot;cannot&quot;, &quot;only if&quot;. One line per constraint.</p>
 <h2>Interactions</h2>
 <div class="spec-steps">
-<p class="spec-step">When an operation has inherent complexity or interesting interactions � it coordinates multiple collaborators, produces a result through a chain of internal steps, or branches in a way not captured by the signature and invariants alone � write a tab-indented <code>Interaction:</code> block directly after the operation&#x27;s invariants. Each step is a flat, non-nested pseudocode line using the scenario-walkthrough notation.</p>
+<p class="spec-step">When an operation has inherent complexity or interesting interactions — it coordinates multiple collaborators, produces a result through a chain of internal steps, or branches in a way not captured by the signature and invariants alone — write a tab-indented <code>Interaction:</code> block directly after the operation&#x27;s invariants. Each step is a flat, non-nested pseudocode line using the scenario-walkthrough notation.</p>
 </div>
 <p><strong>When to omit:</strong> Simple delegations with a single step, pure queries that return a property directly, or operations whose entire behavior is self-evident from the return type and invariants alone.</p>
-<p><strong>Design smell � invariants without interactions:</strong> If an operation carries several invariants but no <code>Interaction:</code> block, that is almost always wrong. Invariants state <em>what must be true</em>; they cannot replace the step-chain that <em>makes it true</em>.</p>
-<p><strong>Extract complex sub-logic into named operations.</strong> An <code>Interaction:</code> block is not pseudocode � it traces the key collaborations. When a branch or calculation is non-trivial, give it a name, extract it as a separate operation, and describe its rule as an invariant.</p>
+<p><strong>Design smell — invariants without interactions:</strong> If an operation carries several invariants but no <code>Interaction:</code> block, that is almost always wrong. Invariants state <em>what must be true</em>; they cannot replace the step-chain that <em>makes it true</em>.</p>
+<p><strong>Extract complex sub-logic into named operations.</strong> An <code>Interaction:</code> block is not pseudocode — it traces the key collaborations. When a branch or calculation is non-trivial, give it a name, extract it as a separate operation, and describe its rule as an invariant.</p>
 <p><strong>Format rules:</strong></p>
 <ul>
 <li><code>	Interaction:</code> is tab-indented under the operation, same level as <code>Invariant:</code></li>
-<li>Each step inside is a further-indented flat line � <strong>no nesting</strong></li>
+<li>Each step inside is a further-indented flat line — <strong>no nesting</strong></li>
 <li>Use typed pseudocode: <code>variableName: Type = expression</code></li>
 <li>Method calls: <code>object.method(param: value)</code></li>
 <li>Construction: <code>variable: Type = new ClassName(param: Type)</code></li>
 <li>Return: <code>return variable</code></li>
-<li><strong>Variable names must use domain language</strong> � <code>roll</code>, <code>margin</code>, <code>throwingDistanceMeasure</code>, not <code>r</code>, <code>temp</code>, <code>measureA</code>. Trace the right name up the chain: domain model ? Domain Language ? source references.</li>
+<li><strong>Variable names must use domain language</strong> — <code>roll</code>, <code>margin</code>, <code>throwingDistanceMeasure</code>, not <code>r</code>, <code>temp</code>, <code>measureA</code>. Trace the right name up the chain: domain model ? Domain Language ? source references.</li>
 </ul>
 <h2>Entities and Value Objects</h2>
 <p>Domain objects carry one of several stereotypes depending on their role. The two most common are Entity and Value Object.</p>
-<p><strong>Entity</strong> � an object distinguished by identity, not by its attributes. Two entities with identical attributes are still different things. An entity has a continuous lifecycle: it is created, changes over time, and eventually ends. Mark with <code>&lt;&lt; Entity &gt;&gt;</code>.</p>
-<p><strong>Value Object</strong> � an object defined entirely by its attributes, with no meaningful identity of its own. Two value objects with the same attributes are interchangeable. Value objects are immutable: never modify one in place; replace it with a new instance. Mark with <code>&lt;&lt; ValueObject &gt;&gt;</code>.</p>
+<p><strong>Entity</strong> — an object distinguished by identity, not by its attributes. Two entities with identical attributes are still different things. An entity has a continuous lifecycle: it is created, changes over time, and eventually ends. Mark with <code>&lt;&lt; Entity &gt;&gt;</code>.</p>
+<p><strong>Value Object</strong> — an object defined entirely by its attributes, with no meaningful identity of its own. Two value objects with the same attributes are interchangeable. Value objects are immutable: never modify one in place; replace it with a new instance. Mark with <code>&lt;&lt; ValueObject &gt;&gt;</code>.</p>
 <p><strong>The deciding question:</strong> <em>Does this thing need to be tracked as an individual over time, or does only the combination of its values matter?</em></p>
 <p>Other stereotypes exist (<code>&lt;&lt; Service &gt;&gt;</code>, <code>&lt;&lt; Factory &gt;&gt;</code>, <code>&lt;&lt; Repository &gt;&gt;</code>, <code>&lt;&lt; Domain Event &gt;&gt;</code>, boundary types, etc.) and are applied when the class clearly plays that role.</p>
 <hr>
 <h2>Consistent shape</h2>
 <pre><code>## **{{KAName}}**
 
-[Optional 1�2 sentence intro]
+[Optional 1—2 sentence intro]
 
 ### **{{ka_name as a Class}}** &lt;&lt; Stereotype &gt;&gt;      ? MUST appear first; matches the KA
 + Constructor(param: Type)
@@ -1818,7 +1818,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 + overriddenOperation(param: Type): ReturnType
 
 ### references                                       ? one per KA, peer to classes
-**Ref � title**
+**Ref — title**
 Source: ...
 Locator: ...
 Extract: whole

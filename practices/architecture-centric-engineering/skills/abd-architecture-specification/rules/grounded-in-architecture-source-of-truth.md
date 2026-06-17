@@ -1,4 +1,4 @@
-﻿### Rule: Reference is grounded in the architecture's source of truth
+### Rule: Reference is grounded in the architecture's source of truth
 
 The **layer names** in the reference document must match the **agreed source of truth** for the same architecture — whatever form that takes (an ADR, a wiki page, a decision document, a sibling skill's output, or any other agreed record). The **mechanism names** must also match that source. The reference does not invent layers, rename them, or add mechanisms nobody else has heard of. When the reference needs a layer or mechanism that the source of truth does not yet contain, update the source of truth first, then regenerate the reference. Passing means a reviewer can hold the reference and the architecture's source of truth side-by-side and see the same vocabulary in both — same layer names, same mechanism names, same spelling. Failing means the reference uses a synonym (`Persistence layer` vs `Infrastructure`), drops a layer, or introduces a mechanism that the agreed source of truth never listed.
 

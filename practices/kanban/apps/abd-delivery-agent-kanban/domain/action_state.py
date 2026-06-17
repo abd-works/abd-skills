@@ -1,4 +1,4 @@
-﻿"""Action intents and the action state file for manual board mode.
+"""Action intents and the action state file for manual board mode.
 
 Domain area   : Kanban Board — Action State
 Responsibilities: read, append, and clear action intents from the action state

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * domain model: AgentOutputStream — carries a single streamed event from an agent session.
  *      Emitted by AgentSession.emit(); consumed by the server relay and the
  *      client stream panel.

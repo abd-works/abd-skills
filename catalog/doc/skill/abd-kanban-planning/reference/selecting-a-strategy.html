@@ -1735,12 +1735,12 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <div class="rule-prose"><h1>Selecting a strategy</h1>
 <p>See <strong><a href="strategy.html">strategy</a></strong> for what a strategy is and <strong><a href="strategy-catalog.html">strategy-catalog</a></strong> for available options.</p>
 <hr>
-<h2>Step 1 â€” Context analysis</h2>
+<h2>Step 1 — Context analysis</h2>
 <p>Read all context. Identify:</p>
-<p>1. <strong>Known domains</strong> â€” strong training data, documented APIs. 2. <strong>Risky domains</strong> â€” proprietary, internal, novel logic. 3. <strong>Integration points</strong> â€” external systems, dependencies. 4. <strong>Complexity drivers</strong> â€” regulatory, multi-actor, concurrency. 5. <strong>Existing assets</strong> â€” prior story graphs, specs, tests, code.</p>
-<h2>Step 2 â€” Select strategy</h2>
-<p>1. Open <code>reference/strategies/</code> in this skill folder. 2. Read each strategy&#x27;s <strong>When to use</strong> section. 3. Match context and risks to a strategy (or blend multiple). 4. If no strategy fits, design custom â€” offer to save later.</p>
-<h2>Step 3 â€” Configure kanban board stages</h2>
+<p>1. <strong>Known domains</strong> — strong training data, documented APIs. 2. <strong>Risky domains</strong> — proprietary, internal, novel logic. 3. <strong>Integration points</strong> — external systems, dependencies. 4. <strong>Complexity drivers</strong> — regulatory, multi-actor, concurrency. 5. <strong>Existing assets</strong> — prior story graphs, specs, tests, code.</p>
+<h2>Step 2 — Select strategy</h2>
+<p>1. Open <code>reference/strategies/</code> in this skill folder. 2. Read each strategy&#x27;s <strong>When to use</strong> section. 3. Match context and risks to a strategy (or blend multiple). 4. If no strategy fits, design custom — offer to save later.</p>
+<h2>Step 3 — Configure kanban board stages</h2>
 <p>From the selected strategy, write <code>kanban.json</code> (the kanban board stage configuration):</p>
 <ul>
 <li>Which stages are active</li>
@@ -1748,15 +1748,15 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <li>Ordered stage work required per stage with delivery role assignments</li>
 <li>Any optional skills (marked in strategy)</li>
 </ul>
-<h2>Step 4 â€” Define scatter and decomposition rules</h2>
+<h2>Step 4 — Define scatter and decomposition rules</h2>
 <p>Write the <code>strategy</code> section in <code>kanban.json</code> with:</p>
 <ul>
-<li><strong>Scatter rules</strong>: which scope transitions scatter vs advance, sprint grouping (default 3â€“4), JIT policy</li>
+<li><strong>Scatter rules</strong>: which scope transitions scatter vs advance, sprint grouping (default 3“4), JIT policy</li>
 <li><strong>Ordering</strong>: priority source (story map, user override, risk-first)</li>
 <li><strong>Checkpoint policy</strong>: per-skill, per-stage, or per-increment</li>
 <li><strong>Autonomy</strong>: tight, moderate, or full</li>
 </ul>
-<h2>Step 5 â€” Present and confirm</h2>
+<h2>Step 5 — Present and confirm</h2>
 <p>Present to user:</p>
 <p>1. Context assessment and classified risks. 2. Selected strategy (name, from which file, adaptations). 3. Kanban board stage configuration (stages, scope, skills). 4. Scatter rules and checkpoint policy.</p>
 <p><strong>CHECKPOINT.</strong> Wait for user confirm before setup.</p></div>

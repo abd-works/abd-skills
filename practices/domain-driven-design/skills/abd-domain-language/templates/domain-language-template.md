@@ -1,4 +1,4 @@
-﻿<!--
+<!--
   Normative shape for the domain-language output.
 
   Output: <deliverables-folder>/[<name>-]domain-language.md

@@ -1741,10 +1741,10 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <p><strong>Example (pass):</strong></p>
 <pre><code>  Order *composes* OrderLine  [1..1 ? 1..*]</code></pre>
 <ul>
-<li>Derive direction from the domain model collaborator entry � the class that lists the collaborator is the navigating end.</li>
+<li>Derive direction from the domain model collaborator entry — the class that lists the collaborator is the navigating end.</li>
 </ul>
 <p><strong>Example (pass):</strong></p>
-<pre><code>  domain model � Order collaborates with OrderLine
+<pre><code>  domain model — Order collaborates with OrderLine
   ? Order navigates to OrderLine, not the reverse</code></pre>
 <h2>DO NOT</h2>
 <ul>
@@ -1761,7 +1761,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <li>Reverse the direction from what the domain model collaborator line states.</li>
 </ul>
 <p><strong>Example (fail):</strong></p>
-<pre><code>  domain model � Order collaborates with Customer
+<pre><code>  domain model — Order collaborates with Customer
   Relationship written as: Customer *associates* Order  ? direction flipped</code></pre></div>
 
 </div>

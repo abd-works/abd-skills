@@ -15,10 +15,10 @@ This is a **single-scenario-step change** on an existing story. Follow the steps
 **If only Acceptance Criteria exists → skip step 1, do step 2.**
 **If neither exists → do step 2 (add the AC item first).**
 
-1. **Spec by Example** _(if exists)_ — add or update the single scenario step (Given/When/Then with real values): `.cursor/skills/abd-story-specification/SKILL.md`
-2. **Acceptance Criteria** _(if no specs)_ — add or correct the single WHEN/THEN item: `.cursor/skills/abd-story-acceptance-criteria/SKILL.md`
-3. **Acceptance Test (RED)** — write one failing test method that captures the new or changed step; run it and confirm FAILED: `.cursor/skills/abd-story-acceptance-test/SKILL.md`
-4. **Production Code (GREEN)** — change the smallest surface that makes the test pass; re-run until green: `.cursor/skills/abd-clean-code/SKILL.md`
-5. **Domain Model** _(if exists, and the step touches a concept or responsibility)_ — apply small targeted updates only; do not redesign: `.cursor/skills/abd-domain-model/SKILL.md`
+1. **Spec by Example** _(if exists)_ — add or update the single scenario step (Given/When/Then with real values): `../skills/abd-story-specification/SKILL.md`
+2. **Acceptance Criteria** _(if no specs)_ — add or correct the single WHEN/THEN item: `../skills/abd-story-acceptance-criteria/SKILL.md`
+3. **Acceptance Test (RED)** — write one failing test method that captures the new or changed step; run it and confirm FAILED: `../skills/abd-story-acceptance-test/SKILL.md`
+4. **Production Code (GREEN)** — change the smallest surface that makes the test pass; re-run until green: `../skills/abd-clean-code/SKILL.md`
+5. **Domain Model** _(if exists, and the step touches a concept or responsibility)_ — apply small targeted updates only; do not redesign: `../skills/abd-domain-model/SKILL.md`
 
 Run all tests for the story after step 4 to confirm nothing regressed.

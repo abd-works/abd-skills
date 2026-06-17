@@ -1,4 +1,4 @@
-﻿# Skill errors log — abd-build-architecture-skill
+# Skill errors log — abd-build-architecture-skill
 
 ### Code and test standards hard-coded to abd-clean-code / abd-acceptance-test-driven-development
 

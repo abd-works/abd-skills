@@ -1,0 +1,20 @@
+#!/bin/sh
+# pre-commit hook — scan staged .md/.mdc files for encoding issues
+# Installed by: scripts/install-hooks.sh
+# Manual install: cp scripts/hooks/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+
+STAGED=$(git diff --cached --name-only --diff-filter=ACMR | grep -E '\.(md|mdc)$')
+if [ -z "$STAGED" ]; then
+    exit 0
+fi
+
+python3 scripts/scan_encoding.py --check --staged
+RESULT=$?
+
+if [ $RESULT -ne 0 ]; then
+    echo ""
+    echo "💡 Tip: run  python3 scripts/scan_encoding.py --fix-bom  to strip BOMs automatically."
+    echo "   For mojibake and U+FFFD, the files need manual or scripted repair."
+fi
+
+exit $RESULT

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * domain model: Stage — ordered delivery stages with queues of tickets.
  * Invariant: a ticket cannot skip a stage or move backward.
  */

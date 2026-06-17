@@ -1,6 +1,6 @@
 # Rule: Generated code matches spec file layout
 
-Every generated file must land in the folder, use the naming pattern, and respect the layer placement defined in `specs/<arch>/architecture-specification.md` and shown in `specs/<arch>/template/`.
+Every generated file must land in the folder, use the naming pattern, and respect the layer placement defined in **`<spec-root>`** (`architecture-specification.md` and `template/`) — where **`<spec-root>`** is the architecture spec path resolved in step 0, not a fixed path in this skill.
 
 ## DO
 

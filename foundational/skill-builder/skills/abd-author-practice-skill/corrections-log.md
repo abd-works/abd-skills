@@ -1,4 +1,4 @@
-﻿# Corrections log — abd-author-practice-skill
+# Corrections log — abd-author-practice-skill
 
 ## Entry — Purpose referenced previous skill output instead of stating the conceptual gap
 

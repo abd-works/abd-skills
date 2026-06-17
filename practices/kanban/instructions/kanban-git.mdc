@@ -1,0 +1,87 @@
+# Delivery git behavior (always-on)
+
+Git operations during kanban delivery are driven by **Kanban board ticket state changes** — not by slots, runs, or ad-hoc timing. The `abd-kanban-repo` skill defines the full model; this rule enforces it.
+
+## When to commit
+
+Commit granularity is set in `manifest.md` under `git_policy.granularity`:
+
+| Granularity | Commit when |
+| --- | --- |
+| `per-skill` (default) | After each skill completes on a ticket (executor done or reviewer done) |
+| `per-stage` | After all skills in a stage complete on a ticket |
+| `per-ticket` | After ticket completes (all stages done) or scatters |
+
+## When to push
+
+Push timing is set in `manifest.md` under `git_policy.push_on`:
+
+| Setting | Push when |
+| --- | --- |
+| `skill_done` (default) | Immediately after each skill commit |
+| `stage_done` | After stage completion commit |
+| `ticket_done` | After ticket completion or scatter commit |
+
+## When to pull
+
+Pull before starting work — timing from `git_policy.pull_on`:
+
+| Setting | Pull when |
+| --- | --- |
+| `skill_start` (default) | Before each skill starts |
+| `stage_start` | Before first skill in a new stage |
+| `ticket_start` | When ticket enters active |
+
+## Commit message format
+
+```
+<ticket-id>.<stage>.<skill>: <one-line summary>
+
+Ticket: <ticket-id>
+Lineage: <lineage path>
+Stage: <stage>
+Skill: <skill-name>
+Role: <executor | reviewer>
+```
+
+## Branching
+
+Branch scope from `git_policy.branch_scope`:
+
+| Setting | Branch |
+| --- | --- |
+| `ticket` (default when not autonomous) | `kanban/<ticket-id>` — created when ticket enters active, merged when ticket completes/scatters |
+| `scope-level` | `kanban/<scope>/<name>` — e.g. `kanban/increment/inc-1` |
+| `none` | Commit directly to current branch (autonomous mode) |
+
+## PRs
+
+PRs are **off by default** (`git_policy.pr_enabled: false`). When enabled:
+
+- PR created when a ticket branch is ready to merge (ticket complete or scattered)
+- PR title: `<ticket-id>: <lineage summary>`
+- Base branch: `main` (or configured)
+
+## Role agent behavior
+
+- **Executors and reviewers**: pull before skill start, commit after skill done (at configured granularity). Do NOT push or manage branches — kanban lead handles that.
+- **Delivery lead**: manages branches, pushes, PRs, and merge decisions during scan cycle.
+
+Exception: when `git_policy.granularity: per-skill` AND `git_policy.push_on: skill_done`, role agents push immediately after their commit.
+
+## Defaults (when no git_policy in manifest)
+
+```yaml
+git_policy:
+  granularity: per-skill
+  branch_scope: ticket
+  pr_enabled: false
+  push_on: skill_done
+  pull_on: skill_start
+```
+
+## When this rule does NOT apply
+
+- Non-kanban work (ad-hoc edits, skill authoring, infrastructure changes)
+- When no `abd-kanban/` board exists in the workspace
+- When `git_policy.granularity: none` is explicitly set (no git during kanban)

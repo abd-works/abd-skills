@@ -1,4 +1,4 @@
-﻿---
+---
 name: abd-secure-code
 catalog_garden_tier: practice
 catalog_garden_family: architecture-centric-engineering

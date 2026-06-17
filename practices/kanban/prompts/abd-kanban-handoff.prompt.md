@@ -5,6 +5,6 @@ description: >-
 mode: agent
 ---
 
-Read and follow **`abd-kanban-handoff`** skill (`practices/kanban/skills/abd-kanban-handoff/SKILL.md`).
+Read and follow **`abd-kanban-handoff`** skill (`practices/kanban/../skills/abd-kanban-handoff/SKILL.md`).
 
 If the user provided text after the command, use it as **next session focus**.

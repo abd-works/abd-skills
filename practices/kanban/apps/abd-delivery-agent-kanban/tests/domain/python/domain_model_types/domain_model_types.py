@@ -1,4 +1,4 @@
-﻿"""Domain Model Types — BoardPosition, TeamMembership, SkillProgress invariants
+"""Domain Model Types — BoardPosition, TeamMembership, SkillProgress invariants
 
 Epic:     (cross-cutting domain model)
 Sub-epic: Domain Model Types

@@ -1,4 +1,4 @@
-﻿---
+---
 scanner: domain-terms-source
 ---
 

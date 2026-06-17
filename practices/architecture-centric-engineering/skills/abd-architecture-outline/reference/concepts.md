@@ -1,4 +1,4 @@
-﻿# Architecture Outline — Concepts
+# Architecture Outline — Concepts
 
 ## What is an architecture outline?
 

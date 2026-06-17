@@ -1,4 +1,4 @@
-﻿# Skill Errors Log — abd-class-responsibility-collaborator
+# Skill Errors Log — abd-class-responsibility-collaborator
 
 ---
 

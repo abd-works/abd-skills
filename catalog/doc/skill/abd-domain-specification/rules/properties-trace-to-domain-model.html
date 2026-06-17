@@ -1739,7 +1739,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <li>Derive each property from a specific &quot;Responsible for&quot; line and type it where the domain makes the type obvious.</li>
 </ul>
 <p><strong>Example (pass):</strong></p>
-<pre><code>  domain model � Responsible for: tracking the total price of the order
+<pre><code>  domain model — Responsible for: tracking the total price of the order
 
   Domain-model block:
   + totalPrice: Money</code></pre>
@@ -1752,14 +1752,14 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <li>Add a property that has no corresponding domain model responsibility.</li>
 </ul>
 <p><strong>Example (fail):</strong></p>
-<pre><code>  domain model � (no mention of &quot;color&quot;)
+<pre><code>  domain model — (no mention of &quot;color&quot;)
 
   Domain-model block:
   + color: String       ? invented, not sourced from the domain model</code></pre>
 <ul>
 <li>Leave a domain model class that holds state without any domain-model properties.</li>
 </ul>
-<p><strong>Example (fail):</strong> a domain model class is &quot;Responsible for: maintaining the remaining budget&quot; but its domain-model block has zero properties � the stored state was never surfaced.</p></div>
+<p><strong>Example (fail):</strong> a domain model class is &quot;Responsible for: maintaining the remaining budget&quot; but its domain-model block has zero properties — the stored state was never surfaced.</p></div>
 
 </div>
 </div>

@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Scanner: every CRC concept block must have a lifecycle: field.
 
 After CRC enrichment, every #### **ConceptName** block must contain either a populated

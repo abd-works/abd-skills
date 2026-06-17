@@ -1,4 +1,4 @@
-﻿# Rule: Dependency magnet — split unrelated business concerns
+# Rule: Dependency magnet — split unrelated business concerns
 
 **Scanner:** Manual review
 

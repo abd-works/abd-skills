@@ -1733,31 +1733,31 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 
 <h2>Content</h2>
 <div class="rule-prose"><h1>Rule: Plan is not a default single-run five-stage waterfall</h1>
-<p><strong>Scanner:</strong> <code>scanners/plan-shape-scanner.py</code> â€” <code>PlanShapeScanner</code> (rule id <code>plan-is-not-default-six-stage</code>)</p>
-<p>&quot;Run all five bootcamp stages start to finish in one run&quot; is the <strong>degenerate case</strong> for trivial engagements with no classified risk. Real plans decompose the work into targeted runs that flush out unknowns early, per <code>abd-kanban-planning</code> Â§2aâ€“2c.</p>
+<p><strong>Scanner:</strong> <code>scanners/plan-shape-scanner.py</code> — <code>PlanShapeScanner</code> (rule id <code>plan-is-not-default-six-stage</code>)</p>
+<p>&quot;Run all five bootcamp stages start to finish in one run&quot; is the <strong>degenerate case</strong> for trivial engagements with no classified risk. Real plans decompose the work into targeted runs that flush out unknowns early, per <code>abd-kanban-planning</code> Â§2a“2c.</p>
 <p>This rule flags plans that have <strong>exactly one run</strong> whose stages are the five canonical bootcamp stages (<code>shaping</code>, <code>discovery</code>, <code>exploration</code>, <code>specification</code>, <code>engineering</code>) in order, <strong>unless</strong> the plan marks itself explicitly as trivial.</p>
 <h2>DO</h2>
 <ul>
 <li>Break the work into multiple runs that front-load risk.</li>
-<li>Use strategies from <code>reference/strategies/</code> as starting points â€” they decompose the run structure for you.</li>
+<li>Use strategies from <code>reference/strategies/</code> as starting points — they decompose the run structure for you.</li>
 <li>If the engagement truly is trivial, mark it with <code>trivial: true</code> in the plan&#x27;s YAML frontmatter, or add a section that states the engagement has no classified risk and explains why a single sweep is appropriate.</li>
 </ul>
 <h2>DON&#x27;T</h2>
 <ul>
 <li>Default to a one-run, five-stage sweep because it feels complete.</li>
-<li>Hide the sweep behind renamed stages â€” use canonical stage names from the stage files in <code>reference/stages/</code>.</li>
+<li>Hide the sweep behind renamed stages — use canonical stage names from the stage files in <code>reference/stages/</code>.</li>
 </ul>
 <h2>Example (wrong)</h2>
 <pre><code>| Run | Stages |
 | 1 | Shaping â†’ Discovery â†’ Exploration â†’ Specification â†’ Engineering |</code></pre>
 <p>(Single run, canonical five, no trivial flag, non-empty risks. This is the default-sweep shape.)</p>
-<h2>Example (correct â€” non-trivial decomposition)</h2>
+<h2>Example (correct — non-trivial decomposition)</h2>
 <pre><code>| Run | Stages |
 | 1 | Shaping â†’ Discovery |
 | 2 | Exploration â†’ Engineering |  (first thin slice)
 | 3 | Exploration â†’ Engineering |  (second slice)
 | 4 | Discovery          |  (fill-in deferred map)</code></pre>
-<h2>Example (correct â€” truly trivial engagement)</h2>
+<h2>Example (correct — truly trivial engagement)</h2>
 <pre><code>---
 trivial: true
 ---

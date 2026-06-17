@@ -1,4 +1,4 @@
-﻿/**
+/**
  * domain model: SkillProgress — tracks execution status of a single skill on a ticket.
  *      Immutable value object; create new instances to advance state.
  */

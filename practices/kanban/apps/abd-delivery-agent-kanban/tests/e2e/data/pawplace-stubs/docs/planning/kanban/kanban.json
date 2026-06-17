@@ -3,7 +3,7 @@
   "stage_configuration": "pawplace-stubs",
   "definitions": {
     "pawplace-stubs": {
-      "label": "PawPlace stubs � fixture mode, return immediately",
+      "label": "PawPlace stubs — fixture mode, return immediately",
       "strategy": {
         "scatter_rules": {
           "all_to_increment": "one ticket per increment from discovery/stories/thin-slicing.md",

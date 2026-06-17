@@ -1,4 +1,4 @@
-﻿import { test, expect } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import {
   BOARD_JSON_PATH,
   KANBAN_JSON_PATH,

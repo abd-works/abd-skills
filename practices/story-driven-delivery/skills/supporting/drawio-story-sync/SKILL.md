@@ -1,4 +1,4 @@
-﻿---
+---
 name: drawio-story-sync
 catalog_garden_tier: foundational
 catalogue_one_liner: >-

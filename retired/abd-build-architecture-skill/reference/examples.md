@@ -1,4 +1,4 @@
-﻿# Build Architecture Skill — Examples
+# Build Architecture Skill — Examples
 
 ## Generated skill folder structure
 

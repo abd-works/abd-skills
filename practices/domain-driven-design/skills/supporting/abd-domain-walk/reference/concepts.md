@@ -1,4 +1,4 @@
-# Scenario Walkthrough � Concepts
+# Scenario Walkthrough — Concepts
 
 ## Prerequisites
 
@@ -9,13 +9,13 @@ This skill **requires a typed model or domain model** to walk through. If neithe
 ```
 ## **{{KAName}}**
 
-[Optional 1�2 sentence intro: which scenarios live under this KA]
+[Optional 1—2 sentence intro: which scenarios live under this KA]
 
 ### **{{Scenario Name}}**
 **Purpose:** what this scenario validates
 **Concepts traced:** Class, Class, Class
 
-#### Walk 1 � Covers: {walk scope}
+#### Walk 1 — Covers: {walk scope}
 ```
 object: ReturnType = new Class(param: Type, param: Type)
 result: Type = object.someMethod()
@@ -27,22 +27,22 @@ result: Type = object.someMethod()
 return
 ```
 
-#### Walk 2 � Covers: {alternate / failure path}
+#### Walk 2 — Covers: {alternate / failure path}
 ```
-�
+—
 ```
 
 ### **{{Another Scenario}}**
-**Purpose:** �
-**Concepts traced:** �
+**Purpose:** —
+**Concepts traced:** —
 
-#### Walk 1 � Covers: �
+#### Walk 1 — Covers: —
 ```
-�
+—
 ```
 
 ### references                              ? one per KA, peer to scenarios
-**Ref � title**
+**Ref — title**
 Source: ...
 Locator: ...
 Extract: whole

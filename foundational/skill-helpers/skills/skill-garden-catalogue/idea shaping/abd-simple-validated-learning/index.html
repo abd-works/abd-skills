@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="engineering">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>abd-simple-validated-learning — abd.works</title>
+<script src="/commons/brand-nav.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+:root {
+  --orange: #E5531A; --orange-hover: #C64514;
+  --bg: #0B0B0B; --surface: #111113; --raised: #1B1B20;
+  --border: #2A2A2A; --text: #F4F4F5; --muted: #9B9BA8;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); margin: 0;
+  font-family: var(--font-sans); font-size: 15px; line-height: 1.7;
+  -webkit-font-smoothing: antialiased; }
+a { color: var(--orange); text-decoration: none; }
+a:hover { color: var(--orange-hover); }
+.page-wrap { max-width: 860px; margin: 0 auto; padding: 48px clamp(16px,4vw,48px) 96px; }
+.back-link { display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted);
+  margin-bottom: 40px; }
+.back-link:hover { color: var(--text); }
+h1 { font-size: clamp(24px,4vw,36px); font-weight: 800; letter-spacing: -0.03em;
+  line-height: 1.1; margin: 0 0 8px; color: var(--text); }
+.skill-category { font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--orange);
+  margin-bottom: 32px; display: block; }
+h2 { font-size: 1.15rem !important; font-weight: 700 !important; margin: 36px 0 12px !important;
+  padding-bottom: 8px !important; border-bottom: 1px solid var(--border) !important; color: #E5531A !important; }
+h3 { font-size: 1rem !important; font-weight: 700 !important; margin: 24px 0 8px !important; color: var(--text) !important; }
+h4 { font-size: 0.9rem !important; font-weight: 700 !important; margin: 20px 0 6px !important; color: var(--muted) !important; text-transform: uppercase !important; letter-spacing: 0.06em !important; }
+p { margin: 0 0 14px; }
+ul, ol { margin: 0 0 16px; padding-left: 1.4rem; }
+li { margin-bottom: 6px; }
+code { font-family: var(--font-mono); font-size: 0.855em;
+  background: rgba(255,255,255,0.07); padding: 2px 6px; border-radius: 3px; color: #F2A07A; }
+pre { background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+  padding: 20px 24px; overflow-x: auto; margin: 0 0 20px; }
+pre code { background: none; padding: 0; color: var(--text); font-size: 0.85rem; }
+blockquote { border-left: 3px solid var(--orange); margin: 0 0 16px;
+  padding: 10px 18px; background: var(--surface); border-radius: 0 4px 4px 0; }
+blockquote p { margin: 0; color: var(--muted); }
+hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+strong { font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+  <a class="back-link" href="/abd-skills-catalog/">← AI Garden</a>
+  <h1>abd-simple-validated-learning</h1>
+  <span class="skill-category">Idea Shaping</span>
+  <h2>Purpose</h2>
+<p>Opportunities, ideas, and initiatives often carry many unverified assumptions — about customers, value, feasibility, and economics — that the organisation has not yet checked. This skill is for <strong>surfacing those assumptions explicitly</strong> and <strong>working through them</strong> iteratively before the organisation treats them as fact or commits to a full build. The agent (or facilitator) <strong>mines</strong> the supplied context for <strong>assumptions</strong>, rewrites them as <strong>falsifiable hypotheses</strong>, <strong>prioritises</strong> them into a <strong>validation backlog</strong>, and structures each item to move through <strong>Plan → Validate → Learn</strong>.</p>
+<p>The skill emphasises <strong>up-front discovery and validation</strong>:research, analysis, assessing current and target state (eg operations, finances, systems) validation with SMEs, deep dives, quick prototypes, cohort tests, and other relatively cheap validation activities. A longer build–measure–learn loop belongs in delivery practices once the team is shipping increments.</p>
+<p>Assumptions can come from anywhere — an opportunity canvas, an impact map, a cost of delay estimate, a journey map, a business case, or a workshop. This skill does not care about the source artefact; it cares about the assumptions themselves and whether the team is testing the right ones before committing to build.</p>
+<h2>When to use this skill</h2>
+<p>Load this skill when any of the following apply:</p>
+<ul>
+<li>You have (or are finishing) an <strong>opportunity canvas</strong>, <strong>impact map with hypotheses</strong>, or other model that lists <strong>assumptions</strong> and you need a <strong>prioritised</strong> set of <strong>validation experiments</strong> with owners and dates.</li>
+<li>You want to move from “we believe …” to <strong>I/we expect that …, and we will be wrong if …</strong>, with a <strong>smallest</strong> experiment that could reduce uncertainty.</li>
+<li>You need a <strong>Validated Learning</strong> working pattern (<strong>Plan</strong> / <strong>Validate</strong> / <strong>Learn</strong> or <strong>Plan</strong> / <strong>Build</strong> a <em>thin</em> test / <strong>Measure</strong> / <strong>Learn</strong>) aimed at <strong>reducing uncertainty</strong>, not a full product release train.</li>
+<li>The team uses or wants a <strong>Validated Learning Kanban</strong>-style board and a <strong>multi-area</strong> risk pass (problem/solution fit, capability/market, technology, delivery, regulatory/commercial, etc.).</li>
+<li>The user references an <strong>experimentation canvas</strong> (or lean experiment one-pager): use it as a <strong>single-experiment</strong> or <strong>per-hypothesis</strong> view alongside the <strong>backlog</strong> template in this skill.</li>
+</ul>
+<h2>Agent instructions</h2>
+<ol>
+<li><strong>Inputs</strong></li>
+<p>- Accept whatever context the user provides — a canvas, impact map, cost of delay estimate, journey map, business case, workshop notes, or anything else that describes an opportunity or initiative.    - First, check whether the source is <strong>assumption-aware</strong>: does it already have assumptions listed explicitly, or does it include an approach or framework for mining them (e.g. explicitly named assumptions, risk checklists, hypothesis sections)? If yes, start from what is already named. If not, treat the whole artefact as raw material and mine it for unverified claims about customers, value, feasibility, and economics.</p>
+</ol>
+<ol>
+<li><strong>Build (sequence)</strong></li>
+</ol>
+<p>1. <strong>Mine assumptions</strong> — The source artefact may already have explicit assumptions listed; if so, start there. If not, read the artefact for claims about customers, value, feasibility, and economics that have not been verified and extract them. Flag <strong>high-risk</strong> assumptions — those the whole case depends on — for priority attention.    2. <strong>Convert to hypotheses</strong> — For each item: <em>We believe …</em> → <strong>We expect</strong> that … <strong>We will be wrong if</strong> … (observable, <strong>falsifiable</strong>). One hypothesis can map to more than one test; merge duplicates.    3. <strong>Backlog prioritise</strong> — Order by <strong>magnitude of uncertainty</strong> and <strong>impact of being wrong</strong> vs <strong>effort to test</strong> (cheapest high-risk first when sensible). Mark <strong>MUST learn before build</strong> vs <strong>can learn as part of build</strong>.    4. <strong>Plan / Validate / Learn</strong> — For each <strong>prioritised</strong> item, define all of the following:       - <strong>Belief</strong> — what assumption are we testing, stated as something that could be wrong?       - <strong>Hypothesis</strong> — <em>We expect that … We will be wrong if …</em> (observable, falsifiable).       - <strong>Plan</strong> — what is the smallest activity that could change our mind? Include method (research, SME session, interview, prototype, pilot), timebox, and cohort or data source.       - <strong>Validate</strong> — what evidence will you collect, from whom or where, and what counts as a pass or fail signal?       - <strong>Owner and date</strong> — who is accountable and by when?       - <strong>Learn</strong> — what decision or model update follows: refine, pivot, kill, or proceed to a larger experiment?    5. <strong>Checklist pass</strong> — Skim the <strong>multi-area</strong> risk questions to ensure you did not only test the obvious area: cover problem/solution fit, capability/market, technology, delivery, and other feasibility areas.</p>
+<ol>
+<li><strong>Templates</strong></li>
+</ol>
+<p>| Template | What to produce |    | -------- | ---------------- |    | <code>templates/validated-learning-backlog.md</code> | Prioritised list + <strong>Plan / Validate / Learn</strong> table (Kanban-style columns in one view). |    | <code>templates/experimentation-canvas.md</code> | One <strong>experiment</strong> per block: belief, method, <strong>success/fail</strong> signal, owner, <strong>by when</strong> — for workshops or a single high-stakes test. |</p>
+<p>Keep <strong>template parity</strong> in spirit: the same experiments appear in the backlog; the <strong>experimentation canvas</strong> can zoom <strong>one</strong> experiment.</p>
+<ol>
+<li><strong>Rules</strong></li>
+</ol>
+<p>After generating, review bundled <strong><code>rules/*.md</code></strong> (when present) against the outputs. If no rules yet, use <strong>Build</strong> and <strong>Validate</strong> in this file as the bar.</p>
+<hr>
+<h2>What “simple” means here</h2>
+<ul>
+<li><strong>Simple</strong> = <strong>small</strong> batch of tests, <strong>clear</strong> pass/fail or strong signal, <strong>named</strong> owners — not a full research programme.</li>
+<li>This skill is <strong>not</strong> a substitute for <strong>legal sign-off</strong>, <strong>formal</strong> market research, or <strong>production</strong> analytics ownership; it <strong>aligns</strong> the team on what to <strong>try next</strong> to reduce uncertainty.</li>
+<li><strong>Discovery-first:</strong> Prefer <strong>weeks</strong> (or <strong>days</strong>) of <strong>targeted</strong> learning over <strong>quarters</strong> of build before the <strong>first</strong> risky belief is checked.</li>
+</ul>
+<hr>
+<h2>Build</h2>
+<ol>
+<li>Ingest the user’s context (pasted files, path to canvas outputs, or prior chat summary).</li>
+<li>Produce <strong>validated-learning-backlog</strong> from the sequence in <strong>Agent instructions</strong>; add <strong>experimentation-canvas</strong> only when a <strong>single</strong> experiment needs a full canvas treatment.</li>
+<li>If the user names <strong>RAG</strong> or <strong>abd-answers</strong>, use <strong>query-pinecone</strong> and fold in only <strong>relevant</strong> chunks; cite per your workspace norm.</li>
+</ol>
+<hr>
+<h2>Validate</h2>
+<ul>
+<li><strong>Traceability</strong> — Every backlog item ties to a <strong>source</strong> line or section in the input context.</li>
+<li><strong>Falsifiability</strong> — Each hypothesis can <strong>fail</strong> on evidence; “success” is <strong>learning</strong>, not only green lights.</li>
+<li><strong>Accountability</strong> — <strong>Owner</strong> and <strong>date</strong> on each active item, or an explicit <strong>TBD</strong> with <strong>who</strong> picks it up.</li>
+<li><strong>Scope honesty</strong> — Do not imply this skill <strong>runs</strong> the team’s stand-up or their physical board; you <strong>document</strong> the rhythm they can follow.</li>
+<li><strong>Honest bar</strong> — For <strong>build–measure–learn</strong> in <strong>shipped</strong> product, point to <strong>delivery</strong> / product practices; keep this skill in <strong>pre-build discovery</strong> unless the test <strong>is</strong> a thin release.</li>
+</ul>
+<hr>
+<p>&lt;!-- execute_rules:bundle_rules:begin --&gt;</p>
+<h3>Rule: Each backlog item has an owner and a plan</h3>
+<p><strong>Scanner:</strong> Manual review</p>
+<p>A validated learning backlog item passes when it names who owns the test and what action they will take — the Plan step identifies the method (research, conversation, prototype, pilot, etc.) and scope. Failing means a backlog item exists with no named owner or no stated method, leaving the experiment undeclared and unscheduled.</p>
+<h4>DO</h4>
+<ul>
+<li>Assign an owner and describe the planned method for every active backlog item.</li>
+</ul>
+<p><strong>Example (pass):</strong> <code>Owner: Sarah (product). Plan: 30-minute interview with 5 dealer coordinators using a Figma prototype of the bay calendar — week of Jan 13.</code></p>
+<h4>DO NOT</h4>
+<ul>
+<li>Leave a backlog item with no owner or a vague &quot;team&quot; as the owner.</li>
+</ul>
+<p><strong>Example (fail):</strong> <code>Owner: TBD</code> with no stated method — this item is not actionable and will not move.</p>
+<ul>
+<li>Describe the plan as the hypothesis itself with no distinct method or timebox.</li>
+</ul>
+<p><strong>Example (fail):</strong> <code>Plan: validate that coordinators adopt the flow.</code> — this repeats the hypothesis; it is not a method the team could execute.</p>
+<p><strong>Source:</strong> abd.works validated learning practices — Plan / Validate / Learn accountability.</p>
+<h3>Rule: Each hypothesis is falsifiable with a stated failure condition</h3>
+<p><strong>Scanner:</strong> Manual review</p>
+<p>A hypothesis in the validated learning backlog passes when it is stated as a belief that could turn out to be wrong, with an explicit condition that would count as failure — not as a plan, a goal, or a certainty. Passing means a reviewer can read the hypothesis and identify what evidence would refute it. Failing means the statement is directional optimism with no failure condition, or it describes a delivery action rather than a belief about the world.</p>
+<h4>DO</h4>
+<ul>
+<li>State each hypothesis with a &quot;we expect&quot; belief and an explicit &quot;we will be wrong if&quot; failure condition.</li>
+</ul>
+<p><strong>Example (pass):</strong> <code>We expect that dealer coordinators will switch to the self-service reschedule flow within two weeks of go-live. We will be wrong if fewer than 30% of reschedule events use the new flow after the pilot period.</code></p>
+<h4>DO NOT</h4>
+<ul>
+<li>Write a hypothesis as a plan or a task with no belief that could be falsified.</li>
+</ul>
+<p><strong>Example (fail):</strong> <code>We will run a pilot with three dealers and measure adoption.</code> — this is a method, not a hypothesis; there is no belief stated and no failure condition.</p>
+<ul>
+<li>Write a directional statement with no threshold or signal that would count as failure.</li>
+</ul>
+<p><strong>Example (fail):</strong> <code>We believe users will prefer the new flow.</code> — no failure condition, no observable signal, not testable.</p>
+<p><strong>Source:</strong> abd.works validated learning practices — hypothesis format. &lt;!-- execute_rules:bundle_rules:end --&gt;</p>
+</div>
+</body>
+</html>

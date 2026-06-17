@@ -1,4 +1,4 @@
-﻿# Domain Language — Concepts
+# Domain Language — Concepts
 
 ## Domain Language
 

@@ -1,4 +1,4 @@
-﻿---
+---
 name: scenario-walkthrough
 catalog_garden_order: 7
 catalogue_one_liner: >-

@@ -1,4 +1,4 @@
-﻿# Scanner Report — mern-technical-architecture
+# Scanner Report — mern-technical-architecture
 
 **Workspace:** packages
 **Date:** 2026-06-04 23:13:18

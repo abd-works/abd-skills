@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Garden — domain-terms · corrections-log.md</title>
+<script src="/commons/brand-nav.js?v=aigarden-4"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+/*
+  Agile Garden — AI Garden prelude + gardener lesson fragment.
+  Inlined via generate_abd_catalog.py. Max border-radius 6px; flat surfaces.
+  Brand split: orange-500 (#E5531A) for column chrome / rails; ai-blue (#4FC3F7 / #81D4FA)
+  on dense mono skill links — see abd-works-brand BRAND-GUIDELINES §3.1 (ai-blue-500).
+*/
+.catalog-prelude {
+  margin: 0 0 24px;
+  padding: 0 0 20px;
+  border-bottom: 1px solid #2A2A2A;
+}
+.catalog-prelude-heading {
+  margin: 0 0 12px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.25;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #2A2A2A;
+  scroll-margin-top: 48px;
+}
+.catalog-prelude-tagline {
+  margin: 0 0 14px;
+  max-width: 60rem;
+  font-size: 1rem;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+/* Mission row */
+.catalog-mission {
+  margin: 0 0 18px;
+}
+.catalog-mission-card {
+  background: #1B1B20;
+  border: 1px solid #2A2A2A;
+  border-left: 3px solid #E5531A;
+  border-radius: 4px;
+  padding: 14px 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 16px;
+}
+.catalog-mission-card h3 {
+  flex-shrink: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #F4F4F5;
+  margin: 0;
+  white-space: nowrap;
+}
+.catalog-mission-card p {
+  flex: 1 1 auto;
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+.catalog-mission-card--teal,
+.catalog-mission-card--amber,
+.catalog-mission-card--purple {
+  background: #1B1B20;
+  border: 1px solid #2A2A2A;
+  border-left: 3px solid #E5531A;
+}
+.catalog-mission-card--teal h3,
+.catalog-mission-card--amber h3,
+.catalog-mission-card--purple h3 {
+  color: #F4F4F5;
+}
+@media (max-width: 720px) {
+  .catalog-mission { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 480px) {
+  .catalog-mission { grid-template-columns: 1fr; }
+}
+
+/* Two-column skill lists */
+/* ── Section labels (full-width row above each grid) ── */
+.catalog-section-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0 10px;
+  margin: 24px 0 12px;
+  border-bottom: 1px solid #2A2A2A;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #E5531A;
+}
+.catalog-section-label--foundational {
+  margin-top: 28px;
+  color: #8A8A97;
+  border-bottom-color: #1A1A1E;
+}
+
+/* ── Practice grid — all 5 disciplines forced onto one row ── */
+.catalog-practice-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 0;
+}
+@media (max-width: 900px) {
+  .catalog-practice-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 600px) {
+  .catalog-practice-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Foundational grid — 2 wider columns ── */
+.catalog-foundational-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1px;
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
+  border-radius: 6px;
+  overflow: hidden;
+}
+@media (max-width: 600px) {
+  .catalog-foundational-grid { grid-template-columns: 1fr; }
+}
+
+/* ── In the practice grid, stack name above desc ── */
+.catalog-practice-grid .catalog-garden-row,
+.catalog-foundational-grid .catalog-garden-row {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  padding: 10px 16px;
+}
+.catalog-practice-grid .catalog-garden-name,
+.catalog-foundational-grid .catalog-garden-name {
+  flex: none;
+  font-size: 0.85rem;
+}
+.catalog-practice-grid .catalog-garden-desc,
+.catalog-foundational-grid .catalog-garden-desc {
+  display: block !important;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: #9B9BA8;
+}
+
+/* ── Agents grid — single wide column ── */
+.catalog-agents-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1px;
+  background: #2A2A2A;
+  border: 1px solid #2A2A2A;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.catalog-section-label--agents {
+  margin-top: 28px;
+  color: #E5531A;
+  border-bottom-color: #2A2A2A;
+}
+
+/* ── Shared column card ── */
+.catalog-garden-lists {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.catalog-garden-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 20px;
+  margin: 0 0 8px;
+}
+@media (max-width: 760px) {
+  .catalog-garden-grid { grid-template-columns: 1fr; }
+}
+.catalog-garden-agents-wrap {
+  margin-top: 8px;
+}
+.catalog-garden-col--agents {
+  margin-top: 0;
+}
+.catalog-garden-col {
+  background: #111113;
+  border: none;
+  border-radius: 0;
+  overflow: hidden;
+}
+.catalog-garden-col-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-bottom: 1px solid #2A2A2A;
+  background: #1B1B20;
+  color: #E5531A;
+  border-left: 3px solid #E5531A;
+}
+.catalog-garden-col-header--practice,
+.catalog-garden-col-header--foundational,
+.catalog-garden-col-header--agents {
+  background: #1B1B20;
+  color: #E5531A;
+  border-left: 3px solid #E5531A;
+}
+.catalog-garden-ico { flex-shrink: 0; display: block; }
+.catalog-garden-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 16px;
+  border-bottom: 1px solid #1A1A1E;
+  font-size: 0.85rem;
+}
+.catalog-garden-row:last-child { border-bottom: none; }
+/* Skill/agent links — mono names stay near-white; ai-blue hairline/hover (brand AI accent, not orange wall) */
+.catalog-garden-name {
+  font-weight: 700;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  flex: 0 0 11.5rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  color: #4FC3F7;
+}
+/* !important beats global `a { … }`, :visited, and concatenation order */
+.catalog-prelude .catalog-garden-name a,
+.catalog-garden-lists .catalog-garden-name a {
+  color: #4FC3F7 !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+  border-bottom: 1px solid rgba(79, 195, 247, 0.3);
+}
+.catalog-prelude .catalog-garden-name a:hover,
+.catalog-prelude .catalog-garden-name a:focus-visible,
+.catalog-garden-lists .catalog-garden-name a:hover,
+.catalog-garden-lists .catalog-garden-name a:focus-visible {
+  color: #81D4FA !important;
+  border-bottom-color: rgba(79, 195, 247, 0.95);
+}
+.catalog-garden-name--agent a,
+.catalog-garden-name--foundational a {
+  color: #4FC3F7 !important;
+  border-bottom: 1px solid rgba(79, 195, 247, 0.3);
+}
+.catalog-garden-name--agent a:hover,
+.catalog-garden-name--agent a:focus-visible,
+.catalog-garden-name--foundational a:hover,
+.catalog-garden-name--foundational a:focus-visible {
+  color: #81D4FA !important;
+  border-bottom-color: rgba(79, 195, 247, 0.92);
+}
+.catalog-garden-name--dim {
+  color: var(--muted);
+  opacity: 0.6;
+  font-weight: 600;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+}
+.catalog-garden-desc {
+  color: var(--muted);
+  font-size: 0.82rem;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.catalog-garden-desc--muted { opacity: 0.5; }
+
+:root {
+  /* Primary accent — borders, nav “you are here”; keep saturated */
+  --orange:       #E5531A;
+  --orange-hover: #C64514;
+  /* Brand ai-blue (BRAND-GUIDELINES §3.1) — dense skill listings + card hover cue */
+  --ai-blue-500:  #4FC3F7;
+  --ai-blue-300:  #81D4FA;
+  /* Body links — soft orange (prose); garden grid uses ai-blue in agile-garden-fragment.css */
+  --link-soft:        #FFB380;
+  --link-soft-hover:  #FFCCA3;
+  --link-muted:       #F2A07A;
+  --bg:           #0B0B0B;
+  --surface:      #111113;
+  --raised:       #1B1B20;
+  --border:       #2A2A2A;
+  --border-muted: #1e1e22;
+  --text:         #F4F4F5;
+  --muted:        #9B9BA8;
+  --radius:       6px;
+  --font-sans:    'Inter', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--link-muted); text-decoration: none; transition: color 120ms ease; }
+a:hover { color: var(--link-soft-hover); text-decoration: none; }
+
+/* Wayfinding stays strong accent */
+.nav a.nav__link--current {
+  color: var(--orange) !important;
+}
+strong { font-weight: 600; }
+code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: rgba(255,255,255,0.06);
+  padding: 2px 5px;
+  border-radius: 3px;
+  color: #F2A07A;
+}
+
+/* ── Page layout ── */
+.page-wrap {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 48px clamp(16px, 4vw, 48px) 96px;
+}
+
+/* ── Panel / legacy wrapper — flatten to plain surface ── */
+.panel {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  overflow: visible;
+}
+
+/* ── Page header (replaces old panel-header) ── */
+.panel-header {
+  margin-bottom: 40px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+  border-left: none;
+  background: transparent;
+  display: block;
+}
+
+.header-icon { display: none; }
+
+.header-text { display: block; }
+.brand { display: none; }
+.brand-row { display: none; }
+.brand-row .brand { display: none; }
+.brand-row .cap-badge { display: none; }
+
+h1 {
+  margin: 0 0 10px;
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--text);
+  font-family: var(--font-sans);
+}
+
+.tagline {
+  margin: 0;
+  font-size: 15px;
+  color: var(--muted);
+  max-width: 540px;
+  line-height: 1.65;
+  font-family: var(--font-sans);
+}
+
+.panel-body { padding: 0; }
+p { margin: 0 0 14px; }
+h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 32px 0 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+h2:first-child { margin-top: 0; }
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  margin: 0 0 18px;
+  padding: 0 0 14px;
+  border-bottom: 1px solid var(--border-muted);
+}
+.nav a {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.nav a.nav__link--current {
+  pointer-events: none;
+}
+/* Kanban is a different experience (full-screen deck) — keep it last and visually apart */
+.nav a.nav__link--kanban {
+  margin-left: auto;
+  padding-left: 18px;
+  border-left: 1px solid var(--border-muted);
+}
+.cap-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 14px;
+  margin: 18px 0 0;
+}
+.cap-card {
+  display: block;
+  text-decoration: none;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--orange);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  transition: background 0.15s, border-color 0.15s;
+  cursor: pointer;
+}
+a.cap-card {
+  color: var(--muted);
+}
+.cap-card:hover {
+  background: rgba(79, 195, 247, 0.06);
+  border-color: rgba(79, 195, 247, 0.32);
+  text-decoration: none;
+}
+.cap-card__title {
+  font-size: 0.97rem;
+  font-weight: 700;
+  color: #F4F4F5;
+  margin: 0 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+a.cap-card:hover .cap-card__title {
+  color: var(--ai-blue-300);
+}
+.cap-card__icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  color: rgba(79, 195, 247, 0.72);
+}
+a.cap-card:hover .cap-card__icon {
+  color: var(--ai-blue-500);
+}
+.cap-card__label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.55;
+  margin-bottom: 1px;
+}
+.cap-card__summary { font-size: 0.85rem; color: var(--muted); line-height: 1.45; margin: 0 0 8px; }
+.cap-card__meta { font-size: 0.75rem; color: var(--muted); font-family: var(--font-mono, 'JetBrains Mono', monospace); margin: 0 0 8px; opacity: 0.85; }
+.cap-card__more {
+  font-size: 0.78rem;
+  color: rgba(79, 195, 247, 0.82);
+  opacity: 1;
+  margin: 10px 0 0;
+}
+
+/* Entry detail pages (skill/*.html, agent/*.html) — overview-style */
+.entry-detail-header .back-link {
+  font-size: 0.82rem;
+  color: var(--muted);
+  display: inline-block;
+  margin: 0 0 10px;
+}
+.entry-detail-header .back-link:hover {
+  color: var(--orange);
+}
+.cap-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--orange);
+  background: rgba(255, 122, 0, 0.08);
+  border: 1px solid rgba(255, 122, 0, 0.25);
+  border-radius: 3px;
+  padding: 2px 8px;
+  margin: 0 0 8px;
+}
+.entry-caption {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin: 0 0 12px;
+}
+.entry-prose {
+  white-space: pre-wrap;
+  color: var(--text);
+  line-height: 1.65;
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+}
+.entry-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 26px 0;
+}
+.entry-contents-doc {
+  margin: 0 0 8px;
+}
+.entry-contents-files {
+  margin: 0;
+}
+.entry-md-section {
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius);
+  margin: 0 0 10px;
+  background: rgba(0, 0, 0, 0.14);
+}
+.entry-md-section > summary.entry-md-section__summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.98rem;
+  padding: 12px 14px;
+  list-style: none;
+  color: var(--text);
+  user-select: none;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.entry-md-section > summary.entry-md-section__summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.35em;
+  text-align: center;
+  font-weight: 800;
+  font-size: 1.05em;
+  line-height: 1.35;
+  color: var(--orange);
+}
+.entry-md-section[open] > summary.entry-md-section__summary::before {
+  content: "-";
+}
+.entry-md-section > summary.entry-md-section__summary::-webkit-details-marker {
+  display: none;
+}
+.entry-md-section .entry-md-section__body {
+  padding: 0 14px 14px 16px;
+  border-top: 1px solid var(--border-muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--text);
+}
+.entry-md-section .entry-md-section__body p {
+  margin: 0 0 12px;
+}
+.entry-md-section .entry-md-section__body p:last-child {
+  margin-bottom: 0;
+}
+.entry-md-section .entry-md-section__body ul {
+  margin: 0 0 12px;
+  padding-left: 1.35rem;
+}
+.entry-md-section .entry-md-section__body h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 18px 0 8px;
+  padding-bottom: 0;
+  border-bottom: none;
+  color: var(--text);
+}
+.entry-md-section .entry-md-section__body h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 14px 0 8px;
+  color: var(--text);
+}
+.entry-md-section .entry-md-section__body pre {
+  margin: 0 0 12px;
+  overflow-x: auto;
+}
+.entry-md-section .entry-md-section__body hr {
+  margin: 14px 0;
+  border: none;
+  border-top: 1px solid var(--border-muted);
+}
+.ascii-diagram {
+  background: #111114;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  overflow-x: auto;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.83em;
+  line-height: 1.55;
+  color: #b8b8c2;
+  margin: 0 0 18px;
+}
+.install-block {
+  margin: 22px 0 0;
+  padding: 16px 18px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius);
+  border-left: 3px solid var(--orange);
+}
+.install-block h2 {
+  margin-top: 0;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.install-block .install-hint {
+  font-size: 0.92rem;
+  color: var(--muted);
+  margin: 0 0 12px;
+}
+.install-snippet {
+  background: #111114;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  overflow-x: auto;
+  margin: 0;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.85em;
+  line-height: 1.5;
+  color: #d4d4d4;
+}
+.install-snippet code {
+  background: transparent;
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
+}
+.file-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.file-list li {
+  margin: 0 0 14px;
+  padding: 10px 12px 10px 14px;
+  border-left: 3px solid var(--border-muted);
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 0 4px 4px 0;
+}
+.file-list .file-meta {
+  color: var(--muted);
+  font-size: 0.9rem;
+  display: block;
+  margin-top: 4px;
+}
+.file-list a {
+  font-weight: 600;
+}
+.file-list--root {
+  margin-top: 4px;
+}
+.file-list--nested {
+  margin: 8px 0 0 0;
+  padding-left: 0;
+  border-left: 2px solid var(--border-muted);
+  margin-left: 2px;
+  padding-left: 10px;
+}
+.file-list--nested li {
+  margin-bottom: 10px;
+  padding: 8px 10px 8px 12px;
+  font-size: 0.95rem;
+}
+.file-list__nested-note {
+  margin: 8px 0 0 0;
+  padding: 6px 0 4px 4px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+/* Expandable folder tree (<details> / <summary>) */
+.file-list > li.file-list__folder {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 10px;
+  border: none;
+  background: transparent;
+  border-radius: 0;
+}
+.file-list__folder > .file-tree__details {
+  margin: 0 0 10px 0;
+}
+/* Match .entry-md-section: folder trees (rules, scanners, templates, …) */
+.file-tree__details {
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius);
+  background: rgba(0, 0, 0, 0.14);
+  overflow: hidden;
+}
+.file-tree__summary {
+  cursor: pointer;
+  padding: 12px 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  font-weight: 600;
+  font-size: 0.98rem;
+  color: var(--text);
+  user-select: none;
+  background: transparent;
+}
+.file-tree__summary::-webkit-details-marker {
+  display: none;
+}
+.file-tree__summary::marker {
+  content: "";
+  display: none;
+}
+.file-tree__summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.35em;
+  text-align: center;
+  font-weight: 800;
+  font-size: 1.05em;
+  line-height: 1.35;
+  color: var(--orange);
+}
+.file-tree__details[open] > .file-tree__summary::before {
+  content: "-";
+}
+.file-tree__summary:hover {
+  background: rgba(255, 122, 0, 0.06);
+}
+.file-tree__summary .file-meta {
+  display: inline;
+  margin-left: 6px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.file-tree__inner {
+  padding: 0 14px 14px 16px;
+  border-top: 1px solid var(--border-muted);
+}
+.file-tree__ul {
+  margin-top: 4px;
+}
+.file-tree__dir > .file-tree__details {
+  margin: 0;
+  border-radius: 4px;
+}
+.file-tree__dir--truncated {
+  font-size: 0.95rem;
+}
+.file-tree__file .file-meta {
+  display: block;
+  margin-top: 4px;
+}
+
+/* Agile Garden prelude + mission + lists: abd-works/commons/agile-garden-fragment.css (prepended by generate_abd_catalog.py) */
+
+/* Single-page hub (index.html): collapsible hub / skills / agents */
+.catalog-section {
+  border: 1px solid var(--border-muted);
+  border-radius: 8px;
+  margin: 0 0 16px;
+  background: rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+}
+.catalog-section > summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 14px 16px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.04);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+}
+.catalog-section > summary::-webkit-details-marker { display: none; }
+.catalog-section > summary::marker { content: ""; }
+.catalog-section > summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  line-height: 1.45rem;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border: 1px solid var(--border-muted);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+}
+.catalog-section[open] > summary::before { content: "\2212"; }
+.catalog-section[open] > summary {
+  border-bottom: 1px solid var(--border-muted);
+}
+.catalog-section .section-body {
+  padding: 18px 16px 22px;
+}
+.catalog-section .section-body > p:first-of-type { margin-top: 0; }
+.catalog-section .cap-grid { margin-top: 8px; }
+.catalog-section .count {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* Static markdown mirror pages (catalog/doc/...) */
+.rule-prose {
+  font-size: 1rem;
+  line-height: 1.65;
+  max-width: 52rem;
+}
+.rule-prose h1,
+.rule-prose h2,
+.rule-prose h3,
+.rule-prose h4 {
+  margin: 1.25em 0 0.5em;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--text);
+}
+.rule-prose h1:first-child,
+.rule-prose h2:first-child,
+.rule-prose h3:first-child {
+  margin-top: 0;
+}
+.rule-prose h1 { font-size: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.35em; }
+.rule-prose h2 { font-size: 1.25rem; border-bottom: 1px solid var(--border-muted); padding-bottom: 0.25em; }
+.rule-prose h3 { font-size: 1.1rem; }
+.rule-prose p { margin: 0 0 12px; }
+.rule-prose pre {
+  margin: 12px 0;
+  padding: 12px 14px;
+  overflow: auto;
+  background: #1f1f24;
+  border: 1px solid var(--border-muted);
+  border-radius: 6px;
+  font-size: 0.88em;
+  line-height: 1.45;
+}
+.rule-prose code { font-size: inherit; }
+.rule-prose ul,
+.rule-prose ol {
+  margin: 8px 0 12px 1.25rem;
+  padding: 0;
+}
+.rule-prose li { margin-bottom: 6px; }
+.rule-prose strong { color: var(--text); }
+.rule-prose hr {
+  border: 0;
+  border-top: 1px solid var(--border-muted);
+  margin: 1.25em 0;
+}
+.rule-prose .md-table-wrap {
+  overflow-x: auto;
+  margin: 12px 0 16px;
+  -webkit-overflow-scrolling: touch;
+}
+.rule-prose table.md-table {
+  width: max-content;
+  max-width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+.rule-prose table.md-table th,
+.rule-prose table.md-table td {
+  border: 1px solid var(--border-muted);
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+.rule-prose table.md-table th {
+  background: rgba(255, 122, 0, 0.08);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.rule-prose table.md-table td { background: var(--panel); }
+.rule-prose a { color: var(--accent, #ff7a00); text-decoration: underline; }
+.rule-prose a:hover { text-decoration: none; }
+
+.plugin-slots h3 {
+  margin: 28px 0 8px;
+  font-size: 1.05rem;
+}
+.plugin-slots h3:first-child { margin-top: 0; }
+.cap-grid--plugin-slot { margin-bottom: 8px; }
+
+</style>
+</head>
+<body>
+<div class="page-wrap">
+<div class="panel" role="main">
+
+<header class="panel-header entry-detail-header">
+  <div class="header-text">
+    <p class="brand"><strong>abd.works</strong> &middot; AI Garden</p>
+    <a class="back-link" href="../../../skill/abd-domain-terms.html">← domain-terms</a>
+    <p class="cap-badge">Markdown</p>
+    <h1>corrections-log.md</h1>
+    <p class="tagline">——#   C o r r e c t i o n s   l o g </p>
+  </div>
+</header>
+
+<div class="panel-body">
+
+<nav class="nav" aria-label="AI Garden sections">
+  <a href="../../../index.html" class="nav__link">Complete</a>
+  <a href="../../../skills.html" class="nav__link nav__link--current">Skills</a>
+  <a href="../../../agents.html" class="nav__link">Agents</a>
+  <a href="../../../instructions.html" class="nav__link">Instructions</a>
+  <a href="../../../kanban-layout/index.html" class="nav__link nav__link--kanban">Delivery kanban</a>
+</nav>
+
+<h2>Content</h2>
+<div class="rule-prose"><p>——#   C o r r e c t i o n s   l o g         P r o j e c t :   d o m a i n - t e r m s   s k i l l     S o u r c e :   d o m a i n - t e r m s   s k i l l   ( p i p e l i n e   r u n s )         - - -         # #   E n t r y :   P e r - p h a s e   o u t p u t ,   n o   c a r r y - f o r w a r d         -   <em> </em> S t a t u s : <em> </em>   c o n f i r m e d     -   <em> </em> C o n t e x t : <em> </em>   d o m a i n - t e r m s   s k i l l   —— —   o u t p u t   f i l e     -   <em> </em> D O   /   D O   N O T : <em> </em>   D O   p r o d u c e   a   s e l f - c o n t a i n e d   f i l e   a t   ` &lt; w o r k s p a c e &gt; / d o m a i n / &lt; n a m e &gt; - d o m a i n - t e r m s . m d `   u s i n g   t h e   s a m e   f l a t   s h a p e   e v e r y   o t h e r   D D D   p h a s e   s k i l l   u s e s :   ` # #   <em> </em> K A <em> </em>   —— —   # # #   t e r m   —— —   b u l l e t s   —— —   # # #   r e f e r e n c e s ` .   D O   N O T   w r i t e   a   s i n g l e   g r o w i n g   f i l e   ( e . g .   ` &lt; n a m e &gt; . m d ` )   t h a t   s u b s e q u e n t   p h a s e s   ( ` k e y - a b s t r a c t i o n s ` ,   ` u b i q u i t o u s - l a n g u a g e ` )   e n r i c h   i n   p l a c e   —— —   t h a t   p a t t e r n   p r o d u c e d   u n r e c o v e r a b l e   h e a d i n g   d r i f t   a c r o s s   p h a s e s .     -   <em> </em> E x a m p l e   ( w r o n g ) : <em> </em>   ` p a w - p l a c e . m d `   w r i t t e n   a t   ` s t a t e :   d o m a i n - t e r m s ` ,   t h e n   ` s t a t e :   k e y - a b s t r a c t i o n s `   a d d s   i n t e r m e d i a t e   ` # # #   U b i q u i t o u s   L a n g u a g e `   h e a d i n g s ,   t h e n   ` s t a t e :   u b i q u i t o u s - l a n g u a g e `   a d d s   ` # # #   U b i q u i t o u s   L a n g u a g e `   p e e r s   —— —   d e p t h   b e c o m e s   i n c o n s i s t e n t   a c r o s s   K A s   a n d   e v e r y   l a t e r   p h a s e   h a s   t o   r e c o n c i l e   t h e   e a r l i e r   s h a p e .     -   <em> </em> E x a m p l e   ( c o r r e c t ) : <em> </em>   ` p a w - p l a c e - d o m a i n - t e r m s . m d `   s t a n d a l o n e :         ` ` `         # #   <em> </em> P r o d u c t   C a t a l o g <em> </em>         # # #   <em> </em> p r o d u c t <em> </em>         -   A   p r o d u c t   i s   a   p e t   s u p p l y   i t e m   a v a i l a b l e   f o r   p u r c h a s e .         -   E v e r y   p r o d u c t   h a s   i m a g e s ,   d e s c r i p t i o n ,   w e i g h t   a n d   d i m e n s i o n s   w h e r e   r e l e v a n t .         # # #   r e f e r e n c e s         <em> </em> R e f   —— —   P r o d u c t   c a t a l o g   a n d   b r o w s i n g <em> </em>         S o u r c e :   e x t e r n a l - c o n t e x t / r e q u i r e m e n t s - c h a t - w i t h - p r o d u c t - o w n e r . m d         L o c a t o r :   l i n e s   3 —— — 5         E x t r a c t :   w h o l e         ` ` ` s o u r c e         —— — v e r b a t i m —— —         ` ` `         ` ` `         S u b s e q u e n t   p h a s e   p r o d u c e s   ` p a w - p l a c e - k e y - a b s t r a c t i o n s . m d `   i n d e p e n d e n t l y ,   i n   t h e   s a m e   s h a p e .     -   <em> </em> L i k e l y   s o u r c e : <em> </em>   p r o m p t   g a p   —— —   t h e   s k i l l   w a s   w r i t t e n   a s   t h e   s t a r t   o f   a n   i n - p l a c e   e n r i c h m e n t   c h a i n   r a t h e r   t h a n   t h e   f i r s t   o f   a   s e r i e s   o f   s t a n d a l o n e   f i l e s .         - - -         # #   E n t r y :   E n g a g e m e n t   p r e f i x   o n   o u t p u t   f i l e n a m e   i s   o p t i o n a l         -   <em> </em> S t a t u s : <em> </em>   c o n f i r m e d     -   <em> </em> C o n t e x t : <em> </em>   D D D   p h a s e   o u t p u t   f i l e n a m e     -   <em> </em> D O   /   D O   N O T : <em> </em>   D O   d e f a u l t   t o   t h e   b a r e   p h a s e   n a m e   )&quot;%\%  ` d o m a i n - t e r m s . m d ` ,   ` k e y - a b s t r a c t i o n s . m d ` ,   ` u b i q u i t o u s - l a n g u a g e . m d ` ,   ` c r c . m d ` ,   ` o b j e c t - m o d e l . m d ` ,   ` w a l k t h r o u g h . m d ` .   D O   a d d   a   ` &lt; n a m e &gt; - `   e n g a g e m e n t   p r e f i x   o n l y   w h e n   y o u   n e e d   d i s a m b i g u a t i o n :   m u l t i p l e   p r o d u c t s   i n   t h e   s a m e   w o r k s p a c e ,   o r   t h e   u s e r   a s k s   f o r   i t .   D O   N O T   m a n d a t e   t h e   p r e f i x   a s   t h e   o n l y   v a l i d   f o r m .   T h e   s k i l l   t e m p l a t e   c o m m e n t s   n o w   s h o w   ` [ &lt; n a m e &gt; - ] &lt; p h a s e &gt; . m d `   t o   s i g n a l   o p t i o n a l i t y .     -   <em> </em> E x a m p l e   ( w r o n g ,   m a n d a t o r y   p r e f i x ) : <em> </em>   A l w a y s   w r i t i n g   ` p a w - p l a c e - u b i q u i t o u s - l a n g u a g e . m d `   e v e n   t h o u g h   t h e   e n g a g e m e n t   w o r k s p a c e   o n l y   e v e r   h o l d s   o n e   p r o d u c t .     -   <em> </em> E x a m p l e   ( c o r r e c t ) : <em> </em>   D e f a u l t   t o   ` u b i q u i t o u s - l a n g u a g e . m d ` .   I f   t h e   s a m e   w o r k s p a c e   a l s o   h o s t s   a   ` b a r k e r y - `   p r o d u c t   l i n e   a n d   a   ` p a w - p l a c e - `   p r o d u c t   l i n e ,   p r e f i x   b o t h   t o   d i s a m b i g u a t e :   ` p a w - p l a c e - u b i q u i t o u s - l a n g u a g e . m d ` ,   ` b a r k e r y - u b i q u i t o u s - l a n g u a g e . m d ` .     -   <em> </em> L i k e l y   s o u r c e : <em> </em>   t h e   o r i g i n a l   s k i l l   t e x t   r e q u i r e d   ` &lt; n a m e &gt; - &lt; p h a s e &gt; . m d `   u n c o n d i t i o n a l l y ;   i n   s i n g l e - p r o d u c t   e n g a g e m e n t s   t h e   p r e f i x   w a s   r e d u n d a n t   n o i s e .         - - -         # #   E n t r y :   D e c i s i o n s   a n d   R e f e r e n c e s   a t   K A   l e v e l ,   n o t   p e r   t e r m         -   <em> </em> S t a t u s : <em> </em>   c o n f i r m e d     -   <em> </em> C o n t e x t : <em> </em>   a b d - d o m a i n - t e r m s   —— —   o u t p u t   s h a p e   f o r   m u l t i - m o d u l e   e n g a g e m e n t   ( ` d o c s / d i s c o v e r y / m o d u l e s / <em> - d o m a i n - t e r m s . m d ` ,   C i t y   o f   H e r o e s   /   o u r o b o s )     -   </em> <em> D O   /   D O   N O T : </em> <em>   D O   p l a c e   </em> <em> o n e </em> <em>   ` # # #   D e c i s i o n s   m a d e `   a n d   </em> <em> o n e </em> <em>   ` # # #   R e f e r e n c e s `   </em> <em> p e r   K e y   A b s t r a c t i o n </em> <em>   —— —   a f t e r   </em> <em> a l l </em> <em>   s u b o r d i n a t e   ` # # #   t e r m `   b l o c k s   i n   t h a t   K A ,   w i t h   d e c i s i o n s   a n d   r e f s   m e r g e d   f r o m   e v e r y   t e r m   i n   t h e   g r o u p .   D O   t h e   s a m e   f o r   ` #   B o u n d a r y   D o m a i n ` :   a l l   b o u n d a r y   t e r m s   f i r s t ,   t h e n   o n e   s h a r e d   ` # # #   D e c i s i o n s   m a d e `   a n d   ` # # #   R e f e r e n c e s ` .   D O   p u t   a   s i n g l e   ` - - - `   s e p a r a t o r   </em> <em> a f t e r </em> <em>   t h e   K A   b l o c k   ( d e c i s i o n s   +   r e f e r e n c e s ) ,   b e f o r e   t h e   n e x t   ` # #   K A N a m e ` .   D O   N O T   r e p e a t   ` # # #   D e c i s i o n s   m a d e `   /   ` # # #   R e f e r e n c e s `   u n d e r   e a c h   s u b o r d i n a t e   t e r m .   D O   N O T   p u t   ` - - - `   b e t w e e n   t e r m s   w i t h i n   t h e   s a m e   K A .     -   </em> <em> E x a m p l e   ( w r o n g ) : </em> <em>         ` ` `         # #   P o w e r   A c t i v a t i o n         [ K A   i n t r o ]             # # #   p o w e r   a c t i v a t i o n         -   b u l l e t s             # # #   D e c i s i o n s   m a d e         -   g r o u p i n g   c a l l   f o r   p o w e r   a c t i v a t i o n   o n l y             # # #   R e f e r e n c e s         </em> <em> R e f   —— —   —— — </em> <em>             - - -             # # #   a c t i v a t i o n   g a t e         -   b u l l e t s             # # #   D e c i s i o n s   m a d e         -   g r o u p i n g   c a l l   f o r   a c t i v a t i o n   g a t e   o n l y             # # #   R e f e r e n c e s         </em> <em> R e f   —— —   —— — </em> <em>         ` ` `     -   </em> <em> E x a m p l e   ( c o r r e c t ) : </em> <em>         ` ` `         # #   P o w e r   A c t i v a t i o n         [ K A   i n t r o ]             # # #   p o w e r   a c t i v a t i o n         -   b u l l e t s             # # #   a c t i v a t i o n   g a t e         -   b u l l e t s             # # #   e n d u r a n c e   c o s t         -   b u l l e t s             # # #   D e c i s i o n s   m a d e         -   i n d e p e n d e n c e   /   m o d u l e - f i t   /   g r o u p i n g   f o r   a l l   t e r m s   i n   t h i s   K A   ( m e r g e d )             # # #   R e f e r e n c e s         </em> <em> R e f   —— —   —— — </em> <em>         </em> <em> R e f   —— —   —— — </em> <em>         ( a l l   r e f s   f o r   t e r m s   i n   t h i s   K A ,   m e r g e d )             - - -             # #   P o w e r   E f f e c t         —— —         ` ` `         B o u n d a r y   D o m a i n   f o l l o w s   t h e   s a m e   p a t t e r n :   b o u n d a r y   t e r m s   —— —   o n e   D e c i s i o n s   —— —   o n e   R e f e r e n c e s .     -   </em> <em> L i k e l y   s o u r c e : </em> <em>   p r o m p t   g a p   —— —   s k i l l   t e m p l a t e ,   V a l i d a t e   c h e c k l i s t ,   a n d   b u n d l e d   r u l e   &quot; P e r - t e r m   D e c i s i o n s   m a d e   a n d   R e f e r e n c e s &quot;   p r e s c r i b e d   p e r - t e r m   b l o c k s ;   e n g a g e m e n t   m o d e l i n g   t r e a t s   d e c i s i o n s   a n d   e v i d e n c e   a s   K A - l e v e l   c o n c e r n s   o n c e   t e r m s   a r e   g r o u p e d .     -   </em> <em> S k i l l   s o u r c e   u p d a t e d : </em> <em>   ` S K I L L . m d `   ( C o n s i s t e n t   s h a p e ,   B u i l d ,   V a l i d a t e ,   f i l l e d   E x a m p l e ) ,   ` t e m p l a t e s / d o m a i n - t e r m s - t e m p l a t e . m d `   —— —   </em> <em> n o t </em> <em>   n e w   ` r u l e s / `   o r   s c a n n e r s   f o r   t h i s   s h a p e .         - - -         # #   E n t r y :   M i n i m u m   K A   s i z e   —— —   a t   l e a s t   3 —— — 4   s u b o r d i n a t e   t e r m s         -   </em> <em> S t a t u s : </em> <em>   c o n f i r m e d     -   </em> <em> C o n t e x t : </em> <em>   a b d - d o m a i n - t e r m s   —— —   K e y   A b s t r a c t i o n   g r o u p i n g   ( C i t y   o f   H e r o e s   /   o u r o b o s   m u l t i - m o d u l e   p a s s )     -   </em> <em> D O   /   D O   N O T : </em> <em>   D O   g r o u p   s u b o r d i n a t e   t e r m s   s o   e a c h   </em> <em> K e y   A b s t r a c t i o n   h a s   a t   l e a s t   3 —— — 4   t e r m s </em> <em>   ( m o r e   i s   f i n e   w h e n   t h e y   s h a r e   o n e   c o h e s i v e   r e s p o n s i b i l i t y ) .   D O   m e r g e   u n d e r s i z e d   K A s   w i t h   a   r e l a t e d   K A   i n   t h e   s a m e   m o d u l e   w h e n   t e r m s   f a i l   t h e   i n d e p e n d e n c e   t e s t   a l o n e   o r   s h a r e   l i f e c y c l e ,   o w n e r s h i p ,   o r   p l a y e r - v i s i b l e   b e h a v i o r .   D O   N O T   l e a v e   a   K A   w i t h   o n l y   o n e   o r   t w o   ` # # #   t e r m `   b l o c k s   —— —   t h a t   i s   t o o   s m a l l ;   t h o s e   t e r m s   b e l o n g   u n d e r   a   b r o a d e r   K A   o r   s h o u l d   b e   p r o m o t e d / r e - g r o u p e d .     -   </em> <em> E x a m p l e   ( w r o n g ) : </em> <em>         ` ` `         # #   A p p e a r a n c e         [ i n t r o ]         # # #   c o s t u m e         -   b u l l e t s         # # #   D e c i s i o n s   m a d e   —— —         ` ` `         ( O n e - t e r m   K A   —— —   t o o   t h i n . )         ` ` `         # #   P r o g r e s s i o n         # # #   l e v e l         # # #   e x p e r i e n c e         ` ` `         ( T w o - t e r m   K A   —— —   s t i l l   t o o   s m a l l . )     -   </em> <em> E x a m p l e   ( c o r r e c t ) : </em> <em>         ` ` `         # #   H e r o   i d e n t i t y   a n d   p r o g r e s s i o n         # # #   c h a r a c t e r         # # #   a r c h e t y p e         # # #   o r i g i n         # # #   a l i g n m e n t         # # #   l e v e l         # # #   e x p e r i e n c e         # # #   D e c i s i o n s   m a d e   —— —         ` ` `         O r   s p l i t   i n t o   t w o   K A s   e a c h   w i t h   4 +   t e r m s ,   e . g .   </em> <em> H e r o   i d e n t i t y </em> <em>   ( c h a r a c t e r ,   a r c h e t y p e ,   o r i g i n ,   a l i g n m e n t ,   a l t e r n a t e   b u i l d )   a n d   </em> <em> P r o g r e s s i o n   a n d   r e w a r d s </em> <em>   ( l e v e l ,   e x p e r i e n c e ,   b a d g e ,   i n c a r n a t e   p r o g r e s s i o n )   —— —   n o t   s i n g l e - t e r m   o r   t w o - t e r m   i s l a n d s .     -   </em> <em> L i k e l y   s o u r c e : </em> *   p r o m p t   g a p   —— —   s k i l l   s a y s   &quot; t y p i c a l   m o d u l e   h a s   3 —— — 8   K e y   A b s t r a c t i o n s &quot;   b u t   d i d   n o t   s e t   a   m i n i m u m   t e r m   c o u n t   p e r   K A ;   o u r o b o s   o u t p u t   p r o d u c e d   m a n y   1 —— — 2   t e r m   K A s .     </p></div>
+
+</div>
+</div>
+</div>
+</body>
+</html>

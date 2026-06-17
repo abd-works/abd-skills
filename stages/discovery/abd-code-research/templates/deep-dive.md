@@ -1,4 +1,4 @@
-﻿# Deep Dive: <!-- Research Path Name — e.g. COH Bridge Seam -->
+# Deep Dive: <!-- Research Path Name — e.g. COH Bridge Seam -->
 
 **Project:** <!-- e.g. Hero Virtual Tabletop -->
 **Concern kind:** <!-- Layer | Mechanism | Component | Cross-Cutting | Pattern | Boundary -->

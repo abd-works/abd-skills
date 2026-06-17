@@ -1,4 +1,4 @@
-﻿import { test, expect } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import {
   ACTION_STATE_PATH,
   BOARD_JSON_PATH,

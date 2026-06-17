@@ -1,4 +1,4 @@
-﻿# Rule: No premature design commitments
+# Rule: No premature design commitments
 
 **Scanner:** Python — `no-premature-design-commitments-scanner.py`
 

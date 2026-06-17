@@ -1,4 +1,4 @@
-﻿---
+---
 name: abd-opportunity-canvas
 catalog_garden_tier: practice
 catalog_garden_order: 16

@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Check that every term in a story's Domain terms section exists in a domain source artifact.
 
 Scans ``acceptance-criteria.md`` (or the workspace folder containing it), extracts every

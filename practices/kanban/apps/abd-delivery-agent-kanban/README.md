@@ -1,4 +1,4 @@
-﻿# Delivery Agent Kanban
+# Delivery Agent Kanban
 
 Live Kanban board for **delivery-kanban-board** progress. **Read-only** — polls `board.json`, `kanban.json`, checklist, and ticket files from disk. Does **not** create planning artifacts; **kanban-lead** + skills own the plan, system of work, and board sync.
 

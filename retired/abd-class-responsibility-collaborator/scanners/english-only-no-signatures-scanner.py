@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Scanner: CRC responsibility lines must use plain English — no typed signatures.
 
 Responsibility names and collaborator names in a domain model table must be written in plain

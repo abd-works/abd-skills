@@ -4,7 +4,7 @@
 
 .DESCRIPTION
   Self-contained deploy script (no Python dependency).
-  Deploy root auto-resolves from skill-config.json when -DeployRoot is omitted.
+  Deploy root resolves from: explicit -DeployRoot → *.code-workspace walk → repo root.
   Instructions are sourced from *.instructions.md and can be deployed to either IDE:
     - vscode: copied to .github/*.instructions.md
     - cursor: copied to .cursor/rules/*.mdc (extension renamed)
@@ -13,7 +13,7 @@
   Target IDE: cursor or vscode. Default: cursor.
 
 .PARAMETER DeployRoot
-  Explicit workspace root. When omitted: skill-config.json → *.code-workspace walk → repo root.
+  Explicit workspace root. When omitted: *.code-workspace file walk → repo root fallback.
 
 .PARAMETER Force
   Accepted for backward compatibility (deploy always replaces).
@@ -22,6 +22,9 @@
   Qualified package name or "all" (default: all).
   Format: "<top>/<name>" for family packages (e.g. "practices/story-driven-delivery",
   "stages/discovery") or bare name for flat collections ("utilities", "others").
+
+.PARAMETER SkipChecks
+  Skip pre-deploy encoding and structure validation.
 #>
 param(
     [ValidateSet("cursor", "vscode")]
@@ -31,14 +34,18 @@ param(
 
     [string] $Package = "all",
 
-    [switch] $Force
+    [switch] $Force,
+
+    [switch] $SkipChecks,
+
+    [switch] $Status
 )
 
 $ErrorActionPreference = 'Stop'
 
 $RepoRoot = Resolve-Path (Join-Path $PSScriptRoot '..') | Select-Object -ExpandProperty Path
 
-function Ensure-Directory {
+function New-Directory {
     param([string]$Path)
     if (-not (Test-Path -LiteralPath $Path)) {
         New-Item -ItemType Directory -Path $Path -Force | Out-Null
@@ -53,7 +60,7 @@ function Remove-AndCopyDirectory {
     if (Test-Path -LiteralPath $Destination) {
         Remove-Item -LiteralPath $Destination -Recurse -Force
     }
-    Ensure-Directory -Path (Split-Path -Parent $Destination)
+    New-Directory -Path (Split-Path -Parent $Destination)
     Copy-Item -LiteralPath $Source -Destination $Destination -Recurse -Force
 }
 
@@ -63,24 +70,8 @@ function Merge-DirectoryContents {
         [string]$DestinationDir
     )
     if (-not (Test-Path -LiteralPath $SourceDir)) { return }
-    Ensure-Directory -Path $DestinationDir
+    New-Directory -Path $DestinationDir
     Copy-Item -Path (Join-Path $SourceDir '*') -Destination $DestinationDir -Recurse -Force -ErrorAction SilentlyContinue
-}
-
-function Get-ConfiguredDeployRoot {
-    param([string]$RepoRoot)
-    $cfgPath = Join-Path $RepoRoot 'skill-config.json'
-    if (-not (Test-Path -LiteralPath $cfgPath)) { return $null }
-    try {
-        $cfg = Get-Content -LiteralPath $cfgPath -Raw | ConvertFrom-Json
-        $p = [string]($cfg.workspace.active_skill_workspace)
-        if ($p -and (Test-Path -LiteralPath $p)) {
-            return (Resolve-Path -LiteralPath $p | Select-Object -ExpandProperty Path)
-        }
-    } catch {
-        # ignore malformed config and continue fallback chain
-    }
-    return $null
 }
 
 function Get-WorkspaceDeployRootFromPwd {
@@ -104,8 +95,6 @@ function Resolve-DeployRoot {
     if ($ExplicitRoot) {
         return (Resolve-Path -LiteralPath $ExplicitRoot | Select-Object -ExpandProperty Path)
     }
-    $fromConfig = Get-ConfiguredDeployRoot -RepoRoot $RepoRoot
-    if ($fromConfig) { return $fromConfig }
     $fromWorkspace = Get-WorkspaceDeployRootFromPwd -StartPath (Get-Location).Path
     if ($fromWorkspace) { return $fromWorkspace }
     return $RepoRoot
@@ -148,7 +137,7 @@ function Merge-VscodeFiles {
         [string]$DeployRoot
     )
     $vscodeDst = Join-Path $DeployRoot '.vscode'
-    Ensure-Directory -Path $vscodeDst
+    New-Directory -Path $vscodeDst
 
     # Merge tasks.json — combine tasks[] and inputs[] arrays
     $srcTasks = Join-Path $SourceDir 'tasks.json'
@@ -285,10 +274,10 @@ function Deploy-Package {
     if (Test-Path -LiteralPath $instructionsSrc) {
         Get-ChildItem -LiteralPath $instructionsSrc -Filter '*.instructions.md' -File | ForEach-Object {
             if ($Ide -eq 'vscode') {
-                Ensure-Directory -Path $githubInstructionsDst
+                New-Directory -Path $githubInstructionsDst
                 Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $githubInstructionsDst $_.Name) -Force
             } else {
-                Ensure-Directory -Path $rulesDst
+                New-Directory -Path $rulesDst
                 $base = $_.Name -replace '\.instructions\.md$', ''
                 $destName = "$base.mdc"
                 Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $rulesDst $destName) -Force
@@ -300,10 +289,10 @@ function Deploy-Package {
     if (Test-Path -LiteralPath $promptsSrc) {
         Get-ChildItem -LiteralPath $promptsSrc -Filter '*.prompt.md' -File | ForEach-Object {
             if ($Ide -eq 'vscode') {
-                Ensure-Directory -Path $githubPromptsDst
+                New-Directory -Path $githubPromptsDst
                 Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $githubPromptsDst $_.Name) -Force
             } else {
-                Ensure-Directory -Path $commandsDst
+                New-Directory -Path $commandsDst
                 Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $commandsDst $_.Name) -Force
             }
         }
@@ -315,8 +304,71 @@ function Deploy-Package {
     }
 }
 
+# ── Pre-deploy validation ──────────────────────────────────────────────────
+
+if (-not $SkipChecks) {
+    Write-Host "Running pre-deploy checks..."
+    $validationFailed = $false
+
+    # Encoding scan
+    try {
+        & python3 "$RepoRoot/scripts/scan_encoding.py" --check 2>&1 | ForEach-Object { Write-Host $_ }
+        if ($LASTEXITCODE -ne 0) { $validationFailed = $true }
+    } catch {
+        Write-Host "  ⚠️  Could not run encoding scan: $_"
+    }
+
+    # Deploy-path + structure test
+    try {
+        & python3 "$RepoRoot/tests/test_deploy_paths.py" 2>&1 | ForEach-Object { Write-Host $_ }
+        if ($LASTEXITCODE -ne 0) { $validationFailed = $true }
+    } catch {
+        Write-Host "  ⚠️  Could not run deploy-path test: $_"
+    }
+
+    if ($validationFailed) {
+        Write-Host ""
+        throw "Pre-deploy checks failed. Fix issues above or pass -SkipChecks to deploy anyway."
+    }
+    Write-Host "✅ Pre-deploy checks passed."
+    Write-Host ""
+}
+
+# ── Deploy ─────────────────────────────────────────────────────────────────
+
 $resolvedDeployRoot = Resolve-DeployRoot -ExplicitRoot $DeployRoot -RepoRoot $RepoRoot
-Ensure-Directory -Path $resolvedDeployRoot
+
+# Status check — compare source manifest with deployed receipt
+Write-Host "Checking deploy status..."
+try {
+    $deltaJson = & python3 "$RepoRoot/scripts/generate_manifest.py" --deployed "$resolvedDeployRoot" 2>$null
+    if ($deltaJson) {
+        $delta = $deltaJson | ConvertFrom-Json
+        switch ($delta.status) {
+            "current" {
+                Write-Host "✅ $($delta.message)"
+                if ($Status) { exit 0 }
+            }
+            "outdated" {
+                Write-Host "⚠️  $($delta.message)"
+                if ($Status) { exit 0 }
+            }
+            "fresh" {
+                Write-Host "🆕 $($delta.message)"
+                if ($Status) { exit 0 }
+            }
+        }
+    } else {
+        Write-Host "🆕 No previous deploy found — full deploy."
+        if ($Status) { exit 0 }
+    }
+} catch {
+    Write-Host "  (no previous deploy info)"
+    if ($Status) { exit 0 }
+}
+Write-Host ""
+
+New-Directory -Path $resolvedDeployRoot
 
 $packageRoots = Get-PackageRoots -RepoRoot $RepoRoot
 if ($packageRoots.Count -eq 0) {
@@ -340,19 +392,11 @@ foreach ($pkg in $selected) {
     Deploy-Package -PackageRoot $pkg.Value -DeployRoot $resolvedDeployRoot -Ide $ide
 }
 
-# Update skill-config.json so the resolved deploy root becomes the new active workspace
-$cfgPath = Join-Path $RepoRoot 'skill-config.json'
-try {
-    $cfg = if (Test-Path -LiteralPath $cfgPath) {
-        Get-Content -LiteralPath $cfgPath -Raw | ConvertFrom-Json
-    } else {
-        [pscustomobject]@{ workspace = [pscustomobject]@{ active_skill_workspace = ''; known_skill_workspaces = @(); context_paths = @() } }
-    }
-    $cfg.workspace.active_skill_workspace = $resolvedDeployRoot
-    $cfg | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath $cfgPath -Encoding UTF8
-    Write-Host ("skill-config.json updated -> active_skill_workspace={0}" -f $resolvedDeployRoot)
-} catch {
-    Write-Warning ("Could not update skill-config.json: {0}" -f $_.Exception.Message)
-}
-
 Write-Host ("Deploy complete. ide={0} package={1} root={2}" -f $ide, $Package, $resolvedDeployRoot)
+
+# Write deploy receipt
+try {
+    & python3 "$RepoRoot/scripts/generate_manifest.py" --write-receipt "$resolvedDeployRoot" --ide $ide 2>$null
+} catch {
+    # Receipt writing is best-effort
+}

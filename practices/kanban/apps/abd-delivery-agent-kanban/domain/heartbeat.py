@@ -1,4 +1,4 @@
-﻿"""
+"""
 heartbeat.py
 
 Domain area   : Kanban Board — Heartbeat

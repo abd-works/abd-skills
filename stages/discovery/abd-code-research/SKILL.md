@@ -1,4 +1,4 @@
-﻿---
+---
 name: abd-code-research
 description: >-
   Survey any codebase in two passes — Explorer and Deep Dive — to produce

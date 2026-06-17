@@ -1,4 +1,4 @@
-﻿# Rule: Subtypes use English heading form with delta behavior only
+# Rule: Subtypes use English heading form with delta behavior only
 
 **Scanner:** Manual review
 

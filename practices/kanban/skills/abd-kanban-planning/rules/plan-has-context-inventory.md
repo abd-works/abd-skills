@@ -1,26 +1,26 @@
-﻿---
+---
 scanner: plan-shape
 ---
 
 # Rule: Plan has an explicit context inventory
 
-**Scanner:** `scanners/plan-shape-scanner.py` â€” `PlanShapeScanner` (rule id `plan-has-context-inventory`)
+**Scanner:** `scanners/plan-shape-scanner.py` ” `PlanShapeScanner` (rule id `plan-has-context-inventory`)
 
-The saved plan at `<workspace>/docs/kanban/agile-delivery-plan.md` must include a **context inventory** section that lists **Provided** context and **Missing** (or "not yet provided") context separately, and â€” when critical context is missing â€” the implications for run sequencing.
+The saved plan at `<workspace>/docs/kanban/agile-delivery-plan.md` must include a **context inventory** section that lists **Provided** context and **Missing** (or "not yet provided") context separately, and ” when critical context is missing ” the implications for run sequencing.
 
 This exists so reviewers and downstream agents can see gaps immediately, instead of inferring from chat that a named platform / integration was "probably understood."
 
 ## DO
 
 - Include a heading like `## Context inventory` (or `### Context Inventory`).
-- Under it, list or table both **Provided context** (concrete inputs used â€” file paths, repo URLs, doc links, API refs, versions) and **Missing context** (explicit "not yet provided" flags).
+- Under it, list or table both **Provided context** (concrete inputs used ” file paths, repo URLs, doc links, API refs, versions) and **Missing context** (explicit "not yet provided" flags).
 - When critical context is missing, say what must happen before implementation runs (spike, doc pass, user drops links, clone repo).
-- Use neutral wording for gaps â€” *not yet provided* â€” not "TBD" buried in prose.
+- Use neutral wording for gaps ” *not yet provided* ” not "TBD" buried in prose.
 
 ## DON'T
 
 - Treat a named platform (Foundry, Salesforce, your monolith, Acme API, etc.) as understood without any provided source.
-- Skip the inventory because "the brief is short." A short brief means the inventory is a one-liner â€” still write it.
+- Skip the inventory because "the brief is short." A short brief means the inventory is a one-liner ” still write it.
 - Hide gaps inside run rationales instead of surfacing them in the inventory.
 
 ## Example (wrong)

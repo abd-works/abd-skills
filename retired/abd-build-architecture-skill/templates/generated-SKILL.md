@@ -1,4 +1,4 @@
-﻿<!--
+<!--
   Template: SKILL.md for an ARCHITECTURE IMPLEMENTATION SKILL.
   This file is the OUTPUT of abd-build-architecture-skill: a skill that
   generates code in a specific architecture. The shape below is the full

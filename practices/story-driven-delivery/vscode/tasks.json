@@ -4,7 +4,7 @@
     {
       "label": "abd: watch story artifacts",
       "type": "shell",
-      "command": "python",
+      "command": "${command:python.interpreterPath}",
       "args": [
         "${workspaceFolder}/scripts/pipeline_watch.py",
         "--root", "${workspaceFolder}",
@@ -22,7 +22,7 @@
     {
       "label": "abd: render drawio from graph",
       "type": "shell",
-      "command": "python",
+      "command": "${command:python.interpreterPath}",
       "args": [
         "${workspaceFolder}/scripts/pipeline.py",
         "render",
@@ -34,7 +34,7 @@
     {
       "label": "abd: sync drawio back to graph",
       "type": "shell",
-      "command": "python",
+      "command": "${command:python.interpreterPath}",
       "args": [
         "${workspaceFolder}/scripts/pipeline.py",
         "sync-back",

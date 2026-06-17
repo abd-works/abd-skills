@@ -1,4 +1,4 @@
-﻿# drawio-domain-sync — Rendered Diagram Example
+# drawio-domain-sync — Rendered Diagram Example
 
 This file shows a finished rendering of the **Resolution System** Key Abstraction from a fictional class-model source. Use it as a reference for the depth and structure a rendered page should reach.
 

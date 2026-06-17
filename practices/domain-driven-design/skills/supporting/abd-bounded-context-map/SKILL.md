@@ -1,4 +1,4 @@
-﻿---
+---
 name: bounded-context-map
 catalog_garden_order: 8
 catalogue_one_liner: >-

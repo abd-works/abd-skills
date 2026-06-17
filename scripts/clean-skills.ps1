@@ -24,58 +24,23 @@
     <deploy-root>/.vscode/settings.json        — merged settings
 
 .PARAMETER DeployRoot
-  Explicit root to clean from (e.g. C:\dev\abd-pet-store-demo).
-  When omitted, falls back to skill-config.json -> workspace.active_skill_workspace.
+  Required — the engagement workspace to clean (e.g. C:\dev\abd-pet-store-demo).
 
 #>
 param(
-    [string] $DeployRoot = ""
+    [Parameter(Mandatory = $true)]
+    [string] $DeployRoot
 )
 
 $ErrorActionPreference = 'Stop'
 
 $RepoRoot = Resolve-Path (Join-Path $PSScriptRoot '..') | Select-Object -ExpandProperty Path
 
-function Find-HighestCursorRoot {
-    param([string]$StartPath)
-    $highest = $null
-    $dir = [System.IO.DirectoryInfo]::new($StartPath)
-    while ($dir -ne $null) {
-        if (Test-Path -LiteralPath (Join-Path $dir.FullName '.cursor') -PathType Container) {
-            $highest = $dir.FullName
-        }
-        $dir = $dir.Parent
-    }
-    if ($highest) { return $highest }
-
-    $parent = Split-Path $StartPath -Parent
-    if ($parent -and ($parent -notmatch '^[A-Za-z]:\\?$') -and (Test-Path -LiteralPath (Join-Path $parent '.cursor') -PathType Container)) {
-        return $parent
-    }
-    return $env:USERPROFILE
+if (-not (Test-Path -LiteralPath $DeployRoot -PathType Container)) {
+    Write-Error "Error: DeployRoot '$DeployRoot' does not exist or is not a directory."
+    exit 1
 }
-
-# Resolve CursorRoot: explicit -DeployRoot > skill-config.json; no fallback — crash if missing
-if ($DeployRoot -and (Test-Path -LiteralPath $DeployRoot -PathType Container)) {
-    $CursorRoot = $DeployRoot
-} else {
-    $skillConfig = Join-Path $RepoRoot 'skill-config.json'
-    if (-not (Test-Path -LiteralPath $skillConfig -PathType Leaf)) {
-        Write-Error "No skill-config.json found at '$skillConfig'. Run set_workspace.py or pass -DeployRoot explicitly."
-        exit 1
-    }
-    $cfg = Get-Content $skillConfig -Raw | ConvertFrom-Json
-    $configured = $cfg.workspace.active_skill_workspace
-    if (-not $configured) {
-        Write-Error "skill-config.json has no workspace.active_skill_workspace. Run set_workspace.py or pass -DeployRoot explicitly."
-        exit 1
-    }
-    if (-not (Test-Path -LiteralPath $configured -PathType Container)) {
-        Write-Error "workspace.active_skill_workspace '$configured' does not exist on disk. Run set_workspace.py or pass -DeployRoot explicitly."
-        exit 1
-    }
-    $CursorRoot = $configured
-}
+$CursorRoot = Resolve-Path -LiteralPath $DeployRoot | Select-Object -ExpandProperty Path
 
 Write-Host "`nRepo root   : $RepoRoot"  -ForegroundColor Cyan
 Write-Host "Deploy root : $CursorRoot" -ForegroundColor Cyan
@@ -136,7 +101,7 @@ function Remove-Entry {
 }
 
 # --- Clean repo-local IDE links ---
-function Clean-LocalLinks {
+function Clear-LocalLinks {
     param([string]$Folder)
 
     $name       = (Split-Path $Folder -Leaf) -replace '_', '-'
@@ -155,11 +120,10 @@ function Clean-LocalLinks {
 }
 
 # --- Clean user-level junctions + user file links ---
-function Clean-GlobalEntry {
+function Clear-GlobalEntry {
     param([string]$Folder, [string]$JunctionRoot)
 
     $name       = (Split-Path $Folder -Leaf) -replace '_', '-'
-    $idePayload = Get-IdePayloadRoot -Root $Folder
 
     Write-Host "[$name]" -ForegroundColor White
 
@@ -169,7 +133,7 @@ function Clean-GlobalEntry {
 
 # === Local links ===
 Write-Host "=== Local links ===" -ForegroundColor Magenta
-foreach ($folder in $allFolders) { Clean-LocalLinks -Folder $folder }
+foreach ($folder in $allFolders) { Clear-LocalLinks -Folder $folder }
 
 # === Junctions ===
 Write-Host "`n=== Junctions ===" -ForegroundColor Magenta
@@ -181,14 +145,14 @@ $agentJunctionRoot_github = Join-Path $CursorRoot '.github\agents'
 
 Write-Host "`n-- Skills --" -ForegroundColor DarkMagenta
 foreach ($folder in $skillFolders) {
-    Clean-GlobalEntry -Folder $folder -JunctionRoot $skillJunctionRoot_cursor
-    Clean-GlobalEntry -Folder $folder -JunctionRoot $skillJunctionRoot_github
+    Clear-GlobalEntry -Folder $folder -JunctionRoot $skillJunctionRoot_cursor
+    Clear-GlobalEntry -Folder $folder -JunctionRoot $skillJunctionRoot_github
 }
 
 Write-Host "`n-- Agents --" -ForegroundColor DarkMagenta
 foreach ($folder in $agentFolders) {
-    Clean-GlobalEntry -Folder $folder -JunctionRoot $agentJunctionRoot_cursor
-    Clean-GlobalEntry -Folder $folder -JunctionRoot $agentJunctionRoot_github
+    Clear-GlobalEntry -Folder $folder -JunctionRoot $agentJunctionRoot_cursor
+    Clear-GlobalEntry -Folder $folder -JunctionRoot $agentJunctionRoot_github
 }
 
 # === Family package copies ===

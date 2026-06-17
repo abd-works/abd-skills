@@ -1733,13 +1733,13 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 
 <h2>Content</h2>
 <div class="rule-prose"><h1>Rule: Operations use typed signatures tracing to domain model verbs</h1>
-<p>Every operation must be written as a typed method signature � <code>methodName(param: Type): ReturnType</code> � and must trace to a domain model responsibility verb phrase. Passing means the signature is complete and the source verb phrase is identifiable. Failing means the operation lacks types, uses prose instead of a signature, or has no domain model verb-phrase origin.</p>
+<p>Every operation must be written as a typed method signature — <code>methodName(param: Type): ReturnType</code> — and must trace to a domain model responsibility verb phrase. Passing means the signature is complete and the source verb phrase is identifiable. Failing means the operation lacks types, uses prose instead of a signature, or has no domain model verb-phrase origin.</p>
 <h2>DO</h2>
 <ul>
 <li>Write each operation as <code>+ methodName(param: Type): ReturnType</code>, derived from a domain model &quot;Responsible for&quot; verb phrase.</li>
 </ul>
 <p><strong>Example (pass):</strong></p>
-<pre><code>  domain model � Responsible for: calculating shipping cost based on weight and destination
+<pre><code>  domain model — Responsible for: calculating shipping cost based on weight and destination
 
   Domain-model block:
   + calculateShippingCost(weight: Weight, destination: Address): Money</code></pre>
@@ -1758,7 +1758,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <li>Add an operation that does not trace to any domain model responsibility verb phrase.</li>
 </ul>
 <p><strong>Example (fail):</strong></p>
-<pre><code>  domain model � (no mention of &quot;archiving&quot;)
+<pre><code>  domain model — (no mention of &quot;archiving&quot;)
 
   Domain-model block:
   + archiveRecord(id: RecordId): void   ? invented, no domain model source</code></pre>
