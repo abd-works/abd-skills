@@ -1,3 +1,3 @@
 # utilities package
 
-Proposal response, AI research assistant skills, and related utilities.
+Utilities: proposal response, AI research assistant, mojibake guard, and related skills.
