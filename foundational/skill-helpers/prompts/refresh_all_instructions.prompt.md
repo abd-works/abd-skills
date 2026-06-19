@@ -3,7 +3,7 @@ description: >-
   Read every active Cursor rule and VS Code instruction into context so the
   agent is fully aware of all project guidance before starting work.
   Run this at the start of a session or whenever rules feel stale.
-mode: agent
+agent: agent
 ---
 
 You are refreshing your active rule/instruction context. Follow every step below — do not skip any.

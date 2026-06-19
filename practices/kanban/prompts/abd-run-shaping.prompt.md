@@ -1,7 +1,7 @@
 ---
 description: >-
   Run all Shaping stage skills (executor + reviewer) for the active ticket.
-mode: agent
+agent: agent
 ---
 
 Read `practices/kanban/reference/stages/shaping.md` and `practices/kanban/reference/artifact-layout.md`.

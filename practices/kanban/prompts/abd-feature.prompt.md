@@ -2,7 +2,7 @@
 description: >-
   Ship a feature end-to-end through the story-driven-delivery pipeline.
   Use when the user describes a new or changed feature.
-mode: agent
+agent: agent
 ---
 
 Run these skills in order for the feature the user described. Read each skill and follow its instructions fully before moving to the next. For DDD steps, only run them if those artifacts already exist in the project.

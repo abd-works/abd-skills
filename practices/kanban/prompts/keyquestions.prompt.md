@@ -1,7 +1,7 @@
 ---
 description: >-
   Surface key questions before starting a stage or skill — confirm scope, skill selection, and where to pause for review.
-mode: agent
+agent: agent
 ---
 
 Before proceeding with the current stage or skill, ask the user the following and wait for answers:

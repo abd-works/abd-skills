@@ -1,7 +1,7 @@
 ---
 description: >-
   Run all Exploration stage skills (executor + reviewer) for the active increment.
-mode: agent
+agent: agent
 ---
 
 Read `practices/kanban/reference/stages/exploration.md` and `practices/kanban/reference/artifact-layout.md`.

@@ -3,7 +3,7 @@ description: >-
   Interactively deploy agilebydesign-skills family packages to a project.
   Asks which IDE, which deploy target, and whether to use workspace root.
   Then runs deploy-skills.ps1 with the right flags.
-mode: agent
+agent: agent
 ---
 
 You are running an interactive deploy. Follow every step in order.

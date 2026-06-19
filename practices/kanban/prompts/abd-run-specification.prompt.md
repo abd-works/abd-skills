@@ -1,7 +1,7 @@
 ---
 description: >-
   Run all Specification stage skills (executor + reviewer) for the active sprint ticket.
-mode: agent
+agent: agent
 ---
 
 Read `practices/kanban/reference/stages/specification.md` and `practices/kanban/reference/artifact-layout.md`.

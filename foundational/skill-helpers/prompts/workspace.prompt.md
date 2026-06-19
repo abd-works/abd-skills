@@ -2,7 +2,7 @@
 description: >-
   Get or set the engagement workspace root (skill-config.json active_skill_workspace).
   Use when deploy root, tracking paths, or engagement artifacts need the correct folder.
-mode: agent
+agent: agent
 ---
 
 ## Workspace root

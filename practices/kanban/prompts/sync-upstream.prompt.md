@@ -2,7 +2,7 @@
 description: >-
   Sync generated delivery artifacts after a change. Use when code, tests,
   specs, or AC have changed and peer, upstream, or downstream docs may be out of date.
-mode: agent
+agent: agent
 ---
 
 An artifact has changed. Use `AskQuestion` to ask the user which directions to sync. Only offer levels whose artifacts exist in the workspace. Stop at each level if the user says no.

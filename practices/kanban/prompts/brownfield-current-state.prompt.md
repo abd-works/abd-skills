@@ -2,7 +2,7 @@
 description: >-
   Map brownfield / legacy current-state behavior through the story-driven-delivery
   pipeline. Story map = what the system does today, including observed quirks.
-mode: agent
+agent: agent
 ---
 
 Run the brownfield current-state strategy. Read **`abd-kanban-planning/strategies/brownfield-current-state.md`** first for sequencing and constraints.

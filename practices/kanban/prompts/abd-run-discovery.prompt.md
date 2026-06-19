@@ -1,7 +1,7 @@
 ---
 description: >-
   Run all Discovery stage skills (executor + reviewer) for the active increment ticket.
-mode: agent
+agent: agent
 ---
 
 Read `practices/kanban/reference/stages/discovery.md` and `practices/kanban/reference/artifact-layout.md`.

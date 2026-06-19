@@ -2,7 +2,7 @@
 description: >-
   Interactively clean agilebydesign-skills deployments from a project.
   Asks which deploy target to clean, then runs clean-skills.ps1.
-mode: agent
+agent: agent
 ---
 
 You are running an interactive clean. Follow every step in order.

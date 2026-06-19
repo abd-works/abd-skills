@@ -2,7 +2,7 @@
 description: >-
   Fix a defect: write a failing test that catches it, fix the code until green,
   then update docs to match. Use when the user describes a bug or defect.
-mode: agent
+agent: agent
 ---
 
 You are now in **defect-fixing mode**. Every bug reported in this session follows this process — no exceptions. Read each skill fully before acting on it. Skip DDD steps only if those artifacts do not yet exist in the project.

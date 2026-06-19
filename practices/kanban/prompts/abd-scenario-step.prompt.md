@@ -2,7 +2,7 @@
 description: >-
   Add or change a single scenario step or AC item on an existing story.
   Runs 3 steps (test → code → run) or up to 5 when specs or domain model exist.
-mode: agent
+agent: agent
 ---
 
 This is a **single-scenario-step change** on an existing story. Follow the steps below in order. Read each skill fully before acting. If the user provided text after the command, treat it as the story name, scenario step, or AC item to add or change.

@@ -1,6 +1,6 @@
 ---
 description: Scan and remove mojibake / encoding corruption before commit
-mode: agent
+agent: agent
 ---
 
 Remove mojibake and encoding issues from this repo using **abd-mojibake-guard**.

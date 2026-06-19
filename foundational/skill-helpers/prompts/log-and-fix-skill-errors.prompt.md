@@ -1,6 +1,6 @@
 ---
 description: Fix wrong output — log the correction on disk and iterate until right
-mode: agent
+agent: agent
 ---
 
 Something I produced is wrong. Follow the correction process:
