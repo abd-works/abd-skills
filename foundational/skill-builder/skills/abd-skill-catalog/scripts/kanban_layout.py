@@ -35,6 +35,7 @@ GITHUB_SKILL_ALIASES: dict[str, str] = {
 }
 
 STAGE_FILES: tuple[tuple[str, str, int], ...] = (
+    ("context", "Context", 0),
     ("shaping", "Shaping", 1),
     ("discovery", "Discovery", 2),
     ("exploration", "Exploration", 3),
@@ -48,6 +49,7 @@ FAMILY_DISPLAY_TO_PLUGIN: dict[str, str] = {
     "user experience design": "user-experience-design",
     "architecture-centric engineering": "architecture-centric-engineering",
     "idea shaping": "idea-shaping",
+    "context to memory": "context-to-memory",
 }
 
 PLUGIN_ROW_ORDER: tuple[str, ...] = (
@@ -55,6 +57,7 @@ PLUGIN_ROW_ORDER: tuple[str, ...] = (
     "domain-driven-design",
     "user-experience-design",
     "architecture-centric-engineering",
+    "context-to-memory",
 )
 
 # Delivery-system practice — supporting crosscut only; never a board row or practice-rail chip.
@@ -64,6 +67,7 @@ SUPPORTING_ONLY_PLUGIN_IDS: frozenset[str] = frozenset({"kanban"})
 SKILL_PAGE_OTHER_FAMILY = "other"
 
 PLUGIN_CSS_CLASS: dict[str, str] = {
+    "context-to-memory": "aad-fam-ctx",
     "domain-driven-design": "aad-fam-ddd",
     "user-experience-design": "aad-fam-uxd",
     "story-driven-delivery": "aad-fam-sdd",
@@ -77,9 +81,11 @@ PLUGIN_PERSPECTIVE_KEY: dict[str, str] = {
     "domain-driven-design": "ddd",
     "user-experience-design": "uxd",
     "architecture-centric-engineering": "arc",
+    "context-to-memory": "ctx",
 }
 
 PLUGIN_LABEL: dict[str, str] = {
+    "context-to-memory": "Context to memory",
     "domain-driven-design": "Domain-driven design",
     "user-experience-design": "User experience design",
     "story-driven-delivery": "Story-driven delivery",
@@ -167,6 +173,7 @@ STAGE_VERTICAL_SLIDE_INDEX: dict[str, int] = {
 
 # Repo ``stages/<folder>/`` → kanban column id (see ``abd-skills/stages/``).
 STAGE_FOLDER_TO_KANBAN: dict[str, str] = {
+    "context": "context",
     "shaping": "shaping",
     "idea-shaping": "shaping",
     "discovery": "discovery",
@@ -176,6 +183,12 @@ STAGE_FOLDER_TO_KANBAN: dict[str, str] = {
 }
 
 STAGE_SCOPE_META: dict[str, tuple[str, str, str, str]] = {
+    "context": (
+        "solution",
+        "All stages",
+        "cross-cutting",
+        "convert · chunk · embed · search",
+    ),
     "shaping": (
         "solution",
         "Whole solution",
@@ -245,6 +258,7 @@ def _kanban_include_skill(skill_id: str, *, stage_id: str | None = None, notes: 
 
 # Per-stage context-window depth — detail text appears under scale shapes (not duplicated below).
 STAGE_CONTEXT: dict[str, tuple[str, str]] = {
+    "context": ("cross-cutting", "Build and query workspace memory — convert, chunk, embed, and search source material."),
     "shaping": ("wide / shallow", "Whole-solution view — outline map and boundaries."),
     "discovery": ("medium", "Full map, UX IA, architecture blueprint, thin slices."),
     "exploration": ("narrow / deeper", "Increment slice — AC, mockups, arch templates."),
@@ -446,7 +460,7 @@ def discover_stage_folder_skills(repo_root: Path) -> dict[str, list[str]]:
 
 
 def load_kanban_model(repo_root: Path) -> KanbanModel:
-    stages_dir = repo_root / "practices" / "kanban" / "reference" / "stages"
+    stages_dir = repo_root / "common" / "stages"
     model = KanbanModel()
     for stage_id, title, num in STAGE_FILES:
         path = stages_dir / f"{stage_id}.md"
@@ -1188,10 +1202,12 @@ def build_catalog_foundry_kanban_embed_html(
             "</div>"
         )
     after_board = "\n".join(after_parts)
+    n_stages = len(model.stages)
+    board_size_cls = f" foundry-board-grid--{n_stages}" if n_stages != 5 else ""
     body = (
         '  <div class="foundry-travel-ring" id="travel-ring" aria-hidden="true"></div>\n'
         f"{cdd}\n"
-        '  <div class="foundry-board-grid" id="board">\n'
+        f'  <div class="foundry-board-grid{board_size_cls}" id="board">\n'
         f"{practice_col}\n"
         f"{textwrap.indent(cols.strip(), '    ')}\n"
         "  </div>"
@@ -2340,11 +2356,20 @@ def build_kanban_board_html(
             )
         stage_attr = f' data-stage="{stage_id}"' if foundry_hub else ""
         if foundry_hub:
+            collapse_label = (
+                f'      <span class="kb-col-collapsed-label" aria-hidden="true">{_h(title)}</span>\n'
+            )
+            collapse_btn = (
+                f'      <button type="button" class="kb-col-collapse-btn" '
+                f'aria-label="Collapse column" aria-expanded="true">&#x2039;</button>\n'
+            )
             cols.append(
                 f'    <div class="kb-col{active_cls}" data-id="col-{stage_id}"{stage_attr}>\n'
                 f"{col_head}"
-                + "\n".join(col_rows)
-                + "\n    </div>"
+                + "\n".join(col_rows) + "\n"
+                + collapse_label
+                + collapse_btn
+                + "    </div>"
             )
         else:
             cols.append(

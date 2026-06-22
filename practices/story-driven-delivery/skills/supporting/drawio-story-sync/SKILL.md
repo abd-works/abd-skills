@@ -2,11 +2,14 @@
 name: drawio-story-sync
 catalog_garden_tier: foundational
 catalogue_one_liner: >-
-  story-graph.json to Draw.io story maps; validated load/save and diagram sync.
+  Keep Draw.io story maps in sync with the story graph — so diagrams reflect current scope.
 description: >-
-  Renders and synchronizes story-map Draw.io diagrams (outline, exploration with acceptance
-  criteria, prioritization increments) from story-graph.json. Use when producing or diffing
-  story-map.drawio files, or when wiring CI/scripts for diagram refresh and update reports.
+  Render and synchronize story-map Draw.io diagrams from story-graph.json. Use when producing or refreshing outline, exploration, or increment diagrams.
+context-perspective: stories
+context-role: support
+context-fidelity:
+  - level: discovery
+    mode: diagram-render
 ---
 
 # drawio-story-sync

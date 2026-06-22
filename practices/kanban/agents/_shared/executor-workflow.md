@@ -1,4 +1,4 @@
-# Executor workflow (shared)
+﻿# Executor workflow (shared)
 
 **When:** your agent is an **executor** (`slot_type: executor`).
 
@@ -11,7 +11,7 @@ Announce each step. Do not run scanner validation — that is the matching **rev
 | `skill-helpers/` | workspace paths |
 | Practice skill `SKILL.md` + `rules/` | read to **author** |
 | `story-graph-ops` | update graph after draft confirmed |
-| `execute-skill-using-skills-rules` / scanners | **no** — deferred to reviewer |
+| `common` / scanners | **no** — deferred to reviewer |
 | `track_task` | optional |
 
 **Executors produce; reviewers validate.**
@@ -24,7 +24,7 @@ When a step says **CHECKPOINT**:
 
 1. **Present** state and flag unknowns.
 2. **Stop** and wait.
-3. **On response:** confirm → proceed · correct → log in `docs/corrections-log.md` per `execute-skill-using-skills-rules` **before** fixing · question → answer, re-present.
+3. **On response:** confirm → proceed · correct → log in `docs/corrections-log.md` per `common` **before** fixing · question → answer, re-present.
 
 ---
 

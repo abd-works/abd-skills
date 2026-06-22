@@ -1,21 +1,31 @@
----
+﻿---
 name: abd-kanban
 catalog_garden_tier: practice
 catalog_garden_order: 60
 catalogue_one_liner: >-
   JIT kanban board — tickets flow through stages, scatter at scope boundaries, agents pull work.
 description: >-
-  JIT kanban board for kanban lead and agents. Tickets flow through stages
-  defined by the kanban board, scatter into finer-grained tickets at scope
-  boundaries, and agents pull skill-level work from tickets.
-  Use when setting up a delivery kanban board, initialising a kanban board, configuring
-  ticket flow, or tracking delivery progress across stages.
+  Configure a delivery kanban board with stages, scope levels, and ticket flow rules. Use when initialising a board or defining how tickets flow through delivery stages.
 ---
 # abd-kanban
 
 ## Purpose
 
-Configure the kanban board for a delivery engagement. The *kanban board* defines ordered stages, each with a scope level and stage work required. Tickets carry only a lazily-populated `skill_progress` map; the kanban board (`kanban.json`) is the single source of truth for which skills a stage require. The kanban app owns all board mechanics from there.
+Make delivery work visible and flow-governed — so nothing hides and bottlenecks surface immediately.
+
+---
+
+## Grill prompts
+
+Read `common/grill-me-with-practice-skill.md` before grilling.
+
+Before generating, surface these:
+
+- **WIP invisibility** — What work is actually in progress that the board does not show — side tasks, rework, blocked items waiting silently?
+- **Stage definition** — Can every team member state what "done" means at each stage, or do items drift forward by feel?
+- **Scatter confusion** — When a ticket scatters into children, does the team know who owns the children and when the parent moves?
+- **Flow vs batch** — Are you pulling one item at a time to completion, or pushing batches through each stage?
+- **Bottleneck blindness** — Where is work piling up right now, and would the board make that obvious to a newcomer?
 
 ---
 
@@ -32,8 +42,6 @@ Files to `<workspace>/docs/kanban/`:
 Read [../../reference/kanban-board.md](../../reference/kanban-board.md) and [../../reference/artifact-layout.md](../../reference/artifact-layout.md) before starting.
 
 ### 1. Generate
-
-Read every file in **`rules/`**; author to those rules.
 
 Produce output from the templates:
 

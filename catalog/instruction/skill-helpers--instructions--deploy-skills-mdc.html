@@ -3,21 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AI Garden — instruction · deploy-skills</title>
-<script src="/commons/brand-nav.js?v=aigarden-4"></script>
+<title>Foundry — instruction · deploy-skills</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../commons/site.css?v=foundry-3">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
-
 /*
-  Agile Garden — AI Garden prelude + gardener lesson fragment.
+  ABD Foundry — catalog prelude + gardener lesson fragment.
   Inlined via generate_abd_catalog.py. Max border-radius 6px; flat surfaces.
-  Brand split: orange-500 (#E5531A) for column chrome / rails; ai-blue (#4FC3F7 / #81D4FA)
-  on dense mono skill links — see abd-works-brand BRAND-GUIDELINES §3.1 (ai-blue-500).
+  Brand split: --accent (#E5531A) for column chrome / rails; --ai-accent on dense
+  mono skill links (engineering mode only — executive overrides in catalog.css).
 */
 .catalog-prelude {
   margin: 0 0 24px;
   padding: 0 0 20px;
-  border-bottom: 1px solid #2A2A2A;
+  border-bottom: 1px solid var(--border);
 }
 .catalog-prelude-heading {
   margin: 0 0 12px;
@@ -26,7 +27,7 @@
   color: var(--text);
   line-height: 1.25;
   padding-bottom: 8px;
-  border-bottom: 1px solid #2A2A2A;
+  border-bottom: 1px solid var(--border);
   scroll-margin-top: 48px;
 }
 .catalog-prelude-tagline {
@@ -42,9 +43,9 @@
   margin: 0 0 18px;
 }
 .catalog-mission-card {
-  background: #1B1B20;
-  border: 1px solid #2A2A2A;
-  border-left: 3px solid #E5531A;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
   border-radius: 4px;
   padding: 14px 20px;
   display: flex;
@@ -56,7 +57,7 @@
   flex-shrink: 0;
   font-size: 0.95rem;
   font-weight: 700;
-  color: #F4F4F5;
+  color: var(--text);
   margin: 0;
   white-space: nowrap;
 }
@@ -70,14 +71,14 @@
 .catalog-mission-card--teal,
 .catalog-mission-card--amber,
 .catalog-mission-card--purple {
-  background: #1B1B20;
-  border: 1px solid #2A2A2A;
-  border-left: 3px solid #E5531A;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
 }
 .catalog-mission-card--teal h3,
 .catalog-mission-card--amber h3,
 .catalog-mission-card--purple h3 {
-  color: #F4F4F5;
+  color: var(--text);
 }
 @media (max-width: 720px) {
   .catalog-mission { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -94,17 +95,17 @@
   gap: 10px;
   padding: 8px 0 10px;
   margin: 24px 0 12px;
-  border-bottom: 1px solid #2A2A2A;
+  border-bottom: 1px solid var(--border);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #E5531A;
+  color: var(--accent);
 }
 .catalog-section-label--foundational {
   margin-top: 28px;
-  color: #8A8A97;
-  border-bottom-color: #1A1A1E;
+  color: var(--muted);
+  border-bottom-color: var(--border-muted);
 }
 
 /* ── Practice grid — all 5 disciplines forced onto one row ── */
@@ -112,8 +113,8 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 1px;
-  background: #2A2A2A;
-  border: 1px solid #2A2A2A;
+  background: var(--border);
+  border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
   margin: 0;
@@ -130,8 +131,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: #2A2A2A;
-  border: 1px solid #2A2A2A;
+  background: var(--border);
+  border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
 }
@@ -157,7 +158,7 @@
   display: block !important;
   font-size: 0.82rem;
   line-height: 1.5;
-  color: #9B9BA8;
+  color: var(--muted);
 }
 
 /* ── Agents grid — single wide column ── */
@@ -165,15 +166,15 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: #2A2A2A;
-  border: 1px solid #2A2A2A;
+  background: var(--border);
+  border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
 }
 .catalog-section-label--agents {
   margin-top: 28px;
-  color: #E5531A;
-  border-bottom-color: #2A2A2A;
+  color: var(--accent);
+  border-bottom-color: var(--border);
 }
 
 /* ── Shared column card ── */
@@ -198,7 +199,7 @@
   margin-top: 0;
 }
 .catalog-garden-col {
-  background: #111113;
+  background: var(--surface);
   border: none;
   border-radius: 0;
   overflow: hidden;
@@ -212,17 +213,17 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  border-bottom: 1px solid #2A2A2A;
-  background: #1B1B20;
-  color: #E5531A;
-  border-left: 3px solid #E5531A;
+  border-bottom: 1px solid var(--border);
+  background: var(--raised);
+  color: var(--accent);
+  border-left: 3px solid var(--accent);
 }
 .catalog-garden-col-header--practice,
 .catalog-garden-col-header--foundational,
 .catalog-garden-col-header--agents {
-  background: #1B1B20;
-  color: #E5531A;
-  border-left: 3px solid #E5531A;
+  background: var(--raised);
+  color: var(--accent);
+  border-left: 3px solid var(--accent);
 }
 .catalog-garden-ico { flex-shrink: 0; display: block; }
 .catalog-garden-row {
@@ -230,11 +231,11 @@
   align-items: center;
   gap: 10px;
   padding: 6px 16px;
-  border-bottom: 1px solid #1A1A1E;
+  border-bottom: 1px solid var(--border-muted);
   font-size: 0.85rem;
 }
 .catalog-garden-row:last-child { border-bottom: none; }
-/* Skill/agent links — mono names stay near-white; ai-blue hairline/hover (brand AI accent, not orange wall) */
+/* Skill/agent links — mono names; ai-accent on dark (engineering mode) */
 .catalog-garden-name {
   font-weight: 700;
   font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
@@ -242,12 +243,11 @@
   min-width: 0;
   overflow-wrap: anywhere;
   word-break: break-word;
-  color: #4FC3F7;
+  color: var(--ai-accent);
 }
-/* !important beats global `a { … }`, :visited, and concatenation order */
 .catalog-prelude .catalog-garden-name a,
 .catalog-garden-lists .catalog-garden-name a {
-  color: #4FC3F7 !important;
+  color: var(--ai-accent) !important;
   font-weight: 700 !important;
   text-decoration: none !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
@@ -256,19 +256,19 @@
 .catalog-prelude .catalog-garden-name a:focus-visible,
 .catalog-garden-lists .catalog-garden-name a:hover,
 .catalog-garden-lists .catalog-garden-name a:focus-visible {
-  color: #81D4FA !important;
+  color: var(--ai-accent-soft) !important;
   border-bottom-color: rgba(79, 195, 247, 0.95);
 }
 .catalog-garden-name--agent a,
 .catalog-garden-name--foundational a {
-  color: #4FC3F7 !important;
+  color: var(--ai-accent) !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
 }
 .catalog-garden-name--agent a:hover,
 .catalog-garden-name--agent a:focus-visible,
 .catalog-garden-name--foundational a:hover,
 .catalog-garden-name--foundational a:focus-visible {
-  color: #81D4FA !important;
+  color: var(--ai-accent-soft) !important;
   border-bottom-color: rgba(79, 195, 247, 0.92);
 }
 .catalog-garden-name--dim {
@@ -286,109 +286,231 @@
 .catalog-garden-desc--muted { opacity: 0.5; }
 
 :root {
-  /* Primary accent — borders, nav “you are here”; keep saturated */
-  --orange:       #E5531A;
-  --orange-hover: #C64514;
-  /* Brand ai-blue (BRAND-GUIDELINES §3.1) — dense skill listings + card hover cue */
-  --ai-blue-500:  #4FC3F7;
-  --ai-blue-300:  #81D4FA;
-  /* Body links — soft orange (prose); garden grid uses ai-blue in agile-garden-fragment.css */
+  --radius:       6px;
   --link-soft:        #FFB380;
   --link-soft-hover:  #FFCCA3;
-  --link-muted:       #F2A07A;
-  --bg:           #0B0B0B;
-  --surface:      #111113;
-  --raised:       #1B1B20;
-  --border:       #2A2A2A;
-  --border-muted: #1e1e22;
-  --text:         #F4F4F5;
-  --muted:        #9B9BA8;
-  --radius:       6px;
-  --font-sans:    'Inter', system-ui, sans-serif;
-  --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+  --link-muted:       var(--accent-soft);
+  --orange:       var(--accent);
+  --orange-hover: var(--accent-deep);
+  --ai-blue-500:  var(--ai-accent);
+  --ai-blue-300:  #81D4FA;
 }
-*, *::before, *::after { box-sizing: border-box; }
-body {
-  background: var(--bg);
-  color: var(--text);
-  margin: 0;
-  font-family: var(--font-sans);
-  font-size: 15px;
-  line-height: 1.65;
-  -webkit-font-smoothing: antialiased;
-}
-a { color: var(--link-muted); text-decoration: none; transition: color 120ms ease; }
-a:hover { color: var(--link-soft-hover); text-decoration: none; }
 
-/* Wayfinding stays strong accent */
-.nav a.nav__link--current {
-  color: var(--orange) !important;
+/* Foundry catalog — content styles (nav + page hero from abd-works-website/css/site.css) */
+
+/* Hub hero — title left, Practice legend right (vertical stack, content-sized) */
+.page-hero__table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin-bottom: 0;
+  table-layout: auto;
 }
+
+.page-hero__cell {
+  vertical-align: top;
+  padding: 0;
+}
+
+.page-hero__cell--title {
+  width: auto;
+  padding-right: 48px;
+}
+
+.page-hero__cell--title .page-headline {
+  margin: 0 0 20px;
+}
+
+.page-hero__cell--title .body-lead {
+  margin-bottom: 0;
+  max-width: 640px;
+}
+
+.page-hero__cell--practice {
+  width: 1%;
+  white-space: nowrap;
+  padding-top: 0.35em;
+}
+
+.page-hero__cell--practice .kanban-legend-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  margin: 0;
+}
+
+.page-hero__cell--practice .kanban-legend-heading {
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.page-hero__cell--practice .kanban-legend-cards {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+  min-width: max-content;
+}
+
+/* Visible outside .kb-slide — natural chip width, no squish */
+.page-hero__cell--practice .kanban-legend-cards .kb-ticket.aad-skill {
+  opacity: 1;
+  transform: none;
+  filter: none;
+  display: block;
+  width: auto;
+  white-space: nowrap;
+  font-size: 11px;
+  padding: 6px 10px;
+  line-height: 1.3;
+  text-align: left;
+}
+
+.page-hero__cell--practice .kanban-legend-cards .kb-ticket.aad-skill.aad-fam-ddd {
+  border-left-color: #6C5CE7;
+}
+
+.page-hero__cell--practice .kanban-legend-cards .kb-ticket.aad-skill.aad-fam-uxd {
+  border-left-color: #E84393;
+}
+
+.page-hero__cell--practice .kanban-legend-cards .kb-ticket.aad-skill.aad-fam-sdd {
+  border-left-color: #6BCB77;
+}
+
+.page-hero__cell--practice .kanban-legend-cards .kb-ticket.aad-skill.aad-fam-arc {
+  border-left-color: var(--abd-blue, #4FC3F7);
+}
+
+@media (max-width: 960px) {
+  .page-hero__table,
+  .page-hero__table tbody,
+  .page-hero__table tr,
+  .page-hero__table td {
+    display: block;
+    width: 100%;
+  }
+
+  .page-hero__cell--title {
+    padding-right: 0;
+    margin-bottom: 12px;
+  }
+
+  .page-hero__cell--practice {
+    width: 100%;
+    white-space: normal;
+    padding-top: 0;
+  }
+
+  .page-hero__cell--practice .kanban-legend-row {
+    align-items: flex-start;
+  }
+
+  .page-hero__cell--practice .kanban-legend-cards {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .page-hero__cell--practice .kanban-legend-cards .kb-ticket.aad-skill {
+    white-space: normal;
+    width: 100%;
+  }
+}
+
+/* Nav: marketing site links + Foundry section (catalog-nav.js) */
+.nav-links__sep {
+  width: 1px;
+  height: 1.1em;
+  align-self: center;
+  background: var(--border);
+  margin: 0 6px;
+  padding: 0;
+  list-style: none;
+  pointer-events: none;
+}
+.nav-links a.nav-links__foundry,
+.nav-drawer-links a.nav-links__foundry {
+  opacity: 0.88;
+}
+
 strong { font-weight: 600; }
-code {
+
+.catalog-body {
+  padding-bottom: 96px;
+}
+
+.catalog-body .wrap {
+  max-width: 1400px;
+}
+
+.catalog-body code {
   font-family: var(--font-mono);
   font-size: 0.875em;
   background: rgba(255,255,255,0.06);
   padding: 2px 5px;
   border-radius: 3px;
-  color: #F2A07A;
+  color: var(--accent-soft);
 }
 
-/* ── Page layout ── */
-.page-wrap {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 48px clamp(16px, 4vw, 48px) 96px;
+html[data-theme="engineering"] .catalog-body code,
+html[data-abd-theme="engineering"] .catalog-body code {
+  background: rgba(255,255,255,0.06);
 }
 
-/* ── Panel / legacy wrapper — flatten to plain surface ── */
-.panel {
-  background: transparent;
-  border: none;
-  border-radius: 0;
-  overflow: visible;
+html:not([data-theme="engineering"]) .catalog-body code,
+html[data-abd-theme="executive"] .catalog-body code {
+  background: rgba(0, 0, 0, 0.06);
 }
 
-/* ── Page header (replaces old panel-header) ── */
-.panel-header {
-  margin-bottom: 40px;
-  padding-bottom: 32px;
-  border-bottom: 1px solid var(--border);
-  border-left: none;
-  background: transparent;
-  display: block;
+.page-hero--detail {
+  padding-top: 20px;
+  padding-bottom: 16px;
 }
-
-.header-icon { display: none; }
-
-.header-text { display: block; }
-.brand { display: none; }
-.brand-row { display: none; }
-.brand-row .brand { display: none; }
-.brand-row .cap-badge { display: none; }
-
-h1 {
-  margin: 0 0 10px;
-  font-size: clamp(28px, 4vw, 42px);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-  color: var(--text);
-  font-family: var(--font-sans);
+.page-hero--detail .page-headline {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 4px 0 6px;
 }
-
-.tagline {
+.page-headline .skill-name-prefix,
+.cap-card__title .skill-name-prefix {
+  color: var(--accent);
+}
+.page-hero--detail .body-lead {
+  font-size: 0.9rem;
   margin: 0;
-  font-size: 15px;
   color: var(--muted);
-  max-width: 540px;
-  line-height: 1.65;
-  font-family: var(--font-sans);
 }
 
-.panel-body { padding: 0; }
-p { margin: 0 0 14px; }
-h2 {
+.page-hero--detail .back-link {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.page-hero--detail .back-link:hover {
+  color: var(--accent);
+}
+
+.page-hero--detail .s-name {
+  margin-bottom: 12px;
+}
+
+.catalog-body p { margin: 0 0 14px; }
+
+.catalog-body h2 {
   font-size: 1.2rem;
   font-weight: 700;
   margin: 32px 0 14px;
@@ -396,29 +518,8 @@ h2 {
   border-bottom: 1px solid var(--border);
   color: var(--text);
 }
-h2:first-child { margin-top: 0; }
-.nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 18px;
-  margin: 0 0 18px;
-  padding: 0 0 14px;
-  border-bottom: 1px solid var(--border-muted);
-}
-.nav a {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--muted);
-}
-.nav a.nav__link--current {
-  pointer-events: none;
-}
-/* Kanban is a different experience (full-screen deck) — keep it last and visually apart */
-.nav a.nav__link--kanban {
-  margin-left: auto;
-  padding-left: 18px;
-  border-left: 1px solid var(--border-muted);
-}
+
+.catalog-body h2:first-child { margin-top: 0; }
 .cap-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -426,44 +527,64 @@ h2:first-child { margin-top: 0; }
   margin: 18px 0 0;
 }
 .cap-card {
+  position: relative;
   display: block;
   text-decoration: none;
-  background: var(--raised);
+  background: var(--surface);
   border: 1px solid var(--border);
-  border-left: 3px solid var(--orange);
+  border-left: 3px solid var(--accent);
   border-radius: var(--radius);
   padding: 16px 18px;
-  transition: background 0.15s, border-color 0.15s;
+  overflow: hidden;
+  transition: background 200ms cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 200ms cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
+}
+.cap-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 a.cap-card {
   color: var(--muted);
 }
 .cap-card:hover {
-  background: rgba(79, 195, 247, 0.06);
-  border-color: rgba(79, 195, 247, 0.32);
+  background: var(--raised);
+  border-color: var(--accent-soft);
   text-decoration: none;
+}
+.cap-card:hover::before {
+  transform: scaleX(1);
 }
 .cap-card__title {
   font-size: 0.97rem;
   font-weight: 700;
-  color: #F4F4F5;
+  color: var(--text);
   margin: 0 0 12px;
   display: flex;
   align-items: center;
   gap: 10px;
+  transition: color 200ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 a.cap-card:hover .cap-card__title {
-  color: var(--ai-blue-300);
+  color: var(--accent);
 }
 .cap-card__icon {
   flex-shrink: 0;
   width: 24px;
   height: 24px;
-  color: rgba(79, 195, 247, 0.72);
+  color: var(--muted);
+  transition: color 200ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 a.cap-card:hover .cap-card__icon {
-  color: var(--ai-blue-500);
+  color: var(--accent-soft);
 }
 .cap-card__label {
   font-size: 0.72rem;
@@ -477,9 +598,12 @@ a.cap-card:hover .cap-card__icon {
 .cap-card__meta { font-size: 0.75rem; color: var(--muted); font-family: var(--font-mono, 'JetBrains Mono', monospace); margin: 0 0 8px; opacity: 0.85; }
 .cap-card__more {
   font-size: 0.78rem;
-  color: rgba(79, 195, 247, 0.82);
+  color: var(--muted);
   opacity: 1;
   margin: 10px 0 0;
+}
+a.cap-card:hover .cap-card__more {
+  color: var(--accent-soft);
 }
 
 /* Entry detail pages (skill/*.html, agent/*.html) — overview-style */
@@ -490,7 +614,7 @@ a.cap-card:hover .cap-card__icon {
   margin: 0 0 10px;
 }
 .entry-detail-header .back-link:hover {
-  color: var(--orange);
+  color: var(--accent);
 }
 .cap-badge {
   display: inline-flex;
@@ -500,9 +624,9 @@ a.cap-card:hover .cap-card__icon {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--orange);
-  background: rgba(255, 122, 0, 0.08);
-  border: 1px solid rgba(255, 122, 0, 0.25);
+  color: var(--accent);
+  background: rgba(229, 83, 26, 0.08);
+  border: 1px solid rgba(229, 83, 26, 0.25);
   border-radius: 3px;
   padding: 2px 8px;
   margin: 0 0 8px;
@@ -511,6 +635,12 @@ a.cap-card:hover .cap-card__icon {
   font-size: 0.9rem;
   color: var(--muted);
   margin: 0 0 12px;
+}
+.entry-subheading {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 18px 0 8px;
 }
 .entry-prose {
   white-space: pre-wrap;
@@ -556,7 +686,7 @@ a.cap-card:hover .cap-card__icon {
   font-weight: 800;
   font-size: 1.05em;
   line-height: 1.35;
-  color: var(--orange);
+  color: var(--accent);
 }
 .entry-md-section[open] > summary.entry-md-section__summary::before {
   content: "-";
@@ -616,13 +746,23 @@ a.cap-card:hover .cap-card__icon {
   color: #b8b8c2;
   margin: 0 0 18px;
 }
+.skill-detail-page .skill-hero-img-wrap + .install-block {
+  margin-top: 18px;
+}
+.skill-detail-page .install-block + .skill-cr-grid,
+.skill-detail-page .install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block {
+  margin-top: 0;
+}
 .install-block {
-  margin: 22px 0 0;
+  margin: 20px 0 0;
   padding: 16px 18px;
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid var(--border-muted);
   border-radius: var(--radius);
-  border-left: 3px solid var(--orange);
+  border-left: 3px solid var(--accent);
 }
 .install-block h2 {
   margin-top: 0;
@@ -651,6 +791,18 @@ a.cap-card:hover .cap-card__icon {
   padding: 0;
   font-size: inherit;
   color: inherit;
+}
+.install-source {
+  margin: 12px 0 0;
+  font-size: 0.92rem;
+}
+.install-source a {
+  font-weight: 600;
+}
+.install-source-path {
+  color: var(--muted);
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: 0.82em;
 }
 .file-list {
   list-style: none;
@@ -742,13 +894,13 @@ a.cap-card:hover .cap-card__icon {
   font-weight: 800;
   font-size: 1.05em;
   line-height: 1.35;
-  color: var(--orange);
+  color: var(--accent);
 }
 .file-tree__details[open] > .file-tree__summary::before {
   content: "-";
 }
 .file-tree__summary:hover {
-  background: rgba(255, 122, 0, 0.06);
+  background: rgba(229, 83, 26, 0.06);
 }
 .file-tree__summary .file-meta {
   display: inline;
@@ -775,7 +927,23 @@ a.cap-card:hover .cap-card__icon {
   margin-top: 4px;
 }
 
-/* Agile Garden prelude + mission + lists: abd-works/commons/agile-garden-fragment.css (prepended by generate_abd_catalog.py) */
+/* Foundry prelude + mission + lists: abd-works/commons/agile-garden-fragment.css (prepended by generate_abd_catalog.py) */
+
+/* Executive mode — AI blue fails contrast on light; skill links use accent */
+html[data-abd-theme="executive"] .catalog-prelude .catalog-garden-name a,
+html[data-abd-theme="executive"] .catalog-garden-lists .catalog-garden-name a,
+html[data-abd-theme="executive"] .catalog-garden-name--agent a,
+html[data-abd-theme="executive"] .catalog-garden-name--foundational a {
+  color: var(--accent-deep) !important;
+  border-bottom-color: rgba(198, 69, 20, 0.35);
+}
+html[data-abd-theme="executive"] .catalog-prelude .catalog-garden-name a:hover,
+html[data-abd-theme="executive"] .catalog-garden-lists .catalog-garden-name a:hover,
+html[data-abd-theme="executive"] .catalog-garden-name--agent a:hover,
+html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
+  color: var(--accent) !important;
+  border-bottom-color: rgba(229, 83, 26, 0.55);
+}
 
 /* Single-page hub (index.html): collapsible hub / skills / agents */
 .catalog-section {
@@ -895,12 +1063,12 @@ a.cap-card:hover .cap-card__icon {
   vertical-align: top;
 }
 .rule-prose table.md-table th {
-  background: rgba(255, 122, 0, 0.08);
+  background: rgba(229, 83, 26, 0.08);
   font-weight: 600;
   white-space: nowrap;
 }
-.rule-prose table.md-table td { background: var(--panel); }
-.rule-prose a { color: var(--accent, #ff7a00); text-decoration: underline; }
+.rule-prose table.md-table td { background: var(--surface); }
+.rule-prose a { color: var(--accent); text-decoration: underline; }
 .rule-prose a:hover { text-decoration: none; }
 
 .plugin-slots h3 {
@@ -910,47 +1078,673 @@ a.cap-card:hover .cap-card__icon {
 .plugin-slots h3:first-child { margin-top: 0; }
 .cap-grid--plugin-slot { margin-bottom: 8px; }
 
+/* ── Skill detail: family kanban stage nav (matches hub column headings) ── */
+.skill-kanban-nav {
+  --fam-sdd: #6bcb77;
+  --fam-ddd: #6c5ce7;
+  --fam-uxd: #e84393;
+  --fam-arc: #4fc3f7;
+  --fam-idea: var(--accent);
+  --abd-accent: var(--accent);
+  --abd-accent-glow: var(--accent-soft, var(--accent));
+  --abd-raised: var(--raised);
+  --abd-bg: var(--bg);
+  --abd-border: var(--border);
+  --abd-text: var(--text);
+  --abd-muted: var(--muted);
+  background: var(--raised);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0 16px;
+}
+.skill-kanban-nav .wrap {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.skill-kanban-nav__board {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  gap: 6px 8px;
+  align-items: start;
+}
+.skill-kanban-nav__practice-col {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  margin: 0;
+  padding: 0 8px;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-left-width: 3px;
+  border-radius: 4px;
+  line-height: 1.25;
+  box-sizing: border-box;
+  transition: box-shadow 120ms, border-color 120ms;
+  color: inherit;
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card:hover {
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--sdd {
+  border-left-color: var(--fam-sdd);
+  color: var(--fam-sdd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--ddd {
+  border-left-color: var(--fam-ddd);
+  color: var(--fam-ddd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--uxd {
+  border-left-color: var(--fam-uxd);
+  color: var(--fam-uxd);
+}
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--arc {
+  border-left-color: var(--fam-arc);
+  color: var(--fam-arc);
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap {
+  position: relative;
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip.kb-col-shape-tooltip {
+  min-width: 10rem;
+  max-width: 22rem;
+}
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:hover .kb-skill-tooltip,
+.skill-kanban-nav__practice-col .kb-skill-tooltip-wrap:focus-within .kb-skill-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.skill-kanban-nav__stages {
+  display: grid;
+  grid-template-columns: repeat(var(--skill-kanban-cols, 5), minmax(0, 1fr));
+  gap: 0 8px;
+  min-width: 0;
+}
+.skill-kanban-nav__col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.skill-kanban-nav__tickets {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.skill-kanban-nav .kb-col-head {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 8px 6px 7px;
+  font-family: var(--font-mono);
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.skill-kanban-nav .kb-col-head--static {
+  cursor: default;
+}
+.skill-kanban-nav a.kb-col-head {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav a.kb-col-head:hover {
+  border-color: rgba(229, 83, 26, 0.35);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.15);
+}
+.skill-kanban-nav .kb-col-head--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-col-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+}
+.skill-kanban-nav .kb-col-scope-shape {
+  flex-shrink: 0;
+  border: 2px solid var(--abd-accent);
+  border-radius: 2px;
+}
+.skill-kanban-nav__stages .kb-col-shape-tooltip,
+.skill-kanban-nav__stages .kb-skill-tooltip-wrap .kb-col-shape-tooltip {
+  display: none !important;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip {
+  position: absolute;
+  z-index: 50;
+  top: calc(100% + 8px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 7px 9px;
+  font-family: var(--font-mono);
+  text-align: left;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--abd-text);
+  background: var(--abd-raised);
+  border: 1px solid rgba(229, 83, 26, 0.45);
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 14px;
+  border: 5px solid transparent;
+  border-bottom-color: rgba(229, 83, 26, 0.45);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__name {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--abd-accent-glow);
+}
+.skill-kanban-nav__practice-col .kb-col-shape-tooltip__bullets {
+  font-size: 8px;
+  line-height: 1.45;
+  color: var(--abd-text);
+  white-space: pre-line;
+}
+.skill-kanban-nav .kb-col-scope-shape--solution { width: 36px; height: 12px; }
+.skill-kanban-nav .kb-col-scope-shape--increment { width: 24px; height: 16px; }
+.skill-kanban-nav .kb-col-scope-shape--sprint { width: 16px; height: 22px; }
+.skill-kanban-nav .kb-col-scope-shape--story { width: 11px; height: 28px; }
+.skill-kanban-nav .kb-col-head-title {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--abd-text);
+}
+.skill-kanban-nav .kb-col-head-title > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.skill-kanban-nav .kb-col-num {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--abd-text);
+  background: var(--abd-bg);
+  border: 1px solid var(--abd-border);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+.skill-kanban-nav .kb-ticket {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  background: var(--abd-raised);
+  color: var(--abd-text);
+  padding: 5px 6px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  border-left-width: 3px;
+  border-left-color: var(--abd-muted);
+  line-height: 1.25;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: border-color 120ms, box-shadow 120ms;
+}
+.skill-kanban-nav .kb-ticket:hover {
+  border-color: var(--abd-border);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.2);
+}
+.skill-kanban-nav .kb-ticket.kb-ticket--current {
+  border-color: rgba(229, 83, 26, 0.45);
+  box-shadow: 0 0 0 1px rgba(229, 83, 26, 0.25);
+}
+.skill-kanban-nav .kb-ticket.aad-fam-sdd { border-left-color: var(--fam-sdd); }
+.skill-kanban-nav .kb-ticket.aad-fam-ddd { border-left-color: var(--fam-ddd); }
+.skill-kanban-nav .kb-ticket.aad-fam-uxd { border-left-color: var(--fam-uxd); }
+.skill-kanban-nav .kb-ticket.aad-fam-arc { border-left-color: var(--fam-arc); }
+.skill-kanban-nav .kb-ticket.aad-fam-idea { border-left-color: var(--fam-idea); }
+.skill-kanban-nav .kb-ticket.aad-fam-delivery { border-left-color: var(--fam-delivery); }
+
+/* crosscut row title header chips — family colored text */
+.skill-kanban-nav .aad-crosscut-row-title.aad-fam-delivery { color: var(--fam-delivery); border-left-color: var(--fam-delivery); }
+.skill-kanban-nav .aad-crosscut-row-title.aad-fam-sdd     { color: var(--fam-sdd);      border-left-color: var(--fam-sdd); }
+.skill-kanban-nav .aad-crosscut-row-title.aad-fam-ddd     { color: var(--fam-ddd);      border-left-color: var(--fam-ddd); }
+.skill-kanban-nav .aad-crosscut-row-title.aad-fam-uxd     { color: var(--fam-uxd);      border-left-color: var(--fam-uxd); }
+.skill-kanban-nav .aad-crosscut-row-title.aad-fam-arc     { color: var(--fam-arc);      border-left-color: var(--fam-arc); }
+/* foundational header chip — muted */
+.skill-kanban-nav .aad-crosscut-tier--foundational .aad-crosscut-row-title { color: var(--abd-muted); }
+
+/* crosscut skill chips — white text, consistent size, natural width */
+.skill-kanban-nav .aad-delivery-crosscut-skills .kb-ticket.aad-skill,
+.skill-kanban-nav .aad-delivery-crosscut-agents .kb-ticket.aad-skill {
+  color: var(--abd-text);
+  font-size: 9.5px;
+  padding: 3px 5px;
+  width: auto;
+  flex: 0 1 auto;
+}
+/* crosscut skills wrap horizontally */
+.skill-kanban-nav .aad-delivery-crosscut-skills {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+/* practice rail — delivery/kanban color */
+.skill-kanban-nav__practice-col .foundry-practice-col__card.foundry-perspective-label--delivery {
+  border-left-color: var(--fam-delivery);
+  color: var(--fam-delivery);
+}
+@media (max-width: 960px) {
+  .skill-kanban-nav__board {
+    grid-template-columns: 1fr;
+  }
+  .skill-kanban-nav__stages {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+}
+
+/* ── Skill detail: full-width hero image / embedded viewer ── */
+.skill-hero-img-wrap {
+  margin: 24px 0 0;
+}
+.skill-hero-img-wrap:empty { display: none; }
+.skill-hero-img-wrap img,
+.skill-hero-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--raised);
+}
+
+/* HTML prototype iframe (reference/example/index.html) */
+.skill-prototype-wrap {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+.skill-prototype-frame {
+  display: block;
+  width: 100%;
+  min-height: 540px;
+  height: 71vh;
+  max-height: 810px;
+  border: 0;
+  background: #fff;
+}
+.skill-prototype-open {
+  margin: 0;
+  padding: 8px 14px;
+  font-size: 12px;
+  border-top: 1px solid var(--border);
+  background: var(--raised);
+}
+.skill-prototype-open a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.skill-prototype-open a:hover { text-decoration: underline; }
+
+/* draw.io embedded viewer */
+.skill-drawio-wrap {
+  position: relative;
+  width: 100%;
+  height: min(71vh, 680px);
+  min-height: 340px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: auto;
+  background: #fff;
+}
+.skill-drawio-wrap .mxgraph {
+  width: 100%;
+  min-height: 320px;
+  height: auto;
+}
+.skill-drawio-wrap .geToolbarContainer {
+  z-index: 4;
+}
+
+/* code file preview — white canvas (matches draw.io viewer) */
+.skill-code-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+  font-size: 13px;
+  color: #111113;
+}
+.skill-code-lang {
+  padding: 6px 14px;
+  font-family: var(--mono, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #595a61;
+  background: #f6f5f3;
+  border-bottom: 1px solid #e7e1d6;
+}
+.skill-code-preview pre {
+  margin: 0;
+  padding: 16px;
+  overflow-x: auto;
+  max-height: 420px;
+  background: #fff;
+}
+.skill-code-preview code {
+  font-family: var(--mono, 'JetBrains Mono', monospace);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: #111113;
+}
+
+/* rendered markdown preview — white canvas (matches draw.io viewer) */
+.skill-hero-img-wrap .skill-md-preview {
+  max-height: min(71vh, 610px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.skill-md-preview {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px 24px;
+  background: #fff;
+  color: #111113;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.skill-md-preview h1 { font-size: 18px; font-weight: 700; margin: 0 0 12px; color: #111113; }
+.skill-md-preview h2 { font-size: 15px; font-weight: 600; margin: 16px 0 8px; color: #111113;
+  border-bottom: 1px solid #e7e1d6; padding-bottom: 3px; }
+.skill-md-preview h3 { font-size: 13px; font-weight: 600; margin: 12px 0 6px; color: #111113; }
+.skill-md-preview h4 { font-size: 12px; font-weight: 600; margin: 10px 0 4px; color: #595a61; }
+.skill-md-preview p  { margin: 0 0 10px; }
+.skill-md-preview .spec-steps { margin: 0 0 14px; }
+.skill-md-preview p.spec-step { margin: 0 0 4px; line-height: 1.55; }
+.skill-md-preview .md-table-wrap { overflow-x: auto; margin: 0 0 12px; }
+.skill-md-preview .md-table { border-collapse: collapse; width: 100%; }
+.skill-md-preview ul, .skill-md-preview ol { margin: 0 0 10px; padding-left: 20px; }
+.skill-md-preview li { margin-bottom: 3px; }
+.skill-md-preview code { background: #f0ece4; border-radius: 3px;
+  padding: 1px 5px; font-family: var(--mono, monospace); font-size: 12px; color: #111113; }
+.skill-md-preview pre { background: #f6f5f3; border-radius: 5px;
+  padding: 12px; overflow-x: auto; margin: 0 0 12px; color: #111113; }
+.skill-md-preview table { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
+.skill-md-preview th, .skill-md-preview td {
+  border: 1px solid #ddd8cf; padding: 6px 10px; }
+.skill-md-preview th { background: #f0ece4; font-weight: 600; color: #111113; }
+.skill-md-preview a { color: var(--accent); }
+.skill-md-preview strong { color: #111113; }
+
+/* ── Skill detail: concepts | rules two-column grid ── */
+.skill-cr-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin: 24px 0 0;
+  align-items: start;
+}
+@media (max-width: 820px) {
+  .skill-cr-grid { grid-template-columns: 1fr; }
+}
+.skill-cr-col { min-width: 0; }
+.skill-cr-single { margin: 24px 0 0; }
+
+/* Glossary example hero — term blocks without heavy HR dividers */
+.skill-md-preview--glossary h1 {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #595a61;
+  margin: 0 0 10px;
+  border: 0;
+  padding: 0;
+}
+.skill-md-preview--glossary h2 {
+  font-size: 16px;
+  margin-top: 0;
+}
+.skill-md-preview--glossary h3 {
+  font-size: 13px;
+  font-weight: 700;
+  margin: 14px 0 6px;
+  padding: 6px 8px;
+  background: #f6f5f3;
+  border-radius: 4px;
+  border-left: 3px solid var(--accent);
+  color: #111113;
+}
+.skill-md-preview--glossary hr {
+  display: none;
+}
+.skill-md-preview--glossary ul {
+  margin-top: 0;
+}
+
+/* ── Skill detail: full-width content below ── */
+.skill-detail-content-col { margin-top: 32px; }
+.skill-detail-page .skill-cr-grid,
+.skill-detail-page .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .install-block + .skill-cr-single,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-grid,
+.skill-detail-page .skill-hero-img-wrap:empty + .skill-cr-single {
+  margin-top: 0;
+}
+
+/* ── Skill detail: concepts (expandable) ── */
+.skill-hero-img-wrap + .install-block {
+  margin-top: 16px;
+}
+.install-block + .skill-cr-grid,
+.install-block + .skill-cr-single {
+  margin-top: 28px;
+}
+.skill-concepts {
+  margin: 0 0 20px;
+}
+.skill-concepts-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 8px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-concept {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-concept summary {
+  padding: 8px 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  user-select: none;
+}
+.skill-concept summary::-webkit-details-marker { display: none; }
+.skill-concept summary::marker { content: ""; }
+.skill-concept summary::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-concept[open] summary::before { content: "\2212"; }
+.skill-concept-body {
+  padding: 6px 4px 10px 1.9rem;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.skill-concept-body p { margin: 0 0 8px; }
+.skill-concept-body p:last-child { margin-bottom: 0; }
+.skill-concept-body ul { margin: 0 0 8px 1.1em; padding: 0; }
+.skill-concept-body li { margin: 3px 0; }
+
+/* ── Skill detail: rules (DO / DON'T) ── */
+.skill-rules {
+  margin: 0 0 20px;
+}
+.skill-rules-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 12px;
+  border-bottom: 1px solid var(--border-muted);
+  padding-bottom: 8px;
+}
+.skill-rule {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule[open] > .skill-rule-header {
+  border-bottom: 1px solid var(--border-muted);
+}
+.skill-rule-header {
+  padding: 8px 10px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  background: var(--raised);
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+.skill-rule-header::-webkit-details-marker { display: none; }
+.skill-rule-header::marker { content: ""; }
+.skill-rule-header::before {
+  content: "+";
+  flex-shrink: 0;
+  width: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.skill-rule[open] > .skill-rule-header::before {
+  content: "\2212";
+}
+.skill-rule-section {
+  padding: 8px 12px;
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+.skill-rule-section--do {
+  border-left: 3px solid #2d8a4e;
+}
+.skill-rule-section--dont {
+  border-left: 3px solid #c0392b;
+}
+.skill-rule-section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin: 0 0 4px;
+  color: var(--muted);
+}
+.skill-rule-section--do .skill-rule-section-label { color: #2d8a4e; }
+.skill-rule-section--dont .skill-rule-section-label { color: #c0392b; }
+.skill-rule-section ul { margin: 0; padding: 0 0 0 1.1em; }
+.skill-rule-section li { margin: 2px 0; color: var(--text); }
+
 </style>
+<script src="../commons/catalog-nav.js?v=foundry-10"></script>
 </head>
-<body>
-<div class="page-wrap">
-<div class="panel" role="main">
+<body data-nav-prefix="../" data-nav-current="instructions" data-nav-site-base="../../../abd-works-website/">
+<main id="main-content">
 
-<header class="panel-header entry-detail-header">
-  <div class="header-text">
-    <div class="brand-row">
-      <p class="brand"><strong>abd.works</strong> &middot; AI Garden</p>
-      <p class="cap-badge">Instruction</p>
-    </div>
+
+
+<div class="page-hero page-hero--detail">
+  <div class="wrap">
     <a class="back-link" href="../plugin/skill-helpers.html">← Skill Helpers</a>
-    <h1>deploy-skills</h1>
-    <p class="tagline">skill-helpers/instructions/deploy-skills.mdc</p>
+    <p class="s-name">Instruction</p>
+
+    <h1 class="page-headline">deploy-skills</h1>
+    <p class="body-lead">skill-helpers/instructions/deploy-skills.mdc</p>
   </div>
-</header>
+</div>
 
-<div class="panel-body">
+<div class="catalog-body">
+<div class="wrap skill-detail-page">
 
-<nav class="nav" aria-label="AI Garden sections">
-  <a href="../index.html" class="nav__link">Complete</a>
-  <a href="../skills.html" class="nav__link">Skills</a>
-  <a href="../agents.html" class="nav__link">Agents</a>
-  <a href="../instructions.html" class="nav__link nav__link--current">Instructions</a>
-  <a href="../kanban-layout/index.html" class="nav__link nav__link--kanban">Delivery kanban</a>
-</nav>
+<div class="skill-hero-img-wrap">
 
+</div>
+
+
+
+
+
+<div class="skill-detail-content-col">
 <h2>Description</h2>
 <div class="entry-prose"><p>How to deploy skills, agents, guidance, and prompts from agilebydesign-skills</p></div>
-
-
-
 <hr class="entry-divider">
-
-
-
-<hr class="entry-divider">
-
 <h2 id="entry-contents">Contents</h2>
-<div class="entry-contents-doc">
 <details class="entry-md-section" id="md-overview"><summary class="entry-md-section__summary">Overview</summary><div class="entry-md-section__body"><h1>Deploying from agilebydesign-skills</h1>
 <p><strong>One script, one command — always:</strong></p>
 <pre><code># Deploy root resolution (see skill-helpers/content/workspace.md):
@@ -961,24 +1755,22 @@ a.cap-card:hover .cap-card__icon {
 
 # Override — always valid when you want this project regardless of skill-config / $PWD:
 &amp; &quot;&lt;skills-repo-root&gt;\scripts\deploy-skills.ps1&quot; -Force -DeployRoot &quot;C:\dev\abd-pet-store-demo&quot;</code></pre>
-<p>That is the only correct way to deploy anything from this repo. It deploys <strong>family capability packages</strong> (copy/merge into `.cursor/` or `.github/`).</p></div></details>
-<details class="entry-md-section" id="what-it-deploys-and-where"><summary class="entry-md-section__summary">What it deploys and where</summary><div class="entry-md-section__body"><div class="md-table-wrap"><table class="md-table"><thead><tr><th>Source</th><th>Destination</th></tr></thead><tbody><tr><td>`&lt;family&gt;/skills/**` (SKILL.md)</td><td>`&lt;deploy-root&gt;/.cursor/skills/&lt;name&gt;` (copy)</td></tr><tr><td>`&lt;family&gt;/agents/**` (AGENT.md / AGENTS.md)</td><td>`&lt;deploy-root&gt;/.cursor/agents/&lt;name&gt;` (copy)</td></tr><tr><td>`&lt;family&gt;/content/**`</td><td>`&lt;deploy-root&gt;/.cursor/content/` (merged)</td></tr><tr><td>`&lt;family&gt;/lib/**`</td><td>`&lt;deploy-root&gt;/.cursor/lib/` (copy)</td></tr><tr><td>`&lt;family&gt;/instructions/*.mdc`</td><td>`&lt;deploy-root&gt;/.cursor/rules/` (copy)</td></tr><tr><td>`&lt;family&gt;/instructions/*.instructions.md`</td><td>`&lt;deploy-root&gt;/.github/` (copy, VS Code)</td></tr><tr><td>`&lt;family&gt;/prompts/*.prompt.md`</td><td>`&lt;deploy-root&gt;/.cursor/commands/` (copy)</td></tr><tr><td>`skills/**` standalone (SKILL.md)</td><td>`&lt;deploy-root&gt;/.cursor/skills/&lt;name&gt;` (junction)</td></tr><tr><td>`agents/**` (AGENT.md)</td><td>`&lt;deploy-root&gt;/.cursor/agents/&lt;name&gt;` (junction)</td></tr></tbody></table></div>
-<p><strong>Infra rules and commands</strong> (workspace, deploy-skills, log-and-fix, execute-skill-using-skills-rules) live in <strong>`skill-helpers/instructions/`</strong> and <strong>`skill-helpers/prompts/`</strong> — deployed with the skill-helpers family package.</p>
-<p><strong>Family packages</strong> at repo root: `delivery/`, `story-driven-delivery/`, `domain-driven-design/`, `architecture-centric-engineering/`, `user-experience-design/`, `context-to-memory/`, `idea-shaping/`, `skill-builder/`, `skill-helpers/`, `utilities/`.</p>
-<p><strong>Deploy root</strong> (when `-DeployRoot` is omitted): read <strong>`workspace.active_skill_workspace`</strong> from <strong>`skill-config.json`</strong>; else walk <strong>`$PWD`</strong> for <strong>`*.code-workspace`</strong>; else skills repo root.</p></div></details>
-<details class="entry-md-section" id="where-to-put-new-artifacts"><summary class="entry-md-section__summary">Where to put new artifacts</summary><div class="entry-md-section__body"><div class="md-table-wrap"><table class="md-table"><thead><tr><th>What you are adding</th><th>Put it here</th></tr></thead><tbody><tr><td>A practice skill in a family</td><td>`&lt;family&gt;/skills/&lt;skill-name&gt;/` with `SKILL.md`</td></tr><tr><td>A standalone / infra skill</td><td>`skills/&lt;group&gt;/&lt;skill-name&gt;/` with `SKILL.md`</td></tr><tr><td>A delivery agent</td><td>`delivery/agents/&lt;agent-name&gt;/` with `AGENT.md`</td></tr><tr><td>Shared family prose</td><td>`&lt;family&gt;/content/`</td></tr><tr><td>Shared family Python</td><td>`&lt;family&gt;/lib/`</td></tr><tr><td>A Cursor rule (`.mdc`)</td><td>`&lt;family&gt;/instructions/` (infra → `skill-helpers/instructions/`)</td></tr><tr><td>A slash command (`.prompt.md`)</td><td>`&lt;family&gt;/prompts/` (infra → `skill-helpers/prompts/`)</td></tr></tbody></table></div>
+<p>That is the only correct way to deploy anything from this repo. It deploys <strong>family capability packages</strong> (copy/merge into <code>.cursor/</code> or <code>.github/</code>).</p></div></details>
+<details class="entry-md-section" id="what-it-deploys-and-where"><summary class="entry-md-section__summary">What it deploys and where</summary><div class="entry-md-section__body"><div class="md-table-wrap"><table class="md-table"><thead><tr><th>Source</th><th>Destination</th></tr></thead><tbody><tr><td><code>&lt;family&gt;/skills/**</code> (SKILL.md)</td><td><code>&lt;deploy-root&gt;/.cursor/skills/&lt;name&gt;</code> (copy)</td></tr><tr><td><code>&lt;family&gt;/agents/**</code> (AGENT.md / AGENTS.md)</td><td><code>&lt;deploy-root&gt;/.cursor/agents/&lt;name&gt;</code> (copy)</td></tr><tr><td><code>&lt;family&gt;/content/**</code></td><td><code>&lt;deploy-root&gt;/.cursor/content/</code> (merged)</td></tr><tr><td><code>&lt;family&gt;/lib/**</code></td><td><code>&lt;deploy-root&gt;/.cursor/lib/</code> (copy)</td></tr><tr><td><code>&lt;family&gt;/instructions/*.mdc</code></td><td><code>&lt;deploy-root&gt;/.cursor/rules/</code> (copy)</td></tr><tr><td><code>&lt;family&gt;/instructions/*.instructions.md</code></td><td><code>&lt;deploy-root&gt;/.github/</code> (copy, VS Code)</td></tr><tr><td><code>&lt;family&gt;/prompts/*.prompt.md</code></td><td><code>&lt;deploy-root&gt;/.cursor/commands/</code> (copy)</td></tr><tr><td><code>skills/**</code> standalone (SKILL.md)</td><td><code>&lt;deploy-root&gt;/.cursor/skills/&lt;name&gt;</code> (junction)</td></tr><tr><td><code>agents/**</code> (AGENT.md)</td><td><code>&lt;deploy-root&gt;/.cursor/agents/&lt;name&gt;</code> (junction)</td></tr></tbody></table></div>
+<p><strong>Infra rules and commands</strong> (workspace, deploy-skills, log-and-fix, common) live in <strong><code>skill-helpers/instructions/</code></strong> and <strong><code>skill-helpers/prompts/</code></strong> — deployed with the skill-helpers family package.</p>
+<p><strong>Family packages</strong> at repo root: <code>delivery/</code>, <code>story-driven-delivery/</code>, <code>domain-driven-design/</code>, <code>architecture-centric-engineering/</code>, <code>user-experience-design/</code>, <code>context-to-memory/</code>, <code>idea-shaping/</code>, <code>skill-builder/</code>, <code>skill-helpers/</code>, <code>utilities/</code>.</p>
+<p><strong>Deploy root</strong> (when <code>-DeployRoot</code> is omitted): read <strong><code>workspace.active_skill_workspace</code></strong> from <strong><code>skill-config.json</code></strong>; else walk <strong><code>$PWD</code></strong> for <strong><code>*.code-workspace</code></strong>; else skills repo root.</p></div></details>
+<details class="entry-md-section" id="where-to-put-new-artifacts"><summary class="entry-md-section__summary">Where to put new artifacts</summary><div class="entry-md-section__body"><div class="md-table-wrap"><table class="md-table"><thead><tr><th>What you are adding</th><th>Put it here</th></tr></thead><tbody><tr><td>A practice skill in a family</td><td><code>&lt;family&gt;/skills/&lt;skill-name&gt;/</code> with <code>SKILL.md</code></td></tr><tr><td>A standalone / infra skill</td><td><code>skills/&lt;group&gt;/&lt;skill-name&gt;/</code> with <code>SKILL.md</code></td></tr><tr><td>A delivery agent</td><td><code>delivery/agents/&lt;agent-name&gt;/</code> with <code>AGENT.md</code></td></tr><tr><td>Shared family prose</td><td><code>&lt;family&gt;/content/</code></td></tr><tr><td>Shared family Python</td><td><code>&lt;family&gt;/lib/</code></td></tr><tr><td>A Cursor rule (<code>.mdc</code>)</td><td><code>&lt;family&gt;/instructions/</code> (infra → <code>skill-helpers/instructions/</code>)</td></tr><tr><td>A slash command (<code>.prompt.md</code>)</td><td><code>&lt;family&gt;/prompts/</code> (infra → <code>skill-helpers/prompts/</code>)</td></tr></tbody></table></div>
 <ul>
-<li><strong>Do NOT</strong> hard-link manually — run `deploy-skills.ps1` instead.</li>
-<li>Single-family deploy: `python scripts/deploy_family_package.py --package story-driven-delivery --to &lt;workspace&gt;`</li>
+<li><strong>Do NOT</strong> hard-link manually — run <code>deploy-skills.ps1</code> instead.</li>
+<li>Single-family deploy: <code>python scripts/deploy_family_package.py --package story-driven-delivery --to &lt;workspace&gt;</code></li>
 </ul></div></details>
-</div>
-<hr class="entry-divider">
-<div class="entry-contents-files">
 <p><a href="../../foundational/skill-helpers/instructions/deploy-skills.mdc" target="_blank" rel="noopener noreferrer">Open source file</a></p>
 </div>
 
+
 </div>
 </div>
-</div>
+</main>
 </body>
 </html>

@@ -1,25 +1,41 @@
----
-name: scenario-walkthrough
+﻿---
+name: abd-domain-walk
 catalog_garden_order: 7
 catalogue_one_liner: >-
-  Walk scenarios through domain model or domain spec; validate class-operation ownership end-to-end.
+  Prove the domain model handles real scenarios end-to-end — find gaps before code does.
 description: >-
-  Walk concrete scenarios through the domain model or spec. Every step maps to a class and operation; lifecycle guards and invariants come from the
-  prior phase. Use when a domain model or domain spec exists and the team needs to validate that
-  the model can express realistic flows end-to-end.
+  Walk concrete scenarios through the domain model or spec to validate it handles realistic flows end-to-end. Use when a domain model exists and needs scenario-level validation.
+context-perspective: domain
+context-fidelity:
+  - level: specification
+    mode: walkthrough
 ---
 
 # abd-domain-walk
 
 ## Purpose
 
-**Walk** concrete scenarios through the typed Class Model (or domain model where the Class Model is not yet built). Each step must map to a **class** and an **operation** from the prior phase's file. When a step crosses a state change or must respect a guard, align with the invariants and interactions captured upstream. If a step has no owner, record a gap and revise upstream artifacts.
+Prove the domain model handles real scenarios end-to-end — find gaps before code does.
+
+---
+
+## Grill prompts
+
+Read `common/grill-me-with-practice-skill.md` before grilling.
+
+Before generating, surface these:
+
+- **Happy-path blindness** — Which scenarios have you walked only as success paths, without testing what happens when a step fails or data is missing?
+- **Model gap** — Which pseudocode line required you to invent a method or class that does not exist in the domain model?
+- **Cooperation under stress** — What happens when two aggregates need to coordinate and one rejects the request?
+- **Real data** — Are your scenario values realistic enough to expose edge cases, or are they "example 1, example 2" placeholders?
+- **Missing scenario** — Which business scenario did the domain expert mention that you have not walked yet?
 
 ---
 
 ## Output file
 
-**Deliverables folder:** see `../agent-protocol.md` — Output file resolution.
+**Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
 
 **File name:** `walkthrough.md`. Add a `<name>-` prefix only when disambiguation is needed. For multi-module engagements: `<deliverables-folder>/modules/<module-name>-walkthrough.md`.
 
@@ -27,7 +43,7 @@ description: >-
 
 ## Agent Instructions
 
-> **MANDATORY — read `../agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.**
+Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
@@ -35,8 +51,6 @@ Read these files:
 - **`reference/concepts.md`** — prerequisites, the consistent scenario/walk shape, and the flat heading structure.
 
 ### 2. Generate
-
-Read every file in **`rules/`**; author to those rules.
 
 **Produce output from every template:**
 
@@ -48,15 +62,7 @@ Read every file in **`rules/`**; author to those rules.
 
 ### 3. Validate
 
-Run the scanners:
-
-```bash
-python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/abd-domain-walk \
-  --workspace <path-to-output>
-```
-
-Then emit per-rule verdicts per `../agent-protocol.md`.
+Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.md` § Validate output.
 
 ---
 

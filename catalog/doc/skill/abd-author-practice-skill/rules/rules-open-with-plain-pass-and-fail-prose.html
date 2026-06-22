@@ -10,15 +10,15 @@
 <link rel="stylesheet" href="../../../../commons/site.css?v=foundry-3">
 <style>
 /*
-  Agile Garden — AI Garden prelude + gardener lesson fragment.
+  ABD Foundry — catalog prelude + gardener lesson fragment.
   Inlined via generate_abd_catalog.py. Max border-radius 6px; flat surfaces.
-  Brand split: orange-500 (#E5531A) for column chrome / rails; ai-blue (#4FC3F7 / #81D4FA)
-  on dense mono skill links — see abd-works-brand BRAND-GUIDELINES §3.1 (ai-blue-500).
+  Brand split: --accent (#E5531A) for column chrome / rails; --ai-accent on dense
+  mono skill links (engineering mode only — executive overrides in catalog.css).
 */
 .catalog-prelude {
   margin: 0 0 24px;
   padding: 0 0 20px;
-  border-bottom: 1px solid #2A2A2A;
+  border-bottom: 1px solid var(--border);
 }
 .catalog-prelude-heading {
   margin: 0 0 12px;
@@ -27,7 +27,7 @@
   color: var(--text);
   line-height: 1.25;
   padding-bottom: 8px;
-  border-bottom: 1px solid #2A2A2A;
+  border-bottom: 1px solid var(--border);
   scroll-margin-top: 48px;
 }
 .catalog-prelude-tagline {
@@ -43,9 +43,9 @@
   margin: 0 0 18px;
 }
 .catalog-mission-card {
-  background: #1B1B20;
-  border: 1px solid #2A2A2A;
-  border-left: 3px solid #E5531A;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
   border-radius: 4px;
   padding: 14px 20px;
   display: flex;
@@ -57,7 +57,7 @@
   flex-shrink: 0;
   font-size: 0.95rem;
   font-weight: 700;
-  color: #F4F4F5;
+  color: var(--text);
   margin: 0;
   white-space: nowrap;
 }
@@ -71,14 +71,14 @@
 .catalog-mission-card--teal,
 .catalog-mission-card--amber,
 .catalog-mission-card--purple {
-  background: #1B1B20;
-  border: 1px solid #2A2A2A;
-  border-left: 3px solid #E5531A;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
 }
 .catalog-mission-card--teal h3,
 .catalog-mission-card--amber h3,
 .catalog-mission-card--purple h3 {
-  color: #F4F4F5;
+  color: var(--text);
 }
 @media (max-width: 720px) {
   .catalog-mission { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -95,17 +95,17 @@
   gap: 10px;
   padding: 8px 0 10px;
   margin: 24px 0 12px;
-  border-bottom: 1px solid #2A2A2A;
+  border-bottom: 1px solid var(--border);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #E5531A;
+  color: var(--accent);
 }
 .catalog-section-label--foundational {
   margin-top: 28px;
-  color: #8A8A97;
-  border-bottom-color: #1A1A1E;
+  color: var(--muted);
+  border-bottom-color: var(--border-muted);
 }
 
 /* ── Practice grid — all 5 disciplines forced onto one row ── */
@@ -113,8 +113,8 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 1px;
-  background: #2A2A2A;
-  border: 1px solid #2A2A2A;
+  background: var(--border);
+  border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
   margin: 0;
@@ -131,8 +131,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: #2A2A2A;
-  border: 1px solid #2A2A2A;
+  background: var(--border);
+  border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
 }
@@ -158,7 +158,7 @@
   display: block !important;
   font-size: 0.82rem;
   line-height: 1.5;
-  color: #9B9BA8;
+  color: var(--muted);
 }
 
 /* ── Agents grid — single wide column ── */
@@ -166,15 +166,15 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: #2A2A2A;
-  border: 1px solid #2A2A2A;
+  background: var(--border);
+  border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
 }
 .catalog-section-label--agents {
   margin-top: 28px;
-  color: #E5531A;
-  border-bottom-color: #2A2A2A;
+  color: var(--accent);
+  border-bottom-color: var(--border);
 }
 
 /* ── Shared column card ── */
@@ -199,7 +199,7 @@
   margin-top: 0;
 }
 .catalog-garden-col {
-  background: #111113;
+  background: var(--surface);
   border: none;
   border-radius: 0;
   overflow: hidden;
@@ -213,17 +213,17 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  border-bottom: 1px solid #2A2A2A;
-  background: #1B1B20;
-  color: #E5531A;
-  border-left: 3px solid #E5531A;
+  border-bottom: 1px solid var(--border);
+  background: var(--raised);
+  color: var(--accent);
+  border-left: 3px solid var(--accent);
 }
 .catalog-garden-col-header--practice,
 .catalog-garden-col-header--foundational,
 .catalog-garden-col-header--agents {
-  background: #1B1B20;
-  color: #E5531A;
-  border-left: 3px solid #E5531A;
+  background: var(--raised);
+  color: var(--accent);
+  border-left: 3px solid var(--accent);
 }
 .catalog-garden-ico { flex-shrink: 0; display: block; }
 .catalog-garden-row {
@@ -231,11 +231,11 @@
   align-items: center;
   gap: 10px;
   padding: 6px 16px;
-  border-bottom: 1px solid #1A1A1E;
+  border-bottom: 1px solid var(--border-muted);
   font-size: 0.85rem;
 }
 .catalog-garden-row:last-child { border-bottom: none; }
-/* Skill/agent links — mono names stay near-white; ai-blue hairline/hover (brand AI accent, not orange wall) */
+/* Skill/agent links — mono names; ai-accent on dark (engineering mode) */
 .catalog-garden-name {
   font-weight: 700;
   font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
@@ -243,12 +243,11 @@
   min-width: 0;
   overflow-wrap: anywhere;
   word-break: break-word;
-  color: #4FC3F7;
+  color: var(--ai-accent);
 }
-/* !important beats global `a { … }`, :visited, and concatenation order */
 .catalog-prelude .catalog-garden-name a,
 .catalog-garden-lists .catalog-garden-name a {
-  color: #4FC3F7 !important;
+  color: var(--ai-accent) !important;
   font-weight: 700 !important;
   text-decoration: none !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
@@ -257,19 +256,19 @@
 .catalog-prelude .catalog-garden-name a:focus-visible,
 .catalog-garden-lists .catalog-garden-name a:hover,
 .catalog-garden-lists .catalog-garden-name a:focus-visible {
-  color: #81D4FA !important;
+  color: var(--ai-accent-soft) !important;
   border-bottom-color: rgba(79, 195, 247, 0.95);
 }
 .catalog-garden-name--agent a,
 .catalog-garden-name--foundational a {
-  color: #4FC3F7 !important;
+  color: var(--ai-accent) !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
 }
 .catalog-garden-name--agent a:hover,
 .catalog-garden-name--agent a:focus-visible,
 .catalog-garden-name--foundational a:hover,
 .catalog-garden-name--foundational a:focus-visible {
-  color: #81D4FA !important;
+  color: var(--ai-accent-soft) !important;
   border-bottom-color: rgba(79, 195, 247, 0.92);
 }
 .catalog-garden-name--dim {
@@ -1715,7 +1714,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 </style>
 <script src="../../../../commons/catalog-nav.js?v=foundry-10"></script>
 </head>
-<body data-nav-prefix="../../../../" data-nav-current="skills" data-nav-site-base="https://abd.works/">
+<body data-nav-prefix="../../../../" data-nav-current="skills" data-nav-site-base="../../../../../../abd-works-website/">
 <main id="main-content">
 
 <div class="page-hero page-hero--detail">
@@ -1724,7 +1723,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
     <p class="s-name">Rule</p>
 
     <h1 class="page-headline">rules/rules-open-with-plain-pass-and-fail-prose.md</h1>
-    <p class="body-lead">Rule: Rules open with plain pass-and-fail prose</p>
+    <p class="body-lead">﻿# Rule: Rules open with plain pass-and-fail prose</p>
   </div>
 </div>
 
@@ -1732,7 +1731,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <div class="wrap">
 
 <h2>Content</h2>
-<div class="rule-prose"><h1>Rule: Rules open with plain pass-and-fail prose</h1>
+<div class="rule-prose"><p>﻿# Rule: Rules open with plain pass-and-fail prose</p>
 <p><strong>Scanner:</strong> Manual review</p>
 <p>A normative rule should stand on its own: right after the scanner line, use <strong>ordinary prose</strong> (one or two short paragraphs) to say <strong>what passing looks like</strong> and <strong>what failing looks like</strong> for a <strong>named artifact</strong>, without separate <strong>Valid:</strong> / <strong>Invalid:</strong> headings. Then <strong><code>## DO</code></strong> holds at least one checkable <strong>pass</strong> condition and <strong><code>## DO NOT</code></strong> at least one <strong>fail</strong> condition; more bullets are fine. The file must not be only a pointer to another rule for those conditions. If the opening is all “see elsewhere” or the bullets need workshop memory instead of file text, the rule fails.</p>
 <h2>DO</h2>
@@ -1752,7 +1751,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <ul>
 <li>Replace the whole rule with cross-references so nobody can pass/fail from <strong>this</strong> file alone.</li>
 </ul>
-<p><strong>Example (fail):</strong> “Mechanics for <strong><code>execute-skill-using-skills-rules</code></strong>: filenames, bundling, <strong><code>scanner:</code></strong>. For <strong>DO</strong>, <strong>DO NOT</strong>, <strong>Examples</strong>, see <strong>Target rule files are checkable specs for named artifacts</strong>.” — no local conditions in <strong>this</strong> file.</p>
+<p><strong>Example (fail):</strong> “Mechanics for <strong><code>common</code></strong>: filenames, bundling, <strong><code>scanner:</code></strong>. For <strong>DO</strong>, <strong>DO NOT</strong>, <strong>Examples</strong>, see <strong>Target rule files are checkable specs for named artifacts</strong>.” — no local conditions in <strong>this</strong> file.</p>
 <ul>
 <li>Write <strong>DO</strong> bullets that need workshop context or memory — not decidable from the artifact.</li>
 </ul>

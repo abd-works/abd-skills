@@ -1,32 +1,27 @@
----
-name: domain-model
+﻿---
+name: abd-domain-model
 catalog_garden_tier: practice
 catalog_garden_order: 3
 catalogue_one_liner: >-
-  Typed domain model from Domain Language; constructors, properties, methods, collaborators, invariants.
+  Make ownership and responsibilities explicit for each concept — so code knows who does what.
 description: >-
-  Build a typed domain model for a module — constructors, typed properties,
-  method signatures, hidden collaborators, and invariants in one pass.
-  Combines domain model responsibility assignment with typed notation but without
-  class-model embellishments (no stereotypes, no interaction blocks, no
-  list types, no param names). Use when a completed Domain Language
-  exists and the user asks to "build the domain model", "run domain model",
-  "assign responsibilities", or when ownership, boundaries, and typed
-  surface need to be made explicit before writing code.
+  Make ownership and responsibilities explicit for each concept — who creates it, who mutates it, what it guards. Use when a Domain Language exists and the team needs to assign responsibilities before writing code.
+context-perspective: domain
+context-fidelity:
+  - level: exploration
+    mode: conceptual-model
 ---
 # abd-domain-model
 
 ## Purpose
 
-This skill takes domain concepts from a completed Domain Language and produces a typed domain model: for each concept, a constructor, typed properties, method signatures with collaborators and invariants. The result is a standalone file with `### **Class**` blocks under each Key Abstraction.
-
-The format sits between domain model and a full Class Model — it uses typed notation (constructors, property types, method signatures) but avoids class-model embellishments (no `<< stereotypes >>`, no `List<T>` or `Dictionary<K,V>`, no `Interaction:` blocks, no `+` visibility prefixes, no param names in method signatures).
+Make ownership and responsibilities explicit for every concept — who creates it, who mutates it, what it guards — so code knows where behavior lives before anyone writes a class.
 
 ---
 
 ## Output file
 
-**Deliverables folder:** see `../agent-protocol.md` — Output file resolution.
+**Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
 
 **File name:** `domain-model.md`. Add a `<name>-` prefix only when disambiguation is needed. For multi-module engagements: `<deliverables-folder>/modules/<module-name>-domain-model.md`.
 
@@ -34,9 +29,23 @@ The file is **not** an in-place enrichment of the domain-language file. It is a 
 
 ---
 
+## Grill prompts
+
+Read `common/grill-me-with-practice-skill.md` before grilling.
+
+Before generating, surface these common input traps:
+
+- **Responsibility ambiguity** — when two concepts could reasonably own the same behavior, which one actually does — and what's the real-world evidence for that choice?
+- **Hidden invariants** — which business rules feel so obvious that nobody has stated them — and what breaks downstream if the model doesn't make them explicit?
+- **Collaboration direction** — when two concepts interact, which one initiates — and are we sure the direction reflects how the business actually works, not just how we'd code it?
+- **Subtype vs. configuration** — when behavior varies by kind, is the variation genuinely structural or is it just a flag — and what happens when a new kind appears?
+- **Missing concepts** — are there behaviors assigned to existing concepts that really belong to a concept nobody has named yet — a missing collaborator hiding inside another class?
+
+---
+
 ## Agent Instructions
 
-> **MANDATORY — read `../agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.**
+Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
@@ -45,8 +54,6 @@ Read these files:
 - **`../../reference/oo-concepts.md`** — OO fundamentals (what is a class, decomposing responsibilities, relationships, inheritance and subtypes).
 
 ### 2. Generate
-
-Read every file in **`rules/`**; author to those rules.
 
 **Produce output from every template:**
 
@@ -59,15 +66,7 @@ Read every file in **`rules/`**; author to those rules.
 
 ### 3. Validate
 
-Run the scanners:
-
-```bash
-python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/abd-domain-model \
-  --workspace <path-to-output>
-```
-
-Then emit per-rule verdicts per `../agent-protocol.md`.
+Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.md` § Validate output.
 
 ---
 

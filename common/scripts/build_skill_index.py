@@ -1,0 +1,255 @@
+"""
+build_skill_index.py
+
+Scans all peer skill folders in ../ (siblings of the context-driven-delivery
+skill), extracts CDD-relevant fields from each SKILL.md, and writes
+reference/skill-index.md grouped by perspective → fidelity.
+
+Usage:
+    python scripts/build_skill_index.py
+
+Output:
+    common/skill-index.md  (relative to .cursor/skills/)
+"""
+
+from __future__ import annotations
+
+import re
+from pathlib import Path
+from typing import Any
+
+import yaml
+
+# ---------------------------------------------------------------------------
+# Paths
+# ---------------------------------------------------------------------------
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+SKILL_ROOT = SCRIPT_DIR.parent          # context-driven-delivery/
+SKILLS_DIR = SKILL_ROOT.parent          # .cursor/skills/
+OUTPUT_PATH = SKILLS_DIR / "common" / "skill-index.md"
+
+PERSPECTIVES = ["domain", "stories", "ux", "architecture", "stage"]
+FIDELITY_ORDER = ["shaping", "discovery", "exploration", "specification", "engineering"]
+
+
+# ---------------------------------------------------------------------------
+# Parsing
+# ---------------------------------------------------------------------------
+
+def parse_front_matter(text: str) -> tuple[dict[str, Any], str]:
+    if not text.startswith("---"):
+        return {}, text
+    end = text.find("\n---", 3)
+    if end == -1:
+        return {}, text
+    yaml_block = text[3:end].strip()
+    body = text[end + 4:].lstrip("\n")
+    try:
+        meta = yaml.safe_load(yaml_block) or {}
+    except yaml.YAMLError:
+        meta = {}
+    return meta, body
+
+
+def extract_section(body: str, heading: str) -> str:
+    pattern = rf"^##\s+{re.escape(heading)}\s*\n(.*?)(?=^##\s|\Z)"
+    match = re.search(pattern, body, re.MULTILINE | re.DOTALL)
+    return match.group(1).strip() if match else ""
+
+
+def extract_output_filename(body: str) -> str:
+    for heading in ("Output file", "Output files"):
+        section = extract_section(body, heading)
+        if section:
+            m = re.search(r"\*\*File name[s]?:\*\*\s*`([^`]+)`", section)
+            if m:
+                return m.group(1)
+            m = re.search(r"`([a-z0-9\-_]+\.[a-z]+)`", section)
+            if m:
+                return m.group(1)
+    return ""
+
+
+def extract_grill_prompts(body: str) -> list[str]:
+    """Extract grill prompt labels only (strip rationale after em dash)."""
+    section = extract_section(body, "Grill prompts")
+    if not section:
+        return []
+    bullets = []
+    for line in section.splitlines():
+        line = line.strip()
+        if line.startswith("- "):
+            prompt = line[2:].strip()
+            if "\u2014" in prompt:
+                prompt = prompt.split("\u2014")[0].strip()
+            elif " -- " in prompt:
+                prompt = prompt.split(" -- ")[0].strip()
+            prompt = prompt.replace("**", "")
+            if prompt:
+                bullets.append(prompt)
+    return bullets
+
+
+# ---------------------------------------------------------------------------
+# Skill loading
+# ---------------------------------------------------------------------------
+
+def load_skill(skill_dir: Path) -> dict[str, Any] | None:
+    skill_md = skill_dir / "SKILL.md"
+    if not skill_md.exists():
+        return None
+
+    text = skill_md.read_text(encoding="utf-8", errors="replace")
+    meta, body = parse_front_matter(text)
+
+    perspective = meta.get("context-perspective")
+    if not perspective:
+        return None
+
+    fidelity_entries = meta.get("context-fidelity") or []
+    if isinstance(fidelity_entries, dict):
+        fidelity_entries = [fidelity_entries]
+
+    return {
+        "name": meta.get("name") or skill_dir.name,
+        "one_liner": meta.get("catalogue_one_liner", "").strip().replace("\n", " "),
+        "perspective": perspective,
+        "role": meta.get("context-role", ""),
+        "fidelity": [
+            {"level": e.get("level", ""), "mode": e.get("mode", "")}
+            for e in fidelity_entries
+            if isinstance(e, dict)
+        ],
+        "output": extract_output_filename(body),
+        "grill_prompts": extract_grill_prompts(body),
+        "path": f"../{skill_dir.name}/SKILL.md",
+    }
+
+
+def load_all_skills() -> list[dict[str, Any]]:
+    skills = []
+    for skill_dir in sorted(SKILLS_DIR.iterdir()):
+        if skill_dir.is_dir() and skill_dir.name != SKILL_ROOT.name:
+            skill = load_skill(skill_dir)
+            if skill:
+                skills.append(skill)
+    return skills
+
+
+# ---------------------------------------------------------------------------
+# Rendering
+# ---------------------------------------------------------------------------
+
+def fidelity_sort_key(level: str) -> int:
+    try:
+        return FIDELITY_ORDER.index(level)
+    except ValueError:
+        return 99
+
+
+def render_index(skills: list[dict[str, Any]]) -> str:
+    lines = [
+        "# Skill Index",
+        "",
+        "Generated by `scripts/build_skill_index.py`. Do not edit by hand — re-run the script.",
+        "",
+        "Each entry shows the skill's fidelity level(s), primary output file, and grill prompts.",
+        "Read this file to know what skills are available at each fidelity level and perspective.",
+        "",
+        "---",
+        "",
+    ]
+
+    # Separate support skills from primary skills
+    primary_skills = [s for s in skills if s["role"] != "support"]
+    support_skills = [s for s in skills if s["role"] == "support"]
+
+    # Group primary skills by fidelity first, then perspective within
+    by_fidelity: dict[str, dict[str, list[dict]]] = {f: {} for f in FIDELITY_ORDER}
+    for skill in primary_skills:
+        for entry in skill["fidelity"]:
+            level = entry["level"]
+            if level not in by_fidelity:
+                by_fidelity[level] = {}
+            by_fidelity[level].setdefault(skill["perspective"], []).append(skill)
+
+    for level in FIDELITY_ORDER:
+        perspectives_at_level = by_fidelity.get(level, {})
+        if not perspectives_at_level:
+            continue
+
+        lines.append(f"## {level.capitalize()}")
+        lines.append("")
+
+        for perspective in PERSPECTIVES:
+            perspective_skills = perspectives_at_level.get(perspective, [])
+            if not perspective_skills:
+                continue
+
+            seen: set[str] = set()
+            for skill in perspective_skills:
+                if skill["name"] not in seen:
+                    seen.add(skill["name"])
+                    fidelity_mode = next(
+                        (e["mode"] for e in skill["fidelity"] if e["level"] == level), ""
+                    )
+                    lines.append(f"### {skill['name']} `{fidelity_mode}` — {perspective}")
+                    lines.append("")
+                    if skill["one_liner"]:
+                        lines.append(f"{skill['one_liner']}")
+                        lines.append("")
+                    if skill["output"]:
+                        lines.append(f"- **Output:** `{skill['output']}`")
+                    lines.append(f"- **Skill:** [`{skill['name']}`]({skill['path']})")
+                    if skill["grill_prompts"]:
+                        lines.append("- **Grill prompts:**")
+                        for prompt in skill["grill_prompts"]:
+                            lines.append(f"  - {prompt}")
+                    lines.append("")
+
+    # Render support skills in a separate section
+    if support_skills:
+        lines.append("## Support")
+        lines.append("")
+        lines.append("Utility skills callable at any fidelity level — sync, render, and manage artifacts.")
+        lines.append("")
+
+        for skill in sorted(support_skills, key=lambda s: s["name"]):
+            fidelity_mode = skill["fidelity"][0]["mode"] if skill["fidelity"] else ""
+            lines.append(f"### {skill['name']} `{fidelity_mode}` — {skill['perspective']}")
+            lines.append("")
+            if skill["one_liner"]:
+                lines.append(f"{skill['one_liner']}")
+                lines.append("")
+            if skill["output"]:
+                lines.append(f"- **Output:** `{skill['output']}`")
+            lines.append(f"- **Skill:** [`{skill['name']}`]({skill['path']})")
+            if skill["grill_prompts"]:
+                lines.append("- **Grill prompts:**")
+                for prompt in skill["grill_prompts"]:
+                    lines.append(f"  - {prompt}")
+            lines.append("")
+
+    lines.append("---")
+    lines.append(f"*{len(skills)} skills indexed.*")
+    lines.append("")
+
+    return "\n".join(lines)
+
+
+# ---------------------------------------------------------------------------
+# Main
+# ---------------------------------------------------------------------------
+
+def main() -> None:
+    print(f"Scanning: {SKILLS_DIR}")
+    skills = load_all_skills()
+    print(f"Found {len(skills)} CDD-routable skills")
+    output = render_index(skills)
+    OUTPUT_PATH.write_text(output, encoding="utf-8")
+    print(f"Written: {OUTPUT_PATH}")
+
+
+if __name__ == "__main__":
+    main()

@@ -1,4 +1,4 @@
----
+﻿---
 name: abd-service-level-objectives
 catalog_garden_tier: practice
 catalog_garden_order: 55
@@ -13,6 +13,10 @@ description: >-
   refused. Use when committing to measurable non-functional targets, after
   an incident reveals missing targets, when drafting SLAs, or when
   classifying features by criticality.
+context-perspective: stage
+context-fidelity:
+  - level: discovery
+    mode: non-functional-requirements
 ---
 # abd-service-level-objectives
 
@@ -24,7 +28,7 @@ A non-functional requirement that cannot be measured is a wish. Teams that ship 
 
 ## Output file
 
-**Deliverables folder:** see `../agent-protocol.md` — Output file resolution.
+**Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
 
 **File name:** `service-level-objectives.md`. Add a `<name>-` prefix only when disambiguation is needed.
 
@@ -32,7 +36,7 @@ A non-functional requirement that cannot be measured is a wish. Teams that ship 
 
 ## Agent Instructions
 
-> **MANDATORY — read `../agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.**
+> **MANDATORY — read `../common/skill-rule-workflow.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.**
 
 ### 1. Read context
 
@@ -64,12 +68,12 @@ Read every file in **`rules/`**; author to those rules.
 Run the scanners:
 
 ```bash
-python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+python skills/common/scripts/run_scanners.py \
   --skill-root skills/abd-service-level-objectives \
   --workspace <path-to-output>
 ```
 
-Then emit per-rule verdicts per `../agent-protocol.md`.
+Then emit per-rule verdicts per `../common/skill-rule-workflow.md`.
 
 ---
 

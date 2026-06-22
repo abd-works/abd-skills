@@ -320,7 +320,7 @@ body {
 .kb-slide .kanban-stage-questions {
   flex: 0 0 auto;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 0 8px;
   padding: 0 6px;
   margin: 4px 0 8px;

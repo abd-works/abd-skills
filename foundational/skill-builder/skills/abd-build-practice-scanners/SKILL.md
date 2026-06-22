@@ -1,4 +1,4 @@
----
+﻿---
 name: abd-build-practice-scanners
 description: >-
   Turn written rules into checks a machine can run, so drift is caught early instead
@@ -25,7 +25,7 @@ Written **DO / DO NOT** rules are easy to **ignore** or **misread**. Small **aut
 
 - **`skills/<skill-name>/`** with finalized (or stable draft) **`SKILL.md`** and **`rules/*.md`**.
 
-Read **`skills/execute-skill-using-skills-rules/SKILL.md`** sections **Target Skill Layout** and **Commands**.
+Read **`skills/common/skill-rule-workflow.md`** sections **Target Skill Layout** and **Commands**.
 
 ## Agent Instructions
 
@@ -34,7 +34,7 @@ Read **`skills/execute-skill-using-skills-rules/SKILL.md`** sections **Target Sk
 1. **Choose checkable rules** — Pick **`rules/*.md`** concerns that can be enforced mechanically (regex, file presence, forbidden phrases).
 
 2. **Implement scanners** — Under **`scanners/`**:
-   - **`scanners/<stem>-scanner.py`** — executable CLI; follow **`skills/abd-story-mapping/scanners/`** import pattern (`execute-skill-using-skills-rules/scripts`, `scanner_runner`, `scanner_bases`).
+   - **`scanners/<stem>-scanner.py`** — executable CLI; follow **`skills/abd-story-mapping/scanners/`** import pattern (`common/scripts`, `scanner_runner`, `scanner_bases`).
 
 3. **Wire frontmatter** — Set **`scanner: <stem>`** on **`rules/<stem>.md`** (stem matches script name without `-scanner.py`).
 

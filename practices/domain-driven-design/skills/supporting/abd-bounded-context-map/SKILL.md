@@ -1,27 +1,36 @@
----
+﻿---
 name: bounded-context-map
 catalog_garden_order: 8
 catalogue_one_liner: >-
   Bounded context inventory with dependency arcs across three dimensions.
 description: >-
-  Map bounded contexts and their relationships so integration strategy, team
-  collaboration, and domain translation are explicit before they are discovered
-  in production. Use when module or service boundaries exist and the team needs
-  to declare how they relate and integrate, when multiple teams own different
-  parts of the domain, or when an architecture review requires a global view
-  of model contexts and their points of contact.
+  Map bounded contexts and their relationships so integration, collaboration, and translation are explicit. Use when module or service boundaries exist and the team needs to declare how they relate.
 ---
 # abd-bounded-context-map
 
 ## Purpose
 
-Teams working across multiple models, services, or subsystems need a single shared picture of how those pieces relate — which concepts cross boundaries, how the systems talk to each other, and how the teams will collaborate. Without that picture, integration strategy is discovered in production, translation is ad hoc, and team dependencies are invisible until they block someone. This skill produces a **Bounded Context Map**: a named inventory of every bounded context with every dependency declared across three explicit dimensions — domain mapping, integration mechanism, and team engagement model — so the architecture is honest and the team structure matches.
+Make integration, ownership, and translation between contexts explicit — so teams know who owns what and how they communicate across boundaries.
+
+---
+
+## Grill prompts
+
+Read `common/grill-me-with-practice-skill.md` before grilling.
+
+Before generating, surface these:
+
+- **Hidden coupling** — Which contexts do people treat as independent but actually share data, vocabulary, or lifecycle?
+- **Ownership ambiguity** — Where does one team's responsibility end and another's begin — and does everyone agree?
+- **Translation cost** — Which boundary crossings silently corrupt meaning because the same word means different things on each side?
+- **Missing context** — Is there a bounded context the team hasn't named yet because it lives inside someone's head or a spreadsheet?
+- **Relationship direction** — For each dependency, which side sets the rules — and what happens when the downstream context disagrees?
 
 ---
 
 ## Output file
 
-**Deliverables folder:** see `../agent-protocol.md` — Output file resolution.
+**Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
 
 **File name:** `bounded-context-map.md`. Add a `<name>-` prefix only when disambiguation is needed.
 
@@ -29,7 +38,7 @@ Teams working across multiple models, services, or subsystems need a single shar
 
 ## Agent Instructions
 
-> **MANDATORY — read `../agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.**
+Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
@@ -37,8 +46,6 @@ Read these files:
 - **`reference/concepts.md`** — bounded contexts, context maps, the three dimensions per dependency, relationship patterns (Shared Kernel, Customer/Supplier, Conformist, ACL, Open Host/Published Language, Separate Ways), and boundary heuristics.
 
 ### 2. Generate
-
-Read every file in **`rules/`**; author to those rules.
 
 **Produce output from every template:**
 
@@ -50,15 +57,7 @@ Read every file in **`rules/`**; author to those rules.
 
 ### 3. Validate
 
-Run the scanners:
-
-```bash
-python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/abd-bounded-context-map \
-  --workspace <path-to-output>
-```
-
-Then emit per-rule verdicts per `../agent-protocol.md`.
+Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.md` § Validate output.
 
 ---
 

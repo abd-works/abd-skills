@@ -1,25 +1,41 @@
----
-name: class-model
+﻿---
+name: abd-domain-specification
 catalog_garden_tier: practice
 catalog_garden_order: 4
 catalogue_one_liner: >-
-  Typed Class Model from the domain model; properties, operations, relationships, invariants.
+  Lock down types, relationships, and invariants — so code generation starts from a verified design.
 description: >-
-  Build a typed Class Model for a module. A domain model makes it faster but is
-  not required. Use when a module needs a typed domain surface before writing
-  production code, or when a module has reached state: class-model.
+  Lock down types, relationships, and invariants at any scope — so code generation starts from a verified design. Use when a verified typed surface is needed before writing code.
+context-perspective: domain
+context-fidelity:
+  - level: specification
+    mode: typed-model
 ---
 # abd-domain-specification
 
+## Grill prompts
+
+Read `common/grill-me-with-practice-skill.md` before grilling.
+
+Before generating, surface these common input traps:
+
+- **Type precision** — which properties are typed as generic primitives when the domain actually constrains them — where does "string" hide a real domain type with its own rules?
+- **Relationship ownership** — when two concepts reference each other, which one owns the relationship — and what happens to the dependent when the owner changes or disappears?
+- **Cross-concept invariants** — which business rules span multiple classes — and where does the enforcement logic actually live when no single class owns the whole rule?
+- **Interaction completeness** — for operations with multiple steps, are we confident we know every participant — or are there hidden collaborators the sequence depends on?
+- **Identity assumptions** — which concepts have identity and which don't — and what breaks if something we treat as a value actually needs to be tracked individually?
+
+---
+
 ## Purpose
 
-Build a typed Class Model for a module. When a domain model exists it is the primary input — the skill converts that behavioral model into a typed domain surface with far less effort. Without a domain model the skill can still produce an Class Model directly from domain knowledge.
+Build a typed Class Model for a module — fully typed properties, operations with parameters, relationships, object initialisation, and interaction blocks — from a domain model or directly from domain knowledge.
 
 ---
 
 ## Output file
 
-**Deliverables folder:** see `../agent-protocol.md` — Output file resolution.
+**Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
 
 **File name:** `class-model.md`. Add a `<name>-` prefix only when disambiguation is needed. For multi-module engagements: `<deliverables-folder>/modules/<module-name>-class-model.md`.
 
@@ -29,7 +45,7 @@ The file is **not** an in-place enrichment of the domain model file. It is a fre
 
 ## Agent Instructions
 
-> **MANDATORY — read `../agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.**
+Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
@@ -38,8 +54,6 @@ Read these files:
 - **`../../reference/oo-concepts.md`** — OO fundamentals (what is a class, decomposing responsibilities, relationships, inheritance and subtypes).
 
 ### 2. Generate
-
-Read every file in **`rules/`**; author to those rules.
 
 **Produce output from every template:**
 
@@ -52,15 +66,7 @@ Read every file in **`rules/`**; author to those rules.
 
 ### 3. Validate
 
-Run the scanners:
-
-```bash
-python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/abd-domain-specification \
-  --workspace <path-to-output>
-```
-
-Then emit per-rule verdicts per `../agent-protocol.md`.
+Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.md` § Validate output.
 
 ---
 

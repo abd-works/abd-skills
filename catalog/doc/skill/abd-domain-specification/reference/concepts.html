@@ -3,22 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Foundry — class-model · reference/concepts.md</title>
+<title>Foundry — abd-domain-specification · reference/concepts.md</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../../../commons/site.css?v=foundry-3">
 <style>
 /*
-  Agile Garden — AI Garden prelude + gardener lesson fragment.
+  ABD Foundry — catalog prelude + gardener lesson fragment.
   Inlined via generate_abd_catalog.py. Max border-radius 6px; flat surfaces.
-  Brand split: orange-500 (#E5531A) for column chrome / rails; ai-blue (#4FC3F7 / #81D4FA)
-  on dense mono skill links — see abd-works-brand BRAND-GUIDELINES §3.1 (ai-blue-500).
+  Brand split: --accent (#E5531A) for column chrome / rails; --ai-accent on dense
+  mono skill links (engineering mode only — executive overrides in catalog.css).
 */
 .catalog-prelude {
   margin: 0 0 24px;
   padding: 0 0 20px;
-  border-bottom: 1px solid #2A2A2A;
+  border-bottom: 1px solid var(--border);
 }
 .catalog-prelude-heading {
   margin: 0 0 12px;
@@ -27,7 +27,7 @@
   color: var(--text);
   line-height: 1.25;
   padding-bottom: 8px;
-  border-bottom: 1px solid #2A2A2A;
+  border-bottom: 1px solid var(--border);
   scroll-margin-top: 48px;
 }
 .catalog-prelude-tagline {
@@ -43,9 +43,9 @@
   margin: 0 0 18px;
 }
 .catalog-mission-card {
-  background: #1B1B20;
-  border: 1px solid #2A2A2A;
-  border-left: 3px solid #E5531A;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
   border-radius: 4px;
   padding: 14px 20px;
   display: flex;
@@ -57,7 +57,7 @@
   flex-shrink: 0;
   font-size: 0.95rem;
   font-weight: 700;
-  color: #F4F4F5;
+  color: var(--text);
   margin: 0;
   white-space: nowrap;
 }
@@ -71,14 +71,14 @@
 .catalog-mission-card--teal,
 .catalog-mission-card--amber,
 .catalog-mission-card--purple {
-  background: #1B1B20;
-  border: 1px solid #2A2A2A;
-  border-left: 3px solid #E5531A;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
 }
 .catalog-mission-card--teal h3,
 .catalog-mission-card--amber h3,
 .catalog-mission-card--purple h3 {
-  color: #F4F4F5;
+  color: var(--text);
 }
 @media (max-width: 720px) {
   .catalog-mission { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -95,17 +95,17 @@
   gap: 10px;
   padding: 8px 0 10px;
   margin: 24px 0 12px;
-  border-bottom: 1px solid #2A2A2A;
+  border-bottom: 1px solid var(--border);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #E5531A;
+  color: var(--accent);
 }
 .catalog-section-label--foundational {
   margin-top: 28px;
-  color: #8A8A97;
-  border-bottom-color: #1A1A1E;
+  color: var(--muted);
+  border-bottom-color: var(--border-muted);
 }
 
 /* ── Practice grid — all 5 disciplines forced onto one row ── */
@@ -113,8 +113,8 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 1px;
-  background: #2A2A2A;
-  border: 1px solid #2A2A2A;
+  background: var(--border);
+  border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
   margin: 0;
@@ -131,8 +131,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: #2A2A2A;
-  border: 1px solid #2A2A2A;
+  background: var(--border);
+  border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
 }
@@ -158,7 +158,7 @@
   display: block !important;
   font-size: 0.82rem;
   line-height: 1.5;
-  color: #9B9BA8;
+  color: var(--muted);
 }
 
 /* ── Agents grid — single wide column ── */
@@ -166,15 +166,15 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: #2A2A2A;
-  border: 1px solid #2A2A2A;
+  background: var(--border);
+  border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
 }
 .catalog-section-label--agents {
   margin-top: 28px;
-  color: #E5531A;
-  border-bottom-color: #2A2A2A;
+  color: var(--accent);
+  border-bottom-color: var(--border);
 }
 
 /* ── Shared column card ── */
@@ -199,7 +199,7 @@
   margin-top: 0;
 }
 .catalog-garden-col {
-  background: #111113;
+  background: var(--surface);
   border: none;
   border-radius: 0;
   overflow: hidden;
@@ -213,17 +213,17 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  border-bottom: 1px solid #2A2A2A;
-  background: #1B1B20;
-  color: #E5531A;
-  border-left: 3px solid #E5531A;
+  border-bottom: 1px solid var(--border);
+  background: var(--raised);
+  color: var(--accent);
+  border-left: 3px solid var(--accent);
 }
 .catalog-garden-col-header--practice,
 .catalog-garden-col-header--foundational,
 .catalog-garden-col-header--agents {
-  background: #1B1B20;
-  color: #E5531A;
-  border-left: 3px solid #E5531A;
+  background: var(--raised);
+  color: var(--accent);
+  border-left: 3px solid var(--accent);
 }
 .catalog-garden-ico { flex-shrink: 0; display: block; }
 .catalog-garden-row {
@@ -231,11 +231,11 @@
   align-items: center;
   gap: 10px;
   padding: 6px 16px;
-  border-bottom: 1px solid #1A1A1E;
+  border-bottom: 1px solid var(--border-muted);
   font-size: 0.85rem;
 }
 .catalog-garden-row:last-child { border-bottom: none; }
-/* Skill/agent links — mono names stay near-white; ai-blue hairline/hover (brand AI accent, not orange wall) */
+/* Skill/agent links — mono names; ai-accent on dark (engineering mode) */
 .catalog-garden-name {
   font-weight: 700;
   font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
@@ -243,12 +243,11 @@
   min-width: 0;
   overflow-wrap: anywhere;
   word-break: break-word;
-  color: #4FC3F7;
+  color: var(--ai-accent);
 }
-/* !important beats global `a { … }`, :visited, and concatenation order */
 .catalog-prelude .catalog-garden-name a,
 .catalog-garden-lists .catalog-garden-name a {
-  color: #4FC3F7 !important;
+  color: var(--ai-accent) !important;
   font-weight: 700 !important;
   text-decoration: none !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
@@ -257,19 +256,19 @@
 .catalog-prelude .catalog-garden-name a:focus-visible,
 .catalog-garden-lists .catalog-garden-name a:hover,
 .catalog-garden-lists .catalog-garden-name a:focus-visible {
-  color: #81D4FA !important;
+  color: var(--ai-accent-soft) !important;
   border-bottom-color: rgba(79, 195, 247, 0.95);
 }
 .catalog-garden-name--agent a,
 .catalog-garden-name--foundational a {
-  color: #4FC3F7 !important;
+  color: var(--ai-accent) !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
 }
 .catalog-garden-name--agent a:hover,
 .catalog-garden-name--agent a:focus-visible,
 .catalog-garden-name--foundational a:hover,
 .catalog-garden-name--foundational a:focus-visible {
-  color: #81D4FA !important;
+  color: var(--ai-accent-soft) !important;
   border-bottom-color: rgba(79, 195, 247, 0.92);
 }
 .catalog-garden-name--dim {
@@ -1715,16 +1714,16 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 </style>
 <script src="../../../../commons/catalog-nav.js?v=foundry-10"></script>
 </head>
-<body data-nav-prefix="../../../../" data-nav-current="skills" data-nav-site-base="https://abd.works/">
+<body data-nav-prefix="../../../../" data-nav-current="skills" data-nav-site-base="../../../../../../abd-works-website/">
 <main id="main-content">
 
 <div class="page-hero page-hero--detail">
   <div class="wrap">
-    <a class="back-link" href="../../../../skill/abd-domain-specification.html">← class-model</a>
+    <a class="back-link" href="../../../../skill/abd-domain-specification.html">← abd-domain-specification</a>
     <p class="s-name">Markdown</p>
 
     <h1 class="page-headline">reference/concepts.md</h1>
-    <p class="body-lead">Class Model — Concepts</p>
+    <p class="body-lead">Class Model � Concepts</p>
   </div>
 </div>
 
@@ -1732,28 +1731,28 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <div class="wrap">
 
 <h2>Content</h2>
-<div class="rule-prose"><h1>Class Model — Concepts</h1>
+<div class="rule-prose"><h1>Class Model � Concepts</h1>
 <p>For OO fundamentals (what is a class, decomposing responsibilities, relationships, inheritance and subtypes), read <a href="../../../reference/oo-concepts.html"><code>../../../reference/oo-concepts.md</code></a> in full before proceeding. The sections below cover what is specific to class-model fidelity: typed notation and relationship flavors.</p>
 <h2>Properties</h2>
 <p>Write each property as <code>+ propertyName: Type</code>. Type it where the domain makes the type obvious (<code>String</code>, <code>Boolean</code>, <code>Money</code>, <code>List&lt;Item&gt;</code>, etc.); leave it untyped only when the domain is genuinely ambiguous. Typed constants and enum-like value sets (<code>UPPER_CASE</code> names) are grouped under a named constant block.</p>
 <h2>Operations</h2>
 <p>Write each operation as <code>+ methodName(param: Type): ReturnType</code>. Parameters come from the information the method needs but does not already hold as a property; the return type reflects what the caller expects back. Keep signatures at the domain level: no infrastructure, no UI, no framework types. Omit the return type only when the operation is genuinely void.</p>
-<p>Use <code>+</code> for public operations that external collaborators call. Use <code>-</code> for private helpers that are only called internally by the class itself — extracted sub-logic, tie-breakers, guard checks, etc.</p>
-<p><strong>When the right name is unclear, name it after the invariant.</strong> If an operation&#x27;s invariant says &quot;incoming supersedes existing&quot;, the operation is <code>incomingSupersedes</code>. The invariant is already the correct domain statement — the name should match it directly rather than inventing a separate label.</p>
+<p>Use <code>+</code> for public operations that external collaborators call. Use <code>-</code> for private helpers that are only called internally by the class itself � extracted sub-logic, tie-breakers, guard checks, etc.</p>
+<p><strong>When the right name is unclear, name it after the invariant.</strong> If an operation&#x27;s invariant says &quot;incoming supersedes existing&quot;, the operation is <code>incomingSupersedes</code>. The invariant is already the correct domain statement � the name should match it directly rather than inventing a separate label.</p>
 <h2>Object initialisation</h2>
 <p>For every class, determine how its objects are initialised. Choose from the following approaches based on scenario and context:</p>
-<p><strong>Constructor injection</strong> — pass a dependency in when the class references but does not own it (association), or when a required value must be present for the object to be valid. Write as <code>+ ClassName(param: Type, ...)</code>. Include only what is needed to bootstrap a fully valid object; never leave an object half-initialised. Write multiple constructors when different valid bootstrap configurations exist in the domain.</p>
-<p><strong>Internal initialisation</strong> — create or derive it inside the class when the class owns the thing (composition) or when the value is derived from properties the object already holds. The caller should not be responsible for assembling parts the class owns.</p>
-<p><strong>Factory method</strong> — use a static factory <em>on the class itself</em> when construction is complex, can fail gracefully, or needs to return different subtypes based on input. The factory method replaces <code>new</code> for callers — it is a named static operation on the class.</p>
-<p><strong>Factory object</strong> — delegate construction entirely to a separate domain object when the assembly logic is itself a domain concern, when multiple unrelated callers need the same complex build, or when the assembled object requires coordinating many collaborators the caller should not know about.</p>
+<p><strong>Constructor injection</strong> � pass a dependency in when the class references but does not own it (association), or when a required value must be present for the object to be valid. Write as <code>+ ClassName(param: Type, ...)</code>. Include only what is needed to bootstrap a fully valid object; never leave an object half-initialised. Write multiple constructors when different valid bootstrap configurations exist in the domain.</p>
+<p><strong>Internal initialisation</strong> � create or derive it inside the class when the class owns the thing (composition) or when the value is derived from properties the object already holds. The caller should not be responsible for assembling parts the class owns.</p>
+<p><strong>Factory method</strong> � use a static factory <em>on the class itself</em> when construction is complex, can fail gracefully, or needs to return different subtypes based on input. The factory method replaces <code>new</code> for callers � it is a named static operation on the class.</p>
+<p><strong>Factory object</strong> � delegate construction entirely to a separate domain object when the assembly logic is itself a domain concern, when multiple unrelated callers need the same complex build, or when the assembled object requires coordinating many collaborators the caller should not know about.</p>
 <h2>Relationships</h2>
 <p>The three questions in <code>oo-concepts.md</code> (<code>## Relationships</code>) determine the dependency nature. At this level of fidelity, each answer maps to a named type of relationship:</p>
 <ul>
-<li><strong>Aggregation</strong> — the parent exists to collect or group its children; the parent has no identity without them.</li>
-<li><strong>Composition</strong> — the child has no identity without the parent; the parent owns the child&#x27;s lifecycle.</li>
-<li><strong>Association</strong> — both sides have independent lifecycles.</li>
+<li><strong>Aggregation</strong> � the parent exists to collect or group its children; the parent has no identity without them.</li>
+<li><strong>Composition</strong> � the child has no identity without the parent; the parent owns the child&#x27;s lifecycle.</li>
+<li><strong>Association</strong> � both sides have independent lifecycles.</li>
 </ul>
-<p><strong>Association is the default</strong> — no annotation needed. Mark composition and aggregation directly on the property with a stereotype; no separate relationship line is required.</p>
+<p><strong>Association is the default</strong> � no annotation needed. Mark composition and aggregation directly on the property with a stereotype; no separate relationship line is required.</p>
 <pre><code>+ &lt;&lt; composition &gt;&gt; stages: List&lt;DifficultyStage&gt;   ? ownership is on the property
 + linkedTrait: Trait                                 ? plain association; no stereotype</code></pre>
 <p>The property type already implies cardinality direction: a single type is 1..1; <code>List&lt;T&gt;</code> or <code>Dictionary&lt;K,T&gt;</code> is one-to-many. Use an invariant on the property when the cardinality constraint needs to be made explicit.</p>
@@ -1762,43 +1761,43 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <p class="spec-step">When a class holds multiple instances of another class, type the property using one of two generic forms:</p>
 </div>
 <ul>
-<li><strong><code>List&lt;ClassName&gt;</code></strong> — an ordered or unordered set where you iterate or process all members. No key needed.</li>
-<li><strong><code>Dictionary&lt;KeyType, ClassName&gt;</code></strong> — a keyed set where you need to look up a specific member directly.</li>
+<li><strong><code>List&lt;ClassName&gt;</code></strong> � an ordered or unordered set where you iterate or process all members. No key needed.</li>
+<li><strong><code>Dictionary&lt;KeyType, ClassName&gt;</code></strong> � a keyed set where you need to look up a specific member directly.</li>
 </ul>
-<p>The name of the property should reflect the domain collection concept, not the data structure — <code>appliedConditions</code>, not <code>conditionList</code>. When the collection itself has unique behavior, introduce a named collection class.</p>
+<p>The name of the property should reflect the domain collection concept, not the data structure � <code>appliedConditions</code>, not <code>conditionList</code>. When the collection itself has unique behavior, introduce a named collection class.</p>
 <h2>Inheritance</h2>
-<p>Use <code>ChildClass : ParentClass</code> on the class heading. The child block contains only delta members — typed properties, operations, and relationships that add or override the parent. Inherited members are never repeated.</p>
-<p>Mark each class with its stereotype on the heading — see <code>### Entities and Value Objects</code> below.</p>
+<p>Use <code>ChildClass : ParentClass</code> on the class heading. The child block contains only delta members � typed properties, operations, and relationships that add or override the parent. Inherited members are never repeated.</p>
+<p>Mark each class with its stereotype on the heading � see <code>### Entities and Value Objects</code> below.</p>
 <h2>Invariants</h2>
-<p>Write each invariant as a single tab-indented line directly under the property or operation it constrains: <code>	Invariant: ...</code>. Keep it declarative — &quot;must&quot;, &quot;cannot&quot;, &quot;only if&quot;. One line per constraint.</p>
+<p>Write each invariant as a single tab-indented line directly under the property or operation it constrains: <code>	Invariant: ...</code>. Keep it declarative � &quot;must&quot;, &quot;cannot&quot;, &quot;only if&quot;. One line per constraint.</p>
 <h2>Interactions</h2>
 <div class="spec-steps">
-<p class="spec-step">When an operation has inherent complexity or interesting interactions — it coordinates multiple collaborators, produces a result through a chain of internal steps, or branches in a way not captured by the signature and invariants alone — write a tab-indented <code>Interaction:</code> block directly after the operation&#x27;s invariants. Each step is a flat, non-nested pseudocode line using the scenario-walkthrough notation.</p>
+<p class="spec-step">When an operation has inherent complexity or interesting interactions � it coordinates multiple collaborators, produces a result through a chain of internal steps, or branches in a way not captured by the signature and invariants alone � write a tab-indented <code>Interaction:</code> block directly after the operation&#x27;s invariants. Each step is a flat, non-nested pseudocode line using the scenario-walkthrough notation.</p>
 </div>
 <p><strong>When to omit:</strong> Simple delegations with a single step, pure queries that return a property directly, or operations whose entire behavior is self-evident from the return type and invariants alone.</p>
-<p><strong>Design smell — invariants without interactions:</strong> If an operation carries several invariants but no <code>Interaction:</code> block, that is almost always wrong. Invariants state <em>what must be true</em>; they cannot replace the step-chain that <em>makes it true</em>.</p>
-<p><strong>Extract complex sub-logic into named operations.</strong> An <code>Interaction:</code> block is not pseudocode — it traces the key collaborations. When a branch or calculation is non-trivial, give it a name, extract it as a separate operation, and describe its rule as an invariant.</p>
+<p><strong>Design smell � invariants without interactions:</strong> If an operation carries several invariants but no <code>Interaction:</code> block, that is almost always wrong. Invariants state <em>what must be true</em>; they cannot replace the step-chain that <em>makes it true</em>.</p>
+<p><strong>Extract complex sub-logic into named operations.</strong> An <code>Interaction:</code> block is not pseudocode � it traces the key collaborations. When a branch or calculation is non-trivial, give it a name, extract it as a separate operation, and describe its rule as an invariant.</p>
 <p><strong>Format rules:</strong></p>
 <ul>
 <li><code>	Interaction:</code> is tab-indented under the operation, same level as <code>Invariant:</code></li>
-<li>Each step inside is a further-indented flat line — <strong>no nesting</strong></li>
+<li>Each step inside is a further-indented flat line � <strong>no nesting</strong></li>
 <li>Use typed pseudocode: <code>variableName: Type = expression</code></li>
 <li>Method calls: <code>object.method(param: value)</code></li>
 <li>Construction: <code>variable: Type = new ClassName(param: Type)</code></li>
 <li>Return: <code>return variable</code></li>
-<li><strong>Variable names must use domain language</strong> — <code>roll</code>, <code>margin</code>, <code>throwingDistanceMeasure</code>, not <code>r</code>, <code>temp</code>, <code>measureA</code>. Trace the right name up the chain: domain model ? Domain Language ? source references.</li>
+<li><strong>Variable names must use domain language</strong> � <code>roll</code>, <code>margin</code>, <code>throwingDistanceMeasure</code>, not <code>r</code>, <code>temp</code>, <code>measureA</code>. Trace the right name up the chain: domain model ? Domain Language ? source references.</li>
 </ul>
 <h2>Entities and Value Objects</h2>
 <p>Domain objects carry one of several stereotypes depending on their role. The two most common are Entity and Value Object.</p>
-<p><strong>Entity</strong> — an object distinguished by identity, not by its attributes. Two entities with identical attributes are still different things. An entity has a continuous lifecycle: it is created, changes over time, and eventually ends. Mark with <code>&lt;&lt; Entity &gt;&gt;</code>.</p>
-<p><strong>Value Object</strong> — an object defined entirely by its attributes, with no meaningful identity of its own. Two value objects with the same attributes are interchangeable. Value objects are immutable: never modify one in place; replace it with a new instance. Mark with <code>&lt;&lt; ValueObject &gt;&gt;</code>.</p>
+<p><strong>Entity</strong> � an object distinguished by identity, not by its attributes. Two entities with identical attributes are still different things. An entity has a continuous lifecycle: it is created, changes over time, and eventually ends. Mark with <code>&lt;&lt; Entity &gt;&gt;</code>.</p>
+<p><strong>Value Object</strong> � an object defined entirely by its attributes, with no meaningful identity of its own. Two value objects with the same attributes are interchangeable. Value objects are immutable: never modify one in place; replace it with a new instance. Mark with <code>&lt;&lt; ValueObject &gt;&gt;</code>.</p>
 <p><strong>The deciding question:</strong> <em>Does this thing need to be tracked as an individual over time, or does only the combination of its values matter?</em></p>
 <p>Other stereotypes exist (<code>&lt;&lt; Service &gt;&gt;</code>, <code>&lt;&lt; Factory &gt;&gt;</code>, <code>&lt;&lt; Repository &gt;&gt;</code>, <code>&lt;&lt; Domain Event &gt;&gt;</code>, boundary types, etc.) and are applied when the class clearly plays that role.</p>
 <hr>
 <h2>Consistent shape</h2>
 <pre><code>## **{{KAName}}**
 
-[Optional 1—2 sentence intro]
+[Optional 1�2 sentence intro]
 
 ### **{{ka_name as a Class}}** &lt;&lt; Stereotype &gt;&gt;      ? MUST appear first; matches the KA
 + Constructor(param: Type)
@@ -1818,7 +1817,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 + overriddenOperation(param: Type): ReturnType
 
 ### references                                       ? one per KA, peer to classes
-**Ref — title**
+**Ref � title**
 Source: ...
 Locator: ...
 Extract: whole

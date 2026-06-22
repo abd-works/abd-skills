@@ -1,10 +1,10 @@
----
+﻿---
 description: >-
   Run all Discovery stage skills (executor + reviewer) for the active increment ticket.
 agent: agent
 ---
 
-Read `practices/kanban/reference/stages/discovery.md` and `practices/kanban/reference/artifact-layout.md`.
+Read `common/stages/discovery.md` and `practices/kanban/reference/artifact-layout.md`.
 
 **Before starting:** run `/keyquestions` to confirm which skills are in scope and which are HIL checkpoints.
 

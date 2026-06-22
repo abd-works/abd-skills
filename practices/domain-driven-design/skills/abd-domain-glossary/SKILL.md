@@ -1,26 +1,21 @@
----
+﻿---
 name: abd-domain-glossary
 catalog_garden_tier: practice
 catalog_garden_order: 1
 catalogue_one_liner: >-
-  Build an organized domain glossary — terms grouped by Key Abstraction, KAs grouped into modules by shared concern.
+  Agree on one vocabulary everyone uses — so domain terms don't drift across artifacts and teams.
 description: >-
-  Build a domain glossary: terms grouped under Key Abstractions, KAs grouped
-  into modules by shared concern. Use when the user asks to "build a domain
-  glossary", "define domain terms", "identify Key Abstractions", or needs
-  agreed terminology before deeper modeling begins.
+  Build a domain glossary — terms grouped under Key Abstractions, KAs grouped into modules by shared concern. Use when agreed terminology is needed before deeper modeling begins.
+context-perspective: domain
+context-fidelity:
+  - level: shaping
+    mode: glossary
 ---
 # abd-domain-glossary
 
 ## Purpose
 
-Produce a **structured domain glossary** — terms grouped by Key Abstraction, Key Abstractions grouped into modules by shared concern — so that every downstream artifact (domain language, acceptance criteria, specification, code) draws from a single agreed vocabulary.
-
-The primary output is a glossary, not a boundary diagram. Modules are the organizing container: a module groups the KAs and terms that share a core concern and can be understood together. Each module file contains:
-- **Key Abstractions** — named building blocks that own a cluster of related terms
-- **Terms per KA** — behavioral bullets and source references (exact file + location) per term
-- **Boundary terms** — concepts this module depends on but does not own
-- **Scope** — what region of the domain this module covers (emerges from the terms, not the other way around)
+Agree on one vocabulary everyone uses — so domain terms don't drift across artifacts and teams.
 
 ---
 
@@ -46,6 +41,20 @@ Read the supporting reference files before generating:
 
 ---
 
+## Grill prompts
+
+Read `common/grill-me-with-practice-skill.md` before grilling.
+
+Before generating, surface these common input traps:
+
+- **Overloaded terms** — which word means different things to different people in the organization — and where is that collision hiding?
+- **Missing concepts** — what concepts does the team use in conversation but nobody has named yet — the implicit vocabulary that hasn't been surfaced?
+- **Concept vs. property confusion** — which things are being treated as standalone concepts that are really just attributes of something else — and vice versa?
+- **Module boundary assumptions** — are these terms grouped together because they genuinely share a concern, or because they appeared in the same document?
+- **Boundary term ownership** — when a term is used here but owned elsewhere, do we actually know who owns it — or are we assuming?
+
+---
+
 ## Agent Instructions
 
 ### 1. Read context
@@ -53,8 +62,6 @@ Read the supporting reference files before generating:
 Read every file listed under **Core concepts** above.
 
 ### 2. Generate
-
-Read every file in **`rules/`**; author to those rules.
 
 **Produce output from the template:**
 
@@ -74,15 +81,7 @@ Read every file in **`rules/`**; author to those rules.
 
 ### 3. Validate
 
-Run the scanners:
-
-```bash
-python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/abd-domain-glossary \
-  --workspace <path-to-output>
-```
-
-Then emit per-rule verdicts for every rule in `rules/`.
+Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.md` § Validate output.
 
 ---
 

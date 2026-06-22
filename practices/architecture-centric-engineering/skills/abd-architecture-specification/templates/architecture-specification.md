@@ -1,4 +1,4 @@
-<!--
+﻿<!--
   Template: the architecture-specification document.
   This template is STACK-AGNOSTIC — works for MERN, Django, Spring Boot, or any other stack.
 
@@ -337,7 +337,7 @@ Rules live in `rules/`. Scanners live in `scanners/`. Read every rule before gen
 | `rules/{{rule2}}.md` | {{what it validates}} |
 
 ```bash
-python foundational/skill-helpers/skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+python foundational/skill-helpers/skills/common/scripts/run_scanners.py \
   --skill-root practices/architecture-centric-engineering/specs/{{arch}} \
   --workspace <path-to-generated-code> \
   --language {{language}}

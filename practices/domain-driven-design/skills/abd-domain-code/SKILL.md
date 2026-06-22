@@ -1,24 +1,22 @@
----
+﻿---
 name: abd-domain-code
 catalog_garden_tier: practice
 catalog_garden_order: 5
-catalogue_one_liner: Write domain-layer tests and production code from any domain context.
-description: >
-  Implements pure domain code — classes, operations, invariants — from whatever domain
-  context exists: a domain specification, model, stories, or plain description.
-  No infrastructure, no API, no UI. Use when you want to generate pure domain code
-  in a test-driven way.
+catalogue_one_liner: >-
+  Turn domain knowledge into tested, running code — no infrastructure, pure business logic.
+description: >-
+  Generate tested pure-domain code — classes, operations, invariants — with no infrastructure coupling. Use when domain concepts are ready and need test-driven implementation.
+context-perspective: domain
+context-fidelity:
+  - level: engineering
+    mode: domain-tdd
 ---
 
 # abd-domain-code
 
 ## Purpose
 
-Turn whatever domain context exists into running, tested domain code.
-
-- Tests first (RED) → production code (GREEN) → clean up (REFACTOR).
-- Only the domain layer: classes, value objects, operations, invariants, domain events.
-- No database, no HTTP, no framework coupling.
+Turn domain knowledge into tested, running code — pure business logic with no infrastructure coupling — so the domain model is proven executable before integration begins.
 
 ---
 
@@ -27,6 +25,20 @@ Turn whatever domain context exists into running, tested domain code.
 Use whatever domain artifacts exist — richer inputs produce better output. A **domain specification** , **domain model  , CRC** , **domain terms list**,  **domain glossary** or stories, acceptance criteria, or a plain description and extract what you need as you go.
 
 If **architecture specification** (`architecture-specification.md`exist; read that to understand where domain-layer exists / how to code and test it. If none exists, again infer conventions from the context, language and any existing code.
+
+---
+
+## Grill prompts
+
+Read `common/grill-me-with-practice-skill.md` before grilling.
+
+Before generating, surface these common input traps:
+
+- **Invariant gaps** — which business rules feel "obvious" but haven't been stated — and what breaks if the code doesn't enforce them?
+- **Behavior ownership** — when two domain objects could reasonably own the same operation, which one actually does — and what's the consequence of getting it wrong?
+- **State transition coverage** — which state changes are legal and which aren't — and are we confident we've mapped every transition, including the ones that should be rejected?
+- **Domain vs. infrastructure bleed** — where is the boundary between pure domain logic and infrastructure concerns — and what concepts are we tempted to leak across that line?
+- **Edge interactions** — what happens at the limits — zero items, maximum quantities, duplicate entries — where domain rules interact in ways nobody explicitly stated?
 
 ---
 

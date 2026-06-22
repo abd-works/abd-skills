@@ -16,9 +16,13 @@ SDD_FAMILY = "story-driven-delivery"
 DDD_FAMILY = "domain-driven-design"
 UXD_FAMILY = "user-experience-design"
 ARC_FAMILY = "architecture-centric-engineering"
+CTX_FAMILY = "context-to-memory"
 OTHER_FAMILY = "other"
 KANBAN_FAMILY = "kanban"
 ALL_PRACTICE_FAMILIES = [SDD_FAMILY, DDD_FAMILY, UXD_FAMILY, ARC_FAMILY]
+CONTEXT_STAGE = "context"
+STAGE_COLUMN_STAGES = ["shaping", "discovery", "exploration", "specification", "engineering"]
+ALL_STAGES = [CONTEXT_STAGE] + STAGE_COLUMN_STAGES
 SUPPORTING_CROSSCUT_GROUPS = [KANBAN_FAMILY, DDD_FAMILY, SDD_FAMILY]
 KANBAN_SUPPORTING_SKILL_SLUGS = [
     "abd-kanban",
@@ -391,8 +395,6 @@ def then_surface_has_class(page: Page, css_class: str) -> None:
         f"Expected kanban surface to have class '{css_class}'"
     )
 
-STAGE_COLUMN_STAGES = ["shaping", "discovery", "exploration", "specification", "engineering"]
-
 def then_filtered_family_tickets_align_across_stage_columns(page: Page, family: str) -> None:
     """Visible skill tickets for a filtered family share one horizontal band across stage columns."""
     ys: list[float] = []
@@ -643,3 +645,91 @@ def then_kanban_supporting_skills_only_in_supporting_section(page: Page) -> None
             f".aad-delivery-crosscut-section--supporting a[href*='{slug}']"
         ).first
         expect(link).to_be_attached()
+
+
+# ============================================================================
+# CONTEXT COLUMN HELPERS
+# ============================================================================
+
+def then_ctx_skills_parallel_to_family_rows(page: Page) -> None:
+    """CTX skills in the context column appear at the same vertical band as SDD skills.
+
+    AC 1c: context-to-memory tickets must not be rendered below the four
+    practice-family row slots — they should sit at the SDD-row band (grid-row 2).
+    """
+    ctx_ticket = page.locator(
+        f".kb-col[data-stage='{CONTEXT_STAGE}'] "
+        f".aad-skill-row[data-family='{CTX_FAMILY}'] .kb-ticket"
+    ).first
+    sdd_ticket = page.locator(
+        ".kb-col[data-stage='shaping'] "
+        f".aad-skill-row[data-family='{SDD_FAMILY}'] .kb-ticket"
+    ).first
+    if not ctx_ticket.count() or not sdd_ticket.count():
+        return
+    ctx_box = ctx_ticket.bounding_box()
+    sdd_box = sdd_ticket.bounding_box()
+    assert ctx_box is not None and sdd_box is not None
+    ctx_top = ctx_box["y"]
+    sdd_top = sdd_box["y"]
+    assert abs(ctx_top - sdd_top) <= 4, (
+        f"Expected CTX skills at same vertical band as SDD "
+        f"(ctx_top={ctx_top:.1f}, sdd_top={sdd_top:.1f})"
+    )
+
+
+# ============================================================================
+# STAGE COLUMN COLLAPSE HELPERS
+# ============================================================================
+
+def when_col_collapse_btn_clicked(page: Page, stage: str) -> None:
+    """Click the Collapse Button on the stage column for the given stage slug."""
+    btn = page.locator(
+        f".foundry-board-grid > .kb-col[data-stage='{stage}'] .kb-col-collapse-btn"
+    ).first
+    btn.click()
+    page.wait_for_timeout(200)
+
+
+def then_col_is_collapsed(page: Page, stage: str) -> None:
+    """The stage column carries the kb-col--collapsed class."""
+    col = page.locator(f".foundry-board-grid > .kb-col[data-stage='{stage}']").first
+    assert col.evaluate("el => el.classList.contains('kb-col--collapsed')"), (
+        f"Expected stage column '{stage}' to be collapsed"
+    )
+
+
+def then_col_is_expanded(page: Page, stage: str) -> None:
+    """The stage column does not carry the kb-col--collapsed class."""
+    col = page.locator(f".foundry-board-grid > .kb-col[data-stage='{stage}']").first
+    assert not col.evaluate("el => el.classList.contains('kb-col--collapsed')"), (
+        f"Expected stage column '{stage}' to be expanded"
+    )
+
+
+def then_col_collapse_btn_visible(page: Page, stage: str) -> None:
+    """A Collapse Button is present and visible on the given stage column."""
+    btn = page.locator(
+        f".foundry-board-grid > .kb-col[data-stage='{stage}'] .kb-col-collapse-btn"
+    ).first
+    expect(btn).to_be_visible()
+
+
+def then_col_is_narrow(page: Page, stage: str, max_width_px: float = 40.0) -> None:
+    """Collapsed column has a narrow width (below max_width_px)."""
+    col = page.locator(f".foundry-board-grid > .kb-col[data-stage='{stage}']").first
+    box = col.bounding_box()
+    assert box is not None, f"Expected stage column '{stage}' to have a bounding box"
+    assert box["width"] <= max_width_px, (
+        f"Expected collapsed column '{stage}' width <= {max_width_px}px, got {box['width']:.1f}px"
+    )
+
+
+def then_col_is_full_width(page: Page, stage: str, min_width_px: float = 60.0) -> None:
+    """Expanded column has a full width (above min_width_px)."""
+    col = page.locator(f".foundry-board-grid > .kb-col[data-stage='{stage}']").first
+    box = col.bounding_box()
+    assert box is not None, f"Expected stage column '{stage}' to have a bounding box"
+    assert box["width"] >= min_width_px, (
+        f"Expected expanded column '{stage}' width >= {min_width_px}px, got {box['width']:.1f}px"
+    )

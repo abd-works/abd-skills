@@ -1,13 +1,15 @@
----
+﻿---
 name: story-graph-ops
 catalog_garden_tier: foundational
 catalogue_one_liner: >-
-  CRUD story-graph.json via CLI/scripts, validate, persist; no hand-written JSON drift.
+  Keep the story graph valid and consistent — so downstream tools always read trusted structure.
 description: >-
-  Creates, reads, updates, and deletes story-graph.json (epics, sub-epics, stories, AC, scenarios)
-  as a standalone artifact using the CLI or Python modules. Always validate after edits; do not
-  hand-write JSON without running this skill's tooling. Use when editing story-graph.json or
-  managing its lifecycle on disk.
+  Create, read, update, and validate story-graph.json as the single source of truth for story structure. Use when editing the story graph or managing its lifecycle on disk.
+context-perspective: stories
+context-role: support
+context-fidelity:
+  - level: discovery
+    mode: graph-ops
 ---
 
 # story-graph-ops
@@ -44,7 +46,7 @@ cd C:\dev\agilebydesign-skills\skills\story-graph-ops
 python scripts/story_graph_cli.py read --file C:\path\to\story-graph.json
 ```
 
-Add **`…/execute-skill-using-skills-rules/scripts`** only if you import **`scanner_bases`** in the same process.
+Add **`…/common/scripts`** only if you import **`scanner_bases`** in the same process.
 
 ## Mandatory workflow (checklist)
 
@@ -311,9 +313,9 @@ python scripts/story_graph_cli.py read --file <story-graph.json>
 
 | Piece | Role |
 | --- | --- |
-| **execute-skill-using-skills-rules** | Base rules bundler: **`run_scanners.py`**, violations, scan context. Prepends **`story-graph-ops/scripts`** then **`execute-skill-using-skills-rules/scripts`** on **`PYTHONPATH`** for scanners. |
+| **common** | Base rules bundler: **`run_scanners.py`**, violations, scan context. Prepends **`story-graph-ops/scripts`** then **`common/scripts`** on **`PYTHONPATH`** for scanners. |
 
-Practice skills that ship graph-aware rules or scanners (importing **`story_map`** / **`StoryScanner`**): see **Relationship to ABD practice skills** above; **`execute-skill-using-skills-rules`** runs the scanner pipeline.
+Practice skills that ship graph-aware rules or scanners (importing **`story_map`** / **`StoryScanner`**): see **Relationship to ABD practice skills** above; **`common`** runs the scanner pipeline.
 
 **Rules that need the graph:** declare `scanner:` in rule frontmatter; scanner modules use **`from story_map import …`**, **`from story_scanner import StoryScanner`**, plus **`scanner_bases`**. Shared graph code lives only in **story-graph-ops** — not under **`scanner_bases`**.
 

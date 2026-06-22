@@ -1,24 +1,21 @@
----
+﻿---
 name: abd-domain-language
 catalog_garden_tier: practice
 catalog_garden_order: 2
 catalogue_one_liner: >-
-  Shared vocabulary with concept behavior in one file; terms, KAs, and concept blocks.
+  Define each domain term precisely — name, meaning, boundaries, relationships — so models, stories, and code share one vocabulary.
 description: >-
-  Build a shared, rigorous vocabulary for the scope you are modeling — extract
-  terms, group them into Key Abstractions, and sketch each concept's behavior —
-  all in one file every downstream artifact can rely on.
-  Use when the user asks to "build the Domain Language", "extract domain terms",
-  "identify Key Abstractions", "sketch the domain", or when a scope has source material
-  but no agreed vocabulary or concept sketch yet.
+  Get domain experts and builders to agree on what each term means — terms, Key Abstractions, and concept sketches that downstream artifacts rely on. Use when source material exists but no agreed domain vocabulary yet.
+context-perspective: domain
+context-fidelity:
+  - level: discovery
+    mode: language
 ---
 # abd-domain-language
 
 ## Purpose
 
-Build a shared, rigorous vocabulary for the scope you are modeling so that domain experts and modelers agree on what each term means, what each concept does, and which rules must always hold — and capture that agreement in **one** living document the whole team uses without translation. The scope of one run can be a single module, several modules, or a whole-system sweep; the skill and its output shape stay the same.
-
-This is a three-pass skill. It reads source, extracts terms with definitions, groups them into Key Abstractions, sketches each concept's behavior and properties, and writes **one** file. The final output is a robust domain model that describes domain concepts in a structured, plain-English form — before anyone commits to classes, methods, or properties.
+Define each domain term precisely — name, meaning, boundaries, and relationships — so domain models, stories, and code use the same words with the same meaning.
 
 ---
 
@@ -27,6 +24,20 @@ This is a three-pass skill. It reads source, extracts terms with definitions, gr
 **Deliverables folder:** `<active_skill_workspace>/domain/`
 
 **File name:** `domain-language.md`. Add a `<name>-` prefix only when disambiguation is needed. For multi-module engagements: `<deliverables-folder>/modules/<module-name>-domain-language.md`. When the scope spans more than one module in a single file, organize with `# Module: [ModuleName]` sections.
+
+---
+
+## Grill prompts
+
+Read `common/grill-me-with-practice-skill.md` before grilling.
+
+Before generating, surface these common input traps:
+
+- **Vocabulary collisions** — which term means different things to different people in the room — and where is the team smoothing over a real boundary by using one word for two concepts?
+- **Missing behavior** — which concepts are described as things that exist but not things that do anything — where is the behavior hiding behind nouns?
+- **Premature hierarchy** — are we organizing concepts into parent-child relationships because the domain actually has that structure, or because it feels tidy?
+- **Implicit concepts** — what ideas does the team use in every conversation but hasn't named — the concept that everyone assumes but nobody has articulated?
+- **Business vs. implementation language** — which descriptions capture what the concept does in the business versus how it might be implemented — and where has technical thinking leaked into the domain vocabulary?
 
 ---
 
@@ -40,8 +51,6 @@ Read these files:
 
 ### 2. Generate
 
-Read every file in **`rules/`**; author to those rules.
-
 **Produce output from every template:**
 
 | Template | What to produce |
@@ -53,15 +62,7 @@ Read every file in **`rules/`**; author to those rules.
 
 ### 3. Validate
 
-Run the scanners:
-
-```bash
-python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/abd-domain-language \
-  --workspace <path-to-output>
-```
-
-Then emit per-rule verdicts for every rule in `rules/`.
+Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.md` § Validate output.
 
 ---
 

@@ -1,4 +1,4 @@
-# Secure code review checklist
+﻿# Secure code review checklist
 
 Use after implementing or reviewing a change. Mark each row **pass**, **fail**, or **n/a** with a one-line note.
 
@@ -34,7 +34,7 @@ Use after implementing or reviewing a change. Mark each row **pass**, **fail**, 
 Run **each language** present in the engagement workspace:
 
 ```powershell
-$runner = "<engagement>/.cursor/skills/execute-skill-using-skills-rules/scripts/run_scanners.py"
+$runner = "<engagement>/.cursor/skills/common/scripts/run_scanners.py"
 $skill  = "<engagement>/.cursor/skills/abd-secure-code"
 $ws     = "<engagement-root>"
 

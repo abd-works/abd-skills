@@ -1,4 +1,4 @@
-# Skill Garden — Inventory
+﻿# Skill Garden — Inventory
 
 > Auto-generated catalogue of **43** deployed skills.
 > Re-run `generate_catalogue.py` to refresh.
@@ -65,7 +65,7 @@
 | [abd-commit-msg](skill-helpers/commit-msg/) | User types  or requests a commit | Commit messages from scope and changed files; no story_graph (/commit and similar). |
 | [correct-output](skill-helpers/correct_output/) | This skill governs what to do when generated output is wrong. | Fix the deliverable first, log corrections, iterate until right — only then improve the source. |
 | [deploy-skill-to-cursor](skill-helpers/deploy-skill-to-cursor/) | You added or changed a skill under  and want Cursor and/or VS Code to load it without maintaining a second copy. | Junction-link a repo skill into Cursor/VS Code — skill folder, rules, instructions, and commands. |
-| [execute-skill-using-skills-rules](skill-helpers/execute-skill-using-skills-rules/) | execute-skill-using-skills-rules | Run scanners, validate output against rules, fix failures; quality gate before and after work. |
+| [common](skill-helpers/common/) | common | Run scanners, validate output against rules, fix failures; quality gate before and after work. |
 | [skill-garden-catalogue](skill-helpers/skill-garden-catalogue/) | You want a single-page overview of all available skills. | Scan a folder of deployed skills and regenerate a one-pager Markdown inventory and an HTML index page. Each entry shows the challenge the skill addresses and the solution it provides, hyperlinked to … |
 | [track-task](skill-helpers/track_task/) | Track task (checkbox progress) | Checkbox markdown task lists for pipelines or ad-hoc steps under the engagement workspace. |
 
@@ -73,7 +73,7 @@
 
 | Skill | Challenge | Solution |
 | --- | --- | --- |
-| [abd-acceptance-criteria](story-driven-delivery/abd-acceptance-criteria/) | Build acceptance criteria per story, that explain what must be true when users and systems interact: observable triggers (WHEN), expected outcomes (THEN), chained effects (AND), and explicit … | WHEN/THEN acceptance criteria for story-graph.json; ships rules and scanners for execute-skill-using-skills-rules. |
+| [abd-acceptance-criteria](story-driven-delivery/abd-acceptance-criteria/) | Build acceptance criteria per story, that explain what must be true when users and systems interact: observable triggers (WHEN), expected outcomes (THEN), chained effects (AND), and explicit … | WHEN/THEN acceptance criteria for story-graph.json; ships rules and scanners for common. |
 | [abd-specification-by-example](story-driven-delivery/abd-specification-by-example/) | Write Given/When/Then scenarios that make a story's expected behavior concrete and testable, using real domain values and named outcomes so the team can verify what the system must do. | Given/When/Then scenarios with real domain values; plain or outline (data tables) templates. |
 | [abd-story-mapping](story-driven-delivery/abd-story-mapping/) | A story map in the Jeff Patton sense is a single shared picture of the product: you organize understanding into a small stack of nested levels—epics (broad capability areas), sub-epics (flows or … | Patton-style story maps (epics, stories, verb-noun naming); writes story-map templates from sources. |
 | [abd-thin-slicing](story-driven-delivery/abd-thin-slicing/) | Define prioritized increments. | Thin-sliced MVIs and backlog order from a story map; writes thin-slicing templates. |

@@ -1,4 +1,4 @@
-<!--
+﻿<!--
   Parameterized SKILL.md skeleton for agilebydesign-skills.
   Canonical copy: skills/abd-practice-skill-builder/abd-author-practice-skill/templates/SKILL_template.md
   Copy to skills/<your-skill>/SKILL.md and replace every {{PLACEHOLDER}}.
@@ -93,7 +93,7 @@ Rule: <rule-filename>  ->  FAIL  <offending line or reason>
 **No rule may be silently skipped.** Then run the scanner pass:
 
 ```bash
-python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+python skills/common/scripts/run_scanners.py \
   --skill-root skills/{{SKILL_FOLDER_NAME}} \
   --workspace <path-to-output>
 ```
@@ -128,7 +128,7 @@ Default **`-IDE Cursor`**. Use **`-IDE Both`** when the target project should al
 After editing `.mdc` or `.instructions.md`, validate parity (use an **absolute** `--workspace` path):
 
 ```bash
-python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+python skills/common/scripts/run_scanners.py \
   --skill-root skills/abd-practice-skill-builder/abd-author-practice-skill \
   --workspace /absolute/path/to/repo/skills/{{SKILL_FOLDER_NAME}}
 ```

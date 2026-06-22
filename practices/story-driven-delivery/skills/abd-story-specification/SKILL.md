@@ -1,32 +1,49 @@
----
+﻿---
 name: abd-story-specification
 catalog_garden_tier: practice
 catalog_garden_order: 40
 catalogue_one_liner: >-
-  Given/When/Then scenarios with real domain values; plain or outline (data tables) templates.
+  Turn acceptance criteria into concrete, testable examples — so behaviors are unambiguous before code.
 description: >-
-  Produces Given/When/Then specification scenarios with real domain values. Use when
-  writing BDD scenarios, refining acceptance criteria into specs, or making story behavior concrete.
+  Produce Given/When/Then specification scenarios with realistic domain values from acceptance criteria. Use when making story behavior concrete and testable before code.
+context-perspective: stories
+context-fidelity:
+  - level: specification
+    mode: spec-by-example
 ---
 # abd-story-specification
 
 ## Purpose
 
-Build **specification scenarios** per **story** that turn acceptance criteria and story intent into runnable examples: preconditions (**Given**), triggers (**When**), observable outcomes (**Then**), chained effects (**And**), and explicit negatives (**But**). Write **multiple scenarios** per story — at least one happy path plus **edge** and **error** cases implied by the story or its AC — each a **complete example** with realistic domain values, not placeholders. Ground every step in the domain model: use exact concept names, deliberate relationships in step language, and **Examples** tables whose columns reflect domain structure (not isolated field lists). When AC exist, use the main-flow AC as the spine (WHEN → When, THEN/AND → Then/And), then add Given preconditions and additional scenarios for failures, boundaries, and alternate flows. Focus on what users and systems do and what becomes observable; keep implementation detail out unless the story is explicitly technical.
+Make story behavior unambiguous — concrete examples with real values so devs and domain experts agree on exactly what happens before code is written.
 
 ---
 
 ## Output file
 
-**Deliverables folder:** see `../agent-protocol.md` — Output file resolution.
+**Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
 
 **File name:** `specification-by-example.md` — a single file for all stories in the module. Add a `<name>-` prefix only when disambiguation is needed.
 
 ---
 
+## Grill prompts
+
+Read `common/grill-me-with-practice-skill.md` before grilling.
+
+Before generating, surface these common input traps:
+
+- **Concrete enough to disagree** — if you showed these examples to a domain expert and a developer, would they argue about whether the output is correct? If not, the examples might be too vague to catch real misunderstandings.
+- **Values from where** — are the example values representative of real domain data, or generic placeholders? Realistic values surface edge cases that "John Doe, $100" never will.
+- **Missing state combinations** — what combinations of Given conditions have we not explored? The dangerous bugs live in states nobody thought to combine.
+- **Assumed preconditions** — what has to be true before each scenario starts — and does everyone agree on that starting state, or are there hidden setup assumptions?
+- **Boundary behaviors** — what happens at the edges — zero, one, many, max, just-over-max? Have we specified what the system does at the limits, or just in the comfortable middle?
+
+---
+
 ## Agent Instructions
 
-> **MANDATORY — read `../agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.**
+Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
@@ -42,8 +59,6 @@ Also check whether any of the following domain model content exists in the works
 Check for `domain.json` in the workspace. If it does not exist and a domain model markdown file is present, produce `domain.json` before running the scanner.
 
 ### 2. Generate
-
-Read every file in **`rules/`**; author to those rules.
 
 **Choose notation first:**
 - **Scenarios** (plain): each scenario has distinct context; all values inline. Use for main flow, failure, edge cases.
@@ -72,15 +87,7 @@ Generated artifacts contain only scenario content; template instructions stay in
 
 ### 3. Validate
 
-Run the scanners:
-
-```bash
-python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/abd-story-specification \
-  --workspace <path-to-output>
-```
-
-Then emit per-rule verdicts per `../agent-protocol.md`.
+Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.md` § Validate output.
 
 
 ---

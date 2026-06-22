@@ -10,15 +10,15 @@
 <link rel="stylesheet" href="../commons/site.css?v=foundry-3">
 <style>
 /*
-  Agile Garden — AI Garden prelude + gardener lesson fragment.
+  ABD Foundry — catalog prelude + gardener lesson fragment.
   Inlined via generate_abd_catalog.py. Max border-radius 6px; flat surfaces.
-  Brand split: orange-500 (#E5531A) for column chrome / rails; ai-blue (#4FC3F7 / #81D4FA)
-  on dense mono skill links — see abd-works-brand BRAND-GUIDELINES §3.1 (ai-blue-500).
+  Brand split: --accent (#E5531A) for column chrome / rails; --ai-accent on dense
+  mono skill links (engineering mode only — executive overrides in catalog.css).
 */
 .catalog-prelude {
   margin: 0 0 24px;
   padding: 0 0 20px;
-  border-bottom: 1px solid #2A2A2A;
+  border-bottom: 1px solid var(--border);
 }
 .catalog-prelude-heading {
   margin: 0 0 12px;
@@ -27,7 +27,7 @@
   color: var(--text);
   line-height: 1.25;
   padding-bottom: 8px;
-  border-bottom: 1px solid #2A2A2A;
+  border-bottom: 1px solid var(--border);
   scroll-margin-top: 48px;
 }
 .catalog-prelude-tagline {
@@ -43,9 +43,9 @@
   margin: 0 0 18px;
 }
 .catalog-mission-card {
-  background: #1B1B20;
-  border: 1px solid #2A2A2A;
-  border-left: 3px solid #E5531A;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
   border-radius: 4px;
   padding: 14px 20px;
   display: flex;
@@ -57,7 +57,7 @@
   flex-shrink: 0;
   font-size: 0.95rem;
   font-weight: 700;
-  color: #F4F4F5;
+  color: var(--text);
   margin: 0;
   white-space: nowrap;
 }
@@ -71,14 +71,14 @@
 .catalog-mission-card--teal,
 .catalog-mission-card--amber,
 .catalog-mission-card--purple {
-  background: #1B1B20;
-  border: 1px solid #2A2A2A;
-  border-left: 3px solid #E5531A;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
 }
 .catalog-mission-card--teal h3,
 .catalog-mission-card--amber h3,
 .catalog-mission-card--purple h3 {
-  color: #F4F4F5;
+  color: var(--text);
 }
 @media (max-width: 720px) {
   .catalog-mission { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -95,17 +95,17 @@
   gap: 10px;
   padding: 8px 0 10px;
   margin: 24px 0 12px;
-  border-bottom: 1px solid #2A2A2A;
+  border-bottom: 1px solid var(--border);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #E5531A;
+  color: var(--accent);
 }
 .catalog-section-label--foundational {
   margin-top: 28px;
-  color: #8A8A97;
-  border-bottom-color: #1A1A1E;
+  color: var(--muted);
+  border-bottom-color: var(--border-muted);
 }
 
 /* ── Practice grid — all 5 disciplines forced onto one row ── */
@@ -113,8 +113,8 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 1px;
-  background: #2A2A2A;
-  border: 1px solid #2A2A2A;
+  background: var(--border);
+  border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
   margin: 0;
@@ -131,8 +131,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: #2A2A2A;
-  border: 1px solid #2A2A2A;
+  background: var(--border);
+  border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
 }
@@ -158,7 +158,7 @@
   display: block !important;
   font-size: 0.82rem;
   line-height: 1.5;
-  color: #9B9BA8;
+  color: var(--muted);
 }
 
 /* ── Agents grid — single wide column ── */
@@ -166,15 +166,15 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: #2A2A2A;
-  border: 1px solid #2A2A2A;
+  background: var(--border);
+  border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
 }
 .catalog-section-label--agents {
   margin-top: 28px;
-  color: #E5531A;
-  border-bottom-color: #2A2A2A;
+  color: var(--accent);
+  border-bottom-color: var(--border);
 }
 
 /* ── Shared column card ── */
@@ -199,7 +199,7 @@
   margin-top: 0;
 }
 .catalog-garden-col {
-  background: #111113;
+  background: var(--surface);
   border: none;
   border-radius: 0;
   overflow: hidden;
@@ -213,17 +213,17 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  border-bottom: 1px solid #2A2A2A;
-  background: #1B1B20;
-  color: #E5531A;
-  border-left: 3px solid #E5531A;
+  border-bottom: 1px solid var(--border);
+  background: var(--raised);
+  color: var(--accent);
+  border-left: 3px solid var(--accent);
 }
 .catalog-garden-col-header--practice,
 .catalog-garden-col-header--foundational,
 .catalog-garden-col-header--agents {
-  background: #1B1B20;
-  color: #E5531A;
-  border-left: 3px solid #E5531A;
+  background: var(--raised);
+  color: var(--accent);
+  border-left: 3px solid var(--accent);
 }
 .catalog-garden-ico { flex-shrink: 0; display: block; }
 .catalog-garden-row {
@@ -231,11 +231,11 @@
   align-items: center;
   gap: 10px;
   padding: 6px 16px;
-  border-bottom: 1px solid #1A1A1E;
+  border-bottom: 1px solid var(--border-muted);
   font-size: 0.85rem;
 }
 .catalog-garden-row:last-child { border-bottom: none; }
-/* Skill/agent links — mono names stay near-white; ai-blue hairline/hover (brand AI accent, not orange wall) */
+/* Skill/agent links — mono names; ai-accent on dark (engineering mode) */
 .catalog-garden-name {
   font-weight: 700;
   font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
@@ -243,12 +243,11 @@
   min-width: 0;
   overflow-wrap: anywhere;
   word-break: break-word;
-  color: #4FC3F7;
+  color: var(--ai-accent);
 }
-/* !important beats global `a { … }`, :visited, and concatenation order */
 .catalog-prelude .catalog-garden-name a,
 .catalog-garden-lists .catalog-garden-name a {
-  color: #4FC3F7 !important;
+  color: var(--ai-accent) !important;
   font-weight: 700 !important;
   text-decoration: none !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
@@ -257,19 +256,19 @@
 .catalog-prelude .catalog-garden-name a:focus-visible,
 .catalog-garden-lists .catalog-garden-name a:hover,
 .catalog-garden-lists .catalog-garden-name a:focus-visible {
-  color: #81D4FA !important;
+  color: var(--ai-accent-soft) !important;
   border-bottom-color: rgba(79, 195, 247, 0.95);
 }
 .catalog-garden-name--agent a,
 .catalog-garden-name--foundational a {
-  color: #4FC3F7 !important;
+  color: var(--ai-accent) !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
 }
 .catalog-garden-name--agent a:hover,
 .catalog-garden-name--agent a:focus-visible,
 .catalog-garden-name--foundational a:hover,
 .catalog-garden-name--foundational a:focus-visible {
-  color: #81D4FA !important;
+  color: var(--ai-accent-soft) !important;
   border-bottom-color: rgba(79, 195, 247, 0.92);
 }
 .catalog-garden-name--dim {
@@ -1715,7 +1714,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 </style>
 <script src="../commons/catalog-nav.js?v=foundry-10"></script>
 </head>
-<body data-nav-prefix="../" data-nav-current="hub" data-nav-site-base="https://abd.works/">
+<body data-nav-prefix="../" data-nav-current="hub" data-nav-site-base="../../../abd-works-website/">
 <main id="main-content">
 
 
@@ -1755,25 +1754,25 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
         <a class="cap-card" href="../skill/abd-story-mapping.html">
           <p class="cap-card__title"><span class="skill-name-prefix">abd-</span>story-mapping</p>
           <p class="cap-card__label">Core skill</p>
-          <p class="cap-card__summary">Patton-style story maps (epics, stories, verb-noun naming); writes story-map templates from sources.</p>
+          <p class="cap-card__summary">Give product, delivery, and domain people one shared picture of scope — outcomes and behaviors, not tasks.</p>
           <p class="cap-card__more">Open skill page →</p>
         </a>
         <a class="cap-card" href="../skill/abd-story-acceptance-criteria.html">
           <p class="cap-card__title"><span class="skill-name-prefix">abd-</span>story-acceptance-criteria</p>
           <p class="cap-card__label">Core skill</p>
-          <p class="cap-card__summary">WHEN/THEN/AND/BUT acceptance criteria for stories; behavioral language, atomic AC, domain terms.</p>
+          <p class="cap-card__summary">State exactly what must be true for a story to be done — so everyone agrees on &#x27;finished&#x27;.</p>
           <p class="cap-card__more">Open skill page →</p>
         </a>
         <a class="cap-card" href="../skill/abd-story-specification.html">
           <p class="cap-card__title"><span class="skill-name-prefix">abd-</span>story-specification</p>
           <p class="cap-card__label">Core skill</p>
-          <p class="cap-card__summary">Given/When/Then scenarios with real domain values; plain or outline (data tables) templates.</p>
+          <p class="cap-card__summary">Turn acceptance criteria into concrete, testable examples — so behaviors are unambiguous before code.</p>
           <p class="cap-card__more">Open skill page →</p>
         </a>
         <a class="cap-card" href="../skill/abd-story-acceptance-test.html">
           <p class="cap-card__title"><span class="skill-name-prefix">abd-</span>story-acceptance-test</p>
           <p class="cap-card__label">Core skill</p>
-          <p class="cap-card__summary">Tests first, then code: executable acceptance tests from scenarios, AC, or notes (RED-GREEN-REFACTOR).</p>
+          <p class="cap-card__summary">Prove each behavior works before writing production code — tests drive what gets built.</p>
           <p class="cap-card__more">Open skill page →</p>
         </a>
 </div>
@@ -1783,25 +1782,25 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
         <a class="cap-card" href="../skill/abd-thin-slicing.html">
           <p class="cap-card__title"><span class="skill-name-prefix">abd-</span>thin-slicing</p>
           <p class="cap-card__label">Supporting skill</p>
-          <p class="cap-card__summary">Thin-sliced MVIs and backlog order from a story map; writes thin-slicing templates.</p>
+          <p class="cap-card__summary">Decide what to deliver first and why — so the team ships value in the smallest useful increments.</p>
           <p class="cap-card__more">Open skill page →</p>
         </a>
         <a class="cap-card" href="../skill/drawio-story-sync.html">
           <p class="cap-card__title">drawio-story-sync</p>
           <p class="cap-card__label">Supporting skill</p>
-          <p class="cap-card__summary">story-graph.json to Draw.io story maps; validated load/save and diagram sync.</p>
+          <p class="cap-card__summary">Keep Draw.io story maps in sync with the story graph — so diagrams reflect current scope.</p>
           <p class="cap-card__more">Open skill page →</p>
         </a>
         <a class="cap-card" href="../skill/miro-story-sync.html">
           <p class="cap-card__title">miro-story-sync</p>
           <p class="cap-card__label">Supporting skill</p>
-          <p class="cap-card__summary">story-graph.json to Miro story maps; validated load and REST-driven board sync.</p>
+          <p class="cap-card__summary">Keep Miro story boards in sync with the story graph — so the wall matches the data.</p>
           <p class="cap-card__more">Open skill page →</p>
         </a>
         <a class="cap-card" href="../skill/story-graph-ops.html">
           <p class="cap-card__title">story-graph-ops</p>
           <p class="cap-card__label">Supporting skill</p>
-          <p class="cap-card__summary">CRUD story-graph.json via CLI/scripts, validate, persist; no hand-written JSON drift.</p>
+          <p class="cap-card__summary">Keep the story graph valid and consistent — so downstream tools always read trusted structure.</p>
           <p class="cap-card__more">Open skill page →</p>
         </a>
 </div>
@@ -1816,10 +1815,22 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
           <p class="cap-card__summary">After story-graph.json is updated (by any means — story-graph-ops CLI, Python script, or skill pipeline):</p>
           <p class="cap-card__more">Open instruction page →</p>
         </a>
+        <a class="cap-card" href="../instruction/story-driven-delivery--instructions--drawio-story-sync-mdc.html">
+          <p class="cap-card__title">drawio-story-sync</p>
+          <p class="cap-card__label">drawio-story-sync.mdc</p>
+          <p class="cap-card__summary">Keep Draw.io story diagrams in sync with story-graph.json</p>
+          <p class="cap-card__more">Open instruction page →</p>
+        </a>
         <a class="cap-card" href="../instruction/story-driven-delivery--instructions--story-graph-ops-instructions-md.html">
           <p class="cap-card__title">story-graph-ops</p>
           <p class="cap-card__label">story-graph-ops.instructions.md</p>
           <p class="cap-card__summary">STOP after every edit to a matching file. Before responding to the user or moving to any next step, you MUST have asked:</p>
+          <p class="cap-card__more">Open instruction page →</p>
+        </a>
+        <a class="cap-card" href="../instruction/story-driven-delivery--instructions--story-graph-ops-mdc.html">
+          <p class="cap-card__title">story-graph-ops</p>
+          <p class="cap-card__label">story-graph-ops.mdc</p>
+          <p class="cap-card__summary">Keep story-graph.json in sync when story-skill markdown changes</p>
           <p class="cap-card__more">Open instruction page →</p>
         </a>
 </div>
@@ -1838,6 +1849,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <li><a href="../../practices/story-driven-delivery/lib/diagram_story_sync/render_summary.py" target="_blank" rel="noopener noreferrer">practices/story-driven-delivery/lib/diagram_story_sync/render_summary.py</a></li>
 <li><a href="../../practices/story-driven-delivery/lib/diagram_story_sync/style_defaults.py" target="_blank" rel="noopener noreferrer">practices/story-driven-delivery/lib/diagram_story_sync/style_defaults.py</a></li>
 <li><a href="../../practices/story-driven-delivery/lib/diagram_story_sync/update_report.py" target="_blank" rel="noopener noreferrer">practices/story-driven-delivery/lib/diagram_story_sync/update_report.py</a></li>
+<li><a href="../../practices/story-driven-delivery/lib/README.md" target="_blank" rel="noopener noreferrer">practices/story-driven-delivery/lib/README.md</a></li>
 </ul>
 <h3 id="slot-scripts">Scripts — package-level automation</h3>
 <p class="entry-caption">_(empty <code>story-driven-delivery/scripts/</code>)_</p></div>

@@ -1,19 +1,23 @@
----
+﻿---
 catalog_garden_tier: practice
 catalog_garden_order: 40
 name: abd-architecture-specification
 catalogue_one_liner: >-
-  Specification that defines how to create code that follows a particular architecture.
+  Tell engineers exactly how domain concepts become files, classes, and tests in a chosen stack.
 description: >-
-  Produce an architecture specification that instantiates domain and story scope into runnable code.
-  Use when you need to specify how stories and domain objects map to files, classes, and tests across a stack.
-  Run in document, template, or both modes (default both).
+  Specify how domain concepts and stories map to files, classes, and tests in a chosen stack. Use when starting or extending an architecture spec for a project.
+context-perspective: architecture
+context-fidelity:
+  - level: exploration
+    mode: document
+  - level: specification
+    mode: template
 ---
 # abd-architecture-specification
 
 ## Purpose
 
-An **architecture specification** tells engineers exactly how domain concepts and stories become code in a chosen stack — which files, classes, interactions, and tests implement each entity, operation, and scenario. The specification is one artifact: documentation and working template code stay aligned; each mechanism is documented once and reused; later runs extend only what is missing.
+Tell engineers exactly how domain concepts and stories become files, classes, and tests in a chosen stack — so agents know exactly how to generate working code for a domain and story that follows the architecture.
 
 ---
 
@@ -23,6 +27,20 @@ An **architecture specification** tells engineers exactly how domain concepts an
 - You are starting a new architecture spec or **extending** an existing one with additional mechanisms.
 - A kanban ticket names mechanisms in scope and you need to **assign** (reuse) or **create** (author) specification content.
 - Template code must be **runnable** and validated against the architecture's own rules and scanners.
+
+---
+
+## Grill prompts
+
+Read `common/grill-me-with-practice-skill.md` before grilling.
+
+Before generating, surface these common input traps:
+
+- **Domain-to-file mapping** — when a new domain concept appears, does the spec make it obvious which files get created, where they live, and what they're named — or does that require a judgment call every time?
+- **Mechanism boundaries in code** — for each mechanism, can you point to exactly where its code starts and stops? If two mechanisms touch the same file or class, is the ownership clear or are they entangled?
+- **Walkthrough vs. real flow** — does the walkthrough trace a path that a real request actually follows, or does it show an idealized sequence that skips the messy parts (retries, fallbacks, partial failures)?
+- **Test tier proof** — what does each test tier actually prove about the architecture? If a tier is just re-testing the same behavior at a different layer, what unique architectural risk is it supposed to catch?
+- **Pattern fit for edge cases** — the spec defines patterns for the common case, but what happens when a story doesn't fit the pattern cleanly? Where are the seams that will need judgment, and are those documented or left implicit?
 
 ---
 
@@ -96,7 +114,7 @@ Full teaching — document skeleton, five-part shape, section organization, temp
 
 ## Output
 
-**Deliverables folder:** see `../agent-protocol.md` — Output file resolution.
+**Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
 
 **Primary output:** a specification directory (see **Core concepts**).
 
@@ -112,14 +130,13 @@ The spec directory's own `templates/` folder (e.g. `specs/mern/templates/`) hold
 
 ## Agent Instructions
 
-> **MANDATORY — read `../agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.**
+Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
 Read all of these before doing anything else:
 - **`reference/concepts.md`** and **`reference/examples.md`** — the ideas and worked examples behind this skill.
 - **`reference/example.ts`** — merged template module (all tiers in one file); catalog hero and shape reference for the runnable template slice.
-- Every file in **`rules/`** — the pass/fail bar for the specification document.
 - **`templates/architecture-specification.md`** — the document skeleton and placeholder vocabulary.
 
 ### 2. Ask — mode and template domain
@@ -181,14 +198,14 @@ Link the specification directory to the relevant story map node(s) — system, e
 
 ### 5. Validate
 
-Follow **`execute-skill-using-skills-rules`**. Run only the passes that match the mode:
+Follow **`common`**. Run only the passes that match the mode:
 
-**A — Specification document** (modes **document** and **both**): Read every file in **`abd-architecture-specification/rules/`**; emit a per-rule PASS/FAIL verdict per `../agent-protocol.md`.
+**A — Specification document** (modes **document** and **both**): Read every file in **`abd-architecture-specification/rules/`**; emit a per-rule PASS/FAIL verdict per `../common/skill-rule-workflow.md`.
 
 **B — Template code** (modes **template** and **both**): Read every file in the spec directory's own **`rules/`**; emit per-rule PASS/FAIL on the template slice. Then run scanners:
 
 ```bash
-python foundational/skill-helpers/skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+python skills/common/scripts/run_scanners.py \
   --skill-root <path-to-spec-directory> \
   --workspace <path-to-template-root> \
   --language typescript

@@ -1,42 +1,50 @@
----
+﻿---
 catalog_garden_tier: practice
 catalog_garden_order: 10
 name: abd-architecture-outline
 catalogue_one_liner: >-
   First architecture artifact — system context diagram with functions and tech per system, mechanisms catalogue with tech choices and NFR justifications, and guiding principles.
 description: >-
-  First architecture artifact for a new or unfamiliar system — a system context
-  diagram (with element inventory), a mechanisms catalogue that names every
-  cross-cutting concern with its technology choice and NFR justification, guiding
-  principles, tech stack, major systems, and decision records. Use when a team
-  needs a shared canonical picture before deeper architecture work begins, when
-  onboarding needs a reference, or when preparing for an architecture review.
+  Produce the first shared canonical picture of a system — system context, mechanisms catalogue, principles, and decisions. Use when starting architecture on a new or unfamiliar system, onboarding, or preparing for review.
+context-perspective: architecture
+context-fidelity:
+  - level: shaping
+    mode: system-context
 ---
 # abd-architecture-outline
 
 ## Purpose
 
-A team that cannot describe every element of its system cannot agree on what to build next. Outlines fix that. This skill produces the first architecture artifact for a system: a system context element-inventory markdown file, a draw.io diagram built from that inventory, and a consolidated outline document that brings them together with a mechanisms catalogue, guiding principles, tech stack, major systems, and ADRs. Engineers, product, and stakeholders share a single auditable picture of the neighbours and protocols, each system's functions and platform technology, the mechanism commitments, and the decisions behind them. When the outline is in place, deeper architecture work (blueprint, reference) can start without re-litigating what the system *is* or what mechanisms it commits to.
+Establish the shared canonical picture of a system — what systems exist, how they connect, what mechanisms govern cross-cutting behavior, and what principles guide decisions — so the team starts deeper architecture work from agreed facts, not assumptions.
 
 ---
 
 ## Output files
 
-**Deliverables folder:** see `../agent-protocol.md` — Output file resolution.
+**Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
 
-**Primary file:** `architecture-outline.md`. Add a `<name>-` prefix only when disambiguation is needed.
+Generate from all templates in `templates/`, preserving subfolder structure. Write to `docs/architecture/diagrams/`. Add a `<name>-` prefix to `architecture-outline.md` only when disambiguation is needed.
 
-**Diagram element file** (under `docs/architecture/diagrams/`):
-- `system-context-elements.md` *(includes functions + platform tech per system, protocols on relationships)*
+---
 
-**Draw.io source** (under `docs/architecture/diagrams/`):
-- `system-context.drawio`
+## Grill prompts
+
+Read `common/grill-me-with-practice-skill.md` before grilling.
+
+Before generating, surface these common input traps:
+
+- **System identity** — when someone says "the system," do all stakeholders picture the same boundary? What gets left out when you draw the box, and what gets accidentally included?
+- **Hidden neighbors** — are there systems, services, or manual processes that interact with this system that nobody has mentioned yet? The ones that surface during integration are the ones nobody named during shaping.
+- **Mechanism relevance** — which cross-cutting concerns actually matter here, and which are you including because they're "standard"? A mechanism that doesn't serve a real NFR adds complexity without value.
+- **Connection assumptions** — for each arrow between systems, do you know the protocol, who initiates, and what happens when the other side is unavailable? Or are those details being deferred without anyone tracking the deferral?
+- **Principles vs. preferences** — can each guiding principle be applied to a real code decision with a clear yes-or-no answer, or is it a sentiment that sounds wise but doesn't constrain anything?
+- **What's deliberately excluded** — what have you decided is out of scope for this outline, and does the team agree it's out of scope — or are they assuming someone else is covering it?
 
 ---
 
 ## Agent Instructions
 
-> **MANDATORY — read `../agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.**
+Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
@@ -45,8 +53,6 @@ Read these files:
 - **`reference/system-context.md`** — deeper guidance on the system context diagram.
 
 ### 2. Generate
-
-Read every file in **`rules/`**; author to those rules.
 
 **Step 2a — Produce the element-inventory file first:**
 
@@ -67,7 +73,7 @@ Only after the element file is complete:
 | Template | What to produce |
 | --- | --- |
 | `templates/architecture-outline.md` | The outline document — a System Context section describing each owned system, an Architecture Mechanisms section with tech-choice + NFR justification per mechanism, guiding principles, tech stack table, major systems table, and ADR list. |
-| `templates/decision-record.md` | One ADR file per outline-level decision (platform, architectural style, each mechanism technology choice) under `docs/architecture/decisions/`. |
+| `templates/decisions/decision-record.md` | One ADR file per outline-level decision (platform, architectural style, each mechanism technology choice) under `docs/architecture/decisions/`. |
 
 **Mechanism guidance:** Cover all eight standard mechanisms (Security, Error Handling & Resilience, Logging & Observability, Validation, Configuration & Secrets, Caching, Persistence, Communication). Then identify any context-specific or bespoke mechanisms this system requires that the standard set does not cover and add them as additional subsections. Do not leave any mechanism empty or placeholder; derive real choices from the project context.
 
@@ -82,21 +88,13 @@ Only after the element file is complete:
 
 ### 3. Validate
 
-Run the scanners:
+Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.md` § Validate output.
 
-```bash
-python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/abd-architecture-outline \
-  --workspace <path-to-output>
-```
-
-Then verify diagram:
+Also verify diagram:
 
 ```powershell
 .\scripts\arch-drawio.ps1 verify -ProjectRoot <target-project-root>
 ```
-
-Then emit per-rule verdicts per `../agent-protocol.md`.
 
 ---
 

@@ -10,15 +10,15 @@
 <link rel="stylesheet" href="../../../commons/site.css?v=foundry-3">
 <style>
 /*
-  Agile Garden — AI Garden prelude + gardener lesson fragment.
+  ABD Foundry — catalog prelude + gardener lesson fragment.
   Inlined via generate_abd_catalog.py. Max border-radius 6px; flat surfaces.
-  Brand split: orange-500 (#E5531A) for column chrome / rails; ai-blue (#4FC3F7 / #81D4FA)
-  on dense mono skill links — see abd-works-brand BRAND-GUIDELINES §3.1 (ai-blue-500).
+  Brand split: --accent (#E5531A) for column chrome / rails; --ai-accent on dense
+  mono skill links (engineering mode only — executive overrides in catalog.css).
 */
 .catalog-prelude {
   margin: 0 0 24px;
   padding: 0 0 20px;
-  border-bottom: 1px solid #2A2A2A;
+  border-bottom: 1px solid var(--border);
 }
 .catalog-prelude-heading {
   margin: 0 0 12px;
@@ -27,7 +27,7 @@
   color: var(--text);
   line-height: 1.25;
   padding-bottom: 8px;
-  border-bottom: 1px solid #2A2A2A;
+  border-bottom: 1px solid var(--border);
   scroll-margin-top: 48px;
 }
 .catalog-prelude-tagline {
@@ -43,9 +43,9 @@
   margin: 0 0 18px;
 }
 .catalog-mission-card {
-  background: #1B1B20;
-  border: 1px solid #2A2A2A;
-  border-left: 3px solid #E5531A;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
   border-radius: 4px;
   padding: 14px 20px;
   display: flex;
@@ -57,7 +57,7 @@
   flex-shrink: 0;
   font-size: 0.95rem;
   font-weight: 700;
-  color: #F4F4F5;
+  color: var(--text);
   margin: 0;
   white-space: nowrap;
 }
@@ -71,14 +71,14 @@
 .catalog-mission-card--teal,
 .catalog-mission-card--amber,
 .catalog-mission-card--purple {
-  background: #1B1B20;
-  border: 1px solid #2A2A2A;
-  border-left: 3px solid #E5531A;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
 }
 .catalog-mission-card--teal h3,
 .catalog-mission-card--amber h3,
 .catalog-mission-card--purple h3 {
-  color: #F4F4F5;
+  color: var(--text);
 }
 @media (max-width: 720px) {
   .catalog-mission { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -95,17 +95,17 @@
   gap: 10px;
   padding: 8px 0 10px;
   margin: 24px 0 12px;
-  border-bottom: 1px solid #2A2A2A;
+  border-bottom: 1px solid var(--border);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #E5531A;
+  color: var(--accent);
 }
 .catalog-section-label--foundational {
   margin-top: 28px;
-  color: #8A8A97;
-  border-bottom-color: #1A1A1E;
+  color: var(--muted);
+  border-bottom-color: var(--border-muted);
 }
 
 /* ── Practice grid — all 5 disciplines forced onto one row ── */
@@ -113,8 +113,8 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 1px;
-  background: #2A2A2A;
-  border: 1px solid #2A2A2A;
+  background: var(--border);
+  border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
   margin: 0;
@@ -131,8 +131,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: #2A2A2A;
-  border: 1px solid #2A2A2A;
+  background: var(--border);
+  border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
 }
@@ -158,7 +158,7 @@
   display: block !important;
   font-size: 0.82rem;
   line-height: 1.5;
-  color: #9B9BA8;
+  color: var(--muted);
 }
 
 /* ── Agents grid — single wide column ── */
@@ -166,15 +166,15 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: #2A2A2A;
-  border: 1px solid #2A2A2A;
+  background: var(--border);
+  border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
 }
 .catalog-section-label--agents {
   margin-top: 28px;
-  color: #E5531A;
-  border-bottom-color: #2A2A2A;
+  color: var(--accent);
+  border-bottom-color: var(--border);
 }
 
 /* ── Shared column card ── */
@@ -199,7 +199,7 @@
   margin-top: 0;
 }
 .catalog-garden-col {
-  background: #111113;
+  background: var(--surface);
   border: none;
   border-radius: 0;
   overflow: hidden;
@@ -213,17 +213,17 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  border-bottom: 1px solid #2A2A2A;
-  background: #1B1B20;
-  color: #E5531A;
-  border-left: 3px solid #E5531A;
+  border-bottom: 1px solid var(--border);
+  background: var(--raised);
+  color: var(--accent);
+  border-left: 3px solid var(--accent);
 }
 .catalog-garden-col-header--practice,
 .catalog-garden-col-header--foundational,
 .catalog-garden-col-header--agents {
-  background: #1B1B20;
-  color: #E5531A;
-  border-left: 3px solid #E5531A;
+  background: var(--raised);
+  color: var(--accent);
+  border-left: 3px solid var(--accent);
 }
 .catalog-garden-ico { flex-shrink: 0; display: block; }
 .catalog-garden-row {
@@ -231,11 +231,11 @@
   align-items: center;
   gap: 10px;
   padding: 6px 16px;
-  border-bottom: 1px solid #1A1A1E;
+  border-bottom: 1px solid var(--border-muted);
   font-size: 0.85rem;
 }
 .catalog-garden-row:last-child { border-bottom: none; }
-/* Skill/agent links — mono names stay near-white; ai-blue hairline/hover (brand AI accent, not orange wall) */
+/* Skill/agent links — mono names; ai-accent on dark (engineering mode) */
 .catalog-garden-name {
   font-weight: 700;
   font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
@@ -243,12 +243,11 @@
   min-width: 0;
   overflow-wrap: anywhere;
   word-break: break-word;
-  color: #4FC3F7;
+  color: var(--ai-accent);
 }
-/* !important beats global `a { … }`, :visited, and concatenation order */
 .catalog-prelude .catalog-garden-name a,
 .catalog-garden-lists .catalog-garden-name a {
-  color: #4FC3F7 !important;
+  color: var(--ai-accent) !important;
   font-weight: 700 !important;
   text-decoration: none !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
@@ -257,19 +256,19 @@
 .catalog-prelude .catalog-garden-name a:focus-visible,
 .catalog-garden-lists .catalog-garden-name a:hover,
 .catalog-garden-lists .catalog-garden-name a:focus-visible {
-  color: #81D4FA !important;
+  color: var(--ai-accent-soft) !important;
   border-bottom-color: rgba(79, 195, 247, 0.95);
 }
 .catalog-garden-name--agent a,
 .catalog-garden-name--foundational a {
-  color: #4FC3F7 !important;
+  color: var(--ai-accent) !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
 }
 .catalog-garden-name--agent a:hover,
 .catalog-garden-name--agent a:focus-visible,
 .catalog-garden-name--foundational a:hover,
 .catalog-garden-name--foundational a:focus-visible {
-  color: #81D4FA !important;
+  color: var(--ai-accent-soft) !important;
   border-bottom-color: rgba(79, 195, 247, 0.92);
 }
 .catalog-garden-name--dim {
@@ -1715,7 +1714,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 </style>
 <script src="../../../commons/catalog-nav.js?v=foundry-10"></script>
 </head>
-<body data-nav-prefix="../../../" data-nav-current="skills" data-nav-site-base="https://abd.works/">
+<body data-nav-prefix="../../../" data-nav-current="skills" data-nav-site-base="../../../../../abd-works-website/">
 <main id="main-content">
 
 <div class="page-hero page-hero--detail">
@@ -1735,77 +1734,51 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <div class="rule-prose"><h1>kanban-estimation</h1>
 <p><strong>Manual:</strong> <code>./manual/index.html</code></p>
 <h2>Purpose</h2>
-<p>Teams estimate badly not because they lack a formula but because they skip the conversation. Effort gets assigned by one person&#x27;s hunch, contributing factors go unexamined, and nobody records why a number landed where it did  so every future re-estimate starts from scratch. Delivery estimation packages the facilitation pattern that makes sizing collaborative, factor-aware, and traceable: teams walk through backlog items one at a time, name what drives effort, agree on a category, and save the reasoning alongside the number.</p>
+<p>Agree on sizing with recorded rationale — so re-estimation never starts from scratch and assumptions are visible.</p>
+<hr>
+<h2>Grill prompts</h2>
+<p>Read <code>common/grill-me-with-practice-skill.md</code> before grilling.</p>
+<p>Before generating, surface these:</p>
+<ul>
+<li><strong>False precision</strong> — Are you estimating to a precision the team cannot consistently deliver, or using categories everyone understands?</li>
+<li><strong>Factor blindness</strong> — Which contributing factor is everyone ignoring because it is uncomfortable — regulatory, skill gap, integration risk?</li>
+<li><strong>Anchoring</strong> — Is the first speaker&#x27;s estimate biasing the rest of the team, or are votes truly independent?</li>
+<li><strong>Split avoidance</strong> — Is a large item staying whole because nobody wants to do the work of splitting it, not because it cannot be split?</li>
+<li><strong>Calibration drift</strong> — Does a &quot;Medium&quot; today mean the same thing it meant two sessions ago — and how would you know?</li>
+</ul>
 <hr>
 <h2>Output file</h2>
 <p><strong>Deliverables folder:</strong> see <a href="../../reference/artifact-layout.html">artifact-layout.md</a>.</p>
 <p><strong>File names:</strong> <code>estimation-session.md</code> (one per session) and <code>estimate-record.md</code> (one per scope item). Add a <code>&lt;name&gt;-</code> prefix only when disambiguation is needed.</p>
 <hr>
 <h2>Agent Instructions</h2>
-<p>&gt; <strong>MANDATORY — read <a href="../../reference/artifact-layout.html">artifact-layout.md</a> before starting. It defines canonical output paths per stage and increment.</strong></p>
+<p>Follow <code>../common/skill-rule-workflow.md</code> — read-gates, output file resolution, and the per-rule verdict format are defined there.</p>
 <h3>1. Read context</h3>
 <p>Read these files:</p>
 <ul>
 <li><strong><code>reference/concepts.md</code></strong>  scope items, contributing factors, estimation categories, split threshold, team vote, estimate records, interactive estimation, backlog changes during estimation, and the shape of estimation output.</li>
 </ul>
 <h3>2. Generate</h3>
-<p>Read every file in <strong><code>rules/</code></strong>; author to those rules.</p>
 <p><strong>Produce output from every template:</strong></p>
-<div class="md-table-wrap"><table class="md-table"><tbody><tr><td>Template</td><td>What to produce</td></tr></tbody></table></div>
-<div class="md-table-wrap"><table class="md-table"><tbody><tr><td>---</td><td>---</td></tr></tbody></table></div>
-<div class="md-table-wrap"><table class="md-table"><tbody><tr><td><code>templates/estimation-session.md</code></td><td>Session scope, coverage boundary, contributing-factors catalog, estimation-category scheme, priority-ordered items, and session summary</td></tr></tbody></table></div>
-<div class="md-table-wrap"><table class="md-table"><tbody><tr><td><code>templates/estimate-record.md</code></td><td>One record per scope item: chosen category, factor breakdown, vote rounds, discussion notes, emergent scope</td></tr></tbody></table></div>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td><code>templates/estimation-session.md</code></td><td>Session scope, coverage boundary, contributing-factors catalog, estimation-category scheme, priority-ordered items, and session summary</td></tr><tr><td><code>templates/estimate-record.md</code></td><td>One record per scope item: chosen category, factor breakdown, vote rounds, discussion notes, emergent scope</td></tr></tbody></table></div>
 <p><strong>Session flow:</strong></p>
-<p>1. <strong>Establish session scope</strong>  agree on granularity (epics / sub-epics / stories / thin slices). Review bootcamp stages and confirm coverage boundary (defaults: exploration, specification, engineering, regression testing). Record in session setup.</p>
-<p>2. <strong>Build contributing-factors catalog</strong>  start with seed factors, add/remove per team input.</p>
-<p>3. <strong>Define estimation categories</strong>  team picks a scheme (T-shirt, Fibonacci, S/M/L/XL, custom) with rough meanings and split threshold.</p>
-<p>4. <strong>Prioritize backlog</strong>  present items, suggest priority order, let team reorder.</p>
-<p>5. <strong>Walk item by item</strong>  present, AI suggests starting category, team votes (simultaneous reveal), discuss divergence, check split threshold, record estimate, handle backlog changes.</p>
-<p>6. <strong>Save the session</strong>  review for calibration consistency, flag deeply-split items.</p>
+<p>1. <strong>Establish session scope</strong>  agree on granularity (epics / sub-epics / stories / thin slices). Review bootcamp stages and confirm coverage boundary (defaults: exploration, specification, engineering, regression testing). Record in session setup. 2. <strong>Build contributing-factors catalog</strong>  start with seed factors, add/remove per team input. 3. <strong>Define estimation categories</strong>  team picks a scheme (T-shirt, Fibonacci, S/M/L/XL, custom) with rough meanings and split threshold. 4. <strong>Prioritize backlog</strong>  present items, suggest priority order, let team reorder. 5. <strong>Walk item by item</strong>  present, AI suggests starting category, team votes (simultaneous reveal), discuss divergence, check split threshold, record estimate, handle backlog changes. 6. <strong>Save the session</strong>  review for calibration consistency, flag deeply-split items.</p>
 <p><strong>Backlog changes:</strong> When estimation surfaces new AC, new stories, splits, or merges  record in the estimate record&#x27;s emergent-scope section with the downstream skill tagged, then persist to <code>story-graph.json</code> via <strong><code>story-graph-ops</code></strong>.</p>
 <h3>3. Validate</h3>
-<p>Run the scanners:</p>
-<pre><code>
-python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-
-  --skill-root skills/kanban-estimation \
-
-  --workspace &lt;path-to-output&gt;
-</code></pre>
-<div class="spec-steps">
-<p class="spec-step">Then emit per-rule verdicts (PASS / FAIL with reason) for every rule in <code>rules/</code>.</p>
-</div>
+<p>Run scanners and emit per-rule verdicts — see <code>../common/skill-rule-workflow.md</code> § Validate output.</p>
 <hr>
 <h2>Validate</h2>
 <p><strong>Goal:</strong> Inspect the estimation outputs as a reviewer  check that the session is honest, the records are complete, and the conversation was real.</p>
 <ul>
 <li><strong>Coverage boundary stated</strong>  the session file names what the estimate includes (bootcamp stages) so estimates are comparable.</li>
-</ul>
-<ul>
 <li><strong>Contributing factors are specific</strong>  factor notes per item reflect that item&#x27;s reality, not copy-pasted boilerplate across every record.</li>
-</ul>
-<ul>
 <li><strong>Categories are calibrated</strong>  a quick scan of all records shows the categories make sense relative to each other.</li>
-</ul>
-<ul>
 <li><strong>Discussion is visible</strong>  estimate records with divergent votes show what the disagreement was about, not just the final number.</li>
-</ul>
-<ul>
 <li><strong>Emergent scope captured</strong>  new AC, new stories, splits, merges, and open questions are recorded with the downstream skill tagged.</li>
-</ul>
-<ul>
 <li><strong>No invented precision</strong>  estimates use the agreed categories, not fake-precise numbers.</li>
-</ul>
-<ul>
 <li><strong>Split threshold honoured</strong>  every story above the session&#x27;s split threshold was either decomposed or has a recorded justification for staying whole.</li>
-</ul>
-<ul>
 <li><strong>Re-estimation path clear</strong>  items flagged as deeply split or uncertain have a next step noted.</li>
-</ul>
-<ul>
 <li><strong>Interactive, not batch</strong>  each item has its own vote cycle and discussion.</li>
-</ul>
-<ul>
 <li><strong>No bundle markers</strong>  <code>SKILL.md</code> has no <code>&lt;!-- execute_rules:bundle_rules --&gt;</code> markers.</li>
 </ul>
 <hr></div>

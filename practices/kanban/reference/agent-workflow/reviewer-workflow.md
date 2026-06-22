@@ -1,4 +1,4 @@
-# Reviewer workflow
+﻿# Reviewer workflow
 
 The app assigns you a skill to review. You validate — and **fix simple issues in place** rather than bouncing them back to the executor.
 
@@ -25,7 +25,7 @@ Read the same practice skill's `SKILL.md` and `rules/` — to **validate** again
 ### Step 3 — Run scanners
 
 ```bash
-python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+python skills/common/scripts/run_scanners.py \
     --skill-root <skill-name> \
     --workspace <workspace>
 ```

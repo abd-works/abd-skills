@@ -495,3 +495,10 @@ echo "Deploy complete. ide=$IDE package=$PACKAGE root=$resolved_deploy_root"
 
 # Write deploy receipt
 python3 "$REPO_ROOT/scripts/generate_manifest.py" --write-receipt "$resolved_deploy_root" --ide "$IDE" 2>/dev/null || true
+
+# Build CDD skill index
+skill_index_script="$resolved_deploy_root/.cursor/skills/context-driven-delivery/scripts/build_skill_index.py"
+if [ -f "$skill_index_script" ]; then
+    echo "Building skill index..."
+    python3 "$skill_index_script" 2>&1 | sed 's/^/  /' || echo "  ⚠️  Could not build skill index"
+fi

@@ -1,4 +1,4 @@
-# AI Garden — plugins, skills & agents
+﻿# AI Garden — plugins, skills & agents
 
 > Auto-generated from repository **plugins** (`<plugin>/agents|skills|content|instructions|prompts|lib|scripts/`).
 > Run `python foundational/skill-builder/skills/abd-skill-catalog/scripts/generate_abd_catalog.py` to refresh.
@@ -387,7 +387,7 @@ Infrastructure skills and cross-cutting helpers used across practice families.
 **Skills — practice packages (SKILL.md)**
 
 - **commit-msg** — [SKILL.md](../foundational/skill-helpers/skills/commit-msg/SKILL.md)
-- **execute-skill-using-skills-rules** — [SKILL.md](../foundational/skill-helpers/skills/execute-skill-using-skills-rules/SKILL.md)
+- **common** — [SKILL.md](../foundational/skill-helpers/skills/common/skill-rule-workflow.md)
 - **skill-garden-catalogue** — [SKILL.md](../foundational/skill-helpers/skills/skill-garden-catalogue/SKILL.md)
 - **track_task** — [SKILL.md](../foundational/skill-helpers/skills/track_task/SKILL.md)
 
@@ -399,15 +399,15 @@ Infrastructure skills and cross-cutting helpers used across practice families.
 **Instructions — .mdc / .instructions.md → Cursor rules**
 
 - **deploy-skills** — [deploy-skills.mdc](../foundational/skill-helpers/instructions/deploy-skills.mdc) (catalog: `instructions/skill-helpers--instructions--deploy-skills-mdc.html`)
-- **execute-skill-using-skills-rules** — [execute-skill-using-skills-rules.instructions.md](../foundational/skill-helpers/instructions/execute-skill-using-skills-rules.instructions.md) (catalog: `instructions/skill-helpers--instructions--execute-skill-using-skills-rules-instructions-md.html`)
-- **execute-skill-using-skills-rules** — [execute-skill-using-skills-rules.mdc](../foundational/skill-helpers/instructions/execute-skill-using-skills-rules.mdc) (catalog: `instructions/skill-helpers--instructions--execute-skill-using-skills-rules-mdc.html`)
+- **common** — [common.instructions.md](../foundational/skill-helpers/instructions/common.instructions.md) (catalog: `instructions/skill-helpers--instructions--common-instructions-md.html`)
+- **common** — [common.mdc](../foundational/skill-helpers/instructions/common.mdc) (catalog: `instructions/skill-helpers--instructions--common-mdc.html`)
 - **log-and-fix-skill-errors** — [log-and-fix-skill-errors.instructions.md](../foundational/skill-helpers/instructions/log-and-fix-skill-errors.instructions.md) (catalog: `instructions/skill-helpers--instructions--log-and-fix-skill-errors-instructions-md.html`)
 - **log-and-fix-skill-errors** — [log-and-fix-skill-errors.mdc](../foundational/skill-helpers/instructions/log-and-fix-skill-errors.mdc) (catalog: `instructions/skill-helpers--instructions--log-and-fix-skill-errors-mdc.html`)
 - **workspace** — [workspace.mdc](../foundational/skill-helpers/instructions/workspace.mdc) (catalog: `instructions/skill-helpers--instructions--workspace-mdc.html`)
 
 **Prompts — .prompt.md → slash commands**
 
-- **execute-skill-using-skills-rules** — [execute-skill-using-skills-rules.prompt.md](../foundational/skill-helpers/prompts/execute-skill-using-skills-rules.prompt.md) (catalog: `prompts/skill-helpers--prompts--execute-skill-using-skills-rules-prompt-md.html`)
+- **common** — [common.prompt.md](../foundational/skill-helpers/prompts/common.prompt.md) (catalog: `prompts/skill-helpers--prompts--common-prompt-md.html`)
 - **fix-skill** — [fix-skill.prompt.md](../foundational/skill-helpers/prompts/fix-skill.prompt.md) (catalog: `prompts/skill-helpers--prompts--fix-skill-prompt-md.html`)
 - **log-and-fix-skill-errors** — [log-and-fix-skill-errors.prompt.md](../foundational/skill-helpers/prompts/log-and-fix-skill-errors.prompt.md) (catalog: `prompts/skill-helpers--prompts--log-and-fix-skill-errors-prompt-md.html`)
 - **refresh_all_instructions** — [refresh_all_instructions.prompt.md](../foundational/skill-helpers/prompts/refresh_all_instructions.prompt.md) (catalog: `prompts/skill-helpers--prompts--refresh_all_instructions-prompt-md.html`)
@@ -481,7 +481,7 @@ Proposal response, AI research assistant skills, and related utilities.
 | **bounded-context-map** | `practices` | Map bounded contexts and their relationships so integration strategy, team collaboration, and domain translation are explicit before they are discovered in production. | [SKILL.md](../practices/domain-driven-design/skills/abd-bounded-context-map/SKILL.md) |
 | **abd-story-mapping** | `practices` | Patton-style story maps (epics, stories, verb-noun naming); writes story-map templates from sources. | [SKILL.md](../practices/story-driven-delivery/skills/abd-story-mapping/SKILL.md) |
 | **abd-thin-slicing** | `practices` | Thin-sliced MVIs and backlog order from a story map; writes thin-slicing templates. | [SKILL.md](../practices/story-driven-delivery/skills/abd-thin-slicing/SKILL.md) |
-| **abd-acceptance-criteria** | `practices` | WHEN/THEN acceptance criteria for story-graph.json; ships rules and scanners for execute-skill-using-skills-rules. | [SKILL.md](../practices/story-driven-delivery/skills/abd-acceptance-criteria/SKILL.md) |
+| **abd-acceptance-criteria** | `practices` | WHEN/THEN acceptance criteria for story-graph.json; ships rules and scanners for common. | [SKILL.md](../practices/story-driven-delivery/skills/abd-acceptance-criteria/SKILL.md) |
 | **abd-specification-by-example** | `practices` | Given/When/Then scenarios with real domain values; plain or outline (data tables) templates. | [SKILL.md](../practices/story-driven-delivery/skills/abd-specification-by-example/SKILL.md) |
 | **abd-acceptance-test-driven-development** | `practices` | Tests first, then code: executable acceptance tests from scenarios, AC, or notes (RED-GREEN-REFACTOR). | [SKILL.md](../practices/story-driven-delivery/skills/abd-acceptance-test-driven-development/SKILL.md) |
 | **drawio-story-sync** | `practices` | story-graph.json to Draw.io story maps; validated load/save and diagram sync. | [SKILL.md](../practices/story-driven-delivery/skills/drawio-story-sync/SKILL.md) |
@@ -519,7 +519,7 @@ Proposal response, AI research assistant skills, and related utilities.
 | **research-problem-validation** | `utilities` | Research whether a stated problem is real and worth solving. Searches online and model knowledge for who is talking about the problem, who says it is NOT a problem, competing problems in the same space, and the maturity of discourse. Use when validating a hypothesis, checking if a problem is … | [SKILL.md](../utilities/skills/research-problem-validation/SKILL.md) |
 | **research-solution-landscape** | `utilities` | Map the landscape of competing solutions for a validated problem. Searches online and model knowledge for categories of approaches, key tools and frameworks, trade-offs, and which segments each solution targets. Use when the user wants to know how others are solving a problem, what the major … | [SKILL.md](../utilities/skills/research-solution-landscape/SKILL.md) |
 | **abd-commit-msg** | `foundational` | Commit messages from scope and changed files; no story_graph (/commit and similar). | [SKILL.md](../foundational/skill-helpers/skills/commit-msg/SKILL.md) |
-| **execute-skill-using-skills-rules** | `foundational` | Run scanners, validate output against rules, fix failures; quality gate before and after work. | [SKILL.md](../foundational/skill-helpers/skills/execute-skill-using-skills-rules/SKILL.md) |
+| **common** | `foundational` | Run scanners, validate output against rules, fix failures; quality gate before and after work. | [SKILL.md](../foundational/skill-helpers/skills/common/skill-rule-workflow.md) |
 | **skill-garden-catalogue** | `foundational` | Scan a folder of deployed skills and regenerate a one-pager Markdown inventory and an HTML index page. Each entry shows the challenge the skill addresses and the solution it provides, hyperlinked to the skill directory. Re-run on command to keep the inventory current. | [SKILL.md](../foundational/skill-helpers/skills/skill-garden-catalogue/SKILL.md) |
 | **track-task** | `foundational` | Checkbox markdown task lists for pipelines or ad-hoc steps under the engagement workspace. | [SKILL.md](../foundational/skill-helpers/skills/track_task/SKILL.md) |
 
@@ -900,7 +900,7 @@ Define prioritized increments. Group stories in a story map (and any notes on ri
 
 **Summary:**
 
-WHEN/THEN acceptance criteria for story-graph.json; ships rules and scanners for execute-skill-using-skills-rules.
+WHEN/THEN acceptance criteria for story-graph.json; ships rules and scanners for common.
 
 **Description (from Purpose / body):**
 
@@ -1693,9 +1693,9 @@ Generate meaningful commit messages from scope and changed files. No story_graph
 - [skill-config.json](../foundational/skill-helpers/skills/commit-msg/skill-config.json) — "name": "abd-commit-msg",
 - [SKILL.md](../foundational/skill-helpers/skills/commit-msg/SKILL.md) — name: abd-commit-msg
 
-### execute-skill-using-skills-rules
+### common
 
-- **Directory:** [`foundational/skill-helpers/skills/execute-skill-using-skills-rules/`](../foundational/skill-helpers/skills/execute-skill-using-skills-rules/)
+- **Directory:** [`foundational/skill-helpers/skills/common/`](../foundational/skill-helpers/skills/common/)
 
 **Summary:**
 
@@ -1707,12 +1707,12 @@ Read rules before work, validate output (AI pass + scanner pass), and follow the
 
 **Repository layout:**
 
-- **[guidance/](../foundational/skill-helpers/skills/execute-skill-using-skills-rules/guidance)** — Folder (3 items).
-- **[ide-files/](../foundational/skill-helpers/skills/execute-skill-using-skills-rules/ide-files)** — Folder (3 items).
-- **[scripts/](../foundational/skill-helpers/skills/execute-skill-using-skills-rules/scripts)** — Build, catalogue, validation, or packaging automation.
-- **[templates/](../foundational/skill-helpers/skills/execute-skill-using-skills-rules/templates)** — Authoring templates and structural skeletons.
-- **[tests/](../foundational/skill-helpers/skills/execute-skill-using-skills-rules/tests)** — Folder (4 items).
-- [SKILL.md](../foundational/skill-helpers/skills/execute-skill-using-skills-rules/SKILL.md) — name: execute-skill-using-skills-rules
+- **[guidance/](../foundational/skill-helpers/skills/common/guidance)** — Folder (3 items).
+- **[ide-files/](../foundational/skill-helpers/skills/common/ide-files)** — Folder (3 items).
+- **[scripts/](../foundational/skill-helpers/skills/common/scripts)** — Build, catalogue, validation, or packaging automation.
+- **[templates/](../foundational/skill-helpers/skills/common/templates)** — Authoring templates and structural skeletons.
+- **[tests/](../foundational/skill-helpers/skills/common/tests)** — Folder (4 items).
+- [SKILL.md](../foundational/skill-helpers/skills/common/skill-rule-workflow.md) — name: common
 
 ### skill-garden-catalogue
 

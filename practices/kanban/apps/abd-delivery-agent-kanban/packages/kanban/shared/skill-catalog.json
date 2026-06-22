@@ -15,13 +15,13 @@
     "family": "architecture-centric-engineering",
     "label": "architecture specification"
   },
-  "abd-clean-code": {
-    "family": "architecture-centric-engineering",
-    "label": "clean code"
-  },
   "abd-bounded-context-map": {
     "family": "domain-driven-design",
     "label": "bounded context map"
+  },
+  "abd-class-responsibility-collaborator": {
+    "family": "domain-driven-design",
+    "label": "class responsibility collaborator"
   },
   "abd-ddd-design-building-blocks": {
     "family": "domain-driven-design",
@@ -47,29 +47,29 @@
     "family": "domain-driven-design",
     "label": "domain specification"
   },
-  "abd-domain-walk": {
+  "abd-domain-terms": {
     "family": "domain-driven-design",
-    "label": "domain walk"
+    "label": "domain terms"
+  },
+  "abd-module-partition": {
+    "family": "domain-driven-design",
+    "label": "module partition"
+  },
+  "abd-object-model": {
+    "family": "domain-driven-design",
+    "label": "object model"
+  },
+  "abd-scenario-walkthrough": {
+    "family": "domain-driven-design",
+    "label": "scenario walkthrough"
+  },
+  "abd-ubiquitous-language": {
+    "family": "domain-driven-design",
+    "label": "ubiquitous language"
   },
   "drawio-domain-sync": {
     "family": "domain-driven-design",
     "label": "drawio domain sync"
-  },
-  "abd-cost-of-delay": {
-    "family": "idea-shaping",
-    "label": "cost of delay"
-  },
-  "abd-impact-mapping": {
-    "family": "idea-shaping",
-    "label": "impact mapping"
-  },
-  "abd-opportunity-generation": {
-    "family": "idea-shaping",
-    "label": "opportunity generation"
-  },
-  "abd-simple-validated-learning": {
-    "family": "idea-shaping",
-    "label": "simple validated learning"
   },
   "abd-kanban": {
     "family": "delivery",
@@ -91,21 +91,37 @@
     "family": "delivery",
     "label": "kanban estimation"
   },
-  "abd-story-acceptance-criteria": {
+  "abd-acceptance-criteria": {
     "family": "story-driven-delivery",
     "label": "acceptance criteria"
+  },
+  "abd-acceptance-test-driven-development": {
+    "family": "story-driven-delivery",
+    "label": "acceptance test driven development"
+  },
+  "abd-specification-by-example": {
+    "family": "story-driven-delivery",
+    "label": "specification by example"
+  },
+  "abd-story-acceptance-criteria": {
+    "family": "story-driven-delivery",
+    "label": "story acceptance criteria"
   },
   "abd-story-acceptance-test": {
     "family": "story-driven-delivery",
     "label": "story acceptance test"
   },
-  "abd-story-specification": {
-    "family": "story-driven-delivery",
-    "label": "story specification"
-  },
   "abd-story-mapping": {
     "family": "story-driven-delivery",
     "label": "story mapping"
+  },
+  "abd-story-mapping (1)": {
+    "family": "story-driven-delivery",
+    "label": "story mapping (1)"
+  },
+  "abd-story-specification": {
+    "family": "story-driven-delivery",
+    "label": "story specification"
   },
   "abd-thin-slicing": {
     "family": "story-driven-delivery",
@@ -123,9 +139,9 @@
     "family": "story-driven-delivery",
     "label": "story graph ops"
   },
-  "abd-information-architecture": {
+  "abd-ux-information-architecture": {
     "family": "user-experience-design",
-    "label": "information architecture"
+    "label": "ux information architecture"
   },
   "abd-ux-mockup": {
     "family": "user-experience-design",
@@ -134,5 +150,13 @@
   "abd-ux-specification": {
     "family": "user-experience-design",
     "label": "ux specification"
+  },
+  "abd-ux-ui-implementation": {
+    "family": "user-experience-design",
+    "label": "ux ui implementation"
+  },
+  "abd-ux-user-impact-map": {
+    "family": "user-experience-design",
+    "label": "ux user impact map"
   }
 }

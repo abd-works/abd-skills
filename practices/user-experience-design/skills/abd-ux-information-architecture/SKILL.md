@@ -1,35 +1,48 @@
----
+﻿---
 catalog_garden_tier: practice
 catalog_garden_order: 10
 name: abd-information-architecture
 description: >-
-  Produce a first-pass information architecture for a solution scope — a site
-  map of screens and transitions, the navigational components that connect
-  them, and a content model (types, hierarchy, labels, tags, key actions) for
-  what lives on each screen — saved as a structured markdown spec and a draw.io
-  diagram. Use when starting work that involves user interaction changes, when
-  the team needs a shared picture of screens and navigation, or when scoping
-  effort before wireframes or stories exist.
+  Produce a first-pass information architecture — site map, navigation, and content model — saved as markdown and draw.io. Use when starting work that involves user interaction changes or aligning on screen structure.
+context-perspective: ux
+context-fidelity:
+  - level: discovery
+    mode: information-architecture
 ---
 # abd-information-architecture
 
 ## Purpose
 
-Doing IA work early — before detailed design or development — flushes out gaps in functional and domain understanding, surfaces disagreements about scope, naming, and navigation when they are cheap to resolve, and gives the team a concrete picture to challenge and confirm before committing to wireframes or implementation. Functional requirements and stories written against a named screen inventory and content model become more precise: they reference agreed surfaces by name, missing coverage shows up as absent nodes, and edge-case states are identified before anyone has built against the wrong assumption.
+Define what screens exist and how users move between them — so missing coverage shows as absent nodes and scope disagreements surface before wireframes begin.
 
 ---
 
 ## Output file
 
-**Deliverables folder:** see `../agent-protocol.md` — Output file resolution.
+**Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
 
 **File names:** `initial-ia.md` (structured spec) and `initial-ia.drawio` (diagram), typically in `docs/ux/`.
 
 ---
 
+## Grill prompts
+
+Read `common/grill-me-with-practice-skill.md` before grilling.
+
+Before generating, surface these common input traps:
+
+- **Who arrives at each screen** — who actually uses this screen and what are they trying to accomplish — or are we designing for a generic "user" that doesn't exist?
+- **Screen boundaries** — where does one screen end and another begin — are we splitting by feature or by what the user perceives as a single "place" they're in?
+- **Navigation mental model** — does the user think of this as a linear flow, a hub they explore from, or something else — and does our site map match that mental model?
+- **Hidden screens** — what screens does the user need that nobody has mentioned yet — error recovery, first-time setup, empty-state guidance, admin overrides?
+- **Content ownership** — which content types belong on which screen — or are we putting everything on a "dashboard" because nobody has decided where things live?
+- **Transition triggers** — what actually causes the user to move between screens — a deliberate choice, an automatic redirect, or an error — and have we designed for each?
+
+---
+
 ## Agent Instructions
 
-> **MANDATORY — read `../agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.**
+Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
@@ -38,8 +51,6 @@ Read these files:
 - **`reference/examples.md`** — worked example of a good initial IA showing tab-state decomposition, representative rows, verb rows, chrome conventions, and story budget.
 
 ### 2. Generate
-
-Read every file in **`rules/`**; author to those rules.
 
 **Produce output from every template:**
 
@@ -79,15 +90,7 @@ node scripts/drawio-ux.mjs save
 
 ### 3. Validate
 
-Run the scanners:
-
-```bash
-python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/abd-information-architecture \
-  --workspace <path-to-output>
-```
-
-Then emit per-rule verdicts per `../agent-protocol.md`.
+Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.md` § Validate output.
 
 ---
 

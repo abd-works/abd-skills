@@ -1,19 +1,33 @@
----
+﻿---
 catalog_garden_tier: practice
 catalog_garden_order: 20
 name: abd-ux-mockup
 description: >-
-  Precision pass after the initial IA — specify exact controls, interactions,
-  and states for any scope (full site, flow, epic, story), drawn in Draw.io
-  as a lo-fi wireframe and saved as a versioned .drawio artifact.
+  Specify exact controls, interactions, and states for IA screens as lo-fi Draw.io wireframes. Use when locking down interaction decisions before visual design or implementation.
+context-perspective: ux
+context-fidelity:
+  - level: exploration
+    mode: lo-fi-mockup
 ---
 # abd-ux-mockup
 
 ## Purpose
 
-The initial IA established the screen inventory, regions, and story coverage. The lo-fi mockup is the next precision pass: it locks down **exactly which control renders each field**, **exactly what interactions are available in each state**, and **exactly what the user sees and does** — without yet committing to visual design. Every input becomes a specific control type (text field, dropdown, checkbox). Every action becomes a positioned button with a primary/secondary weight. Every conditional state (validation error, empty list, disabled control) is explicitly placed. This skill packages that pass: take one IA screen, resolve its AC and domain terms, build a `drawio-mockup.mjs` state file, generate the `.drawio` wireframe, and save it — so interaction decisions are made deliberately and traceable, not invented during implementation.
+Lock down every control and interaction before visual design — so nothing is invented during build.
 
-**Critical principle:** The lo-fi mockup must faithfully reproduce the production UI structure as shown in design images. Do NOT substitute tables for trees, do NOT use fields when a listbox is called for, do NOT flatten hierarchical views into flat lists. Match the design.
+---
+
+## Grill prompts
+
+Read `common/grill-me-with-practice-skill.md` before grilling.
+
+Before generating, surface these:
+
+- **Invented affordance** — Does every control on this wireframe trace to an acceptance criterion or domain term, or did you add some "because users would expect it"?
+- **Wrong control type** — Is that dropdown actually a dropdown, or would the design image show a listbox, radio group, or tree?
+- **Missing state** — Which conditional states — empty, error, disabled, loading — have no placeholder on the wireframe?
+- **IA drift** — Does the wireframe still match the initial IA's regions and layout, or have you silently restructured?
+- **Scope leak** — Are any stories or domain terms from a different screen appearing on this wireframe?
 
 ---
 
@@ -520,6 +534,6 @@ cd C:\dev\agilebydesign-skills
 
 <!-- execute_rules:bundle_rules:begin -->
 <!-- Rule prose is generated from rules/*.md — edit rules, then run:
-     python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/user-experience-design/abd-ux-mockup
+     python skills/common/scripts/bundle_rules_into_skill_md.py --skill-root skills/user-experience-design/abd-ux-mockup
 -->
 <!-- execute_rules:bundle_rules:end -->

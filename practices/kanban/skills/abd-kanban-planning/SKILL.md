@@ -1,23 +1,31 @@
----
+﻿---
 name: abd-kanban-planning
 catalog_garden_tier: practice
 catalog_garden_order: 70
 catalogue_one_liner: >-
   Strategy selection and system of work configuration ” no pre-planned runs or slot tables.
 description: >-
-  Select delivery strategy, configure system of work (stages, scope progression,
-  skill order), and define scatter/decomposition rules. Planning drives the Kanban
-  board via strategy ” not by pre-authoring runs, slots, or assignments.
-  Use when selecting a delivery strategy, configuring a system of work, defining
-  scatter rules, or saving a reusable strategy under reference/strategies/.
+  Select a delivery strategy and configure the system of work — stages, scope progression, and scatter rules. Use when choosing how work flows through the kanban board.
 ---
 # abd-kanban-planning
 
 ## Purpose
 
-Kanban Planning configures *how* delivery flows ” not *what* to build. It selects a **strategy** based on context and risk, configures the **kanban board** (stages, scope levels, stage work required), and defines **scatter rules** (how and when tickets decompose at scope boundaries). The result drives the JIT kanban board without pre-authoring every assignment.
+Choose how work flows — strategy, stage structure, and scatter rules — so delivery has a spine before tickets start moving.
 
-Do **not** use this skill to produce artifacts (maps, slices, AC, tests, code). This skill is strictly about the delivery lifecycle spine ” the kanban board stage configuration, strategy, and decomposition rules.
+---
+
+## Grill prompts
+
+Read `common/grill-me-with-practice-skill.md` before grilling.
+
+Before generating, surface these:
+
+- **Strategy fit** — Does the chosen strategy match the team's actual risks, or is it the one you always use?
+- **Stage bloat** — Do you have stages that exist because "we've always had them," not because they protect against a named risk?
+- **Checkpoint granularity** — Are checkpoints tight enough for risky work and loose enough for known work — or uniformly heavy?
+- **Scatter rules** — When a ticket crosses a scope boundary, does the team know exactly how many children appear and who pulls them?
+- **Missing risk** — What risk has the team not named that could stall flow — a shared dependency, an approval gate, a skill gap?
 
 ---
 
@@ -36,7 +44,7 @@ Do **not** use this skill to produce artifacts (maps, slices, AC, tests, code). 
 
 ## Agent Instructions
 
-> **MANDATORY — read [artifact-layout.md](../../reference/artifact-layout.md) before starting. It defines canonical output paths per stage and increment.**
+Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
@@ -47,8 +55,6 @@ Read these files:
 - **`reference/strategies/*.md`** ” one prepackaged strategy per file; read each strategy's "When to use" section to match context.
 
 ### 2. Generate
-
-Read every file in **`rules/`**; author to those rules.
 
 Follow the **strategy selection procedure** from `reference/selecting-a-strategy.md`:
 
@@ -61,15 +67,7 @@ Follow the **strategy selection procedure** from `reference/selecting-a-strategy
 
 ### 3. Validate
 
-Run the scanners:
-
-```bash
-python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/abd-kanban-planning \
-  --workspace <path-to-output>
-```
-
-Then emit per-rule verdicts (PASS / FAIL with reason) for every rule in `rules/`.
+Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.md` § Validate output.
 
 ---
 

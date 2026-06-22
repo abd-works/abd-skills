@@ -1,8 +1,12 @@
----
+﻿---
 name: abd-code-research
 description: >-
   Survey any codebase in two passes — Explorer and Deep Dive — to produce
   structured research that primes the architecture skill family.
+context-perspective: stage
+context-fidelity:
+  - level: discovery
+    mode: codebase-survey
 ---
 # abd-code-research
 
@@ -234,7 +238,7 @@ This skill ships IDE-deployable files under `ide-files/`. Deploy to any project:
 
 <!-- execute_rules:bundle_rules:begin -->
 <!-- Rule prose is generated from rules/*.md — edit rules, then run:
-     python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root practices/architecture-centric-engineering/skills/abd-code-research
+     python skills/common/scripts/bundle_rules_into_skill_md.py --skill-root practices/architecture-centric-engineering/skills/abd-code-research
 -->
 
 ## Rule: Research paths cite real file evidence

@@ -1,4 +1,4 @@
-# Reviewer workflow (shared)
+﻿# Reviewer workflow (shared)
 
 **When:** your agent is a **reviewer** (`slot_type: reviewer`).
 
@@ -10,7 +10,7 @@ Announce each step. Reviewers validate — they do not produce new stage artifac
 | --- | --- |
 | `skill-helpers/` | workspace paths |
 | Practice skill `SKILL.md` + `rules/` | read to **judge** |
-| `execute-skill-using-skills-rules` / scanners | **yes** — run scanners |
+| `common` / scanners | **yes** — run scanners |
 | `track_task` | optional |
 
 **Reviewers validate; executors produce.**
@@ -53,7 +53,7 @@ Read the same practice skill's `SKILL.md` and `rules/` — but now to **validate
 Run scanners for the practice skill:
 
 ```bash
-python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+python skills/common/scripts/run_scanners.py \
     --skill-root <skill-name> \
     --workspace <workspace>
 ```

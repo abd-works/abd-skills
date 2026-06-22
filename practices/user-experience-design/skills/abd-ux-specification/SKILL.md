@@ -1,27 +1,42 @@
----
+﻿---
 catalog_garden_tier: practice
 catalog_garden_order: 30
 name: abd-ux-specification
 catalogue_one_liner: >-
-  Clickable hi-fi prototype — real HTML/CSS/JS look-and-feel with stubbed logic.
+  Let stakeholders click through real-looking screens and approve before production begins.
 description: >-
-  Turn approved lo-fi mockups and visual design decisions into a clickable
-  hi-fi prototype: real markup, styles, and interaction scripts so the screen
-  looks and feels like the finished product, while domain logic, APIs, and
-  persistence stay stubbed or faked. Use when stakeholders need to walk flows,
-  validate AC visually, or sign off before production implementation.
+  Turn approved lo-fi mockups into a clickable hi-fi prototype with real markup and styles. Use when stakeholders need to walk flows and approve screens before production implementation.
+context-perspective: ux
+context-fidelity:
+  - level: specification
+    mode: hi-fi-prototype
 ---
 # abd-ux-specification
 
+## Grill prompts
+
+Read `common/grill-me-with-practice-skill.md` before grilling.
+
+Before generating, surface these common input traps:
+
+- **Stakeholder walk-through** — can a stakeholder actually walk through the happy path without explanation — or does this prototype require a developer standing next to them narrating what to click?
+- **Stubbed vs real** — where does the prototype stop and the imagination begin — can stakeholders tell what's real behaviour and what's faked, or will they assume everything they see works?
+- **Error and edge states** — what does the user see when something fails — a network error, invalid input, expired session — and are those states in the prototype or just in someone's head?
+- **Visual decisions committed** — are the typography, colour, and spacing decisions in this prototype final or placeholder — will stakeholders approve something that changes after sign-off?
+- **Flow completeness** — can the user complete every documented acceptance criterion end-to-end — or are there dead ends where the prototype just stops?
+- **Fidelity expectations** — do stakeholders understand they're approving interaction and visual direction, not production code — or will they expect this to ship?
+
+---
+
 ## Purpose
 
-Lo-fi mockups lock controls and states. The specification stage turns those decisions into something people can **click through** — not production code. The deliverable is a hi-fi prototype built from real HTML, CSS, and JavaScript (or the host project's static/preview stack): design tokens, typography, colour, spacing, and components that match the approved visual direction, with navigation and state transitions wired so flows feel real. Backend calls, validation rules, auth, and persistence are **stubbed or faked** — fixture data, timed delays, hard-coded branches, and local state only where needed to demonstrate behaviour. Acceptance criteria are **demonstrated**, not fully implemented; ubiquitous-language labels stay verbatim from upstream artifacts.
+Turn approved lo-fi mockups into a clickable hi-fi prototype (real HTML/CSS/JS with design tokens) where navigation and state transitions are wired but backend logic stays stubbed — so stakeholders can walk flows, validate AC visually, and sign off before production begins.
 
 ---
 
 ## Output file
 
-**Deliverables folder:** see `../agent-protocol.md` — Output file resolution.
+**Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
 
 **File names:**
 
@@ -37,7 +52,7 @@ Add a `<name>-` prefix only when disambiguation is needed. Default folder: `docs
 
 ## Agent Instructions
 
-> **MANDATORY — read `../agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.**
+Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
@@ -46,8 +61,6 @@ Read these files:
 - **`reference/brand-assets-questionnaire.md`** — key questions to ask when brand assets are missing or incomplete.
 
 ### 2. Generate
-
-Read every file in **`rules/`** when present; author to those rules.
 
 **Produce:**
 
@@ -73,15 +86,7 @@ Read every file in **`rules/`** when present; author to those rules.
 
 ### 3. Validate
 
-When `rules/` and scanners exist, run them:
-
-```bash
-python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/abd-ux-specification \
-  --workspace <path-to-output>
-```
-
-Then emit per-rule verdicts per `../agent-protocol.md`.
+Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.md` § Validate output.
 
 ---
 

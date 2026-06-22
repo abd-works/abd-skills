@@ -1,4 +1,4 @@
-# Architecture Specification — Concepts
+﻿# Architecture Specification — Concepts
 
 ## What is an architecture specification?
 
@@ -238,7 +238,7 @@ Every run that **creates or edits** template code (modes **template** or **both*
 | **Doc** | `abd-architecture-specification/` | `architecture-specification.md` | Mechanism shape, TOC, diagrams, walkthroughs |
 | **Template** | `specs/<arch>/` (or project's spec copy) | `specs/<arch>/template/` or `template/` | Tier extensions, layer purity, tests, package layout |
 
-Workflow per **`execute-skill-using-skills-rules`:**
+Workflow per **`common`:**
 
 1. Read `specs/<arch>/rules/` before writing template code.
 2. After authoring — AI pass: per-rule verdict on template code.
@@ -247,7 +247,7 @@ Workflow per **`execute-skill-using-skills-rules`:**
 Named spec reference command (MERN):
 
 ```bash
-python foundational/skill-helpers/skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+python foundational/skill-helpers/skills/common/scripts/run_scanners.py \
   --skill-root practices/architecture-centric-engineering/specs/mern \
   --workspace practices/architecture-centric-engineering/specs/mern/template \
   --language typescript

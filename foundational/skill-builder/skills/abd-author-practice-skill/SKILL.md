@@ -1,4 +1,4 @@
----
+﻿---
 name: abd-author-practice-skill
 description: >-
   Turn collected hub evidence into a finished practice skill: clear instructions and
@@ -90,7 +90,7 @@ When you **maintain `abd-author-practice-skill`**, keep its **`rules/`** generic
 10. **Check `.mdc` / `.instructions.md` parity on the target.** From the **agilebydesign-skills** repo root, run **`run_scanners.py`** with **`--skill-root`** pointing at **this authoring skill** and **`--workspace`** as an **absolute** path to the target skill root (relative paths resolve against the authoring skill folder and will not work):
 
    ```bash
-   python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+   python skills/common/scripts/run_scanners.py \
      --skill-root skills/abd-practice-skill-builder/abd-author-practice-skill \
      --workspace /absolute/path/to/agilebydesign-skills/skills/<skill-name>
    ```
@@ -115,7 +115,7 @@ Checklist for the **target** **`skills/<skill-name>/`**:
 - **Evidence** — what you call **hub-backed** ties to **`inputs/abd-answers-retrieval.md`**; chat/engagement norms are not forced to; gaps are **documented**, not invented.
 - **Templates** — every file the **target** **SKILL.md** promises under **`templates/`** is **filled**, **stubbed with a stated reason**, or **removed from the promise**; each promised template includes **at least one audience-appropriate filled example** (see `rules/templates-include-ideal-filled-examples-for-the-audience.md`).
 - **Rule file shape** — target **`rules/*.md`** are checkable specs for named artifacts (decidable **DO** / **DO NOT**, per-bullet examples, **Source** when hub-backed); **Build** in **`SKILL.md`** remains the step-order doc (see `rules/target-rule-files-are-checkable-specs-for-named-artifacts.md`).
-- **Rules are external, not inlined** — **`rules/*.md`** match **execute-skill-using-skills-rules** shape; **`SKILL.md`** contains **no** `<!-- execute_rules:bundle_rules -->` markers and no inlined rule prose; **`scanner:`** only where the script exists (see `rules/skill-md-contains-no-inlined-rules-read-gates-reference-rules-and-reference.md`).
+- **Rules are external, not inlined** — **`rules/*.md`** match **common** shape; **`SKILL.md`** contains **no** `<!-- execute_rules:bundle_rules -->` markers and no inlined rule prose; **`scanner:`** only where the script exists (see `rules/skill-md-contains-no-inlined-rules-read-gates-reference-rules-and-reference.md`).
 - **Thin router shape** — **`SKILL.md`** Agent Instructions block contains explicit read-gates: MANDATORY read of every **`rules/`** file before generating, MANDATORY read of every **`reference/`** file before authoring, MANDATORY per-rule verdict at validation; concept teaching and examples live in **`reference/*.md`**, not in **`SKILL.md`** body.
 - **Teaching is positive, anti-patterns live in rules** — the target **`SKILL.md`** does **not** have "Anti-patterns," "Common mistakes," or "What this is not" sections; negatives are **`## DO NOT`** bullets in **`rules/*.md`** (see `rules/anti-patterns-belong-in-rules-not-skill-teaching.md`).
 - **Validate section** — the **target** **SKILL.md** **Validate** list matches what that skill **actually** ships (templates, scanners, citations, read-gates).

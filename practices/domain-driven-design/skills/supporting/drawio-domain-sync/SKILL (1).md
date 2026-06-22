@@ -1,4 +1,4 @@
----
+﻿---
 name: drawio-domain-sync
 catalog_garden_order: 7
 catalogue_one_liner: >-
@@ -22,7 +22,7 @@ Positioning and layout are AI-driven: the agent reads the source, reasons about 
 
 ## Output file
 
-**Deliverables folder:** see `../agent-protocol.md` — Output file resolution.
+**Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
 
 **File name:** `<name>-class-diagram.drawio` alongside the source model file.
 
@@ -30,7 +30,7 @@ Positioning and layout are AI-driven: the agent reads the source, reasons about 
 
 ## Agent Instructions
 
-> **MANDATORY — read `../agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.**
+> **MANDATORY — read `../common/skill-rule-workflow.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.**
 
 ### 1. Read context
 
@@ -63,12 +63,12 @@ python scripts/drawio_class_cli.py sync-to-model <drawio-file> --page "<KA Name>
 Run the scanners:
 
 ```bash
-python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+python skills/common/scripts/run_scanners.py \
   --skill-root skills/drawio-domain-sync \
   --workspace <path-to-output>
 ```
 
-Then emit per-rule verdicts per `../agent-protocol.md`.
+Then emit per-rule verdicts per `../common/skill-rule-workflow.md`.
 
 ---
 

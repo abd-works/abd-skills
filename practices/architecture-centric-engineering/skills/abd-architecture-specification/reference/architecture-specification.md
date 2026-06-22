@@ -1,4 +1,4 @@
-### Architecture Flow
+﻿### Architecture Flow
 
 One user interaction from view through network to persistence and back:
 
@@ -1143,7 +1143,7 @@ Rules live in `rules/`. Scanners live in `scanners/typescript/`. When generating
 Each rule file has a paired scanner in `scanners/typescript/` named in its `scanner:` frontmatter. Run them all:
 
 ```bash
-python foundational/skill-helpers/skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+python foundational/skill-helpers/skills/common/scripts/run_scanners.py \
   --skill-root practices/architecture-centric-engineering/specs/mern \
   --workspace <path-to-generated-code> \
   --language typescript

@@ -4,17 +4,13 @@ catalog_garden_tier: foundational
 catalogue_one_liner: >-
   Git operations driven by Kanban board state changes — commits, branches, PRs per ticket lifecycle.
 description: >-
-  Manage git history for a delivery engagement. Commits, branches, pushes, and PRs
-  are driven by ticket state changes on the Kanban board — not by slots or runs.
-  Configurable granularity (per-skill, per-stage, per-ticket) and branching strategy.
-  Use when configuring git policy for a Kanban delivery or when role agents need
-  commit, branch, or PR operations tied to board events.
+  Drive git operations from ticket state changes on the kanban board. Use when configuring commit, branch, or PR policy for a kanban delivery.
 ---
 # abd-kanban-repo
 
 ## Purpose
 
-Manage git history for a delivery engagement. Commits, branches, pushes, and PRs are driven by **ticket state changes** on the Kanban board — not by slots or runs.
+Tie git history to ticket lifecycle — so every commit, branch, and PR traces back to a delivery state change.
 
 ---
 

@@ -1,34 +1,51 @@
----
+﻿---
 name: abd-story-mapping
 catalog_garden_tier: practice
 catalog_garden_order: 10
 catalogue_one_liner: >-
-  Patton-style story maps (epics, stories, verb-noun naming); writes story-map templates from sources.
+  Give product, delivery, and domain people one shared picture of scope — outcomes and behaviors, not tasks.
 description: >-
-  Produces Patton-style story maps — epics, sub-epics, stories, verb—noun naming, and actors.
-  Use when structuring product discovery, decomposing user journeys, identifying epics and flows,
-  story mapping, organizing requirements into a hierarchical map, or when the user mentions
-  story maps, epics, sub-epics, or Jeff Patton—style backlog structure.
+  Produce a Patton-style story map — epics, sub-epics, and stories named verb-noun. Use when decomposing user journeys into a hierarchical backlog structure.
+context-perspective: stories
+context-fidelity:
+  - level: shaping
+    mode: outline
+  - level: discovery
+    mode: full
 ---
 # abd-story-mapping
 
 ## Purpose
 
-Build a **Patton-style story map** per scope from source material — a **single shared picture** of the product as epics (broad capability areas), sub-epics (flows or feature areas), and stories (one observable user or system interaction each). Decompose requirements into **outcomes and behaviors**, not build tasks or source dumps, so product, delivery, and domain people share one structure. Name every epic, sub-epic, and story **verb—noun**; carry **who** acts in `story_type`, not in the title. Record context gaps inline where source material is thin.
+Give product, delivery, and domain people one shared picture of scope — outcomes and behaviors, not tasks — so everyone argues from the same map.
 
 ---
 
 ## Output file
 
-**Deliverables folder:** see `../agent-protocol.md` — Output file resolution.
+**Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
 
 **File name:** `story-map.md`. Add a `<name>-` prefix only when disambiguation is needed.
 
 ---
 
+## Grill prompts
+
+Read `common/grill-me-with-practice-skill.md` before grilling.
+
+Before generating, surface these common input traps:
+
+- **Hidden actors** — who actually uses this — is "the user" hiding three different people with different goals, or is there a system actor nobody mentioned?
+- **Behaviors vs. tasks** — are these outcomes people care about, or build tasks disguised as stories? "Implement payment gateway" is a task; "Process customer payment" is a behavior. Which are we looking at?
+- **Missing triggers** — are there background processes, scheduled jobs, or external systems that kick off behaviors nobody has surfaced yet? They always show up later as gaps.
+- **Scope bleeding** — where does this product's responsibility end and another system's begin? If that boundary isn't drawn, stories will leak across it.
+- **Depth agreement** — does everyone expect the same level of detail from this map — an outline to frame conversations, or a full breakdown to plan work? Mismatched expectations waste everyone's time.
+
+---
+
 ## Agent Instructions
 
-> **MANDATORY — read `../agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.**
+Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
@@ -37,8 +54,6 @@ Read these files:
 - **`reference/examples.md`** — a worked example of a story map showing epics, sub-epics, and stories.
 
 ### 2. Generate
-
-Read every file in **`rules/`**; author to those rules.
 
 **Produce output from every template:**
 
@@ -59,15 +74,7 @@ Read every file in **`rules/`**; author to those rules.
 
 ### 3. Validate
 
-Run the scanners:
-
-```bash
-python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/abd-story-mapping \
-  --workspace <path-to-output>
-```
-
-Then emit per-rule verdicts per `../agent-protocol.md`.
+Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.md` § Validate output.
 
 ---
 

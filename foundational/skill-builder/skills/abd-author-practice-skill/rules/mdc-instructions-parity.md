@@ -1,4 +1,4 @@
----
+﻿---
 scanner: mdc-instructions-parity
 ---
 
@@ -14,7 +14,7 @@ On the **target** skill package, every **Cursor rule** ( **`*.mdc`** ) lives und
 
 - Run **`mdc-instructions-parity-scanner`** on the **target** skill root when validating ( **`--skill-root`** = **abd-author-practice-skill**, **`--workspace`** = **`skills/<target>/`** ).
 
-  **Example (pass):** `python skills/execute-skill-using-skills-rules/scripts/run_scanners.py --skill-root skills/abd-practice-skill-builder/abd-author-practice-skill --workspace C:/dev/agilebydesign-skills/skills/correct_output` reports **PASS** for **mdc-instructions-parity**.
+  **Example (pass):** `python skills/common/scripts/run_scanners.py --skill-root skills/abd-practice-skill-builder/abd-author-practice-skill --workspace C:/dev/agilebydesign-skills/skills/correct_output` reports **PASS** for **mdc-instructions-parity**.
 
   **Example (fail):** `...\run_scanners.py ... --workspace skills/correct_output` from a shell whose cwd is not the repo root — the path resolves under the authoring skill and is wrong; use an **absolute** `--workspace`.
 

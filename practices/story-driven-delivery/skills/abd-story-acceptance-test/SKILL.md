@@ -1,24 +1,35 @@
----
+﻿---
 name: abd-story-acceptance-test
 catalog_garden_tier: practice
 catalog_garden_order: 50
 catalogue_one_liner: >-
-  Tests first, then code: executable acceptance tests from scenarios, AC, or notes (RED-GREEN-REFACTOR).
+  Prove each behavior works before writing production code — tests drive what gets built.
 description: >-
-  Writes executable acceptance tests (RED-GREEN-REFACTOR) from scenarios, acceptance criteria,
-  stories, or rough descriptions. Orchestrator pattern: Given-When-Then test methods call helper
-  functions; one class per story, one method per scenario. Use when writing acceptance tests,
-  turning behavioral context into test code, or driving implementation with tests.
+  Generate executable acceptance tests from scenarios using the orchestrator pattern. Use when turning behavioral specs into test code or driving implementation test-first.
+context-perspective: stories
+context-fidelity:
+  - level: engineering
+    mode: acceptance-tests
 ---
 # abd-story-acceptance-test
 
+## Grill prompts
+
+Read `common/grill-me-with-practice-skill.md` before grilling.
+
+Before generating, surface these common input traps:
+
+- **Behavior coverage confidence** — which behaviors are we actually proving work — and are we confident we know all the paths, or are there flows nobody has walked through yet?
+- **Boundary assumptions** — what happens at the boundaries — when this behavior depends on another system's response, do we know what responses are realistic vs. what we're assuming?
+- **Test doubles vs. reality** — where are we substituting a fake for something real — and does the fake behave like the real thing, or are we testing a fantasy?
+- **Data realism** — are the test fixtures using values that could actually appear in production, or are we testing with "foo" and "123" and hoping edge cases don't matter?
+- **Failure mode blindness** — do we know what failure looks like for each behavior — timeout, partial success, conflicting concurrent changes — or are we only proving the happy path works?
+
+---
+
 ## Purpose
 
-**Write tests first. Write code to pass them.**
-
-This skill creates **executable test files** — in whatever language and framework the project uses — from whatever behavioral context is available: specification scenarios, acceptance criteria, stories, notes, or a rough description of what the system should do. The output is real test code that runs, fails, and drives what gets built.
-
-The workflow is **test-driven**: write a test that expresses the expected behavior, run it to confirm it fails (RED), then implement production code until the test passes (GREEN). Each test is a precise, runnable statement of what the system must do — test methods show the Given-When-Then flow and helper functions do the work.
+Generate executable test files from specification scenarios, acceptance criteria, stories, or rough descriptions using the project's language and framework. Follow RED-GREEN-REFACTOR: write a failing test that expresses expected behavior, implement production code until it passes — one class per story, one method per scenario, Given-When-Then helpers doing the work.
 
 ---
 
@@ -38,7 +49,7 @@ Do **not** invent a predetermined folder name. Tests follow the host project's c
 
 ## Agent Instructions
 
-> **MANDATORY — read `../agent-protocol.md` before starting. It defines read-gates and the per-rule verdict format.**
+Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
@@ -46,10 +57,9 @@ Read these files:
 - **`reference/concepts.md`** — what ATDD is, test organization, orchestrator pattern, TDD cycle, domain language.
 - **`reference/examples.md`** — shape notes + what to notice (same domain as `abd-story-specification` examples).
 - **`templates/acceptance-tests-example.py`** — filled Python/pytest example (order + discount outline).
+- **`reference/diagnose.md`** — when and how to flip into diagnose mode when tests keep failing.
 
 ### 2. Generate
-
-Read every file in **`rules/`**; author to those rules.
 
 **Before writing any code:**
 0. **Verify test structure first (Priority 1)** — Trace the story hierarchy, declare file / class / method before writing any code. See **Test organization** in `reference/concepts.md`.
@@ -68,17 +78,24 @@ Read every file in **`rules/`**; author to those rules.
 | `templates/acceptance-tests.js` | JS/TS test file following orchestrator pattern |
 | `templates/acceptance-tests.java` | Java/JUnit5 test file following orchestrator pattern |
 
-### 3. Validate
+### 3. Diagnose — flip immediately when tests keep failing
 
-Run the scanners:
+**If a test fails after 2 or more consecutive fix attempts — stop. You are spinning.**
 
-```bash
-python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/abd-story-acceptance-test \
-  --workspace <path-to-output>
-```
+Do not add a third fix. Flip immediately into diagnose mode:
 
-Then emit per-rule verdicts per `../agent-protocol.md`.
+1. Read **`reference/diagnose.md`** — it maps the full six-phase diagnose discipline onto acceptance test failures.
+2. Build or confirm a fast, deterministic feedback loop (the failing test itself — but verify it is clean).
+3. Reproduce the failure on demand before touching any code.
+4. Write 3–5 ranked, falsifiable hypotheses. Show them before testing any.
+5. Instrument one variable at a time; tag every debug log `[DEBUG-<4char>]`.
+6. Fix the root cause. Watch the test go GREEN. Remove all instrumentation.
+
+**Do not proceed to the next story until the spinning test is resolved.**
+
+### 4. Validate
+
+Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.md` § Validate output.
 
 ---
 

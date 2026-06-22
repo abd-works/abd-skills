@@ -1,4 +1,4 @@
-# The ABD Foundry
+﻿# The ABD Foundry
 
 **Version:** <!-- VERSION -->1.0.0<!-- /VERSION -->
 
@@ -34,7 +34,9 @@ abd-skills/
 └── skill-config.json            # active_skill_workspace (engagement root)
 ```
 
-**Kanban stage definitions** (source of truth for the board): [`practices/kanban/reference/stages/`](practices/kanban/reference/stages/).
+**Stage definitions** (source of truth for all practice skills): [`common/stages/`](common/stages/).
+
+**Kanban stage definitions** (board-specific): [`common/stages/`](common/stages/).
 
 ---
 
@@ -68,11 +70,11 @@ Five stages × four practice families (DDD · SDD · UXD · ARC). Full skill ord
 
 | Stage | Definition | Primary skills |
 | --- | --- | --- |
-| **Shaping** | [shaping.md](practices/kanban/reference/stages/shaping.md) | `abd-domain-glossary`, `abd-story-mapping` (outline), `abd-impact-mapping`, `abd-architecture-outline` |
-| **Discovery** | [discovery.md](practices/kanban/reference/stages/discovery.md) | `abd-story-mapping` (full), `abd-domain-language`, `abd-information-architecture`, `abd-architecture-blueprint`, `abd-thin-slicing` |
-| **Exploration** | [exploration.md](practices/kanban/reference/stages/exploration.md) | `abd-domain-model`, `abd-story-acceptance-criteria`, `abd-ux-mockup`, `abd-architecture-specification` (document) |
-| **Specification** | [specification.md](practices/kanban/reference/stages/specification.md) | `abd-domain-specification`, `abd-story-specification`, `abd-ux-specification` (clickable prototype), `abd-architecture-specification` (template) |
-| **Engineering** | [engineering.md](practices/kanban/reference/stages/engineering.md) | `abd-domain-code`, `abd-story-acceptance-test`, `abd-architecture-code` |
+| **Shaping** | [shaping.md](common/stages/shaping.md) | `abd-domain-glossary`, `abd-story-mapping` (outline), `abd-impact-mapping`, `abd-architecture-outline` |
+| **Discovery** | [discovery.md](common/stages/discovery.md) | `abd-story-mapping` (full), `abd-domain-language`, `abd-information-architecture`, `abd-architecture-blueprint`, `abd-thin-slicing` |
+| **Exploration** | [exploration.md](common/stages/exploration.md) | `abd-domain-model`, `abd-story-acceptance-criteria`, `abd-ux-mockup`, `abd-architecture-specification` (document) |
+| **Specification** | [specification.md](common/stages/specification.md) | `abd-domain-specification`, `abd-story-specification`, `abd-ux-specification` (clickable prototype), `abd-architecture-specification` (template) |
+| **Engineering** | [engineering.md](common/stages/engineering.md) | `abd-domain-code`, `abd-story-acceptance-test`, `abd-architecture-code` |
 
 Stage extras (supplemental strip): `abd-clean-code`, `abd-secure-code` (engineering); discovery may add `abd-code-research`, `abd-service-level-objectives` from `stages/`.
 
@@ -177,7 +179,7 @@ Also used in shaping (stage-tier): `abd-impact-mapping` — [`stages/idea-shapin
 
 ### Skill helpers — `foundational/skill-helpers/`
 
-`execute-skill-using-skills-rules` · `commit-msg` · `track_task`
+`common` · `commit-msg` · `track_task`
 
 ### Utilities — `utilities/`
 
@@ -227,7 +229,7 @@ Workspace helper: [`foundational/skill-helpers/reference/workspace.md`](foundati
 
 | Instruction | What it does |
 | --- | --- |
-| **execute-skill-using-skills-rules** | Read skill `rules/*.md` before generating; validate + run scanners after |
+| **common** | Read skill `rules/*.md` before generating; validate + run scanners after |
 | **log-and-fix-skill-errors** | Log corrections in the target skill's `corrections-log.md` |
 | **workspace** | Resolve engagement root from `skill-config.json` |
 | **drawio-story-sync** | Offer to re-render story diagrams when `story-graph.json` changes |

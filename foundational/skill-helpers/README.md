@@ -1,10 +1,10 @@
-# Skill helpers package
+﻿# Skill helpers package
 
 Infrastructure skills and cross-cutting helpers used across practice families.
 
 ## Skills
 
-- `execute-skill-using-skills-rules` — rules + scanner pass before declaring skill output done
+- `common` — rules + scanner pass before declaring skill output done
 - `track_task` — checkbox progress files under the engagement workspace
 - `commit-msg` — meaningful commit messages from scope and changed files
 
@@ -12,7 +12,7 @@ Infrastructure skills and cross-cutting helpers used across practice families.
 
 | Slot | Purpose |
 | --- | --- |
-| `instructions/` | Always-on rules: workspace, deploy-skills, log-and-fix-skill-errors, execute-skill-using-skills-rules |
+| `instructions/` | Always-on rules: workspace, deploy-skills, log-and-fix-skill-errors, common |
 | `prompts/` | Slash commands: `/workspace`, fix-skill, refresh-all-instructions |
 | `scripts/` | `get_workspace.py`, `set_workspace.py` — read/write `skill-config.json` |
 | `reference/` | Workspace docs, correction log template |

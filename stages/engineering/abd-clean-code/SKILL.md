@@ -15,6 +15,10 @@ description: >-
   reviewing code for quality, driving the GREEN phase of a TDD cycle, or
   refactoring to clean up debt. Produces Python or JavaScript/ES module output
   from templates and validates against embedded scanner-backed rules.
+context-perspective: stage
+context-fidelity:
+  - level: engineering
+    mode: quality-gate
 ---
 # abd-clean-code
 
@@ -28,7 +32,7 @@ This skill produces real, runnable production modules — in Python or JavaScrip
 
 ## Output file
 
-**Deliverables folder:** see `../agent-protocol.md` — Output file resolution.
+**Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
 
 **File name:** `<domain_entity_snake_case>.py` or `<domainEntity>.js`. One file per domain entity.
 
@@ -36,7 +40,7 @@ This skill produces real, runnable production modules — in Python or JavaScrip
 
 ## Agent Instructions
 
-> **MANDATORY — read `../agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.**
+> **MANDATORY — read `../common/skill-rule-workflow.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.**
 
 ### 1. Read context
 
@@ -66,12 +70,12 @@ Read every file in **`rules/`**; author to those rules.
 Run the scanners:
 
 ```bash
-python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+python skills/common/scripts/run_scanners.py \
   --skill-root skills/abd-clean-code \
   --workspace <path-to-output>
 ```
 
-Then emit per-rule verdicts per `../agent-protocol.md`.
+Then emit per-rule verdicts per `../common/skill-rule-workflow.md`.
 
 ---
 

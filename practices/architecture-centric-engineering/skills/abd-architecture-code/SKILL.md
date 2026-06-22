@@ -1,13 +1,32 @@
----
+﻿---
 name: abd-architecture-code
 description: >-
-  Generate tests and production code from a named architecture spec, using domain and story context to instantiate the spec's patterns. Use when writing code for a story that has a named spec (e.g. specs/mern, specs/hero-vtt).
+  Generate tests and production code from a named architecture spec, instantiating its patterns with domain and story context. Use when a story has a named spec and needs executable code.
+context-perspective: architecture
+context-fidelity:
+  - level: engineering
+    mode: production-code
 ---
 # abd-architecture-code
 
 ## Purpose
 
-Generate **executable tests and production code** from a resolved architecture spec plus domain and story context — instantiating that spec's `template/`, `templates/`, `rules/`, and **Testing Architecture**. Orchestrates **`abd-story-acceptance-test`** (RED) and **`abd-clean-code`** (GREEN).
+Turn architecture decisions into running code — so the spec is not just a document but an enforced reality in every layer and test tier.
+
+---
+
+## Grill prompts
+
+Read `common/grill-me-with-practice-skill.md` before grilling.
+
+Before generating, surface these common input traps:
+
+- **Layer boundaries** — where does one layer's responsibility end and the next begin? If you can't name what each layer is allowed to know about the layers around it, the code will blur those boundaries under pressure.
+- **Spec vs. reality** — which parts of the architecture spec have never been exercised by a real story? Those are the patterns most likely to need rework once production code hits them.
+- **Domain behavior vs. framework plumbing** — for each scenario you're about to implement, is the interesting behavior in the domain logic or in the framework wiring? If the test is mostly asserting plumbing, what domain risk is it leaving uncovered?
+- **Boundary assumptions** — when this code calls another system or layer, what responses are you assuming you'll get? Which of those assumptions have you verified, and which are you hoping are right?
+- **Test tier coverage gaps** — which behaviors are only proven at one tier? If the domain test passes but the integration test doesn't exist yet, what could still be wrong that you wouldn't catch?
+- **Scenario completeness** — are there flows through this story that nobody has written a scenario for — error paths, concurrent access, partial failures — that the architecture spec implies but the story doesn't explicitly name?
 
 ---
 
@@ -41,7 +60,7 @@ The companion **abd-architecture-specification** skill shows the *parameterized 
 
 ## Agent Instructions
 
-> **MANDATORY gates — do not generate any artifact until every gate passes. Use the AskQuestion tool when a required input is missing.**
+Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 0. Required inputs — resolve or ask
 
@@ -262,7 +281,7 @@ When step **4** completes, tick **`- [ ] 4 — Deploy and verify end-to-end`** a
 Re-read every file in the spec's `rules/` and this skill's `rules/`. Run spec scanners when present:
 
 ```bash
-python foundational/skill-helpers/skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+python skills/common/scripts/run_scanners.py \
   --skill-root <spec-root> \
   --workspace <path-to-generated-code>
 ```

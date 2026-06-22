@@ -8,6 +8,9 @@
   var SKILLS_EXPANDED_KEY_HUB = 'abd-foundry-hub-skills-expanded';
   var CROSSCUT_KEY = 'abd-foundry-skill-nav-crosscut';
   var KANBAN_SCROLL_PARAM = 'kanbanScroll';
+  var COLLAPSED_COLS_KEY = 'abd-foundry-skill-nav-col-collapsed';
+  var COLLAPSED_COL_WIDTH = '28px';
+  var PRACTICE_COL_WIDTH = '168px';
 
   function stripScrollRestoreFromUrl() {
     try {
@@ -140,6 +143,25 @@
     } catch (err) {}
   }
 
+  function readCollapsedColsPref() {
+    try {
+      var raw = window.sessionStorage.getItem(COLLAPSED_COLS_KEY);
+      if (!raw) return [];
+      var parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (err) { return []; }
+  }
+
+  function saveCollapsedColsPref(cols) {
+    try {
+      if (cols && cols.length) {
+        window.sessionStorage.setItem(COLLAPSED_COLS_KEY, JSON.stringify(cols));
+      } else {
+        window.sessionStorage.removeItem(COLLAPSED_COLS_KEY);
+      }
+    } catch (err) {}
+  }
+
   function familyFromTicket(link) {
     var row = link.closest('.aad-skill-row[data-family]');
     return row ? row.getAttribute('data-family') : null;
@@ -240,10 +262,47 @@
     'story-driven-delivery',
     'domain-driven-design',
     'user-experience-design',
-    'architecture-centric-engineering'
+    'architecture-centric-engineering',
+    'context-to-memory'
   ];
   var ROW_H = 'var(--foundry-skill-row-h)';
   var ZERO_ROW = '0px';
+
+  var collapsedCols = new Set();
+  var boardGrid = surface.querySelector('.foundry-board-grid');
+  var stageColOrder = [];
+  if (boardGrid) {
+    boardGrid.querySelectorAll(':scope > .kb-col[data-stage]').forEach(function (col) {
+      stageColOrder.push(col.getAttribute('data-stage'));
+    });
+  }
+
+  function updateGridColumns() {
+    if (!boardGrid || !stageColOrder.length) return;
+    var tracks = stageColOrder.map(function (stage) {
+      return collapsedCols.has(stage) ? COLLAPSED_COL_WIDTH : 'minmax(0,1fr)';
+    });
+    boardGrid.style.gridTemplateColumns = PRACTICE_COL_WIDTH + ' ' + tracks.join(' ');
+  }
+
+  function setColCollapsed(stage, collapsed) {
+    if (collapsed) { collapsedCols.add(stage); } else { collapsedCols.delete(stage); }
+    if (!boardGrid) return;
+    boardGrid.querySelectorAll(':scope > .kb-col[data-stage="' + stage + '"]').forEach(function (col) {
+      col.classList.toggle('kb-col--collapsed', collapsed);
+      var btn = col.querySelector('.kb-col-collapse-btn');
+      if (btn) {
+        btn.setAttribute('aria-label', collapsed ? 'Expand column' : 'Collapse column');
+        btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+      }
+    });
+    updateGridColumns();
+    saveCollapsedColsPref(Array.from(collapsedCols));
+  }
+
+  function toggleColCollapse(stage) {
+    setColCollapsed(stage, !collapsedCols.has(stage));
+  }
 
   var selectedFamilies = new Set();
   var selectedCrosscutGroups = new Set();
@@ -363,6 +422,7 @@
       famRows[1],
       famRows[2],
       famRows[3],
+      famRows[4],
       stageGap,
       otherTracks[0],
       otherTracks[1],
@@ -552,7 +612,19 @@
     });
   });
 
+  /* ── Collapse buttons ── */
+  surface.querySelectorAll('.kb-col-collapse-btn').forEach(function (btn) {
+    var col = btn.closest('.kb-col[data-stage]');
+    if (!col) return;
+    var stage = col.getAttribute('data-stage');
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      toggleColCollapse(stage);
+    });
+  });
+
   /* ── Initialise state ── */
+  readCollapsedColsPref().forEach(function (stage) { setColCollapsed(stage, true); });
   var urlStage = stageFromUrl();
   highlightedStage = urlStage || surface.getAttribute('data-initial-stage') || '';
   readSavedStageFilter().forEach(function (stage) { selectedStages.add(stage); });

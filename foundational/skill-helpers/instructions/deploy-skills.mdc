@@ -1,4 +1,4 @@
----
+﻿---
 description: How to deploy skills, agents, guidance, and prompts from agilebydesign-skills
 alwaysApply: true
 ---
@@ -34,7 +34,7 @@ That is the only correct way to deploy anything from this repo. It deploys **fam
 | `skills/**` standalone (SKILL.md) | `<deploy-root>/.cursor/skills/<name>` (junction) |
 | `agents/**` (AGENT.md) | `<deploy-root>/.cursor/agents/<name>` (junction) |
 
-**Infra rules and commands** (workspace, deploy-skills, log-and-fix, execute-skill-using-skills-rules) live in **`skill-helpers/instructions/`** and **`skill-helpers/prompts/`** — deployed with the skill-helpers family package.
+**Infra rules and commands** (workspace, deploy-skills, log-and-fix, common) live in **`skill-helpers/instructions/`** and **`skill-helpers/prompts/`** — deployed with the skill-helpers family package.
 
 **Family packages** at repo root: `delivery/`, `story-driven-delivery/`, `domain-driven-design/`, `architecture-centric-engineering/`, `user-experience-design/`, `context-to-memory/`, `idea-shaping/`, `skill-builder/`, `skill-helpers/`, `utilities/`.
 

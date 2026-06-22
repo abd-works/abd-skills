@@ -10,15 +10,15 @@
 <link rel="stylesheet" href="../../../commons/site.css?v=foundry-3">
 <style>
 /*
-  Agile Garden — AI Garden prelude + gardener lesson fragment.
+  ABD Foundry — catalog prelude + gardener lesson fragment.
   Inlined via generate_abd_catalog.py. Max border-radius 6px; flat surfaces.
-  Brand split: orange-500 (#E5531A) for column chrome / rails; ai-blue (#4FC3F7 / #81D4FA)
-  on dense mono skill links — see abd-works-brand BRAND-GUIDELINES §3.1 (ai-blue-500).
+  Brand split: --accent (#E5531A) for column chrome / rails; --ai-accent on dense
+  mono skill links (engineering mode only — executive overrides in catalog.css).
 */
 .catalog-prelude {
   margin: 0 0 24px;
   padding: 0 0 20px;
-  border-bottom: 1px solid #2A2A2A;
+  border-bottom: 1px solid var(--border);
 }
 .catalog-prelude-heading {
   margin: 0 0 12px;
@@ -27,7 +27,7 @@
   color: var(--text);
   line-height: 1.25;
   padding-bottom: 8px;
-  border-bottom: 1px solid #2A2A2A;
+  border-bottom: 1px solid var(--border);
   scroll-margin-top: 48px;
 }
 .catalog-prelude-tagline {
@@ -43,9 +43,9 @@
   margin: 0 0 18px;
 }
 .catalog-mission-card {
-  background: #1B1B20;
-  border: 1px solid #2A2A2A;
-  border-left: 3px solid #E5531A;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
   border-radius: 4px;
   padding: 14px 20px;
   display: flex;
@@ -57,7 +57,7 @@
   flex-shrink: 0;
   font-size: 0.95rem;
   font-weight: 700;
-  color: #F4F4F5;
+  color: var(--text);
   margin: 0;
   white-space: nowrap;
 }
@@ -71,14 +71,14 @@
 .catalog-mission-card--teal,
 .catalog-mission-card--amber,
 .catalog-mission-card--purple {
-  background: #1B1B20;
-  border: 1px solid #2A2A2A;
-  border-left: 3px solid #E5531A;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
 }
 .catalog-mission-card--teal h3,
 .catalog-mission-card--amber h3,
 .catalog-mission-card--purple h3 {
-  color: #F4F4F5;
+  color: var(--text);
 }
 @media (max-width: 720px) {
   .catalog-mission { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -95,17 +95,17 @@
   gap: 10px;
   padding: 8px 0 10px;
   margin: 24px 0 12px;
-  border-bottom: 1px solid #2A2A2A;
+  border-bottom: 1px solid var(--border);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #E5531A;
+  color: var(--accent);
 }
 .catalog-section-label--foundational {
   margin-top: 28px;
-  color: #8A8A97;
-  border-bottom-color: #1A1A1E;
+  color: var(--muted);
+  border-bottom-color: var(--border-muted);
 }
 
 /* ── Practice grid — all 5 disciplines forced onto one row ── */
@@ -113,8 +113,8 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 1px;
-  background: #2A2A2A;
-  border: 1px solid #2A2A2A;
+  background: var(--border);
+  border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
   margin: 0;
@@ -131,8 +131,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: #2A2A2A;
-  border: 1px solid #2A2A2A;
+  background: var(--border);
+  border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
 }
@@ -158,7 +158,7 @@
   display: block !important;
   font-size: 0.82rem;
   line-height: 1.5;
-  color: #9B9BA8;
+  color: var(--muted);
 }
 
 /* ── Agents grid — single wide column ── */
@@ -166,15 +166,15 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: #2A2A2A;
-  border: 1px solid #2A2A2A;
+  background: var(--border);
+  border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
 }
 .catalog-section-label--agents {
   margin-top: 28px;
-  color: #E5531A;
-  border-bottom-color: #2A2A2A;
+  color: var(--accent);
+  border-bottom-color: var(--border);
 }
 
 /* ── Shared column card ── */
@@ -199,7 +199,7 @@
   margin-top: 0;
 }
 .catalog-garden-col {
-  background: #111113;
+  background: var(--surface);
   border: none;
   border-radius: 0;
   overflow: hidden;
@@ -213,17 +213,17 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  border-bottom: 1px solid #2A2A2A;
-  background: #1B1B20;
-  color: #E5531A;
-  border-left: 3px solid #E5531A;
+  border-bottom: 1px solid var(--border);
+  background: var(--raised);
+  color: var(--accent);
+  border-left: 3px solid var(--accent);
 }
 .catalog-garden-col-header--practice,
 .catalog-garden-col-header--foundational,
 .catalog-garden-col-header--agents {
-  background: #1B1B20;
-  color: #E5531A;
-  border-left: 3px solid #E5531A;
+  background: var(--raised);
+  color: var(--accent);
+  border-left: 3px solid var(--accent);
 }
 .catalog-garden-ico { flex-shrink: 0; display: block; }
 .catalog-garden-row {
@@ -231,11 +231,11 @@
   align-items: center;
   gap: 10px;
   padding: 6px 16px;
-  border-bottom: 1px solid #1A1A1E;
+  border-bottom: 1px solid var(--border-muted);
   font-size: 0.85rem;
 }
 .catalog-garden-row:last-child { border-bottom: none; }
-/* Skill/agent links — mono names stay near-white; ai-blue hairline/hover (brand AI accent, not orange wall) */
+/* Skill/agent links — mono names; ai-accent on dark (engineering mode) */
 .catalog-garden-name {
   font-weight: 700;
   font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
@@ -243,12 +243,11 @@
   min-width: 0;
   overflow-wrap: anywhere;
   word-break: break-word;
-  color: #4FC3F7;
+  color: var(--ai-accent);
 }
-/* !important beats global `a { … }`, :visited, and concatenation order */
 .catalog-prelude .catalog-garden-name a,
 .catalog-garden-lists .catalog-garden-name a {
-  color: #4FC3F7 !important;
+  color: var(--ai-accent) !important;
   font-weight: 700 !important;
   text-decoration: none !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
@@ -257,19 +256,19 @@
 .catalog-prelude .catalog-garden-name a:focus-visible,
 .catalog-garden-lists .catalog-garden-name a:hover,
 .catalog-garden-lists .catalog-garden-name a:focus-visible {
-  color: #81D4FA !important;
+  color: var(--ai-accent-soft) !important;
   border-bottom-color: rgba(79, 195, 247, 0.95);
 }
 .catalog-garden-name--agent a,
 .catalog-garden-name--foundational a {
-  color: #4FC3F7 !important;
+  color: var(--ai-accent) !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
 }
 .catalog-garden-name--agent a:hover,
 .catalog-garden-name--agent a:focus-visible,
 .catalog-garden-name--foundational a:hover,
 .catalog-garden-name--foundational a:focus-visible {
-  color: #81D4FA !important;
+  color: var(--ai-accent-soft) !important;
   border-bottom-color: rgba(79, 195, 247, 0.92);
 }
 .catalog-garden-name--dim {
@@ -1715,7 +1714,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 </style>
 <script src="../../../commons/catalog-nav.js?v=foundry-10"></script>
 </head>
-<body data-nav-prefix="../../../" data-nav-current="skills" data-nav-site-base="https://abd.works/">
+<body data-nav-prefix="../../../" data-nav-current="skills" data-nav-site-base="../../../../../abd-works-website/">
 <main id="main-content">
 
 <div class="page-hero page-hero--detail">
@@ -1733,17 +1732,29 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 
 <h2>Content</h2>
 <div class="rule-prose"><h1>abd-ux-specification</h1>
+<h2>Grill prompts</h2>
+<p>Read <code>common/grill-me-with-practice-skill.md</code> before grilling.</p>
+<p>Before generating, surface these common input traps:</p>
+<ul>
+<li><strong>Stakeholder walk-through</strong> — can a stakeholder actually walk through the happy path without explanation — or does this prototype require a developer standing next to them narrating what to click?</li>
+<li><strong>Stubbed vs real</strong> — where does the prototype stop and the imagination begin — can stakeholders tell what&#x27;s real behaviour and what&#x27;s faked, or will they assume everything they see works?</li>
+<li><strong>Error and edge states</strong> — what does the user see when something fails — a network error, invalid input, expired session — and are those states in the prototype or just in someone&#x27;s head?</li>
+<li><strong>Visual decisions committed</strong> — are the typography, colour, and spacing decisions in this prototype final or placeholder — will stakeholders approve something that changes after sign-off?</li>
+<li><strong>Flow completeness</strong> — can the user complete every documented acceptance criterion end-to-end — or are there dead ends where the prototype just stops?</li>
+<li><strong>Fidelity expectations</strong> — do stakeholders understand they&#x27;re approving interaction and visual direction, not production code — or will they expect this to ship?</li>
+</ul>
+<hr>
 <h2>Purpose</h2>
-<p>Lo-fi mockups lock controls and states. The specification stage turns those decisions into something people can <strong>click through</strong> — not production code. The deliverable is a hi-fi prototype built from real HTML, CSS, and JavaScript (or the host project&#x27;s static/preview stack): design tokens, typography, colour, spacing, and components that match the approved visual direction, with navigation and state transitions wired so flows feel real. Backend calls, validation rules, auth, and persistence are <strong>stubbed or faked</strong> — fixture data, timed delays, hard-coded branches, and local state only where needed to demonstrate behaviour. Acceptance criteria are <strong>demonstrated</strong>, not fully implemented; ubiquitous-language labels stay verbatim from upstream artifacts.</p>
+<p>Turn approved lo-fi mockups into a clickable hi-fi prototype (real HTML/CSS/JS with design tokens) where navigation and state transitions are wired but backend logic stays stubbed — so stakeholders can walk flows, validate AC visually, and sign off before production begins.</p>
 <hr>
 <h2>Output file</h2>
-<p><strong>Deliverables folder:</strong> see <code>../agent-protocol.md</code> — Output file resolution.</p>
+<p><strong>Deliverables folder:</strong> see <code>../common/skill-rule-workflow.md</code> — Output file resolution.</p>
 <p><strong>File names:</strong></p>
 <div class="md-table-wrap"><table class="md-table"><thead><tr><th>Artifact</th><th>Purpose</th></tr></thead><tbody><tr><td><code>&lt;screen-slug&gt;.html</code> (and linked <code>.css</code> / <code>.js</code> as needed)</td><td>Runnable clickable prototype — open in browser, no build required unless the host project already uses one for previews</td></tr><tr><td><code>ux-specification.md</code></td><td>Structured spec: source paths, <strong>brand assets</strong> (resolved or provisional), design carry-over, stub boundaries, AC → demonstrated behaviour map, and what is intentionally <strong>not</strong> implemented</td></tr><tr><td><code>ux-specification.html</code></td><td>Spec review page — embeds <code>prototype/index.html</code> (or <code>example/index.html</code>) in an <code>&lt;iframe&gt;</code>; link to the Markdown spec in the header</td></tr></tbody></table></div>
 <p>Add a <code>&lt;name&gt;-</code> prefix only when disambiguation is needed. Default folder: <code>docs/ux/prototype/</code> (or the host project&#x27;s UX prototype convention).</p>
 <hr>
 <h2>Agent Instructions</h2>
-<p>&gt; <strong>MANDATORY — read <code>../agent-protocol.md</code> before starting. It defines read-gates, output file resolution, and the per-rule verdict format.</strong></p>
+<p>Follow <code>../common/skill-rule-workflow.md</code> — read-gates, output file resolution, and the per-rule verdict format are defined there.</p>
 <h3>1. Read context</h3>
 <p>Read these files:</p>
 <ul>
@@ -1751,21 +1762,12 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <li><strong><code>reference/brand-assets-questionnaire.md</code></strong> — key questions to ask when brand assets are missing or incomplete.</li>
 </ul>
 <h3>2. Generate</h3>
-<p>Read every file in <strong><code>rules/</code></strong> when present; author to those rules.</p>
 <p><strong>Produce:</strong></p>
 <div class="md-table-wrap"><table class="md-table"><thead><tr><th>Output</th><th>What to produce</th></tr></thead><tbody><tr><td><code>ux-specification.md</code></td><td>Screen name, source paths (IA, lo-fi, hi-fi/design refs), <strong>brand assets brief</strong> (<code>templates/brand-assets-brief.md</code>), design tokens used, region → element map, <strong>stub catalogue</strong> (what is faked and how), AC → click/demo path</td></tr><tr><td>Prototype files</td><td>Self-contained or host-folder HTML/CSS/JS that renders the screen and wires primary flows</td></tr><tr><td><code>ux-specification.html</code></td><td>When prototype folder contains <code>index.html</code>, copy <code>templates/ux-specification.html</code>, set <code>{{PROTOTYPE_INDEX}}</code> to the relative path (default <code>prototype/index.html</code>), iframe that entry</td></tr></tbody></table></div>
 <p><strong>Generation flow:</strong></p>
 <p>1. <strong>Resolve inputs</strong> — lo-fi path, AC file, domain language, screen name, design reference (tokens, brand CSS, or hi-fi export). Confirm where prototypes live in the host project. 2. <strong>Resolve brand assets</strong> — search the host project for guidelines, logos, and tokens. If anything is missing, run section 2 of <code>reference/brand-assets-questionnaire.md</code> using the <strong><code>AskQuestion</code> tool</strong> (steps A–F) — do not paste the questionnaire as chat text. Record answers in the <strong>Brand assets</strong> section of <code>ux-specification.md</code> (<code>templates/brand-assets-brief.md</code>). Do not proceed to hi-fi styling until <code>AskQuestion</code> responses are received or the user approves provisional stand-ins. 3. <strong>Carry over upstream decisions</strong> — regions, affordances, labels, copy, typography roles, colour roles, density, and spacing from lo-fi and design reference. Do not invent new vocabulary or affordances. 4. <strong>Author <code>ux-specification.md</code> first</strong> — brand assets brief, then the stub catalogue: list every behaviour that is simulated (fake API JSON, <code>setTimeout</code> loading, toggled CSS classes for states, <code>localStorage</code> only if the demo requires it). 5. <strong>Build the visual layer</strong> — semantic HTML, real CSS (project tokens or documented stand-ins), logo and imagery from resolved assets, component structure that mirrors how production will eventually be organized without pulling in full app infrastructure. 6. <strong>Wire interactions</strong> — links, buttons, tabs, modals, and form submits navigate or swap visible states. Use minimal JavaScript: event handlers, DOM class toggles, template literals for fake responses. <strong>Do not</strong> integrate real APIs, databases, or domain services. 7. <strong>Demonstrate AC paths</strong> — each AC clause maps to a click path or visible state a reviewer can trigger manually; document the path in <code>ux-specification.md</code>. Happy paths first; edge/error states via stubbed responses or pre-seeded demo data. 8. <strong>Mark prototype boundaries</strong> — comment or document anything that looks real but is fake (<code>// PROTOTYPE: stub</code>). No silent pretence that stubbed behaviour is production-ready. 9. <strong>Basic accessibility</strong> — programmatic labels on inputs, keyboard-reachable controls, visible focus, text labels (not colour-only state). Full test suites and performance budgets are <strong>out of scope</strong> for this skill. 10. <strong>Author <code>ux-specification.html</code></strong> — when an <code>example/</code> or <code>prototype/</code> folder contains <code>index.html</code>, generate the HTML spec page from <code>templates/ux-specification.html</code> with iframe <code>src</code> pointing at that index (relative path). List both spec files in <code>ux-specification.md</code> metadata. 11. <strong>Verify in browser</strong> — open <code>ux-specification.html</code> (or <code>prototype/index.html</code>), walk every documented AC path, confirm labels match UL/AC verbatim; confirm logo, colours, and imagery match the brand assets brief.</p>
 <h3>3. Validate</h3>
-<div class="spec-steps">
-<p class="spec-step">When <code>rules/</code> and scanners exist, run them:</p>
-</div>
-<pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/abd-ux-specification \
-  --workspace &lt;path-to-output&gt;</code></pre>
-<div class="spec-steps">
-<p class="spec-step">Then emit per-rule verdicts per <code>../agent-protocol.md</code>.</p>
-</div>
+<p>Run scanners and emit per-rule verdicts — see <code>../common/skill-rule-workflow.md</code> § Validate output.</p>
 <hr>
 <h2>Validate</h2>
 <p><strong>Goal:</strong> Click through the prototype and read <code>ux-specification.md</code> as reviewers.</p>

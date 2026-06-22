@@ -58,7 +58,15 @@ function Remove-AndCopyDirectory {
         [string]$Destination
     )
     if (Test-Path -LiteralPath $Destination) {
-        Remove-Item -LiteralPath $Destination -Recurse -Force
+        try {
+            Remove-Item -LiteralPath $Destination -Recurse -Force -ErrorAction Stop
+        } catch {
+            # Folder is locked (e.g. open in IDE) — fall back to file-by-file overwrite
+            Write-Host "  ⚠️  Cannot remove '$Destination' (in use) — merging files instead."
+            New-Directory -Path $Destination
+            Copy-Item -Path (Join-Path $Source '*') -Destination $Destination -Recurse -Force -ErrorAction SilentlyContinue
+            return
+        }
     }
     New-Directory -Path (Split-Path -Parent $Destination)
     Copy-Item -LiteralPath $Source -Destination $Destination -Recurse -Force
@@ -126,6 +134,12 @@ function Get-PackageRoots {
         if (Test-Path -LiteralPath $p) {
             $roots.Add([pscustomobject]@{ Name = $flat; Value = $p })
         }
+    }
+
+    # common/ — shared reference folder; deploys whole directory to .cursor/skills/common/
+    $commonPath = Join-Path $RepoRoot 'common'
+    if (Test-Path -LiteralPath $commonPath) {
+        $roots.Add([pscustomobject]@{ Name = 'common'; Value = $commonPath })
     }
 
     return ,$roots
@@ -204,6 +218,24 @@ function Deploy-Package {
     $libDst       = Join-Path $cursorRoot 'lib'
     $rulesDst     = Join-Path $cursorRoot 'rules'
     $commandsDst  = Join-Path $cursorRoot 'commands'
+
+    # common/ — copy whole directory to .cursor/skills/common/
+    # prompt/*.prompt.md also deploy to .cursor/commands/
+    if ((Split-Path -Leaf $PackageRoot) -eq 'common') {
+        if ($Ide -eq 'vscode') {
+            Remove-AndCopyDirectory -Source $PackageRoot -Destination (Join-Path $githubSkillsDst 'common')
+        } else {
+            Remove-AndCopyDirectory -Source $PackageRoot -Destination (Join-Path $skillsDst 'common')
+            $promptsSrc = Join-Path $PackageRoot 'prompt'
+            if (Test-Path -LiteralPath $promptsSrc) {
+                Get-ChildItem -LiteralPath $promptsSrc -Filter '*.prompt.md' -File | ForEach-Object {
+                    New-Directory -Path $commandsDst
+                    Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $commandsDst $_.Name) -Force
+                }
+            }
+        }
+        return
+    }
 
     # Standard layout: skills/ subdirectory; supports one level of grouping (e.g. skills/supporting/)
     $skillsSrc = Join-Path $PackageRoot 'skills'
@@ -372,7 +404,7 @@ New-Directory -Path $resolvedDeployRoot
 
 $packageRoots = Get-PackageRoots -RepoRoot $RepoRoot
 if ($packageRoots.Count -eq 0) {
-    throw "No package roots found under practices/, foundational/, stages/, utilities/, or others/."
+    throw "No package roots found under practices/, foundational/, stages/, utilities/, others/, or common/."
 }
 
 $selected = @()
@@ -399,4 +431,15 @@ try {
     & python3 "$RepoRoot/scripts/generate_manifest.py" --write-receipt "$resolvedDeployRoot" --ide $ide 2>$null
 } catch {
     # Receipt writing is best-effort
+}
+
+# Build skill index
+$skillIndexScript = Join-Path $resolvedDeployRoot ".cursor/skills/common/scripts/build_skill_index.py"
+if (Test-Path -LiteralPath $skillIndexScript) {
+    Write-Host "Building skill index..."
+    try {
+        & python $skillIndexScript 2>&1 | ForEach-Object { Write-Host "  $_" }
+    } catch {
+        Write-Host "  ⚠️  Could not build skill index: $_"
+    }
 }

@@ -1,33 +1,27 @@
----
+﻿---
 name: drawio-domain-sync
 catalog_garden_order: 7
 catalogue_one_liner: >-
-  Domain model to Draw.io class diagrams — per-KA tabs by default, full page optional — with sync back to source.
+  Keep domain diagrams and source models in sync — so the team reads one truth, not two.
 description: >-
-  Render Domain Language, Domain Model, or Domain Specification artifacts to Draw.io class
-  diagrams. Default output is a multi-tab file with one tab per Key Abstraction, showing
-  only directly connected boundary classes (supertypes only, not subtypes). Full single-page
-  mode is available when explicitly requested. Use when you want a visual class diagram from
-  a domain model, when the team asks to "render the diagram" or "visualise the domain model",
-  or when a .drawio file has been edited and needs reconciliation with the source.
+  Render domain artifacts to Draw.io class diagrams and sync edits back to the source model. Use when the team needs a visual diagram from a domain model or when text and diagram need reconciliation.
+context-perspective: domain
+context-role: support
+context-fidelity:
+  - level: specification
+    mode: diagram-sync
 ---
 # drawio-domain-sync
 
 ## Purpose
 
-This skill turns any domain model artifact — a Domain Language, Domain Model, or Domain Specification — into a Draw.io class diagram the whole team can read, annotate, and edit.
-
-**Default mode: per-KA tabs.** Each Key Abstraction gets its own tab/page. Boundary classes (directly connected classes from other KAs) appear as dashed-border context, but only supertypes — a base class does not pull in subtypes from other KAs. This keeps each tab focused and readable.
-
-**Full-page mode (optional):** When the user explicitly requests a single-page diagram (e.g. `--full`), all KAs render on one page. This is the exception, not the default.
-
-When the team edits the diagram in Draw.io, the skill syncs those changes back to the source model file, so diagram and text never drift apart.
+Keep domain diagrams and source models in sync — so the team reads one truth, not two.
 
 ---
 
 ## Output file
 
-**Deliverables folder:** see `../agent-protocol.md` — Output file resolution.
+**Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
 
 **Default (per-KA tabs):** `<name>-class-diagram.drawio` alongside the source model file. The file contains one tab per KA plus an optional "All KAs (Overview)" tab.
 
@@ -37,7 +31,7 @@ When the team edits the diagram in Draw.io, the skill syncs those changes back t
 
 ## Agent Instructions
 
-> **MANDATORY — read `../agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.**
+Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
@@ -46,8 +40,6 @@ Read these files:
 - **`diagrams.md`** — full CLI command reference, layout guidelines, UML relationship selection, and cross-model import conventions.
 
 ### 2. Generate — Per-KA Tabs (Default Mode)
-
-Read every file in **`rules/`**; author to those rules.
 
 **This is the default. Unless the user explicitly asks for a full single-page diagram, produce per-KA tabs.**
 
@@ -109,15 +101,7 @@ Use this mode only when the user explicitly asks for it (says "full diagram", "s
 
 ### 3. Validate
 
-Run the scanners:
-
-```bash
-python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/drawio-domain-sync \
-  --workspace <path-to-output>
-```
-
-Then emit per-rule verdicts per `../agent-protocol.md`.
+Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.md` § Validate output.
 
 ---
 

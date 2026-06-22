@@ -1,4 +1,4 @@
-# Rule: SKILL.md bundle matches rules/*.md files; scanner stem matches Python filename
+﻿# Rule: SKILL.md bundle matches rules/*.md files; scanner stem matches Python filename
 
 **Scanner:** Manual review
 
@@ -8,7 +8,7 @@ On the **target** package, each **normative rule** is a **file** under **`rules/
 
 - After you change any **`rules/<name>.md`** on the **target** package, run **`bundle_rules_into_skill_md.py`** with **`--skill-root`** set to that skill’s root so the **inlined** copy in **`SKILL.md`** matches that **`.md`** file’s current contents.
 
-  **Example (pass):** You edit **`skills/foo/rules/naming.md`**, run `python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/foo`, open **`skills/foo/SKILL.md`**, search for the **### Rule** heading that corresponds to **`naming.md`**, the inlined **DO** text matches **`rules/naming.md`**.
+  **Example (pass):** You edit **`skills/foo/rules/naming.md`**, run `python skills/common/scripts/bundle_rules_into_skill_md.py --skill-root skills/foo`, open **`skills/foo/SKILL.md`**, search for the **### Rule** heading that corresponds to **`naming.md`**, the inlined **DO** text matches **`rules/naming.md`**.
 
 - Set **`scanner: <stem>`** in the **rule file’s YAML** only when **`scanners/<stem>-scanner.py`** exists on that package (**stem** repeated exactly in the **scanner Python filename**).
 
@@ -28,4 +28,4 @@ On the **target** package, each **normative rule** is a **file** under **`rules/
 
   **Example (fail):** **`rules/evidence.md`** on disk adds a **DO NOT** bullet, but **`SKILL.md`** still inlines the old text without that bullet.
 
-**Source:** `skills/execute-skill-using-skills-rules` target layout convention.
+**Source:** `skills/common` target layout convention.

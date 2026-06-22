@@ -1,28 +1,41 @@
----
+﻿---
 name: abd-ux-user-impact-map
 catalog_garden_tier: practice
 catalog_garden_order: 5
 catalogue_one_liner: >-
-  Strategic impact maps: hierarchy view, ASCII wall map, and hypothesis sentences from discovery sources.
+  Map who gets what value from this product — so you build for real outcomes not assumed ones.
 description: >-
-  Teaches collaborative impact mapping — layered goals, actors, observable impacts, and deliverable
-  options. Emits six template outputs (hierarchy, ASCII map, and BUILD/OUTCOME hypotheses, each in
-  Markdown and plain text). Use when connecting organisational outcomes to scope, facilitating
-  discovery, or replacing feature-first backlogs.
+  Map organisational goals to actors, behaviour changes, and deliverable options via collaborative impact mapping. Use when connecting outcomes to scope or replacing feature-first backlogs.
+context-perspective: ux
+context-fidelity:
+  - level: shaping
+    mode: user-impact-map
 ---
 # abd-ux-user-impact-map
 
 ## Purpose
 
-Impact mapping is a strategic discovery technique that links broader goals to finer-grained goals, then to actors, their observable behaviour changes, and deliverable options (often epics or features) that could create those behaviours. It keeps discussion outcome-first: you see *why* an option might matter before debating build order.
+Map who gets what value from this product — so you build for real outcomes, not assumed ones, and assumptions are visible before deciding build order.
 
-The map answers four questions in order: *Why are we doing this?* *Who can help or hinder?* *How should behaviour change?* *What could we do to support that change?* Good maps surface assumptions, limit scope creep by tying ideas to impacts, and support shared ownership when business and delivery build them together.
+---
+
+## Grill prompts
+
+Read `common/grill-me-with-practice-skill.md` before grilling.
+
+Before generating, surface these:
+
+- **Goal vs feature** — Is your top-level goal a measurable business outcome, or a feature you've already decided to build?
+- **Missing actor** — Who can block or undermine this goal that you haven't listed as an actor?
+- **Impact vs task** — Are your impacts observable behaviour changes in the actor, or tasks the team needs to perform?
+- **Deliverable attachment** — Does each deliverable serve exactly one impact, or are you bundling unrelated work under a convenient heading?
+- **Assumption visibility** — Which build or outcome assumption would kill the initiative if wrong — and is it stated on the map?
 
 ---
 
 ## Output file
 
-**Deliverables folder:** see `../agent-protocol.md` — Output file resolution.
+**Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
 
 **File name:** `impact-map.md` (and paired outputs). Add a `<name>-` prefix only when disambiguation is needed.
 
@@ -30,7 +43,7 @@ The map answers four questions in order: *Why are we doing this?* *Who can help 
 
 ## Agent Instructions
 
-> **MANDATORY — read `../agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.**
+Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
@@ -39,8 +52,6 @@ Read these files:
 - **`reference/examples.md`** — a worked hierarchy example (live-ops product) showing nested goals, actors, impacts with metrics, and phased deliverables.
 
 ### 2. Generate
-
-Read every file in **`rules/`**; author to those rules.
 
 **Produce output from every template:**
 
@@ -61,15 +72,7 @@ Read every file in **`rules/`**; author to those rules.
 
 ### 3. Validate
 
-Run the scanners:
-
-```bash
-python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/abd-ux-user-impact-map \
-  --workspace <path-to-output>
-```
-
-Then emit per-rule verdicts per `../agent-protocol.md`.
+Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.md` § Validate output.
 
 ---
 

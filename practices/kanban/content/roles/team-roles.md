@@ -1,4 +1,4 @@
-# Team roles
+﻿# Team roles
 
 Four **executor roles** run delivery slots. Four bootcamp **families** organize skill packages under `skills/`. **Family ≠ role** — the stage file names who executes each skill; that can differ from where the package lives.
 
@@ -131,4 +131,4 @@ Stage index: [stages/README.md](../stages/README.md)
 
 ## Common pipeline
 
-All roles use **`story-graph-ops`**, **`execute-skill-using-skills-rules`**, and **`track_task`** when the deliverable touches `story-graph.json`.
+All roles use **`story-graph-ops`**, **`common`**, and **`track_task`** when the deliverable touches `story-graph.json`.

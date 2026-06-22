@@ -23,15 +23,15 @@
 <style>
 
 /*
-  Agile Garden — AI Garden prelude + gardener lesson fragment.
+  ABD Foundry — catalog prelude + gardener lesson fragment.
   Inlined via generate_abd_catalog.py. Max border-radius 6px; flat surfaces.
-  Brand split: orange-500 (#E5531A) for column chrome / rails; ai-blue (#4FC3F7 / #81D4FA)
-  on dense mono skill links — see abd-works-brand BRAND-GUIDELINES §3.1 (ai-blue-500).
+  Brand split: --accent (#E5531A) for column chrome / rails; --ai-accent on dense
+  mono skill links (engineering mode only — executive overrides in catalog.css).
 */
 .catalog-prelude {
   margin: 0 0 24px;
   padding: 0 0 20px;
-  border-bottom: 1px solid #2A2A2A;
+  border-bottom: 1px solid var(--border);
 }
 .catalog-prelude-heading {
   margin: 0 0 12px;
@@ -40,7 +40,7 @@
   color: var(--text);
   line-height: 1.25;
   padding-bottom: 8px;
-  border-bottom: 1px solid #2A2A2A;
+  border-bottom: 1px solid var(--border);
   scroll-margin-top: 48px;
 }
 .catalog-prelude-tagline {
@@ -56,9 +56,9 @@
   margin: 0 0 18px;
 }
 .catalog-mission-card {
-  background: #1B1B20;
-  border: 1px solid #2A2A2A;
-  border-left: 3px solid #E5531A;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
   border-radius: 4px;
   padding: 14px 20px;
   display: flex;
@@ -70,7 +70,7 @@
   flex-shrink: 0;
   font-size: 0.95rem;
   font-weight: 700;
-  color: #F4F4F5;
+  color: var(--text);
   margin: 0;
   white-space: nowrap;
 }
@@ -84,14 +84,14 @@
 .catalog-mission-card--teal,
 .catalog-mission-card--amber,
 .catalog-mission-card--purple {
-  background: #1B1B20;
-  border: 1px solid #2A2A2A;
-  border-left: 3px solid #E5531A;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
 }
 .catalog-mission-card--teal h3,
 .catalog-mission-card--amber h3,
 .catalog-mission-card--purple h3 {
-  color: #F4F4F5;
+  color: var(--text);
 }
 @media (max-width: 720px) {
   .catalog-mission { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -108,17 +108,17 @@
   gap: 10px;
   padding: 8px 0 10px;
   margin: 24px 0 12px;
-  border-bottom: 1px solid #2A2A2A;
+  border-bottom: 1px solid var(--border);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #E5531A;
+  color: var(--accent);
 }
 .catalog-section-label--foundational {
   margin-top: 28px;
-  color: #8A8A97;
-  border-bottom-color: #1A1A1E;
+  color: var(--muted);
+  border-bottom-color: var(--border-muted);
 }
 
 /* ── Practice grid — all 5 disciplines forced onto one row ── */
@@ -126,8 +126,8 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 1px;
-  background: #2A2A2A;
-  border: 1px solid #2A2A2A;
+  background: var(--border);
+  border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
   margin: 0;
@@ -144,8 +144,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: #2A2A2A;
-  border: 1px solid #2A2A2A;
+  background: var(--border);
+  border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
 }
@@ -171,7 +171,7 @@
   display: block !important;
   font-size: 0.82rem;
   line-height: 1.5;
-  color: #9B9BA8;
+  color: var(--muted);
 }
 
 /* ── Agents grid — single wide column ── */
@@ -179,15 +179,15 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: #2A2A2A;
-  border: 1px solid #2A2A2A;
+  background: var(--border);
+  border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
 }
 .catalog-section-label--agents {
   margin-top: 28px;
-  color: #E5531A;
-  border-bottom-color: #2A2A2A;
+  color: var(--accent);
+  border-bottom-color: var(--border);
 }
 
 /* ── Shared column card ── */
@@ -212,7 +212,7 @@
   margin-top: 0;
 }
 .catalog-garden-col {
-  background: #111113;
+  background: var(--surface);
   border: none;
   border-radius: 0;
   overflow: hidden;
@@ -226,17 +226,17 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  border-bottom: 1px solid #2A2A2A;
-  background: #1B1B20;
-  color: #E5531A;
-  border-left: 3px solid #E5531A;
+  border-bottom: 1px solid var(--border);
+  background: var(--raised);
+  color: var(--accent);
+  border-left: 3px solid var(--accent);
 }
 .catalog-garden-col-header--practice,
 .catalog-garden-col-header--foundational,
 .catalog-garden-col-header--agents {
-  background: #1B1B20;
-  color: #E5531A;
-  border-left: 3px solid #E5531A;
+  background: var(--raised);
+  color: var(--accent);
+  border-left: 3px solid var(--accent);
 }
 .catalog-garden-ico { flex-shrink: 0; display: block; }
 .catalog-garden-row {
@@ -244,11 +244,11 @@
   align-items: center;
   gap: 10px;
   padding: 6px 16px;
-  border-bottom: 1px solid #1A1A1E;
+  border-bottom: 1px solid var(--border-muted);
   font-size: 0.85rem;
 }
 .catalog-garden-row:last-child { border-bottom: none; }
-/* Skill/agent links — mono names stay near-white; ai-blue hairline/hover (brand AI accent, not orange wall) */
+/* Skill/agent links — mono names; ai-accent on dark (engineering mode) */
 .catalog-garden-name {
   font-weight: 700;
   font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
@@ -256,12 +256,11 @@
   min-width: 0;
   overflow-wrap: anywhere;
   word-break: break-word;
-  color: #4FC3F7;
+  color: var(--ai-accent);
 }
-/* !important beats global `a { … }`, :visited, and concatenation order */
 .catalog-prelude .catalog-garden-name a,
 .catalog-garden-lists .catalog-garden-name a {
-  color: #4FC3F7 !important;
+  color: var(--ai-accent) !important;
   font-weight: 700 !important;
   text-decoration: none !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
@@ -270,19 +269,19 @@
 .catalog-prelude .catalog-garden-name a:focus-visible,
 .catalog-garden-lists .catalog-garden-name a:hover,
 .catalog-garden-lists .catalog-garden-name a:focus-visible {
-  color: #81D4FA !important;
+  color: var(--ai-accent-soft) !important;
   border-bottom-color: rgba(79, 195, 247, 0.95);
 }
 .catalog-garden-name--agent a,
 .catalog-garden-name--foundational a {
-  color: #4FC3F7 !important;
+  color: var(--ai-accent) !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
 }
 .catalog-garden-name--agent a:hover,
 .catalog-garden-name--agent a:focus-visible,
 .catalog-garden-name--foundational a:hover,
 .catalog-garden-name--foundational a:focus-visible {
-  color: #81D4FA !important;
+  color: var(--ai-accent-soft) !important;
   border-bottom-color: rgba(79, 195, 247, 0.92);
 }
 .catalog-garden-name--dim {
@@ -3509,6 +3508,18 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
   align-items: stretch;
 }
 
+/* 6-col variant: five practice stages + Context */
+.kb-board.aad-board-grid--6 {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+.aad-delivery-crosscut-tracks--6 {
+  grid-template-columns: repeat(6, 1fr);
+}
+.aad-board-grid--6 .kb-ticket.aad-skill {
+  font-size: 7.5px;
+  padding: 2px 3px;
+}
+
 /* 7-col variant: original five stages + Testing + Release */
 .kb-board.aad-board-grid--7 {
   grid-template-columns: repeat(7, minmax(0, 1fr));
@@ -4318,7 +4329,7 @@ body {
 .kb-slide .kanban-stage-questions {
   flex: 0 0 auto;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 0 8px;
   padding: 0 6px;
   margin: 4px 0 8px;
@@ -4569,7 +4580,7 @@ body {
 
 .catalog-kanban-embed .kb-board.aad-board-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 0 6px;
   margin: 0;
   padding: 6px;
@@ -4737,6 +4748,7 @@ body {
   --fam-ddd: #6c5ce7;
   --fam-uxd: #e84393;
   --fam-arc: #4fc3f7;
+  --fam-ctx: #00b894;
   --fam-stage: #fdcb6e;
   --fam-delivery: #e5531a;
   --foundry-skills-ease: cubic-bezier(0.33, 1, 0.68, 1);
@@ -5094,9 +5106,8 @@ html[data-theme="engineering"] .foundry-kanban-surface {
   --foundry-stage-skill-rows: 3;
   --foundry-stage-skills-gap-h: 36px;
   display: grid;
-  grid-template-columns: 168px repeat(5, minmax(0, 1fr));
-  grid-template-rows: auto repeat(4, var(--foundry-skill-row-h)) var(--foundry-stage-skills-gap-h) repeat(var(--foundry-stage-skill-rows), var(--foundry-skill-row-h));
-  gap: 2px 6px;
+  grid-template-columns: 168px repeat(6, minmax(0, 1fr));
+  grid-template-rows: auto repeat(5, var(--foundry-skill-row-h)) var(--foundry-stage-skills-gap-h) repeat(var(--foundry-stage-skill-rows), var(--foundry-skill-row-h));
   background: var(--abd-bg);
   border: 1px solid var(--abd-border);
   border-radius: 6px;
@@ -5125,8 +5136,9 @@ html[data-theme="engineering"] .foundry-kanban-surface {
 .foundry-practice-col > .foundry-family-toggle[data-family="domain-driven-design"] { grid-row: 3; }
 .foundry-practice-col > .foundry-family-toggle[data-family="user-experience-design"] { grid-row: 4; }
 .foundry-practice-col > .foundry-family-toggle[data-family="architecture-centric-engineering"] { grid-row: 5; }
-.foundry-practice-col > .foundry-practice-col__stage-spacer { grid-row: 6; }
-.foundry-practice-col > .foundry-practice-col__other-practices { grid-row: 7; }
+.foundry-practice-col > .foundry-family-toggle[data-family="context-to-memory"] { grid-row: 6; }
+.foundry-practice-col > .foundry-practice-col__stage-spacer { grid-row: 7; }
+.foundry-practice-col > .foundry-practice-col__other-practices { grid-row: 8; }
 
 .foundry-practice-col__card {
   display: flex;
@@ -5289,11 +5301,11 @@ html[data-theme="engineering"] .foundry-kanban-surface {
   background: var(--abd-accent-glow);
 }
 .foundry-kanban-surface.foundry-skills-expanded .foundry-board-grid {
-  grid-template-rows: auto repeat(4, var(--foundry-skill-row-h)) var(--foundry-stage-skills-gap-h) repeat(var(--foundry-stage-skill-rows), var(--foundry-skill-row-h));
+  grid-template-rows: auto repeat(5, var(--foundry-skill-row-h)) var(--foundry-stage-skills-gap-h) repeat(var(--foundry-stage-skill-rows), var(--foundry-skill-row-h));
 }
 .foundry-kanban-surface.foundry-skills-collapsed .foundry-board-grid {
   /* Collapsed idle: zero family row tracks; JS refines when filter active or expanded. */
-  grid-template-rows: auto 0px 0px 0px 0px 0px 0px 0px 0px;
+  grid-template-rows: auto 0px 0px 0px 0px 0px 0px 0px 0px 0px;
 }
 .foundry-kanban-surface--supporting-only .foundry-skills-extra {
   grid-template-rows: 1fr;
@@ -5507,10 +5519,13 @@ html.foundry-scroll-pending {
 .foundry-board-grid > .kb-col > .aad-skill-row[data-family="domain-driven-design"] { grid-row: 3; }
 .foundry-board-grid > .kb-col > .aad-skill-row[data-family="user-experience-design"] { grid-row: 4; }
 .foundry-board-grid > .kb-col > .aad-skill-row[data-family="architecture-centric-engineering"] { grid-row: 5; }
-.foundry-board-grid > .kb-col > .aad-stage-skills-gap { grid-row: 6; }
-.foundry-board-grid > .kb-col > .aad-skill-row--stage-other:nth-child(7) { grid-row: 7; }
+.foundry-board-grid > .kb-col > .aad-skill-row[data-family="context-to-memory"] { grid-row: 6; }
+/* Context stage column: CTX skills appear at row 2 (parallel to first practice family) */
+.foundry-board-grid > .kb-col[data-stage="context"] > .aad-skill-row[data-family="context-to-memory"] { grid-row: 2; }
+.foundry-board-grid > .kb-col > .aad-stage-skills-gap { grid-row: 7; }
 .foundry-board-grid > .kb-col > .aad-skill-row--stage-other:nth-child(8) { grid-row: 8; }
 .foundry-board-grid > .kb-col > .aad-skill-row--stage-other:nth-child(9) { grid-row: 9; }
+.foundry-board-grid > .kb-col > .aad-skill-row--stage-other:nth-child(10) { grid-row: 10; }
 
 .foundry-kanban-surface.foundry-skill-filter-active:not(.foundry-skill-filter-other) .kb-col > .aad-stage-skills-gap,
 .foundry-kanban-surface.foundry-skill-filter-active:not(.foundry-skill-filter-other) .kb-col > .aad-skill-row--stage-other {
@@ -5682,6 +5697,7 @@ html.foundry-scroll-pending {
   padding: 0;
   background: transparent;
   border-radius: 0;
+  position: relative;
 }
 
 .foundry-kanban-surface .kb-col > .aad-skill-row {
@@ -5737,6 +5753,7 @@ html.foundry-scroll-pending {
   margin: 0;
   height: 100%;
   box-sizing: border-box;
+  position: relative;
 }
 
 .foundry-stage-skills {
@@ -6004,6 +6021,7 @@ html.foundry-scroll-pending {
 .kb-ticket.aad-fam-ddd { border-left-color: var(--fam-ddd); }
 .kb-ticket.aad-fam-uxd { border-left-color: var(--fam-uxd); }
 .kb-ticket.aad-fam-arc { border-left-color: var(--fam-arc); }
+.kb-ticket.aad-fam-ctx { border-left-color: var(--fam-ctx); }
 .kb-ticket.aad-fam-delivery { border-left-color: var(--fam-delivery); }
 
 /* Hub embed: show tickets immediately (bootcamp deck CSS hides until .shown) */
@@ -6018,7 +6036,7 @@ html.foundry-scroll-pending {
 
 .kanban-stage-questions {
   display: grid;
-  grid-template-columns: 168px repeat(5, minmax(0, 1fr));
+  grid-template-columns: 168px repeat(6, minmax(0, 1fr));
   gap: 0 6px;
   margin: 8px 6px 0;
 }
@@ -6091,6 +6109,66 @@ html.foundry-scroll-pending {
   transform: translateY(-60%) rotate(45deg) scale(1);
   opacity: 1;
 }
+/* ── Stage column collapse / expand ── */
+.kb-col-collapse-btn {
+  position: absolute;
+  top: 2px; right: 2px;
+  z-index: 50;
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  cursor: pointer;
+  color: var(--abd-muted);
+  font-family: var(--abd-mono, var(--font-mono, monospace));
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  padding: 3px 5px;
+  border-radius: 3px;
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
+  opacity: 0.7;
+}
+.kb-col-collapse-btn:hover {
+  color: var(--abd-accent, #e5531a);
+  background: var(--abd-surface);
+  border-color: rgba(229, 83, 26, 0.45);
+  opacity: 1;
+}
+
+.kb-col-collapsed-label {
+  display: none;
+  position: absolute;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: var(--abd-mono, var(--font-mono, monospace));
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--abd-muted);
+  pointer-events: none;
+  user-select: none;
+}
+
+.kb-col--collapsed { overflow: hidden; }
+.kb-col--collapsed > .kb-col-head {
+  visibility: hidden; pointer-events: none; height: 0; overflow: hidden; padding: 0; margin: 0; border: none;
+}
+.kb-col--collapsed > .aad-skill-row,
+.kb-col--collapsed > .kb-col-def,
+.kb-col--collapsed > .aad-stage-skills-gap,
+.kb-col--collapsed > .foundry-stage-skills { visibility: hidden; }
+.kb-col--collapsed > .kb-col-collapsed-label { display: none; }
+.kb-col--collapsed > .kb-col-collapse-btn {
+  top: 50%; right: 50%;
+  transform: translate(50%, -50%);
+  font-size: 14px;
+  opacity: 1;
+  border-color: var(--abd-border);
+}
+
 .mock-below-fold {
   display: none;
 }
@@ -6115,7 +6193,7 @@ html.foundry-scroll-pending {
 
 </head>
 
-<body data-nav-prefix="../" data-nav-current="skills" data-nav-site-base="https://abd.works/">
+<body data-nav-prefix="../" data-nav-current="skills" data-nav-site-base="../../../abd-works-website/">
 
 <!-- nav + footer injected by catalog-nav.js -->
 
@@ -6231,6 +6309,11 @@ html.foundry-scroll-pending {
 <summary class="skill-rule-header">Rules open with plain pass-and-fail prose</summary>
 <div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Open with prose paragraphs that state pass and fail in plain language so a reviewer knows the bar before ## DO.</li><li>Give at least one ## DO bullet with a checkable condition (file, section, marker, pattern).</li><li>Give at least one ## DO NOT bullet with a concrete failure mode.</li></ul></div>
 <div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Replace the whole rule with cross-references so nobody can pass/fail from this file alone.</li><li>Write DO bullets that need workshop context or memory — not decidable from the artifact.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">SKILL.md bundle matches rules/*.md files; scanner stem matches Python filename</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>After you change any rules/&lt;name&gt;.md on the target package, run bundle_rules_into_skill_md.py with --skill-root set to that skill’s root so the inlined copy in SKILL.md matches that .md file’s current contents.</li><li>Set scanner: &lt;stem&gt; in the rule file’s YAML only when scanners/&lt;stem&gt;-scanner.py exists on that package (stem repeated exactly in the scanner Python filename).</li><li>Keep one rules/&lt;topic&gt;.md per validation concern; when a scanner exists, align scanner: stem with the topic and the scanners/&lt;stem&gt;-scanner.py filename.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Declare scanner: layout in rules/layout.md (or any rule) when scanners/layout-scanner.py is missing — the YAML stem must name a real .py file.</li><li>Leave SKILL.md with an inlined rule that does not match the current rules/&lt;stem&gt;.md file after an edit (no re-bundle).</li></ul></div>
 </details>
 <details class="skill-rule">
 <summary class="skill-rule-header">SKILL.md contains no inlined rules; read-gates reference rules/ and reference/</summary>

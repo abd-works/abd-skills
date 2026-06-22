@@ -1,17 +1,33 @@
----
+﻿---
 catalog_garden_tier: practice
 catalog_garden_order: 30
 name: abd-interface-design
 description: >-
-  Translate the approved hi-fi mockup for a screen into production-grade,
-  functional, accessible interface code in the chosen framework — without
-  changing the domain labels, acceptance criteria, or visual decisions.
+  Translate an approved hi-fi mockup into production-grade, accessible interface code. Use when implementing a screen from an approved design or bringing drifted code back to spec.
+context-perspective: ux
+context-fidelity:
+  - level: engineering
+    mode: interface-implementation
 ---
 # abd-interface-design
 
 ## Purpose
 
-Hi-fi mockups settle look and feel. The interface stage is where they become real code — and where most teams quietly stop honouring the upstream artifacts because "we're shipping now". This skill keeps that integrity: the implementation renders the same regions, the same affordances, the same labels, the same acceptance criteria, and the same visual decisions as the approved hi-fi, in production-grade code that an end user can actually use. It treats acceptance criteria as the testable surface (every clause is a working behaviour with a check), treats the ubiquitous language as the public vocabulary (labels and copy stay verbatim from the UL and AC), and treats accessibility and performance as constraints that are met, not aspirations that are mentioned. The result is one screen implemented in the chosen framework, traceable end-to-end from story to running interface.
+Turn an approved design into production-grade accessible code — faithful to every design decision, with each AC covered by a test.
+
+---
+
+## Grill prompts
+
+Read `common/grill-me-with-practice-skill.md` before grilling.
+
+Before generating, surface these:
+
+- **Design drift** — Which visual decisions from the hi-fi are you quietly replacing with framework defaults?
+- **AC coverage** — Is there an acceptance criterion with no test — and would you know if one was silently skipped?
+- **Accessibility gap** — Can a keyboard-only user complete every interaction, or do some affordances require a pointer?
+- **Token substitution** — Are your typography, colour, and spacing values real project tokens, or hard-coded one-offs?
+- **Host convention** — Does your component follow the host project's patterns, or is it structured the way you personally prefer?
 
 ---
 
@@ -118,7 +134,7 @@ The running screen renders the regions and affordances from the hi-fi, uses the 
 12. **Keep the bundled rules block honest.** Whenever you change a file under `rules/`, re-run the bundler so the rule prose inlined at the end of this `SKILL.md` matches what is on disk:
 
 ```bash
-python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/user-experience-design/abd-interface-design
+python skills/common/scripts/bundle_rules_into_skill_md.py --skill-root skills/user-experience-design/abd-interface-design
 ```
 
 - **Outputs:** `docs/ux/interface-design.md` (structured spec), plus working code on disk in the host project (screen component, supporting modules, tests), plus updates to the project's screen index/router if relevant. The spec and the code are kept in sync.
@@ -163,6 +179,6 @@ cd C:\dev\agilebydesign-skills
 
 <!-- execute_rules:bundle_rules:begin -->
 <!-- Rule prose is generated from rules/*.md — edit rules, then run:
-     python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/user-experience-design/abd-interface-design
+     python skills/common/scripts/bundle_rules_into_skill_md.py --skill-root skills/user-experience-design/abd-interface-design
 -->
 <!-- execute_rules:bundle_rules:end -->

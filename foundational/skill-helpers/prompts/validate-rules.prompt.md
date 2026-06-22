@@ -1,4 +1,4 @@
----
+﻿---
 description: Validate output against rules (AI per-rule verdict + scanner pass)
 ---
 
@@ -12,5 +12,5 @@ Validate the most recent skill output using both an AI rule review and the autom
    |------|---------|-------|
    | rule-name | PASS / FAIL | brief justification |
 
-4. **Scanner pass** — run: `python skills/execute-skill-using-skills-rules/scripts/run_scanners.py --skill-root <skill> --workspace <abs-path>`
+4. **Scanner pass** — run: `python skills/common/scripts/run_scanners.py --skill-root <skill> --workspace <abs-path>`
 5. If any rule or scanner fails, fix the violations, then re-run both checks until everything passes.

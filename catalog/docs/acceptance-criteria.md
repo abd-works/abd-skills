@@ -87,6 +87,7 @@ Scope: The interactive kanban surface — family filter, skills expand/collapse,
 
 - names a phase of the delivery lifecycle; organises *stage skills* and *other skills* into columns on the *kanban*
 - intersects with *skill family* — every *stage* column holds the *stage skills* for every *skill family*
+- **context** is a special *stage* — a cross-cutting column for context-to-memory skills; its *stage skills* (convert-to-markdown, chunk-markdown, embed-vectors, search-memory, semantic-context-chunker) appear at the **top of the family row band** (grid-row 2), parallel to the first row of any other *skill family*, not below the four practice-family rows
 
 ### kanban
 
@@ -151,6 +152,11 @@ Source: observed behavior, stated requirements, and working session — Jun 11 2
    **AND** all four practice-family *Board Rows* are visible across all *Stage Columns*
    **AND** *other practices* stage-folder skills are hidden until the *Other Practices Chip* is ticked
    **Evidence:** stated requirement — expanded idle shows all practice families; other rows on demand only
+
+1c. **WHEN** the *Kanban Surface* is expanded
+   **THEN** context-to-memory skill tickets in the *Context Stage Column* appear at the **same vertical band** as the first practice-family row (story-driven-delivery row) in adjacent stage columns
+   **AND** context-to-memory skill tickets are **not** rendered below the four practice-family row slots
+   **Evidence:** CSS override — `.kb-col[data-stage="context"] > .aad-skill-row[data-family="context-to-memory"] { grid-row: 2 }` places CTX at the top of the family row band, parallel to other practice families
 
 2. **WHEN** *Skills Toggle* is collapsed and a family filter is active
    **THEN** only *Ticked Families* show individual skill tickets in the *Stage Columns*
@@ -513,11 +519,57 @@ Source: observed behavior, stated requirements, and working session — Jun 11 2
 
 ---
 
+## Story: Collapse and Expand Stage Column
+
+**Story type:** user
+
+### Domain terms
+
+- *Stage Column* — a vertical column for a delivery stage (e.g. Shaping, Discovery, Exploration, Specification, Engineering, Context); identified by `.kb-col[data-stage]`
+- *Collapse Button* — a small toggle button (`.kb-col-collapse-btn`) rendered at the top-right of each *Stage Column*; collapses or expands that column
+- *Collapsed Column* — a *Stage Column* carrying the `.kb-col--collapsed` class; shows only a vertical stage label and the *Collapse Button*; its allocated grid width is narrowed to 28 px
+- *Expanded Column* — default state; full-width; tickets and skill rows visible
+- *Vertical Stage Label* — the stage name rendered rotated 90° inside a *Collapsed Column* (`.kb-col-collapsed-label`); read-only, not interactive
+
+### Acceptance criteria
+
+1. **WHEN** the *Kanban Surface* loads
+   **THEN** each *Stage Column* has a *Collapse Button* visible at its top-right
+   **AND** all columns start in the *Expanded Column* state unless a prior collapsed preference was saved in sessionStorage
+   **Evidence:** `injectCollapseButtons()` in `catalog-foundry-skill-nav.js`; `readCollapsedColsPref()` restores state on load
+
+2. **WHEN** the user clicks the *Collapse Button* on an *Expanded Column*
+   **THEN** that column becomes a *Collapsed Column*
+   **AND** its allocated grid width narrows to 28 px, giving horizontal space to remaining expanded columns
+   **AND** skill tickets, skill rows, and the column definition area are hidden
+   **AND** the *Vertical Stage Label* becomes visible inside the narrowed column
+   **AND** the *Collapse Button* changes its `aria-label` to "Expand column" and `aria-expanded` to "false"
+   **Evidence:** `setColCollapsed()` toggles `.kb-col--collapsed` and calls `updateGridColumns()`
+
+3. **WHEN** the user clicks the *Collapse Button* on a *Collapsed Column*
+   **THEN** that column returns to *Expanded Column* state
+   **AND** its grid width is restored to `minmax(0, 1fr)`
+   **AND** skill tickets and rows reappear
+   **AND** the *Collapse Button* `aria-label` returns to "Collapse column" and `aria-expanded` to "true"
+   **Evidence:** `toggleColCollapse()` calls `setColCollapsed(stage, false)`
+
+4. **WHEN** a column is collapsed or expanded
+   **THEN** the collapsed set is persisted to sessionStorage under key `abd-foundry-skill-nav-col-collapsed`
+   **AND** on the next page load the same columns are restored to their collapsed state
+   **Evidence:** `saveCollapsedColsPref()` and `readCollapsedColsPref()` in `catalog-foundry-skill-nav.js`
+
+5. **WHEN** a *Stage Column* is *Collapsed*
+   **THEN** collapsing it does not affect the family filter, stage focus filter, or skills expand/collapse state
+   **AND** other columns continue to respond to filter changes normally
+   **Evidence:** column collapse is a separate visual state independent of `selectedStages`, `selectedFamilies`, and `skillsExpanded`
+
+---
+
 ## Source evidence table
 
 | Story | AC # | Source |
 |---|---|---|
-| View Kanban With No Filter Selected | 1–3, 1b | Hub collapsed default; stage footers when collapsed; working session Jun 11 2026 |
+| View Kanban With No Filter Selected | 1–3, 1b, 1c | Hub collapsed default; stage footers when collapsed; CTX skills at family-row band top; working session Jun 11 2026 |
 | Select Practice Family Filter | 1 | Stated requirement: "ALL skills header chips should show" |
 | Select Practice Family Filter | 2–3 | Stated requirement: board rows filter to selected family |
 | Select Practice Family Filter | 4 | Stated requirement: "supporting only [family] and the skills left to right" |
@@ -531,3 +583,4 @@ Source: observed behavior, stated requirements, and working session — Jun 11 2
 | Navigate From Kanban to Skill Page | 1–4 | `data-initial-family`; sessionStorage FILTER_KEY; `kanbanScroll` restore |
 | Skill Page Install and View Source | 1–3 | npx install block; GitHub tree link via `pkg_rel_posix` |
 | Return to Catalog Hub via Forge Nav | 1–3 | Stated requirement: single forge link to catalog main page |
+| Collapse and Expand Stage Column | 1–5 | `injectCollapseButtons`, `setColCollapsed`, `updateGridColumns`, `readCollapsedColsPref`, `saveCollapsedColsPref` in `catalog-foundry-skill-nav.js` |

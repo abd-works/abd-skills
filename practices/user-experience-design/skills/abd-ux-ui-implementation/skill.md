@@ -1,6 +1,11 @@
 ---
 name: abd-ux-ui-implementation
-description: Use this skill automatically whenever the user asks to build, style, update, or modify HTML, CSS, JavaScript, components, or UI layouts. It forces code reusability and strictly prevents duplication.
+description: >-
+  Produce production UI code that reuses existing tokens, utilities, and patterns with zero duplication. Use when building, styling, or modifying HTML/CSS/JS components or layouts.
+context-perspective: ux
+context-fidelity:
+  - level: engineering
+    mode: ui-implementation
 ---
 
 # Objective

@@ -1,25 +1,42 @@
----
+﻿---
 name: abd-thin-slicing
 catalog_garden_tier: practice
 catalog_garden_order: 20
 catalogue_one_liner: >-
-  Thin-sliced MVIs and backlog order from a story map; writes thin-slicing templates.
+  Decide what to deliver first and why — so the team ships value in the smallest useful increments.
 description: >-
-  Produces thin-sliced delivery increments — vertical MVIs, spine vs optional paths,
-  quality trade-offs, marketable increment names, and early risk validation. Use when
-  planning releases, MVIs, backlog order, or thin/vertical slices after story mapping.
+  Produce thin-sliced delivery increments with priority order, outcomes, and story groupings. Use when planning releases or deciding what to deliver first after story mapping.
+context-perspective: stories
+context-role: support
+context-fidelity:
+  - level: discovery
+    mode: slice-ordering
 ---
 # abd-thin-slicing
 
 ## Purpose
 
-**Define prioritized increments.** Group stories in a **story map** (and any notes on risk, constraints, or learning goals) into prioritized increments that can be delivered together. Each increment includes its priority order, outcomes, slicing notes, and an ordered list of stories.
+Decide what to deliver first and why — so the team ships value in the smallest useful increments.
+
+---
+
+## Grill prompts
+
+Read `common/grill-me-with-practice-skill.md` before grilling.
+
+Before generating, surface these:
+
+- **Spine vs optional** — Which stories must be delivered together to show an end-to-end path, and which can follow later without blocking value?
+- **Vertical not horizontal** — Are you slicing by user-visible capability, or by technical layer — and would a stakeholder recognise your increment names?
+- **Value assumption** — What makes you believe this increment is the smallest useful thing, rather than a comfortable batch?
+- **Dependency trap** — Which cross-epic dependencies are you hiding inside an increment instead of making them visible?
+- **Ordering rationale** — Why does increment N come before increment N+1 — is it risk, learning, or just the order you thought of them?
 
 ---
 
 ## Output file
 
-**Deliverables folder:** see `../agent-protocol.md` — Output file resolution.
+**Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
 
 **File name:** `thin-slicing.md`. Add a `<name>-` prefix only when disambiguation is needed.
 
@@ -27,7 +44,7 @@ description: >-
 
 ## Agent Instructions
 
-> **MANDATORY — read `../agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.**
+Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
@@ -36,8 +53,6 @@ Read these files:
 - **`reference/examples.md`** — output shape examples and weak patterns to avoid.
 
 ### 2. Generate
-
-Read every file in **`rules/`**; author to those rules.
 
 **Produce the template:**
 
@@ -76,13 +91,7 @@ python skills/abd-thin-slicing/scanners/story-name-exact-match-scanner.py --work
 
 Exit code 1 means story name mismatches — **do not proceed until it passes**.
 
-Then run all scanners:
-
-```bash
-python skills/execute-skill-using-skills-rules/scripts/run_scanners.py --skill-root skills/abd-thin-slicing --workspace <path-to-project>
-```
-
-Then emit per-rule verdicts per `../agent-protocol.md`.
+Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.md` § Validate output.
 
 ---
 

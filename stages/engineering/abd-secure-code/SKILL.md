@@ -1,4 +1,4 @@
----
+﻿---
 name: abd-secure-code
 catalog_garden_tier: practice
 catalog_garden_family: architecture-centric-engineering
@@ -12,6 +12,10 @@ description: >-
   handling, crypto, or user-rendered content; in the GREEN phase after
   acceptance tests; reviewing PRs for OWASP Top 10 categories; or when asked
   to fix injection, hash passwords, or run secure code scanners.
+context-perspective: stage
+context-fidelity:
+  - level: engineering
+    mode: security-gate
 ---
 # abd-secure-code
 
@@ -23,7 +27,7 @@ Engineers ship features faster than attackers find gaps — but only when secure
 
 ## Output file
 
-**Deliverables folder:** see `../agent-protocol.md` — Output file resolution.
+**Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
 
 **File name:** Production source files in the target language. Additionally, `secure-code-review-checklist.md` per slice.
 
@@ -31,7 +35,7 @@ Engineers ship features faster than attackers find gaps — but only when secure
 
 ## Agent Instructions
 
-> **MANDATORY — read `../agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.**
+> **MANDATORY — read `../common/skill-rule-workflow.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.**
 
 ### 1. Read context
 
@@ -61,23 +65,23 @@ Read every file in **`rules/`**; author to those rules.
 Run the scanners per language:
 
 ```bash
-python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+python skills/common/scripts/run_scanners.py \
   --skill-root skills/abd-secure-code \
   --workspace <path-to-output> \
   --language python
 
-python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+python skills/common/scripts/run_scanners.py \
   --skill-root skills/abd-secure-code \
   --workspace <path-to-output> \
   --language javascript
 
-python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+python skills/common/scripts/run_scanners.py \
   --skill-root skills/abd-secure-code \
   --workspace <path-to-output> \
   --language java
 ```
 
-Then emit per-rule verdicts per `../agent-protocol.md`.
+Then emit per-rule verdicts per `../common/skill-rule-workflow.md`.
 
 ---
 

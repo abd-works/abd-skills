@@ -10,15 +10,15 @@
 <link rel="stylesheet" href="../../../commons/site.css?v=foundry-3">
 <style>
 /*
-  Agile Garden — AI Garden prelude + gardener lesson fragment.
+  ABD Foundry — catalog prelude + gardener lesson fragment.
   Inlined via generate_abd_catalog.py. Max border-radius 6px; flat surfaces.
-  Brand split: orange-500 (#E5531A) for column chrome / rails; ai-blue (#4FC3F7 / #81D4FA)
-  on dense mono skill links — see abd-works-brand BRAND-GUIDELINES §3.1 (ai-blue-500).
+  Brand split: --accent (#E5531A) for column chrome / rails; --ai-accent on dense
+  mono skill links (engineering mode only — executive overrides in catalog.css).
 */
 .catalog-prelude {
   margin: 0 0 24px;
   padding: 0 0 20px;
-  border-bottom: 1px solid #2A2A2A;
+  border-bottom: 1px solid var(--border);
 }
 .catalog-prelude-heading {
   margin: 0 0 12px;
@@ -27,7 +27,7 @@
   color: var(--text);
   line-height: 1.25;
   padding-bottom: 8px;
-  border-bottom: 1px solid #2A2A2A;
+  border-bottom: 1px solid var(--border);
   scroll-margin-top: 48px;
 }
 .catalog-prelude-tagline {
@@ -43,9 +43,9 @@
   margin: 0 0 18px;
 }
 .catalog-mission-card {
-  background: #1B1B20;
-  border: 1px solid #2A2A2A;
-  border-left: 3px solid #E5531A;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
   border-radius: 4px;
   padding: 14px 20px;
   display: flex;
@@ -57,7 +57,7 @@
   flex-shrink: 0;
   font-size: 0.95rem;
   font-weight: 700;
-  color: #F4F4F5;
+  color: var(--text);
   margin: 0;
   white-space: nowrap;
 }
@@ -71,14 +71,14 @@
 .catalog-mission-card--teal,
 .catalog-mission-card--amber,
 .catalog-mission-card--purple {
-  background: #1B1B20;
-  border: 1px solid #2A2A2A;
-  border-left: 3px solid #E5531A;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
 }
 .catalog-mission-card--teal h3,
 .catalog-mission-card--amber h3,
 .catalog-mission-card--purple h3 {
-  color: #F4F4F5;
+  color: var(--text);
 }
 @media (max-width: 720px) {
   .catalog-mission { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -95,17 +95,17 @@
   gap: 10px;
   padding: 8px 0 10px;
   margin: 24px 0 12px;
-  border-bottom: 1px solid #2A2A2A;
+  border-bottom: 1px solid var(--border);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #E5531A;
+  color: var(--accent);
 }
 .catalog-section-label--foundational {
   margin-top: 28px;
-  color: #8A8A97;
-  border-bottom-color: #1A1A1E;
+  color: var(--muted);
+  border-bottom-color: var(--border-muted);
 }
 
 /* ── Practice grid — all 5 disciplines forced onto one row ── */
@@ -113,8 +113,8 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 1px;
-  background: #2A2A2A;
-  border: 1px solid #2A2A2A;
+  background: var(--border);
+  border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
   margin: 0;
@@ -131,8 +131,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: #2A2A2A;
-  border: 1px solid #2A2A2A;
+  background: var(--border);
+  border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
 }
@@ -158,7 +158,7 @@
   display: block !important;
   font-size: 0.82rem;
   line-height: 1.5;
-  color: #9B9BA8;
+  color: var(--muted);
 }
 
 /* ── Agents grid — single wide column ── */
@@ -166,15 +166,15 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: #2A2A2A;
-  border: 1px solid #2A2A2A;
+  background: var(--border);
+  border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
 }
 .catalog-section-label--agents {
   margin-top: 28px;
-  color: #E5531A;
-  border-bottom-color: #2A2A2A;
+  color: var(--accent);
+  border-bottom-color: var(--border);
 }
 
 /* ── Shared column card ── */
@@ -199,7 +199,7 @@
   margin-top: 0;
 }
 .catalog-garden-col {
-  background: #111113;
+  background: var(--surface);
   border: none;
   border-radius: 0;
   overflow: hidden;
@@ -213,17 +213,17 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  border-bottom: 1px solid #2A2A2A;
-  background: #1B1B20;
-  color: #E5531A;
-  border-left: 3px solid #E5531A;
+  border-bottom: 1px solid var(--border);
+  background: var(--raised);
+  color: var(--accent);
+  border-left: 3px solid var(--accent);
 }
 .catalog-garden-col-header--practice,
 .catalog-garden-col-header--foundational,
 .catalog-garden-col-header--agents {
-  background: #1B1B20;
-  color: #E5531A;
-  border-left: 3px solid #E5531A;
+  background: var(--raised);
+  color: var(--accent);
+  border-left: 3px solid var(--accent);
 }
 .catalog-garden-ico { flex-shrink: 0; display: block; }
 .catalog-garden-row {
@@ -231,11 +231,11 @@
   align-items: center;
   gap: 10px;
   padding: 6px 16px;
-  border-bottom: 1px solid #1A1A1E;
+  border-bottom: 1px solid var(--border-muted);
   font-size: 0.85rem;
 }
 .catalog-garden-row:last-child { border-bottom: none; }
-/* Skill/agent links — mono names stay near-white; ai-blue hairline/hover (brand AI accent, not orange wall) */
+/* Skill/agent links — mono names; ai-accent on dark (engineering mode) */
 .catalog-garden-name {
   font-weight: 700;
   font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
@@ -243,12 +243,11 @@
   min-width: 0;
   overflow-wrap: anywhere;
   word-break: break-word;
-  color: #4FC3F7;
+  color: var(--ai-accent);
 }
-/* !important beats global `a { … }`, :visited, and concatenation order */
 .catalog-prelude .catalog-garden-name a,
 .catalog-garden-lists .catalog-garden-name a {
-  color: #4FC3F7 !important;
+  color: var(--ai-accent) !important;
   font-weight: 700 !important;
   text-decoration: none !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
@@ -257,19 +256,19 @@
 .catalog-prelude .catalog-garden-name a:focus-visible,
 .catalog-garden-lists .catalog-garden-name a:hover,
 .catalog-garden-lists .catalog-garden-name a:focus-visible {
-  color: #81D4FA !important;
+  color: var(--ai-accent-soft) !important;
   border-bottom-color: rgba(79, 195, 247, 0.95);
 }
 .catalog-garden-name--agent a,
 .catalog-garden-name--foundational a {
-  color: #4FC3F7 !important;
+  color: var(--ai-accent) !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
 }
 .catalog-garden-name--agent a:hover,
 .catalog-garden-name--agent a:focus-visible,
 .catalog-garden-name--foundational a:hover,
 .catalog-garden-name--foundational a:focus-visible {
-  color: #81D4FA !important;
+  color: var(--ai-accent-soft) !important;
   border-bottom-color: rgba(79, 195, 247, 0.92);
 }
 .catalog-garden-name--dim {
@@ -1715,7 +1714,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 </style>
 <script src="../../../commons/catalog-nav.js?v=foundry-10"></script>
 </head>
-<body data-nav-prefix="../../../" data-nav-current="skills" data-nav-site-base="https://abd.works/">
+<body data-nav-prefix="../../../" data-nav-current="skills" data-nav-site-base="../../../../../abd-works-website/">
 <main id="main-content">
 
 <div class="page-hero page-hero--detail">
@@ -1733,10 +1732,19 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 
 <h2>Content</h2>
 <div class="rule-prose"><h1>abd-story-acceptance-test</h1>
+<h2>Grill prompts</h2>
+<p>Read <code>common/grill-me-with-practice-skill.md</code> before grilling.</p>
+<p>Before generating, surface these common input traps:</p>
+<ul>
+<li><strong>Behavior coverage confidence</strong> — which behaviors are we actually proving work — and are we confident we know all the paths, or are there flows nobody has walked through yet?</li>
+<li><strong>Boundary assumptions</strong> — what happens at the boundaries — when this behavior depends on another system&#x27;s response, do we know what responses are realistic vs. what we&#x27;re assuming?</li>
+<li><strong>Test doubles vs. reality</strong> — where are we substituting a fake for something real — and does the fake behave like the real thing, or are we testing a fantasy?</li>
+<li><strong>Data realism</strong> — are the test fixtures using values that could actually appear in production, or are we testing with &quot;foo&quot; and &quot;123&quot; and hoping edge cases don&#x27;t matter?</li>
+<li><strong>Failure mode blindness</strong> — do we know what failure looks like for each behavior — timeout, partial success, conflicting concurrent changes — or are we only proving the happy path works?</li>
+</ul>
+<hr>
 <h2>Purpose</h2>
-<p><strong>Write tests first. Write code to pass them.</strong></p>
-<p>This skill creates <strong>executable test files</strong> — in whatever language and framework the project uses — from whatever behavioral context is available: specification scenarios, acceptance criteria, stories, notes, or a rough description of what the system should do. The output is real test code that runs, fails, and drives what gets built.</p>
-<p>The workflow is <strong>test-driven</strong>: write a test that expresses the expected behavior, run it to confirm it fails (RED), then implement production code until the test passes (GREEN). Each test is a precise, runnable statement of what the system must do — test methods show the Given-When-Then flow and helper functions do the work.</p>
+<p>Generate executable test files from specification scenarios, acceptance criteria, stories, or rough descriptions using the project&#x27;s language and framework. Follow RED-GREEN-REFACTOR: write a failing test that expresses expected behavior, implement production code until it passes — one class per story, one method per scenario, Given-When-Then helpers doing the work.</p>
 <hr>
 <h2>Output file</h2>
 <p><strong>Where to write the test files (<code>&lt;tests-folder&gt;</code> resolution):</strong></p>
@@ -1745,28 +1753,27 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <p><strong>File names:</strong> Use the target language&#x27;s test-discovery convention (<code>test_&lt;scenario&gt;.py</code>, <code>&lt;Scenario&gt;Test.java</code>, <code>*.test.ts</code>, etc.).</p>
 <hr>
 <h2>Agent Instructions</h2>
-<p>&gt; <strong>MANDATORY — read <code>../agent-protocol.md</code> before starting. It defines read-gates and the per-rule verdict format.</strong></p>
+<p>Follow <code>../common/skill-rule-workflow.md</code> — read-gates, output file resolution, and the per-rule verdict format are defined there.</p>
 <h3>1. Read context</h3>
 <p>Read these files:</p>
 <ul>
 <li><strong><code>reference/concepts.md</code></strong> — what ATDD is, test organization, orchestrator pattern, TDD cycle, domain language.</li>
 <li><strong><code>reference/examples.md</code></strong> — shape notes + what to notice (same domain as <code>abd-story-specification</code> examples).</li>
 <li><strong><code>templates/acceptance-tests-example.py</code></strong> — filled Python/pytest example (order + discount outline).</li>
+<li><strong><code>reference/diagnose.md</code></strong> — when and how to flip into diagnose mode when tests keep failing.</li>
 </ul>
 <h3>2. Generate</h3>
-<p>Read every file in <strong><code>rules/</code></strong>; author to those rules.</p>
 <p><strong>Before writing any code:</strong> 0. <strong>Verify test structure first (Priority 1)</strong> — Trace the story hierarchy, declare file / class / method before writing any code. See <strong>Test organization</strong> in <code>reference/concepts.md</code>. 1. <strong>Confirm language and framework</strong> — If not stated, ask. Defaults: pytest (Python), <code>node:test</code> (JS/TS), JUnit 5 (Java). 2. <strong>Pick the matching template</strong> from <code>templates/</code> — <code>acceptance-tests.py</code>, <code>.js</code>, or <code>.java</code>. Emit code only; omit the <code>## Instructions</code> block.</p>
 <p><strong>Build steps:</strong> 3. One file per area, one class per story, one method per scenario. Name helpers with GWT language (<code>given_*</code>, <code>when_*</code>, <code>then_*</code>) matching step text verbatim. Parameterize helpers to prevent sprawl. Extract shared helpers to <code>tests/&lt;epic_name&gt;/&lt;epic_name&gt;_helper.py</code> when reused across files.</p>
 <p><strong>Template table:</strong></p>
 <div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td><code>templates/acceptance-tests.py</code></td><td>Python/pytest scaffold following orchestrator pattern</td></tr><tr><td><code>templates/acceptance-tests-example.py</code></td><td>Filled Python/pytest example (see <code>abd-story-specification</code> examples)</td></tr><tr><td><code>templates/acceptance-tests.js</code></td><td>JS/TS test file following orchestrator pattern</td></tr><tr><td><code>templates/acceptance-tests.java</code></td><td>Java/JUnit5 test file following orchestrator pattern</td></tr></tbody></table></div>
-<h3>3. Validate</h3>
-<p>Run the scanners:</p>
-<pre><code>python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/abd-story-acceptance-test \
-  --workspace &lt;path-to-output&gt;</code></pre>
-<div class="spec-steps">
-<p class="spec-step">Then emit per-rule verdicts per <code>../agent-protocol.md</code>.</p>
-</div>
+<h3>3. Diagnose — flip immediately when tests keep failing</h3>
+<p><strong>If a test fails after 2 or more consecutive fix attempts — stop. You are spinning.</strong></p>
+<p>Do not add a third fix. Flip immediately into diagnose mode:</p>
+<p>1. Read <strong><code>reference/diagnose.md</code></strong> — it maps the full six-phase diagnose discipline onto acceptance test failures. 2. Build or confirm a fast, deterministic feedback loop (the failing test itself — but verify it is clean). 3. Reproduce the failure on demand before touching any code. 4. Write 3–5 ranked, falsifiable hypotheses. Show them before testing any. 5. Instrument one variable at a time; tag every debug log <code>[DEBUG-&lt;4char&gt;]</code>. 6. Fix the root cause. Watch the test go GREEN. Remove all instrumentation.</p>
+<p><strong>Do not proceed to the next story until the spinning test is resolved.</strong></p>
+<h3>4. Validate</h3>
+<p>Run scanners and emit per-rule verdicts — see <code>../common/skill-rule-workflow.md</code> § Validate output.</p>
 <hr>
 <h2>Validate</h2>
 <p><strong>Goal:</strong> Inspect what was built — read test files as reviewers.</p>

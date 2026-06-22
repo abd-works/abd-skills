@@ -1,4 +1,4 @@
-# MERN Domain-First Architecture Specification
+﻿# MERN Domain-First Architecture Specification
 
 ## Table of Contents
 
@@ -1113,7 +1113,7 @@ Rules live in `rules/`. Scanners live in `scanners/typescript/`. When generating
 Each rule file has a paired scanner in `scanners/typescript/` named in its `scanner:` frontmatter. Run them all:
 
 ```bash
-python foundational/skill-helpers/skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+python foundational/skill-helpers/skills/common/scripts/run_scanners.py \
   --skill-root docs/architecture/specification/mern-domain-first-specification \
   --workspace <path-to-generated-code> \
   --language typescript

@@ -1,4 +1,4 @@
----
+﻿---
 name: abd-semantic-context-chunker
 description: >-
   Index scattered source content by the kind of context it provides — Story, Domain,
@@ -17,7 +17,7 @@ Scan all source content, tag every piece by the kind of context it provides (Sto
 
 ## Output file
 
-**Deliverables folder:** see `../agent-protocol.md` — Output file resolution.
+**Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
 
 **File name:** One chunk file per segment (with YAML front matter) plus one `context-chunking-report.md` coverage report.
 
@@ -25,7 +25,7 @@ Scan all source content, tag every piece by the kind of context it provides (Sto
 
 ## Agent Instructions
 
-> **MANDATORY — read `../agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.**
+> **MANDATORY — read `../common/skill-rule-workflow.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.**
 
 ### 1. Read context
 
@@ -57,12 +57,12 @@ Read every file in **`rules/`**; author to those rules.
 Run the scanners:
 
 ```bash
-python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
+python skills/common/scripts/run_scanners.py \
   --skill-root skills/abd-semantic-context-chunker \
   --workspace <path-to-output>
 ```
 
-Then emit per-rule verdicts per `../agent-protocol.md`.
+Then emit per-rule verdicts per `../common/skill-rule-workflow.md`.
 
 ---
 

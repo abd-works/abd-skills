@@ -1,6 +1,6 @@
-## Scanners ({{skill-name}})  
+﻿## Scanners ({{skill-name}})  
 
-Run from **agilebydesign-skills** repo root with `PYTHONPATH` including **`skills/execute-skill-using-skills-rules/scripts`** (see **execute-skill-using-skills-rules** `run_scanners.py`).  
+Run from **agilebydesign-skills** repo root with `PYTHONPATH` including **`skills/common/scripts`** (see **common** `run_scanners.py`).  
 
 | Scanner | Rule file | Checks |  
 | --- | --- | --- |  

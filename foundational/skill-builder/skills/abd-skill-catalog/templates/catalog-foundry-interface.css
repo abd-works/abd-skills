@@ -35,6 +35,7 @@
   --fam-ddd: #6c5ce7;
   --fam-uxd: #e84393;
   --fam-arc: #4fc3f7;
+  --fam-ctx: #00b894;
   --fam-stage: #fdcb6e;
   --fam-delivery: #e5531a;
   --foundry-skills-ease: cubic-bezier(0.33, 1, 0.68, 1);
@@ -392,9 +393,8 @@ html[data-theme="engineering"] .foundry-kanban-surface {
   --foundry-stage-skill-rows: 3;
   --foundry-stage-skills-gap-h: 36px;
   display: grid;
-  grid-template-columns: 168px repeat(5, minmax(0, 1fr));
-  grid-template-rows: auto repeat(4, var(--foundry-skill-row-h)) var(--foundry-stage-skills-gap-h) repeat(var(--foundry-stage-skill-rows), var(--foundry-skill-row-h));
-  gap: 2px 6px;
+  grid-template-columns: 168px repeat(6, minmax(0, 1fr));
+  grid-template-rows: auto repeat(5, var(--foundry-skill-row-h)) var(--foundry-stage-skills-gap-h) repeat(var(--foundry-stage-skill-rows), var(--foundry-skill-row-h));
   background: var(--abd-bg);
   border: 1px solid var(--abd-border);
   border-radius: 6px;
@@ -423,8 +423,9 @@ html[data-theme="engineering"] .foundry-kanban-surface {
 .foundry-practice-col > .foundry-family-toggle[data-family="domain-driven-design"] { grid-row: 3; }
 .foundry-practice-col > .foundry-family-toggle[data-family="user-experience-design"] { grid-row: 4; }
 .foundry-practice-col > .foundry-family-toggle[data-family="architecture-centric-engineering"] { grid-row: 5; }
-.foundry-practice-col > .foundry-practice-col__stage-spacer { grid-row: 6; }
-.foundry-practice-col > .foundry-practice-col__other-practices { grid-row: 7; }
+.foundry-practice-col > .foundry-family-toggle[data-family="context-to-memory"] { grid-row: 6; }
+.foundry-practice-col > .foundry-practice-col__stage-spacer { grid-row: 7; }
+.foundry-practice-col > .foundry-practice-col__other-practices { grid-row: 8; }
 
 .foundry-practice-col__card {
   display: flex;
@@ -587,11 +588,11 @@ html[data-theme="engineering"] .foundry-kanban-surface {
   background: var(--abd-accent-glow);
 }
 .foundry-kanban-surface.foundry-skills-expanded .foundry-board-grid {
-  grid-template-rows: auto repeat(4, var(--foundry-skill-row-h)) var(--foundry-stage-skills-gap-h) repeat(var(--foundry-stage-skill-rows), var(--foundry-skill-row-h));
+  grid-template-rows: auto repeat(5, var(--foundry-skill-row-h)) var(--foundry-stage-skills-gap-h) repeat(var(--foundry-stage-skill-rows), var(--foundry-skill-row-h));
 }
 .foundry-kanban-surface.foundry-skills-collapsed .foundry-board-grid {
   /* Collapsed idle: zero family row tracks; JS refines when filter active or expanded. */
-  grid-template-rows: auto 0px 0px 0px 0px 0px 0px 0px 0px;
+  grid-template-rows: auto 0px 0px 0px 0px 0px 0px 0px 0px 0px;
 }
 .foundry-kanban-surface--supporting-only .foundry-skills-extra {
   grid-template-rows: 1fr;
@@ -805,10 +806,13 @@ html.foundry-scroll-pending {
 .foundry-board-grid > .kb-col > .aad-skill-row[data-family="domain-driven-design"] { grid-row: 3; }
 .foundry-board-grid > .kb-col > .aad-skill-row[data-family="user-experience-design"] { grid-row: 4; }
 .foundry-board-grid > .kb-col > .aad-skill-row[data-family="architecture-centric-engineering"] { grid-row: 5; }
-.foundry-board-grid > .kb-col > .aad-stage-skills-gap { grid-row: 6; }
-.foundry-board-grid > .kb-col > .aad-skill-row--stage-other:nth-child(7) { grid-row: 7; }
+.foundry-board-grid > .kb-col > .aad-skill-row[data-family="context-to-memory"] { grid-row: 6; }
+/* Context stage column: CTX skills appear at row 2 (parallel to first practice family) */
+.foundry-board-grid > .kb-col[data-stage="context"] > .aad-skill-row[data-family="context-to-memory"] { grid-row: 2; }
+.foundry-board-grid > .kb-col > .aad-stage-skills-gap { grid-row: 7; }
 .foundry-board-grid > .kb-col > .aad-skill-row--stage-other:nth-child(8) { grid-row: 8; }
 .foundry-board-grid > .kb-col > .aad-skill-row--stage-other:nth-child(9) { grid-row: 9; }
+.foundry-board-grid > .kb-col > .aad-skill-row--stage-other:nth-child(10) { grid-row: 10; }
 
 .foundry-kanban-surface.foundry-skill-filter-active:not(.foundry-skill-filter-other) .kb-col > .aad-stage-skills-gap,
 .foundry-kanban-surface.foundry-skill-filter-active:not(.foundry-skill-filter-other) .kb-col > .aad-skill-row--stage-other {
@@ -980,6 +984,7 @@ html.foundry-scroll-pending {
   padding: 0;
   background: transparent;
   border-radius: 0;
+  position: relative;
 }
 
 .foundry-kanban-surface .kb-col > .aad-skill-row {
@@ -1035,6 +1040,7 @@ html.foundry-scroll-pending {
   margin: 0;
   height: 100%;
   box-sizing: border-box;
+  position: relative;
 }
 
 .foundry-stage-skills {
@@ -1302,6 +1308,7 @@ html.foundry-scroll-pending {
 .kb-ticket.aad-fam-ddd { border-left-color: var(--fam-ddd); }
 .kb-ticket.aad-fam-uxd { border-left-color: var(--fam-uxd); }
 .kb-ticket.aad-fam-arc { border-left-color: var(--fam-arc); }
+.kb-ticket.aad-fam-ctx { border-left-color: var(--fam-ctx); }
 .kb-ticket.aad-fam-delivery { border-left-color: var(--fam-delivery); }
 
 /* Hub embed: show tickets immediately (bootcamp deck CSS hides until .shown) */
@@ -1316,7 +1323,7 @@ html.foundry-scroll-pending {
 
 .kanban-stage-questions {
   display: grid;
-  grid-template-columns: 168px repeat(5, minmax(0, 1fr));
+  grid-template-columns: 168px repeat(6, minmax(0, 1fr));
   gap: 0 6px;
   margin: 8px 6px 0;
 }
@@ -1389,6 +1396,66 @@ html.foundry-scroll-pending {
   transform: translateY(-60%) rotate(45deg) scale(1);
   opacity: 1;
 }
+/* ── Stage column collapse / expand ── */
+.kb-col-collapse-btn {
+  position: absolute;
+  top: 2px; right: 2px;
+  z-index: 50;
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  cursor: pointer;
+  color: var(--abd-muted);
+  font-family: var(--abd-mono, var(--font-mono, monospace));
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  padding: 3px 5px;
+  border-radius: 3px;
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
+  opacity: 0.7;
+}
+.kb-col-collapse-btn:hover {
+  color: var(--abd-accent, #e5531a);
+  background: var(--abd-surface);
+  border-color: rgba(229, 83, 26, 0.45);
+  opacity: 1;
+}
+
+.kb-col-collapsed-label {
+  display: none;
+  position: absolute;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: var(--abd-mono, var(--font-mono, monospace));
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--abd-muted);
+  pointer-events: none;
+  user-select: none;
+}
+
+.kb-col--collapsed { overflow: hidden; }
+.kb-col--collapsed > .kb-col-head {
+  visibility: hidden; pointer-events: none; height: 0; overflow: hidden; padding: 0; margin: 0; border: none;
+}
+.kb-col--collapsed > .aad-skill-row,
+.kb-col--collapsed > .kb-col-def,
+.kb-col--collapsed > .aad-stage-skills-gap,
+.kb-col--collapsed > .foundry-stage-skills { visibility: hidden; }
+.kb-col--collapsed > .kb-col-collapsed-label { display: none; }
+.kb-col--collapsed > .kb-col-collapse-btn {
+  top: 50%; right: 50%;
+  transform: translate(50%, -50%);
+  font-size: 14px;
+  opacity: 1;
+  border-color: var(--abd-border);
+}
+
 .mock-below-fold {
   display: none;
 }

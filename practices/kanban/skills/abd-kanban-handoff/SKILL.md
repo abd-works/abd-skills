@@ -3,11 +3,9 @@ name: abd-kanban-handoff
 catalog_garden_tier: practice
 catalog_garden_order: 55
 catalogue_one_liner: >-
-  Delivery handoff from board, artifacts, and chat ù where shaping/discovery/increments stand and what to do next.
+  Delivery handoff from board, artifacts, and chat ? where shaping/discovery/increments stand and what to do next.
 description: >-
-  Compact the session into a kanban-aware handoff: infer completed stages, scopes, increments, and skills from
-  board.json (when present), kanban-board files, docs/end-to-end, docs/increments artifacts, and conversation.
-  Use when you want to capture agent progress in context of Kanban flow of work so you can pass the ball to the next agent to resume flow without re-discovering progress.
+  Produce a delivery handoff capturing completed stages, scope progress, and next recommended pull. Use when passing kanban delivery context to a fresh agent session.
 argument-hint: "What will the next session focus on? (optional)"
 ---
 
@@ -15,9 +13,7 @@ argument-hint: "What will the next session focus on? (optional)"
 
 ## Purpose
 
-Produce a **delivery resume document** so a fresh agent knows where JIT kanban delivery left off ù which stages and scopes have advanced, which increments have material under `docs/increments/`, and what to run next ù without re-reading the whole repo or chat.
-
-Works **with or without** a live board: when `board.json` is missing or stale, infer progress from artifact presence and chat.
+Let a fresh agent resume delivery without re-reading the repo ? by capturing where things stand and what to pull next.
 
 ---
 
@@ -51,12 +47,12 @@ Read when present:
 
 Evidence priority (highest wins on conflict unless user overrode in chat):
 
-1. **User statements in the current chat** ù explicit reset, skip, "done", policy decisions
-2. **`board.json`** ù skill with both `execution_status: done` and `review_status: done` = complete
-3. **`kanban.json`** ù required skills per stage
-4. **Artifact presence** under `docs/end-to-end/` and `docs/increments/` ù infers work happened even without kanban
+1. **User statements in the current chat** ? explicit reset, skip, "done", policy decisions
+2. **`board.json`** ? skill with both `execution_status: done` and `review_status: done` = complete
+3. **`kanban.json`** ? required skills per stage
+4. **Artifact presence** under `docs/end-to-end/` and `docs/increments/` ? infers work happened even without kanban
 
-Stage ù scope (typical new build):
+Stage ? scope (typical new build):
 
 | Stage | Scope |
 | --- | --- |
@@ -112,8 +108,8 @@ Reply with the **full path** to the handoff file and a **three-line resume**: cu
 | --- | --- |
 | Board / kanban board setup | `abd-kanban`, `abd-kanban-planning` |
 | Resume agent pull | kanban-lead / role `AGENT.md` under `practices/kanban/agents/` |
-| Missing shaping/discovery artifacts | Stage practice skills (`abd-story-mapping`, `abd-thin-slicing`, ù) |
-| Increment exploration+ | `abd-domain-language`, `abd-story-acceptance-criteria`, ù per stage |
+| Missing shaping/discovery artifacts | Stage practice skills (`abd-story-mapping`, `abd-thin-slicing`, ?) |
+| Increment exploration+ | `abd-domain-language`, `abd-story-acceptance-criteria`, ? per stage |
 | Commits | `commit-msg` |
 
 ---

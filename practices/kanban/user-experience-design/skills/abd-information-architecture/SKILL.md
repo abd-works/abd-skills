@@ -1,25 +1,33 @@
----
+﻿---
 catalog_garden_tier: practice
 catalog_garden_order: 10
 name: abd-information-architecture
 description: >-
-  Produce a first-pass information architecture for a solution scope — a site
-  map of screens and transitions, the navigational components that connect
-  them, and a content model (types, hierarchy, labels, tags, key actions) for
-  what lives on each screen — saved as a structured markdown spec and a draw.io
-  diagram.
+  Produce a first-pass information architecture — site map, navigation, and content model — saved as markdown and draw.io. Use when starting work that involves user interaction changes or aligning on screen structure.
+context-perspective: ux
+context-fidelity:
+  - level: discovery
+    mode: information-architecture
 ---
 # abd-information-architecture
 
 ## Purpose
 
-The purpose of this skill is to produce the **initial information architecture** for a solution scope.
+Define what screens exist and how users move between them — so scope disagreements surface before wireframes begin.
 
-**Information architecture (IA)** is the practice of structuring, organizing, and labeling the surfaces and content of a solution so users can find what they need and understand where they are. It covers two dimensions — **navigation** (how a user moves through the solution and the components that carry that movement) and **content** (what lives on each surface, how it is grouped, what it is called, and what users can do with it).
+---
 
-A **site map** — the inventory of screens and the directed transitions between them — is one component of the IA: the navigation backbone. This skill produces it alongside the rest of the IA in a single low-fidelity pass.
+## Grill prompts
 
-Doing this work early, before detailed design or development, flushes out gaps in functional and domain understanding, surfaces disagreements about scope, naming, and navigation when they are cheap to resolve, and gives the team a concrete picture to challenge and confirm before committing to wireframes or implementation. Functional requirements and stories written against a named screen inventory and content model become more precise: they reference agreed surfaces by name, missing coverage shows up as absent nodes, and edge-case states are identified before anyone has built against the wrong assumption.
+Read `common/grill-me-with-practice-skill.md` before grilling.
+
+Before generating, surface these:
+
+- **Missing screen** — Is there a user state your stories describe that has no screen on the site map?
+- **Story budget** — Which screens carry more than four stories — and does that signal a missing tab, detail screen, or mode?
+- **Mental model mismatch** — Would a domain expert recognise every screen name without translation, or are you using system terms?
+- **Hidden transition** — Which user moves between screens are you assuming are obvious but have no labelled arrow?
+- **Content orphan** — Are there domain concepts the user sees on screen that appear in no region, label, or content type?
 
 ---
 
@@ -430,7 +438,7 @@ No screen carries toolbar actions, navigation content, acceptance criteria, cont
 14. **Keep the bundled rules block honest.** Whenever you change a file under `rules/`, re-run the bundler so the rule prose inlined at the end of this `SKILL.md` matches what is on disk:
 
 ```bash
-python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/user-experience-design/abd-information-architecture
+python skills/common/scripts/bundle_rules_into_skill_md.py --skill-root skills/user-experience-design/abd-information-architecture
 ```
 
 - **Outputs:** `docs/ux/initial-ia.md` (structured spec) and `docs/ux/initial-ia.drawio` (diagram) — two artifacts in the engagement's deliverables folder, kept in sync.
@@ -488,6 +496,6 @@ cd C:\dev\agilebydesign-skills
 
 <!-- execute_rules:bundle_rules:begin -->
 <!-- Rule prose is generated from rules/*.md — edit rules, then run:
-     python skills/execute-skill-using-skills-rules/scripts/bundle_rules_into_skill_md.py --skill-root skills/user-experience-design/abd-information-architecture
+     python skills/common/scripts/bundle_rules_into_skill_md.py --skill-root skills/user-experience-design/abd-information-architecture
 -->
 <!-- execute_rules:bundle_rules:end -->

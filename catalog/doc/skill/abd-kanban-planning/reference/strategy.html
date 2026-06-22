@@ -10,15 +10,15 @@
 <link rel="stylesheet" href="../../../../commons/site.css?v=foundry-3">
 <style>
 /*
-  Agile Garden — AI Garden prelude + gardener lesson fragment.
+  ABD Foundry — catalog prelude + gardener lesson fragment.
   Inlined via generate_abd_catalog.py. Max border-radius 6px; flat surfaces.
-  Brand split: orange-500 (#E5531A) for column chrome / rails; ai-blue (#4FC3F7 / #81D4FA)
-  on dense mono skill links — see abd-works-brand BRAND-GUIDELINES §3.1 (ai-blue-500).
+  Brand split: --accent (#E5531A) for column chrome / rails; --ai-accent on dense
+  mono skill links (engineering mode only — executive overrides in catalog.css).
 */
 .catalog-prelude {
   margin: 0 0 24px;
   padding: 0 0 20px;
-  border-bottom: 1px solid #2A2A2A;
+  border-bottom: 1px solid var(--border);
 }
 .catalog-prelude-heading {
   margin: 0 0 12px;
@@ -27,7 +27,7 @@
   color: var(--text);
   line-height: 1.25;
   padding-bottom: 8px;
-  border-bottom: 1px solid #2A2A2A;
+  border-bottom: 1px solid var(--border);
   scroll-margin-top: 48px;
 }
 .catalog-prelude-tagline {
@@ -43,9 +43,9 @@
   margin: 0 0 18px;
 }
 .catalog-mission-card {
-  background: #1B1B20;
-  border: 1px solid #2A2A2A;
-  border-left: 3px solid #E5531A;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
   border-radius: 4px;
   padding: 14px 20px;
   display: flex;
@@ -57,7 +57,7 @@
   flex-shrink: 0;
   font-size: 0.95rem;
   font-weight: 700;
-  color: #F4F4F5;
+  color: var(--text);
   margin: 0;
   white-space: nowrap;
 }
@@ -71,14 +71,14 @@
 .catalog-mission-card--teal,
 .catalog-mission-card--amber,
 .catalog-mission-card--purple {
-  background: #1B1B20;
-  border: 1px solid #2A2A2A;
-  border-left: 3px solid #E5531A;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
 }
 .catalog-mission-card--teal h3,
 .catalog-mission-card--amber h3,
 .catalog-mission-card--purple h3 {
-  color: #F4F4F5;
+  color: var(--text);
 }
 @media (max-width: 720px) {
   .catalog-mission { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -95,17 +95,17 @@
   gap: 10px;
   padding: 8px 0 10px;
   margin: 24px 0 12px;
-  border-bottom: 1px solid #2A2A2A;
+  border-bottom: 1px solid var(--border);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #E5531A;
+  color: var(--accent);
 }
 .catalog-section-label--foundational {
   margin-top: 28px;
-  color: #8A8A97;
-  border-bottom-color: #1A1A1E;
+  color: var(--muted);
+  border-bottom-color: var(--border-muted);
 }
 
 /* ── Practice grid — all 5 disciplines forced onto one row ── */
@@ -113,8 +113,8 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 1px;
-  background: #2A2A2A;
-  border: 1px solid #2A2A2A;
+  background: var(--border);
+  border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
   margin: 0;
@@ -131,8 +131,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: #2A2A2A;
-  border: 1px solid #2A2A2A;
+  background: var(--border);
+  border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
 }
@@ -158,7 +158,7 @@
   display: block !important;
   font-size: 0.82rem;
   line-height: 1.5;
-  color: #9B9BA8;
+  color: var(--muted);
 }
 
 /* ── Agents grid — single wide column ── */
@@ -166,15 +166,15 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: #2A2A2A;
-  border: 1px solid #2A2A2A;
+  background: var(--border);
+  border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
 }
 .catalog-section-label--agents {
   margin-top: 28px;
-  color: #E5531A;
-  border-bottom-color: #2A2A2A;
+  color: var(--accent);
+  border-bottom-color: var(--border);
 }
 
 /* ── Shared column card ── */
@@ -199,7 +199,7 @@
   margin-top: 0;
 }
 .catalog-garden-col {
-  background: #111113;
+  background: var(--surface);
   border: none;
   border-radius: 0;
   overflow: hidden;
@@ -213,17 +213,17 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  border-bottom: 1px solid #2A2A2A;
-  background: #1B1B20;
-  color: #E5531A;
-  border-left: 3px solid #E5531A;
+  border-bottom: 1px solid var(--border);
+  background: var(--raised);
+  color: var(--accent);
+  border-left: 3px solid var(--accent);
 }
 .catalog-garden-col-header--practice,
 .catalog-garden-col-header--foundational,
 .catalog-garden-col-header--agents {
-  background: #1B1B20;
-  color: #E5531A;
-  border-left: 3px solid #E5531A;
+  background: var(--raised);
+  color: var(--accent);
+  border-left: 3px solid var(--accent);
 }
 .catalog-garden-ico { flex-shrink: 0; display: block; }
 .catalog-garden-row {
@@ -231,11 +231,11 @@
   align-items: center;
   gap: 10px;
   padding: 6px 16px;
-  border-bottom: 1px solid #1A1A1E;
+  border-bottom: 1px solid var(--border-muted);
   font-size: 0.85rem;
 }
 .catalog-garden-row:last-child { border-bottom: none; }
-/* Skill/agent links — mono names stay near-white; ai-blue hairline/hover (brand AI accent, not orange wall) */
+/* Skill/agent links — mono names; ai-accent on dark (engineering mode) */
 .catalog-garden-name {
   font-weight: 700;
   font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
@@ -243,12 +243,11 @@
   min-width: 0;
   overflow-wrap: anywhere;
   word-break: break-word;
-  color: #4FC3F7;
+  color: var(--ai-accent);
 }
-/* !important beats global `a { … }`, :visited, and concatenation order */
 .catalog-prelude .catalog-garden-name a,
 .catalog-garden-lists .catalog-garden-name a {
-  color: #4FC3F7 !important;
+  color: var(--ai-accent) !important;
   font-weight: 700 !important;
   text-decoration: none !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
@@ -257,19 +256,19 @@
 .catalog-prelude .catalog-garden-name a:focus-visible,
 .catalog-garden-lists .catalog-garden-name a:hover,
 .catalog-garden-lists .catalog-garden-name a:focus-visible {
-  color: #81D4FA !important;
+  color: var(--ai-accent-soft) !important;
   border-bottom-color: rgba(79, 195, 247, 0.95);
 }
 .catalog-garden-name--agent a,
 .catalog-garden-name--foundational a {
-  color: #4FC3F7 !important;
+  color: var(--ai-accent) !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
 }
 .catalog-garden-name--agent a:hover,
 .catalog-garden-name--agent a:focus-visible,
 .catalog-garden-name--foundational a:hover,
 .catalog-garden-name--foundational a:focus-visible {
-  color: #81D4FA !important;
+  color: var(--ai-accent-soft) !important;
   border-bottom-color: rgba(79, 195, 247, 0.92);
 }
 .catalog-garden-name--dim {
@@ -1715,7 +1714,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 </style>
 <script src="../../../../commons/catalog-nav.js?v=foundry-10"></script>
 </head>
-<body data-nav-prefix="../../../../" data-nav-current="skills" data-nav-site-base="https://abd.works/">
+<body data-nav-prefix="../../../../" data-nav-current="skills" data-nav-site-base="../../../../../../abd-works-website/">
 <main id="main-content">
 
 <div class="page-hero page-hero--detail">
@@ -1735,52 +1734,52 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <div class="rule-prose"><h1>Strategy</h1>
 <p>A <strong>strategy</strong> defines how work flows through the kanban board:</p>
 <ul>
-<li><strong>Scope progression</strong> — which scope levels apply at each stage (may differ from default)</li>
-<li><strong>Scatter rules</strong> — when and how to decompose tickets at scope boundaries</li>
-<li><strong>Sprint grouping</strong> — how to group stories into sprints (default 3“4, adjustable)</li>
-<li><strong>JIT policy</strong> — how far ahead to scatter (next 1“2 items by default)</li>
-<li><strong>Checkpoint policy</strong> — where to stop for feedback (per skill, per stage, per increment)</li>
-<li><strong>Risk classification</strong> — which risks are present and how they affect ordering</li>
+<li><strong>Scope progression</strong> ” which scope levels apply at each stage (may differ from default)</li>
+<li><strong>Scatter rules</strong> ” when and how to decompose tickets at scope boundaries</li>
+<li><strong>Sprint grouping</strong> ” how to group stories into sprints (default 3“4, adjustable)</li>
+<li><strong>JIT policy</strong> ” how far ahead to scatter (next 1“2 items by default)</li>
+<li><strong>Checkpoint policy</strong> ” where to stop for feedback (per skill, per stage, per increment)</li>
+<li><strong>Risk classification</strong> ” which risks are present and how they affect ordering</li>
 </ul>
 <hr>
 <h2>Why Kanban Planning</h2>
 <p>Agents benefit from an explicit delivery lifecycle: not just <em>what</em> to do next, but <strong>when scope changes</strong>, <strong>when to scatter</strong>, <strong>how to group work</strong>, and <strong>when to stop for feedback</strong>. The strategy + kanban board provide the spine without pre-planning every assignment.</p>
 <ul>
-<li><strong>Uncertainty is real</strong> — keep the strategy living; update when corrections accumulate.</li>
-<li><strong>Risk before volume</strong> — order increments so the hardest unknowns fail early.</li>
-<li><strong>JIT over pre-plan</strong> — decompose only when needed, not everything upfront.</li>
-<li><strong>Humans in the loop</strong> — checkpoint policy makes confirmation predictable.</li>
+<li><strong>Uncertainty is real</strong> ” keep the strategy living; update when corrections accumulate.</li>
+<li><strong>Risk before volume</strong> ” order increments so the hardest unknowns fail early.</li>
+<li><strong>JIT over pre-plan</strong> ” decompose only when needed, not everything upfront.</li>
+<li><strong>Humans in the loop</strong> ” checkpoint policy makes confirmation predictable.</li>
 </ul>
 <hr>
 <h2>Risk classification</h2>
 <p>Classify risks to inform strategy selection:</p>
 <ul>
-<li><strong>Value risk</strong> — building the wrong thing. Signals: vague briefs, no research, conflicting goals.</li>
-<li><strong>Technical risk</strong> — wrong tech, infra, or architecture. Signals: proprietary APIs, unfamiliar stacks, scale unknowns.</li>
-<li><strong>Delivery risk</strong> — miss schedule or quality bar. Signals: large scope, dependencies, deadlines.</li>
-<li><strong>Domain risk</strong> — misunderstand business rules. Signals: regulatory regimes, complex rules, jargon.</li>
-<li><strong>Integration risk</strong> — external systems constrain design. Signals: legacy, quirky APIs, backward compat.</li>
-<li><strong>AI-model risk</strong> — agent likely to hallucinate. Signals: no training data, undocumented APIs.</li>
+<li><strong>Value risk</strong> ” building the wrong thing. Signals: vague briefs, no research, conflicting goals.</li>
+<li><strong>Technical risk</strong> ” wrong tech, infra, or architecture. Signals: proprietary APIs, unfamiliar stacks, scale unknowns.</li>
+<li><strong>Delivery risk</strong> ” miss schedule or quality bar. Signals: large scope, dependencies, deadlines.</li>
+<li><strong>Domain risk</strong> ” misunderstand business rules. Signals: regulatory regimes, complex rules, jargon.</li>
+<li><strong>Integration risk</strong> ” external systems constrain design. Signals: legacy, quirky APIs, backward compat.</li>
+<li><strong>AI-model risk</strong> ” agent likely to hallucinate. Signals: no training data, undocumented APIs.</li>
 </ul>
 <p>Risk types drive strategy selection and checkpoint tightness.</p>
 <hr>
 <h2>Checkpoint granularity</h2>
-<p>Matches kanban scope levels — pick the coarsest that still gives you confidence:</p>
+<p>Matches kanban scope levels ” pick the coarsest that still gives you confidence:</p>
 <ul>
-<li><strong>Per skill</strong> — after each skill completes on a ticket; finest; use for high uncertainty or early work</li>
-<li><strong>Per story</strong> — after all skills complete on a story-scope ticket</li>
-<li><strong>Per sprint</strong> — after all skills complete on a sprint-scope ticket (specification / engineering)</li>
-<li><strong>Per increment</strong> — after all skills complete on an increment-scope ticket (discovery / exploration)</li>
-<li><strong>Per stage</strong> — after the stage exit gate passes; use for well-understood, repeatable work</li>
+<li><strong>Per skill</strong> ” after each skill completes on a ticket; finest; use for high uncertainty or early work</li>
+<li><strong>Per story</strong> ” after all skills complete on a story-scope ticket</li>
+<li><strong>Per sprint</strong> ” after all skills complete on a sprint-scope ticket (specification / engineering)</li>
+<li><strong>Per increment</strong> ” after all skills complete on an increment-scope ticket (discovery / exploration)</li>
+<li><strong>Per stage</strong> ” after the stage exit gate passes; use for well-understood, repeatable work</li>
 </ul>
 <p>Default: start per-skill, relax as confidence builds.</p>
 <hr>
 <h2>Scatter rules</h2>
 <h3>Default heuristics</h3>
 <ul>
-<li><strong>all â†’ increment</strong> — one ticket per increment from thin-slicing; scatter all</li>
-<li><strong>increment â†’ sprint</strong> — group 3“4 stories per sprint; scatter next 1“2 increments JIT</li>
-<li><strong>sprint â†’ story</strong> — rare; only if strategy requires per-story tickets</li>
+<li><strong>all â†’ increment</strong> ” one ticket per increment from thin-slicing; scatter all</li>
+<li><strong>increment â†’ sprint</strong> ” group 3“4 stories per sprint; scatter next 1“2 increments JIT</li>
+<li><strong>sprint â†’ story</strong> ” rare; only if strategy requires per-story tickets</li>
 </ul>
 <h3>User overrides</h3>
 <ul>
@@ -1809,14 +1808,14 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <h2>Strategy file structure</h2>
 <p>Each strategy file in <code>reference/strategies/</code> defines:</p>
 <ul>
-<li><strong>When to use</strong> — context signals and risk types that match this strategy</li>
-<li><strong>Typical scope</strong> — what boundary or area this applies to</li>
-<li><strong>Kanban board stages</strong> — stages, scope per stage, skills per stage (or reference to default)</li>
-<li><strong>Scatter rules</strong> — how tickets decompose at scope boundaries</li>
-<li><strong>Sprint grouping</strong> — stories per sprint, grouping heuristics</li>
-<li><strong>JIT policy</strong> — how far ahead to decompose</li>
-<li><strong>Checkpoint policy</strong> — where to stop for feedback</li>
-<li><strong>Key constraints</strong> — non-negotiable rules for this strategy</li>
+<li><strong>When to use</strong> ” context signals and risk types that match this strategy</li>
+<li><strong>Typical scope</strong> ” what boundary or area this applies to</li>
+<li><strong>Kanban board stages</strong> ” stages, scope per stage, skills per stage (or reference to default)</li>
+<li><strong>Scatter rules</strong> ” how tickets decompose at scope boundaries</li>
+<li><strong>Sprint grouping</strong> ” stories per sprint, grouping heuristics</li>
+<li><strong>JIT policy</strong> ” how far ahead to decompose</li>
+<li><strong>Checkpoint policy</strong> ” where to stop for feedback</li>
+<li><strong>Key constraints</strong> ” non-negotiable rules for this strategy</li>
 </ul>
 <p>See <strong><a href="strategy-catalog.html">strategy-catalog</a></strong> for all available strategies.</p></div>
 

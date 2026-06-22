@@ -1,10 +1,10 @@
----
+﻿---
 description: >-
   Run all Specification stage skills (executor + reviewer) for the active sprint ticket.
 agent: agent
 ---
 
-Read `practices/kanban/reference/stages/specification.md` and `practices/kanban/reference/artifact-layout.md`.
+Read `common/stages/specification.md` and `practices/kanban/reference/artifact-layout.md`.
 
 **Before starting:** run `/keyquestions` to confirm which skills are in scope and which are HIL checkpoints.
 

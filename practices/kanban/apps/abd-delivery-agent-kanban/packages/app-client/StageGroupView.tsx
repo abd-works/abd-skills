@@ -1,4 +1,4 @@
-import { type MutableRefObject } from 'react';
+import { type MutableRefObject, useState } from 'react';
 import { StageInProgressView } from './StageInProgressView';
 import { StageDoneView } from './StageDoneView';
 import { Ticket } from '@deliveryforge/kanban-client';
@@ -46,16 +46,25 @@ export function StageGroupView({
   onTicketDragStart?: (ticketId: string, stage: StageId) => void;
   onTicketDragEnd?: () => void;
 }) {
+  const [collapsed, setCollapsed] = useState(false);
   const ipTickets = bucket.ip as Ticket[];
   const activeStagePeers = [...ipTickets];
 
   return (
     <div
-      className={'kb-stage-group kb-stage-group--' + stage}
+      className={'kb-stage-group kb-stage-group--' + stage + (collapsed ? ' kb-stage-group--collapsed' : '')}
       data-stage={stage}
     >
       <div className="kb-stage-group-header">
         {Stage.LABELS[stage]}
+        <button
+          type="button"
+          className="kb-stage-collapse-btn"
+          aria-label={collapsed ? 'Expand' : 'Collapse'}
+          onClick={() => setCollapsed((c) => !c)}
+        >
+          {collapsed ? '›' : '‹'}
+        </button>
       </div>
       <div className="kb-stage-sub-cols">
         <StageInProgressView

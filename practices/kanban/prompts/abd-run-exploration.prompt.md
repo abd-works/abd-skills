@@ -1,10 +1,10 @@
----
+﻿---
 description: >-
   Run all Exploration stage skills (executor + reviewer) for the active increment.
 agent: agent
 ---
 
-Read `practices/kanban/reference/stages/exploration.md` and `practices/kanban/reference/artifact-layout.md`.
+Read `common/stages/exploration.md` and `practices/kanban/reference/artifact-layout.md`.
 
 **Before starting:** run `/keyquestions` to confirm which skills are in scope and which are HIL checkpoints.
 

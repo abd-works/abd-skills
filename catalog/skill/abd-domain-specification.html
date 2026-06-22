@@ -12,7 +12,7 @@
 (function(){try{if('scrollRestoration' in history)history.scrollRestoration='manual';var r=new URLSearchParams(location.search).get('kanbanScroll');if(!r)return;var y=parseFloat(r);if(isNaN(y))return;window.__foundryPendingScrollY=y;document.documentElement.classList.add('foundry-scroll-pending');}catch(e){}})();
 </script>
 
-<title>Foundry — skill · class-model</title>
+<title>Foundry — skill · abd-domain-specification</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,15 +23,15 @@
 <style>
 
 /*
-  Agile Garden — AI Garden prelude + gardener lesson fragment.
+  ABD Foundry — catalog prelude + gardener lesson fragment.
   Inlined via generate_abd_catalog.py. Max border-radius 6px; flat surfaces.
-  Brand split: orange-500 (#E5531A) for column chrome / rails; ai-blue (#4FC3F7 / #81D4FA)
-  on dense mono skill links — see abd-works-brand BRAND-GUIDELINES §3.1 (ai-blue-500).
+  Brand split: --accent (#E5531A) for column chrome / rails; --ai-accent on dense
+  mono skill links (engineering mode only — executive overrides in catalog.css).
 */
 .catalog-prelude {
   margin: 0 0 24px;
   padding: 0 0 20px;
-  border-bottom: 1px solid #2A2A2A;
+  border-bottom: 1px solid var(--border);
 }
 .catalog-prelude-heading {
   margin: 0 0 12px;
@@ -40,7 +40,7 @@
   color: var(--text);
   line-height: 1.25;
   padding-bottom: 8px;
-  border-bottom: 1px solid #2A2A2A;
+  border-bottom: 1px solid var(--border);
   scroll-margin-top: 48px;
 }
 .catalog-prelude-tagline {
@@ -56,9 +56,9 @@
   margin: 0 0 18px;
 }
 .catalog-mission-card {
-  background: #1B1B20;
-  border: 1px solid #2A2A2A;
-  border-left: 3px solid #E5531A;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
   border-radius: 4px;
   padding: 14px 20px;
   display: flex;
@@ -70,7 +70,7 @@
   flex-shrink: 0;
   font-size: 0.95rem;
   font-weight: 700;
-  color: #F4F4F5;
+  color: var(--text);
   margin: 0;
   white-space: nowrap;
 }
@@ -84,14 +84,14 @@
 .catalog-mission-card--teal,
 .catalog-mission-card--amber,
 .catalog-mission-card--purple {
-  background: #1B1B20;
-  border: 1px solid #2A2A2A;
-  border-left: 3px solid #E5531A;
+  background: var(--raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
 }
 .catalog-mission-card--teal h3,
 .catalog-mission-card--amber h3,
 .catalog-mission-card--purple h3 {
-  color: #F4F4F5;
+  color: var(--text);
 }
 @media (max-width: 720px) {
   .catalog-mission { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -108,17 +108,17 @@
   gap: 10px;
   padding: 8px 0 10px;
   margin: 24px 0 12px;
-  border-bottom: 1px solid #2A2A2A;
+  border-bottom: 1px solid var(--border);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #E5531A;
+  color: var(--accent);
 }
 .catalog-section-label--foundational {
   margin-top: 28px;
-  color: #8A8A97;
-  border-bottom-color: #1A1A1E;
+  color: var(--muted);
+  border-bottom-color: var(--border-muted);
 }
 
 /* ── Practice grid — all 5 disciplines forced onto one row ── */
@@ -126,8 +126,8 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 1px;
-  background: #2A2A2A;
-  border: 1px solid #2A2A2A;
+  background: var(--border);
+  border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
   margin: 0;
@@ -144,8 +144,8 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: #2A2A2A;
-  border: 1px solid #2A2A2A;
+  background: var(--border);
+  border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
 }
@@ -171,7 +171,7 @@
   display: block !important;
   font-size: 0.82rem;
   line-height: 1.5;
-  color: #9B9BA8;
+  color: var(--muted);
 }
 
 /* ── Agents grid — single wide column ── */
@@ -179,15 +179,15 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: 1px;
-  background: #2A2A2A;
-  border: 1px solid #2A2A2A;
+  background: var(--border);
+  border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
 }
 .catalog-section-label--agents {
   margin-top: 28px;
-  color: #E5531A;
-  border-bottom-color: #2A2A2A;
+  color: var(--accent);
+  border-bottom-color: var(--border);
 }
 
 /* ── Shared column card ── */
@@ -212,7 +212,7 @@
   margin-top: 0;
 }
 .catalog-garden-col {
-  background: #111113;
+  background: var(--surface);
   border: none;
   border-radius: 0;
   overflow: hidden;
@@ -226,17 +226,17 @@
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  border-bottom: 1px solid #2A2A2A;
-  background: #1B1B20;
-  color: #E5531A;
-  border-left: 3px solid #E5531A;
+  border-bottom: 1px solid var(--border);
+  background: var(--raised);
+  color: var(--accent);
+  border-left: 3px solid var(--accent);
 }
 .catalog-garden-col-header--practice,
 .catalog-garden-col-header--foundational,
 .catalog-garden-col-header--agents {
-  background: #1B1B20;
-  color: #E5531A;
-  border-left: 3px solid #E5531A;
+  background: var(--raised);
+  color: var(--accent);
+  border-left: 3px solid var(--accent);
 }
 .catalog-garden-ico { flex-shrink: 0; display: block; }
 .catalog-garden-row {
@@ -244,11 +244,11 @@
   align-items: center;
   gap: 10px;
   padding: 6px 16px;
-  border-bottom: 1px solid #1A1A1E;
+  border-bottom: 1px solid var(--border-muted);
   font-size: 0.85rem;
 }
 .catalog-garden-row:last-child { border-bottom: none; }
-/* Skill/agent links — mono names stay near-white; ai-blue hairline/hover (brand AI accent, not orange wall) */
+/* Skill/agent links — mono names; ai-accent on dark (engineering mode) */
 .catalog-garden-name {
   font-weight: 700;
   font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
@@ -256,12 +256,11 @@
   min-width: 0;
   overflow-wrap: anywhere;
   word-break: break-word;
-  color: #4FC3F7;
+  color: var(--ai-accent);
 }
-/* !important beats global `a { … }`, :visited, and concatenation order */
 .catalog-prelude .catalog-garden-name a,
 .catalog-garden-lists .catalog-garden-name a {
-  color: #4FC3F7 !important;
+  color: var(--ai-accent) !important;
   font-weight: 700 !important;
   text-decoration: none !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
@@ -270,19 +269,19 @@
 .catalog-prelude .catalog-garden-name a:focus-visible,
 .catalog-garden-lists .catalog-garden-name a:hover,
 .catalog-garden-lists .catalog-garden-name a:focus-visible {
-  color: #81D4FA !important;
+  color: var(--ai-accent-soft) !important;
   border-bottom-color: rgba(79, 195, 247, 0.95);
 }
 .catalog-garden-name--agent a,
 .catalog-garden-name--foundational a {
-  color: #4FC3F7 !important;
+  color: var(--ai-accent) !important;
   border-bottom: 1px solid rgba(79, 195, 247, 0.3);
 }
 .catalog-garden-name--agent a:hover,
 .catalog-garden-name--agent a:focus-visible,
 .catalog-garden-name--foundational a:hover,
 .catalog-garden-name--foundational a:focus-visible {
-  color: #81D4FA !important;
+  color: var(--ai-accent-soft) !important;
   border-bottom-color: rgba(79, 195, 247, 0.92);
 }
 .catalog-garden-name--dim {
@@ -3509,6 +3508,18 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
   align-items: stretch;
 }
 
+/* 6-col variant: five practice stages + Context */
+.kb-board.aad-board-grid--6 {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+.aad-delivery-crosscut-tracks--6 {
+  grid-template-columns: repeat(6, 1fr);
+}
+.aad-board-grid--6 .kb-ticket.aad-skill {
+  font-size: 7.5px;
+  padding: 2px 3px;
+}
+
 /* 7-col variant: original five stages + Testing + Release */
 .kb-board.aad-board-grid--7 {
   grid-template-columns: repeat(7, minmax(0, 1fr));
@@ -4318,7 +4329,7 @@ body {
 .kb-slide .kanban-stage-questions {
   flex: 0 0 auto;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 0 8px;
   padding: 0 6px;
   margin: 4px 0 8px;
@@ -4569,7 +4580,7 @@ body {
 
 .catalog-kanban-embed .kb-board.aad-board-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 0 6px;
   margin: 0;
   padding: 6px;
@@ -4737,6 +4748,7 @@ body {
   --fam-ddd: #6c5ce7;
   --fam-uxd: #e84393;
   --fam-arc: #4fc3f7;
+  --fam-ctx: #00b894;
   --fam-stage: #fdcb6e;
   --fam-delivery: #e5531a;
   --foundry-skills-ease: cubic-bezier(0.33, 1, 0.68, 1);
@@ -5094,9 +5106,8 @@ html[data-theme="engineering"] .foundry-kanban-surface {
   --foundry-stage-skill-rows: 3;
   --foundry-stage-skills-gap-h: 36px;
   display: grid;
-  grid-template-columns: 168px repeat(5, minmax(0, 1fr));
-  grid-template-rows: auto repeat(4, var(--foundry-skill-row-h)) var(--foundry-stage-skills-gap-h) repeat(var(--foundry-stage-skill-rows), var(--foundry-skill-row-h));
-  gap: 2px 6px;
+  grid-template-columns: 168px repeat(6, minmax(0, 1fr));
+  grid-template-rows: auto repeat(5, var(--foundry-skill-row-h)) var(--foundry-stage-skills-gap-h) repeat(var(--foundry-stage-skill-rows), var(--foundry-skill-row-h));
   background: var(--abd-bg);
   border: 1px solid var(--abd-border);
   border-radius: 6px;
@@ -5125,8 +5136,9 @@ html[data-theme="engineering"] .foundry-kanban-surface {
 .foundry-practice-col > .foundry-family-toggle[data-family="domain-driven-design"] { grid-row: 3; }
 .foundry-practice-col > .foundry-family-toggle[data-family="user-experience-design"] { grid-row: 4; }
 .foundry-practice-col > .foundry-family-toggle[data-family="architecture-centric-engineering"] { grid-row: 5; }
-.foundry-practice-col > .foundry-practice-col__stage-spacer { grid-row: 6; }
-.foundry-practice-col > .foundry-practice-col__other-practices { grid-row: 7; }
+.foundry-practice-col > .foundry-family-toggle[data-family="context-to-memory"] { grid-row: 6; }
+.foundry-practice-col > .foundry-practice-col__stage-spacer { grid-row: 7; }
+.foundry-practice-col > .foundry-practice-col__other-practices { grid-row: 8; }
 
 .foundry-practice-col__card {
   display: flex;
@@ -5289,11 +5301,11 @@ html[data-theme="engineering"] .foundry-kanban-surface {
   background: var(--abd-accent-glow);
 }
 .foundry-kanban-surface.foundry-skills-expanded .foundry-board-grid {
-  grid-template-rows: auto repeat(4, var(--foundry-skill-row-h)) var(--foundry-stage-skills-gap-h) repeat(var(--foundry-stage-skill-rows), var(--foundry-skill-row-h));
+  grid-template-rows: auto repeat(5, var(--foundry-skill-row-h)) var(--foundry-stage-skills-gap-h) repeat(var(--foundry-stage-skill-rows), var(--foundry-skill-row-h));
 }
 .foundry-kanban-surface.foundry-skills-collapsed .foundry-board-grid {
   /* Collapsed idle: zero family row tracks; JS refines when filter active or expanded. */
-  grid-template-rows: auto 0px 0px 0px 0px 0px 0px 0px 0px;
+  grid-template-rows: auto 0px 0px 0px 0px 0px 0px 0px 0px 0px;
 }
 .foundry-kanban-surface--supporting-only .foundry-skills-extra {
   grid-template-rows: 1fr;
@@ -5507,10 +5519,13 @@ html.foundry-scroll-pending {
 .foundry-board-grid > .kb-col > .aad-skill-row[data-family="domain-driven-design"] { grid-row: 3; }
 .foundry-board-grid > .kb-col > .aad-skill-row[data-family="user-experience-design"] { grid-row: 4; }
 .foundry-board-grid > .kb-col > .aad-skill-row[data-family="architecture-centric-engineering"] { grid-row: 5; }
-.foundry-board-grid > .kb-col > .aad-stage-skills-gap { grid-row: 6; }
-.foundry-board-grid > .kb-col > .aad-skill-row--stage-other:nth-child(7) { grid-row: 7; }
+.foundry-board-grid > .kb-col > .aad-skill-row[data-family="context-to-memory"] { grid-row: 6; }
+/* Context stage column: CTX skills appear at row 2 (parallel to first practice family) */
+.foundry-board-grid > .kb-col[data-stage="context"] > .aad-skill-row[data-family="context-to-memory"] { grid-row: 2; }
+.foundry-board-grid > .kb-col > .aad-stage-skills-gap { grid-row: 7; }
 .foundry-board-grid > .kb-col > .aad-skill-row--stage-other:nth-child(8) { grid-row: 8; }
 .foundry-board-grid > .kb-col > .aad-skill-row--stage-other:nth-child(9) { grid-row: 9; }
+.foundry-board-grid > .kb-col > .aad-skill-row--stage-other:nth-child(10) { grid-row: 10; }
 
 .foundry-kanban-surface.foundry-skill-filter-active:not(.foundry-skill-filter-other) .kb-col > .aad-stage-skills-gap,
 .foundry-kanban-surface.foundry-skill-filter-active:not(.foundry-skill-filter-other) .kb-col > .aad-skill-row--stage-other {
@@ -5682,6 +5697,7 @@ html.foundry-scroll-pending {
   padding: 0;
   background: transparent;
   border-radius: 0;
+  position: relative;
 }
 
 .foundry-kanban-surface .kb-col > .aad-skill-row {
@@ -5737,6 +5753,7 @@ html.foundry-scroll-pending {
   margin: 0;
   height: 100%;
   box-sizing: border-box;
+  position: relative;
 }
 
 .foundry-stage-skills {
@@ -6004,6 +6021,7 @@ html.foundry-scroll-pending {
 .kb-ticket.aad-fam-ddd { border-left-color: var(--fam-ddd); }
 .kb-ticket.aad-fam-uxd { border-left-color: var(--fam-uxd); }
 .kb-ticket.aad-fam-arc { border-left-color: var(--fam-arc); }
+.kb-ticket.aad-fam-ctx { border-left-color: var(--fam-ctx); }
 .kb-ticket.aad-fam-delivery { border-left-color: var(--fam-delivery); }
 
 /* Hub embed: show tickets immediately (bootcamp deck CSS hides until .shown) */
@@ -6018,7 +6036,7 @@ html.foundry-scroll-pending {
 
 .kanban-stage-questions {
   display: grid;
-  grid-template-columns: 168px repeat(5, minmax(0, 1fr));
+  grid-template-columns: 168px repeat(6, minmax(0, 1fr));
   gap: 0 6px;
   margin: 8px 6px 0;
 }
@@ -6091,6 +6109,66 @@ html.foundry-scroll-pending {
   transform: translateY(-60%) rotate(45deg) scale(1);
   opacity: 1;
 }
+/* ── Stage column collapse / expand ── */
+.kb-col-collapse-btn {
+  position: absolute;
+  top: 2px; right: 2px;
+  z-index: 50;
+  background: var(--abd-raised);
+  border: 1px solid var(--abd-border);
+  cursor: pointer;
+  color: var(--abd-muted);
+  font-family: var(--abd-mono, var(--font-mono, monospace));
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  padding: 3px 5px;
+  border-radius: 3px;
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
+  opacity: 0.7;
+}
+.kb-col-collapse-btn:hover {
+  color: var(--abd-accent, #e5531a);
+  background: var(--abd-surface);
+  border-color: rgba(229, 83, 26, 0.45);
+  opacity: 1;
+}
+
+.kb-col-collapsed-label {
+  display: none;
+  position: absolute;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: var(--abd-mono, var(--font-mono, monospace));
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--abd-muted);
+  pointer-events: none;
+  user-select: none;
+}
+
+.kb-col--collapsed { overflow: hidden; }
+.kb-col--collapsed > .kb-col-head {
+  visibility: hidden; pointer-events: none; height: 0; overflow: hidden; padding: 0; margin: 0; border: none;
+}
+.kb-col--collapsed > .aad-skill-row,
+.kb-col--collapsed > .kb-col-def,
+.kb-col--collapsed > .aad-stage-skills-gap,
+.kb-col--collapsed > .foundry-stage-skills { visibility: hidden; }
+.kb-col--collapsed > .kb-col-collapsed-label { display: none; }
+.kb-col--collapsed > .kb-col-collapse-btn {
+  top: 50%; right: 50%;
+  transform: translate(50%, -50%);
+  font-size: 14px;
+  opacity: 1;
+  border-color: var(--abd-border);
+}
+
 .mock-below-fold {
   display: none;
 }
@@ -6115,7 +6193,7 @@ html.foundry-scroll-pending {
 
 </head>
 
-<body data-nav-prefix="../" data-nav-current="skills" data-nav-site-base="https://abd.works/">
+<body data-nav-prefix="../" data-nav-current="skills" data-nav-site-base="../../../abd-works-website/">
 
 <!-- nav + footer injected by catalog-nav.js -->
 
@@ -6131,9 +6209,9 @@ html.foundry-scroll-pending {
 
         <td class="page-hero__cell page-hero__cell--title">
 
-          <h1 class="page-headline">class-model</h1>
+          <h1 class="page-headline"><span class="skill-name-prefix">abd-</span>domain-specification</h1>
 
-          <p class="body-lead">Typed Class Model from the domain model; properties, operations, relationships, invariants.</p>
+          <p class="body-lead">Lock down types, relationships, and invariants — so code generation starts from a verified design.</p>
 
         </td>
 
@@ -6162,19 +6240,60 @@ html.foundry-scroll-pending {
         </div>
         <div class="foundry-guide__body" id="guide-text" aria-live="polite"></div>
       </div>
-  <div class="foundry-board-grid" id="board">
+  <div class="foundry-board-grid foundry-board-grid--6" id="board">
     <div class="foundry-practice-col" aria-label="Practice plugins">
       <button type="button" class="foundry-skills-toggle" id="foundry-skills-toggle" aria-expanded="false" aria-label="Show or hide practice skills across columns"><span class="foundry-skills-toggle__label">Skills</span><span class="foundry-skills-toggle__icon" aria-hidden="true"><span class="foundry-skills-toggle__bar foundry-skills-toggle__bar--h"></span><span class="foundry-skills-toggle__bar foundry-skills-toggle__bar--v"></span></span></button>
       <button type="button" class="kb-ticket aad-skill aad-fam-sdd foundry-practice-col__card foundry-perspective-label foundry-family-toggle foundry-perspective-label--sdd has-skill-tooltip" data-family="story-driven-delivery" data-perspective="sdd" aria-pressed="false"><span class="kb-skill-tooltip-wrap">story-driven-delivery<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">story-driven-delivery</span><span class="kb-col-shape-tooltip__bullets">Given/When/Then scenarios with real example data</span></span></span></button>
       <button type="button" class="kb-ticket aad-skill aad-fam-ddd foundry-practice-col__card foundry-perspective-label foundry-family-toggle foundry-perspective-label--ddd has-skill-tooltip kb-ticket--current is-selected" data-family="domain-driven-design" data-perspective="ddd" aria-pressed="true"><span class="kb-skill-tooltip-wrap">domain-driven-design<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">domain-driven-design</span><span class="kb-col-shape-tooltip__bullets">Typed terms + relationships (a schema), not prose definitions</span></span></span></button>
       <button type="button" class="kb-ticket aad-skill aad-fam-uxd foundry-practice-col__card foundry-perspective-label foundry-family-toggle foundry-perspective-label--uxd has-skill-tooltip" data-family="user-experience-design" data-perspective="uxd" aria-pressed="false"><span class="kb-skill-tooltip-wrap">user-experience-design<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">user-experience-design</span><span class="kb-col-shape-tooltip__bullets">Component spec with named states &amp; rules, not a static picture</span></span></span></button>
       <button type="button" class="kb-ticket aad-skill aad-fam-arc foundry-practice-col__card foundry-perspective-label foundry-family-toggle foundry-perspective-label--arc has-skill-tooltip" data-family="architecture-centric-engineering" data-perspective="arc" aria-pressed="false"><span class="kb-skill-tooltip-wrap">architecture-centric-engineering<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture-centric-engineering</span><span class="kb-col-shape-tooltip__bullets">Interface contracts / templates the engine can follow</span></span></span></button>
+      <button type="button" class="kb-ticket aad-skill aad-fam-ctx foundry-practice-col__card foundry-perspective-label foundry-family-toggle foundry-perspective-label--ctx" data-family="context-to-memory" data-perspective="ctx" aria-pressed="false">context-to-memory</button>
       <div class="foundry-practice-col__stage-spacer aad-stage-skills-gap" aria-hidden="true"></div>
       <div class="foundry-practice-col__other-practices" aria-label="Other practices">
         <button type="button" class="kb-ticket aad-skill aad-fam-other foundry-practice-col__card foundry-perspective-label foundry-family-toggle foundry-perspective-label--other" data-family="other" data-perspective="other" aria-pressed="false"><span class="kb-skill-tooltip-wrap">other practices</span></button>
       </div>
     </div>
-    <div class="kb-col" data-id="col-shaping" data-stage="shaping">
+    <div class="kb-col" data-id="col-context" data-stage="context">
+          <button type="button" class="kb-col-head kb-col-head--toggle foundry-stage-toggle" data-stage="context" data-id="head-context" aria-pressed="false">
+            <div class="kb-col-head-row">
+              <span class="kb-col-scope-shape-wrap">
+                <span class="kb-col-scope-shape kb-col-scope-shape--solution" title="All stages — cross-cutting — convert · chunk · embed · search" aria-label="All stages. cross-cutting. convert, chunk, embed, search"></span>
+                <span class="kb-col-shape-tooltip" role="tooltip">
+                  <span class="kb-col-shape-tooltip__name">All stages</span>
+                  <span class="kb-col-shape-tooltip__width">cross-cutting</span>
+                  <span class="kb-col-shape-tooltip__bullets">convert · chunk · embed · search</span>
+                </span>
+              </span>
+              <span class="kb-col-head-title"><span>Context</span><span class="kb-col-num">0</span></span>
+            </div>
+          </button>
+          <div class="aad-skill-row aad-fam-sdd aad-skill-row--empty" data-family="story-driven-delivery">
+
+          </div>
+          <div class="aad-skill-row aad-fam-ddd aad-skill-row--empty is-filter-visible" data-family="domain-driven-design">
+
+          </div>
+          <div class="aad-skill-row aad-fam-uxd aad-skill-row--empty" data-family="user-experience-design">
+
+          </div>
+          <div class="aad-skill-row aad-fam-arc aad-skill-row--empty" data-family="architecture-centric-engineering">
+
+          </div>
+          <div class="aad-skill-row aad-fam-ctx" data-family="context-to-memory">
+            <a class="kb-ticket aad-skill aad-fam-ctx has-skill-tooltip" data-id="tk-context-to-memory-context-abd-convert-to-markdown" data-perspective="ctx" data-stage="context" data-skill-href="abd-convert-to-markdown.html" href="abd-convert-to-markdown.html?stage=context"><span class="kb-skill-tooltip-wrap">convert to markdown<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">convert to markdown</span><span class="kb-col-shape-tooltip__bullets">Convert office documents (PDF, PPTX, DOCX, XLSX, etc.) to navigable Markdown with real headings, sections, and tables. Use when the user wants to convert a document or folder of documents to markdown, mentions &quot;convert to markdown&quot;, &quot;extract text&quot;, or needs source files prepared for chunking or agent context.</span></span></span></a>
+            <a class="kb-ticket aad-skill aad-fam-ctx has-skill-tooltip" data-id="tk-context-to-memory-context-abd-chunk-markdown" data-perspective="ctx" data-stage="context" data-skill-href="abd-chunk-markdown.html" href="abd-chunk-markdown.html?stage=context"><span class="kb-skill-tooltip-wrap">chunk markdown<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">chunk markdown</span><span class="kb-col-shape-tooltip__bullets">Split converted Markdown into retrieval-sized chunks with evidence labels, guided by a structure-based chunking spec. Use when the user wants to &quot;chunk documents&quot;, &quot;split for RAG&quot;, &quot;draft a chunking strategy&quot;, or prepare markdown for embedding and semantic search.</span></span></span></a>
+            <a class="kb-ticket aad-skill aad-fam-ctx has-skill-tooltip" data-id="tk-context-to-memory-context-abd-embed-vectors" data-perspective="ctx" data-stage="context" data-skill-href="abd-embed-vectors.html" href="abd-embed-vectors.html?stage=context"><span class="kb-skill-tooltip-wrap">embed vectors<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">embed vectors</span><span class="kb-col-shape-tooltip__bullets">Embed text chunks into a local FAISS vector index for semantic search. Use when the user wants to &quot;embed chunks&quot;, &quot;build a vector index&quot;, &quot;create embeddings&quot;, or prepare chunked content for RAG retrieval.</span></span></span></a>
+            <a class="kb-ticket aad-skill aad-fam-ctx has-skill-tooltip" data-id="tk-context-to-memory-context-abd-search-memory" data-perspective="ctx" data-stage="context" data-skill-href="abd-search-memory.html" href="abd-search-memory.html?stage=context"><span class="kb-skill-tooltip-wrap">search memory<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">search memory</span><span class="kb-col-shape-tooltip__bullets">Semantic search over a local FAISS vector index built from document chunks. Use when the user says &quot;use memory&quot;, &quot;search memory&quot;, &quot;what does memory say&quot;, &quot;from our content&quot;, &quot;what do we have on [topic]&quot;, or asks about content that has been ingested into agent memory.</span></span></span></a>
+            <a class="kb-ticket aad-skill aad-fam-ctx has-skill-tooltip" data-id="tk-context-to-memory-context-abd-semantic-context-chunker" data-perspective="ctx" data-stage="context" data-skill-href="abd-semantic-context-chunker.html" href="abd-semantic-context-chunker.html?stage=context"><span class="kb-skill-tooltip-wrap">semantic context chunker<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">semantic context chunker</span><span class="kb-col-shape-tooltip__bullets">Scan all source content, tag every piece by the kind of context it provides (Story, Domain, Architecture, UX), and produce a coverage index showing what you have across all four views — before any deeper analysis begins.</span></span></span></a>
+          </div>
+          <div class="aad-stage-skills-gap" aria-hidden="true"></div>
+          <div class="aad-skill-row aad-skill-row--stage-other aad-skill-row--empty" data-family="other" aria-hidden="true"></div>
+          <div class="aad-skill-row aad-skill-row--stage-other aad-skill-row--empty" data-family="other" aria-hidden="true"></div>
+          <div class="aad-skill-row aad-skill-row--stage-other aad-skill-row--empty" data-family="other" aria-hidden="true"></div>
+          <span class="kb-col-collapsed-label" aria-hidden="true">Context</span>
+          <button type="button" class="kb-col-collapse-btn" aria-label="Collapse column" aria-expanded="true">&#x2039;</button>
+        </div>
+        <div class="kb-col" data-id="col-shaping" data-stage="shaping">
           <button type="button" class="kb-col-head kb-col-head--toggle foundry-stage-toggle" data-stage="shaping" data-id="head-shaping" aria-pressed="false">
             <div class="kb-col-head-row">
               <span class="kb-col-scope-shape-wrap">
@@ -6189,25 +6308,19 @@ html.foundry-scroll-pending {
             </div>
           </button>
           <div class="aad-skill-row aad-fam-sdd" data-family="story-driven-delivery">
-            <a class="kb-ticket aad-skill aad-fam-sdd has-skill-tooltip" data-id="tk-story-driven-delivery-shaping-abd-story-mapping" data-perspective="sdd" data-stage="shaping" data-skill-href="abd-story-mapping.html" href="abd-story-mapping.html?stage=shaping"><span class="kb-skill-tooltip-wrap">story mapping outline<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">story mapping outline</span><span class="kb-col-shape-tooltip__bullets">Build a Patton-style story map per scope from source material — a single shared picture of the product as epics (broad capability areas), sub-epics (flows or feature areas), and stories (one observable user or system interaction each). Decompose requirements into outcomes and behaviors, not build tasks or source dumps, so product, delivery, and domain people share one structure. Name every epic, sub-epic, and story verb—noun; carry who acts in story_type, not in the title. Record context gaps inline where source material is thin.</span></span></span></a>
+            <a class="kb-ticket aad-skill aad-fam-sdd has-skill-tooltip" data-id="tk-story-driven-delivery-shaping-abd-story-mapping" data-perspective="sdd" data-stage="shaping" data-skill-href="abd-story-mapping.html" href="abd-story-mapping.html?stage=shaping"><span class="kb-skill-tooltip-wrap">story mapping outline<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">story mapping outline</span><span class="kb-col-shape-tooltip__bullets">Give product, delivery, and domain people one shared picture of scope — outcomes and behaviors, not tasks — so everyone argues from the same map.</span></span></span></a>
           </div>
           <div class="aad-skill-row aad-fam-ddd is-filter-visible" data-family="domain-driven-design">
-            <a class="kb-ticket aad-skill aad-fam-ddd has-skill-tooltip" data-id="tk-domain-driven-design-shaping-abd-domain-glossary" data-perspective="ddd" data-stage="shaping" data-skill-href="abd-domain-glossary.html" href="abd-domain-glossary.html?stage=shaping"><span class="kb-skill-tooltip-wrap">domain glossary<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">domain glossary</span><span class="kb-col-shape-tooltip__bullets">Produce a structured domain glossary — terms grouped by Key Abstraction, Key Abstractions grouped into modules by shared concern — so that every downstream artifact (domain language, acceptance criteria, specification, code) draws from a single agreed vocabulary.
-
-    The primary output is a glossary, not a boundary diagram. Modules are the organizing container: a module groups the KAs and terms that share a core concern and can be understood together. Each module file contains:
-
-    — Key Abstractions — named building blocks that own a cluster of related terms
-    — Terms per KA — behavioral bullets and source references (exact file + location) per term
-    — Boundary terms — concepts this module depends on but does not own
-    — Scope — what region of the domain this module covers (emerges from the terms, not the other way around)</span></span></span></a>
+            <a class="kb-ticket aad-skill aad-fam-ddd has-skill-tooltip" data-id="tk-domain-driven-design-shaping-abd-domain-glossary" data-perspective="ddd" data-stage="shaping" data-skill-href="abd-domain-glossary.html" href="abd-domain-glossary.html?stage=shaping"><span class="kb-skill-tooltip-wrap">domain glossary<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">domain glossary</span><span class="kb-col-shape-tooltip__bullets">Agree on one vocabulary everyone uses — so domain terms don&#x27;t drift across artifacts and teams.</span></span></span></a>
           </div>
           <div class="aad-skill-row aad-fam-uxd" data-family="user-experience-design">
-            <a class="kb-ticket aad-skill aad-fam-uxd has-skill-tooltip" data-id="tk-user-experience-design-shaping-abd-ux-user-impact-map" data-perspective="uxd" data-stage="shaping" data-skill-href="abd-ux-user-impact-map.html" href="abd-ux-user-impact-map.html?stage=shaping"><span class="kb-skill-tooltip-wrap">user impact map<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">user impact map</span><span class="kb-col-shape-tooltip__bullets">Impact mapping is a strategic discovery technique that links broader goals to finer-grained goals, then to actors, their observable behaviour changes, and deliverable options (often epics or features) that could create those behaviours. It keeps discussion outcome-first: you see why an option might matter before debating build order.
-
-    The map answers four questions in order: Why are we doing this? Who can help or hinder? How should behaviour change? What could we do to support that change? Good maps surface assumptions, limit scope creep by tying ideas to impacts, and support shared ownership when business and delivery build them together.</span></span></span></a>
+            <a class="kb-ticket aad-skill aad-fam-uxd has-skill-tooltip" data-id="tk-user-experience-design-shaping-abd-ux-user-impact-map" data-perspective="uxd" data-stage="shaping" data-skill-href="abd-ux-user-impact-map.html" href="abd-ux-user-impact-map.html?stage=shaping"><span class="kb-skill-tooltip-wrap">user impact map<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">user impact map</span><span class="kb-col-shape-tooltip__bullets">Map who gets what value from this product — so you build for real outcomes, not assumed ones, and assumptions are visible before deciding build order.</span></span></span></a>
           </div>
           <div class="aad-skill-row aad-fam-arc" data-family="architecture-centric-engineering">
-            <a class="kb-ticket aad-skill aad-fam-arc has-skill-tooltip" data-id="tk-architecture-centric-engineering-shaping-abd-architecture-outline" data-perspective="arc" data-stage="shaping" data-skill-href="abd-architecture-outline.html" href="abd-architecture-outline.html?stage=shaping"><span class="kb-skill-tooltip-wrap">architecture outline<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture outline</span><span class="kb-col-shape-tooltip__bullets">A team that cannot describe every element of its system cannot agree on what to build next. Outlines fix that. This skill produces the first architecture artifact for a system: a system context element-inventory markdown file, a draw.io diagram built from that inventory, and a consolidated outline document that brings them together with a mechanisms catalogue, guiding principles, tech stack, major systems, and ADRs. Engineers, product, and stakeholders share a single auditable picture of the neighbours and protocols, each system&#x27;s functions and platform technology, the mechanism commitments, and the decisions behind them. When the outline is in place, deeper architecture work (blueprint, reference) can start without re-litigating what the system is or what mechanisms it commits to.</span></span></span></a>
+            <a class="kb-ticket aad-skill aad-fam-arc has-skill-tooltip" data-id="tk-architecture-centric-engineering-shaping-abd-architecture-outline" data-perspective="arc" data-stage="shaping" data-skill-href="abd-architecture-outline.html" href="abd-architecture-outline.html?stage=shaping"><span class="kb-skill-tooltip-wrap">architecture outline<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture outline</span><span class="kb-col-shape-tooltip__bullets">Establish the shared canonical picture of a system — what systems exist, how they connect, what mechanisms govern cross-cutting behavior, and what principles guide decisions — so the team starts deeper architecture work from agreed facts, not assumptions.</span></span></span></a>
+          </div>
+          <div class="aad-skill-row aad-fam-ctx aad-skill-row--empty" data-family="context-to-memory">
+
           </div>
           <div class="aad-stage-skills-gap" aria-hidden="true"></div>
           <div class="aad-skill-row aad-skill-row--stage-other" data-family="other">
@@ -6223,6 +6336,8 @@ html.foundry-scroll-pending {
           <div class="aad-skill-row aad-skill-row--stage-other" data-family="other">
             <a class="kb-ticket aad-skill aad-fam-other aad-stage-skill aad-fam-stage has-skill-tooltip" data-id="tk-stage-shaping-abd-simple-validated-learning" data-stage="shaping" data-skill-href="abd-simple-validated-learning.html" href="abd-simple-validated-learning.html?stage=shaping"><span class="kb-skill-tooltip-wrap">simple validated learning<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">simple validated learning</span><span class="kb-col-shape-tooltip__bullets">Opportunities, ideas, and initiatives often carry many unverified assumptions — about customers, value, feasibility, and economics — that the organisation has not yet checked. This skill is for surfacing those assumptions explicitly and working through them iteratively before the organisation treats them as fact or commits to a full build. The agent (or facilitator) mines the supplied context for assumptions, rewrites them as falsifiable hypotheses, prioritises them into a validation backlog, and structures each item to move through Plan → Validate → Learn.</span></span></span></a>
           </div>
+          <span class="kb-col-collapsed-label" aria-hidden="true">Shaping</span>
+          <button type="button" class="kb-col-collapse-btn" aria-label="Collapse column" aria-expanded="true">&#x2039;</button>
         </div>
         <div class="kb-col" data-id="col-discovery" data-stage="discovery">
           <button type="button" class="kb-col-head kb-col-head--toggle foundry-stage-toggle" data-stage="discovery" data-id="head-discovery" aria-pressed="false">
@@ -6239,18 +6354,19 @@ html.foundry-scroll-pending {
             </div>
           </button>
           <div class="aad-skill-row aad-fam-sdd" data-family="story-driven-delivery">
-            <a class="kb-ticket aad-skill aad-fam-sdd has-skill-tooltip" data-id="tk-story-driven-delivery-discovery-abd-story-mapping" data-perspective="sdd" data-stage="discovery" data-skill-href="abd-story-mapping.html" href="abd-story-mapping.html?stage=discovery"><span class="kb-skill-tooltip-wrap">story mapping<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">story mapping</span><span class="kb-col-shape-tooltip__bullets">Build a Patton-style story map per scope from source material — a single shared picture of the product as epics (broad capability areas), sub-epics (flows or feature areas), and stories (one observable user or system interaction each). Decompose requirements into outcomes and behaviors, not build tasks or source dumps, so product, delivery, and domain people share one structure. Name every epic, sub-epic, and story verb—noun; carry who acts in story_type, not in the title. Record context gaps inline where source material is thin.</span></span></span></a>
+            <a class="kb-ticket aad-skill aad-fam-sdd has-skill-tooltip" data-id="tk-story-driven-delivery-discovery-abd-story-mapping" data-perspective="sdd" data-stage="discovery" data-skill-href="abd-story-mapping.html" href="abd-story-mapping.html?stage=discovery"><span class="kb-skill-tooltip-wrap">story mapping<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">story mapping</span><span class="kb-col-shape-tooltip__bullets">Give product, delivery, and domain people one shared picture of scope — outcomes and behaviors, not tasks — so everyone argues from the same map.</span></span></span></a>
           </div>
           <div class="aad-skill-row aad-fam-ddd is-filter-visible" data-family="domain-driven-design">
-            <a class="kb-ticket aad-skill aad-fam-ddd has-skill-tooltip" data-id="tk-domain-driven-design-discovery-abd-domain-language" data-perspective="ddd" data-stage="discovery" data-skill-href="abd-domain-language.html" href="abd-domain-language.html?stage=discovery"><span class="kb-skill-tooltip-wrap">domain language<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">domain language</span><span class="kb-col-shape-tooltip__bullets">Build a shared, rigorous vocabulary for the scope you are modeling so that domain experts and modelers agree on what each term means, what each concept does, and which rules must always hold — and capture that agreement in one living document the whole team uses without translation. The scope of one run can be a single module, several modules, or a whole-system sweep; the skill and its output shape stay the same.
-
-    This is a three-pass skill. It reads source, extracts terms with definitions, groups them into Key Abstractions, sketches each concept&#x27;s behavior and properties, and writes one file. The final output is a robust domain model that describes domain concepts in a structured, plain-English form — before anyone commits to classes, methods, or properties.</span></span></span></a>
+            <a class="kb-ticket aad-skill aad-fam-ddd has-skill-tooltip" data-id="tk-domain-driven-design-discovery-abd-domain-language" data-perspective="ddd" data-stage="discovery" data-skill-href="abd-domain-language.html" href="abd-domain-language.html?stage=discovery"><span class="kb-skill-tooltip-wrap">domain language<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">domain language</span><span class="kb-col-shape-tooltip__bullets">Define each domain term precisely — name, meaning, boundaries, and relationships — so domain models, stories, and code use the same words with the same meaning.</span></span></span></a>
           </div>
           <div class="aad-skill-row aad-fam-uxd" data-family="user-experience-design">
-            <a class="kb-ticket aad-skill aad-fam-uxd has-skill-tooltip" data-id="tk-user-experience-design-discovery-abd-information-architecture" data-perspective="uxd" data-stage="discovery" data-skill-href="abd-ux-information-architecture.html" href="abd-ux-information-architecture.html?stage=discovery"><span class="kb-skill-tooltip-wrap">information architecture<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">information architecture</span><span class="kb-col-shape-tooltip__bullets">Doing IA work early — before detailed design or development — flushes out gaps in functional and domain understanding, surfaces disagreements about scope, naming, and navigation when they are cheap to resolve, and gives the team a concrete picture to challenge and confirm before committing to wireframes or implementation. Functional requirements and stories written against a named screen inventory and content model become more precise: they reference agreed surfaces by name, missing coverage shows up as absent nodes, and edge-case states are identified before anyone has built against the wrong assumption.</span></span></span></a>
+            <a class="kb-ticket aad-skill aad-fam-uxd has-skill-tooltip" data-id="tk-user-experience-design-discovery-abd-information-architecture" data-perspective="uxd" data-stage="discovery" data-skill-href="abd-ux-information-architecture.html" href="abd-ux-information-architecture.html?stage=discovery"><span class="kb-skill-tooltip-wrap">information architecture<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">information architecture</span><span class="kb-col-shape-tooltip__bullets">Define what screens exist and how users move between them — so missing coverage shows as absent nodes and scope disagreements surface before wireframes begin.</span></span></span></a>
           </div>
           <div class="aad-skill-row aad-fam-arc" data-family="architecture-centric-engineering">
-            <a class="kb-ticket aad-skill aad-fam-arc has-skill-tooltip" data-id="tk-architecture-centric-engineering-discovery-abd-architecture-blueprint" data-perspective="arc" data-stage="discovery" data-skill-href="abd-architecture-blueprint.html" href="abd-architecture-blueprint.html?stage=discovery"><span class="kb-skill-tooltip-wrap">architecture blueprint<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture blueprint</span><span class="kb-col-shape-tooltip__bullets">Architecture documents often describe what a system is without saying what it means to write code against it. This skill makes architecture legible for the whole team: every mechanism names the constraint it places on code, every module states its business scope and dependencies, diagrams show how requests flow through the mechanisms at runtime, and the testing flow diagram shows which layers each test tier actually exercises.</span></span></span></a>
+            <a class="kb-ticket aad-skill aad-fam-arc has-skill-tooltip" data-id="tk-architecture-centric-engineering-discovery-abd-architecture-blueprint" data-perspective="arc" data-stage="discovery" data-skill-href="abd-architecture-blueprint.html" href="abd-architecture-blueprint.html?stage=discovery"><span class="kb-skill-tooltip-wrap">architecture blueprint<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture blueprint</span><span class="kb-col-shape-tooltip__bullets">Make architecture legible by naming every mechanism that constrains how code is built, listing every module with its business scope and dependencies, and defining diagrams that show how requests flow through mechanisms at runtime — including test flow.</span></span></span></a>
+          </div>
+          <div class="aad-skill-row aad-fam-ctx aad-skill-row--empty" data-family="context-to-memory">
+
           </div>
           <div class="aad-stage-skills-gap" aria-hidden="true"></div>
           <div class="aad-skill-row aad-skill-row--stage-other" data-family="other">
@@ -6260,6 +6376,8 @@ html.foundry-scroll-pending {
             <a class="kb-ticket aad-skill aad-fam-other aad-stage-skill aad-fam-stage has-skill-tooltip" data-id="tk-stage-discovery-abd-service-level-objectives" data-stage="discovery" data-skill-href="abd-service-level-objectives.html" href="abd-service-level-objectives.html?stage=discovery"><span class="kb-skill-tooltip-wrap">service level objectives<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">service level objectives</span><span class="kb-col-shape-tooltip__bullets">A non-functional requirement that cannot be measured is a wish. Teams that ship without measurable NFRs discover the truth in production — too late, too expensive, sometimes too public. This skill turns each NFR into a concrete Service Level Indicator (what is measured), Service Level Objective (the target on that indicator), and where a customer-facing commitment exists, a Service Level Agreement. Critically, each objective is scoped to the functional area it applies to: a single user story, an epic, a parent epic, or the system as a whole.</span></span></span></a>
           </div>
           <div class="aad-skill-row aad-skill-row--stage-other aad-skill-row--empty" data-family="other" aria-hidden="true"></div>
+          <span class="kb-col-collapsed-label" aria-hidden="true">Discovery</span>
+          <button type="button" class="kb-col-collapse-btn" aria-label="Collapse column" aria-expanded="true">&#x2039;</button>
         </div>
         <div class="kb-col" data-id="col-exploration" data-stage="exploration">
           <button type="button" class="kb-col-head kb-col-head--toggle foundry-stage-toggle" data-stage="exploration" data-id="head-exploration" aria-pressed="false">
@@ -6276,23 +6394,26 @@ html.foundry-scroll-pending {
             </div>
           </button>
           <div class="aad-skill-row aad-fam-sdd" data-family="story-driven-delivery">
-            <a class="kb-ticket aad-skill aad-fam-sdd has-skill-tooltip" data-id="tk-story-driven-delivery-exploration-abd-story-acceptance-criteria" data-perspective="sdd" data-stage="exploration" data-skill-href="abd-story-acceptance-criteria.html" href="abd-story-acceptance-criteria.html?stage=exploration"><span class="kb-skill-tooltip-wrap">story acceptance criteria<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">story acceptance criteria</span><span class="kb-col-shape-tooltip__bullets">Build acceptance criteria per story, that explain what must be true when users and systems interact: observable triggers (WHEN), expected outcomes (THEN), chained effects (AND), and explicit negatives (BUT). These act as informal first-draft BDD-style steps that guide downstream scenario work. Focus on interactions using domain terms, avoid implementation detail unless the story is technical, and even then keep it minimal.</span></span></span></a>
+            <a class="kb-ticket aad-skill aad-fam-sdd has-skill-tooltip" data-id="tk-story-driven-delivery-exploration-abd-story-acceptance-criteria" data-perspective="sdd" data-stage="exploration" data-skill-href="abd-story-acceptance-criteria.html" href="abd-story-acceptance-criteria.html?stage=exploration"><span class="kb-skill-tooltip-wrap">story acceptance criteria<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">story acceptance criteria</span><span class="kb-col-shape-tooltip__bullets">State exactly what must be true for a story to be done — so everyone agrees on &quot;finished&quot; before coding starts.</span></span></span></a>
           </div>
           <div class="aad-skill-row aad-fam-ddd is-filter-visible" data-family="domain-driven-design">
-            <a class="kb-ticket aad-skill aad-fam-ddd has-skill-tooltip" data-id="tk-domain-driven-design-exploration-abd-domain-model" data-perspective="ddd" data-stage="exploration" data-skill-href="abd-domain-model.html" href="abd-domain-model.html?stage=exploration"><span class="kb-skill-tooltip-wrap">domain model<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">domain model</span><span class="kb-col-shape-tooltip__bullets">This skill takes domain concepts from a completed Domain Language and produces a typed domain model: for each concept, a constructor, typed properties, method signatures with collaborators and invariants. The result is a standalone file with ### Class blocks under each Key Abstraction.
-
-    The format sits between domain model and a full Class Model — it uses typed notation (constructors, property types, method signatures) but avoids class-model embellishments (no &lt;&lt; stereotypes &gt;&gt;, no List&lt;T&gt; or Dictionary&lt;K,V&gt;, no Interaction: blocks, no + visibility prefixes, no param names in method signatures).</span></span></span></a>
+            <a class="kb-ticket aad-skill aad-fam-ddd has-skill-tooltip" data-id="tk-domain-driven-design-exploration-abd-domain-model" data-perspective="ddd" data-stage="exploration" data-skill-href="abd-domain-model.html" href="abd-domain-model.html?stage=exploration"><span class="kb-skill-tooltip-wrap">domain model<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">domain model</span><span class="kb-col-shape-tooltip__bullets">Make ownership and responsibilities explicit for every concept — who creates it, who mutates it, what it guards — so code knows where behavior lives before anyone writes a class.</span></span></span></a>
           </div>
           <div class="aad-skill-row aad-fam-uxd" data-family="user-experience-design">
-            <a class="kb-ticket aad-skill aad-fam-uxd has-skill-tooltip" data-id="tk-user-experience-design-exploration-abd-ux-mockup" data-perspective="uxd" data-stage="exploration" data-skill-href="abd-ux-mockup.html" href="abd-ux-mockup.html?stage=exploration"><span class="kb-skill-tooltip-wrap">ux mockup<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">ux mockup</span><span class="kb-col-shape-tooltip__bullets">The initial IA established the screen inventory, regions, and story coverage. The lo-fi mockup is the next precision pass: it locks down exactly which control renders each field, exactly what interactions are available in each state, and exactly what the user sees and does — without yet committing to visual design. Every input becomes a specific control type (text field, dropdown, checkbox). Every action becomes a positioned button with a primary/secondary weight. Every conditional state (validation error, empty list, disabled control) is explicitly placed. This skill packages that pass: take one IA screen, resolve its AC and domain terms, build a drawio-mockup.mjs state file, generate the .drawio wireframe, and save it — so interaction decisions are made deliberately and traceable, not invented during implementation.</span></span></span></a>
+            <a class="kb-ticket aad-skill aad-fam-uxd has-skill-tooltip" data-id="tk-user-experience-design-exploration-abd-ux-mockup" data-perspective="uxd" data-stage="exploration" data-skill-href="abd-ux-mockup.html" href="abd-ux-mockup.html?stage=exploration"><span class="kb-skill-tooltip-wrap">ux mockup<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">ux mockup</span><span class="kb-col-shape-tooltip__bullets">Lock down every control and interaction before visual design — so nothing is invented during build.</span></span></span></a>
           </div>
           <div class="aad-skill-row aad-fam-arc" data-family="architecture-centric-engineering">
-            <a class="kb-ticket aad-skill aad-fam-arc has-skill-tooltip" data-id="tk-architecture-centric-engineering-exploration-abd-architecture-specification" data-perspective="arc" data-stage="exploration" data-skill-href="abd-architecture-specification.html" href="abd-architecture-specification.html?stage=exploration"><span class="kb-skill-tooltip-wrap">architecture specification document<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture specification document</span><span class="kb-col-shape-tooltip__bullets">An architecture specification tells engineers exactly how domain concepts and stories become code in a chosen stack — which files, classes, interactions, and tests implement each entity, operation, and scenario. The specification is one artifact: documentation and working template code stay aligned; each mechanism is documented once and reused; later runs extend only what is missing.</span></span></span></a>
+            <a class="kb-ticket aad-skill aad-fam-arc has-skill-tooltip" data-id="tk-architecture-centric-engineering-exploration-abd-architecture-specification" data-perspective="arc" data-stage="exploration" data-skill-href="abd-architecture-specification.html" href="abd-architecture-specification.html?stage=exploration"><span class="kb-skill-tooltip-wrap">architecture specification document<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture specification document</span><span class="kb-col-shape-tooltip__bullets">Tell engineers exactly how domain concepts and stories become files, classes, and tests in a chosen stack — so agents know exactly how to generate working code for a domain and story that follows the architecture.</span></span></span></a>
+          </div>
+          <div class="aad-skill-row aad-fam-ctx aad-skill-row--empty" data-family="context-to-memory">
+
           </div>
           <div class="aad-stage-skills-gap" aria-hidden="true"></div>
           <div class="aad-skill-row aad-skill-row--stage-other aad-skill-row--empty" data-family="other" aria-hidden="true"></div>
           <div class="aad-skill-row aad-skill-row--stage-other aad-skill-row--empty" data-family="other" aria-hidden="true"></div>
           <div class="aad-skill-row aad-skill-row--stage-other aad-skill-row--empty" data-family="other" aria-hidden="true"></div>
+          <span class="kb-col-collapsed-label" aria-hidden="true">Exploration</span>
+          <button type="button" class="kb-col-collapse-btn" aria-label="Collapse column" aria-expanded="true">&#x2039;</button>
         </div>
         <div class="kb-col active" data-id="col-specification" data-stage="specification">
           <button type="button" class="kb-col-head kb-col-head--toggle foundry-stage-toggle" data-stage="specification" data-id="head-specification" aria-pressed="false">
@@ -6309,21 +6430,26 @@ html.foundry-scroll-pending {
             </div>
           </button>
           <div class="aad-skill-row aad-fam-sdd" data-family="story-driven-delivery">
-            <a class="kb-ticket aad-skill aad-fam-sdd has-skill-tooltip" data-id="tk-story-driven-delivery-specification-abd-story-specification" data-perspective="sdd" data-stage="specification" data-skill-href="abd-story-specification.html" href="abd-story-specification.html?stage=specification"><span class="kb-skill-tooltip-wrap">story specification<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">story specification</span><span class="kb-col-shape-tooltip__bullets">Build specification scenarios per story that turn acceptance criteria and story intent into runnable examples: preconditions (Given), triggers (When), observable outcomes (Then), chained effects (And), and explicit negatives (But). Write multiple scenarios per story — at least one happy path plus edge and error cases implied by the story or its AC — each a complete example with realistic domain values, not placeholders. Ground every step in the domain model: use exact concept names, deliberate relationships in step language, and Examples tables whose columns reflect domain structure (not isolated field lists). When AC exist, use the main-flow AC as the spine (WHEN → When, THEN/AND → Then/And), then add Given preconditions and additional scenarios for failures, boundaries, and alternate flows. Focus on what users and systems do and what becomes observable; keep implementation detail out unless the story is explicitly technical.</span></span></span></a>
+            <a class="kb-ticket aad-skill aad-fam-sdd has-skill-tooltip" data-id="tk-story-driven-delivery-specification-abd-story-specification" data-perspective="sdd" data-stage="specification" data-skill-href="abd-story-specification.html" href="abd-story-specification.html?stage=specification"><span class="kb-skill-tooltip-wrap">story specification<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">story specification</span><span class="kb-col-shape-tooltip__bullets">Make story behavior unambiguous — concrete examples with real values so devs and domain experts agree on exactly what happens before code is written.</span></span></span></a>
           </div>
           <div class="aad-skill-row aad-fam-ddd is-filter-visible" data-family="domain-driven-design">
-            <span class="kb-ticket aad-skill aad-fam-ddd has-skill-tooltip kb-ticket--current" data-id="tk-domain-driven-design-specification-abd-domain-specification" data-perspective="ddd" data-stage="specification" data-skill-href="abd-domain-specification.html" aria-current="page"><span class="kb-skill-tooltip-wrap">domain specification<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">domain specification</span><span class="kb-col-shape-tooltip__bullets">Build a typed Class Model for a module. When a domain model exists it is the primary input — the skill converts that behavioral model into a typed domain surface with far less effort. Without a domain model the skill can still produce an Class Model directly from domain knowledge.</span></span></span></span>
+            <span class="kb-ticket aad-skill aad-fam-ddd has-skill-tooltip kb-ticket--current" data-id="tk-domain-driven-design-specification-abd-domain-specification" data-perspective="ddd" data-stage="specification" data-skill-href="abd-domain-specification.html" aria-current="page"><span class="kb-skill-tooltip-wrap">domain specification<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">domain specification</span><span class="kb-col-shape-tooltip__bullets">Build a typed Class Model for a module — fully typed properties, operations with parameters, relationships, object initialisation, and interaction blocks — from a domain model or directly from domain knowledge.</span></span></span></span>
           </div>
           <div class="aad-skill-row aad-fam-uxd" data-family="user-experience-design">
-            <a class="kb-ticket aad-skill aad-fam-uxd has-skill-tooltip" data-id="tk-user-experience-design-specification-abd-ux-specification" data-perspective="uxd" data-stage="specification" data-skill-href="abd-ux-specification.html" href="abd-ux-specification.html?stage=specification"><span class="kb-skill-tooltip-wrap">ux specification<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">ux specification</span><span class="kb-col-shape-tooltip__bullets">Lo-fi mockups lock controls and states. The specification stage turns those decisions into something people can click through — not production code. The deliverable is a hi-fi prototype built from real HTML, CSS, and JavaScript (or the host project&#x27;s static/preview stack): design tokens, typography, colour, spacing, and components that match the approved visual direction, with navigation and state transitions wired so flows feel real. Backend calls, validation rules, auth, and persistence are stubbed or faked — fixture data, timed delays, hard-coded branches, and local state only where needed to demonstrate behaviour. Acceptance criteria are demonstrated, not fully implemented; ubiquitous-language labels stay verbatim from upstream artifacts.</span></span></span></a>
+            <a class="kb-ticket aad-skill aad-fam-uxd has-skill-tooltip" data-id="tk-user-experience-design-specification-abd-ux-specification" data-perspective="uxd" data-stage="specification" data-skill-href="abd-ux-specification.html" href="abd-ux-specification.html?stage=specification"><span class="kb-skill-tooltip-wrap">ux specification<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">ux specification</span><span class="kb-col-shape-tooltip__bullets">Turn approved lo-fi mockups into a clickable hi-fi prototype (real HTML/CSS/JS with design tokens) where navigation and state transitions are wired but backend logic stays stubbed — so stakeholders can walk flows, validate AC visually, and sign off before production begins.</span></span></span></a>
           </div>
           <div class="aad-skill-row aad-fam-arc" data-family="architecture-centric-engineering">
-            <a class="kb-ticket aad-skill aad-fam-arc has-skill-tooltip" data-id="tk-architecture-centric-engineering-specification-abd-architecture-specification" data-perspective="arc" data-stage="specification" data-skill-href="abd-architecture-specification.html" href="abd-architecture-specification.html?stage=specification"><span class="kb-skill-tooltip-wrap">architecture specification template<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture specification template</span><span class="kb-col-shape-tooltip__bullets">An architecture specification tells engineers exactly how domain concepts and stories become code in a chosen stack — which files, classes, interactions, and tests implement each entity, operation, and scenario. The specification is one artifact: documentation and working template code stay aligned; each mechanism is documented once and reused; later runs extend only what is missing.</span></span></span></a>
+            <a class="kb-ticket aad-skill aad-fam-arc has-skill-tooltip" data-id="tk-architecture-centric-engineering-specification-abd-architecture-specification" data-perspective="arc" data-stage="specification" data-skill-href="abd-architecture-specification.html" href="abd-architecture-specification.html?stage=specification"><span class="kb-skill-tooltip-wrap">architecture specification template<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture specification template</span><span class="kb-col-shape-tooltip__bullets">Tell engineers exactly how domain concepts and stories become files, classes, and tests in a chosen stack — so agents know exactly how to generate working code for a domain and story that follows the architecture.</span></span></span></a>
+          </div>
+          <div class="aad-skill-row aad-fam-ctx aad-skill-row--empty" data-family="context-to-memory">
+
           </div>
           <div class="aad-stage-skills-gap" aria-hidden="true"></div>
           <div class="aad-skill-row aad-skill-row--stage-other aad-skill-row--empty" data-family="other" aria-hidden="true"></div>
           <div class="aad-skill-row aad-skill-row--stage-other aad-skill-row--empty" data-family="other" aria-hidden="true"></div>
           <div class="aad-skill-row aad-skill-row--stage-other aad-skill-row--empty" data-family="other" aria-hidden="true"></div>
+          <span class="kb-col-collapsed-label" aria-hidden="true">Specification</span>
+          <button type="button" class="kb-col-collapse-btn" aria-label="Collapse column" aria-expanded="true">&#x2039;</button>
         </div>
         <div class="kb-col" data-id="col-engineering" data-stage="engineering">
           <button type="button" class="kb-col-head kb-col-head--toggle foundry-stage-toggle" data-stage="engineering" data-id="head-engineering" aria-pressed="false">
@@ -6340,26 +6466,19 @@ html.foundry-scroll-pending {
             </div>
           </button>
           <div class="aad-skill-row aad-fam-sdd" data-family="story-driven-delivery">
-            <a class="kb-ticket aad-skill aad-fam-sdd has-skill-tooltip" data-id="tk-story-driven-delivery-engineering-abd-story-acceptance-test" data-perspective="sdd" data-stage="engineering" data-skill-href="abd-story-acceptance-test.html" href="abd-story-acceptance-test.html?stage=engineering"><span class="kb-skill-tooltip-wrap">story acceptance test<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">story acceptance test</span><span class="kb-col-shape-tooltip__bullets">Write tests first. Write code to pass them.
-
-    This skill creates executable test files — in whatever language and framework the project uses — from whatever behavioral context is available: specification scenarios, acceptance criteria, stories, notes, or a rough description of what the system should do. The output is real test code that runs, fails, and drives what gets built.
-
-    The workflow is test-driven: write a test that expresses the expected behavior, run it to confirm it fails (RED), then implement production code until the test passes (GREEN). Each test is a precise, runnable statement of what the system must do — test methods show the Given-When-Then flow and helper functions do the work.</span></span></span></a>
+            <a class="kb-ticket aad-skill aad-fam-sdd has-skill-tooltip" data-id="tk-story-driven-delivery-engineering-abd-story-acceptance-test" data-perspective="sdd" data-stage="engineering" data-skill-href="abd-story-acceptance-test.html" href="abd-story-acceptance-test.html?stage=engineering"><span class="kb-skill-tooltip-wrap">story acceptance test<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">story acceptance test</span><span class="kb-col-shape-tooltip__bullets">Generate executable test files from specification scenarios, acceptance criteria, stories, or rough descriptions using the project&#x27;s language and framework. Follow RED-GREEN-REFACTOR: write a failing test that expresses expected behavior, implement production code until it passes — one class per story, one method per scenario, Given-When-Then helpers doing the work.</span></span></span></a>
           </div>
           <div class="aad-skill-row aad-fam-ddd is-filter-visible" data-family="domain-driven-design">
-            <a class="kb-ticket aad-skill aad-fam-ddd has-skill-tooltip" data-id="tk-domain-driven-design-engineering-abd-domain-code" data-perspective="ddd" data-stage="engineering" data-skill-href="abd-domain-code.html" href="abd-domain-code.html?stage=engineering"><span class="kb-skill-tooltip-wrap">domain code<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">domain code</span><span class="kb-col-shape-tooltip__bullets">Turn whatever domain context exists into running, tested domain code.
-
-    — Tests first (RED) → production code (GREEN) → clean up (REFACTOR).
-    — Only the domain layer: classes, value objects, operations, invariants, domain events.
-    — No database, no HTTP, no framework coupling.</span></span></span></a>
+            <a class="kb-ticket aad-skill aad-fam-ddd has-skill-tooltip" data-id="tk-domain-driven-design-engineering-abd-domain-code" data-perspective="ddd" data-stage="engineering" data-skill-href="abd-domain-code.html" href="abd-domain-code.html?stage=engineering"><span class="kb-skill-tooltip-wrap">domain code<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">domain code</span><span class="kb-col-shape-tooltip__bullets">Turn domain knowledge into tested, running code — pure business logic with no infrastructure coupling — so the domain model is proven executable before integration begins.</span></span></span></a>
           </div>
           <div class="aad-skill-row aad-fam-uxd aad-skill-row--empty" data-family="user-experience-design">
 
           </div>
           <div class="aad-skill-row aad-fam-arc" data-family="architecture-centric-engineering">
-            <a class="kb-ticket aad-skill aad-fam-arc has-skill-tooltip" data-id="tk-architecture-centric-engineering-engineering-abd-architecture-code" data-perspective="arc" data-stage="engineering" data-skill-href="abd-architecture-code.html" href="abd-architecture-code.html?stage=engineering"><span class="kb-skill-tooltip-wrap">architecture code<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture code</span><span class="kb-col-shape-tooltip__bullets">Given a named architecture spec and story scope with domain context, generate acceptance tests then production code that follows the spec&#x27;s instructions, templates, file layout, and rules. Use when writing code for a story that has a named spec, adding a feature module to an existing codebase, or reviewing generated code for architecture compliance.
+            <a class="kb-ticket aad-skill aad-fam-arc has-skill-tooltip" data-id="tk-architecture-centric-engineering-engineering-abd-architecture-code" data-perspective="arc" data-stage="engineering" data-skill-href="abd-architecture-code.html" href="abd-architecture-code.html?stage=engineering"><span class="kb-skill-tooltip-wrap">architecture code<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">architecture code</span><span class="kb-col-shape-tooltip__bullets">Turn architecture decisions into running code — so the spec is not just a document but an enforced reality in every layer and test tier.</span></span></span></a>
+          </div>
+          <div class="aad-skill-row aad-fam-ctx aad-skill-row--empty" data-family="context-to-memory">
 
-    The companion abd-architecture-specification skill shows the parameterized template shape; this skill shows filled-in output — see reference/example.ts for a concrete Recipients module merged from mern-domain-first-specification.</span></span></span></a>
           </div>
           <div class="aad-stage-skills-gap" aria-hidden="true"></div>
           <div class="aad-skill-row aad-skill-row--stage-other" data-family="other">
@@ -6371,10 +6490,19 @@ html.foundry-scroll-pending {
             <a class="kb-ticket aad-skill aad-fam-other aad-stage-skill aad-fam-stage has-skill-tooltip" data-id="tk-stage-engineering-abd-secure-code" data-stage="engineering" data-skill-href="abd-secure-code.html" href="abd-secure-code.html?stage=engineering"><span class="kb-skill-tooltip-wrap">secure code<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">secure code</span><span class="kb-col-shape-tooltip__bullets">Engineers ship features faster than attackers find gaps — but only when secure defaults are explicit, reviewable, and mechanically checkable. This skill packages Secure Code Warrior guidance into concrete coding rules and automated scanners so teams and agents can write security-sensitive code and prove it meets the same bar before merge.</span></span></span></a>
           </div>
           <div class="aad-skill-row aad-skill-row--stage-other aad-skill-row--empty" data-family="other" aria-hidden="true"></div>
+          <span class="kb-col-collapsed-label" aria-hidden="true">Engineering</span>
+          <button type="button" class="kb-col-collapse-btn" aria-label="Collapse column" aria-expanded="true">&#x2039;</button>
         </div>
   </div>
     <div class="kanban-stage-questions kanban-stage-questions--foundry" data-id="stage-questions">
       <div class="kanban-stage-questions__spacer" aria-hidden="true"></div>
+      <div class="kanban-stage-questions__cell" data-stage="context">
+        <ul class="kanban-stage-questions__list">
+          <li class="kanban-stage-questions__item">source material indexed</li>
+          <li class="kanban-stage-questions__item">semantic search available</li>
+          <li class="kanban-stage-questions__item">workspace memory current</li>
+        </ul>
+      </div>
       <div class="kanban-stage-questions__cell" data-stage="shaping">
         <ul class="kanban-stage-questions__list">
           <li class="kanban-stage-questions__item">solution breadth</li>
@@ -6425,41 +6553,29 @@ html.foundry-scroll-pending {
             <div class="aad-delivery-crosscut-row aad-crosscut-tier--practice" data-crosscut-group="kanban" data-family="kanban">
               <a class="kb-ticket aad-skill aad-crosscut-row-title aad-fam-delivery" href="abd-kanban-handoff.html">kanban</a>
               <div class="aad-delivery-crosscut-skills aad-delivery-crosscut-skills--collapsed">
-                <a class="kb-ticket aad-skill aad-fam-delivery has-skill-tooltip" href="abd-kanban-planning.html"><span class="kb-skill-tooltip-wrap">kanban planning<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">kanban planning</span><span class="kb-col-shape-tooltip__bullets">Kanban Planning configures how delivery flows — not what to build. It selects a strategy based on context and risk, configures the kanban board (stages, scope levels, stage work required), and defines scatter rules (how and when tickets decompose at scope boundaries). The result drives the JIT kanban board without pre-authoring every assignment.
-
-        Do not use this skill to produce artifacts (maps, slices, AC, tests, code). This skill is strictly about the delivery lifecycle spine — the kanban board stage configuration, strategy, and decomposition rules.</span></span></span></a>
-                <a class="kb-ticket aad-skill aad-fam-delivery has-skill-tooltip" href="abd-kanban.html"><span class="kb-skill-tooltip-wrap">kanban<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">kanban</span><span class="kb-col-shape-tooltip__bullets">Configure the kanban board for a delivery engagement. The kanban board defines ordered stages, each with a scope level and stage work required. Tickets carry only a lazily-populated skill_progress map; the kanban board (kanban.json) is the single source of truth for which skills a stage require. The kanban app owns all board mechanics from there.</span></span></span></a>
-                <a class="kb-ticket aad-skill aad-fam-delivery has-skill-tooltip" href="abd-kanban-repo.html"><span class="kb-skill-tooltip-wrap">kanban repo<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">kanban repo</span><span class="kb-col-shape-tooltip__bullets">Manage git history for a delivery engagement. Commits, branches, pushes, and PRs are driven by ticket state changes on the Kanban board — not by slots or runs.</span></span></span></a>
-                <a class="kb-ticket aad-skill aad-fam-delivery has-skill-tooltip" href="kanban-estimation.html"><span class="kb-skill-tooltip-wrap">kanban estimation<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">kanban estimation</span><span class="kb-col-shape-tooltip__bullets">Teams estimate badly not because they lack a formula but because they skip the conversation. Effort gets assigned by one person&#x27;s hunch, contributing factors go unexamined, and nobody records why a number landed where it did  so every future re-estimate starts from scratch. Delivery estimation packages the facilitation pattern that makes sizing collaborative, factor-aware, and traceable: teams walk through backlog items one at a time, name what drives effort, agree on a category, and save the reasoning alongside the number.</span></span></span></a>
-                <a class="kb-ticket aad-skill aad-fam-delivery has-skill-tooltip" href="abd-kanban-handoff.html"><span class="kb-skill-tooltip-wrap">kanban handoff<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">kanban handoff</span><span class="kb-col-shape-tooltip__bullets">Produce a delivery resume document so a fresh agent knows where JIT kanban delivery left off — which stages and scopes have advanced, which increments have material under docs/increments/, and what to run next — without re-reading the whole repo or chat.
-
-        Works with or without a live board: when board.json is missing or stale, infer progress from artifact presence and chat.</span></span></span></a>
+                <a class="kb-ticket aad-skill aad-fam-delivery has-skill-tooltip" href="abd-kanban-planning.html"><span class="kb-skill-tooltip-wrap">kanban planning<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">kanban planning</span><span class="kb-col-shape-tooltip__bullets">Choose how work flows — strategy, stage structure, and scatter rules — so delivery has a spine before tickets start moving.</span></span></span></a>
+                <a class="kb-ticket aad-skill aad-fam-delivery has-skill-tooltip" href="abd-kanban.html"><span class="kb-skill-tooltip-wrap">kanban<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">kanban</span><span class="kb-col-shape-tooltip__bullets">Make delivery work visible and flow-governed — so nothing hides and bottlenecks surface immediately.</span></span></span></a>
+                <a class="kb-ticket aad-skill aad-fam-delivery has-skill-tooltip" href="abd-kanban-repo.html"><span class="kb-skill-tooltip-wrap">kanban repo<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">kanban repo</span><span class="kb-col-shape-tooltip__bullets">Tie git history to ticket lifecycle — so every commit, branch, and PR traces back to a delivery state change.</span></span></span></a>
+                <a class="kb-ticket aad-skill aad-fam-delivery has-skill-tooltip" href="kanban-estimation.html"><span class="kb-skill-tooltip-wrap">kanban estimation<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">kanban estimation</span><span class="kb-col-shape-tooltip__bullets">Agree on sizing with recorded rationale — so re-estimation never starts from scratch and assumptions are visible.</span></span></span></a>
+                <a class="kb-ticket aad-skill aad-fam-delivery has-skill-tooltip" href="abd-kanban-handoff.html"><span class="kb-skill-tooltip-wrap">kanban handoff<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">kanban handoff</span><span class="kb-col-shape-tooltip__bullets">Let a fresh agent resume delivery without re-reading the repo ? by capturing where things stand and what to pull next.</span></span></span></a>
               </div>
             </div>
             <div class="aad-delivery-crosscut-row aad-crosscut-tier--practice" data-crosscut-group="domain-driven-design" data-family="domain-driven-design">
               <a class="kb-ticket aad-skill aad-crosscut-row-title aad-fam-ddd" href="abd-domain-glossary.html">domain-driven-design</a>
               <div class="aad-delivery-crosscut-skills aad-delivery-crosscut-skills--collapsed">
-                <a class="kb-ticket aad-skill aad-fam-ddd has-skill-tooltip" href="abd-bounded-context-map.html"><span class="kb-skill-tooltip-wrap">bounded context map<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">bounded context map</span><span class="kb-col-shape-tooltip__bullets">Teams working across multiple models, services, or subsystems need a single shared picture of how those pieces relate — which concepts cross boundaries, how the systems talk to each other, and how the teams will collaborate. Without that picture, integration strategy is discovered in production, translation is ad hoc, and team dependencies are invisible until they block someone. This skill produces a Bounded Context Map: a named inventory of every bounded context with every dependency declared across three explicit dimensions — domain mapping, integration mechanism, and team engagement model — so the architecture is honest and the team structure matches.</span></span></span></a>
-                <a class="kb-ticket aad-skill aad-fam-ddd has-skill-tooltip" href="abd-ddd-design-building-blocks.html"><span class="kb-skill-tooltip-wrap">ddd design building blocks<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">ddd design building blocks</span><span class="kb-col-shape-tooltip__bullets">This skill works through a domain model concept by concept, identifying the right technical constraints through a set of questions that — while technical in framing — can only be answered by business requirements. For example: if two patients have the same name and date of birth, should we consider them the same patient? If a product changes, when do we update the inventory system?
-
-        Every DDD building block — Entity, Value Object, Aggregate, Service, Domain Event — looks technical but exposes a question only the business can answer. This skill models these elements by understanding business requirements for identity semantics, consistency boundaries, immutability guarantees, and integration contracts across business concepts and systems.</span></span></span></a>
-                <a class="kb-ticket aad-skill aad-fam-ddd has-skill-tooltip" href="abd-domain-walk.html"><span class="kb-skill-tooltip-wrap">domain walk<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">domain walk</span><span class="kb-col-shape-tooltip__bullets">Walk concrete scenarios through the typed Class Model (or domain model where the Class Model is not yet built). Each step must map to a class and an operation from the prior phase&#x27;s file. When a step crosses a state change or must respect a guard, align with the invariants and interactions captured upstream. If a step has no owner, record a gap and revise upstream artifacts.</span></span></span></a>
-                <a class="kb-ticket aad-skill aad-fam-ddd has-skill-tooltip" href="drawio-domain-sync.html"><span class="kb-skill-tooltip-wrap">drawio domain sync<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">drawio domain sync</span><span class="kb-col-shape-tooltip__bullets">This skill turns any domain model artifact — a Domain Language, Domain Model, or Domain Specification — into a Draw.io class diagram the whole team can read, annotate, and edit.
-
-        Default mode: per-KA tabs. Each Key Abstraction gets its own tab/page. Boundary classes (directly connected classes from other KAs) appear as dashed-border context, but only supertypes — a base class does not pull in subtypes from other KAs. This keeps each tab focused and readable.
-
-        Full-page mode (optional): When the user explicitly requests a single-page diagram (e.g. --full), all KAs render on one page. This is the exception, not the default.
-
-        When the team edits the diagram in Draw.io, the skill syncs those changes back to the source model file, so diagram and text never drift apart.</span></span></span></a>
+                <a class="kb-ticket aad-skill aad-fam-ddd has-skill-tooltip" href="abd-bounded-context-map.html"><span class="kb-skill-tooltip-wrap">bounded context map<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">bounded context map</span><span class="kb-col-shape-tooltip__bullets">Make integration, ownership, and translation between contexts explicit — so teams know who owns what and how they communicate across boundaries.</span></span></span></a>
+                <a class="kb-ticket aad-skill aad-fam-ddd has-skill-tooltip" href="abd-ddd-design-building-blocks.html"><span class="kb-skill-tooltip-wrap">ddd design building blocks<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">ddd design building blocks</span><span class="kb-col-shape-tooltip__bullets">Answer the business questions behind identity, consistency, and ownership for each concept — so DDD patterns match real business rules, not developer assumptions.</span></span></span></a>
+                <a class="kb-ticket aad-skill aad-fam-ddd has-skill-tooltip" href="abd-domain-walk.html"><span class="kb-skill-tooltip-wrap">domain walk<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">domain walk</span><span class="kb-col-shape-tooltip__bullets">Prove the domain model handles real scenarios end-to-end — find gaps before code does.</span></span></span></a>
+                <a class="kb-ticket aad-skill aad-fam-ddd has-skill-tooltip" href="drawio-domain-sync.html"><span class="kb-skill-tooltip-wrap">drawio domain sync<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">drawio domain sync</span><span class="kb-col-shape-tooltip__bullets">Keep domain diagrams and source models in sync — so the team reads one truth, not two.</span></span></span></a>
               </div>
             </div>
             <div class="aad-delivery-crosscut-row aad-crosscut-tier--practice" data-crosscut-group="story-driven-delivery" data-family="story-driven-delivery">
               <a class="kb-ticket aad-skill aad-crosscut-row-title aad-fam-sdd" href="abd-story-mapping.html">story-driven-delivery</a>
               <div class="aad-delivery-crosscut-skills aad-delivery-crosscut-skills--collapsed">
-                <a class="kb-ticket aad-skill aad-fam-sdd has-skill-tooltip" href="abd-thin-slicing.html"><span class="kb-skill-tooltip-wrap">thin slicing<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">thin slicing</span><span class="kb-col-shape-tooltip__bullets">Define prioritized increments. Group stories in a story map (and any notes on risk, constraints, or learning goals) into prioritized increments that can be delivered together. Each increment includes its priority order, outcomes, slicing notes, and an ordered list of stories.</span></span></span></a>
-                <a class="kb-ticket aad-skill aad-fam-sdd has-skill-tooltip" href="story-graph-ops.html"><span class="kb-skill-tooltip-wrap">story graph ops<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">story graph ops</span><span class="kb-col-shape-tooltip__bullets">Creates, reads, updates, and deletes story-graph.json (epics, sub-epics, stories, AC, scenarios) as a standalone artifact using the CLI or Python modules. Always validate after edits; do not hand-write JSON without running this skill&#x27;s tooling. Use when editing story-graph.json or managing its lifecycle on disk.</span></span></span></a>
-                <a class="kb-ticket aad-skill aad-fam-sdd has-skill-tooltip" href="drawio-story-sync.html"><span class="kb-skill-tooltip-wrap">drawio story sync<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">drawio story sync</span><span class="kb-col-shape-tooltip__bullets">Renders and synchronizes story-map Draw.io diagrams (outline, exploration with acceptance criteria, prioritization increments) from story-graph.json. Use when producing or diffing story-map.drawio files, or when wiring CI/scripts for diagram refresh and update reports.</span></span></span></a>
-                <a class="kb-ticket aad-skill aad-fam-sdd has-skill-tooltip" href="miro-story-sync.html"><span class="kb-skill-tooltip-wrap">miro story sync<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">miro story sync</span><span class="kb-col-shape-tooltip__bullets">Renders and synchronizes story-map Miro boards (outline; exploration and increments planned) from story-graph.json. Use when producing or refreshing Miro story maps from story-graph.json, or when wiring CI/scripts for Miro board updates.</span></span></span></a>
+                <a class="kb-ticket aad-skill aad-fam-sdd has-skill-tooltip" href="abd-thin-slicing.html"><span class="kb-skill-tooltip-wrap">thin slicing<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">thin slicing</span><span class="kb-col-shape-tooltip__bullets">Decide what to deliver first and why — so the team ships value in the smallest useful increments.</span></span></span></a>
+                <a class="kb-ticket aad-skill aad-fam-sdd has-skill-tooltip" href="story-graph-ops.html"><span class="kb-skill-tooltip-wrap">story graph ops<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">story graph ops</span><span class="kb-col-shape-tooltip__bullets">Create, read, update, and validate story-graph.json as the single source of truth for story structure. Use when editing the story graph or managing its lifecycle on disk.</span></span></span></a>
+                <a class="kb-ticket aad-skill aad-fam-sdd has-skill-tooltip" href="drawio-story-sync.html"><span class="kb-skill-tooltip-wrap">drawio story sync<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">drawio story sync</span><span class="kb-col-shape-tooltip__bullets">Render and synchronize story-map Draw.io diagrams from story-graph.json. Use when producing or refreshing outline, exploration, or increment diagrams.</span></span></span></a>
+                <a class="kb-ticket aad-skill aad-fam-sdd has-skill-tooltip" href="miro-story-sync.html"><span class="kb-skill-tooltip-wrap">miro story sync<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">miro story sync</span><span class="kb-col-shape-tooltip__bullets">Render and synchronize story-map Miro boards from story-graph.json. Use when producing or refreshing Miro story maps from the graph.</span></span></span></a>
               </div>
             </div>
             </div>
@@ -6491,7 +6607,7 @@ html.foundry-scroll-pending {
               <a class="kb-ticket aad-skill aad-crosscut-row-title aad-fam-foundational" href="../plugin/skill-helpers.html">Helpers</a>
               <div class="aad-delivery-crosscut-skills aad-delivery-crosscut-skills--collapsed">
                 <a class="kb-ticket aad-skill aad-fam-foundational has-skill-tooltip" href="commit-msg.html"><span class="kb-skill-tooltip-wrap">commit msg<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">commit msg</span><span class="kb-col-shape-tooltip__bullets">Generate meaningful commit messages from scope and changed files. No story_graph — scope from conversation, changed files, and persisted state. Use when user types /commit or requests a commit.</span></span></span></a>
-                <a class="kb-ticket aad-skill aad-fam-foundational has-skill-tooltip" href="execute-skill-using-skills-rules.html"><span class="kb-skill-tooltip-wrap">execute skill using skills rules<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">execute skill using skills rules</span><span class="kb-col-shape-tooltip__bullets">Read rules before work, validate output (AI pass + scanner pass), and follow the correction process after mistakes.</span></span></span></a>
+                <a class="kb-ticket aad-skill aad-fam-foundational" href="execute-skill-using-skills-rules.html">execute skill using skills rules</a>
                 <a class="kb-ticket aad-skill aad-fam-foundational has-skill-tooltip" href="track_task.html"><span class="kb-skill-tooltip-wrap">track_task<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">track_task</span><span class="kb-col-shape-tooltip__bullets">Track multi-step work with markdown checkboxes (- [ ] / - [x]) for any skill or agent—pipeline phases, per-phase steps, or ad-hoc lists—under the engagement workspace, without editing normative skill sources.</span></span></span></a>
               </div>
             </div>
@@ -6533,7 +6649,7 @@ html.foundry-scroll-pending {
 
 <div class="skill-hero-img-wrap">
 
-<!-- drawio-rev:1781202772 --><div class="skill-drawio-wrap" data-drawio-rev="1781202772"><div class="mxgraph" data-mxgraph="{&quot;highlight&quot;: &quot;#e5531a&quot;, &quot;nav&quot;: false, &quot;resize&quot;: false, &quot;zoom&quot;: 0.75, &quot;toolbar&quot;: &quot;zoom lightbox&quot;, &quot;xml&quot;: &quot;&lt;mxfile host=\&quot;65bd71144e\&quot;&gt;\n    &lt;diagram id=\&quot;page_product_catalog\&quot; name=\&quot;Product Catalog\&quot;&gt;\n        &lt;mxGraphModel dx=\&quot;4648\&quot; dy=\&quot;984\&quot; grid=\&quot;1\&quot; gridSize=\&quot;10\&quot; guides=\&quot;1\&quot; tooltips=\&quot;1\&quot; connect=\&quot;1\&quot; arrows=\&quot;1\&quot; fold=\&quot;1\&quot; page=\&quot;1\&quot; pageScale=\&quot;1\&quot; pageWidth=\&quot;3000\&quot; pageHeight=\&quot;2000\&quot; math=\&quot;0\&quot; shadow=\&quot;0\&quot;&gt;\n            &lt;root&gt;\n                &lt;mxCell id=\&quot;0\&quot;/&gt;\n                &lt;mxCell id=\&quot;1\&quot; parent=\&quot;0\&quot;/&gt;\n                &lt;mxCell id=\&quot;2\&quot; value=\&quot;&amp;lt;p style=&amp;quot;margin:0px;margin-top:4px;text-align:center;&amp;quot;&amp;gt;&amp;lt;b&amp;gt;Product Catalog&amp;lt;/b&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;+ ProductCatalog()&amp;lt;br/&amp;gt;+ products: List&amp;amp;lt;Product&amp;amp;gt;&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;+ findProduct(sku: String): Product&amp;lt;br/&amp;gt;+ browseProducts(): List&amp;amp;lt;Product&amp;amp;gt;&amp;lt;br/&amp;gt;+ filterByCategory(category: Category): List&amp;amp;lt;Product&amp;amp;gt;&amp;lt;br/&amp;gt;+ filterByBrand(brand: String): List&amp;amp;lt;Product&amp;amp;gt;&amp;lt;br/&amp;gt;+ search(keyword: String): List&amp;amp;lt;Product&amp;amp;gt;&amp;lt;br/&amp;gt;+ computeAggregateRating(product: Product): void&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&amp;quot;&amp;gt;&amp;lt;i&amp;gt;returns the product matching the given SKU from the catalog collection&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;i&amp;gt;returns only active products with at least one category assignment&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;i&amp;gt;returns products belonging to the given category or any of its children&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;i&amp;gt;searches across product name, description, brand, and category names&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;\&quot; style=\&quot;verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;266\&quot; y=\&quot;60\&quot; width=\&quot;260\&quot; height=\&quot;246\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;3\&quot; value=\&quot;&amp;lt;p style=&amp;quot;margin:0px;margin-top:4px;text-align:center;&amp;quot;&amp;gt;&amp;lt;b&amp;gt;Product&amp;lt;/b&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;+ name: String&amp;lt;br/&amp;gt;+ sku: String&amp;lt;br/&amp;gt;+ price: Money&amp;lt;br/&amp;gt;+ brand: String&amp;lt;br/&amp;gt;+ images: List&amp;amp;lt;ProductImage&amp;amp;gt;&amp;lt;br/&amp;gt;+ description: String&amp;lt;br/&amp;gt;+ weight: Decimal&amp;lt;br/&amp;gt;+ length: Decimal&amp;lt;br/&amp;gt;+ width: Decimal&amp;lt;br/&amp;gt;+ height: Decimal&amp;lt;br/&amp;gt;+ categories: List&amp;amp;lt;Category&amp;amp;gt;&amp;lt;br/&amp;gt;+ stockAvailability: List&amp;amp;lt;StockAvailability&amp;amp;gt;&amp;lt;br/&amp;gt;+ customerReviews: List&amp;amp;lt;CustomerReview&amp;amp;gt;&amp;lt;br/&amp;gt;+ aggregateStarRating: Decimal&amp;lt;br/&amp;gt;+ reviewCount: Integer&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;+ addReview(review: CustomerReview): void&amp;lt;br/&amp;gt;+ snapshotPrice(): Money&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&amp;quot;&amp;gt;&amp;lt;i&amp;gt;must be unique across the entire catalog&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;i&amp;gt;must be positive; historical orders retain the price at time of purchase, not th...&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;i&amp;gt;must always belong to at least one category&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;i&amp;gt;must always expose current stock availability per stocking store&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;\&quot; style=\&quot;verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;260\&quot; y=\&quot;375\&quot; width=\&quot;266\&quot; height=\&quot;390\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;4\&quot; value=\&quot;&amp;lt;p style=&amp;quot;margin:0px;margin-top:4px;text-align:center;&amp;quot;&amp;gt;&amp;lt;b&amp;gt;ProductImage&amp;lt;/b&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;+ imageFile: String&amp;lt;br/&amp;gt;+ altText: String&amp;lt;br/&amp;gt;+ displayOrder: Integer&amp;lt;br/&amp;gt;+ uploadedDate: Date&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;\&quot; style=\&quot;verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;-90\&quot; y=\&quot;390\&quot; width=\&quot;260\&quot; height=\&quot;110\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;5\&quot; value=\&quot;&amp;lt;p style=&amp;quot;margin:0px;margin-top:4px;text-align:center;&amp;quot;&amp;gt;&amp;lt;b&amp;gt;Category&amp;lt;/b&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;+ categoryName: String&amp;lt;br/&amp;gt;+ parentCategory: Category&amp;lt;br/&amp;gt;+ displayOrder: Integer&amp;lt;br/&amp;gt;+ activeStatus: Boolean&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;+ acceptProduct(product: Product): void&amp;lt;br/&amp;gt;+ children(): List&amp;amp;lt;Category&amp;amp;gt;&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&amp;quot;&amp;gt;&amp;lt;i&amp;gt;top-level categories have no parent; nesting depth is finite&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;i&amp;gt;product is added to this category&amp;amp;#x27;s product set&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;i&amp;gt;returns all categories whose parentCategory is this&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;\&quot; style=\&quot;verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;-260\&quot; y=\&quot;110\&quot; width=\&quot;260\&quot; height=\&quot;198\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;6\&quot; value=\&quot;&amp;lt;p style=&amp;quot;margin:0px;margin-top:4px;text-align:center;&amp;quot;&amp;gt;&amp;lt;b&amp;gt;CustomerReview&amp;lt;/b&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;+ authoringAccount: CustomerAccount&amp;lt;br/&amp;gt;+ reviewDate: Date&amp;lt;br/&amp;gt;+ starRating: Integer&amp;lt;br/&amp;gt;+ reviewTitle: String&amp;lt;br/&amp;gt;+ writtenText: String&amp;lt;br/&amp;gt;+ photoAttachment: String&amp;lt;br/&amp;gt;+ attachedProduct: Product&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&amp;quot;&amp;gt;&amp;lt;i&amp;gt;must be authored by exactly one customer account; guest checkout sessions cannot...&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;i&amp;gt;must be between 1 and 5 inclusive&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;i&amp;gt;must be attached to exactly one product&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;\&quot; style=\&quot;verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;-50\&quot; y=\&quot;590\&quot; width=\&quot;260\&quot; height=\&quot;214\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;7\&quot; value=\&quot;&amp;lt;p style=&amp;quot;margin:0px;margin-top:4px;text-align:center;&amp;quot;&amp;gt;&amp;lt;b&amp;gt;StockAvailability&amp;lt;/b&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;+ product: Product&amp;lt;br/&amp;gt;+ stockingStore: Store&amp;lt;br/&amp;gt;+ stockLevel: Integer&amp;lt;br/&amp;gt;+ quantityOnHand: Integer&amp;lt;br/&amp;gt;+ reservedQuantity: Integer&amp;lt;br/&amp;gt;+ availableToSellQuantity: Integer&amp;lt;br/&amp;gt;+ reorderPoint: Integer&amp;lt;br/&amp;gt;+ reorderQuantity: Integer&amp;lt;br/&amp;gt;+ lowStockThreshold: Integer&amp;lt;br/&amp;gt;+ lastRestockedDate: Date&amp;lt;br/&amp;gt;+ expectedRestockDate: Date&amp;lt;br/&amp;gt;+ backorderEnabled: Boolean&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;+ perStoreWalkInAvailabilityDisplay(): String&amp;lt;br/&amp;gt;+ refreshFromStoreEmployeeEdit(newStockLevel: Integer): void&amp;lt;br/&amp;gt;+ gateOrderFlow(requestedQuantity: Integer): Boolean&amp;lt;br/&amp;gt;+ reserveStock(quantity: Integer): void&amp;lt;br/&amp;gt;+ releaseReservedStock(quantity: Integer): void&amp;lt;br/&amp;gt;+ updateQuantityOnHand(newQuantity: Integer): void&amp;lt;br/&amp;gt;+ staffStockDisplay(): String&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&amp;quot;&amp;gt;&amp;lt;i&amp;gt;one stock availability record per product per stocking location (store)&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;i&amp;gt;numeric quantity held at the stocking store; edited by store employee via admin ...&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;i&amp;gt;available-to-sell must never go negative; if it reaches zero, purchasability is ...&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;i&amp;gt;must reflect current stock level immediately after store employee update; walk-i...&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;\&quot; style=\&quot;verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;600\&quot; y=\&quot;370\&quot; width=\&quot;260\&quot; height=\&quot;422\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;8\&quot; value=\&quot;\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;\&quot; parent=\&quot;1\&quot; source=\&quot;2\&quot; target=\&quot;5\&quot; edge=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;&gt;\n                        &lt;Array as=\&quot;points\&quot;&gt;\n                            &lt;mxPoint x=\&quot;150\&quot; y=\&quot;209\&quot;/&gt;\n                            &lt;mxPoint x=\&quot;150\&quot; y=\&quot;209\&quot;/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;9\&quot; value=\&quot;* ---&amp;gt; *\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;exitX=0.5;exitY=1;entryX=0.15;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;\&quot; parent=\&quot;1\&quot; source=\&quot;5\&quot; target=\&quot;3\&quot; edge=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;10\&quot; value=\&quot;1 ---&amp;gt; *\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=none;html=1;startArrow=diamondThin;startFill=1;startSize=14;exitX=0.85;exitY=1;entryX=0.85;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;\&quot; parent=\&quot;1\&quot; source=\&quot;2\&quot; target=\&quot;3\&quot; edge=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;11\&quot; value=\&quot;1 ---&amp;gt; *\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=none;html=1;startArrow=diamondThin;startFill=1;startSize=14;exitX=0.004;exitY=0.113;exitDx=0;exitDy=0;exitPerimeter=0;\&quot; parent=\&quot;1\&quot; source=\&quot;3\&quot; target=\&quot;4\&quot; edge=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;12\&quot; value=\&quot;1 ---&amp;gt; *\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=none;html=1;startArrow=diamondThin;startFill=1;startSize=14;entryX=0.5;entryY=0;entryDx=0;entryDy=0;\&quot; parent=\&quot;1\&quot; source=\&quot;3\&quot; target=\&quot;6\&quot; edge=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;13\&quot; value=\&quot;1 ---&amp;gt; *\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=none;html=1;startArrow=diamondThin;startFill=0;startSize=14;\&quot; parent=\&quot;1\&quot; source=\&quot;3\&quot; target=\&quot;7\&quot; edge=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;&gt;\n                        &lt;Array as=\&quot;points\&quot;&gt;\n                            &lt;mxPoint x=\&quot;658\&quot; y=\&quot;570\&quot;/&gt;\n                            &lt;mxPoint x=\&quot;658\&quot; y=\&quot;565\&quot;/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n            &lt;/root&gt;\n        &lt;/mxGraphModel&gt;\n    &lt;/diagram&gt;\n&lt;/mxfile&gt;&quot;}"></div></div><script type="text/javascript" src="https://viewer.diagrams.net/js/viewer-static.min.js"></script>
+<!-- drawio-rev:1781726889 --><div class="skill-drawio-wrap" data-drawio-rev="1781726889"><div class="mxgraph" data-mxgraph="{&quot;highlight&quot;: &quot;#e5531a&quot;, &quot;nav&quot;: false, &quot;resize&quot;: false, &quot;zoom&quot;: 0.75, &quot;toolbar&quot;: &quot;zoom lightbox&quot;, &quot;xml&quot;: &quot;&lt;mxfile host=\&quot;65bd71144e\&quot;&gt;\n    &lt;diagram id=\&quot;page_product_catalog\&quot; name=\&quot;Product Catalog\&quot;&gt;\n        &lt;mxGraphModel dx=\&quot;4648\&quot; dy=\&quot;984\&quot; grid=\&quot;1\&quot; gridSize=\&quot;10\&quot; guides=\&quot;1\&quot; tooltips=\&quot;1\&quot; connect=\&quot;1\&quot; arrows=\&quot;1\&quot; fold=\&quot;1\&quot; page=\&quot;1\&quot; pageScale=\&quot;1\&quot; pageWidth=\&quot;3000\&quot; pageHeight=\&quot;2000\&quot; math=\&quot;0\&quot; shadow=\&quot;0\&quot;&gt;\n            &lt;root&gt;\n                &lt;mxCell id=\&quot;0\&quot;/&gt;\n                &lt;mxCell id=\&quot;1\&quot; parent=\&quot;0\&quot;/&gt;\n                &lt;mxCell id=\&quot;2\&quot; value=\&quot;&amp;lt;p style=&amp;quot;margin:0px;margin-top:4px;text-align:center;&amp;quot;&amp;gt;&amp;lt;b&amp;gt;Product Catalog&amp;lt;/b&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;+ ProductCatalog()&amp;lt;br/&amp;gt;+ products: List&amp;amp;lt;Product&amp;amp;gt;&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;+ findProduct(sku: String): Product&amp;lt;br/&amp;gt;+ browseProducts(): List&amp;amp;lt;Product&amp;amp;gt;&amp;lt;br/&amp;gt;+ filterByCategory(category: Category): List&amp;amp;lt;Product&amp;amp;gt;&amp;lt;br/&amp;gt;+ filterByBrand(brand: String): List&amp;amp;lt;Product&amp;amp;gt;&amp;lt;br/&amp;gt;+ search(keyword: String): List&amp;amp;lt;Product&amp;amp;gt;&amp;lt;br/&amp;gt;+ computeAggregateRating(product: Product): void&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&amp;quot;&amp;gt;&amp;lt;i&amp;gt;returns the product matching the given SKU from the catalog collection&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;i&amp;gt;returns only active products with at least one category assignment&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;i&amp;gt;returns products belonging to the given category or any of its children&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;i&amp;gt;searches across product name, description, brand, and category names&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;\&quot; style=\&quot;verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;266\&quot; y=\&quot;60\&quot; width=\&quot;260\&quot; height=\&quot;246\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;3\&quot; value=\&quot;&amp;lt;p style=&amp;quot;margin:0px;margin-top:4px;text-align:center;&amp;quot;&amp;gt;&amp;lt;b&amp;gt;Product&amp;lt;/b&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;+ name: String&amp;lt;br/&amp;gt;+ sku: String&amp;lt;br/&amp;gt;+ price: Money&amp;lt;br/&amp;gt;+ brand: String&amp;lt;br/&amp;gt;+ images: List&amp;amp;lt;ProductImage&amp;amp;gt;&amp;lt;br/&amp;gt;+ description: String&amp;lt;br/&amp;gt;+ weight: Decimal&amp;lt;br/&amp;gt;+ length: Decimal&amp;lt;br/&amp;gt;+ width: Decimal&amp;lt;br/&amp;gt;+ height: Decimal&amp;lt;br/&amp;gt;+ categories: List&amp;amp;lt;Category&amp;amp;gt;&amp;lt;br/&amp;gt;+ stockAvailability: List&amp;amp;lt;StockAvailability&amp;amp;gt;&amp;lt;br/&amp;gt;+ customerReviews: List&amp;amp;lt;CustomerReview&amp;amp;gt;&amp;lt;br/&amp;gt;+ aggregateStarRating: Decimal&amp;lt;br/&amp;gt;+ reviewCount: Integer&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;+ addReview(review: CustomerReview): void&amp;lt;br/&amp;gt;+ snapshotPrice(): Money&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&amp;quot;&amp;gt;&amp;lt;i&amp;gt;must be unique across the entire catalog&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;i&amp;gt;must be positive; historical orders retain the price at time of purchase, not th...&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;i&amp;gt;must always belong to at least one category&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;i&amp;gt;must always expose current stock availability per stocking store&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;\&quot; style=\&quot;verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;260\&quot; y=\&quot;375\&quot; width=\&quot;266\&quot; height=\&quot;390\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;4\&quot; value=\&quot;&amp;lt;p style=&amp;quot;margin:0px;margin-top:4px;text-align:center;&amp;quot;&amp;gt;&amp;lt;b&amp;gt;ProductImage&amp;lt;/b&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;+ imageFile: String&amp;lt;br/&amp;gt;+ altText: String&amp;lt;br/&amp;gt;+ displayOrder: Integer&amp;lt;br/&amp;gt;+ uploadedDate: Date&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;\&quot; style=\&quot;verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;-90\&quot; y=\&quot;390\&quot; width=\&quot;260\&quot; height=\&quot;110\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;5\&quot; value=\&quot;&amp;lt;p style=&amp;quot;margin:0px;margin-top:4px;text-align:center;&amp;quot;&amp;gt;&amp;lt;b&amp;gt;Category&amp;lt;/b&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;+ categoryName: String&amp;lt;br/&amp;gt;+ parentCategory: Category&amp;lt;br/&amp;gt;+ displayOrder: Integer&amp;lt;br/&amp;gt;+ activeStatus: Boolean&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;+ acceptProduct(product: Product): void&amp;lt;br/&amp;gt;+ children(): List&amp;amp;lt;Category&amp;amp;gt;&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&amp;quot;&amp;gt;&amp;lt;i&amp;gt;top-level categories have no parent; nesting depth is finite&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;i&amp;gt;product is added to this category&amp;amp;#x27;s product set&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;i&amp;gt;returns all categories whose parentCategory is this&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;\&quot; style=\&quot;verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;-260\&quot; y=\&quot;110\&quot; width=\&quot;260\&quot; height=\&quot;198\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;6\&quot; value=\&quot;&amp;lt;p style=&amp;quot;margin:0px;margin-top:4px;text-align:center;&amp;quot;&amp;gt;&amp;lt;b&amp;gt;CustomerReview&amp;lt;/b&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;+ authoringAccount: CustomerAccount&amp;lt;br/&amp;gt;+ reviewDate: Date&amp;lt;br/&amp;gt;+ starRating: Integer&amp;lt;br/&amp;gt;+ reviewTitle: String&amp;lt;br/&amp;gt;+ writtenText: String&amp;lt;br/&amp;gt;+ photoAttachment: String&amp;lt;br/&amp;gt;+ attachedProduct: Product&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&amp;quot;&amp;gt;&amp;lt;i&amp;gt;must be authored by exactly one customer account; guest checkout sessions cannot...&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;i&amp;gt;must be between 1 and 5 inclusive&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;i&amp;gt;must be attached to exactly one product&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;\&quot; style=\&quot;verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;-50\&quot; y=\&quot;590\&quot; width=\&quot;260\&quot; height=\&quot;214\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;7\&quot; value=\&quot;&amp;lt;p style=&amp;quot;margin:0px;margin-top:4px;text-align:center;&amp;quot;&amp;gt;&amp;lt;b&amp;gt;StockAvailability&amp;lt;/b&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;+ product: Product&amp;lt;br/&amp;gt;+ stockingStore: Store&amp;lt;br/&amp;gt;+ stockLevel: Integer&amp;lt;br/&amp;gt;+ quantityOnHand: Integer&amp;lt;br/&amp;gt;+ reservedQuantity: Integer&amp;lt;br/&amp;gt;+ availableToSellQuantity: Integer&amp;lt;br/&amp;gt;+ reorderPoint: Integer&amp;lt;br/&amp;gt;+ reorderQuantity: Integer&amp;lt;br/&amp;gt;+ lowStockThreshold: Integer&amp;lt;br/&amp;gt;+ lastRestockedDate: Date&amp;lt;br/&amp;gt;+ expectedRestockDate: Date&amp;lt;br/&amp;gt;+ backorderEnabled: Boolean&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:10px;&amp;quot;&amp;gt;+ perStoreWalkInAvailabilityDisplay(): String&amp;lt;br/&amp;gt;+ refreshFromStoreEmployeeEdit(newStockLevel: Integer): void&amp;lt;br/&amp;gt;+ gateOrderFlow(requestedQuantity: Integer): Boolean&amp;lt;br/&amp;gt;+ reserveStock(quantity: Integer): void&amp;lt;br/&amp;gt;+ releaseReservedStock(quantity: Integer): void&amp;lt;br/&amp;gt;+ updateQuantityOnHand(newQuantity: Integer): void&amp;lt;br/&amp;gt;+ staffStockDisplay(): String&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;hr size=&amp;quot;1&amp;quot;/&amp;gt;&amp;lt;p style=&amp;quot;margin:0px;margin-left:4px;font-size:9px;color:#666;&amp;quot;&amp;gt;&amp;lt;i&amp;gt;one stock availability record per product per stocking location (store)&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;i&amp;gt;numeric quantity held at the stocking store; edited by store employee via admin ...&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;i&amp;gt;available-to-sell must never go negative; if it reaches zero, purchasability is ...&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;i&amp;gt;must reflect current stock level immediately after store employee update; walk-i...&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;/p&amp;gt;\&quot; style=\&quot;verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;\&quot; parent=\&quot;1\&quot; vertex=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry x=\&quot;600\&quot; y=\&quot;370\&quot; width=\&quot;260\&quot; height=\&quot;422\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;8\&quot; value=\&quot;\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;\&quot; parent=\&quot;1\&quot; source=\&quot;2\&quot; target=\&quot;5\&quot; edge=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;&gt;\n                        &lt;Array as=\&quot;points\&quot;&gt;\n                            &lt;mxPoint x=\&quot;150\&quot; y=\&quot;209\&quot;/&gt;\n                            &lt;mxPoint x=\&quot;150\&quot; y=\&quot;209\&quot;/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;9\&quot; value=\&quot;* ---&amp;gt; *\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=open;endSize=12;html=1;exitX=0.5;exitY=1;entryX=0.15;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;\&quot; parent=\&quot;1\&quot; source=\&quot;5\&quot; target=\&quot;3\&quot; edge=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;10\&quot; value=\&quot;1 ---&amp;gt; *\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=none;html=1;startArrow=diamondThin;startFill=1;startSize=14;exitX=0.85;exitY=1;entryX=0.85;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;\&quot; parent=\&quot;1\&quot; source=\&quot;2\&quot; target=\&quot;3\&quot; edge=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;11\&quot; value=\&quot;1 ---&amp;gt; *\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=none;html=1;startArrow=diamondThin;startFill=1;startSize=14;exitX=0.004;exitY=0.113;exitDx=0;exitDy=0;exitPerimeter=0;\&quot; parent=\&quot;1\&quot; source=\&quot;3\&quot; target=\&quot;4\&quot; edge=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;12\&quot; value=\&quot;1 ---&amp;gt; *\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=none;html=1;startArrow=diamondThin;startFill=1;startSize=14;entryX=0.5;entryY=0;entryDx=0;entryDy=0;\&quot; parent=\&quot;1\&quot; source=\&quot;3\&quot; target=\&quot;6\&quot; edge=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\&quot;13\&quot; value=\&quot;1 ---&amp;gt; *\&quot; style=\&quot;edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=none;html=1;startArrow=diamondThin;startFill=0;startSize=14;\&quot; parent=\&quot;1\&quot; source=\&quot;3\&quot; target=\&quot;7\&quot; edge=\&quot;1\&quot;&gt;\n                    &lt;mxGeometry relative=\&quot;1\&quot; as=\&quot;geometry\&quot;&gt;\n                        &lt;Array as=\&quot;points\&quot;&gt;\n                            &lt;mxPoint x=\&quot;658\&quot; y=\&quot;570\&quot;/&gt;\n                            &lt;mxPoint x=\&quot;658\&quot; y=\&quot;565\&quot;/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n            &lt;/root&gt;\n        &lt;/mxGraphModel&gt;\n    &lt;/diagram&gt;\n&lt;/mxfile&gt;&quot;}"></div></div><script type="text/javascript" src="https://viewer.diagrams.net/js/viewer-static.min.js"></script>
 <script src="../commons/catalog-drawio.js?v=foundry-3"></script>
 
 
@@ -6542,7 +6658,7 @@ html.foundry-scroll-pending {
 <section class="install-block" aria-labelledby="install-npx-heading">
   <h2 id="install-npx-heading">Install with npx</h2>
   <p class="install-hint">Install this package from <a href="https://github.com/abd-works/abd-skills">https://github.com/abd-works/abd-skills</a> into your project or global agent skills directory (see <a href="https://skills.sh/">skills.sh</a> / Open Agent Skills).</p>
-  <pre class="install-snippet"><code>npx skills add abd-works/abd-skills@class-model -y</code></pre>
+  <pre class="install-snippet"><code>npx skills add abd-works/abd-skills@abd-domain-specification -y</code></pre>
   <p class="install-source"><a href="https://github.com/abd-works/abd-skills/tree/main/practices/domain-driven-design/skills/abd-domain-specification" target="_blank" rel="noopener noreferrer">View source</a> <span class="install-source-path">practices/domain-driven-design/skills/abd-domain-specification</span></p>
 </section>
 
@@ -6553,20 +6669,20 @@ html.foundry-scroll-pending {
 <div class="skill-concept-body"><p>For OO fundamentals (what is a class, decomposing responsibilities, relationships, inheritance and subtypes), read <a href="../../../reference/oo-concepts.html"><code>../../../reference/oo-concepts.md</code></a> in full before proceeding. The sections below cover what is specific to class-model fidelity: typed notation and relationship flavors.</p></div>
 <details class="skill-concept"><summary>Properties</summary><div class="skill-concept-body"><p>Write each property as <code>+ propertyName: Type</code>. Type it where the domain makes the type obvious (<code>String</code>, <code>Boolean</code>, <code>Money</code>, <code>List&lt;Item&gt;</code>, etc.); leave it untyped only when the domain is genuinely ambiguous. Typed constants and enum-like value sets (<code>UPPER_CASE</code> names) are grouped under a named constant block.</p></div></details>
 <details class="skill-concept"><summary>Operations</summary><div class="skill-concept-body"><p>Write each operation as <code>+ methodName(param: Type): ReturnType</code>. Parameters come from the information the method needs but does not already hold as a property; the return type reflects what the caller expects back. Keep signatures at the domain level: no infrastructure, no UI, no framework types. Omit the return type only when the operation is genuinely void.</p>
-<p>Use <code>+</code> for public operations that external collaborators call. Use <code>-</code> for private helpers that are only called internally by the class itself — extracted sub-logic, tie-breakers, guard checks, etc.</p>
-<p><strong>When the right name is unclear, name it after the invariant.</strong> If an operation&#x27;s invariant says &quot;incoming supersedes existing&quot;, the operation is <code>incomingSupersedes</code>. The invariant is already the correct domain statement — the name should match it directly rather than inventing a separate label.</p></div></details>
+<p>Use <code>+</code> for public operations that external collaborators call. Use <code>-</code> for private helpers that are only called internally by the class itself � extracted sub-logic, tie-breakers, guard checks, etc.</p>
+<p><strong>When the right name is unclear, name it after the invariant.</strong> If an operation&#x27;s invariant says &quot;incoming supersedes existing&quot;, the operation is <code>incomingSupersedes</code>. The invariant is already the correct domain statement � the name should match it directly rather than inventing a separate label.</p></div></details>
 <details class="skill-concept"><summary>Object initialisation</summary><div class="skill-concept-body"><p>For every class, determine how its objects are initialised. Choose from the following approaches based on scenario and context:</p>
-<p><strong>Constructor injection</strong> — pass a dependency in when the class references but does not own it (association), or when a required value must be present for the object to be valid. Write as <code>+ ClassName(param: Type, ...)</code>. Include only what is needed to bootstrap a fully valid object; never leave an object half-initialised. Write multiple constructors when different valid bootstrap configurations exist in the domain.</p>
-<p><strong>Internal initialisation</strong> — create or derive it inside the class when the class owns the thing (composition) or when the value is derived from properties the object already holds. The caller should not be responsible for assembling parts the class owns.</p>
-<p><strong>Factory method</strong> — use a static factory <em>on the class itself</em> when construction is complex, can fail gracefully, or needs to return different subtypes based on input. The factory method replaces <code>new</code> for callers — it is a named static operation on the class.</p>
-<p><strong>Factory object</strong> — delegate construction entirely to a separate domain object when the assembly logic is itself a domain concern, when multiple unrelated callers need the same complex build, or when the assembled object requires coordinating many collaborators the caller should not know about.</p></div></details>
+<p><strong>Constructor injection</strong> � pass a dependency in when the class references but does not own it (association), or when a required value must be present for the object to be valid. Write as <code>+ ClassName(param: Type, ...)</code>. Include only what is needed to bootstrap a fully valid object; never leave an object half-initialised. Write multiple constructors when different valid bootstrap configurations exist in the domain.</p>
+<p><strong>Internal initialisation</strong> � create or derive it inside the class when the class owns the thing (composition) or when the value is derived from properties the object already holds. The caller should not be responsible for assembling parts the class owns.</p>
+<p><strong>Factory method</strong> � use a static factory <em>on the class itself</em> when construction is complex, can fail gracefully, or needs to return different subtypes based on input. The factory method replaces <code>new</code> for callers � it is a named static operation on the class.</p>
+<p><strong>Factory object</strong> � delegate construction entirely to a separate domain object when the assembly logic is itself a domain concern, when multiple unrelated callers need the same complex build, or when the assembled object requires coordinating many collaborators the caller should not know about.</p></div></details>
 <details class="skill-concept"><summary>Relationships</summary><div class="skill-concept-body"><p>The three questions in <code>oo-concepts.md</code> (<code>## Relationships</code>) determine the dependency nature. At this level of fidelity, each answer maps to a named type of relationship:</p>
 <ul>
-<li><strong>Aggregation</strong> — the parent exists to collect or group its children; the parent has no identity without them.</li>
-<li><strong>Composition</strong> — the child has no identity without the parent; the parent owns the child&#x27;s lifecycle.</li>
-<li><strong>Association</strong> — both sides have independent lifecycles.</li>
+<li><strong>Aggregation</strong> � the parent exists to collect or group its children; the parent has no identity without them.</li>
+<li><strong>Composition</strong> � the child has no identity without the parent; the parent owns the child&#x27;s lifecycle.</li>
+<li><strong>Association</strong> � both sides have independent lifecycles.</li>
 </ul>
-<p><strong>Association is the default</strong> — no annotation needed. Mark composition and aggregation directly on the property with a stereotype; no separate relationship line is required.</p>
+<p><strong>Association is the default</strong> � no annotation needed. Mark composition and aggregation directly on the property with a stereotype; no separate relationship line is required.</p>
 <pre><code>+ &lt;&lt; composition &gt;&gt; stages: List&lt;DifficultyStage&gt;   ? ownership is on the property
 + linkedTrait: Trait                                 ? plain association; no stereotype</code></pre>
 <p>The property type already implies cardinality direction: a single type is 1..1; <code>List&lt;T&gt;</code> or <code>Dictionary&lt;K,T&gt;</code> is one-to-many. Use an invariant on the property when the cardinality constraint needs to be made explicit.</p></div></details>
@@ -6574,36 +6690,36 @@ html.foundry-scroll-pending {
 <p class="spec-step">When a class holds multiple instances of another class, type the property using one of two generic forms:</p>
 </div>
 <ul>
-<li><strong><code>List&lt;ClassName&gt;</code></strong> — an ordered or unordered set where you iterate or process all members. No key needed.</li>
-<li><strong><code>Dictionary&lt;KeyType, ClassName&gt;</code></strong> — a keyed set where you need to look up a specific member directly.</li>
+<li><strong><code>List&lt;ClassName&gt;</code></strong> � an ordered or unordered set where you iterate or process all members. No key needed.</li>
+<li><strong><code>Dictionary&lt;KeyType, ClassName&gt;</code></strong> � a keyed set where you need to look up a specific member directly.</li>
 </ul>
-<p>The name of the property should reflect the domain collection concept, not the data structure — <code>appliedConditions</code>, not <code>conditionList</code>. When the collection itself has unique behavior, introduce a named collection class.</p></div></details>
-<details class="skill-concept"><summary>Inheritance</summary><div class="skill-concept-body"><p>Use <code>ChildClass : ParentClass</code> on the class heading. The child block contains only delta members — typed properties, operations, and relationships that add or override the parent. Inherited members are never repeated.</p>
-<p>Mark each class with its stereotype on the heading — see <code>### Entities and Value Objects</code> below.</p></div></details>
-<details class="skill-concept"><summary>Invariants</summary><div class="skill-concept-body"><p>Write each invariant as a single tab-indented line directly under the property or operation it constrains: <code>	Invariant: ...</code>. Keep it declarative — &quot;must&quot;, &quot;cannot&quot;, &quot;only if&quot;. One line per constraint.</p></div></details>
+<p>The name of the property should reflect the domain collection concept, not the data structure � <code>appliedConditions</code>, not <code>conditionList</code>. When the collection itself has unique behavior, introduce a named collection class.</p></div></details>
+<details class="skill-concept"><summary>Inheritance</summary><div class="skill-concept-body"><p>Use <code>ChildClass : ParentClass</code> on the class heading. The child block contains only delta members � typed properties, operations, and relationships that add or override the parent. Inherited members are never repeated.</p>
+<p>Mark each class with its stereotype on the heading � see <code>### Entities and Value Objects</code> below.</p></div></details>
+<details class="skill-concept"><summary>Invariants</summary><div class="skill-concept-body"><p>Write each invariant as a single tab-indented line directly under the property or operation it constrains: <code>	Invariant: ...</code>. Keep it declarative � &quot;must&quot;, &quot;cannot&quot;, &quot;only if&quot;. One line per constraint.</p></div></details>
 <details class="skill-concept"><summary>Interactions</summary><div class="skill-concept-body"><div class="spec-steps">
-<p class="spec-step">When an operation has inherent complexity or interesting interactions — it coordinates multiple collaborators, produces a result through a chain of internal steps, or branches in a way not captured by the signature and invariants alone — write a tab-indented <code>Interaction:</code> block directly after the operation&#x27;s invariants. Each step is a flat, non-nested pseudocode line using the scenario-walkthrough notation.</p>
+<p class="spec-step">When an operation has inherent complexity or interesting interactions � it coordinates multiple collaborators, produces a result through a chain of internal steps, or branches in a way not captured by the signature and invariants alone � write a tab-indented <code>Interaction:</code> block directly after the operation&#x27;s invariants. Each step is a flat, non-nested pseudocode line using the scenario-walkthrough notation.</p>
 </div>
 <p><strong>When to omit:</strong> Simple delegations with a single step, pure queries that return a property directly, or operations whose entire behavior is self-evident from the return type and invariants alone.</p>
-<p><strong>Design smell — invariants without interactions:</strong> If an operation carries several invariants but no <code>Interaction:</code> block, that is almost always wrong. Invariants state <em>what must be true</em>; they cannot replace the step-chain that <em>makes it true</em>.</p>
-<p><strong>Extract complex sub-logic into named operations.</strong> An <code>Interaction:</code> block is not pseudocode — it traces the key collaborations. When a branch or calculation is non-trivial, give it a name, extract it as a separate operation, and describe its rule as an invariant.</p>
+<p><strong>Design smell � invariants without interactions:</strong> If an operation carries several invariants but no <code>Interaction:</code> block, that is almost always wrong. Invariants state <em>what must be true</em>; they cannot replace the step-chain that <em>makes it true</em>.</p>
+<p><strong>Extract complex sub-logic into named operations.</strong> An <code>Interaction:</code> block is not pseudocode � it traces the key collaborations. When a branch or calculation is non-trivial, give it a name, extract it as a separate operation, and describe its rule as an invariant.</p>
 <p><strong>Format rules:</strong></p>
 <ul>
 <li><code>	Interaction:</code> is tab-indented under the operation, same level as <code>Invariant:</code></li>
-<li>Each step inside is a further-indented flat line — <strong>no nesting</strong></li>
+<li>Each step inside is a further-indented flat line � <strong>no nesting</strong></li>
 <li>Use typed pseudocode: <code>variableName: Type = expression</code></li>
 <li>Method calls: <code>object.method(param: value)</code></li>
 <li>Construction: <code>variable: Type = new ClassName(param: Type)</code></li>
 <li>Return: <code>return variable</code></li>
-<li><strong>Variable names must use domain language</strong> — <code>roll</code>, <code>margin</code>, <code>throwingDistanceMeasure</code>, not <code>r</code>, <code>temp</code>, <code>measureA</code>. Trace the right name up the chain: domain model ? Domain Language ? source references.</li>
+<li><strong>Variable names must use domain language</strong> � <code>roll</code>, <code>margin</code>, <code>throwingDistanceMeasure</code>, not <code>r</code>, <code>temp</code>, <code>measureA</code>. Trace the right name up the chain: domain model ? Domain Language ? source references.</li>
 </ul></div></details>
 <details class="skill-concept"><summary>Entities and Value Objects</summary><div class="skill-concept-body"><p>Domain objects carry one of several stereotypes depending on their role. The two most common are Entity and Value Object.</p>
-<p><strong>Entity</strong> — an object distinguished by identity, not by its attributes. Two entities with identical attributes are still different things. An entity has a continuous lifecycle: it is created, changes over time, and eventually ends. Mark with <code>&lt;&lt; Entity &gt;&gt;</code>.</p>
-<p><strong>Value Object</strong> — an object defined entirely by its attributes, with no meaningful identity of its own. Two value objects with the same attributes are interchangeable. Value objects are immutable: never modify one in place; replace it with a new instance. Mark with <code>&lt;&lt; ValueObject &gt;&gt;</code>.</p>
+<p><strong>Entity</strong> � an object distinguished by identity, not by its attributes. Two entities with identical attributes are still different things. An entity has a continuous lifecycle: it is created, changes over time, and eventually ends. Mark with <code>&lt;&lt; Entity &gt;&gt;</code>.</p>
+<p><strong>Value Object</strong> � an object defined entirely by its attributes, with no meaningful identity of its own. Two value objects with the same attributes are interchangeable. Value objects are immutable: never modify one in place; replace it with a new instance. Mark with <code>&lt;&lt; ValueObject &gt;&gt;</code>.</p>
 <p><strong>The deciding question:</strong> <em>Does this thing need to be tracked as an individual over time, or does only the combination of its values matter?</em></p>
 <p>Other stereotypes exist (<code>&lt;&lt; Service &gt;&gt;</code>, <code>&lt;&lt; Factory &gt;&gt;</code>, <code>&lt;&lt; Repository &gt;&gt;</code>, <code>&lt;&lt; Domain Event &gt;&gt;</code>, boundary types, etc.) and are applied when the class clearly plays that role.</p>
 <hr></div></details>
-<details class="skill-concept"><summary>{{KAName}}</summary><div class="skill-concept-body"><p>[Optional 1—2 sentence intro]</p>
+<details class="skill-concept"><summary>{{KAName}}</summary><div class="skill-concept-body"><p>[Optional 1�2 sentence intro]</p>
 <h3><strong>{{ka_name as a Class}}</strong> &lt;&lt; Stereotype &gt;&gt;      ? MUST appear first; matches the KA</h3>
 <p>+ Constructor(param: Type)</p>
 <hr>
@@ -6613,7 +6729,7 @@ html.foundry-scroll-pending {
 <h3><strong>{{another Class}} : {{BaseClass}}</strong> &lt;&lt; Stereotype &gt;&gt;</h3>
 <p>+ deltaProperty: Type + overriddenOperation(param: Type): ReturnType</p>
 <h3>references                                       ? one per KA, peer to classes</h3>
-<p><strong>Ref — title</strong> Source: ... Locator: ... Extract: whole</p>
+<p><strong>Ref � title</strong> Source: ... Locator: ... Extract: whole</p>
 <pre><code>verbatim</code></pre>
 <h3>decisions made                                   ? one per KA, peer to classes</h3>
 <ul>
@@ -6630,12 +6746,12 @@ The Boundary Domain is one flat group with shared `### references` and `### deci
 <div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Drop a collaborator silently.</li><li>Assume a collaborator is &quot;obvious&quot; and omit it from the model.</li></ul></div>
 </details>
 <details class="skill-rule">
-<summary class="skill-rule-header">Dependency magnet — split unrelated business concerns</summary>
+<summary class="skill-rule-header">Dependency magnet � split unrelated business concerns</summary>
 <div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Group members by concern; if one class mixes unrelated areas (for example catalog + billing + notifications), extract types so each class has one coherent responsibility thread. Collaborators and Interaction: blocks should tell one story per class.</li></ul></div>
 <div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Leave one class as a hub for unrelated domains with no structural boundary.</li></ul></div>
 </details>
 <details class="skill-rule">
-<summary class="skill-rule-header">Explicit chain of responsibility — no nebulous operations</summary>
+<summary class="skill-rule-header">Explicit chain of responsibility � no nebulous operations</summary>
 <div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Trace each step in the implied chain to a named typed operation or property.</li></ul></div>
 <div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Write a property and leave the downstream action it implies without an owning operation.</li><li>Leave &quot;may&quot; or &quot;requires&quot; language from a behavior with an incomplete typed chain.</li><li>Leave an implied collaborator out of the operation signature.</li></ul></div>
 </details>
@@ -6650,7 +6766,7 @@ The Boundary Domain is one flat group with shared `### references` and `### deci
 </details>
 <details class="skill-rule">
 <summary class="skill-rule-header">Invariant lines trace to domain model invariants or always-true rules</summary>
-<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Write each invariant as a single tab-indented line directly under the property or operation it constrains, sourced from the domain model invariants: field.</li><li>Keep invariants declarative — &quot;must&quot;, &quot;cannot&quot;, &quot;only if&quot; — matching the domain model phrasing.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Write each invariant as a single tab-indented line directly under the property or operation it constrains, sourced from the domain model invariants: field.</li><li>Keep invariants declarative � &quot;must&quot;, &quot;cannot&quot;, &quot;only if&quot; � matching the domain model phrasing.</li></ul></div>
 <div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Invent an invariant that has no corresponding domain model invariants: line.</li><li>Place an invariant as a free-standing line outside any member context.</li><li>Write multi-line prose instead of a single declarative constraint.</li></ul></div>
 </details>
 <details class="skill-rule">
@@ -6678,7 +6794,7 @@ The Boundary Domain is one flat group with shared `### references` and `### deci
 </details>
 <details class="skill-rule">
 <summary class="skill-rule-header">Relationships have two named ends and cardinality</summary>
-<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>State both class names, the relationship kind (composition or association), and cardinality on both ends.</li><li>Derive direction from the domain model collaborator entry — the class that lists the collaborator is the navigating end.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>State both class names, the relationship kind (composition or association), and cardinality on both ends.</li><li>Derive direction from the domain model collaborator entry � the class that lists the collaborator is the navigating end.</li></ul></div>
 <div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Write a relationship with only one end named.</li><li>Omit cardinality entirely.</li><li>Reverse the direction from what the domain model collaborator line states.</li></ul></div>
 </details>
 <details class="skill-rule">
@@ -6688,7 +6804,7 @@ The Boundary Domain is one flat group with shared `### references` and `### deci
 </details>
 <details class="skill-rule">
 <summary class="skill-rule-header">Subtypes use ClassName : ParentClass on the heading line</summary>
-<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Use #### ClassName : ParentClass on the heading line for subtypes.</li><li>State only delta members — typed properties and operations the subtype adds or overrides beyond the parent.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Use #### ClassName : ParentClass on the heading line for subtypes.</li><li>State only delta members � typed properties and operations the subtype adds or overrides beyond the parent.</li></ul></div>
 <div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Use the Domain Language English heading form in class-model headings.</li><li>Use code-style syntax from the implementation language.</li><li>Repeat inherited members in the subtype block.</li></ul></div>
 </details>
 </div></div>

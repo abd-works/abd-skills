@@ -2,11 +2,14 @@
 name: miro-story-sync
 catalog_garden_tier: foundational
 catalogue_one_liner: >-
-  story-graph.json to Miro story maps; validated load and REST-driven board sync.
+  Keep Miro story boards in sync with the story graph — so the wall matches the data.
 description: >-
-  Renders and synchronizes story-map Miro boards (outline; exploration and increments planned)
-  from story-graph.json. Use when producing or refreshing Miro story maps from story-graph.json,
-  or when wiring CI/scripts for Miro board updates.
+  Render and synchronize story-map Miro boards from story-graph.json. Use when producing or refreshing Miro story maps from the graph.
+context-perspective: stories
+context-role: support
+context-fidelity:
+  - level: discovery
+    mode: diagram-render
 ---
 
 # miro-story-sync

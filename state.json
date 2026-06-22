@@ -1,7 +1,0 @@
-{
-  "workspace": "C:\\dev\\abd-pet-store-demo",
-  "agent": "delivery-lead",
-  "skills": [],
-  "instruction": "Resume delivery from slot 39. Single-context mode, no spawn_agent. Read docs/planning/delivery-war-room/ and continue until the full plan is complete.",
-  "model": "composer-2.5"
-}

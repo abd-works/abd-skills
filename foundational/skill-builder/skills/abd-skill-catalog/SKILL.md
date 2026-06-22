@@ -1,4 +1,4 @@
----
+﻿---
 name: abd-skill-catalog
 catalog_garden_tier: foundational
 catalogue_one_liner: >-
@@ -118,7 +118,7 @@ Each listed package includes:
      nested `skills/supporting/<skill>/` packages. Plugin detail pages group
      **core** (top-level under `skills/`) vs **supporting** (`skills/supporting/`).
      The delivery kanban reads stage tables from
-     `practices/kanban/reference/stages/*.md` and omits supporting/background
+     `common/stages/*.md` and omits supporting/background
      skills from stage tiles. Below the board, **Supporting** (orange) and
      **Foundational** (grey) crosscut rows come from
      `scripts/catalog_supporting_groups.py` — Kanban · domain-driven design ·

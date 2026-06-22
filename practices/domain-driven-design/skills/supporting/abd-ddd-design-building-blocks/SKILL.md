@@ -1,30 +1,41 @@
----
-name: ddd-design-building-blocks
+﻿---
+name: abd-ddd-design-building-blocks
 catalog_garden_order: 7
 catalogue_one_liner: >-
-  DDD stereotypes (Entity, VO, Aggregate, Service, Event) from domain model artifacts.
+  Answer the business questions behind identity, consistency, and ownership — so patterns match real rules.
 description: >-
-  Surface the business questions that DDD building block stereotypes encode —
-  identity, consistency boundaries, ownership, and integration — and classify
-  each domain concept (Entity, Value Object, Aggregate, Service, Domain Event)
-  from a domain model, Class Model, or Domain Language.
-  Use when refining a domain model with DDD stereotypes, answering identity or
-  consistency questions, or when the user asks to "apply DDD building blocks"
-  or "classify domain concepts."
+  Classify domain concepts with DDD stereotypes by surfacing the business questions behind identity, consistency, and ownership. Use when refining a domain model or applying DDD building blocks.
+context-perspective: domain
+context-role: support
+context-fidelity:
+  - level: specification
+    mode: building-blocks
 ---
 # abd-ddd-design-building-blocks
 
 ## Purpose
 
-This skill works through a domain model concept by concept, identifying the right technical constraints through a set of questions that — while technical in framing — can only be answered by business requirements. For example: if two patients have the same name and date of birth, should we consider them the same patient? If a product changes, when do we update the inventory system?
+Answer the business questions behind identity, consistency, and ownership for each concept — so DDD patterns match real business rules, not developer assumptions.
 
-Every DDD building block — Entity, Value Object, Aggregate, Service, Domain Event — looks technical but **exposes a question only the business can answer**. This skill models these elements by understanding business requirements for identity semantics, consistency boundaries, immutability guarantees, and integration contracts across business concepts and systems.
+---
+
+## Grill prompts
+
+Read `common/grill-me-with-practice-skill.md` before grilling.
+
+Before generating, surface these:
+
+- **Identity assumption** — Does this concept truly need a persistent identity, or are you giving it one out of habit?
+- **Aggregate boundary** — What invariant does this aggregate protect — and can you state it as a business rule, not a database constraint?
+- **Value Object hiding** — Are any "entities" actually interchangeable by value — same data means same thing, no lifecycle?
+- **Service or misplaced logic** — Is this domain service genuinely homeless, or does the operation belong on an entity you haven't modelled yet?
+- **Consistency boundary** — Does the business really need immediate consistency here, or would eventual consistency be acceptable — and who decided?
 
 ---
 
 ## Output file
 
-**Deliverables folder:** see `../agent-protocol.md` — Output file resolution.
+**Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
 
 **File name:** `ddd-building-blocks.md`. Add a `<name>-` prefix only when disambiguation is needed. Placed beside the source model artifact.
 
@@ -32,7 +43,7 @@ Every DDD building block — Entity, Value Object, Aggregate, Service, Domain Ev
 
 ## Agent Instructions
 
-> **MANDATORY — read `../agent-protocol.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.**
+Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
@@ -41,8 +52,6 @@ Read these files:
 - **`reference/examples.md`** — a worked domain model before-and-after example showing building blocks applied to an Order domain.
 
 ### 2. Generate
-
-Read every file in **`rules/`**; author to those rules.
 
 **Produce output from every template:**
 
@@ -54,15 +63,7 @@ Read every file in **`rules/`**; author to those rules.
 
 ### 3. Validate
 
-Run the scanners:
-
-```bash
-python skills/execute-skill-using-skills-rules/scripts/run_scanners.py \
-  --skill-root skills/abd-ddd-design-building-blocks \
-  --workspace <path-to-output>
-```
-
-Then emit per-rule verdicts per `../agent-protocol.md`.
+Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.md` § Validate output.
 
 ---
 

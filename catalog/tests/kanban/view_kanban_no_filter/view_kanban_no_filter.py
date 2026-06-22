@@ -31,6 +31,7 @@ from kanban_helper import (
     then_other_stage_skill_hidden,
     then_other_stage_skill_visible,
     when_other_practices_chip_clicked,
+    then_ctx_skills_parallel_to_family_rows,
     ALL_PRACTICE_FAMILIES,
     SDD_FAMILY,
     OTHER_FAMILY,
@@ -154,3 +155,11 @@ class TestViewKanbanWithNoFilterSelected:
         then_other_stage_tracks_collapsed(page)
         when_other_practices_chip_clicked(page)
         then_other_stage_tracks_expanded(page)
+
+    def test_context_skills_parallel_to_practice_family_rows(self, page: Page):
+        # Given: hub loaded; skills expanded (so tickets are rendered)
+        given_hub_kanban_loaded(page)
+        given_skills_expanded(page)
+        # Then: CTX skills in the context column appear at the same vertical band as SDD
+        # AC 1c: context-to-memory skills are not below the four practice-family row slots
+        then_ctx_skills_parallel_to_family_rows(page)
