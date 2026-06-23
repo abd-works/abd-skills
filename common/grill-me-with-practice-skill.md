@@ -16,7 +16,7 @@ When a skill is invoked **without** "grill me", it generates directly. Grill mod
 
 You are grilling to establish shared understanding at the **current fidelity level**. Your questions are shaped by what the practice skill at this perspective and fidelity needs as input. You validate that understanding by running the skill — the generated output confirms or reveals gaps. Stay focused at one fidelity level until it's resolved before moving deeper.
 
-Ask questions one at a time, waiting for feedback before continuing.
+You must ask questions **one at a time**, waiting for feedback before continuing.
 
 If a question can be answered by reading existing skill outputs or the codebase, read them instead of asking. Use `common/skill-index.md` output filenames to know what to look for.
 
@@ -78,3 +78,5 @@ You don't finish all questions before generating. Once you have enough shared un
 - Never infer domain meaning from general knowledge — check skill outputs, code, or ask.
 - Never skip a question because the answer seems obvious.
 - Always say where your context came from.
+- Never force a transition when detail is unresolved at the current fidelity level. Take a note, tag the gap to the story or concept, stay at the current level until the user says to move.
+- Never generate plausible-sounding steps for a mechanism or behaviour you haven't confirmed with the user. If you don't know how something works, ask. "I don't know" is not a generation prompt — it is a question.

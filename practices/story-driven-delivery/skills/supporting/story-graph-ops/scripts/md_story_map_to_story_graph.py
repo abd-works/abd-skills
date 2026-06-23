@@ -55,11 +55,16 @@ def parse(md_path: Path) -> dict:
         if not stripped:
             continue
 
-        depth = (len(line) - len(stripped)) // 4
+        # Strip inline comments before matching
+        stripped = re.sub(r'\s*//.*$', '', stripped).strip()
+        if not stripped:
+            continue
+
+        depth = (len(line) - len(line.lstrip())) // 4
 
         m_epic = re.match(r'\(E\)\s+(.+)', stripped)
-        m_opt = re.match(r'opt\s+\(S\)\s+(\w+)\s+-->\s+(.+)', stripped)
-        m_story = re.match(r'\(S\)\s+(\w+)\s+-->\s+(.+)', stripped)
+        m_opt = re.match(r'opt\s+\(S\)\s+(.+?)\s+-->\s+(.+)', stripped)
+        m_story = re.match(r'\(S\)\s+(.+?)\s+-->\s+(.+)', stripped)
 
         if m_epic:
             name = m_epic.group(1).strip()
@@ -84,7 +89,8 @@ def parse(md_path: Path) -> dict:
 
             story = {
                 'name': name,
-                'story_type': actor,
+                'story_type': 'user',
+                'users': [actor],
                 'acceptance_criteria': [],
                 'scenarios': [],
             }

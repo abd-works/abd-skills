@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
   Deploy capability family packages to Cursor or VS Code.
 
@@ -440,6 +440,6 @@ if (Test-Path -LiteralPath $skillIndexScript) {
     try {
         & python $skillIndexScript 2>&1 | ForEach-Object { Write-Host "  $_" }
     } catch {
-        Write-Host "  ⚠️  Could not build skill index: $_"
+        Write-Host "  WARNING: Could not build skill index: $_"
     }
 }

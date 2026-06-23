@@ -117,12 +117,45 @@ def _ensure_repo_paths() -> None:
             sys.path.insert(0, s)
 
 
+def _skill_secrets_path() -> Path:
+    """Return ``<story-driven-delivery>/conf/secrets.json`` relative to this script."""
+    # _SCRIPT_DIR = .../story-driven-delivery/skills/supporting/miro-story-sync/scripts
+    return _SCRIPT_DIR.parent.parent.parent.parent / 'conf' / 'secrets.json'
+
+
+def _load_token() -> Optional[str]:
+    """Return Miro access token from env var or conf/secrets.json fallback.
+
+    Resolution order:
+      1. ``MIRO_ACCESS_TOKEN`` environment variable.
+      2. ``miro_access_token`` key in ``<story-driven-delivery>/conf/secrets.json``.
+    """
+    token = os.environ.get('MIRO_ACCESS_TOKEN')
+    if token:
+        return token
+    secrets_path = _skill_secrets_path()
+    if secrets_path.exists():
+        try:
+            data = json.loads(secrets_path.read_text(encoding='utf-8'))
+            token = data.get('miro_access_token')
+            if token:
+                print(f'[miro-story-sync] token loaded from {secrets_path}', file=sys.stderr)
+                return token
+        except Exception:
+            pass
+    return None
+
+
 def _build_transport(board_id: Optional[str], dry_run: bool):
     """Return ``(transport, transport_name, dry_run_actual)``.
 
     Falls back to ``InMemoryMiroTransport`` when ``--dry-run`` is set or when
     no ``MIRO_ACCESS_TOKEN`` is configured (so ``render`` works locally for
     smoke tests without surprising the user with HTTP errors).
+
+    Token resolution order:
+      1. ``MIRO_ACCESS_TOKEN`` environment variable.
+      2. ``miro_access_token`` in ``<story-driven-delivery>/conf/secrets.json``.
     """
     from miro_story_sync.miro_transport import (
         InMemoryMiroTransport,
@@ -132,10 +165,11 @@ def _build_transport(board_id: Optional[str], dry_run: bool):
 
     if dry_run or not board_id:
         return InMemoryMiroTransport(), 'InMemoryMiroTransport', True
-    if not os.environ.get('MIRO_ACCESS_TOKEN'):
+    token = _load_token()
+    if not token:
         return InMemoryMiroTransport(), 'InMemoryMiroTransport', True
     try:
-        return RestMiroTransport(board_id), 'RestMiroTransport', False
+        return RestMiroTransport(board_id, access_token=token), 'RestMiroTransport', False
     except MiroTransportError:
         return InMemoryMiroTransport(), 'InMemoryMiroTransport', True
 

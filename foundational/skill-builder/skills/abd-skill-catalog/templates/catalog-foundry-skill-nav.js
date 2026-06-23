@@ -401,7 +401,8 @@
     if (!board) return;
     var famRows = FAMILY_ROW_ORDER.map(function (family) {
       if (skillsExpanded) return ROW_H;
-      if (selectedFamilies.size === 0) return ZERO_ROW;
+      // Idle (nothing selected) shows all families — same as "all selected"
+      if (selectedFamilies.size === 0) return ROW_H;
       return selectedFamilies.has(family) ? ROW_H : ZERO_ROW;
     });
     var stageGap = ZERO_ROW;

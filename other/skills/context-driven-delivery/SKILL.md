@@ -62,6 +62,10 @@ From the confirmed entry point, walk: **fidelity level × perspective** (domain 
 3. Spawn the subagent with: role (AGENT.md) + skill + all context + user's answers.
 4. **Stop. Do not generate yourself. Spawn.**
 
+**After spawning — waiting for output:**
+
+Before assuming a subagent failed: check whether the expected output file exists (use the output filename from `skill-index.md`). If the file exists, read and present it. If it does not exist, re-spawn the subagent. **Never self-generate to fill the gap** — impatience is not a valid reason to bypass the specialist.
+
 **After specialist output:**
 
 1. Surface any questions the specialist returned.
