@@ -188,6 +188,21 @@ When mode is **document** or **both**:
 
 2. **`architecture-flow.drawio`** — produce a Draw.io flow diagram alongside the specification document. Start from `templates/architecture-flow.drawio`; replace placeholder labels with the actual layer and file names for this architecture. Rules: plain boxes and lines only (no gradient fills, no swimlane shading); one box per layer/participant; network or tier boundaries as lightly shaded full-width rectangles; simple arrow labels ("renders", "calls", "routes to", "extends", "uses", "read/write"). Place the file next to `architecture-specification.md` and reference it with `> See [architecture-flow.drawio](./architecture-flow.drawio)` in the Architecture Flow section.
 
+3. **Grill Me section** — add a `## Grill Me — Map a Story to a Mechanism` section to `architecture-specification.md`, placed immediately before `## Rules`. This section is **architecture-specific**: it must reflect the actual mechanisms and patterns defined in this spec, not a generic list. Its purpose is to help an implementer — or an agent — pick the right mechanism and adapter pattern for any new story without reading the whole document.
+
+   **Shape of the Grill Me section:**
+   - **Decision questions** — a numbered sequence: What triggers the story? What does it output? Does the domain concept present itself on this surface, or does it own lifecycle objects? Does state need to persist? Any async / streaming concerns?
+   - **Each question** maps answers to named mechanisms from this spec (not invented names). Use the mechanism heading as written — `## Mechanism: Commands`, `## Mechanism: Status Bar`, etc.
+   - **Extend-or-wrap guidance** — where the spec distinguishes extend (IS-A domain concept + presentation shape) from wrap (HAS-A domain dependency + lifecycle objects), include a question that drives the decision with examples from this spec's `template/`.
+   - **Do not repeat** mechanism prose. The Grill Me section points; the mechanism sections explain.
+
+   Example questions for a VS Code plugin spec:
+   - *What triggers the story?* → Command Palette / keyboard → Commands; rich HTML panel → Webview Bridge; Copilot chat → LM Chat Provider; etc.
+   - *What does it output?* → List to select from → Native / Quick Pick; ambient status → Status Bar; streamed tokens → LM Chat Provider; etc.
+   - *Does the domain concept present itself?* → IS-A concept + selectable shape → extend; HAS-A concept + lifecycle object → wrap.
+
+   Adapt these to the actual surfaces and patterns in the spec being built.
+
 When mode is **document** only, do not create or edit files under `template/` unless the user explicitly asks to refresh template code in the same run.
 
 When mode is **template** only, skip `architecture-specification.md` unless the user explicitly asks for document work in the same run.
@@ -226,6 +241,7 @@ Re-run until all scanners pass. Repeat applicable passes after any fix.
 - **Templates mirror template slice** — when mode includes **template**: every source file in `template/` has a corresponding parameterized file in `templates/` with `{{placeholders}}`; same folder structure, same file names (modulo domain substitution).
 - **Doc template shape followed** — when mode includes **document**: deliverable matches this skill's `templates/architecture-specification.md` skeleton; template instructions not copied into output.
 - **Flow diagram produced** — when mode includes **document**: `architecture-flow.drawio` exists next to `architecture-specification.md`; the Architecture Flow section references it; ASCII block is also present; drawio uses plain boxes and lines only.
+- **Grill Me section present** — when mode includes **document**: `architecture-specification.md` contains a `## Grill Me` section placed before `## Rules`; every answer in the section names a mechanism heading that exists in the same document; no generic advice — all paths resolve to this spec's actual mechanisms and patterns.
 - **Template artifact set aligned** — when mode includes **template**: code, `specification-by-example.md`, and `domain-spec.md` use consistent concept names; tests pass; no stubs.
 - **Template validation** — when mode includes **template** and template code was created or edited, architecture spec rules pass and `run_scanners.py` exits zero.
 - **No bundle markers** — `SKILL.md` has no `<!-- execute_rules:bundle_rules -->` markers.

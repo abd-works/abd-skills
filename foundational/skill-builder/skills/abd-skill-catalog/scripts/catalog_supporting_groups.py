@@ -5,6 +5,14 @@ from __future__ import annotations
 # (group_id, label, plugin id for link + family color, skill ids)
 SUPPORTING_CROSSCUT_GROUPS: tuple[tuple[str, str, str, tuple[str, ...]], ...] = (
     (
+        "context-driven-delivery",
+        "Context-driven delivery",
+        "context-driven-delivery",
+        (
+            "context-driven-delivery",
+        ),
+    ),
+    (
         "kanban",
         "Kanban",
         "kanban",
@@ -13,7 +21,6 @@ SUPPORTING_CROSSCUT_GROUPS: tuple[tuple[str, str, str, tuple[str, ...]], ...] = 
             "abd-kanban",
             "abd-kanban-repo",
             "kanban-estimation",
-            "context-driven-delivery",
             "abd-kanban-handoff",
         ),
     ),

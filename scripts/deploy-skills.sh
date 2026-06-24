@@ -128,7 +128,7 @@ resolve_deploy_root() {
 KNOWN_PACKAGE_FOLDERS=(
     skills agents content reference lib instructions prompts
     vscode rules scanners templates scripts ide-files inputs
-    tests test catalog retired
+    tests test catalog retired hooks
 )
 
 is_known_folder() {
@@ -361,6 +361,24 @@ deploy_package() {
     local vscode_src="$package_root/vscode"
     if [[ -d "$vscode_src" ]]; then
         merge_vscode_files "$vscode_src" "$deploy_root"
+    fi
+
+    # --- Hooks (always — .github/hooks/ works with GitHub Copilot in any editor) ---
+    local hooks_src="$package_root/hooks"
+    if [[ -d "$hooks_src" ]]; then
+        local github_hooks_dst="$deploy_root/.github/hooks"
+        ensure_directory "$github_hooks_dst"
+        # Copy top-level files (e.g. *.json configs)
+        find "$hooks_src" -maxdepth 1 -type f | while IFS= read -r file; do
+            cp "$file" "$github_hooks_dst/$(basename "$file")"
+        done
+        # Copy scripts/ subdirectory if present
+        if [[ -d "$hooks_src/scripts" ]]; then
+            ensure_directory "$github_hooks_dst/scripts"
+            find "$hooks_src/scripts" -maxdepth 1 -type f | while IFS= read -r file; do
+                cp "$file" "$github_hooks_dst/scripts/$(basename "$file")"
+            done
+        fi
     fi
 }
 

@@ -111,7 +111,7 @@ function Resolve-DeployRoot {
 $script:KnownPackageFolders = [System.Collections.Generic.HashSet[string]]@(
     'skills','agents','content','reference','lib','instructions','prompts',
     'vscode','rules','scanners','templates','scripts','ide-files','inputs',
-    'tests','test','catalog','retired'
+    'tests','test','catalog','retired','hooks'
 )
 
 function Get-PackageRoots {
@@ -280,6 +280,20 @@ function Deploy-Package {
 
     $agentsSrc = Join-Path $PackageRoot 'agents'
     if (Test-Path -LiteralPath $agentsSrc) {
+        # Flat .md files — each file is a self-contained agent definition
+        # Cursor: deploy as <name>.md; VS Code: deploy as <name>.agent.md
+        Get-ChildItem -LiteralPath $agentsSrc -Filter '*.md' -File | ForEach-Object {
+            $stem = $_.BaseName
+            if ($Ide -eq 'vscode') {
+                New-Directory -Path $githubAgentsDst
+                Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $githubAgentsDst "$stem.agent.md") -Force
+            } else {
+                New-Directory -Path $agentsDst
+                Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $agentsDst "$stem.md") -Force
+            }
+        }
+
+        # Subdir agents — each subdir containing AGENT.md or AGENTS.md is deployed as a folder
         Get-ChildItem -LiteralPath $agentsSrc -Directory | ForEach-Object {
             $hasAgentDoc = (Test-Path -LiteralPath (Join-Path $_.FullName 'AGENT.md')) -or (Test-Path -LiteralPath (Join-Path $_.FullName 'AGENTS.md'))
             if ($hasAgentDoc) {
@@ -333,6 +347,26 @@ function Deploy-Package {
     $vscodeSrc = Join-Path $PackageRoot 'vscode'
     if (Test-Path -LiteralPath $vscodeSrc) {
         Merge-VscodeFiles -SourceDir $vscodeSrc -DeployRoot $DeployRoot
+    }
+
+    # --- Hooks (always — .github/hooks/ works with GitHub Copilot in any editor) ---
+    $hooksSrc = Join-Path $PackageRoot 'hooks'
+    if (Test-Path -LiteralPath $hooksSrc) {
+        $githubHooksDst = Join-Path $githubDst 'hooks'
+        New-Directory -Path $githubHooksDst
+        # Copy top-level files (e.g. *.json configs)
+        Get-ChildItem -LiteralPath $hooksSrc -File | ForEach-Object {
+            Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $githubHooksDst $_.Name) -Force
+        }
+        # Copy scripts/ subdirectory if present
+        $hooksScriptsSrc = Join-Path $hooksSrc 'scripts'
+        if (Test-Path -LiteralPath $hooksScriptsSrc) {
+            $hooksScriptsDst = Join-Path $githubHooksDst 'scripts'
+            New-Directory -Path $hooksScriptsDst
+            Get-ChildItem -LiteralPath $hooksScriptsSrc -File | ForEach-Object {
+                Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $hooksScriptsDst $_.Name) -Force
+            }
+        }
     }
 }
 
