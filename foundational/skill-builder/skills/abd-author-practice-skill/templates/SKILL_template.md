@@ -9,7 +9,7 @@
 ---
 name: {{SKILL_NAME}}
 description: >-
-  {{SKILL_DESCRIPTION}}
+  {{SKILL_DESCRIPTION_WHAT_IT_PRODUCES}}. Use when {{SKILL_DESCRIPTION_USE_WHEN_SITUATION}}.
 ---
 # {{SKILL_DISPLAY_NAME}}
 
@@ -57,6 +57,18 @@ Load this skill when **any** of the following apply:
 3. The workspace root if neither applies.
 
 **File names:** Default to the template filename. Add a `<name>-` prefix only for disambiguation.
+
+---
+
+## Grill prompts
+
+Read `common/grill-me-with-practice-skill.md` before grilling.
+
+Before generating, surface these traps:
+
+- **{{GRILL_TRAP_1_LABEL}}** — {{GRILL_TRAP_1_DESCRIPTION}}
+- **{{GRILL_TRAP_2_LABEL}}** — {{GRILL_TRAP_2_DESCRIPTION}}
+- **{{GRILL_TRAP_3_LABEL}}** — {{GRILL_TRAP_3_DESCRIPTION}}
 
 ---
 

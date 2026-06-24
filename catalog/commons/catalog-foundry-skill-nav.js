@@ -405,6 +405,11 @@
       if (selectedFamilies.size === 0) return ROW_H;
       return selectedFamilies.has(family) ? ROW_H : ZERO_ROW;
     });
+    // Context column CTX row spans grid rows 2-6; ensure all spanned rows have
+    // height so the vertical ticket stack is not collapsed to a single track.
+    if (selectedFamilies.has('context-to-memory')) {
+      for (var fi = 0; fi < famRows.length; fi++) { famRows[fi] = ROW_H; }
+    }
     var stageGap = ZERO_ROW;
     var otherTracks = [ZERO_ROW, ZERO_ROW, ZERO_ROW];
     if (skillsExpanded) {

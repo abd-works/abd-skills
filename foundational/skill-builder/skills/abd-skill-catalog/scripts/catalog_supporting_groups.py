@@ -13,6 +13,7 @@ SUPPORTING_CROSSCUT_GROUPS: tuple[tuple[str, str, str, tuple[str, ...]], ...] = 
             "abd-kanban",
             "abd-kanban-repo",
             "kanban-estimation",
+            "context-driven-delivery",
             "abd-kanban-handoff",
         ),
     ),

@@ -807,8 +807,21 @@ html.foundry-scroll-pending {
 .foundry-board-grid > .kb-col > .aad-skill-row[data-family="user-experience-design"] { grid-row: 4; }
 .foundry-board-grid > .kb-col > .aad-skill-row[data-family="architecture-centric-engineering"] { grid-row: 5; }
 .foundry-board-grid > .kb-col > .aad-skill-row[data-family="context-to-memory"] { grid-row: 6; }
-/* Context stage column: CTX skills appear at row 2 (parallel to first practice family) */
-.foundry-board-grid > .kb-col[data-stage="context"] > .aad-skill-row[data-family="context-to-memory"] { grid-row: 2; }
+/* Context stage column: CTX skills span all family rows so multiple tickets stack vertically */
+.foundry-board-grid > .kb-col[data-stage="context"] > .aad-skill-row[data-family="context-to-memory"] {
+  grid-row: 2 / 7;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: start;
+  gap: 2px;
+}
+.foundry-board-grid > .kb-col[data-stage="context"] > .aad-skill-row--empty {
+  display: none !important;
+  min-height: 0;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
 .foundry-board-grid > .kb-col > .aad-stage-skills-gap { grid-row: 7; }
 .foundry-board-grid > .kb-col > .aad-skill-row--stage-other:nth-child(8) { grid-row: 8; }
 .foundry-board-grid > .kb-col > .aad-skill-row--stage-other:nth-child(9) { grid-row: 9; }

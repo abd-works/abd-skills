@@ -1733,7 +1733,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <h2>Content</h2>
 <div class="rule-prose"><p>﻿&lt;!-- Parameterized SKILL.md skeleton for agilebydesign-skills. Canonical copy: skills/abd-practice-skill-builder/abd-author-practice-skill/templates/SKILL_template.md Copy to skills/&lt;your-skill&gt;/SKILL.md and replace every {{PLACEHOLDER}}. Shape: thin router — purpose, when-to-use, output file, Agent Instructions (read-gates), Validate. Rules live in rules/<em>.md only. Concept teaching lives in reference/</em>.md only. Nothing inlined here. --&gt;</p>
 <hr>
-<p>name: {{SKILL_NAME}} description: &gt;- {{SKILL_DESCRIPTION}}</p>
+<p>name: {{SKILL_NAME}} description: &gt;- {{SKILL_DESCRIPTION_WHAT_IT_PRODUCES}}. Use when {{SKILL_DESCRIPTION_USE_WHEN_SITUATION}}.</p>
 <hr>
 <h1>{{SKILL_DISPLAY_NAME}}</h1>
 <h2>Purpose</h2>
@@ -1764,6 +1764,15 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <p><strong>Where to write the deliverables (<code>&lt;deliverables-folder&gt;</code> resolution):</strong></p>
 <p>1. The path the user told you to use. 2. Where the engagement already keeps deliverables (write next to existing phase output). 3. The workspace root if neither applies.</p>
 <p><strong>File names:</strong> Default to the template filename. Add a <code>&lt;name&gt;-</code> prefix only for disambiguation.</p>
+<hr>
+<h2>Grill prompts</h2>
+<p>Read <code>common/grill-me-with-practice-skill.md</code> before grilling.</p>
+<p>Before generating, surface these traps:</p>
+<ul>
+<li><strong>{{GRILL_TRAP_1_LABEL}}</strong> — {{GRILL_TRAP_1_DESCRIPTION}}</li>
+<li><strong>{{GRILL_TRAP_2_LABEL}}</strong> — {{GRILL_TRAP_2_DESCRIPTION}}</li>
+<li><strong>{{GRILL_TRAP_3_LABEL}}</strong> — {{GRILL_TRAP_3_DESCRIPTION}}</li>
+</ul>
 <hr>
 <h2>Agent Instructions</h2>
 <p>&gt; <strong>MANDATORY — read every file in <code>rules/</code> and <code>reference/</code> before authoring any artifact. Do not rely on memory or the SKILL body alone.</strong></p>

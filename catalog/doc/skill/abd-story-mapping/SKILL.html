@@ -1744,9 +1744,15 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <p>Before generating, surface these common input traps:</p>
 <ul>
 <li><strong>Hidden actors</strong> — who actually uses this — is &quot;the user&quot; hiding three different people with different goals, or is there a system actor nobody mentioned?</li>
+<li><strong>Actor reality</strong> — for every actor, confirm they exist in this iteration. Ask: is this a real human role, or an automated system? If automated, does the automation exist yet? Do not assume an actor is real because it sounds plausible — verify it. If everything is manual in this iteration, automated actors do not belong on the map.</li>
 <li><strong>Behaviors vs. tasks</strong> — are these outcomes people care about, or build tasks disguised as stories? &quot;Implement payment gateway&quot; is a task; &quot;Process customer payment&quot; is a behavior. Which are we looking at?</li>
+<li><strong>Vague story names</strong> — when a story uses a vague verb or noun (&quot;provision&quot;, &quot;manage&quot;, &quot;handle&quot;, &quot;set up&quot;, &quot;improve&quot;), ask what the actual concrete steps are. A story name must describe one observable behavior, not a category of work.</li>
+<li><strong>Tool specificity</strong> — when a story describes a generic behavior (&quot;extract content&quot;, &quot;send notification&quot;), ask which specific tool or mechanism is actually used. Generic behavior names produce generic output; name the tool.</li>
 <li><strong>Missing triggers</strong> — are there background processes, scheduled jobs, or external systems that kick off behaviors nobody has surfaced yet? They always show up later as gaps.</li>
+<li><strong>Sequencing</strong> — read the sub-epics in order. Can each story actually be done before the next one starts? Are there prerequisites that haven&#x27;t appeared yet? Repo-before-extraction, setup-before-use. Common sense must pass.</li>
+<li><strong>Delivery epics and CDD flow</strong> — if there is an epic about delivering value, check whether the stories inside it mirror the CDD fidelity flow (shaping → discovery → exploration → specification → engineering). A delivery epic with generic &quot;generate → review → submit&quot; stories has not been connected to the actual delivery process.</li>
 <li><strong>Scope bleeding</strong> — where does this product&#x27;s responsibility end and another system&#x27;s begin? If that boundary isn&#x27;t drawn, stories will leak across it.</li>
+<li><strong>Duplication across sub-epics</strong> — before finalising, scan all sub-epics for overlap. Do any two sub-epics describe the same behaviour under different names? If yes, collapse or kill the duplicate — do not carry redundant sub-epics forward.</li>
 <li><strong>Depth agreement</strong> — does everyone expect the same level of detail from this map — an outline to frame conversations, or a full breakdown to plan work? Mismatched expectations waste everyone&#x27;s time.</li>
 </ul>
 <hr>

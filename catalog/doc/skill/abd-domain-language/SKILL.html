@@ -1757,7 +1757,12 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <li><strong><code>reference/concepts.md</code></strong> — Domain Language, terms, KAs, concepts, two tests, three outcomes, modeling decisions (concept vs subtype vs property vs instance), italicized-term resolution, decisions/references per KA, three passes, and the consistent file shape.</li>
 <li><strong><code>../../reference/oo-concepts.md</code></strong> — OO fundamentals (what is a class, inheritance and subtypes). Read the <strong><code>### Inheritance and subtypes</code></strong> section before classifying terms. <strong>Do not</strong> read or apply <code>### Decomposing responsibilities</code> — that applies at domain model stage and beyond.</li>
 </ul>
-<h3>2. Generate</h3>
+<p><strong>Read <code>oo-concepts.md</code> before touching any term. This is not optional.</strong></p>
+<h3>2. Classify terms — mandatory interactive step</h3>
+<p>For every term that could be a concept, subtype, property, or instance: <strong>you must ask before you classify</strong>. This step is not optional and is not error-recovery — it is the process.</p>
+<p>For each ambiguous term: 1. Use <code>AskQuestion</code> to present the viable typing options (concept / subtype of X / property of X / instance of X). 2. Include one sentence of reasoning for each option — why it fits, what it implies. 3. Wait for the user&#x27;s answer before writing the block.</p>
+<p><strong>Never classify a term by assumption.</strong> &quot;It seemed obvious&quot; is not a valid reason to skip the question. If you are uncertain, you are certain you must ask.</p>
+<h3>3. Generate</h3>
 <p><strong>Produce output from every template:</strong></p>
 <div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td><code>templates/domain-language-template.md</code></td><td>The Domain Language file with Terms list, KA intros, concept blocks, decisions, and references.</td></tr><tr><td><code>templates/domain.json</code></td><td>Domain JSON with concept names, attributes, and inheritance.</td></tr></tbody></table></div>
 <p><strong>Quality bar:</strong> Every KA intro opens with &quot;<em>KAName</em> is …&quot;. Every concept has verb-led behavior bullets. Every <code>*italicized*</code> term resolves to a heading, stub, or parenthetical primitive. One <code>#### Decisions made</code> and one <code>#### References</code> per KA, after all concept blocks.</p>

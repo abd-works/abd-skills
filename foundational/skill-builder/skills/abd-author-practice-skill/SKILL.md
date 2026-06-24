@@ -1,8 +1,7 @@
 ﻿---
 name: abd-author-practice-skill
 description: >-
-  Turn collected hub evidence into a finished practice skill: clear instructions and
-  checkable do-and-don't norms that stay true to what you retrieved.
+  Turn collected hub evidence into a finished practice skill with clear instructions and checkable do-and-don't norms. Use when hub material has been gathered and you want to produce a skill package that reads clearly and can be validated.
 ---
 # abd-author-practice-skill
 
@@ -46,6 +45,62 @@ Each rule should read like a **small spec**: what must hold for **pass**, what c
 
 A **template** is a fixed output shape the practice promises—usually a file under **`templates/`**—that practitioners complete when they apply the method. It should make deliverables **comparable**, **complete**, and **easy to find**, and the skill should name every template shape it expects without ambiguity. When the skill names a template, either ship that file (filled or sensibly minimal), defer it in the skill text with a stated reason, or remove it from what the skill promises so scope stays honest. The starter **`SKILL_template.md`** in **abd-author-practice-skill** is a **parameterized seed**: it keeps **`{{PLACEHOLDER}}`** slots until you replace them and includes a short **filled example** (fictional practice) for tone; delete that example section from the copied **`SKILL.md`** once the real opening is written.
 
+### Practice-level reference folder
+
+Practice skills belong to a **practice family** — a named folder under `practices/<family-name>/` that holds multiple skills. The family has its own `reference/` folder at that level (not inside any individual skill) for two shared artifacts every skill in the family can link to instead of repeating:
+
+**`reference/<family>-perspective.md`** — the fidelity ladder for this practice: which skill maps to which fidelity level and mode. This is the single authoritative picture of how the practice progresses from shaping to engineering. Every skill in the family has `context-perspective` and `context-fidelity` in its front matter; the perspective file is the readable version.
+
+```markdown
+# BDD Perspective
+
+**Key:** `engineering`
+
+**What it answers:** How is behavior discovered, structured, and implemented as tested code?
+
+**Skills by fidelity:**
+
+| Fidelity    | Skill                  | Mode           |
+|-------------|------------------------|----------------|
+| Exploration | `abd-bdd-behavior`     | bdd-scaffold   |
+| Spec        | `abd-bdd-specification`| bdd-signature  |
+| Engineering | `abd-bdd-development`  | bdd-development|
+```
+
+**Shared cross-skill reference files** — concepts, vocabulary, or rules that more than one skill in the family needs but that don't belong inside a single skill. For example: OO concepts shared across all DDD skills live in `practices/domain-driven-design/reference/oo-concepts.md`; incomplete-context handling shared across all story-driven skills lives in `practices/story-driven-delivery/reference/handling-incomplete-context.md`. Skills `reference/concepts.md` links to the practice-level file rather than duplicating the content.
+
+See rule **Practice level reference folder has perspective and shared concepts** in `rules/`.
+
+### Grill prompts
+
+Every practice `SKILL.md` must have a `## Grill prompts` section that fires **before** the agent generates anything. Its job is to surface the input traps — the assumptions, ambiguities, and missing context — that most commonly produce bad output for that specific method. Without it, the agent proceeds on guesswork and the practitioner discovers the gap after the output is wrong.
+
+The section opens with `Read \`common/grill-me-with-practice-skill.md\` before grilling.` — this loads the shared interview pattern. What follows are the **skill-specific traps**: at least three bold-labeled failure modes that name real risks for this method, not generic checklist items. See rule **Grill prompts section surfaces input traps** in `rules/`.
+
+**Where it lives:** before `## Agent Instructions`. Some skills place it before `## Purpose` when those traps are urgent enough to surface before anything else; either position is acceptable.
+
+### Front matter — description
+
+The `description` field in a skill's YAML front matter is two sentences:
+
+1. **What it does** — a compact, present-tense verb phrase: what the skill produces and what that gives people.
+2. **Use when** — starts with `Use when` and names a real-world situation the practitioner recognizes from their own work — the circumstances that make this skill the right tool.
+
+The `Use when` sentence describes the **practitioner's situation**, never the name of another skill or the output artifact of another skill. A practitioner reading a catalog must be able to understand the trigger without knowing anything about the skill family. See rule **Description front matter has "Use when" in situation language** in `rules/`.
+
+**Example (pass):**
+```yaml
+description: >-
+  State exactly what must be true for a story to be done — so everyone agrees on 'finished'. Use when writing or reviewing exploration-phase behavior for stories.
+```
+
+**Example (fail):**
+```yaml
+description: >-
+  Turn a BDD scaffold into an executable test skeleton with empty markers. Use when a scaffold has been approved.
+```
+"scaffold" is the output of another skill; a reader who hasn't run that skill doesn't know what it means.
+
 ### Sections and rules
 
 **`SKILL.md`** carries **teaching and workflow order** — it is a **thin router**: purpose, when-to-use, output resolution, and the read-gates that drive generate and validate. **`rules/*.md`** are the **check layer** on real artifacts: pass/fail on outputs (phrasing, shape, trace, assumptions, and the like). **`reference/*.md`** hold concept teaching, examples, and heuristics — they are loaded on demand, not inlined. **Build** sequences the work; **rules** define acceptable output. The same split appears in skills such as **abd-story-mapping** and **abd-story-specification**.
@@ -64,20 +119,31 @@ When you **maintain `abd-author-practice-skill`**, keep its **`rules/`** generic
 
 4. **Rewrite the target `SKILL.md` as a thin router.** Replace placeholder voice with plain **Purpose** and **When to use**, then the Agent Instructions block with explicit read-gates, then the Validate section. Move concept teaching and examples to **`reference/*.md`** — they do not belong in the SKILL body. Where you claim something is hub-backed, cite retrieval row and source when that helps a reviewer. Either fill every **`{{PLACEHOLDER}}`**, defer it in writing with a reason, or narrow what the skill promises.
 
+4a. **Create or verify the practice-level `reference/` folder.** Under `practices/<family-name>/reference/`, ensure two things exist:
+   - **`<family>-perspective.md`** — the fidelity ladder table (fidelity, skill, mode) for this practice family. Create it if it does not exist; update it if a new skill has been added.
+   - **Shared cross-skill concept files** — any concept or vocabulary that more than one skill in the family needs. If two or more skills would duplicate the same concept prose, extract it here and have each skill's `reference/concepts.md` link to it instead (see rule **Practice level reference folder has perspective and shared concepts**).
+
+4b. **Set the front matter `description` correctly.** Two sentences: first says what the skill produces (compact, present tense); second starts with `Use when` and names the practitioner's situation in plain language. The `Use when` clause must describe circumstances the practitioner recognizes from their own work — never the name of another skill or that skill's output artifact (see rule **Description front matter has "Use when" in situation language**).
+
+4c. **Write the `## Grill prompts` section.** Place it before `## Agent Instructions`. Open with `Read \`common/grill-me-with-practice-skill.md\` before grilling.` then list at least three skill-specific input traps — bold-labeled failure modes that name real ambiguities for this method. Do not use generic checklist items that apply to any skill (see rule **Grill prompts section surfaces input traps**).
+
 5. **Author `rules/*.md` on the target as output validators.** Each file targets a **named artifact**; every **DO** must be **decidable** from that artifact without extra context. Keep **step order** in **Build** in **`SKILL.md`**, not in rules. Every normative file needs **`## DO`**, **`## DO NOT`**, per-bullet **Example (pass)** / **Example (fail)**, plus enough condition text to mark pass vs fail. Point **`Source:`** at **`inputs/abd-answers-retrieval.md`** only for **hub-backed** lines; do not fake hub sources for chat-only norms. Add **`scanner:`** in front matter only if **`scanners/<stem>-scanner.py`** already exists on that package.
 
 6. **Confirm `SKILL.md` is a thin router — no rule or concept prose inlined.** Rules live only in **`rules/*.md`**; concept and example prose lives only in **`reference/*.md`**. **`SKILL.md`** must contain no `<!-- execute_rules:bundle_rules -->` markers and no inlined rule or concept text. Verify the Agent Instructions block contains explicit read-gates for **`rules/`** and **`reference/`** (MANDATORY before generating and before validating), and that the Validate section requires a per-rule verdict.
 
 7. **Inspect the package instead of rewriting it from scratch.** Walk the **Validate** checklist in this file against the **target** folder, fix drift and weak spots, and stop when a careful reviewer would accept the package—unless new evidence forces a larger rewrite.
 
-8. **Create IDE files only when the skill enforces a real always-on behavioral constraint.** IDE files are **not** required for every skill — skills are discovered contextually through the agent skills system. Do **not** create a `.mdc` that just says "read skill X when the user asks for Y"; that is noise, not a constraint.
+8. **Create IDE files where they fit — instructions for always-on guards, prompts for explicit invocations.** Three distinct file types; each has a different bar:
 
-   Only create **`ide-files/`** when the skill enforces a **non-negotiable behavioral guard** that must hold in every conversation regardless of context (a quality gate, a process invariant, a "never do X" rule). When that bar is met:
+   **`.mdc` + `.instructions.md` — always-on behavioral guards** (create these together):
+   - Use when the skill enforces a **non-negotiable constraint that must hold in every conversation** regardless of context: a quality gate, a process invariant, a "never do X" rule. These fire automatically and cannot be turned off by the user.
+   - Do **not** create these just to say "read skill X when the user asks for Y" — that is noise. The constraint must alter behavior unconditionally.
+   - `ide-files/<skill-name>.mdc` — Cursor rule, YAML frontmatter `description:` + `alwaysApply: true`; body states the constraint in DO / DO NOT terms.
+   - `ide-files/<skill-name>.instructions.md` — VS Code parity: **exact same markdown body** as the `.mdc` (everything after `---`) with no YAML header. The `mdc-instructions-parity` scanner fails if they drift.
 
-   - **`ide-files/<skill-name>.mdc`** — Cursor rule. YAML frontmatter with `description:` and `alwaysApply: true`; body states the constraint in DO / DO NOT terms.
-   - **`ide-files/<skill-name>.instructions.md`** — VS Code parity: the **exact same markdown body** as the `.mdc` (everything after the closing `---`) with **no** YAML header. The **`mdc-instructions-parity`** scanner fails if they drift.
-
-   **Do not create a `.prompt.md`** by default. Slash commands are for workflows a practitioner explicitly invokes — only add one when there is a clear user-facing invocation reason.
+   **`.prompt.md` — explicit practitioner invocations** (create when there is a clear slash-command use case):
+   - Use when the skill has a workflow a practitioner **explicitly calls by name** — something they type as `/skill-name` to kick off a session. Not every skill needs this; don't create one just because the skill exists.
+   - `ide-files/<skill-name>.prompt.md` — the prompt body the slash command executes. No YAML frontmatter beyond what the target IDE requires.
 
 9. **Deploy the skill outputs to the target project.** Run **`Deploy-SkillOutputs.ps1`** from this skill's `scripts/` to link the authored skill's IDE files into the target project:
 
@@ -110,7 +176,9 @@ Checklist for the **target** **`skills/<skill-name>/`**:
 - **Readable English** — **Purpose**, **When to use**, **Core concepts**, **Build**, **Validate**, and the rest of the target **`SKILL.md`** use **clear, grammatical prose** for humans, not only a polished opening followed by rough notes; paths and commands appear where expected, with enough sentence context that the page teaches the method (see `rules/clear-english-throughout-skill-page.md`).
 - **Purpose is outcome not mechanics** — **Purpose** is **one** short paragraph about **why** the practice exists and what it helps people do; opening blocks do **not** front-load paths, markers, template-copy steps, or pipeline detail before that outcome is clear (see `rules/opening-sections-give-outcomes-not-package-mechanics.md`).
 - **Concepts before notation** — **Core concepts** explain **ideas and relationships** first; diagram symbols, file prefix serialisation, and template positioning live in **templates**, **Agent Instructions**, **Build**, **Validate**, and **`rules/*.md`** (see `rules/core-sections-teach-ideas-before-file-prefixes-and-diagram-notation.md`).
-- **YAML** — **`description`** is a **one-line outcome**, not a repeat of the file pipeline.
+- **Practice-level reference folder** — `practices/<family-name>/reference/` exists and contains a `<family>-perspective.md` fidelity ladder; shared cross-skill concepts are in that folder rather than duplicated per skill (see `rules/practice-level-reference-folder-has-perspective-and-shared-concepts.md`).
+- **YAML front matter** — **`description`** is two sentences: what the skill produces, then `Use when [situation]`. The `Use when` clause names the practitioner's circumstances in plain language — no other skill names, no other skill's output artifacts (see `rules/description-front-matter-has-use-when-in-situation-language.md`).
+- **Grill prompts** — `## Grill prompts` section exists before `## Agent Instructions`; opens with `Read \`common/grill-me-with-practice-skill.md\` before grilling.`; lists at least three skill-specific input traps with bold labels (see `rules/grill-prompts-section-surfaces-input-traps.md`).
 - **Placeholders** — no **`{{PLACEHOLDER}}`** unless the engagement **explicitly** defers that slice.
 - **Evidence** — what you call **hub-backed** ties to **`inputs/abd-answers-retrieval.md`**; chat/engagement norms are not forced to; gaps are **documented**, not invented.
 - **Templates** — every file the **target** **SKILL.md** promises under **`templates/`** is **filled**, **stubbed with a stated reason**, or **removed from the promise**; each promised template includes **at least one audience-appropriate filled example** (see `rules/templates-include-ideal-filled-examples-for-the-audience.md`).

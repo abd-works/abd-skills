@@ -5508,8 +5508,21 @@ html.foundry-scroll-pending {
 .foundry-board-grid > .kb-col > .aad-skill-row[data-family="user-experience-design"] { grid-row: 4; }
 .foundry-board-grid > .kb-col > .aad-skill-row[data-family="architecture-centric-engineering"] { grid-row: 5; }
 .foundry-board-grid > .kb-col > .aad-skill-row[data-family="context-to-memory"] { grid-row: 6; }
-/* Context stage column: CTX skills appear at row 2 (parallel to first practice family) */
-.foundry-board-grid > .kb-col[data-stage="context"] > .aad-skill-row[data-family="context-to-memory"] { grid-row: 2; }
+/* Context stage column: CTX skills span all family rows so multiple tickets stack vertically */
+.foundry-board-grid > .kb-col[data-stage="context"] > .aad-skill-row[data-family="context-to-memory"] {
+  grid-row: 2 / 7;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: start;
+  gap: 2px;
+}
+.foundry-board-grid > .kb-col[data-stage="context"] > .aad-skill-row--empty {
+  display: none !important;
+  min-height: 0;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
 .foundry-board-grid > .kb-col > .aad-stage-skills-gap { grid-row: 7; }
 .foundry-board-grid > .kb-col > .aad-skill-row--stage-other:nth-child(8) { grid-row: 8; }
 .foundry-board-grid > .kb-col > .aad-skill-row--stage-other:nth-child(9) { grid-row: 9; }
@@ -6545,6 +6558,7 @@ html.foundry-scroll-pending {
                 <a class="kb-ticket aad-skill aad-fam-delivery has-skill-tooltip" href="skill/abd-kanban.html"><span class="kb-skill-tooltip-wrap">kanban<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">kanban</span><span class="kb-col-shape-tooltip__bullets">Make delivery work visible and flow-governed — so nothing hides and bottlenecks surface immediately.</span></span></span></a>
                 <a class="kb-ticket aad-skill aad-fam-delivery has-skill-tooltip" href="skill/abd-kanban-repo.html"><span class="kb-skill-tooltip-wrap">kanban repo<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">kanban repo</span><span class="kb-col-shape-tooltip__bullets">Tie git history to ticket lifecycle — so every commit, branch, and PR traces back to a delivery state change.</span></span></span></a>
                 <a class="kb-ticket aad-skill aad-fam-delivery has-skill-tooltip" href="skill/kanban-estimation.html"><span class="kb-skill-tooltip-wrap">kanban estimation<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">kanban estimation</span><span class="kb-col-shape-tooltip__bullets">Agree on sizing with recorded rationale — so re-estimation never starts from scratch and assumptions are visible.</span></span></span></a>
+                <a class="kb-ticket aad-skill aad-fam-delivery has-skill-tooltip" href="skill/context-driven-delivery.html"><span class="kb-skill-tooltip-wrap">context driven delivery<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">context driven delivery</span><span class="kb-col-shape-tooltip__bullets">Takes your context and goal, grills you on what&#x27;s missing, routes to the right skills, generates output at each fidelity level, and iterates until the work is done. Use when the user wants to achieve an outcome using abd practice skills — or says &quot;let&#x27;s solve this&quot; or &quot;let&#x27;s achieve this&quot;.</span></span></span></a>
                 <a class="kb-ticket aad-skill aad-fam-delivery has-skill-tooltip" href="skill/abd-kanban-handoff.html"><span class="kb-skill-tooltip-wrap">kanban handoff<span class="kb-col-shape-tooltip kb-skill-tooltip" role="tooltip"><span class="kb-col-shape-tooltip__name">kanban handoff</span><span class="kb-col-shape-tooltip__bullets">Let a fresh agent resume delivery without re-reading the repo ? by capturing where things stand and what to pull next.</span></span></span></a>
               </div>
             </div>

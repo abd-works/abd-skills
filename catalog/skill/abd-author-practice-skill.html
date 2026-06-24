@@ -5508,8 +5508,21 @@ html.foundry-scroll-pending {
 .foundry-board-grid > .kb-col > .aad-skill-row[data-family="user-experience-design"] { grid-row: 4; }
 .foundry-board-grid > .kb-col > .aad-skill-row[data-family="architecture-centric-engineering"] { grid-row: 5; }
 .foundry-board-grid > .kb-col > .aad-skill-row[data-family="context-to-memory"] { grid-row: 6; }
-/* Context stage column: CTX skills appear at row 2 (parallel to first practice family) */
-.foundry-board-grid > .kb-col[data-stage="context"] > .aad-skill-row[data-family="context-to-memory"] { grid-row: 2; }
+/* Context stage column: CTX skills span all family rows so multiple tickets stack vertically */
+.foundry-board-grid > .kb-col[data-stage="context"] > .aad-skill-row[data-family="context-to-memory"] {
+  grid-row: 2 / 7;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: start;
+  gap: 2px;
+}
+.foundry-board-grid > .kb-col[data-stage="context"] > .aad-skill-row--empty {
+  display: none !important;
+  min-height: 0;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
 .foundry-board-grid > .kb-col > .aad-stage-skills-gap { grid-row: 7; }
 .foundry-board-grid > .kb-col > .aad-skill-row--stage-other:nth-child(8) { grid-row: 8; }
 .foundry-board-grid > .kb-col > .aad-skill-row--stage-other:nth-child(9) { grid-row: 9; }
@@ -6199,7 +6212,7 @@ html.foundry-scroll-pending {
 
           <h1 class="page-headline"><span class="skill-name-prefix">abd-</span>author-practice-skill</h1>
 
-          <p class="body-lead">Turn collected hub evidence into a finished practice skill: clear instructions and checkable do-and-don&#x27;t norms that stay true to what you retrieved.</p>
+          <p class="body-lead">Turn collected hub evidence into a finished practice skill with clear instructions and checkable do-and-don&#x27;t norms. Use when hub material has been gathered and you want to produce a skill package that reads clearly and can be validated.</p>
 
         </td>
 
@@ -6274,6 +6287,16 @@ html.foundry-scroll-pending {
 <div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Use Core concepts mainly to rehearse prefix tags, tree ASCII, indent rules, or spatial layout when plain language could state relationships first.</li><li>Put template positioning in Core concepts (“use the FOO: line”, “in column 3 of the table”).</li><li>Add package-structure meta to the target Core concepts (“meaning layer vs check layer”, “where teaching lives”) — that is abd-author-practice-skill guidance only.</li><li>Train readers on notation before they know what each node type means in the real world.</li></ul></div>
 </details>
 <details class="skill-rule">
+<summary class="skill-rule-header">Description front matter has &quot;Use when&quot; in situation language</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Write description as two sentences: the first says what the skill does (present-tense verb phrase, compact); the second starts with Use when and names a real-world situation the practitioner recognizes from their own work.</li><li>Make the Use when condition describe the team&#x27;s situation or what they want to achieve — a trigger the practitioner can recognize without knowing anything about the skill family.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Name another skill or that skill&#x27;s output artifact in the Use when clause.</li><li>Write the Use when clause in terms of what artifact the preceding skill produced. The condition must make sense on its own.</li><li>Write more than one compact sentence of what-it-does before the Use when clause.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Grill prompts section surfaces input traps</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Include a ## Grill prompts section in every practice SKILL.md. Place it before ## Agent Instructions.</li><li>Open the section with exactly this line, before any other content:</li><li>List at least three input traps that are specific to this skill&#x27;s method. Each trap is bold-labeled and names one real failure mode or ambiguity that commonly causes bad output for this practice — not generic checklist items.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Omit the ## Grill prompts section from a practice SKILL.md.</li><li>Omit the Read \common/grill-me-with-practice-skill.md\ before grilling. line, or bury it after other content.</li><li>Use the section to describe how the skill works or what it produces — that belongs in Purpose and Agent Instructions.</li><li>List only generic traps that apply equally to every skill with no traps that name a real failure mode specific to this method.</li></ul></div>
+</details>
+<details class="skill-rule">
 <summary class="skill-rule-header">`.mdc` body matches `.instructions.md` (VS Code parity)</summary>
 <div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Keep &lt;stem&gt;.instructions.md as the exact same prose as &lt;stem&gt;.mdc without the --- … --- header (same headings, bullets, and paths). Edit one, then mirror the other, or edit .mdc and copy the body to .instructions.md.</li><li>Run mdc-instructions-parity-scanner on the target skill root when validating ( --skill-root = abd-author-practice-skill, --workspace = skills/&lt;target&gt;/ ).</li></ul></div>
 <div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Change .mdc body text without updating .instructions.md to match (or the reverse).</li><li>Treat .prompt.md as the rule twin of .mdc — it is the command payload, not the always-on instruction file.</li></ul></div>
@@ -6282,6 +6305,11 @@ html.foundry-scroll-pending {
 <summary class="skill-rule-header">Opening sections give outcomes not package mechanics</summary>
 <div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Write Purpose as one short paragraph (or at most two if the practice truly needs a problem/solution split) that answers why this skill exists, what finishing it helps people do, and how the skill supports that — without naming concrete paths or tooling steps.</li><li>Keep When to use as triggers in plain language (situations readers recognize), not a recap of Build or folder layout.</li><li>Put file names, copy steps, bundle commands, and what this skill does not include (retrieval, scanners) in Prerequisites, Build, or Not in this pass.</li></ul></div>
 <div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Open Purpose with retrieval paths, inputs/..., *rules/.md, Manual:, execute_rules markers, or “start from templates/...” before stating why** the practice matters.</li><li>Use Purpose to explain agent choreography or another skill’s pipeline (“load X then run Y”) when that is not the substance of the practice itself.</li></ul></div>
+</details>
+<details class="skill-rule">
+<summary class="skill-rule-header">Practice-level reference folder has perspective and shared concepts</summary>
+<div class="skill-rule-section skill-rule-section--do"><p class="skill-rule-section-label">DO</p><ul><li>Create practices/&lt;family-name&gt;/reference/ when authoring or maintaining a practice family.</li><li>Include a &lt;family&gt;-perspective.md file at that level. It must have: the perspective key, what question the practice answers, the owning agent (if one exists), and the fidelity ladder table (fidelity level, skill name, mode).</li><li>When two or more skills in the family share a concept, vocabulary, or cross-cutting discipline, place it in a shared reference file at the practice level — not duplicated inside each skill&#x27;s reference/concepts.md. Each skill&#x27;s concepts file may link to the shared file.</li></ul></div>
+<div class="skill-rule-section skill-rule-section--dont"><p class="skill-rule-section-label">DON'T</p><ul><li>Omit the practice-level reference/ folder when the family has two or more skills.</li><li>Put the perspective file inside an individual skill&#x27;s reference/ folder.</li><li>Duplicate shared concept prose across multiple skills&#x27; reference/concepts.md files when a single family-level file would serve all of them.</li></ul></div>
 </details>
 <details class="skill-rule">
 <summary class="skill-rule-header">Rule DOs and DON&#x27;Ts must each have examples</summary>
