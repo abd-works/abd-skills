@@ -119,11 +119,47 @@ The skill output is a validation tool — use it as soon as it would move the co
 
 ---
 
+## Progress tracking
+
+Use the `track_task` skill pattern to create and maintain a checkbox progress file alongside the session journal. This is the machine-readable record of grid progress — separate from the narrative journal.
+
+**When to create:** As soon as the entry point is confirmed by the user. Do not wait.
+
+**Location:** `<workspace>/docs/sessions/<date>-<topic>/progress/process-checklist.md`
+
+**Format:** One `- [ ]` line per fidelity level × perspective cell in scope, plus an entry point line. Pre-populate based on the confirmed entry point and any skips the user declared.
+
+```markdown
+- [x] Entry point confirmed: <fidelity level> — <reason>
+- [ ] <Fidelity>: Domain — <skill name>
+- [ ] <Fidelity>: Stories — <skill name>
+- [ ] <Fidelity>: UX — <skill name>
+- [ ] <Fidelity>: Architecture — <skill name>
+- [ ] Consistency check — <Fidelity>
+- [ ] <NextFidelity>: Domain — ...
+...
+```
+
+**Each turn:**
+
+1. Open `process-checklist.md` — the first unchecked `- [ ]` is the current step unless the user names another.
+2. After a cell is complete (specialist output accepted, consistency check passed), flip its line to `- [x]`.
+3. Summarize: done / next / blocked — one line in the chat response.
+
+**Rules:**
+
+- Do not overwrite an existing checklist unless the user explicitly resets the session.
+- Skipped cells (user-confirmed) are marked `- [x] <cell> — skipped (user confirmed)`.
+- Never mark a cell done because the specialist was spawned — only when output was reviewed and accepted.
+- Keep the checklist in sync with the session journal: the journal holds the narrative, the checklist holds the state.
+
+---
+
 ## Session journal
 
 Maintain a running session journal — a record for resumption and traceability. Append-only, write in the background, never let it slow the conversation.
 
-**Location:** `<workspace>/docs/sessions/<date>-<topic>.md`
+**Location:** `<workspace>/docs/sessions/<date>-<topic>/session-journal.md`
 
 **Format:** See [`templates/session-journal.md`](./templates/session-journal.md)
 
