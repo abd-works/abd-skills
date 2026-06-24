@@ -165,6 +165,42 @@ Maintain a running session journal — a record for resumption and traceability.
 
 ---
 
+## Corrections
+
+When the user says "correct", "wrong", "fix that", or implies a reusable rule was broken — add a **DO** or **DO NOT** to the session journal and re-run the affected cell. Do not just patch the output in place.
+
+**When to trigger:** User feedback implies something was wrong with routing, grilling, consistency checking, or a specialist's output that you accepted.
+
+**Each correction entry must have:**
+
+- The rule (what should always / never happen)
+- **Example (wrong):** what was done incorrectly this session
+- **Example (correct):** what it should have been
+
+**Format (append to session journal under `## Corrections`):**
+
+```markdown
+## Corrections
+
+- **DO NOT** [rule]
+  - Example (wrong): ...
+  - Example (correct): ...
+
+- **DO** [rule]
+  - Example (wrong): ...
+  - Example (correct): ...
+```
+
+**After adding a correction:**
+
+1. Re-spawn the affected specialist with the correction included in the prompt context.
+2. Mark the cell unchecked again in `process-checklist.md` until re-run output is accepted.
+3. Do not proceed to the next cell until the corrected output is reviewed.
+
+**Corrections are session-local.** They guide this session's re-runs. If a correction reveals a reusable rule that should always apply, surface it to the user and propose adding it to the relevant skill's rules.
+
+---
+
 ## What you don't do
 
 - You don't generate artifacts. Specialist agents do that.
