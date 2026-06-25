@@ -1,6 +1,6 @@
 # Lo-fi — {{SCOPE_NAME}}
 
-> **Companion to** `docs/ux/lo-fi/{{SLUG}}.drawio`. Author or update **this file first**, then regenerate the wireframe from the state file. After any manual edits in Draw.io, sync changes back here.
+> **Companion to** `docs/ux/mockups/{{SLUG}}.drawio`. Author or update **this file first**, then regenerate the wireframe from the state file. After any manual edits in Draw.io, sync changes back here.
 
 ## Metadata
 
@@ -10,15 +10,15 @@
 | Initial IA | `docs/ux/initial-ia.md` |
 | AC source | {{ACCEPTANCE_CRITERIA_PATH}} |
 | Domain terms | {{DOMAIN_TERMS_PATH}} |
-| State file | `docs/ux/lo-fi/{{SLUG}}-state.json` |
-| Wireframe | `docs/ux/lo-fi/{{SLUG}}.drawio` |
+| State file | `docs/ux/mockups/{{SLUG}}-state.json` |
+| Wireframe | `docs/ux/mockups/{{SLUG}}.drawio` |
 | Last updated | {{ISO_DATE}} |
 
 ## Description
 
 {{ONE_PARAGRAPH}}
 
-What screens are in scope, what the GM does on them, which stories are represented, what interaction decisions this pass resolves.
+What screens are in scope, what the u er does on them, which stories are represented, what interaction decisions this pass resolves.
 
 ---
 
@@ -77,8 +77,8 @@ Every control traces to an AC clause. Reviewers verify coverage here without ope
 ```powershell
 node "C:\dev\agilebydesign-skills\skills\user-experience-design\abd-ux-mockup\scripts\drawio-mockup.mjs" `
   save `
-  --state "docs/ux/lo-fi/{{SLUG}}-state.json" `
-  --out   "docs/ux/lo-fi/{{SLUG}}.drawio"
+  --state "docs/ux/mockups/{{SLUG}}-state.json" `
+  --out   "docs/ux/mockups/{{SLUG}}.drawio"
 ```
 
 ---

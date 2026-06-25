@@ -1,6 +1,6 @@
 # Rule: Only in-scope domain terms may appear as control labels
 
-Control labels in the wireframe and `lo-fi.md` must use domain terms that belong to the stories in scope for this pass. Terms from other screens or stories not in scope must not appear as labels.
+Control labels in the wireframe and `mockup.md` must use domain terms that belong to the stories in scope for this pass. Terms from other screens or stories not in scope must not appear as labels.
 
 **DO** build the term set from the in-scope story list, intersected with the domain terms file.
 

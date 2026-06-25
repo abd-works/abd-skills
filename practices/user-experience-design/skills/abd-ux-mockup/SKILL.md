@@ -5,7 +5,7 @@ name: abd-ux-mockup
 catalogue_one_liner: >-
   Lock down every control and interaction before visual design — so nothing is invented during build.
 description: >-
-  Specify exact controls, interactions, and states for IA screens as lo-fi Draw.io wireframes. Use when locking down interaction decisions before visual design or implementation.
+  Specify exact controls, interactions, and states for IA screens as Draw.io wireframes. Use when locking down interaction decisions before visual design or implementation.
 context-perspective: ux
 context-fidelity:
   - level: exploration
@@ -23,7 +23,7 @@ Lock down every control and interaction before visual design — so nothing is i
 
 **Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
 
-**File names:** `<screen-slug>-state.json` (state source of truth), `<screen-slug>.drawio` (generated wireframe), `<screen-slug>.md` (structured spec). Output to `docs/ux/lo-fi/`.
+**File names:** `<screen-slug>-state.json` (state source of truth), `<screen-slug>.drawio` (generated wireframe), `<screen-slug>.md` (structured spec). Output to `docs/ux/mockups/`.
 
 ---
 
@@ -48,7 +48,7 @@ Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution
 ### 1. Read context
 
 Read these files:
-- **`reference/concepts.md`** — what a lo-fi mockup is, source IA, design image reference, UI element types and state formats, field input types, domain terms and AC verbatim rules, the shape of a good state file, rendering approach (CLI vs AI-crafted XML), mxGraph XML patterns, and CLI reference.
+- **`reference/concepts.md`** — what a mockup is, source IA, design image reference, UI element types and state formats, field input types, domain terms and AC verbatim rules, the shape of a good state file, rendering approach (CLI vs AI-crafted XML), mxGraph XML patterns, and CLI reference.
 
 ### 2. Generate
 
@@ -56,7 +56,7 @@ Read these files:
 
 | Template | What to produce |
 | --- | --- |
-| `templates/lo-fi.md` | Structured spec: screen name, source paths, layout, design reference catalog, regions with affordance traces, in-scope stories, domain terms (verbatim), and AC (verbatim) |
+| `templates/ux-mockup.md` | Structured spec: screen name, source paths, layout, design reference catalog, regions with affordance traces, in-scope stories, domain terms (verbatim), and AC (verbatim) |
 
 **Generation flow:**
 
@@ -67,7 +67,7 @@ Read these files:
 5. **Collect in-scope stories and AC.**
 6. **Build the state JSON** — map each IA region to the correct element type matching the design image.
 7. **Generate the wireframe** via `scripts/drawio-mockup.mjs`.
-8. **Write `lo-fi.md` alongside the wireframe.**
+8. **Write `mockup.md` alongside the wireframe.**
 9. **Add story and domain term annotations** to the drawio.
 
 **CLI invocation:**
@@ -75,8 +75,8 @@ Read these files:
 ```powershell
 node "<skill-root>/scripts/drawio-mockup.mjs" `
   save `
-  --state "docs/ux/lo-fi/<screen-slug>-state.json" `
-  --out   "docs/ux/lo-fi/<screen-slug>.drawio"
+  --state "docs/ux/mockups/<screen-slug>-state.json" `
+  --out   "docs/ux/mockups/<screen-slug>.drawio"
 ```
 
 ### 3. Validate
@@ -91,7 +91,7 @@ Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.m
 
 - **Region fidelity** — every wireframe region matches a region from the initial IA for this screen.
 - **Labels verbatim** — every label is a UL term verbatim or copy from an AC clause.
-- **AC verbatim** — every acceptance criterion for in-scope stories is present in `lo-fi.md`, character-for-character.
+- **AC verbatim** — every acceptance criterion for in-scope stories is present in `mockup.md`, character-for-character.
 - **Screen-scoped** — no story or domain term from another screen appears.
 - **Affordance traceability** — every affordance traces to an AC clause or a UL term.
 - **State sync** — `<screen-slug>-state.json` and `<screen-slug>.drawio` are in sync.

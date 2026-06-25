@@ -2,9 +2,14 @@
 
 **Sources / context:** `<source files used>`
 
+**Domain outline:** `docs/domain/domain-model.md` (default) · `docs/domain/domain-specification.md` (if present)
+
 ---
 
 <!--
+  Default input: domain model outline — read it before writing any scenario.
+  Concept names, relationships, and invariants come from there verbatim.
+
   Each story uses whichever notation fits its behavior:
   - Plain Scenario: distinct logical flow with inline values (bold concepts, italic values)
   - Scenario Outline: data-driven variations with {column_name} tokens and example tables
@@ -16,13 +21,7 @@
 
 **Story type:** user | system | technical
 
-**Sources / context:** _(pointer to source or conversation / workshop date)_
-
----
-
-## Scenarios
-
-### Scenario 1: `<outcome-oriented name>`
+**Sources / context:** _(pointer to AC file and domain model outline — e.g. `domain-model.md` § Campaign)_
 
 Given a **`<Concept>`** *`<value>`* with a **`<Concept>`** *`<value>`*
 When **`<Concept>`** *`<value>`* does **`<action>`** with **`<Concept>`** *`<value>`*
@@ -34,7 +33,7 @@ Then **`<Concept>`** is marked as *`<outcome>`*
 
 **Story type:** user | system | technical
 
-**Sources / context:** _(pointer to source or conversation / workshop date)_
+**Sources / context:** _(pointer to AC file and domain model outline — e.g. `domain-model.md` § Campaign)_
 
 ---
 
@@ -80,7 +79,7 @@ Then **`<outcome>`** is {field_2}
 
 **Story type:** user
 
-**Sources / context:** _(Payments Domain — Class Model: Payment Product, Customer, Account, Owner, Payment Product Agreement)_
+**Sources / context:** _(Payments Domain — Class Model: Payment Product, Customer, Account, Owner, Payment Product Agreement · `domain-model.md` § Customer, Account)_
 
 ---
 

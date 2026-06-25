@@ -1,8 +1,8 @@
-# Rule: Structural accessibility holds at the lo-fi level
+# Rule: Structural accessibility holds at the mockup level
 
 **Scanner:** AI review
 
-Lo-fi accessibility is structural — heading order is implied by the layout, every input has a visible label drawn from the UL or AC, every error or status message has a labelled region (not just colour), and the layout does not require colour to convey meaning. Prototype-level concerns (contrast, focus ring style, basic labels in the clickable hi-fi) belong to `abd-ux-specification` and are not enforced here.
+Mockup accessibility is structural — heading order is implied by the layout, every input has a visible label drawn from the UL or AC, every error or status message has a labelled region (not just colour), and the layout does not require colour to convey meaning. Prototype-level concerns (contrast, focus ring style, basic labels in the clickable hi-fi) belong to `abd-ux-specification` and are not enforced here.
 
 ## DO
 
@@ -28,6 +28,6 @@ Lo-fi accessibility is structural — heading order is implied by the layout, ev
 
   **Example (fail):** Drawing the input border red to indicate validation failure with no labelled error region nearby.
 
-- Hide required messages behind hover or focus interactions at the lo-fi stage.
+- Hide required messages behind hover or focus interactions at the mockup stage.
 
-  **Example (fail):** "Error appears in a tooltip when you hover the input". Lo-fi shows the message region directly; interaction-only revealing belongs to a later pass.
+  **Example (fail):** "Error appears in a tooltip when you hover the input". The mockup shows the message region directly; interaction-only revealing belongs to a later pass.

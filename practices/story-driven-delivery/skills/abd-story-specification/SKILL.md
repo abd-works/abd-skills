@@ -51,10 +51,12 @@ Read these files:
 - **`reference/concepts.md`** — what specification by example is, Given/When/Then, scenarios vs outlines, domain concept grounding, quick checklist.
 - **`reference/examples.md`** — worked examples showing plain Scenarios, Scenario Outlines with relationship-based tables, and Background.
 
-Also check whether any of the following domain model content exists in the workspace:
-- **Class Model** — typed classes with attributes and typed relationships. Use it first.
-- **domain model** — each concept listed with responsibilities and collaborators. Use when no Class Model exists.
-- **Domain language or key abstractions** — a glossary, list of defined terms. Use as fallback.
+**Default input — domain model outline:** Always read the domain model before writing any scenario. The domain model outline is the structural spine for all scenarios: concept names, relationships, invariants, and constraints come from there verbatim.
+
+Read in this priority order:
+- **Class Model** (`domain-specification.md`) — typed classes with invariants and typed relationships. Use first when present.
+- **Domain model** (`domain-model.md`) — concepts with responsibilities and collaborators. **Default source** when no Class Model exists.
+- **Domain language** (`domain-language.md`) — defined terms and key abstractions. Use for term verification and when no model file exists.
 
 Check for `domain.json` in the workspace. If it does not exist and a domain model markdown file is present, produce `domain.json` before running the scanner.
 
@@ -73,6 +75,7 @@ If not specified, determine based on the nature of the requirements and confirm 
 | `templates/specification-by-example.md` | Given/When/Then scenarios for each story, using the chosen notation. No template `## Instructions` in deliverables. |
 
 **While writing:**
+- Use the **domain model outline** as the structural spine: concept names in bold, relationships made explicit in step language, invariants exercised by at least one scenario.
 - Use **Background** when three or more scenarios share identical starting state (Given/And only).
 - Name each scenario by its **outcome**, not its action.
 - Cover at least one happy path, one failure or rejection, and any edge cases implied by the story.

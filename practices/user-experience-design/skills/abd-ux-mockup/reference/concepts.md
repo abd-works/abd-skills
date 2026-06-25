@@ -1,8 +1,8 @@
 # abd-ux-mockup — Concepts
 
-## What is a lo-fi mockup
+## What is a mockup
 
-A **lo-fi mockup** is a structural wireframe that makes interaction decisions explicit. Its scope is whatever the team needs to validate — the entire application, a section, a flow, an epic, or a single story. We tend to work in small increments (a story, a screen, a feature) not because the tool demands it but because we want to see and validate what we're building before committing further.
+A **mockup** is a structural wireframe that makes interaction decisions explicit. Its scope is whatever the team needs to validate — the entire application, a section, a flow, an epic, or a single story. We tend to work in small increments (a story, a screen, a feature) not because the tool demands it but because we want to see and validate what we're building before committing further.
 
 It shows:
 
@@ -22,7 +22,7 @@ These lists appear in the drawio diagram as annotation boxes beside each screen,
 
 It does not show colour, typography, spacing, or brand polish. It does not implement code. It does not invent controls that no AC or story justifies.
 
-**Critical principle:** The lo-fi mockup must faithfully reproduce the production UI structure as shown in design images. Do NOT substitute tables for trees, do NOT use fields when a listbox is called for, do NOT flatten hierarchical views into flat lists. Match the design.
+**Critical principle:** The mockup must faithfully reproduce the production UI structure as shown in design images. Do NOT substitute tables for trees, do NOT use fields when a listbox is called for, do NOT flatten hierarchical views into flat lists. Match the design.
 
 ---
 
@@ -191,11 +191,11 @@ Placed beside the wireframe, character-for-character. No rewording, shortening, 
 
 ---
 
-## The shape of a good lo-fi state file
+## The shape of a good state file
 
 ```json
 {
-  "target": "docs/ux/lo-fi/character-explorer.drawio",
+  "target": "docs/ux/mockups/character-explorer.drawio",
   "screens": [{
     "name": "character explorer",
     "layout": "sidebar",
@@ -277,8 +277,8 @@ The CLI generates correct drawio XML programmatically from the state JSON.
 ```powershell
 node "<skill-root>/scripts/drawio-mockup.mjs" `
   save `
-  --state "docs/ux/lo-fi/<screen-slug>-state.json" `
-  --out   "docs/ux/lo-fi/<screen-slug>.drawio"
+  --state "docs/ux/mockups/<screen-slug>-state.json" `
+  --out   "docs/ux/mockups/<screen-slug>.drawio"
 ```
 
 ### AI-crafted XML path

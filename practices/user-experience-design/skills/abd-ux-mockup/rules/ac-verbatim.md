@@ -1,10 +1,10 @@
 # Rule: Acceptance criteria are referenced, not copied
 
-The wireframe does not embed AC text. The `lo-fi.md` affordance trace table cites the AC source file, story title, and clause number — reviewers read the original file. Do not paraphrase, shorten, or inline AC clauses into the wireframe or the markdown.
+The wireframe does not embed AC text. The `mockup.md` affordance trace table cites the AC source file, story title, and clause number — reviewers read the original file. Do not paraphrase, shorten, or inline AC clauses into the wireframe or the markdown.
 
 **DO** link each affordance row in the trace table to the exact AC story and clause number.
 
-**DO NOT** copy AC text into `lo-fi.md` or into any wireframe label.
+**DO NOT** copy AC text into `mockup.md` or into any wireframe label.
 
 **DO NOT** skip a clause because it "overlaps" with another. Each clause has distinct conditions; cite each one separately.
 
