@@ -33,6 +33,7 @@ Each fidelity level represents a scope and depth of work. Earlier levels are wid
 
 | Fidelity | Key | Scope | Depth | What it produces | Definition |
 |---|---|---|---|---|---|
+| **Context** | `context` | All sources | Unstructured | Indexed, searchable workspace memory — raw material before generation | [stages/context.md](common/stages/context.md) |
 | **Shaping** | `shaping` | Whole solution | Wide / shallow | Outcomes, scope, boundaries — the full solution view | [stages/shaping.md](common/stages/shaping.md) |
 | **Discovery** | `discovery` | Whole solution | Medium | Interactions, experience, structure — complete product definition | [stages/discovery.md](common/stages/discovery.md) |
 | **Exploration** | `exploration` | Increment | Medium | Solution tests, business logic, user experience, tech design for a slice | [stages/exploration.md](common/stages/exploration.md) |
@@ -84,5 +85,5 @@ context-fidelity:
 |---|---|---|---|
 | `context-perspective` | string | yes | Which lens this skill looks through. One of `domain`, `stories`, `ux`, `architecture`, `stage`. |
 | `context-fidelity` | array of objects | yes | Which fidelity levels this skill operates at. |
-| `context-fidelity[].level` | string | yes | The fidelity level. One of `shaping`, `discovery`, `exploration`, `specification`, `engineering`. |
+| `context-fidelity[].level` | string | yes | The fidelity level. One of `context`, `shaping`, `discovery`, `exploration`, `specification`, `engineering`. |
 | `context-fidelity[].mode` | string | yes | A short label describing what the skill does at this fidelity level. Skill-specific — not from a fixed list. |

@@ -97,6 +97,8 @@ If useful detail does not fit a node name, put it in that node's `notes` and cit
 
 **Assess context coverage and don't fabricate to fill gaps.** See [`../../../reference/handling-incomplete-context.md`](../../../reference/handling-incomplete-context.md) for the shared discipline on checking context coverage across dimensions and surfacing gaps honestly instead of inventing stories or structure.
 
+**Determine new system vs existing system before mapping.** If mapping an existing system, you MUST read the extracted context (ARIA snapshots, screenshots, extraction overview) before writing stories. Use the vocabulary and structure the system already has — page titles, button labels, domain terms from the extraction. Do not invent stories for behaviour that doesn't exist. See [`../../../reference/new-vs-existing-system.md`](../../../reference/new-vs-existing-system.md) for the shared discipline.
+
 **Don't defer analysis the source material supports.** If the source describes how a workflow or entity type works, map it now — gaps are for missing information, not unfinished work.
 
 **Don't add scope the user didn't ask for.** If the user describes one path (e.g., manual onboarding), don't add a second without asking.

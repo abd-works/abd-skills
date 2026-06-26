@@ -1,0 +1,3 @@
+- better kanban
+- indexing pract wide
+- training linked to skills

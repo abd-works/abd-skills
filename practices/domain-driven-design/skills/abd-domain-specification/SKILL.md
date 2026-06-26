@@ -37,9 +37,30 @@ Build a typed Class Model for a module — fully typed properties, operations wi
 
 **Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
 
-**File name:** `class-model.md`. Add a `<name>-` prefix only when disambiguation is needed. For multi-module engagements: `<deliverables-folder>/modules/<module-name>-class-model.md`.
+**File name:** `domain-specification.md`. Add a `<name>-` prefix only when disambiguation is needed. For multi-module engagements: `<deliverables-folder>/modules/<module-name>-domain-specification.md`.
 
 The file is **not** an in-place enrichment of the domain model file. It is a fresh artifact in the same flat heading shape every other DDD phase skill uses.
+
+---
+
+## Diagram workflow
+
+Produces `<deliverables-folder>/domain-specification.drawio` from `domain-specification.md`. Must exist before the cell is marked done.
+
+If a `domain-model.drawio` already exists (from `abd-domain-model`), pass it as `--base-diagram` so layout is preserved and only updated in place:
+
+```bash
+# With existing domain model diagram (preserves layout):
+python scripts/drawio_domain_cli.py \
+  <deliverables-folder>/domain-specification.md \
+  --base-diagram <deliverables-folder>/domain-model.drawio \
+  --output <deliverables-folder>/domain-specification.drawio
+
+# Without (fresh layout):
+python scripts/drawio_domain_cli.py \
+  <deliverables-folder>/domain-specification.md \
+  --output <deliverables-folder>/domain-specification.drawio
+```
 
 ---
 
@@ -74,11 +95,11 @@ Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.m
 
 **Goal:** Inspect what was built — read the artifacts as reviewers.
 
-- **Per-phase output file** — named `[<name>-]class-model.md`. No prior or later phase content lives in it.
+- **Per-phase output file** — named `[<name>-]domain-specification.md`. No prior or later phase content lives in it.
 - **Every KA has a class that names it** — `### **Class** << Stereotype >>` matching the KA, listed first.
 - **No sub-headings under classes** — class member blocks live directly under each `### **Class**` heading.
 - **References per KA** — one `### references` per KA with fenced `source` blocks.
-- **Decisions per KA** — one `### decisions made` per KA listing class-model judgment calls.
+- **Decisions per KA** — one `### decisions made` per KA listing domain-specification judgment calls.
 - **Every property typed** — justified by a domain responsibility that requires stored state.
 - **Every operation fully typed** — `+ methodName(param: Type): ReturnType`.
 - **Object initialisation decided** — constructor, internal, factory method, or factory object.

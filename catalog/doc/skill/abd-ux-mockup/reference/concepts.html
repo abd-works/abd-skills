@@ -1732,8 +1732,8 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 
 <h2>Content</h2>
 <div class="rule-prose"><h1>abd-ux-mockup — Concepts</h1>
-<h2>What is a lo-fi mockup</h2>
-<p>A <strong>lo-fi mockup</strong> is a structural wireframe that makes interaction decisions explicit. Its scope is whatever the team needs to validate — the entire application, a section, a flow, an epic, or a single story. We tend to work in small increments (a story, a screen, a feature) not because the tool demands it but because we want to see and validate what we&#x27;re building before committing further.</p>
+<h2>What is a mockup</h2>
+<p>A <strong>mockup</strong> is a structural wireframe that makes interaction decisions explicit. Its scope is whatever the team needs to validate — the entire application, a section, a flow, an epic, or a single story. We tend to work in small increments (a story, a screen, a feature) not because the tool demands it but because we want to see and validate what we&#x27;re building before committing further.</p>
 <p>It shows:</p>
 <ul>
 <li><strong>IA regions</strong> as containers — unchanged from the structural IA, not invented here.</li>
@@ -1750,7 +1750,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 </ul>
 <p>These lists appear in the drawio diagram as annotation boxes beside each screen, so the wireframe is self-contained and reviewable without flipping to the companion <code>.md</code> file.</p>
 <p>It does not show colour, typography, spacing, or brand polish. It does not implement code. It does not invent controls that no AC or story justifies.</p>
-<p><strong>Critical principle:</strong> The lo-fi mockup must faithfully reproduce the production UI structure as shown in design images. Do NOT substitute tables for trees, do NOT use fields when a listbox is called for, do NOT flatten hierarchical views into flat lists. Match the design.</p>
+<p><strong>Critical principle:</strong> The mockup must faithfully reproduce the production UI structure as shown in design images. Do NOT substitute tables for trees, do NOT use fields when a listbox is called for, do NOT flatten hierarchical views into flat lists. Match the design.</p>
 <hr>
 <h2>Source: initial IA</h2>
 <p>The screen spec lives in <code>docs/ux/initial-ia.md</code>. Each screen section defines:</p>
@@ -1851,9 +1851,9 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <h2>Acceptance criteria — verbatim</h2>
 <p>Placed beside the wireframe, character-for-character. No rewording, shortening, or paraphrasing.</p>
 <hr>
-<h2>The shape of a good lo-fi state file</h2>
+<h2>The shape of a good state file</h2>
 <pre><code>{
-  &quot;target&quot;: &quot;docs/ux/lo-fi/character-explorer.drawio&quot;,
+  &quot;target&quot;: &quot;docs/ux/mockups/character-explorer.drawio&quot;,
   &quot;screens&quot;: [{
     &quot;name&quot;: &quot;character explorer&quot;,
     &quot;layout&quot;: &quot;sidebar&quot;,
@@ -1928,8 +1928,8 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <p>The CLI generates correct drawio XML programmatically from the state JSON.</p>
 <pre><code>node &quot;&lt;skill-root&gt;/scripts/drawio-mockup.mjs&quot; `
   save `
-  --state &quot;docs/ux/lo-fi/&lt;screen-slug&gt;-state.json&quot; `
-  --out   &quot;docs/ux/lo-fi/&lt;screen-slug&gt;.drawio&quot;</code></pre>
+  --state &quot;docs/ux/mockups/&lt;screen-slug&gt;-state.json&quot; `
+  --out   &quot;docs/ux/mockups/&lt;screen-slug&gt;.drawio&quot;</code></pre>
 <h3>AI-crafted XML path</h3>
 <p>Use AI-crafted drawio XML when:</p>
 <ul>

@@ -1731,7 +1731,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <div class="wrap">
 
 <h2>Content</h2>
-<div class="rule-prose"><p>﻿&lt;!-- Template: the architecture-specification document. This template is STACK-AGNOSTIC — works for MERN, Django, Spring Boot, or any other stack.</p>
+<div class="rule-prose"><p>&lt;!-- Template: the architecture-specification document. This template is STACK-AGNOSTIC — works for MERN, Django, Spring Boot, or any other stack.</p>
 <p>PARAMETERIZED NAMES — KEY RULE: Architecture Flow, Mechanisms (Participants, Flow, Walkthrough) use &lt;&lt;Parameterized&gt;&gt; placeholders. The architect picks the placeholder vocabulary that fits their stack:</p>
 <p>&lt;&lt;Entity&gt;&gt;        — a domain concept (e.g. fills as &quot;Order&quot;, &quot;Recipient&quot;, &quot;Invoice&quot;) &lt;&lt;operation&gt;&gt;     — a domain operation or method verb (e.g. fills as &quot;placeOrder&quot;, &quot;loadActive&quot;) &lt;&lt;Feature&gt;&gt;       — a user-facing capability (e.g. fills as &quot;Checkout&quot;, &quot;WirePayment&quot;)</p>
 <p>Replace &lt;&lt;Parameterized&gt;&gt; names with the domain vocabulary from your domain spec. Concrete domain names belong ONLY in ## Example.</p>
@@ -1865,6 +1865,21 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <li><strong>Same scenario vocabulary across tiers.</strong> The base helper defines Given/When/Then method names from the story&#x27;s acceptance criteria; every tier helper implements the same names.</li>
 <li><strong>Stub at the tier boundary only.</strong> {{state what each tier stubs — depends on the stack}}.</li>
 <li><strong>Helpers own mechanics; test files own scenarios.</strong> Test files contain only <code>it</code>/<code>test</code> declarations.</li>
+<li><strong>Test data setup is idempotent.</strong> Setup scripts (seeds, <code>global-setup</code>, <code>beforeAll</code>) must produce identical state regardless of prior DB content. See <code>abd-story-acceptance-test</code> rule <code>idempotent-test-data-setup</code> for the full checklist. This is mandatory for any tier that touches a real database (integration, E2E).</li>
+<li><strong>Assertions match implementation, not hopes.</strong> When testing an existing system (extracted context exists), assertions must be verified against the actual rendered output (ARIA snapshots, screenshots, controller decorators) — not against acceptance criteria alone. See <code>abd-story-acceptance-test</code> rule <code>verify-assertions-against-implementation</code>.</li>
+</ul>
+<h3>E2E Setup Checklist (from <code>abd-story-acceptance-test</code>)</h3>
+<div class="spec-steps">
+<p class="spec-step">When creating or running E2E tests via <code>abd-architecture-code</code>, verify:</p>
+</div>
+<ul>
+<li>[ ] All transient children deleted before parent upserts</li>
+<li>[ ] Upsert <code>update</code> blocks mirror <code>create</code> (no missing fields)</li>
+<li>[ ] Long-lived fixtures use far-future dates (<code>2099-12-31</code>) or <code>null</code></li>
+<li>[ ] Test data uses a naming convention (<code>E2E-</code> prefix or dedicated org/tenant ID)</li>
+<li>[ ] Running setup twice against the same DB produces identical state</li>
+<li>[ ] Locators use targeted element waits, not <code>waitForLoadState(&#x27;networkidle&#x27;)</code></li>
+<li>[ ] Test inputs satisfy the domain schema constraints (read <code>@project/contracts</code> or equivalent before choosing values)</li>
 </ul>
 <h3>Testing Scope</h3>
 <p>&lt;!-- Name the testing layers for this architecture. Domain unit tests are always present. The adapter tiers depend on the stack — fill in what applies. --&gt;</p>

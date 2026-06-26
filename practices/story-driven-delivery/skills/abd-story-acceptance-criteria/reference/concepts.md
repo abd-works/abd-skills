@@ -71,3 +71,5 @@ As domains grow, keep **parallel** AC structure across related areas; **split st
 ## Pitfalls for agents
 
 **Assess context coverage and don't fabricate to fill gaps.** When context is incomplete, do not invent AC — capture the gap, your assumption, and a validation action. See [`../../../reference/handling-incomplete-context.md`](../../../reference/handling-incomplete-context.md) for the shared discipline, including the context dimensions to check before writing AC.
+
+**Determine new system vs existing system before writing AC.** If writing AC for an existing system, you MUST read the extracted context (ARIA snapshots, screenshots, component source) before writing WHEN/THEN pairs. Describe what the system currently does — not what you wish it did. If the UI clamps a value instead of showing an error, the AC says "clamps", not "rejects". See [`../../../reference/new-vs-existing-system.md`](../../../reference/new-vs-existing-system.md).

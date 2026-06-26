@@ -1750,6 +1750,13 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <p><strong>Deliverables folder:</strong> see <code>../common/skill-rule-workflow.md</code> — Output file resolution.</p>
 <p><strong>File name:</strong> <code>thin-slicing.md</code>. Add a <code>&lt;name&gt;-</code> prefix only when disambiguation is needed.</p>
 <hr>
+<h2>Diagram workflow</h2>
+<p>Produces <code>docs/stories/thin-slicing.drawio</code> from <code>story-graph.json</code>. Requires <code>story-graph.json</code> to exist (built by <code>story-graph-ops</code>). Must exist before the cell is marked done.</p>
+<pre><code>python drawio_story_sync_cli.py render \
+  --mode thin-slicing \
+  --graph docs/stories/story-graph.json \
+  --out   docs/stories/thin-slicing.drawio</code></pre>
+<hr>
 <h2>Agent Instructions</h2>
 <p>Follow <code>../common/skill-rule-workflow.md</code> — read-gates, output file resolution, and the per-rule verdict format are defined there.</p>
 <h3>1. Read context</h3>

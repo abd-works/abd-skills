@@ -38,6 +38,7 @@ Before generating, surface these common input traps:
 - **Missing state combinations** — what combinations of Given conditions have we not explored? The dangerous bugs live in states nobody thought to combine.
 - **Assumed preconditions** — what has to be true before each scenario starts — and does everyone agree on that starting state, or are there hidden setup assumptions?
 - **Boundary behaviors** — what happens at the edges — zero, one, many, max, just-over-max? Have we specified what the system does at the limits, or just in the comfortable middle?
+- **Stubbed services** — if the scenario involves an external service or system whose response is hardcoded in a stub, is the stub declared in Given, the invocation and response expressed in When, and only the business outcome in Then? Or has the service response leaked into Then as though it were a business result?
 
 ---
 
@@ -81,6 +82,7 @@ If not specified, determine based on the nature of the requirements and confirm 
 - Cover at least one happy path, one failure or rejection, and any edge cases implied by the story.
 - If *Acceptance Criteria* exist, use the main-flow AC as your spine: convert WHEN → When, THEN → Then, add Given preconditions.
 - If you find yourself writing the same steps three or more times with only values changing, switch to **Scenario Outlines**.
+- **Stubbed external services:** When a scenario involves a stubbed service (hardcoded request + response), apply `rules/stub-service-interaction-structure.md`: declare the stub in **Given**, express the system-captures → system-forwards → service-returns sequence in **When**, assert only the business outcome in **Then**. Never put a stub response in **Then**. For every new stub input/output pair introduced, note it for stub fixture update (see `abd-story-acceptance-test` rule `stub-data-sync-with-scenarios`).
 
 **Domain grounding:**
 - Use exact concept names from the domain model source; do not paraphrase, abbreviate, or rename.
@@ -100,10 +102,12 @@ Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.m
 **Goal:** Inspect what was built — read the artifacts as reviewers.
 
 - **Given/When/Then structure** — correct keywords; Background is state-only; multiple When/Then beats where the flow requires.
+- **Trailing spaces** — every step line (Given, When, Then, And, But) ends with two trailing spaces so markdown preview renders each step on its own line.
 - **Domain emphasis** — domain-significant terms use *italics* consistently; concept names match the domain model exactly.
 - **Scenario vs Outline choice** — Outlines used only when steps are genuinely identical across all rows.
 - **Coverage** — happy path, failure path, and edge cases implied by story or AC are visible.
 - **Domain model grounding** — `domain.json` matches or has been produced if a domain model file exists.
+- **Stub structure** — if any scenario involves a stubbed service: stub declared in Given, invocation + response in When, business outcome only in Then. No stub response in Then.
 - **No bundle markers** — `SKILL.md` has no `<!-- execute_rules:bundle_rules -->` markers.
 
 ---

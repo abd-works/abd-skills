@@ -4,18 +4,18 @@
     "sessionStart": [
       {
         "type": "command",
-        "bash": "./scripts/session-setup.sh",
-        "powershell": "./scripts/session-setup.ps1",
-        "cwd": ".github/hooks",
+        "bash": ".cursor/scripts/session-setup.sh",
+        "powershell": ".cursor/scripts/session-setup.ps1",
+        "cwd": ".",
         "timeoutSec": 5
       }
     ],
     "userPromptSubmitted": [
       {
         "type": "command",
-        "bash": "./scripts/detect-correction.sh",
-        "powershell": "./scripts/detect-correction.ps1",
-        "cwd": ".github/hooks",
+        "bash": ".cursor/scripts/detect-correction.sh",
+        "powershell": ".cursor/scripts/detect-correction.ps1",
+        "cwd": ".",
         "timeoutSec": 5
       }
     ]

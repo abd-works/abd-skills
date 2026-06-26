@@ -1725,7 +1725,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
     <p class="s-name">Plugin</p>
 
     <h1 class="page-headline">Context To Memory</h1>
-    <p class="body-lead">context-to-memory/ — Convert office documents to markdown, chunk for retrieval, embed vectors, and search memory.</p>
+    <p class="body-lead">context-to-memory/ — 8 skills, 1 prompts, 6 scripts</p>
   </div>
 </div>
 
@@ -1742,50 +1742,61 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 
 <div class="skill-detail-content-col">
 <h2>Description</h2>
-<div class="entry-prose">Convert office documents to markdown, chunk for retrieval, embed vectors, and search memory.</div>
+<div class="entry-prose">8 skills, 1 prompts, 6 scripts</div>
 <hr class="entry-divider">
 <h2 id="entry-contents">Contents</h2>
 <div class="plugin-slots"><h3 id="slot-agents">Agents — orchestrators (AGENT.md / AGENTS.md)</h3>
 <p class="entry-caption">Orchestrators shipped as agent packages.</p>
-<div class="cap-grid cap-grid--plugin-slot">
-        <a class="cap-card" href="../agent/abd-context-to-memory.html">
-          <p class="cap-card__title">abd-context-to-memory</p>
-          <p class="cap-card__label">Agent</p>
-          <p class="cap-card__summary">Source docs to Markdown, then labeled chunks in memory/, then FAISS vectors and semantic search. Optional: review context_chunking_spec.yaml before chunk+embed.</p>
-          <p class="cap-card__more">Open agent page →</p>
-        </a>
-</div>
+<p class="entry-caption">_(empty <code>context-to-memory/agents/</code>)_</p>
 <h3 id="slot-skills">Skills — practice packages (SKILL.md)</h3>
 <p class="entry-caption">Core practice skills drive stage work. Supporting skills live under &lt;code&gt;skills/supporting/&lt;/code&gt; (sync, ops, diagram tooling) — listed below but omitted from the delivery kanban grid.</p>
 <div class="cap-grid cap-grid--plugin-slot">
-        <a class="cap-card" href="../skill/abd-chunk-markdown.html">
-          <p class="cap-card__title"><span class="skill-name-prefix">abd-</span>chunk-markdown</p>
+        <a class="cap-card" href="../skill/abd-context-app-extractor.html">
+          <p class="cap-card__title"><span class="skill-name-prefix">abd-</span>context-app-extractor</p>
+          <p class="cap-card__label">Core skill</p>
+          <p class="cap-card__summary">Explore a live application and record structured per-page context ready for story mapping, UX mockup, and domain modelling. Use when you have a working application and need to extract structured context from it.</p>
+          <p class="cap-card__more">Open skill page →</p>
+        </a>
+        <a class="cap-card" href="../skill/abd-context-app-sandbox.html">
+          <p class="cap-card__title"><span class="skill-name-prefix">abd-</span>context-app-sandbox</p>
+          <p class="cap-card__label">Core skill</p>
+          <p class="cap-card__summary">Identify external service dependencies in a codebase, stub each one at its earliest interface boundary, stand up the application in isolation, and verify every screen is reachable via a smoke test — ready for abd-context-app-extractor or BDD test authoring.</p>
+          <p class="cap-card__more">Open skill page →</p>
+        </a>
+        <a class="cap-card" href="../skill/abd-context-chunk.html">
+          <p class="cap-card__title"><span class="skill-name-prefix">abd-</span>context-chunk</p>
           <p class="cap-card__label">Core skill</p>
           <p class="cap-card__summary">Split converted Markdown into retrieval-sized chunks with evidence labels, guided by a structure-based chunking spec. Use when the user wants to &quot;chunk documents&quot;, &quot;split for RAG&quot;, &quot;draft a chunking strategy&quot;, or prepare markdown for embedding and semantic search.</p>
           <p class="cap-card__more">Open skill page →</p>
         </a>
-        <a class="cap-card" href="../skill/abd-convert-to-markdown.html">
-          <p class="cap-card__title"><span class="skill-name-prefix">abd-</span>convert-to-markdown</p>
-          <p class="cap-card__label">Core skill</p>
-          <p class="cap-card__summary">Convert office documents (PDF, PPTX, DOCX, XLSX, etc.) to navigable Markdown with real headings, sections, and tables. Use when the user wants to convert a document or folder of documents to markdown, mentions &quot;convert to markdown&quot;, &quot;extract text&quot;, or needs source files prepared for chunking or …</p>
-          <p class="cap-card__more">Open skill page →</p>
-        </a>
-        <a class="cap-card" href="../skill/abd-embed-vectors.html">
-          <p class="cap-card__title"><span class="skill-name-prefix">abd-</span>embed-vectors</p>
-          <p class="cap-card__label">Core skill</p>
-          <p class="cap-card__summary">Embed text chunks into a local FAISS vector index for semantic search. Use when the user wants to &quot;embed chunks&quot;, &quot;build a vector index&quot;, &quot;create embeddings&quot;, or prepare chunked content for RAG retrieval.</p>
-          <p class="cap-card__more">Open skill page →</p>
-        </a>
-        <a class="cap-card" href="../skill/abd-search-memory.html">
-          <p class="cap-card__title"><span class="skill-name-prefix">abd-</span>search-memory</p>
+        <a class="cap-card" href="../skill/abd-context-db-ask.html">
+          <p class="cap-card__title"><span class="skill-name-prefix">abd-</span>context-db-ask</p>
           <p class="cap-card__label">Core skill</p>
           <p class="cap-card__summary">Semantic search over a local FAISS vector index built from document chunks. Use when the user says &quot;use memory&quot;, &quot;search memory&quot;, &quot;what does memory say&quot;, &quot;from our content&quot;, &quot;what do we have on [topic]&quot;, or asks about content that has been ingested into agent memory.</p>
           <p class="cap-card__more">Open skill page →</p>
         </a>
-        <a class="cap-card" href="../skill/abd-semantic-context-chunker.html">
-          <p class="cap-card__title"><span class="skill-name-prefix">abd-</span>semantic-context-chunker</p>
+        <a class="cap-card" href="../skill/abd-context-db-embed.html">
+          <p class="cap-card__title"><span class="skill-name-prefix">abd-</span>context-db-embed</p>
+          <p class="cap-card__label">Core skill</p>
+          <p class="cap-card__summary">Embed text chunks into a local FAISS vector index for semantic search. Use when the user wants to &quot;embed chunks&quot;, &quot;build a vector index&quot;, &quot;create embeddings&quot;, or prepare chunked content for RAG retrieval.</p>
+          <p class="cap-card__more">Open skill page →</p>
+        </a>
+        <a class="cap-card" href="../skill/abd-context-driven-delivery.html">
+          <p class="cap-card__title"><span class="skill-name-prefix">abd-</span>context-driven-delivery</p>
+          <p class="cap-card__label">Core skill</p>
+          <p class="cap-card__summary">Takes your context and goal, grills you on what&#x27;s missing, routes to the right skills, generates output at each fidelity level, and iterates until the work is done. Use when the user wants to achieve an outcome using abd practice skills — or says &quot;let&#x27;s solve this&quot; or &quot;let&#x27;s achieve this&quot;.</p>
+          <p class="cap-card__more">Open skill page →</p>
+        </a>
+        <a class="cap-card" href="../skill/abd-context-semantic-index.html">
+          <p class="cap-card__title"><span class="skill-name-prefix">abd-</span>context-semantic-index</p>
           <p class="cap-card__label">Core skill</p>
           <p class="cap-card__summary">Index scattered source content by the kind of context it provides — Story, Domain, Architecture, UX — so you know what you have before deeper analysis begins. Use when you have lots of files from many sources and need a coverage index, when pointing downstream work at the right source material, or …</p>
+          <p class="cap-card__more">Open skill page →</p>
+        </a>
+        <a class="cap-card" href="../skill/abd-context-to-markdown.html">
+          <p class="cap-card__title"><span class="skill-name-prefix">abd-</span>context-to-markdown</p>
+          <p class="cap-card__label">Core skill</p>
+          <p class="cap-card__summary">Convert office documents (PDF, PPTX, DOCX, XLSX, etc.) to navigable Markdown with real headings, sections, and tables. Use when the user wants to convert a document or folder of documents to markdown, mentions &quot;convert to markdown&quot;, &quot;extract text&quot;, or needs source files prepared for chunking or …</p>
           <p class="cap-card__more">Open skill page →</p>
         </a>
 </div>
@@ -1796,11 +1807,25 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <p class="entry-caption">_(empty <code>context-to-memory/instructions/</code>)_</p>
 <h3 id="slot-prompts">Prompts — .prompt.md → slash commands</h3>
 <p class="entry-caption">Slash commands merged into .cursor/commands on deploy.</p>
-<p class="entry-caption">_(empty <code>context-to-memory/prompts/</code>)_</p>
+<div class="cap-grid cap-grid--plugin-slot">
+        <a class="cap-card" href="../prompt/context-to-memory--prompts--commit-cdd-progress-prompt-md.html">
+          <p class="cap-card__title">commit-cdd-progress</p>
+          <p class="cap-card__label">commit-cdd-progress.prompt.md</p>
+          <p class="cap-card__summary">Commit current changes with a message tagged to CDD stage, perspectives completed, and scope (epic, feature, thin slice, or all).</p>
+          <p class="cap-card__more">Open prompt page →</p>
+        </a>
+</div>
 <h3 id="slot-lib">Lib — shared Python packages</h3>
 <p class="entry-caption">_(empty <code>context-to-memory/lib/</code>)_</p>
 <h3 id="slot-scripts">Scripts — package-level automation</h3>
-<p class="entry-caption">_(empty <code>context-to-memory/scripts/</code>)_</p></div>
+<ul class="file-list file-list--root">
+<li><a href="../../practices/context-driven-delivery/scripts/_config.py" target="_blank" rel="noopener noreferrer">practices/context-driven-delivery/scripts/_config.py</a></li>
+<li><a href="../../practices/context-driven-delivery/scripts/detect-correction.ps1" target="_blank" rel="noopener noreferrer">practices/context-driven-delivery/scripts/detect-correction.ps1</a></li>
+<li><a href="../../practices/context-driven-delivery/scripts/detect-correction.sh" target="_blank" rel="noopener noreferrer">practices/context-driven-delivery/scripts/detect-correction.sh</a></li>
+<li><a href="../../practices/context-driven-delivery/scripts/index_memory.py" target="_blank" rel="noopener noreferrer">practices/context-driven-delivery/scripts/index_memory.py</a></li>
+<li><a href="../../practices/context-driven-delivery/scripts/session-setup.ps1" target="_blank" rel="noopener noreferrer">practices/context-driven-delivery/scripts/session-setup.ps1</a></li>
+<li><a href="../../practices/context-driven-delivery/scripts/session-setup.sh" target="_blank" rel="noopener noreferrer">practices/context-driven-delivery/scripts/session-setup.sh</a></li>
+</ul></div>
 <p class="entry-caption">(missing directory)</p>
 </div>
 

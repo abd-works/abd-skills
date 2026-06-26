@@ -1737,7 +1737,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <hr>
 <h2>Output file</h2>
 <p><strong>Deliverables folder:</strong> see <code>../common/skill-rule-workflow.md</code> — Output file resolution.</p>
-<p><strong>File names:</strong> <code>initial-ia.md</code> (structured spec) and <code>initial-ia.drawio</code> (diagram), typically in <code>docs/ux/</code>.</p>
+<p><strong>File names:</strong> <code>information-architecture.md</code> (structured spec), <code>information-architecture.drawio</code> (diagram), and one <code>screens/&lt;screen-slug&gt;.aria.yaml</code> per screen — all in <code>docs/ux/information-architecture/</code>. See <a href="../../../../common/folder-conventions.html"><code>common/folder-conventions.md</code></a>.</p>
 <hr>
 <h2>Grill prompts</h2>
 <p>Read <code>common/grill-me-with-practice-skill.md</code> before grilling.</p>
@@ -1751,19 +1751,34 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <li><strong>Transition triggers</strong> — what actually causes the user to move between screens — a deliberate choice, an automatic redirect, or an error — and have we designed for each?</li>
 </ul>
 <hr>
+<h2>Diagram workflow</h2>
+<p>Produces <code>docs/ux/initial-ia.drawio</code> — two pages: Page 1 (Detailed IA, full screen layouts) and Page 2 (Site Map, one box per screen with labeled arrows). Must exist on disk before the cell is marked done.</p>
+<p>Build in two passes after <code>initial-ia.md</code> and all <code>aria.yaml</code> files are written:</p>
+<p><strong>Pass 1 — Structure from ARIA (Mode A — CLI from skill&#x27;s <code>scripts/</code>):</strong></p>
+<pre><code>node scripts/drawio-ux.mjs open docs/ux/initial-ia.drawio
+node scripts/drawio-ux.mjs add-screen &quot;&lt;screen-name&gt;&quot; --layout sidebar --col &lt;c&gt; --row &lt;r&gt;
+node scripts/drawio-ux.mjs add-list &quot;&lt;screen-name&gt;&quot; &quot;&lt;region&gt;&quot; --slot body --fields &quot;...&quot; --actions &quot;...&quot;
+node scripts/drawio-ux.mjs connect &quot;&lt;source&gt;&quot; &quot;&lt;target&gt;&quot; --label &quot;&lt;trigger&gt;&quot;
+node scripts/drawio-ux.mjs save</code></pre>
+<p>Repeat <code>add-screen</code>, <code>add-list</code>, and <code>connect</code> calls for every screen. <code>save</code> always writes both pages.</p>
+<p><strong>Pass 2 — Annotate (no layout changes):</strong> Add yellow stories boxes and green domain terms boxes alongside each screen in the drawio. Save.</p>
+<p><strong>Mode B (no CLI available):</strong> Pass the <code>aria.yaml</code> trees and the prompt template from <code>reference/concepts.md</code> to an external AI to generate the drawio XML directly.</p>
+<hr>
 <h2>Agent Instructions</h2>
 <p>Follow <code>../common/skill-rule-workflow.md</code> — read-gates, output file resolution, and the per-rule verdict format are defined there.</p>
 <h3>1. Read context</h3>
-<p>Read these files:</p>
+<p>Read these files in full before generating. Do not skip any file.</p>
 <ul>
 <li><strong><code>reference/concepts.md</code></strong> — core IA dimensions (navigation + content), screen/transition/layout/tab-state definitions, content types, story and domain term traceability rules, mental model alignment, canvas layout convention, and CLI layout templates.</li>
 <li><strong><code>reference/examples.md</code></strong> — worked example of a good initial IA showing tab-state decomposition, representative rows, verb rows, chrome conventions, and story budget.</li>
+<li><strong><code>reference/aria-pipeline.md</code></strong> — ARIA fidelity model, input resolution (extractor → IA), structural fidelity rules, <code>aria.yaml</code> output format, and two-pass rendering protocol.</li>
 </ul>
 <h3>2. Generate</h3>
 <p><strong>Produce output from every template:</strong></p>
 <div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td><code>templates/initial-ia.md</code></td><td>Structured spec: scope, source paths, screen flow map, screens (regions, content types, actions, stories, domain terms), transitions, navigational components, content-type details.</td></tr></tbody></table></div>
-<p><strong>Method (14-step build):</strong></p>
-<p>1. Resolve inputs: story map, scope filter, Domain Language file. 2. Filter story map by scope; read the Domain Language. 3. Identify screens by tab state (N tabs = N screens). Check ~4 story budget per screen. 4. Walk every story — produce a <strong>story trace table</strong> (story → screen → region → action/trigger). Every cell must be filled before proceeding. 5. Walk every in-scope domain term — produce a <strong>domain term trace table</strong> (term → appears as → on screen → in region). 6. Identify transitions with labeled triggers. 7. Identify navigational components in UX terms. 8. Identify content types with hierarchy, collections, key actions. 9. Lay out content per screen as rows (representative data rows + verb row), not prose. 10. Draft labels and tags. 11. Author the <strong>Screen flow — complete connection map</strong> section of <code>docs/ux/initial-ia.md</code>: one ASCII block showing navigation components (drawer nav, secondary nav, etc.) then each screen → [type] action → destination screen, using the format in <code>templates/initial-ia.md</code>. 12. Author the rest of <code>docs/ux/initial-ia.md</code> from the template. 13. Run the completeness test from <code>rules/tab-states-and-domain-traceability.md</code> — fix gaps before touching the canvas. 14. Choose output mode (Mode A: <code>drawio-ux</code> CLI; Mode B: filled prompt for external AI) and produce <code>initial-ia.drawio</code>. The CLI <code>save</code> command always writes <strong>two pages</strong>: Page 1 — Detailed IA (full screen layouts); Page 2 — Site Map (one box per screen, arrows only).</p>
+<p><strong>Method (16-step build):</strong></p>
+<p><strong>Input resolution (before step 1):</strong> Check whether <code>docs/extracted-context/from-application/pages/&lt;slug&gt;/aria.yaml</code> exists for any in-scope screen. If found, use as structural seed per <code>reference/aria-pipeline.md</code>; otherwise construct from story map and domain language.</p>
+<p>1. Resolve inputs: story map, scope filter, Domain Language file. 2. Filter story map by scope; read the Domain Language. 3. Identify screens by tab state (N tabs = N screens). Check ~4 story budget per screen. 4. Walk every story — produce a <strong>story trace table</strong> (story → screen → region → action/trigger). Every cell must be filled before proceeding. 5. Walk every in-scope domain term — produce a <strong>domain term trace table</strong> (term → appears as → on screen → in region). 6. Identify transitions with labeled triggers. 7. Identify navigational components in UX terms. 8. Identify content types with hierarchy, collections, key actions. 9. Lay out content per screen as rows (representative data rows + verb row), not prose. 10. Draft labels and tags. 11. <strong>Write <code>docs/ux/ia/&lt;screen-slug&gt;.aria.yaml</code></strong> for each screen at structural fidelity. Use <code>reference/aria-pipeline.md</code> for the fidelity rules and output format. One file per screen slug. 12. Author the <strong>Screen flow — complete connection map</strong> section of <code>docs/ux/initial-ia.md</code>: one ASCII block showing navigation components (drawer nav, secondary nav, etc.) then each screen → [type] action → destination screen, using the format in <code>templates/initial-ia.md</code>. 13. Author the rest of <code>docs/ux/initial-ia.md</code> from the template. 14. Run the completeness test from <code>rules/tab-states-and-domain-traceability.md</code> — fix gaps before touching the canvas. 15. <strong>Pass 1 — Structure from ARIA:</strong> Choose output mode (Mode A: <code>drawio-ux</code> CLI; Mode B: filled prompt for external AI) and produce <code>initial-ia.drawio</code> driven from the <code>aria.yaml</code> trees. Map landmarks to layout regions, navigation links to site-map arrows, primary actions to verb rows. Save. The CLI <code>save</code> command always writes <strong>two pages</strong>: Page 1 — Detailed IA (full screen layouts); Page 2 — Site Map (one box per screen, arrows only). 16. <strong>Pass 2 — Annotate:</strong> Add yellow stories boxes and green domain terms boxes alongside each screen in the drawio. Update the story-trace and domain-term-trace tables in <code>initial-ia.md</code>. No layout changes in this pass. Save.</p>
 <p><strong>CLI (Mode A — from skill&#x27;s scripts/):</strong></p>
 <pre><code>node scripts/drawio-ux.mjs open docs/ux/initial-ia.drawio
 node scripts/drawio-ux.mjs add-screen &quot;screen name&quot; --layout sidebar --col 0 --row 0
@@ -1794,6 +1809,7 @@ node scripts/drawio-ux.mjs save
 <li><strong>Story budget</strong> — every screen has ~4 user stories; more signals missing decomposition.</li>
 <li><strong>No system story has its own screen</strong> — each is grouped with a user-visible screen.</li>
 <li><strong>No acceptance criteria, controls, copy, or wireframe detail</strong> on any screen.</li>
+<li><strong>ARIA files present</strong> — <code>docs/ux/ia/&lt;screen-slug&gt;.aria.yaml</code> exists for every in-scope screen; each file contains only structural-fidelity nodes (landmarks, navigation links, primary actions, representative list row) — no form field detail, no relationship attributes.</li>
 <li><strong>No bundle markers</strong> — <code>SKILL.md</code> has no <code>&lt;!-- execute_rules:bundle_rules --&gt;</code> markers.</li>
 </ul>
 <hr></div>

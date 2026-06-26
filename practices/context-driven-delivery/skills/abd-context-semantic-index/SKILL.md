@@ -1,11 +1,13 @@
-﻿---
-name: abd-semantic-context-chunker
+---
+name: abd-context-semantic-index
 description: >-
   Index scattered source content by the kind of context it provides — Story, Domain,
   Architecture, UX — so you know what you have before deeper analysis begins.
   Use when you have lots of files from many sources and need a coverage index,
   when pointing downstream work at the right source material, or when you need
   context-aware retrieval rather than generic keyword search.
+context-fidelity:
+  - level: context
 ---
 # abd-semantic-context-chunker
 

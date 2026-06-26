@@ -1748,6 +1748,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <li><strong>Missing state combinations</strong> — what combinations of Given conditions have we not explored? The dangerous bugs live in states nobody thought to combine.</li>
 <li><strong>Assumed preconditions</strong> — what has to be true before each scenario starts — and does everyone agree on that starting state, or are there hidden setup assumptions?</li>
 <li><strong>Boundary behaviors</strong> — what happens at the edges — zero, one, many, max, just-over-max? Have we specified what the system does at the limits, or just in the comfortable middle?</li>
+<li><strong>Stubbed services</strong> — if the scenario involves an external service or system whose response is hardcoded in a stub, is the stub declared in Given, the invocation and response expressed in When, and only the business outcome in Then? Or has the service response leaked into Then as though it were a business result?</li>
 </ul>
 <hr>
 <h2>Agent Instructions</h2>
@@ -1758,11 +1759,12 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <li><strong><code>reference/concepts.md</code></strong> — what specification by example is, Given/When/Then, scenarios vs outlines, domain concept grounding, quick checklist.</li>
 <li><strong><code>reference/examples.md</code></strong> — worked examples showing plain Scenarios, Scenario Outlines with relationship-based tables, and Background.</li>
 </ul>
-<p>Also check whether any of the following domain model content exists in the workspace:</p>
+<p><strong>Default input — domain model outline:</strong> Always read the domain model before writing any scenario. The domain model outline is the structural spine for all scenarios: concept names, relationships, invariants, and constraints come from there verbatim.</p>
+<p>Read in this priority order:</p>
 <ul>
-<li><strong>Class Model</strong> — typed classes with attributes and typed relationships. Use it first.</li>
-<li><strong>domain model</strong> — each concept listed with responsibilities and collaborators. Use when no Class Model exists.</li>
-<li><strong>Domain language or key abstractions</strong> — a glossary, list of defined terms. Use as fallback.</li>
+<li><strong>Class Model</strong> (<code>domain-specification.md</code>) — typed classes with invariants and typed relationships. Use first when present.</li>
+<li><strong>Domain model</strong> (<code>domain-model.md</code>) — concepts with responsibilities and collaborators. <strong>Default source</strong> when no Class Model exists.</li>
+<li><strong>Domain language</strong> (<code>domain-language.md</code>) — defined terms and key abstractions. Use for term verification and when no model file exists.</li>
 </ul>
 <p>Check for <code>domain.json</code> in the workspace. If it does not exist and a domain model markdown file is present, produce <code>domain.json</code> before running the scanner.</p>
 <h3>2. Generate</h3>
@@ -1776,11 +1778,13 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td><code>templates/specification-by-example.md</code></td><td>Given/When/Then scenarios for each story, using the chosen notation. No template <code>## Instructions</code> in deliverables.</td></tr></tbody></table></div>
 <p><strong>While writing:</strong></p>
 <ul>
+<li>Use the <strong>domain model outline</strong> as the structural spine: concept names in bold, relationships made explicit in step language, invariants exercised by at least one scenario.</li>
 <li>Use <strong>Background</strong> when three or more scenarios share identical starting state (Given/And only).</li>
 <li>Name each scenario by its <strong>outcome</strong>, not its action.</li>
 <li>Cover at least one happy path, one failure or rejection, and any edge cases implied by the story.</li>
 <li>If <em>Acceptance Criteria</em> exist, use the main-flow AC as your spine: convert WHEN → When, THEN → Then, add Given preconditions.</li>
 <li>If you find yourself writing the same steps three or more times with only values changing, switch to <strong>Scenario Outlines</strong>.</li>
+<li><strong>Stubbed external services:</strong> When a scenario involves a stubbed service (hardcoded request + response), apply <code>rules/stub-service-interaction-structure.md</code>: declare the stub in <strong>Given</strong>, express the system-captures → system-forwards → service-returns sequence in <strong>When</strong>, assert only the business outcome in <strong>Then</strong>. Never put a stub response in <strong>Then</strong>. For every new stub input/output pair introduced, note it for stub fixture update (see <code>abd-story-acceptance-test</code> rule <code>stub-data-sync-with-scenarios</code>).</li>
 </ul>
 <p><strong>Domain grounding:</strong></p>
 <ul>
@@ -1795,10 +1799,12 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <p><strong>Goal:</strong> Inspect what was built — read the artifacts as reviewers.</p>
 <ul>
 <li><strong>Given/When/Then structure</strong> — correct keywords; Background is state-only; multiple When/Then beats where the flow requires.</li>
+<li><strong>Trailing spaces</strong> — every step line (Given, When, Then, And, But) ends with two trailing spaces so markdown preview renders each step on its own line.</li>
 <li><strong>Domain emphasis</strong> — domain-significant terms use <em>italics</em> consistently; concept names match the domain model exactly.</li>
 <li><strong>Scenario vs Outline choice</strong> — Outlines used only when steps are genuinely identical across all rows.</li>
 <li><strong>Coverage</strong> — happy path, failure path, and edge cases implied by story or AC are visible.</li>
 <li><strong>Domain model grounding</strong> — <code>domain.json</code> matches or has been produced if a domain model file exists.</li>
+<li><strong>Stub structure</strong> — if any scenario involves a stubbed service: stub declared in Given, invocation + response in When, business outcome only in Then. No stub response in Then.</li>
 <li><strong>No bundle markers</strong> — <code>SKILL.md</code> has no <code>&lt;!-- execute_rules:bundle_rules --&gt;</code> markers.</li>
 </ul>
 <hr></div>

@@ -49,6 +49,27 @@ Before generating, surface these common input traps:
 
 ---
 
+## Diagram workflow
+
+Produces `docs/stories/story-map.drawio` from `story-graph.json`. Requires `story-graph.json` to exist (built by `story-graph-ops`). Must exist before the cell is marked done.
+
+```bash
+python drawio_story_sync_cli.py render \
+  --mode outline \
+  --graph docs/stories/story-graph.json \
+  --out   docs/stories/story-map.drawio
+```
+
+Run once after `story-graph.json` is in place. To sync diagram edits back to the graph, use `sync` instead of `render`:
+
+```bash
+python drawio_story_sync_cli.py sync \
+  --drawio docs/stories/story-map.drawio \
+  --graph  docs/stories/story-graph.json
+```
+
+---
+
 ## Agent Instructions
 
 Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.

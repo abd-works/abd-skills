@@ -24,7 +24,7 @@ The hierarchy is not code. It is not Gherkin. It is an indented outline where ea
 
 ## Output file
 
-**Deliverables folder:** `docs/bdd/` or `test/bdd/` alongside the feature's other deliverables.
+**Deliverables folder:** `docs/bdd/` — see [`common/folder-conventions.md`](../../../../common/folder-conventions.md). If this project uses non-standard paths, check `cdd-context-index.md` at the workspace root first.
 
 **File name:** `<feature>-behavior.md`. Use the feature or sub-epic name as the stem.
 

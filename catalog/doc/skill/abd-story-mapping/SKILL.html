@@ -1756,6 +1756,17 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <li><strong>Depth agreement</strong> — does everyone expect the same level of detail from this map — an outline to frame conversations, or a full breakdown to plan work? Mismatched expectations waste everyone&#x27;s time.</li>
 </ul>
 <hr>
+<h2>Diagram workflow</h2>
+<p>Produces <code>docs/stories/story-map.drawio</code> from <code>story-graph.json</code>. Requires <code>story-graph.json</code> to exist (built by <code>story-graph-ops</code>). Must exist before the cell is marked done.</p>
+<pre><code>python drawio_story_sync_cli.py render \
+  --mode outline \
+  --graph docs/stories/story-graph.json \
+  --out   docs/stories/story-map.drawio</code></pre>
+<p>Run once after <code>story-graph.json</code> is in place. To sync diagram edits back to the graph, use <code>sync</code> instead of <code>render</code>:</p>
+<pre><code>python drawio_story_sync_cli.py sync \
+  --drawio docs/stories/story-map.drawio \
+  --graph  docs/stories/story-graph.json</code></pre>
+<hr>
 <h2>Agent Instructions</h2>
 <p>Follow <code>../common/skill-rule-workflow.md</code> — read-gates, output file resolution, and the per-rule verdict format are defined there.</p>
 <h3>1. Read context</h3>

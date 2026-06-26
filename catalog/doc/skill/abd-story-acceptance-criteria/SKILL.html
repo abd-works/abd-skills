@@ -1750,6 +1750,13 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <li><strong>Observable vs. internal</strong> — can a stakeholder verify each criterion by looking at the system&#x27;s behavior, or do some criteria describe internal state that nobody outside the code can see?</li>
 </ul>
 <hr>
+<h2>Diagram workflow</h2>
+<p>Produces <code>docs/stories/acceptance-criteria.drawio</code> from <code>story-graph.json</code>. Requires <code>story-graph.json</code> to exist (built by <code>story-graph-ops</code>). Must exist before the cell is marked done.</p>
+<pre><code>python drawio_story_sync_cli.py render \
+  --mode acceptance-criteria \
+  --graph docs/stories/story-graph.json \
+  --out   docs/stories/acceptance-criteria.drawio</code></pre>
+<hr>
 <h2>Agent Instructions</h2>
 <p>Follow <code>../common/skill-rule-workflow.md</code> — read-gates, output file resolution, and the per-rule verdict format are defined there.</p>
 <h3>1. Read context</h3>

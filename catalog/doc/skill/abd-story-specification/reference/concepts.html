@@ -1737,6 +1737,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <p><strong>Inputs:</strong> Scenarios are often created from <strong>acceptance criteria</strong> (WHEN/THEN statements in a story). When AC exist, start from the main-flow AC, add Given steps until the flow is concrete, then add scenarios for failures, edges, and alternate flows. The same quality rules apply when the only inputs are a story name, bullet notes, or shared understanding.</p>
 <p><strong>Living documentation:</strong> Specifications by example are not throwaway analysis artifacts. They become <strong>executable requirements</strong> — testable without translation — captured in <strong>live documentation</strong> that stays current as the system evolves.</p>
 <p><strong>Multiple perspectives, not solo work.</strong> Ensure context covers business, technical, and testing perspectives; flag a missing perspective as an unknown rather than inventing plausible-sounding scenarios. See <a href="../../../reference/handling-incomplete-context.html"><code>../../../reference/handling-incomplete-context.md</code></a> for the shared discipline.</p>
+<p><strong>Determine new system vs existing system before writing scenarios.</strong> If specifying an existing system, you MUST read the contract schemas (<code>packages/contracts/</code> or equivalent) before choosing concrete values. Check regex patterns, min/max, allowed characters, required fields. A scenario with <code>prefix: &quot;E2E-BATCH-&quot;</code> against a schema that only allows <code>[A-Za-z0-9]+</code> will silently fail at runtime. See <a href="../../../reference/new-vs-existing-system.html"><code>../../../reference/new-vs-existing-system.md</code></a> for the shared discipline.</p>
 <hr>
 <h2>Given, When, Then (and And)</h2>
 <ul>
@@ -1770,6 +1771,15 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <li><strong>Cross-story</strong> — when a scenario naturally spans multiple stories in sequence.</li>
 </ul>
 <p>Higher-level specifications help answer: &quot;when these stories are all done, is the feature actually complete?&quot;</p>
+<hr>
+<h2>Validate scenario values against the schema (existing systems)</h2>
+<div class="spec-steps">
+<p class="spec-step">When specifying an existing system, every concrete value in a scenario must satisfy the constraints the system already enforces. A scenario with invalid values will produce a test that fails for the wrong reason — typically a silent form validation failure or a cryptic API 4xx.</p>
+</div>
+<p><strong>Before committing values, check:</strong></p>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>What to check</th><th>Where to find it</th><th>What goes wrong if you skip</th></tr></thead><tbody><tr><td>Allowed characters (regex)</td><td>Contract schemas (<code>packages/contracts/</code>, Zod <code>.regex(...)</code>)</td><td>Scenario uses <code>E2E-BATCH-</code> but schema only allows <code>[A-Za-z0-9]+</code> → silent form rejection</td></tr><tr><td>Min/max range</td><td>Schema <code>.min()</code> / <code>.max()</code></td><td>Scenario uses <code>count: 1000</code> but schema caps at 500 → API 400</td></tr><tr><td>Required fields</td><td>Schema shape (no <code>.optional()</code>)</td><td>Scenario omits discount value → form never submits</td></tr><tr><td>Enum values</td><td>Schema <code>.enum([...])</code> or discriminated unions</td><td>Scenario uses <code>type: &quot;flat&quot;</code> but only <code>&quot;percentage&quot;</code> and <code>&quot;amount&quot;</code> exist</td></tr><tr><td>Date constraints</td><td>Service validators, campaign date ranges</td><td>Scenario uses a date that falls outside the campaign window → API 409</td></tr></tbody></table></div>
+<p><strong>The cost of skipping this is high:</strong> when a form silently fails validation, the symptom is &quot;dialog stays open&quot; or &quot;nothing happens&quot; — no error message, no stack trace, no obvious cause. These are the hardest bugs to diagnose in E2E tests.</p>
+<p><strong>Rule of thumb:</strong> If the scenario involves user input that will be validated (form submission, API call), spend 2 minutes reading the schema for that input before choosing values.</p>
 <hr>
 <h2>Quick checklist</h2>
 <ul>

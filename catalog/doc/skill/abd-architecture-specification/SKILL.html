@@ -1754,6 +1754,13 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <li><strong>Pattern fit for edge cases</strong> — the spec defines patterns for the common case, but what happens when a story doesn&#x27;t fit the pattern cleanly? Where are the seams that will need judgment, and are those documented or left implicit?</li>
 </ul>
 <hr>
+<h2>Diagram workflow</h2>
+<p>Produces two diagrams alongside <code>architecture-specification.md</code>. Both must exist before the cell is marked done.</p>
+<p><strong><code>architecture-flow.drawio</code></strong> — start from <code>templates/architecture-flow.drawio</code>; replace every placeholder label with the actual layer or file name for this architecture. Plain boxes and lines only. No script — fill the template manually and save as <code>architecture-flow.drawio</code> next to <code>architecture-specification.md</code>.</p>
+<p><strong><code>architecture-specification-participants.drawio</code></strong> — UML class diagram of the 14 domain module participants. Run from the spec directory:</p>
+<pre><code>python scripts/build_participants_diagram.py</code></pre>
+<p>Output: <code>architecture-specification-participants.drawio</code> in the same directory as the script.</p>
+<hr>
 <h2>Core concepts</h2>
 <h3>Specification directory</h3>
 <p>The deliverable is a <strong>specification directory</strong> — not a lone markdown file. Where it lives does not matter; the shape does: <code>architecture-specification.md</code>, <code>template/</code>, <code>rules/</code>, and <code>scanners/</code> together form one specification. Produce a new directory for a project, or <strong>assign</strong> an existing complete directory when the architecture is already specified.</p>
@@ -1828,6 +1835,21 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 </div>
 <p>1. <strong><code>architecture-specification.md</code></strong> — write from this skill&#x27;s <code>templates/architecture-specification.md</code>. Every walkthrough step must reference a real file in <code>template/</code> when that folder exists; otherwise use parameterized pattern comments and point at <code>templates/</code>.</p>
 <p>2. <strong><code>architecture-flow.drawio</code></strong> — produce a Draw.io flow diagram alongside the specification document. Start from <code>templates/architecture-flow.drawio</code>; replace placeholder labels with the actual layer and file names for this architecture. Rules: plain boxes and lines only (no gradient fills, no swimlane shading); one box per layer/participant; network or tier boundaries as lightly shaded full-width rectangles; simple arrow labels (&quot;renders&quot;, &quot;calls&quot;, &quot;routes to&quot;, &quot;extends&quot;, &quot;uses&quot;, &quot;read/write&quot;). Place the file next to <code>architecture-specification.md</code> and reference it with <code>&gt; See [architecture-flow.drawio](./architecture-flow.drawio)</code> in the Architecture Flow section.</p>
+<p>3. <strong>Grill Me section</strong> — add a <code>## Grill Me — Map a Story to a Mechanism</code> section to <code>architecture-specification.md</code>, placed immediately before <code>## Rules</code>. This section is <strong>architecture-specific</strong>: it must reflect the actual mechanisms and patterns defined in this spec, not a generic list. Its purpose is to help an implementer — or an agent — pick the right mechanism and adapter pattern for any new story without reading the whole document.</p>
+<p><strong>Shape of the Grill Me section:</strong></p>
+<ul>
+<li><strong>Decision questions</strong> — a numbered sequence: What triggers the story? What does it output? Does the domain concept present itself on this surface, or does it own lifecycle objects? Does state need to persist? Any async / streaming concerns?</li>
+<li><strong>Each question</strong> maps answers to named mechanisms from this spec (not invented names). Use the mechanism heading as written — <code>## Mechanism: Commands</code>, <code>## Mechanism: Status Bar</code>, etc.</li>
+<li><strong>Extend-or-wrap guidance</strong> — where the spec distinguishes extend (IS-A domain concept + presentation shape) from wrap (HAS-A domain dependency + lifecycle objects), include a question that drives the decision with examples from this spec&#x27;s <code>template/</code>.</li>
+<li><strong>Do not repeat</strong> mechanism prose. The Grill Me section points; the mechanism sections explain.</li>
+</ul>
+<p>Example questions for a VS Code plugin spec:</p>
+<ul>
+<li><em>What triggers the story?</em> → Command Palette / keyboard → Commands; rich HTML panel → Webview Bridge; Copilot chat → LM Chat Provider; etc.</li>
+<li><em>What does it output?</em> → List to select from → Native / Quick Pick; ambient status → Status Bar; streamed tokens → LM Chat Provider; etc.</li>
+<li><em>Does the domain concept present itself?</em> → IS-A concept + selectable shape → extend; HAS-A concept + lifecycle object → wrap.</li>
+</ul>
+<p>Adapt these to the actual surfaces and patterns in the spec being built.</p>
 <div class="spec-steps">
 <p class="spec-step">When mode is <strong>document</strong> only, do not create or edit files under <code>template/</code> unless the user explicitly asks to refresh template code in the same run.</p>
 </div>
@@ -1856,6 +1878,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <li><strong>Templates mirror template slice</strong> — when mode includes <strong>template</strong>: every source file in <code>template/</code> has a corresponding parameterized file in <code>templates/</code> with <code>{{placeholders}}</code>; same folder structure, same file names (modulo domain substitution).</li>
 <li><strong>Doc template shape followed</strong> — when mode includes <strong>document</strong>: deliverable matches this skill&#x27;s <code>templates/architecture-specification.md</code> skeleton; template instructions not copied into output.</li>
 <li><strong>Flow diagram produced</strong> — when mode includes <strong>document</strong>: <code>architecture-flow.drawio</code> exists next to <code>architecture-specification.md</code>; the Architecture Flow section references it; ASCII block is also present; drawio uses plain boxes and lines only.</li>
+<li><strong>Grill Me section present</strong> — when mode includes <strong>document</strong>: <code>architecture-specification.md</code> contains a <code>## Grill Me</code> section placed before <code>## Rules</code>; every answer in the section names a mechanism heading that exists in the same document; no generic advice — all paths resolve to this spec&#x27;s actual mechanisms and patterns.</li>
 <li><strong>Template artifact set aligned</strong> — when mode includes <strong>template</strong>: code, <code>specification-by-example.md</code>, and <code>domain-spec.md</code> use consistent concept names; tests pass; no stubs.</li>
 <li><strong>Template validation</strong> — when mode includes <strong>template</strong> and template code was created or edited, architecture spec rules pass and <code>run_scanners.py</code> exits zero.</li>
 <li><strong>No bundle markers</strong> — <code>SKILL.md</code> has no <code>&lt;!-- execute_rules:bundle_rules --&gt;</code> markers.</li>

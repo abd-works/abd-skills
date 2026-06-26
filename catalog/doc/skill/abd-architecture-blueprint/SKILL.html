@@ -1750,6 +1750,22 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <li><strong>Testing tiers vs. team reality</strong> — do the test tiers in this blueprint match how the team actually tests, or are they an idealized model? Which tier is the team least likely to write, and what risk does that leave uncovered?</li>
 </ul>
 <hr>
+<h2>Diagram workflow</h2>
+<p>Produces four diagrams under <code>docs/architecture/</code>: <code>platform-architecture.drawio</code>, <code>module-overview.drawio</code>, <code>architecture-flow.drawio</code>, and <code>testing-flow.drawio</code>. All four must exist and verify PASS before the cell is marked done.</p>
+<pre><code># 1. Seed — creates all four drawio files
+.\scripts\arch-drawio.ps1 init -ProjectRoot &lt;target-project-root&gt;
+
+# 2. Fill platform-architecture.drawio, module-overview.drawio, and architecture-flow.drawio
+#    from platform-architecture-elements.md and module subsections (edit seeded files)
+
+# 3. Fill testing-flow.drawio from testing architecture tiers (edit seeded file)
+
+# 4. Export PNGs
+.\scripts\arch-drawio.ps1 export -ProjectRoot &lt;target-project-root&gt;
+
+# 5. Verify — must print PASS
+.\scripts\arch-drawio.ps1 verify -ProjectRoot &lt;target-project-root&gt;</code></pre>
+<hr>
 <h2>Agent Instructions</h2>
 <p>Follow <code>../common/skill-rule-workflow.md</code> — read-gates, output file resolution, and the per-rule verdict format are defined there.</p>
 <h3>1. Read context</h3>

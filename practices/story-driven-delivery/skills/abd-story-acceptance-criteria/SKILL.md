@@ -41,6 +41,19 @@ Before generating, surface these common input traps:
 
 ---
 
+## Diagram workflow
+
+Produces `docs/stories/acceptance-criteria.drawio` from `story-graph.json`. Requires `story-graph.json` to exist (built by `story-graph-ops`). Must exist before the cell is marked done.
+
+```bash
+python drawio_story_sync_cli.py render \
+  --mode acceptance-criteria \
+  --graph docs/stories/story-graph.json \
+  --out   docs/stories/acceptance-criteria.drawio
+```
+
+---
+
 ## Agent Instructions
 
 Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.

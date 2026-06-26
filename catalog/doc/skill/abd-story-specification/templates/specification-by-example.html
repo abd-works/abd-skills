@@ -1733,8 +1733,10 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <h2>Content</h2>
 <div class="rule-prose"><h1>Specification by Example — <code>&lt;Module Name&gt;</code></h1>
 <p><strong>Sources / context:</strong> <code>&lt;source files used&gt;</code></p>
+<p><strong>Domain outline:</strong> <code>docs/domain/domain-model.md</code> (default) · <code>docs/domain/domain-specification.md</code> (if present)</p>
 <hr>
-<p>&lt;!-- Each story uses whichever notation fits its behavior:</p>
+<p>&lt;!-- Default input: domain model outline — read it before writing any scenario. Concept names, relationships, and invariants come from there verbatim.</p>
+<p>Each story uses whichever notation fits its behavior:</p>
 <ul>
 <li>Plain Scenario: distinct logical flow with inline values (bold concepts, italic values)</li>
 <li>Scenario Outline: data-driven variations with {column_name} tokens and example tables</li>
@@ -1742,10 +1744,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <p>Stories are the organizing unit. Both notations live in this single file. --&gt;</p>
 <h2>Story: <code>&lt;Verb–Noun Title&gt;</code></h2>
 <p><strong>Story type:</strong> user | system | technical</p>
-<p><strong>Sources / context:</strong> _(pointer to source or conversation / workshop date)_</p>
-<hr>
-<h2>Scenarios</h2>
-<h3>Scenario 1: <code>&lt;outcome-oriented name&gt;</code></h3>
+<p><strong>Sources / context:</strong> _(pointer to AC file and domain model outline — e.g. <code>domain-model.md</code> § Campaign)_</p>
 <div class="spec-steps">
 <p class="spec-step">Given a <strong><code>&lt;Concept&gt;</code></strong> <em><code>&lt;value&gt;</code></em> with a <strong><code>&lt;Concept&gt;</code></strong> <em><code>&lt;value&gt;</code></em></p>
 <p class="spec-step">When <strong><code>&lt;Concept&gt;</code></strong> <em><code>&lt;value&gt;</code></em> does <strong><code>&lt;action&gt;</code></strong> with <strong><code>&lt;Concept&gt;</code></strong> <em><code>&lt;value&gt;</code></em></p>
@@ -1754,7 +1753,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <hr>
 <h2>Story: <code>&lt;Verb–Noun Title&gt;</code></h2>
 <p><strong>Story type:</strong> user | system | technical</p>
-<p><strong>Sources / context:</strong> _(pointer to source or conversation / workshop date)_</p>
+<p><strong>Sources / context:</strong> _(pointer to AC file and domain model outline — e.g. <code>domain-model.md</code> § Campaign)_</p>
 <hr>
 <h2>Examples</h2>
 <h3><code>&lt;Domain ConceptA&gt;</code>:</h3>
@@ -1779,7 +1778,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <h2>Example (plain scenario)</h2>
 <h2>Story: Apply For a Payment Product Agreement</h2>
 <p><strong>Story type:</strong> user</p>
-<p><strong>Sources / context:</strong> _(Payments Domain — Class Model: Payment Product, Customer, Account, Owner, Payment Product Agreement)_</p>
+<p><strong>Sources / context:</strong> _(Payments Domain — Class Model: Payment Product, Customer, Account, Owner, Payment Product Agreement · <code>domain-model.md</code> § Customer, Account)_</p>
 <hr>
 <h2>Scenarios</h2>
 <h3>Scenario 1: Agreement submitted with valid DDA Account and Owner</h3>

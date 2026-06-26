@@ -42,6 +42,25 @@ Before generating, surface these common input traps:
 
 ---
 
+## Diagram workflow
+
+Produces `docs/architecture/diagrams/system-context.drawio`. Must exist and verify PASS before the cell is marked done.
+
+```powershell
+# 1. Seed — creates system-context.drawio under docs/architecture/diagrams/
+.\scripts\arch-drawio.ps1 init -ProjectRoot <target-project-root>
+
+# 2. Fill system-context.drawio with real names from system-context-elements.md (edit the seeded file)
+
+# 3. Export PNG
+.\scripts\arch-drawio.ps1 export -ProjectRoot <target-project-root>
+
+# 4. Verify — must print PASS
+.\scripts\arch-drawio.ps1 verify -ProjectRoot <target-project-root>
+```
+
+---
+
 ## Agent Instructions
 
 Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.

@@ -24,6 +24,7 @@ Before generating, surface these common input traps:
 - **Test doubles vs. reality** — where are we substituting a fake for something real — and does the fake behave like the real thing, or are we testing a fantasy?
 - **Data realism** — are the test fixtures using values that could actually appear in production, or are we testing with "foo" and "123" and hoping edge cases don't matter?
 - **Failure mode blindness** — do we know what failure looks like for each behavior — timeout, partial success, conflicting concurrent changes — or are we only proving the happy path works?
+- **Stub fixture completeness** — for every scenario that exercises a stubbed external service, does the project's stub fixture file contain a matching request/response row? If a new scenario introduces a new input/output pair, has it been added to the fixture so the stub actually supports it at runtime?
 
 ---
 
@@ -68,6 +69,7 @@ Read these files:
 
 **Build steps:**
 3. One file per area, one class per story, one method per scenario. Name helpers with GWT language (`given_*`, `when_*`, `then_*`) matching step text verbatim. Parameterize helpers to prevent sprawl. Extract shared helpers to `tests/<epic_name>/<epic_name>_helper.py` when reused across files.
+4. **Stubbed external services:** Apply `rules/stub-data-sync-with-scenarios.md`. Configure stubs in `given_*` helpers (exact request + hardcoded response). The production code calls the stub inside `when_*` — do not expose the stub's return value as a separate `when_*` or `then_*` step. Assert only the business outcome in `then_*`. For every new stub input/output combination introduced by a scenario, add the matching row to the project's stub fixture file.
 
 **Template table:**
 
@@ -108,6 +110,8 @@ Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.m
 - **RED before GREEN** — tests written before production code; assertions are specific enough to fail for the right reasons.
 - **Domain language** — class names, method names, and helper names use domain vocabulary from stories/AC.
 - **Coverage** — happy path, failure path, and edge cases covered.
+- **Stub structure** — stubs configured in `given_*`; service invocation fires inside `when_*`; `then_*` asserts business outcome only — never the stub response value.
+- **Stub fixture sync** — every stub request/response pair used by any scenario exists as a row in the project's stub fixture file.
 - **No bundle markers** — `SKILL.md` has no `<!-- execute_rules:bundle_rules -->` markers.
 
 ---

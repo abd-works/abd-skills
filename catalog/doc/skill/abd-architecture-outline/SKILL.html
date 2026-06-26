@@ -1751,6 +1751,19 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <li><strong>What&#x27;s deliberately excluded</strong> — what have you decided is out of scope for this outline, and does the team agree it&#x27;s out of scope — or are they assuming someone else is covering it?</li>
 </ul>
 <hr>
+<h2>Diagram workflow</h2>
+<p>Produces <code>docs/architecture/diagrams/system-context.drawio</code>. Must exist and verify PASS before the cell is marked done.</p>
+<pre><code># 1. Seed — creates system-context.drawio under docs/architecture/diagrams/
+.\scripts\arch-drawio.ps1 init -ProjectRoot &lt;target-project-root&gt;
+
+# 2. Fill system-context.drawio with real names from system-context-elements.md (edit the seeded file)
+
+# 3. Export PNG
+.\scripts\arch-drawio.ps1 export -ProjectRoot &lt;target-project-root&gt;
+
+# 4. Verify — must print PASS
+.\scripts\arch-drawio.ps1 verify -ProjectRoot &lt;target-project-root&gt;</code></pre>
+<hr>
 <h2>Agent Instructions</h2>
 <p>Follow <code>../common/skill-rule-workflow.md</code> — read-gates, output file resolution, and the per-rule verdict format are defined there.</p>
 <h3>1. Read context</h3>

@@ -42,6 +42,19 @@ Before generating, surface these:
 
 ---
 
+## Diagram workflow
+
+Produces `docs/stories/thin-slicing.drawio` from `story-graph.json`. Requires `story-graph.json` to exist (built by `story-graph-ops`). Must exist before the cell is marked done.
+
+```bash
+python drawio_story_sync_cli.py render \
+  --mode thin-slicing \
+  --graph docs/stories/story-graph.json \
+  --out   docs/stories/thin-slicing.drawio
+```
+
+---
+
 ## Agent Instructions
 
 Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.

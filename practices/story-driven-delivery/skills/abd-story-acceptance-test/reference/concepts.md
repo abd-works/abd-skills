@@ -65,3 +65,9 @@ Use the same vocabulary as the domain model, stories, and acceptance criteria in
 - Class names → domain entities (`GatherContextAction`, `BotConfig`)
 - Method names → domain responsibilities (`inject_questions_and_evidence`, `load_trigger_words`)
 - Test names → observable behavior (`test_agent_loads_configuration_when_file_exists`)
+
+---
+
+## New system vs existing system
+
+**Determine new system vs existing system before writing tests.** If writing tests for an existing system, you MUST read the extracted context (ARIA snapshots, screenshots) and controller decorators before writing `then_*` assertions. Tests must pass against the running system; when a test fails, the test is likely wrong — not the code. See [`../../../reference/new-vs-existing-system.md`](../../../reference/new-vs-existing-system.md) for the shared discipline and evidence sources.

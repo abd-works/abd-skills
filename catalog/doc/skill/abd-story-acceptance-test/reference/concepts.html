@@ -1783,7 +1783,10 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <li>Class names → domain entities (<code>GatherContextAction</code>, <code>BotConfig</code>)</li>
 <li>Method names → domain responsibilities (<code>inject_questions_and_evidence</code>, <code>load_trigger_words</code>)</li>
 <li>Test names → observable behavior (<code>test_agent_loads_configuration_when_file_exists</code>)</li>
-</ul></div>
+</ul>
+<hr>
+<h2>New system vs existing system</h2>
+<p><strong>Determine new system vs existing system before writing tests.</strong> If writing tests for an existing system, you MUST read the extracted context (ARIA snapshots, screenshots) and controller decorators before writing <code>then_*</code> assertions. Tests must pass against the running system; when a test fails, the test is likely wrong — not the code. See <a href="../../../reference/new-vs-existing-system.html"><code>../../../reference/new-vs-existing-system.md</code></a> for the shared discipline and evidence sources.</p></div>
 
 </div>
 </div>

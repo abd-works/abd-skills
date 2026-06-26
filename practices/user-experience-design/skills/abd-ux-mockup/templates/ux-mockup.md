@@ -1,4 +1,4 @@
-# Lo-fi — {{SCOPE_NAME}}
+# Mockup — {{SCOPE_NAME}}
 
 > **Companion to** `docs/ux/mockups/{{SLUG}}.drawio`. Author or update **this file first**, then regenerate the wireframe from the state file. After any manual edits in Draw.io, sync changes back here.
 
@@ -46,8 +46,13 @@ For each screen in scope, copy its layout and regions from `initial-ia.md` and a
 
 ### {{SCREEN_NAME}}
 
-**Layout:** {{layout}}  
-**AC stories:** {{story · story · story}}
+**Layout:** {{layout}}
+
+**Stories:**
+- (U) {{Epic}} → {{Story title}}
+- (S) {{Epic}} → {{Story title}}
+
+**Domain terms:** {{Term A}} · {{Term B}} · {{Term C}}
 
 | Region | Slot | Type | Controls | Interaction decisions |
 | --- | --- | --- | --- | --- |

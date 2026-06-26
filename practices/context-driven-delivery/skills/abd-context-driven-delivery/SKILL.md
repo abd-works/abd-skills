@@ -1,5 +1,5 @@
 ﻿---
-name: context-driven-delivery
+name: abd-context-driven-delivery
 description: >-
   Takes your context and goal, grills you on what's missing, routes to the right skills, generates output at each fidelity level, and iterates until the work is done. Use when the user wants to achieve an outcome using abd practice skills — or says "let's solve this" or "let's achieve this".
 ---
@@ -19,10 +19,14 @@ Read your reference material:
 - **[`common/context-taxonomy.md`](../../../../common/context-taxonomy.md)** — what perspectives and fidelity levels are. Definitions only.
 - **[`common/grill-me-with-practice-skill.md`](../../../../common/grill-me-with-practice-skill.md)** — how to grill, generate-to-learn loop, anti-hallucination rules.
 - **[`common/skill-index.md`](../../../../common/skill-index.md)** — every CDD-routable skill by perspective × fidelity with output filenames and grill prompts.
-- **[`common/stages/`](../../../../common/stages/)** — stage definitions (shaping, discovery, exploration, specification, engineering): entry conditions, exit gates, skill order per stage.
+- **[`common/folder-conventions.md`](../../../../common/folder-conventions.md)** — canonical `docs/` subtree showing where every skill writes its deliverables. Use this to locate existing artifacts and to tell specialists where to write. The user may override any path; this is the sensible default.
+- **`cdd-context-index.md`** (workspace root) — index of every artifact moved away from its canonical path. **Check this before the scaffold tree when scanning for existing outputs.** Create it (from [`common/context-scaffold/cdd-context-index.md`](../../../../common/context-scaffold/cdd-context-index.md)) and add a row whenever the user declares or you discover a non-standard path.
+- **[`common/context-scaffold/`](../../../../common/context-scaffold/)** — empty file-and-folder skeleton matching the conventions above. Useful when starting a new workspace.
+- **[`common/stages/`](../../../../common/stages/)** — stage definitions (context, shaping, discovery, exploration, specification, engineering): entry conditions, exit gates, skill order per stage.
 
 Perspective files (read when routing to a specialist):
 
+- [Context pipeline](../../agents/abd-context-to-memory.md) — CTM agent (convert, chunk, embed, search, extract, sandbox)
 - [Domain](../../../domain-driven-design/reference/domain-perspective.md) — [Business Expert agent](../../agents/business-expert.md)
 - [Stories](../../../story-driven-delivery/reference/stories-perspective.md) — [Product Owner agent](../../agents/product-owner.md)
 - [UX](../../../user-experience-design/reference/ux-perspective.md) — [UX Designer agent](../../agents/ux-designer.md)
@@ -34,10 +38,15 @@ Perspective files (read when routing to a specialist):
 
 ### 1. Assess entry point
 
-1. Scan the workspace for existing skill outputs. Use the output filenames in `skill-index.md` as a guide. Time-box this — if not obvious, ask the user where outputs live.
+1. Scan the workspace for existing skill outputs.
+   - **First:** check `cdd-context-index.md` at the workspace root — it lists every artifact at a non-standard path. If a path is listed there, use it directly without searching.
+   - **Then:** use the scaffold tree in `folder-conventions.md` — look under `docs/domain/`, `docs/stories/`, `docs/ux/`, `docs/architecture/`, and `docs/sessions/`.
+   - **Also:** use the output filenames in `skill-index.md` as a second cross-reference.
+   - Time-box this — if not obvious, ask the user where outputs live.
 2. Review what exists against the current ask. At each fidelity level (see common/context-taxonomy.md`), does the existing artifact cover the ask?
 3. Recommend an entry point:
-   - Nothing exists → shaping
+   - No workspace memory or source material needs ingesting → context
+   - Memory exists, nothing shaped → shaping
    - Scope defined but interactions are not → discovery
    - Stories exist but need refinement → exploration
    - Stories refined, concrete behaviour missing → specification
@@ -46,7 +55,7 @@ Perspective files (read when routing to a specialist):
 
 ### 2. Walk the grid
 
-From the confirmed entry point, walk: **fidelity level × perspective** (domain → stories → ux → architecture at each level, then next level).
+From the confirmed entry point, walk: **fidelity level × perspective** (context has no perspective — it is ingestion; then domain → stories → ux → architecture at each subsequent level, then next level).
 
 **At each fidelity level × perspective:**
 
@@ -70,8 +79,9 @@ Before assuming a subagent failed: check whether the expected output file exists
 **After specialist output:**
 
 1. Surface any questions the specialist returned.
-2. Run consistency check — glossary, behaviour, structure, scope must align across all perspectives with output at this fidelity.
-3. Decide: next perspective at this fidelity, or move to next fidelity level?
+2. **Check diagram outputs** — inspect the skill's `## Diagram workflow` section and `## Validate` checklist for declared diagram files (`.drawio`, `.png`, or similar). If those files are missing from disk, read the skill's `## Diagram workflow` instructions and run the specified CLI or script before marking the cell done. A cell with a missing required diagram is not complete.
+3. Run consistency check — glossary, behaviour, structure, scope must align across all perspectives with output at this fidelity.
+4. Decide: next perspective at this fidelity, or move to next fidelity level?
 
 ### 3. Skip rules
 
@@ -163,6 +173,19 @@ Maintain a running session journal — a record for resumption and traceability.
 **Location:** `<workspace>/docs/sessions/<date>-<topic>/session-journal.md`
 
 **Format:** See [`templates/session-journal.md`](./templates/session-journal.md)
+
+---
+
+## Non-standard paths
+
+When a user tells you their files live somewhere other than the canonical scaffold path — during grilling, setup, or at any point in the session:
+
+1. **Accept the path immediately** and use it for this session.
+2. **Update `cdd-context-index.md`** at the workspace root: add or update the row for that artifact with the actual path and a one-line note. Create the file from [`common/context-scaffold/cdd-context-index.md`](../../../../common/context-scaffold/cdd-context-index.md) if it does not exist.
+3. **Tell the specialist** the actual path when spawning — do not assume the scaffold default.
+4. **Log in the session journal** that the index was updated.
+
+This ensures every subsequent session (and every specialist) finds the file in the right place without asking again.
 
 ---
 

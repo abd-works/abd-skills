@@ -547,7 +547,13 @@ function generateXml(state) {
     }
   }
 
+  // Merge A→B + B→A into one bidirectional arrow
+  const allConnKeys  = new Set(state.connections.map(c => `${c.from}|${c.to}`))
+  const renderedConn = new Set()
   for (const conn of state.connections) {
+    const key    = `${conn.from}|${conn.to}`
+    const revKey = `${conn.to}|${conn.from}`
+    if (renderedConn.has(key) || renderedConn.has(revKey)) continue
     const src = screenNumId[conn.from]
     const tgt = screenNumId[conn.to]
     if (!src || !tgt) continue
@@ -555,26 +561,35 @@ function generateXml(state) {
     const srcPos = positions[conn.from]
     const tgtPos = positions[conn.to]
 
+    const isBidi  = allConnKeys.has(revKey)
+    const revConn = isBidi ? state.connections.find(c => c.from === conn.to && c.to === conn.from) : null
+    const label   = isBidi && revConn?.label && revConn.label !== (conn.label || '')
+      ? `${conn.label || ''} / ${revConn.label || ''}`.replace(/^ \/ | \/ $/g, '')
+      : (conn.label || '')
+
     // Same-column connections (options stacked vertically): exit left side of
     // source, route via a waypoint to the left, enter left side of target.
     const sameCol = srcPos && tgtPos && srcPos.x === tgtPos.x
     let waypoints
     let edgeStyle = conn.dashed ? S.edgeDashed : S.edge
+    if (isBidi) edgeStyle = edgeStyle.replace('endArrow=block', 'startArrow=block;startFill=1;endArrow=block')
     if (sameCol) {
       const wx = srcPos.x - 30
       waypoints = [
-        { x: wx, y: srcPos.y + srcPos.h },  // bottom-left of source, offset left
-        { x: wx, y: tgtPos.y },              // top-left of target, offset left
+        { x: wx, y: srcPos.y + srcPos.h },
+        { x: wx, y: tgtPos.y },
       ]
       edgeStyle += 'exitX=0;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0;entryDx=0;entryDy=0;'
     }
 
     cells.push(mkCell(counter, {
-      value: conn.label || '',
+      value: label,
       style: edgeStyle,
       edge: true, source: src, target: tgt, parent: '1',
       waypoints,
     }).xml)
+    renderedConn.add(key)
+    if (isBidi) renderedConn.add(revKey)
   }
 
   return [
@@ -640,20 +655,35 @@ function generateSiteMapPage(state) {
     })
   }
 
-  // Connector arrows
+  // Connector arrows — merge A→B + B→A into one bidirectional arrow
+  const siteConnSet  = new Set(conns.map(c => `${c.from}|${c.to}`))
+  const siteRendered = new Set()
   for (const conn of conns) {
+    const key    = `${conn.from}|${conn.to}`
+    const revKey = `${conn.to}|${conn.from}`
+    if (siteRendered.has(key) || siteRendered.has(revKey)) continue
     const srcId = nameToId[conn.from]
     const tgtId = nameToId[conn.to]
     if (!srcId || !tgtId) continue
-    const id = String(++idCtr)
-    const style = conn.dashed
+    const id      = String(++idCtr)
+    const isBidi  = siteConnSet.has(revKey)
+    const revConn = isBidi ? conns.find(c => c.from === conn.to && c.to === conn.from) : null
+    const label   = isBidi && revConn?.label && revConn.label !== (conn.label || '')
+      ? `${conn.label || ''} / ${revConn.label || ''}`.replace(/^ \/ | \/ $/g, '')
+      : (conn.label || '')
+    const baseStyle = conn.dashed
       ? 'html=1;strokeColor=#000000;endArrow=block;endFill=1;fontSize=10;dashed=1;'
       : 'html=1;strokeColor=#000000;endArrow=block;endFill=1;fontSize=10;'
+    const style = isBidi
+      ? baseStyle.replace('endArrow=block', 'startArrow=block;startFill=1;endArrow=block')
+      : baseStyle
     cells.push(
-      `                <mxCell id="${id}" value="${esc(conn.label || '')}" style="${style}" edge="1" source="${srcId}" target="${tgtId}" parent="1">`,
+      `                <mxCell id="${id}" value="${esc(label)}" style="${style}" edge="1" source="${srcId}" target="${tgtId}" parent="1">`,
       `                    <mxGeometry relative="1" as="geometry"/>`,
       `                </mxCell>`
     )
+    siteRendered.add(key)
+    if (isBidi) siteRendered.add(revKey)
   }
 
   return [

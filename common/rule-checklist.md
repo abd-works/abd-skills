@@ -1,6 +1,6 @@
 # Rule Checklist
 
-Use **before** starting the skill's main work (Step 1 is the hard gate) and **before** calling work done (Steps 2–4).
+Run **Step 1 before starting** the skill's main work. Run **Steps 2–4 before calling work done**.
 
 ---
 

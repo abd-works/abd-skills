@@ -1723,7 +1723,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
     <p class="s-name">Markdown</p>
 
     <h1 class="page-headline">templates/ux-mockup.md</h1>
-    <p class="body-lead">Lo-fi — {{SCOPE_NAME}}</p>
+    <p class="body-lead">Mockup — {{SCOPE_NAME}}</p>
   </div>
 </div>
 
@@ -1731,13 +1731,13 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <div class="wrap">
 
 <h2>Content</h2>
-<div class="rule-prose"><h1>Lo-fi — {{SCOPE_NAME}}</h1>
-<p>&gt; <strong>Companion to</strong> <code>docs/ux/lo-fi/{{SLUG}}.drawio</code>. Author or update <strong>this file first</strong>, then regenerate the wireframe from the state file. After any manual edits in Draw.io, sync changes back here.</p>
+<div class="rule-prose"><h1>Mockup — {{SCOPE_NAME}}</h1>
+<p>&gt; <strong>Companion to</strong> <code>docs/ux/mockups/{{SLUG}}.drawio</code>. Author or update <strong>this file first</strong>, then regenerate the wireframe from the state file. After any manual edits in Draw.io, sync changes back here.</p>
 <h2>Metadata</h2>
-<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Field</th><th>Value</th></tr></thead><tbody><tr><td>Scope</td><td>{{SCOPE_NAME}} — describe the screens, epic, or stories covered</td></tr><tr><td>Initial IA</td><td><code>docs/ux/initial-ia.md</code></td></tr><tr><td>AC source</td><td>{{ACCEPTANCE_CRITERIA_PATH}}</td></tr><tr><td>Domain terms</td><td>{{DOMAIN_TERMS_PATH}}</td></tr><tr><td>State file</td><td><code>docs/ux/lo-fi/{{SLUG}}-state.json</code></td></tr><tr><td>Wireframe</td><td><code>docs/ux/lo-fi/{{SLUG}}.drawio</code></td></tr><tr><td>Last updated</td><td>{{ISO_DATE}}</td></tr></tbody></table></div>
+<div class="md-table-wrap"><table class="md-table"><thead><tr><th>Field</th><th>Value</th></tr></thead><tbody><tr><td>Scope</td><td>{{SCOPE_NAME}} — describe the screens, epic, or stories covered</td></tr><tr><td>Initial IA</td><td><code>docs/ux/initial-ia.md</code></td></tr><tr><td>AC source</td><td>{{ACCEPTANCE_CRITERIA_PATH}}</td></tr><tr><td>Domain terms</td><td>{{DOMAIN_TERMS_PATH}}</td></tr><tr><td>State file</td><td><code>docs/ux/mockups/{{SLUG}}-state.json</code></td></tr><tr><td>Wireframe</td><td><code>docs/ux/mockups/{{SLUG}}.drawio</code></td></tr><tr><td>Last updated</td><td>{{ISO_DATE}}</td></tr></tbody></table></div>
 <h2>Description</h2>
 <p>{{ONE_PARAGRAPH}}</p>
-<p>What screens are in scope, what the GM does on them, which stories are represented, what interaction decisions this pass resolves.</p>
+<p>What screens are in scope, what the u er does on them, which stories are represented, what interaction decisions this pass resolves.</p>
 <hr>
 <h2>Design reference</h2>
 <p>Before building the state JSON, all relevant design images were reviewed. This section catalogs what UX elements appear in the production design.</p>
@@ -1754,7 +1754,13 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <h2>Screens</h2>
 <p>For each screen in scope, copy its layout and regions from <code>initial-ia.md</code> and add the interaction decisions made in this pass.</p>
 <h3>{{SCREEN_NAME}}</h3>
-<p><strong>Layout:</strong> {{layout}} <strong>AC stories:</strong> {{story · story · story}}</p>
+<p><strong>Layout:</strong> {{layout}}</p>
+<p><strong>Stories:</strong></p>
+<ul>
+<li>(U) {{Epic}} → {{Story title}}</li>
+<li>(S) {{Epic}} → {{Story title}}</li>
+</ul>
+<p><strong>Domain terms:</strong> {{Term A}} · {{Term B}} · {{Term C}}</p>
 <div class="md-table-wrap"><table class="md-table"><thead><tr><th>Region</th><th>Slot</th><th>Type</th><th>Controls</th><th>Interaction decisions</th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></thead><tbody><tr><td>{{region name}}</td><td>{{slot}}</td><td>{{tree\</td><td>listbox\</td><td>toolbar-icons\</td><td>context-menu\</td><td>filter-bar\</td><td>browse-panel\</td><td>form\</td><td>list\</td><td>nav-tabs\</td><td>toolbar}}</td><td>{{controls, verbatim domain labels}}</td><td>{{what this pass decided: disabled state, error placement, primary/secondary weight, conditional visibility, indent levels, expand/collapse default}}</td></tr></tbody></table></div>
 <p><strong>Conditional states:</strong></p>
 <ul>
@@ -1770,8 +1776,8 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <h2>CLI</h2>
 <pre><code>node &quot;C:\dev\agilebydesign-skills\skills\user-experience-design\abd-ux-mockup\scripts\drawio-mockup.mjs&quot; `
   save `
-  --state &quot;docs/ux/lo-fi/{{SLUG}}-state.json&quot; `
-  --out   &quot;docs/ux/lo-fi/{{SLUG}}.drawio&quot;</code></pre>
+  --state &quot;docs/ux/mockups/{{SLUG}}-state.json&quot; `
+  --out   &quot;docs/ux/mockups/{{SLUG}}.drawio&quot;</code></pre>
 <hr>
 <h2>Change log</h2>
 <div class="md-table-wrap"><table class="md-table"><thead><tr><th>Date</th><th>Direction</th><th>Summary</th></tr></thead><tbody><tr><td>{{ISO_DATE}}</td><td>initial</td><td>First draft.</td></tr></tbody></table></div></div>

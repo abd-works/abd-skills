@@ -21,7 +21,7 @@ Define what screens exist and how users move between them — so missing coverag
 
 **Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
 
-**File names:** `initial-ia.md` (structured spec) and `initial-ia.drawio` (diagram), typically in `docs/ux/`.
+**File names:** `information-architecture.md` (structured spec), `information-architecture.drawio` (diagram), and one `screens/<screen-slug>.aria.yaml` per screen — all in `docs/ux/information-architecture/`. See [`common/folder-conventions.md`](../../../../common/folder-conventions.md).
 
 ---
 
@@ -40,15 +40,41 @@ Before generating, surface these common input traps:
 
 ---
 
+## Diagram workflow
+
+Produces `docs/ux/initial-ia.drawio` — two pages: Page 1 (Detailed IA, full screen layouts) and Page 2 (Site Map, one box per screen with labeled arrows). Must exist on disk before the cell is marked done.
+
+Build in two passes after `initial-ia.md` and all `aria.yaml` files are written:
+
+**Pass 1 — Structure from ARIA (Mode A — CLI from skill's `scripts/`):**
+
+```bash
+node scripts/drawio-ux.mjs open docs/ux/initial-ia.drawio
+node scripts/drawio-ux.mjs add-screen "<screen-name>" --layout sidebar --col <c> --row <r>
+node scripts/drawio-ux.mjs add-list "<screen-name>" "<region>" --slot body --fields "..." --actions "..."
+node scripts/drawio-ux.mjs connect "<source>" "<target>" --label "<trigger>"
+node scripts/drawio-ux.mjs save
+```
+
+Repeat `add-screen`, `add-list`, and `connect` calls for every screen. `save` always writes both pages.
+
+**Pass 2 — Annotate (no layout changes):** Add yellow stories boxes and green domain terms boxes alongside each screen in the drawio. Save.
+
+**Mode B (no CLI available):** Pass the `aria.yaml` trees and the prompt template from `reference/concepts.md` to an external AI to generate the drawio XML directly.
+
+---
+
 ## Agent Instructions
 
 Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
-Read these files:
+Read these files in full before generating. Do not skip any file.
+
 - **`reference/concepts.md`** — core IA dimensions (navigation + content), screen/transition/layout/tab-state definitions, content types, story and domain term traceability rules, mental model alignment, canvas layout convention, and CLI layout templates.
 - **`reference/examples.md`** — worked example of a good initial IA showing tab-state decomposition, representative rows, verb rows, chrome conventions, and story budget.
+- **`reference/aria-pipeline.md`** — ARIA fidelity model, input resolution (extractor → IA), structural fidelity rules, `aria.yaml` output format, and two-pass rendering protocol.
 
 ### 2. Generate
 
@@ -58,7 +84,9 @@ Read these files:
 | --- | --- |
 | `templates/initial-ia.md` | Structured spec: scope, source paths, screen flow map, screens (regions, content types, actions, stories, domain terms), transitions, navigational components, content-type details. |
 
-**Method (14-step build):**
+**Method (16-step build):**
+
+**Input resolution (before step 1):** Check whether `docs/extracted-context/from-application/pages/<slug>/aria.yaml` exists for any in-scope screen. If found, use as structural seed per `reference/aria-pipeline.md`; otherwise construct from story map and domain language.
 
 1. Resolve inputs: story map, scope filter, Domain Language file.
 2. Filter story map by scope; read the Domain Language.
@@ -70,10 +98,12 @@ Read these files:
 8. Identify content types with hierarchy, collections, key actions.
 9. Lay out content per screen as rows (representative data rows + verb row), not prose.
 10. Draft labels and tags.
-11. Author the **Screen flow — complete connection map** section of `docs/ux/initial-ia.md`: one ASCII block showing navigation components (drawer nav, secondary nav, etc.) then each screen → [type] action → destination screen, using the format in `templates/initial-ia.md`.
-12. Author the rest of `docs/ux/initial-ia.md` from the template.
-13. Run the completeness test from `rules/tab-states-and-domain-traceability.md` — fix gaps before touching the canvas.
-14. Choose output mode (Mode A: `drawio-ux` CLI; Mode B: filled prompt for external AI) and produce `initial-ia.drawio`. The CLI `save` command always writes **two pages**: Page 1 — Detailed IA (full screen layouts); Page 2 — Site Map (one box per screen, arrows only).
+11. **Write `docs/ux/ia/<screen-slug>.aria.yaml`** for each screen at structural fidelity. Use `reference/aria-pipeline.md` for the fidelity rules and output format. One file per screen slug.
+12. Author the **Screen flow — complete connection map** section of `docs/ux/initial-ia.md`: one ASCII block showing navigation components (drawer nav, secondary nav, etc.) then each screen → [type] action → destination screen, using the format in `templates/initial-ia.md`.
+13. Author the rest of `docs/ux/initial-ia.md` from the template.
+14. Run the completeness test from `rules/tab-states-and-domain-traceability.md` — fix gaps before touching the canvas.
+15. **Pass 1 — Structure from ARIA:** Choose output mode (Mode A: `drawio-ux` CLI; Mode B: filled prompt for external AI) and produce `initial-ia.drawio` driven from the `aria.yaml` trees. Map landmarks to layout regions, navigation links to site-map arrows, primary actions to verb rows. Save. The CLI `save` command always writes **two pages**: Page 1 — Detailed IA (full screen layouts); Page 2 — Site Map (one box per screen, arrows only).
+16. **Pass 2 — Annotate:** Add yellow stories boxes and green domain terms boxes alongside each screen in the drawio. Update the story-trace and domain-term-trace tables in `initial-ia.md`. No layout changes in this pass. Save.
 
 **CLI (Mode A — from skill's scripts/):**
 
@@ -113,6 +143,7 @@ Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.m
 - **Story budget** — every screen has ~4 user stories; more signals missing decomposition.
 - **No system story has its own screen** — each is grouped with a user-visible screen.
 - **No acceptance criteria, controls, copy, or wireframe detail** on any screen.
+- **ARIA files present** — `docs/ux/ia/<screen-slug>.aria.yaml` exists for every in-scope screen; each file contains only structural-fidelity nodes (landmarks, navigation links, primary actions, representative list row) — no form field detail, no relationship attributes.
 - **No bundle markers** — `SKILL.md` has no `<!-- execute_rules:bundle_rules -->` markers.
 
 ---

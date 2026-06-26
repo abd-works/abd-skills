@@ -1,0 +1,1 @@
+Read the active skill's `SKILL.md`. If it contains a `## Diagram workflow` section, execute the CLI command in it — substituting the correct deliverables folder and output paths — and confirm the output file exists on disk when done.

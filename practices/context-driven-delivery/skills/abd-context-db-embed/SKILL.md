@@ -1,9 +1,11 @@
 ---
-name: abd-embed-vectors
+name: abd-context-db-embed
 description: >-
   Embed text chunks into a local FAISS vector index for semantic search.
   Use when the user wants to "embed chunks", "build a vector index",
   "create embeddings", or prepare chunked content for RAG retrieval.
+context-fidelity:
+  - level: context
 license: MIT
 metadata:
   author: agilebydesign

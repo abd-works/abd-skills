@@ -10,6 +10,8 @@
 
 **Multiple perspectives, not solo work.** Ensure context covers business, technical, and testing perspectives; flag a missing perspective as an unknown rather than inventing plausible-sounding scenarios. See [`../../../reference/handling-incomplete-context.md`](../../../reference/handling-incomplete-context.md) for the shared discipline.
 
+**Determine new system vs existing system before writing scenarios.** If specifying an existing system, you MUST read the contract schemas (`packages/contracts/` or equivalent) before choosing concrete values. Check regex patterns, min/max, allowed characters, required fields. A scenario with `prefix: "E2E-BATCH-"` against a schema that only allows `[A-Za-z0-9]+` will silently fail at runtime. See [`../../../reference/new-vs-existing-system.md`](../../../reference/new-vs-existing-system.md) for the shared discipline.
+
 ---
 
 ## Given, When, Then (and And)
@@ -53,6 +55,26 @@ The default level is the **story** — each story gets its own scenarios. But sp
 - **Cross-story** — when a scenario naturally spans multiple stories in sequence.
 
 Higher-level specifications help answer: "when these stories are all done, is the feature actually complete?"
+
+---
+
+## Validate scenario values against the schema (existing systems)
+
+When specifying an existing system, every concrete value in a scenario must satisfy the constraints the system already enforces. A scenario with invalid values will produce a test that fails for the wrong reason — typically a silent form validation failure or a cryptic API 4xx.
+
+**Before committing values, check:**
+
+| What to check | Where to find it | What goes wrong if you skip |
+|---|---|---|
+| Allowed characters (regex) | Contract schemas (`packages/contracts/`, Zod `.regex(...)`) | Scenario uses `E2E-BATCH-` but schema only allows `[A-Za-z0-9]+` → silent form rejection |
+| Min/max range | Schema `.min()` / `.max()` | Scenario uses `count: 1000` but schema caps at 500 → API 400 |
+| Required fields | Schema shape (no `.optional()`) | Scenario omits discount value → form never submits |
+| Enum values | Schema `.enum([...])` or discriminated unions | Scenario uses `type: "flat"` but only `"percentage"` and `"amount"` exist |
+| Date constraints | Service validators, campaign date ranges | Scenario uses a date that falls outside the campaign window → API 409 |
+
+**The cost of skipping this is high:** when a form silently fails validation, the symptom is "dialog stays open" or "nothing happens" — no error message, no stack trace, no obvious cause. These are the hardest bugs to diagnose in E2E tests.
+
+**Rule of thumb:** If the scenario involves user input that will be validated (form submission, API call), spend 2 minutes reading the schema for that input before choosing values.
 
 ---
 

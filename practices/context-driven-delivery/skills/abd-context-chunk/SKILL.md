@@ -1,10 +1,12 @@
 ---
-name: abd-chunk-markdown
+name: abd-context-chunk
 description: >-
   Split converted Markdown into retrieval-sized chunks with evidence labels,
   guided by a structure-based chunking spec. Use when the user wants to
   "chunk documents", "split for RAG", "draft a chunking strategy", or
   prepare markdown for embedding and semantic search.
+context-fidelity:
+  - level: context
 license: MIT
 metadata:
   author: agilebydesign

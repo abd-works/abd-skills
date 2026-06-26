@@ -2,7 +2,7 @@
 
 **Version:** <!-- VERSION -->1.0.0<!-- /VERSION -->
 
-Reusable **plugins**, **skills**, and **agents** from [abd.works](https://agilebydesign.com) — story-driven delivery, domain modeling, UX, architecture, delivery orchestration, and skill authoring.
+Reusable **plugins**, **skills**, and **agents** from [abd.works](https://agilebydesign.com) — story-driven delivery, domain modeling, UX, architecture, delivery orchestration, context engineering, and skill authoring.
 
 | Browse the catalog | |
 | --- | --- |
@@ -12,64 +12,73 @@ Reusable **plugins**, **skills**, and **agents** from [abd.works](https://agileb
 
 ## Repository layout
 
-Capability **plugins** live under **`practices/`** (delivery practice families), **`foundational/`** (authoring and infra), and **`utilities/`**. Each plugin bundles some of: `agents/`, `skills/`, `content/`, `instructions/`, `prompts/`, `lib/`, `scripts/`.
-
 ```text
 abd-skills/
-├── practices/                   # delivery practice plugins
+├── practices/                         # delivery practice plugins
+│   ├── context-driven-delivery/       # context stage: ingest, convert, chunk, embed, search
 │   ├── idea-shaping/
 │   ├── story-driven-delivery/
 │   ├── domain-driven-design/
 │   ├── user-experience-design/
 │   ├── architecture-centric-engineering/
-│   └── kanban/                  # orchestration, board app, stage reference
-├── foundational/
-│   ├── context-to-memory/
-│   ├── skill-builder/           # catalog generator, author-practice-skill, manuals
-│   └── skill-helpers/           # deploy, workspace, execute-rules, commit-msg
-├── utilities/                   # proposal respond, research skills
-├── stages/                      # stage-tier skills
-├── catalog/                     # generated HTML
-├── scripts/                     # deploy-skills.ps1 / .sh, clean-skills.ps1 / .sh
-└── skill-config.json            # active_skill_workspace (engagement root)
+│   ├── behavior-driven-development/
+│   └── kanban/                        # orchestration, board app, stage reference
+├── other/
+│   └── skills/
+│       ├── skill-builder/             # catalog generator, author-practice-skill, scanners
+│       ├── ai-research-assistant/     # hypothesis-driven research orchestrator
+│       ├── research-problem-validation/
+│       ├── research-solution-landscape/
+│       ├── research-compare-approach/
+│       ├── abd-proposal-respond/
+│       ├── abd-mojibake-guard/
+│       └── track_task/
+├── common/                            # stages, instructions, templates, scripts, scaffolds
+├── utilities/                         # shared utility scripts
+├── stages/                            # stage-tier supplemental skills
+├── catalog/                           # generated HTML
+└── scripts/                           # deploy-skills.ps1/.sh, clean-skills.ps1/.sh
 ```
 
 **Stage definitions** (source of truth for all practice skills): [`common/stages/`](common/stages/).
-
-**Kanban stage definitions** (board-specific): [`common/stages/`](common/stages/).
 
 ---
 
 ## Practice plugins
 
-Deploy with [`scripts/deploy-skills.ps1`](scripts/deploy-skills.ps1) (Windows) or [`scripts/deploy-skills.sh`](scripts/deploy-skills.sh) (macOS/Linux).
+Deploy with [`common/scripts/deploy-skills.ps1`](common/scripts/deploy-skills.ps1) (Windows) or [`common/scripts/deploy-skills.sh`](common/scripts/deploy-skills.sh) (macOS/Linux).
 
 | Plugin | Folder | Summary |
 | --- | --- | --- |
+| **Context-driven delivery** | [`practices/context-driven-delivery/`](practices/context-driven-delivery/) | Context stage: convert → chunk → embed → search; app extraction and sandbox; orchestrator skill |
 | **Idea shaping** | [`practices/idea-shaping/`](practices/idea-shaping/README.md) | Opportunity framing, cost of delay, validated learning |
 | **Story-driven delivery** | [`practices/story-driven-delivery/`](practices/story-driven-delivery/README.md) | Story map → acceptance criteria → specification → acceptance tests; story-graph ops and diagram sync |
-| **Domain-driven design** | [`practices/domain-driven-design/`](practices/domain-driven-design/README.md) | Domain glossary, language, model, specification, domain code; supporting DDD and diagram sync |
+| **Domain-driven design** | [`practices/domain-driven-design/`](practices/domain-driven-design/README.md) | Domain glossary, language, model, specification, domain code; DDD building blocks and diagram sync |
 | **User experience design** | [`practices/user-experience-design/`](practices/user-experience-design/README.md) | Information architecture, mockups, UX specification / implementation |
 | **Architecture-centric engineering** | [`practices/architecture-centric-engineering/`](practices/architecture-centric-engineering/README.md) | Architecture outline → blueprint → specification → architecture code |
+| **Behavior-driven development** | [`practices/behavior-driven-development/`](practices/behavior-driven-development/) | BDD behavior authoring, specification, and development cycle |
 | **Kanban** | [`practices/kanban/`](practices/kanban/README.md) | Kanban planning, JIT board, git repo policy, estimation, delivery agents |
 
-### Foundational & utilities
+### Other skills
 
-| Plugin | Folder | Summary |
+| Skill / Package | Folder | Summary |
 | --- | --- | --- |
-| **Context to memory** | [`foundational/context-to-memory/`](foundational/context-to-memory/README.md) | Convert → chunk → embed → search (local FAISS) |
-| **Skill builder** | [`foundational/skill-builder/`](foundational/skill-builder/README.md) | Author practice skills, scanners, Foundry catalog, HTML manuals |
-| **Skill helpers** | [`foundational/skill-helpers/`](foundational/skill-helpers/README.md) | Workspace, deploy rules, execute-rules, commit-msg, track-task |
-| **Utilities** | [`utilities/`](utilities/README.md) | Proposal respond, research assistant skills |
+| **Skill builder** | [`other/skills/skill-builder/`](other/skills/skill-builder/README.md) | Author practice skills, scanners, Foundry catalog, HTML manuals |
+| **AI research assistant** | [`other/skills/ai-research-assistant/`](other/skills/ai-research-assistant/SKILL.md) | Hypothesis-driven research: problem validation → solution landscape → approach comparison |
+| **Research sub-skills** | [`other/skills/`](other/skills/) | `research-problem-validation` · `research-solution-landscape` · `research-compare-approach` |
+| **Proposal respond** | [`other/skills/abd-proposal-respond/`](other/skills/abd-proposal-respond/) | Strategy + answer workflow for client RFPs |
+| **Track task** | [`other/skills/track_task/`](other/skills/track_task/SKILL.md) | Create and track checkbox task lists for any multi-step work |
+| **Mojibake guard** | [`other/skills/abd-mojibake-guard/`](other/skills/abd-mojibake-guard/) | Detect and fix double-encoded Unicode in markdown files |
 
 ---
 
-## Delivery stages (kanban)
+## Delivery stages
 
-Five stages × four practice families (DDD · SDD · UXD · ARC). Full skill order per stage:
+Six stages × four practice families (DDD · SDD · UXD · ARC). Full skill order per stage:
 
 | Stage | Definition | Primary skills |
 | --- | --- | --- |
+| **Context** | [context.md](common/stages/context.md) | `abd-context-to-markdown`, `abd-context-chunk`, `abd-context-db-embed`, `abd-context-db-ask`, `abd-context-semantic-index`, `abd-context-app-extractor`, `abd-context-app-sandbox` |
 | **Shaping** | [shaping.md](common/stages/shaping.md) | `abd-domain-glossary`, `abd-story-mapping` (outline), `abd-impact-mapping`, `abd-architecture-outline` |
 | **Discovery** | [discovery.md](common/stages/discovery.md) | `abd-story-mapping` (full), `abd-domain-language`, `abd-information-architecture`, `abd-architecture-blueprint`, `abd-thin-slicing` |
 | **Exploration** | [exploration.md](common/stages/exploration.md) | `abd-domain-model`, `abd-story-acceptance-criteria`, `abd-ux-mockup`, `abd-architecture-specification` (document) |
@@ -82,26 +91,32 @@ Stage extras (supplemental strip): `abd-clean-code`, `abd-secure-code` (engineer
 
 ## Agents
 
-Role agents live under **`practices/kanban/agents/`** (orchestrated by **kanban-lead**):
-
-| Agent | Plugin | Open |
+| Agent | Plugin | File |
 | --- | --- | --- |
-| **kanban-lead** | kanban | [`practices/kanban/agents/kanban-lead/AGENT.md`](practices/kanban/agents/kanban-lead/AGENT.md) |
-| **product-owner** | kanban | [`practices/kanban/agents/product-owner/AGENT.md`](practices/kanban/agents/product-owner/AGENT.md) |
-| **business-expert** | kanban | [`practices/kanban/agents/business-expert/AGENT.md`](practices/kanban/agents/business-expert/AGENT.md) |
-| **ux-designer** | kanban | [`practices/kanban/agents/ux-designer/AGENT.md`](practices/kanban/agents/ux-designer/AGENT.md) |
-| **engineer** | kanban | [`practices/kanban/agents/engineer/AGENT.md`](practices/kanban/agents/engineer/AGENT.md) |
-| **abd-context-to-memory** | context-to-memory | [`foundational/context-to-memory/agents/abd-context-to-memory/AGENTS.md`](foundational/context-to-memory/agents/abd-context-to-memory/AGENTS.md) |
-| **abd-practice-skill-builder** | skill-builder | [`foundational/skill-builder/agents/abd-practice-skill-builder/AGENTS.md`](foundational/skill-builder/agents/abd-practice-skill-builder/AGENTS.md) |
-| **ai-research-assistant** | utilities | [`utilities/agents/ai-research-assistant/AGENTS.md`](utilities/agents/ai-research-assistant/AGENTS.md) |
-
-All skills (57+ packages in the catalog): **[skills grid](catalog/skills.html)**.
+| **kanban-lead** | kanban | [`practices/kanban/agents/kanban-lead.md`](practices/kanban/agents/kanban-lead.md) |
+| **abd-context-to-memory** | context-driven-delivery | [`practices/context-driven-delivery/agents/abd-context-to-memory.md`](practices/context-driven-delivery/agents/abd-context-to-memory.md) |
+| **business-expert** | context-driven-delivery | [`practices/context-driven-delivery/agents/business-expert.md`](practices/context-driven-delivery/agents/business-expert.md) |
+| **product-owner** | context-driven-delivery | [`practices/context-driven-delivery/agents/product-owner.md`](practices/context-driven-delivery/agents/product-owner.md) |
+| **ux-designer** | context-driven-delivery | [`practices/context-driven-delivery/agents/ux-designer.md`](practices/context-driven-delivery/agents/ux-designer.md) |
+| **engineer** | context-driven-delivery | [`practices/context-driven-delivery/agents/engineer.md`](practices/context-driven-delivery/agents/engineer.md) |
+| **abd-practice-skill-builder** | skill-builder | [`other/skills/skill-builder/scripts/abd-practice-skill-builder/AGENTS.md`](other/skills/skill-builder/scripts/abd-practice-skill-builder/AGENTS.md) |
 
 ---
 
 ## Skills by practice plugin
 
-Core skills per plugin (supporting skills in `skills/supporting/` — see [catalog/skills.html](catalog/skills.html)).
+### Context-driven delivery — `practices/context-driven-delivery/`
+
+| Skill | One-liner |
+| --- | --- |
+| `abd-context-driven-delivery` | Orchestrator — choose context stage, tools, and pipeline |
+| `abd-context-to-markdown` | Convert documents (PDF, PPTX, DOCX) to clean markdown |
+| `abd-context-chunk` | Split markdown into semantically coherent chunks |
+| `abd-context-db-embed` | Embed chunks into a local FAISS vector store |
+| `abd-context-db-ask` | Semantic search against the embedded store |
+| `abd-context-semantic-index` | Semantic section chunker for long structured docs |
+| `abd-context-app-extractor` | Extract context from a running application |
+| `abd-context-app-sandbox` | Stub external dependencies and stand up an isolated app |
 
 ### Idea shaping — `practices/idea-shaping/`
 
@@ -159,6 +174,14 @@ Also used in shaping (stage-tier): `abd-impact-mapping` — [`stages/idea-shapin
 | `abd-architecture-specification` | Mechanism docs (exploration) and templates (specification) |
 | `abd-architecture-code` | Production code from architecture spec |
 
+### Behavior-driven development — `practices/behavior-driven-development/`
+
+| Skill | One-liner |
+| --- | --- |
+| `abd-bdd-behavior` | Author BDD behaviors from acceptance criteria |
+| `abd-bdd-specification` | Gherkin feature files with concrete examples |
+| `abd-bdd-development` | Implement step definitions (RED-GREEN-REFACTOR) |
+
 ### Kanban — `practices/kanban/`
 
 | Skill | One-liner |
@@ -169,21 +192,9 @@ Also used in shaping (stage-tier): `abd-impact-mapping` — [`stages/idea-shapin
 | `abd-kanban-handoff` | Handoff documents between agents |
 | `kanban-estimation` | Collaborative estimation sessions |
 
-### Context to memory — `foundational/context-to-memory/`
+### Skill builder — `other/skills/skill-builder/`
 
-`abd-convert-to-markdown` · `abd-chunk-markdown` · `abd-embed-vectors` · `abd-search-memory` · `abd-semantic-context-chunker`
-
-### Skill builder — `foundational/skill-builder/`
-
-`abd-author-practice-skill` · `abd-query-practice-sources` · `abd-build-practice-scanners` · `abd-skill-catalog` · `abd-practice-skill-manual`
-
-### Skill helpers — `foundational/skill-helpers/`
-
-`common` · `commit-msg` · `track_task`
-
-### Utilities — `utilities/`
-
-`abd-proposal-respond` · `research-problem-validation` · `research-solution-landscape` · `research-compare-approach`
+`abd-author-practice-skill` · `abd-build-practice-scanners` · `abd-skill-catalog`
 
 ---
 
@@ -193,24 +204,24 @@ One command deploys all family plugins, standalone skills, and guidance:
 
 **Windows (PowerShell):**
 ```powershell
-& scripts/deploy-skills.ps1 -Force
+& common/scripts/deploy-skills.ps1 -Force
 ```
 
 **macOS / Linux (bash):**
 ```bash
-./scripts/deploy-skills.sh
+./common/scripts/deploy-skills.sh
 ```
 
 Deploy root resolves from `skill-config.json` → `active_skill_workspace`, or pass a custom root:
 
 **PowerShell:**
 ```powershell
-& scripts/deploy-skills.ps1 -Force -DeployRoot "C:\dev\abd-pet-store-demo"
+& common/scripts/deploy-skills.ps1 -Force -DeployRoot "C:\dev\my-project"
 ```
 
 **Bash:**
 ```bash
-./scripts/deploy-skills.sh cursor /path/to/project
+./common/scripts/deploy-skills.sh cursor /path/to/project
 ```
 
 | Parameter | Description |
@@ -223,15 +234,12 @@ Deploy root resolves from `skill-config.json` → `active_skill_workspace`, or p
 
 Before deploying, the script runs encoding and structure checks, then compares the source manifest with any existing deploy receipt in the target workspace. A `.abd-deploy.json` receipt is written after each deploy, enabling delta detection on subsequent deploys.
 
-Workspace helper: [`foundational/skill-helpers/reference/workspace.md`](foundational/skill-helpers/reference/workspace.md) · scripts `foundational/skill-helpers/scripts/get_workspace.py` / `set_workspace.py`.
-
 ### Always-on instructions (after deploy)
 
 | Instruction | What it does |
 | --- | --- |
-| **common** | Read skill `rules/*.md` before generating; validate + run scanners after |
+| **skill-workflow** | Output path resolution, read-gates, validation, diagram delegation, correction loop |
 | **log-and-fix-skill-errors** | Log corrections in the target skill's `corrections-log.md` |
-| **workspace** | Resolve engagement root from `skill-config.json` |
 | **drawio-story-sync** | Offer to re-render story diagrams when `story-graph.json` changes |
 | **drawio-domain-sync** | Offer to re-render domain diagrams when the model changes |
 | **sync-upstream** | Offer artifact sync up/down the delivery stack when one layer changes |
@@ -245,24 +253,20 @@ npx skills add abd-works/abd-skills@abd-story-mapping -y
 npx skills add abd-works/abd-skills -l
 ```
 
-Each skill page in the [catalog](catalog/index.html) shows the exact install line. Publish the index to agentskillhub (after pushing to GitHub):
-
-```bash
-./skills.sh
-```
+Each skill page in the [catalog](catalog/index.html) shows the exact install line.
 
 ---
 
 ## Encoding guard
 
-Markdown files must be clean UTF-8. This repo includes an automated scanner that catches mojibake (double-encoded Unicode), `` U+FFFD replacement characters, and UTF-8 BOM before they ship.
+Markdown files must be clean UTF-8. This repo includes an automated scanner that catches mojibake (double-encoded Unicode), `U+FFFD` replacement characters, and UTF-8 BOM before they ship.
 
 ### What it checks
 
 | Issue | Example | Cause |
 | --- | --- | --- |
 | **Mojibake** | `â€™` instead of `'` | UTF-8 text misread as Windows-1252 or Latin-1, then re-saved |
-| **U+FFFD** | `` | Bytes that couldn't decode; original character lost |
+| **U+FFFD** | `<?>` | Bytes that couldn't decode; original character lost |
 | **UTF-8 BOM** | `EF BB BF` at file start | Windows editors inserting byte-order mark |
 
 ### Run manually
@@ -320,7 +324,3 @@ Run locally:
 ```bash
 python3 tests/test_deploy_paths.py
 ```
-
-### Codespaces note
-
-Skills are deployed to the target workspace by `scripts/deploy-skills.sh` (or `.ps1`). In Codespaces, run the deploy script after opening the workspace so that `.github/skills/` and `.github/prompts/` are populated for Copilot slash-command discovery.

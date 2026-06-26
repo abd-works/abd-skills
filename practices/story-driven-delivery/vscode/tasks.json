@@ -6,7 +6,7 @@
       "type": "shell",
       "command": "${command:python.interpreterPath}",
       "args": [
-        "${workspaceFolder}/scripts/pipeline_watch.py",
+        "${workspaceFolder}/.cursor/scripts/pipeline_watch.py",
         "--root", "${workspaceFolder}",
         "--mode", "${input:syncMode}"
       ],
@@ -24,7 +24,7 @@
       "type": "shell",
       "command": "${command:python.interpreterPath}",
       "args": [
-        "${workspaceFolder}/scripts/pipeline.py",
+        "${workspaceFolder}/.cursor/scripts/pipeline.py",
         "render",
         "--graph", "${input:graphFile}"
       ],
@@ -36,7 +36,7 @@
       "type": "shell",
       "command": "${command:python.interpreterPath}",
       "args": [
-        "${workspaceFolder}/scripts/pipeline.py",
+        "${workspaceFolder}/.cursor/scripts/pipeline.py",
         "sync-back",
         "--drawio", "${input:drawioFile}"
       ],

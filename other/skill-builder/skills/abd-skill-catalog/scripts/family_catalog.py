@@ -1,0 +1,672 @@
+"""Plugin package discovery and catalog sections for the AI Garden."""
+from __future__ import annotations
+
+import html as html_mod
+import re
+from collections.abc import Callable
+from pathlib import Path
+from typing import NamedTuple
+from urllib.parse import quote
+
+from catalog_supporting_groups import SKILL_TO_SUPPORTING_GROUP, SUPPORTING_CROSSCUT_GROUPS
+
+# Plugin packages: id -> relative path from repo root.
+# Flat packages live at root (e.g. "utilities"); nested packages live under
+# a parent tier folder (e.g. "practices/kanban").
+FAMILY_PACKAGES: dict[str, str] = {
+    "kanban": "practices/kanban",
+    "story-driven-delivery": "practices/story-driven-delivery",
+    "domain-driven-design": "practices/domain-driven-design",
+    "architecture-centric-engineering": "practices/architecture-centric-engineering",
+    "idea-shaping": "practices/idea-shaping",
+    "user-experience-design": "practices/user-experience-design",
+    "context-to-memory": "practices/context-driven-delivery",
+    "skill-builder": "other/skills/skill-builder",
+    "utilities": "utilities",
+}
+
+FAMILY_CATALOG_ALIASES = {"idea-shaping": "Idea Shaping", "kanban": "Kanban"}
+
+FOUNDRY_BACK_LABEL = "← The ABD Foundry"
+
+
+def html_skill_name_display(name: str) -> str:
+    """Skill package name with orange abd- prefix for catalog tiles and headlines."""
+    if name.startswith("abd-"):
+        return (
+            '<span class="skill-name-prefix">abd-</span>'
+            f"{html_mod.escape(name[4:])}"
+        )
+    return html_mod.escape(name)
+
+FAMILY_SLOT_ORDER = (
+    "agents",
+    "skills",
+    "content",
+    "instructions",
+    "prompts",
+    "lib",
+    "scripts",
+)
+
+PLUGIN_CARD_SLOTS = ("agents", "skills", "instructions", "prompts")
+
+FAMILY_SLOT_LABELS: dict[str, str] = {
+    "agents": "Agents — orchestrators (AGENT.md / AGENTS.md)",
+    "skills": "Skills — practice packages (SKILL.md)",
+    "content": "Content — shared prose merged on deploy",
+    "instructions": "Instructions — .mdc / .instructions.md → Cursor rules",
+    "prompts": "Prompts — .prompt.md → slash commands",
+    "lib": "Lib — shared Python packages",
+    "scripts": "Scripts — package-level automation",
+}
+
+PLUGIN_SLOT_SHORT_LABELS: dict[str, str] = {
+    "agents": "Agents",
+    "skills": "Skills",
+    "instructions": "Instructions",
+    "prompts": "Prompts",
+}
+
+PLUGIN_SLOT_CAPTIONS: dict[str, str] = {
+    "agents": "Orchestrators shipped as agent packages.",
+    "skills": (
+        "Core practice skills drive stage work. Supporting skills live under "
+        "<code>skills/supporting/</code> (sync, ops, diagram tooling) — listed below "
+        "but omitted from the delivery kanban grid."
+    ),
+    "instructions": "Always-on or scoped rules merged into .cursor/rules on deploy.",
+    "prompts": "Slash commands merged into .cursor/commands on deploy.",
+}
+
+_SKIP_NAMES = frozenset({".git", "__pycache__", ".pytest_cache", "node_modules", ".cursor"})
+_FRONTMATTER_RE = re.compile(r"^---\s*\n.*?\n---\s*\n", re.DOTALL)
+
+
+class FamilySlotEntry(NamedTuple):
+    name: str
+    rel_path: str
+    entry_kind: str  # agent | skill | file | dir
+    entry_file: str = ""
+    summary: str = ""
+    skill_tier: str = ""  # core | supporting (skills slot only)
+
+
+class FamilyPackageEntry(NamedTuple):
+    id: str
+    label: str
+    rel_path: str
+    summary: str
+    slots: dict[str, list[FamilySlotEntry]]
+    skill_dir_names: tuple[str, ...]
+    agent_dir_names: tuple[str, ...]
+
+
+def family_label(family_id: str) -> str:
+    return FAMILY_CATALOG_ALIASES.get(family_id, family_id.replace("-", " ").title())
+
+
+def plugin_label(plugin_id: str) -> str:
+    return family_label(plugin_id)
+
+
+def artifact_stem(filename: str, slot: str) -> str:
+    if slot == "prompts" and filename.endswith(".prompt.md"):
+        return filename[: -len(".prompt.md")]
+    if filename.endswith(".instructions.md"):
+        return filename[: -len(".instructions.md")]
+    if filename.endswith(".mdc"):
+        return filename[: -len(".mdc")]
+    return Path(filename).stem
+
+
+def artifact_slug(plugin_id: str, slot: str, filename: str) -> str:
+    """Unique slug per source file (handles .mdc + .instructions.md pairs)."""
+    safe = re.sub(r"[^\w.-]+", "-", filename).strip("-").replace(".", "-")
+    return f"{plugin_id}--{slot}--{safe}"
+
+
+def _skill_catalog_listed(child: Path) -> bool:
+    """False when SKILL.md marks the package hidden from Foundry listings."""
+    skill_md = child / "SKILL.md"
+    if not skill_md.is_file():
+        return False
+    try:
+        raw = skill_md.read_text(encoding="utf-8-sig", errors="replace")
+    except OSError:
+        return False
+    if not raw.startswith("---"):
+        return True
+    m = _FRONTMATTER_RE.match(raw)
+    if not m:
+        return True
+    block = m.group(0)
+    cm = re.search(r"^catalog_ready:\s*(.+)$", block, re.MULTILINE)
+    if not cm:
+        return True
+    val = cm.group(1).strip().strip('"').strip("'").lower()
+    return val not in ("false", "no", "0", "draft", "not-ready", "not_ready")
+
+
+def _file_summary(path: Path, max_len: int = 240) -> str:
+    try:
+        raw = path.read_text(encoding="utf-8-sig", errors="replace")
+    except OSError:
+        return ""
+    fm_desc = ""
+    if raw.startswith("---"):
+        m = _FRONTMATTER_RE.match(raw)
+        if m:
+            block = m.group(0)
+            dm = re.search(r"^description:\s*>-?\s*\n((?:[ \t]+.*\n?)+)", block, re.MULTILINE)
+            if dm:
+                fm_desc = " ".join(
+                    ln.strip() for ln in dm.group(1).splitlines() if ln.strip()
+                )
+            else:
+                sm = re.search(
+                    r'^description:\s*["\']?(.*?)["\']?\s*$',
+                    block,
+                    re.MULTILINE,
+                )
+                if sm:
+                    fm_desc = sm.group(1).strip().strip('"').strip("'")
+            raw = raw[m.end() :]
+    if fm_desc:
+        text = fm_desc
+    else:
+        text = ""
+        for line in raw.splitlines():
+            s = line.strip()
+            if not s or s.startswith("#"):
+                continue
+            s = re.sub(r"^#+\s*", "", s)
+            s = re.sub(r"\*\*|__|`", "", s)
+            if len(s) >= 8:
+                text = s
+                break
+    text = re.sub(r"\s+", " ", text).strip()
+    if len(text) <= max_len:
+        return text
+    return text[: max_len - 1].rsplit(" ", 1)[0] + " …"
+
+
+def _scan_slot(repo_root: Path, family_id: str, slot: str, *, family_path: str | None = None) -> list[FamilySlotEntry]:
+    rel = family_path or FAMILY_PACKAGES.get(family_id, family_id)
+    slot_dir = repo_root / rel / slot
+    if not slot_dir.is_dir():
+        return []
+    out: list[FamilySlotEntry] = []
+
+    if slot == "agents":
+        for child in sorted(slot_dir.iterdir(), key=lambda p: p.name.lower()):
+            if not child.is_dir() or child.name.startswith("."):
+                continue
+            entry = next(
+                (f for f in ("AGENT.md", "AGENTS.md") if (child / f).is_file()),
+                "",
+            )
+            if not entry:
+                continue
+            out.append(
+                FamilySlotEntry(
+                    name=child.name,
+                    rel_path=child.relative_to(repo_root).as_posix(),
+                    entry_kind="agent",
+                    entry_file=entry,
+                )
+            )
+        return out
+
+    if slot == "skills":
+        seen: set[str] = set()
+
+        def append_skill(child: Path, *, tier: str) -> None:
+            if child.name in seen or not _skill_catalog_listed(child):
+                return
+            seen.add(child.name)
+            out.append(
+                FamilySlotEntry(
+                    name=child.name,
+                    rel_path=child.relative_to(repo_root).as_posix(),
+                    entry_kind="skill",
+                    entry_file="SKILL.md",
+                    skill_tier=tier,
+                )
+            )
+
+        for child in sorted(slot_dir.iterdir(), key=lambda p: p.name.lower()):
+            if not child.is_dir() or child.name.startswith("."):
+                continue
+            if child.name == "supporting":
+                supporting_dir = child
+                for nested in sorted(supporting_dir.iterdir(), key=lambda p: p.name.lower()):
+                    if not nested.is_dir() or nested.name.startswith("."):
+                        continue
+                    if not (nested / "SKILL.md").is_file():
+                        continue
+                    append_skill(nested, tier="supporting")
+                continue
+            if not (child / "SKILL.md").is_file():
+                continue
+            append_skill(child, tier="core")
+        stage_skills = repo_root / "stages" / family_id / "skills"
+        if stage_skills.is_dir():
+            for child in sorted(stage_skills.iterdir(), key=lambda p: p.name.lower()):
+                if not child.is_dir() or child.name.startswith("."):
+                    continue
+                if child.name == "supporting" or not (child / "SKILL.md").is_file():
+                    continue
+                append_skill(child, tier="core")
+        return out
+
+    for path in sorted(slot_dir.rglob("*"), key=lambda p: p.as_posix().lower()):
+        if not path.is_file():
+            continue
+        if any(part.startswith(".") or part in _SKIP_NAMES for part in path.parts):
+            continue
+        rel = path.relative_to(repo_root).as_posix()
+        summary = ""
+        if slot in ("instructions", "prompts"):
+            summary = _file_summary(path)
+        out.append(
+            FamilySlotEntry(
+                name=path.name,
+                rel_path=rel,
+                entry_kind="file",
+                entry_file=path.name,
+                summary=summary,
+            )
+        )
+    return out
+
+
+def discover_family_packages(repo_root: Path) -> list[FamilyPackageEntry]:
+    """One entry per plugin package with full slot inventory."""
+    out: list[FamilyPackageEntry] = []
+    for family_id, family_path in FAMILY_PACKAGES.items():
+        pkg = repo_root / family_path
+        if not pkg.is_dir():
+            continue
+        slots: dict[str, list[FamilySlotEntry]] = {}
+        for slot in FAMILY_SLOT_ORDER:
+            slots[slot] = _scan_slot(repo_root, family_id, slot, family_path=family_path)
+        readme = pkg / "README.md"
+        summary = _read_readme_blurb(readme) if readme.is_file() else ""
+        if not summary:
+            counts = ", ".join(
+                f"{len(slots[s])} {s}" for s in FAMILY_SLOT_ORDER if slots[s]
+            )
+            summary = counts or "Capability plugin package."
+        out.append(
+            FamilyPackageEntry(
+                id=family_id,
+                label=family_label(family_id),
+                rel_path=family_path,
+                summary=summary,
+                slots=slots,
+                skill_dir_names=tuple(x.name for x in slots.get("skills", [])),
+                agent_dir_names=tuple(x.name for x in slots.get("agents", [])),
+            )
+        )
+    return out
+
+
+def discover_plugin_packages(repo_root: Path) -> list[FamilyPackageEntry]:
+    """Alias for discover_family_packages (user-facing name: plugin)."""
+    return discover_family_packages(repo_root)
+
+
+def _read_readme_blurb(readme: Path, max_len: int = 320) -> str:
+    if not readme.is_file():
+        return ""
+    text = readme.read_text(encoding="utf-8-sig", errors="replace")
+    m = re.search(r"^##\s+Overview\s*\n(.*?)(?=\n##\s|\Z)", text, re.DOTALL | re.MULTILINE)
+    block = m.group(1).strip() if m else ""
+    if not block:
+        for line in text.splitlines():
+            s = line.strip()
+            if s and not s.startswith("#") and s != "---":
+                block = s
+                break
+    block = re.sub(r"\s+", " ", block)
+    if len(block) <= max_len:
+        return block
+    return block[: max_len - 1].rsplit(" ", 1)[0] + " …"
+
+
+def family_counts_line(fam: FamilyPackageEntry) -> str:
+    parts: list[str] = []
+    if fam.agent_dir_names:
+        parts.append(f"{len(fam.agent_dir_names)} agent{'s' if len(fam.agent_dir_names) != 1 else ''}")
+    if fam.skill_dir_names:
+        parts.append(f"{len(fam.skill_dir_names)} skill{'s' if len(fam.skill_dir_names) != 1 else ''}")
+    for slot in ("instructions", "prompts", "content", "lib", "scripts"):
+        n = len(fam.slots.get(slot, []))
+        if n:
+            parts.append(f"{n} {slot}")
+    return " · ".join(parts) if parts else "plugin slots"
+
+
+def plugin_counts_line(fam: FamilyPackageEntry) -> str:
+    return family_counts_line(fam)
+
+
+def outline_families_section(
+    families: list[FamilyPackageEntry], md_prefix: str
+) -> list[str]:
+    lines = [
+        "## Plugins",
+        "",
+        "Repo-root capability plugins (`<plugin>/agents|skills|content|instructions|prompts|lib|scripts/`).",
+        "",
+        "| Plugin | Summary | Open |",
+        "| --- | --- | --- |",
+    ]
+    for fam in families:
+        link = f"{md_prefix}{fam.rel_path}/README.md"
+        desc = fam.summary.replace("|", "\\|")
+        lines.append(f"| **{fam.label}** (`{fam.id}/`) | {desc} | [README.md]({link}) |")
+    lines += ["", "### Plugin layout (detail)", ""]
+    for fam in families:
+        lines += [
+            f"#### {fam.label} — `{fam.id}/`",
+            "",
+            fam.summary,
+            "",
+        ]
+        for slot in FAMILY_SLOT_ORDER:
+            items = fam.slots.get(slot, [])
+            lines.append(f"**{FAMILY_SLOT_LABELS[slot]}**")
+            lines.append("")
+            if not items:
+                lines.append(f"- _(empty `{fam.id}/{slot}/`)_")
+            elif slot == "agents":
+                for it in items:
+                    entry = it.entry_file or "—"
+                    lines.append(
+                        f"- **{it.name}** — [{entry}]({md_prefix}{it.rel_path}/{entry})"
+                    )
+            elif slot == "skills":
+                core = [it for it in items if it.skill_tier != "supporting"]
+                supporting = [it for it in items if it.skill_tier == "supporting"]
+                if core:
+                    lines.append("**Core skills**")
+                    lines.append("")
+                    for it in core:
+                        entry = it.entry_file or "—"
+                        lines.append(
+                            f"- **{it.name}** — [{entry}]({md_prefix}{it.rel_path}/{entry})"
+                        )
+                    lines.append("")
+                if supporting:
+                    lines.append("**Supporting skills** (`skills/supporting/`)")
+                    lines.append("")
+                    for it in supporting:
+                        entry = it.entry_file or "—"
+                        lines.append(
+                            f"- **{it.name}** — [{entry}]({md_prefix}{it.rel_path}/{entry})"
+                        )
+                    lines.append("")
+            elif slot in ("instructions", "prompts"):
+                for it in items:
+                    slug = artifact_slug(fam.id, slot, it.name)
+                    lines.append(
+                        f"- **{artifact_stem(it.name, slot)}** — "
+                        f"[{it.name}]({md_prefix}{it.rel_path}) "
+                        f"(catalog: `{slot}/{slug}.html`)"
+                    )
+            else:
+                for it in items:
+                    lines.append(f"- [{it.rel_path}]({md_prefix}{it.rel_path})")
+            lines.append("")
+        lines.append("---")
+        lines.append("")
+    return lines
+
+
+outline_plugins_section = outline_families_section
+
+
+def card_block_families(families: list[FamilyPackageEntry]) -> str:
+    return card_block_plugins(families)
+
+
+def card_block_plugins(families: list[FamilyPackageEntry]) -> str:
+    parts: list[str] = []
+    for fam in families:
+        href = f"plugin/{quote(fam.id, safe='')}.html"
+        counts = plugin_counts_line(fam)
+        parts.append(
+            f"""        <a class="cap-card" href="{html_mod.escape(href)}">
+          <p class="cap-card__title"><span class="cap-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#1a1a1e"/><path d="M4 6h16v12H4z" stroke="currentColor" stroke-width="1.5"/><path d="M4 10h16" stroke="currentColor" stroke-width="1.5"/></svg></span>{html_mod.escape(fam.label)}</p>
+          <p class="cap-card__label">{html_mod.escape(fam.id)}/</p>
+          <p class="cap-card__summary">{html_mod.escape(fam.summary)}</p>
+          <p class="cap-card__meta">{html_mod.escape(counts)}</p>
+          <p class="cap-card__more">Open plugin page →</p>
+        </a>"""
+        )
+    return "\n".join(parts)
+
+
+def _skill_tier_groups(
+    items: list[FamilySlotEntry],
+) -> tuple[list[FamilySlotEntry], list[FamilySlotEntry]]:
+    core = [it for it in items if it.skill_tier != "supporting"]
+    supporting = [it for it in items if it.skill_tier == "supporting"]
+    return core, supporting
+
+
+def _html_skill_card_grid(
+    items: list[FamilySlotEntry],
+    *,
+    skill_href: Callable[[str], str],
+    skill_summary: Callable[[str], str] | None,
+    meta_label: str,
+    skill_sort_key: Callable[[str], tuple] | None = None,
+) -> str:
+    if not items:
+        return ""
+    ordered = items
+    if skill_sort_key:
+        ordered = sorted(items, key=lambda it: skill_sort_key(it.name))
+    cards: list[str] = ['<div class="cap-grid cap-grid--plugin-slot">']
+    for it in ordered:
+        detail = skill_href(it.name)
+        summary = (skill_summary(it.name) if skill_summary else "") or it.name
+        cards.append(
+            _artifact_card(
+                href=detail,
+                title=it.name,
+                title_html=html_skill_name_display(it.name),
+                summary=summary,
+                meta=meta_label,
+                more="Open skill page →",
+            )
+        )
+    cards.append("</div>")
+    return "\n".join(cards)
+
+
+def _artifact_card(
+    *,
+    href: str,
+    title: str,
+    summary: str,
+    meta: str,
+    more: str,
+    title_html: str | None = None,
+) -> str:
+    title_content = title_html if title_html is not None else html_mod.escape(title)
+    return f"""        <a class="cap-card" href="{html_mod.escape(href)}">
+          <p class="cap-card__title">{title_content}</p>
+          <p class="cap-card__label">{html_mod.escape(meta)}</p>
+          <p class="cap-card__summary">{html_mod.escape(summary or "Open for full text.")}</p>
+          <p class="cap-card__more">{html_mod.escape(more)}</p>
+        </a>"""
+
+
+def html_family_slot_sections(
+    fam: FamilyPackageEntry,
+    *,
+    href_to_repo: str,
+    skill_href: Callable[[str], str],
+    agent_href: Callable[[str], str],
+    instruction_href: Callable[[str, str], str] | None = None,
+    prompt_href: Callable[[str, str], str] | None = None,
+    skill_summary: Callable[[str], str] | None = None,
+    agent_summary: Callable[[str], str] | None = None,
+) -> str:
+    """HTML blocks listing each standard slot — card grids for primary artifact types."""
+    return html_plugin_slot_sections(
+        fam,
+        href_to_repo=href_to_repo,
+        skill_href=skill_href,
+        agent_href=agent_href,
+        instruction_href=instruction_href,
+        prompt_href=prompt_href,
+        skill_summary=skill_summary,
+        agent_summary=agent_summary,
+    )
+
+
+def html_plugin_slot_sections(
+    fam: FamilyPackageEntry,
+    *,
+    href_to_repo: str,
+    skill_href: Callable[[str], str],
+    agent_href: Callable[[str], str],
+    instruction_href: Callable[[str, str], str] | None = None,
+    prompt_href: Callable[[str, str], str] | None = None,
+    skill_summary: Callable[[str], str] | None = None,
+    agent_summary: Callable[[str], str] | None = None,
+    skill_sort_key: Callable[[str], tuple] | None = None,
+) -> str:
+    sections: list[str] = []
+    instruction_href = instruction_href or (lambda _f, slug: f"../instruction/{quote(slug, safe='')}.html")
+    prompt_href = prompt_href or (lambda _f, slug: f"../prompt/{quote(slug, safe='')}.html")
+
+    for slot in FAMILY_SLOT_ORDER:
+        items = fam.slots.get(slot, [])
+        label = FAMILY_SLOT_LABELS[slot]
+        sections.append(
+            f'<h3 id="slot-{html_mod.escape(slot)}">{html_mod.escape(label)}</h3>'
+        )
+        if slot in PLUGIN_SLOT_CAPTIONS:
+            sections.append(
+                f'<p class="entry-caption">{html_mod.escape(PLUGIN_SLOT_CAPTIONS[slot])}</p>'
+            )
+        if not items:
+            sections.append(
+                f'<p class="entry-caption">_(empty <code>{html_mod.escape(fam.id)}/{html_mod.escape(slot)}/</code>)_</p>'
+            )
+            continue
+
+        if slot in PLUGIN_CARD_SLOTS:
+            if slot == "skills":
+                core, supporting = _skill_tier_groups(items)
+                skill_blocks: list[str] = []
+                if core:
+                    skill_blocks.append(
+                        _html_skill_card_grid(
+                            core,
+                            skill_href=skill_href,
+                            skill_summary=skill_summary,
+                            meta_label="Core skill",
+                            skill_sort_key=skill_sort_key,
+                        )
+                    )
+                if supporting:
+                    skill_blocks.append(
+                        '<h4 class="entry-subheading">Supporting skills</h4>'
+                        '<p class="entry-caption">Under <code>skills/supporting/</code> — '
+                        "background sync, ops, and diagram tooling; omitted from the delivery kanban.</p>"
+                    )
+                    grouped: dict[str, list[FamilySlotEntry]] = {}
+                    ungrouped: list[FamilySlotEntry] = []
+                    for it in supporting:
+                        group_id = SKILL_TO_SUPPORTING_GROUP.get(it.name)
+                        if group_id:
+                            grouped.setdefault(group_id, []).append(it)
+                        else:
+                            ungrouped.append(it)
+                    for group_id, group_label, _plugin, _skills in SUPPORTING_CROSSCUT_GROUPS:
+                        items = grouped.get(group_id, [])
+                        if not items:
+                            continue
+                        skill_blocks.append(
+                            f'<h5 class="entry-subheading entry-subheading--supporting-group">'
+                            f"{html_mod.escape(group_label)}</h5>"
+                        )
+                        skill_blocks.append(
+                            _html_skill_card_grid(
+                                items,
+                                skill_href=skill_href,
+                                skill_summary=skill_summary,
+                                meta_label="Supporting skill",
+                            )
+                        )
+                    if ungrouped:
+                        skill_blocks.append(
+                            _html_skill_card_grid(
+                                ungrouped,
+                                skill_href=skill_href,
+                                skill_summary=skill_summary,
+                                meta_label="Supporting skill",
+                            )
+                        )
+                sections.append("\n".join(skill_blocks))
+                continue
+
+            cards: list[str] = ['<div class="cap-grid cap-grid--plugin-slot">']
+            for it in items:
+                if slot == "agents":
+                    detail = agent_href(it.name)
+                    summary = (agent_summary(it.name) if agent_summary else "") or it.name
+                    cards.append(
+                        _artifact_card(
+                            href=detail,
+                            title=it.name,
+                            summary=summary,
+                            meta="Agent",
+                            more="Open agent page →",
+                        )
+                    )
+                elif slot == "instructions":
+                    stem = artifact_stem(it.name, slot)
+                    slug = artifact_slug(fam.id, slot, it.name)
+                    detail = instruction_href(it.name, slug)
+                    cards.append(
+                        _artifact_card(
+                            href=detail,
+                            title=stem,
+                            summary=it.summary or stem,
+                            meta=it.name,
+                            more="Open instruction page →",
+                        )
+                    )
+                elif slot == "prompts":
+                    stem = artifact_stem(it.name, slot)
+                    slug = artifact_slug(fam.id, slot, it.name)
+                    detail = prompt_href(it.name, slug)
+                    cards.append(
+                        _artifact_card(
+                            href=detail,
+                            title=stem,
+                            summary=it.summary or stem,
+                            meta=it.name,
+                            more="Open prompt page →",
+                        )
+                    )
+            cards.append("</div>")
+            sections.append("\n".join(cards))
+            continue
+
+        rows: list[str] = ['<ul class="file-list file-list--root">']
+        for it in items:
+            rows.append(
+                f'<li><a href="{html_mod.escape(href_to_repo + it.rel_path)}" target="_blank" rel="noopener noreferrer">{html_mod.escape(it.rel_path)}</a></li>'
+            )
+        rows.append("</ul>")
+        sections.append("\n".join(rows))
+    return "\n".join(sections)

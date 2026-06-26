@@ -1,10 +1,12 @@
 ---
-name: abd-convert-to-markdown
+name: abd-context-to-markdown
 description: >-
   Convert office documents (PDF, PPTX, DOCX, XLSX, etc.) to navigable Markdown
   with real headings, sections, and tables. Use when the user wants to convert
   a document or folder of documents to markdown, mentions "convert to markdown",
   "extract text", or needs source files prepared for chunking or agent context.
+context-fidelity:
+  - level: context
 license: MIT
 metadata:
   author: agilebydesign

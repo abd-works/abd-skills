@@ -1,4 +1,4 @@
-﻿<!--
+<!--
   Template: the architecture-specification document.
   This template is STACK-AGNOSTIC — works for MERN, Django, Spring Boot, or any other stack.
 
@@ -248,6 +248,20 @@ Tests are generated using **`abd-story-acceptance-test`** — story-driven names
 - **Same scenario vocabulary across tiers.** The base helper defines Given/When/Then method names from the story's acceptance criteria; every tier helper implements the same names.
 - **Stub at the tier boundary only.** {{state what each tier stubs — depends on the stack}}.
 - **Helpers own mechanics; test files own scenarios.** Test files contain only `it`/`test` declarations.
+- **Test data setup is idempotent.** Setup scripts (seeds, `global-setup`, `beforeAll`) must produce identical state regardless of prior DB content. See `abd-story-acceptance-test` rule `idempotent-test-data-setup` for the full checklist. This is mandatory for any tier that touches a real database (integration, E2E).
+- **Assertions match implementation, not hopes.** When testing an existing system (extracted context exists), assertions must be verified against the actual rendered output (ARIA snapshots, screenshots, controller decorators) — not against acceptance criteria alone. See `abd-story-acceptance-test` rule `verify-assertions-against-implementation`.
+
+### E2E Setup Checklist (from `abd-story-acceptance-test`)
+
+When creating or running E2E tests via `abd-architecture-code`, verify:
+
+- [ ] All transient children deleted before parent upserts
+- [ ] Upsert `update` blocks mirror `create` (no missing fields)
+- [ ] Long-lived fixtures use far-future dates (`2099-12-31`) or `null`
+- [ ] Test data uses a naming convention (`E2E-` prefix or dedicated org/tenant ID)
+- [ ] Running setup twice against the same DB produces identical state
+- [ ] Locators use targeted element waits, not `waitForLoadState('networkidle')`
+- [ ] Test inputs satisfy the domain schema constraints (read `@project/contracts` or equivalent before choosing values)
 
 ### Testing Scope
 

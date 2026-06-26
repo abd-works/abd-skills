@@ -1751,6 +1751,13 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <li><strong>Missing concepts</strong> — are there behaviors assigned to existing concepts that really belong to a concept nobody has named yet — a missing collaborator hiding inside another class?</li>
 </ul>
 <hr>
+<h2>Diagram workflow</h2>
+<p>Produces <code>&lt;deliverables-folder&gt;/domain-model.drawio</code> (one tab per KA) from <code>domain-model.md</code>. Must exist before the cell is marked done.</p>
+<pre><code>python scripts/drawio_domain_cli.py \
+  &lt;deliverables-folder&gt;/domain-model.md \
+  --output &lt;deliverables-folder&gt;/domain-model.drawio</code></pre>
+<p>Run once after <code>domain-model.md</code> is written. To regenerate, re-run the same command — the markdown is the source of truth.</p>
+<hr>
 <h2>Agent Instructions</h2>
 <p>Follow <code>../common/skill-rule-workflow.md</code> — read-gates, output file resolution, and the per-rule verdict format are defined there.</p>
 <h3>1. Read context</h3>

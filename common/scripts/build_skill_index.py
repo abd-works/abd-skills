@@ -30,7 +30,7 @@ SKILLS_DIR = SKILL_ROOT.parent          # .cursor/skills/
 OUTPUT_PATH = SKILLS_DIR / "common" / "skill-index.md"
 
 PERSPECTIVES = ["domain", "stories", "ux", "architecture", "stage"]
-FIDELITY_ORDER = ["shaping", "discovery", "exploration", "specification", "engineering"]
+FIDELITY_ORDER = ["context", "shaping", "discovery", "exploration", "specification", "engineering"]
 
 
 # ---------------------------------------------------------------------------
@@ -38,6 +38,7 @@ FIDELITY_ORDER = ["shaping", "discovery", "exploration", "specification", "engin
 # ---------------------------------------------------------------------------
 
 def parse_front_matter(text: str) -> tuple[dict[str, Any], str]:
+    text = text.lstrip("\ufeff")
     if not text.startswith("---"):
         return {}, text
     end = text.find("\n---", 3)
@@ -104,12 +105,12 @@ def load_skill(skill_dir: Path) -> dict[str, Any] | None:
     meta, body = parse_front_matter(text)
 
     perspective = meta.get("context-perspective")
-    if not perspective:
-        return None
-
     fidelity_entries = meta.get("context-fidelity") or []
     if isinstance(fidelity_entries, dict):
         fidelity_entries = [fidelity_entries]
+
+    if not perspective and not fidelity_entries:
+        return None
 
     return {
         "name": meta.get("name") or skill_dir.name,
@@ -156,6 +157,7 @@ def render_index(skills: list[dict[str, Any]]) -> str:
         "",
         "Each entry shows the skill's fidelity level(s), primary output file, and grill prompts.",
         "Read this file to know what skills are available at each fidelity level and perspective.",
+        "Grill prompt labels are summaries — read the full `## Grill prompts` section in each SKILL.md for the real questions.",
         "",
         "---",
         "",
@@ -174,6 +176,8 @@ def render_index(skills: list[dict[str, Any]]) -> str:
                 by_fidelity[level] = {}
             by_fidelity[level].setdefault(skill["perspective"], []).append(skill)
 
+    all_perspectives = [None] + PERSPECTIVES
+
     for level in FIDELITY_ORDER:
         perspectives_at_level = by_fidelity.get(level, {})
         if not perspectives_at_level:
@@ -182,7 +186,7 @@ def render_index(skills: list[dict[str, Any]]) -> str:
         lines.append(f"## {level.capitalize()}")
         lines.append("")
 
-        for perspective in PERSPECTIVES:
+        for perspective in all_perspectives:
             perspective_skills = perspectives_at_level.get(perspective, [])
             if not perspective_skills:
                 continue
@@ -194,7 +198,8 @@ def render_index(skills: list[dict[str, Any]]) -> str:
                     fidelity_mode = next(
                         (e["mode"] for e in skill["fidelity"] if e["level"] == level), ""
                     )
-                    lines.append(f"### {skill['name']} `{fidelity_mode}` — {perspective}")
+                    suffix = f" — {perspective}" if perspective else ""
+                    lines.append(f"### {skill['name']} `{fidelity_mode}`{suffix}")
                     lines.append("")
                     if skill["one_liner"]:
                         lines.append(f"{skill['one_liner']}")

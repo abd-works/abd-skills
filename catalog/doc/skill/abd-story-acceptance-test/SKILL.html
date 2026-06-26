@@ -1741,6 +1741,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <li><strong>Test doubles vs. reality</strong> — where are we substituting a fake for something real — and does the fake behave like the real thing, or are we testing a fantasy?</li>
 <li><strong>Data realism</strong> — are the test fixtures using values that could actually appear in production, or are we testing with &quot;foo&quot; and &quot;123&quot; and hoping edge cases don&#x27;t matter?</li>
 <li><strong>Failure mode blindness</strong> — do we know what failure looks like for each behavior — timeout, partial success, conflicting concurrent changes — or are we only proving the happy path works?</li>
+<li><strong>Stub fixture completeness</strong> — for every scenario that exercises a stubbed external service, does the project&#x27;s stub fixture file contain a matching request/response row? If a new scenario introduces a new input/output pair, has it been added to the fixture so the stub actually supports it at runtime?</li>
 </ul>
 <hr>
 <h2>Purpose</h2>
@@ -1764,7 +1765,7 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 </ul>
 <h3>2. Generate</h3>
 <p><strong>Before writing any code:</strong> 0. <strong>Verify test structure first (Priority 1)</strong> — Trace the story hierarchy, declare file / class / method before writing any code. See <strong>Test organization</strong> in <code>reference/concepts.md</code>. 1. <strong>Confirm language and framework</strong> — If not stated, ask. Defaults: pytest (Python), <code>node:test</code> (JS/TS), JUnit 5 (Java). 2. <strong>Pick the matching template</strong> from <code>templates/</code> — <code>acceptance-tests.py</code>, <code>.js</code>, or <code>.java</code>. Emit code only; omit the <code>## Instructions</code> block.</p>
-<p><strong>Build steps:</strong> 3. One file per area, one class per story, one method per scenario. Name helpers with GWT language (<code>given_*</code>, <code>when_*</code>, <code>then_*</code>) matching step text verbatim. Parameterize helpers to prevent sprawl. Extract shared helpers to <code>tests/&lt;epic_name&gt;/&lt;epic_name&gt;_helper.py</code> when reused across files.</p>
+<p><strong>Build steps:</strong> 3. One file per area, one class per story, one method per scenario. Name helpers with GWT language (<code>given_*</code>, <code>when_*</code>, <code>then_*</code>) matching step text verbatim. Parameterize helpers to prevent sprawl. Extract shared helpers to <code>tests/&lt;epic_name&gt;/&lt;epic_name&gt;_helper.py</code> when reused across files. 4. <strong>Stubbed external services:</strong> Apply <code>rules/stub-data-sync-with-scenarios.md</code>. Configure stubs in <code>given_*</code> helpers (exact request + hardcoded response). The production code calls the stub inside <code>when_*</code> — do not expose the stub&#x27;s return value as a separate <code>when_*</code> or <code>then_*</code> step. Assert only the business outcome in <code>then_*</code>. For every new stub input/output combination introduced by a scenario, add the matching row to the project&#x27;s stub fixture file.</p>
 <p><strong>Template table:</strong></p>
 <div class="md-table-wrap"><table class="md-table"><thead><tr><th>Template</th><th>What to produce</th></tr></thead><tbody><tr><td><code>templates/acceptance-tests.py</code></td><td>Python/pytest scaffold following orchestrator pattern</td></tr><tr><td><code>templates/acceptance-tests-example.py</code></td><td>Filled Python/pytest example (see <code>abd-story-specification</code> examples)</td></tr><tr><td><code>templates/acceptance-tests.js</code></td><td>JS/TS test file following orchestrator pattern</td></tr><tr><td><code>templates/acceptance-tests.java</code></td><td>Java/JUnit5 test file following orchestrator pattern</td></tr></tbody></table></div>
 <h3>3. Diagnose — flip immediately when tests keep failing</h3>
@@ -1783,6 +1784,8 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <li><strong>RED before GREEN</strong> — tests written before production code; assertions are specific enough to fail for the right reasons.</li>
 <li><strong>Domain language</strong> — class names, method names, and helper names use domain vocabulary from stories/AC.</li>
 <li><strong>Coverage</strong> — happy path, failure path, and edge cases covered.</li>
+<li><strong>Stub structure</strong> — stubs configured in <code>given_*</code>; service invocation fires inside <code>when_*</code>; <code>then_*</code> asserts business outcome only — never the stub response value.</li>
+<li><strong>Stub fixture sync</strong> — every stub request/response pair used by any scenario exists as a row in the project&#x27;s stub fixture file.</li>
 <li><strong>No bundle markers</strong> — <code>SKILL.md</code> has no <code>&lt;!-- execute_rules:bundle_rules --&gt;</code> markers.</li>
 </ul>
 <hr></div>

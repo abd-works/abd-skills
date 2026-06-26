@@ -1748,8 +1748,22 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <hr>
 <h2>Output file</h2>
 <p><strong>Deliverables folder:</strong> see <code>../common/skill-rule-workflow.md</code> — Output file resolution.</p>
-<p><strong>File name:</strong> <code>class-model.md</code>. Add a <code>&lt;name&gt;-</code> prefix only when disambiguation is needed. For multi-module engagements: <code>&lt;deliverables-folder&gt;/modules/&lt;module-name&gt;-class-model.md</code>.</p>
+<p><strong>File name:</strong> <code>domain-specification.md</code>. Add a <code>&lt;name&gt;-</code> prefix only when disambiguation is needed. For multi-module engagements: <code>&lt;deliverables-folder&gt;/modules/&lt;module-name&gt;-domain-specification.md</code>.</p>
 <p>The file is <strong>not</strong> an in-place enrichment of the domain model file. It is a fresh artifact in the same flat heading shape every other DDD phase skill uses.</p>
+<hr>
+<h2>Diagram workflow</h2>
+<p>Produces <code>&lt;deliverables-folder&gt;/domain-specification.drawio</code> from <code>domain-specification.md</code>. Must exist before the cell is marked done.</p>
+<p>If a <code>domain-model.drawio</code> already exists (from <code>abd-domain-model</code>), pass it as <code>--base-diagram</code> so layout is preserved and only updated in place:</p>
+<pre><code># With existing domain model diagram (preserves layout):
+python scripts/drawio_domain_cli.py \
+  &lt;deliverables-folder&gt;/domain-specification.md \
+  --base-diagram &lt;deliverables-folder&gt;/domain-model.drawio \
+  --output &lt;deliverables-folder&gt;/domain-specification.drawio
+
+# Without (fresh layout):
+python scripts/drawio_domain_cli.py \
+  &lt;deliverables-folder&gt;/domain-specification.md \
+  --output &lt;deliverables-folder&gt;/domain-specification.drawio</code></pre>
 <hr>
 <h2>Agent Instructions</h2>
 <p>Follow <code>../common/skill-rule-workflow.md</code> — read-gates, output file resolution, and the per-rule verdict format are defined there.</p>
@@ -1769,11 +1783,11 @@ html[data-abd-theme="executive"] .catalog-garden-name--foundational a:hover {
 <h2>Validate</h2>
 <p><strong>Goal:</strong> Inspect what was built — read the artifacts as reviewers.</p>
 <ul>
-<li><strong>Per-phase output file</strong> — named <code>[&lt;name&gt;-]class-model.md</code>. No prior or later phase content lives in it.</li>
+<li><strong>Per-phase output file</strong> — named <code>[&lt;name&gt;-]domain-specification.md</code>. No prior or later phase content lives in it.</li>
 <li><strong>Every KA has a class that names it</strong> — <code>### **Class** &lt;&lt; Stereotype &gt;&gt;</code> matching the KA, listed first.</li>
 <li><strong>No sub-headings under classes</strong> — class member blocks live directly under each <code>### **Class**</code> heading.</li>
 <li><strong>References per KA</strong> — one <code>### references</code> per KA with fenced <code>source</code> blocks.</li>
-<li><strong>Decisions per KA</strong> — one <code>### decisions made</code> per KA listing class-model judgment calls.</li>
+<li><strong>Decisions per KA</strong> — one <code>### decisions made</code> per KA listing domain-specification judgment calls.</li>
 <li><strong>Every property typed</strong> — justified by a domain responsibility that requires stored state.</li>
 <li><strong>Every operation fully typed</strong> — <code>+ methodName(param: Type): ReturnType</code>.</li>
 <li><strong>Object initialisation decided</strong> — constructor, internal, factory method, or factory object.</li>

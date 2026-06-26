@@ -825,11 +825,27 @@ function generateXml(state) {
     }
   }
 
+  // Merge A→B + B→A into one bidirectional arrow
+  const connSet    = new Set(connections.map(c => `${c.from}|${c.to}`))
+  const renderedConn = new Set()
   for (const conn of connections) {
+    const key    = `${conn.from}|${conn.to}`
+    const revKey = `${conn.to}|${conn.from}`
+    if (renderedConn.has(key) || renderedConn.has(revKey)) continue
     const src = sidMap[conn.from]
     const tgt = sidMap[conn.to]
     if (!src || !tgt) continue
-    cells.push(cell({ id: nextId(), value: conn.label ?? '', style: S.edge, edge: true, parent: '1', source: src, target: tgt }))
+    const isBidi   = connSet.has(revKey)
+    const revConn  = isBidi ? connections.find(c => c.from === conn.to && c.to === conn.from) : null
+    const label    = isBidi && revConn?.label && revConn.label !== (conn.label ?? '')
+      ? `${conn.label ?? ''} / ${revConn.label ?? ''}`.replace(/^ \/ | \/ $/g, '')
+      : (conn.label ?? '')
+    const style    = isBidi
+      ? S.edge.replace('endArrow=block', 'startArrow=block;startFill=1;endArrow=block')
+      : S.edge
+    cells.push(cell({ id: nextId(), value: label, style, edge: true, parent: '1', source: src, target: tgt }))
+    renderedConn.add(key)
+    if (isBidi) renderedConn.add(revKey)
   }
 
   const totalW = Math.max(...Object.values(pos).map(p => p.x + p.w)) + 200

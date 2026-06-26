@@ -43,6 +43,20 @@ Before generating, surface these common input traps:
 
 ---
 
+## Diagram workflow
+
+Produces `<deliverables-folder>/domain-model.drawio` (one tab per KA) from `domain-model.md`. Must exist before the cell is marked done.
+
+```bash
+python scripts/drawio_domain_cli.py \
+  <deliverables-folder>/domain-model.md \
+  --output <deliverables-folder>/domain-model.drawio
+```
+
+Run once after `domain-model.md` is written. To regenerate, re-run the same command — the markdown is the source of truth.
+
+---
+
 ## Agent Instructions
 
 Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.

@@ -1,10 +1,12 @@
 ---
-name: abd-search-memory
+name: abd-context-db-ask
 description: >-
   Semantic search over a local FAISS vector index built from document chunks.
   Use when the user says "use memory", "search memory", "what does memory say",
   "from our content", "what do we have on [topic]", or asks about content that
   has been ingested into agent memory.
+context-fidelity:
+  - level: context
 license: MIT
 metadata:
   author: agilebydesign
