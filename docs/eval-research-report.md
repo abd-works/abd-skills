@@ -189,6 +189,52 @@ Session correction  →  fix artifact  →  confirm
 
 ---
 
+## Cross-skill trend detection — extended analysis
+
+### The pipeline error problem
+
+Per-skill eval catches whether a skill’s output satisfies its own rules. It cannot see that the error originated upstream. Skills compose: domain-glossary → domain-language → domain-model → domain-specification → domain-code. A correction logged against domain-specification may be a symptom of a domain-language failure.
+
+**Two failure modes per-skill logs collapse into one:**
+
+| Mode | Logged at | Root cause | Wrong fix |
+| --- | --- | --- | --- |
+| Intrinsic | Skill B | Skill B’s rules or instructions | None — fix B |
+| Inherited | Skill B | Skill A’s output was wrong | Fixing B without fixing A |
+| Cross-stage theme | B, D, F separately | Shared concept unresolved at source | Fixing each skill in isolation |
+| Cross-package theme | DDD + ARC | Same structural mistake in two families | Nobody notices the pattern |
+
+### What the industry does not address
+
+None of the platforms in the solution landscape model **skill dependency graphs** or **inherited vs intrinsic error attribution**. LangSmith traces execution steps but does not know that skill B’s input artifact was produced by skill A. promptfoo and agentskills.io operate per-prompt or per-task. The cross-package, cross-stage correction corpus is specific to this architecture.
+
+This is genuine white space: **pipeline-aware root cause attribution in a governed multi-skill delivery system**.
+
+### What changes for the LangChain question at this layer
+
+| Capability needed for cross-skill trends | LangChain adds value? | Bespoke cost |
+| --- | --- | --- |
+| Pipeline field schema in `cases.json` | No | Field additions at promotion time |
+| Cross-skill index aggregation | No | Walk dirs, merge JSON |
+| Skill graph authoring and traversal | No | Plain graph traversal on `skill-graph.json` |
+| Rule-name frequency trending | No | Counter over `index.json` |
+| Semantic clustering of error descriptions | Marginal | Any embedding API + `sklearn KMeans` (~40 lines) |
+| Timeline trend by `session_date` | No | Sort + group |
+| Root cause attribution via graph | No | BFS/DFS to earliest common ancestor |
+| Dashboard for trend visibility across skills | **LangSmith relevant here** | Otherwise: generated `themes.md` |
+
+LangSmith is more justified for cross-skill trend visibility than for per-skill eval — aggregating corrections from 10+ skills and surfacing trends without a UI is painful. It is still an optional observability layer, not a foundation decision. The analysis logic (graph traversal, cluster naming, root cause flagging) is bespoke regardless of whether LangSmith is used for display.
+
+### Recommendation update
+
+The per-skill recommendation (bespoke, clearly) holds. For cross-skill trend detection:
+
+- **Phase 3 bespoke first:** `aggregate_corrections.py` + Tier 1 frequency analysis proves the concept at near-zero cost.
+- **Revisit LangSmith** when the corpus has 50+ promoted corrections across 5+ skills and markdown reports become too manual to review.
+- **Never** let LangSmith’s schema replace `cases.json` — your schema owns pipeline metadata that LangSmith does not model.
+
+---
+
 ## References (primary)
 
 - EDDOps: https://arxiv.org/abs/2411.13768

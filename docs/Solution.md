@@ -209,11 +209,125 @@ There is **no arbitrary cap**. Ten was a planning placeholder — discard it.
 
 | Script | Job |
 | --- | --- |
-| `promote_correction_to_eval.py` | Confirmed log entry → fixtures + case row (with rule, context) |
+| `promote_correction_to_eval.py` | Confirmed log entry → fixtures + case row (with rule, context, pipeline metadata) |
 | `run_skill_eval.py` | Per case: run scanner expectations → AI verdict on listed rules → report; `--context` filter |
 | `run_skill_eval.py --all` | Walk `common/eval/index.json` or discover `**/eval/cases.json` |
+| `aggregate_corrections.py` | Walk all skill `eval/cases.json` → merge into `common/eval/index.json` |
+| `analyze_themes.py` | Frequency analysis + optional embedding cluster on `index.json` → `common/eval/themes.md` |
 
 Wire `fix-skill` step 0: run eval for that skill; re-run until green.
+
+---
+
+## Cross-skill trend detection
+
+### The pipeline reality
+
+Skills are not isolated. Output of one skill is input for the next. Errors propagate downstream before they are caught.
+
+```
+Context
+  └─ abd-domain-glossary
+       └─ abd-domain-language
+            └─ abd-domain-model
+                 └─ abd-domain-specification
+                      └─ abd-domain-code
+
+       └─ abd-story-mapping
+            └─ abd-story-acceptance-criteria
+                 └─ abd-story-specification
+                      └─ abd-story-acceptance-test
+
+       └─ abd-architecture-outline
+            └─ abd-architecture-blueprint
+                 └─ abd-architecture-specification
+                      └─ abd-architecture-code
+```
+
+A correction logged against `abd-domain-specification` may not belong there. The real failure may be upstream.
+
+### Two failure modes per-skill logs collapse into one
+
+| Mode | What the log shows | What actually happened | Wrong action |
+| --- | --- | --- | --- |
+| **Intrinsic** | Skill B correction | Skill B's rules or instructions are wrong | Fix skill B ✓ |
+| **Inherited** | Skill B correction | Skill A output was wrong; B consumed it faithfully | Fix skill B — wrong skill ✗ |
+| **Cross-stage theme** | Same error in B, D, F | Shared concept never resolved at source | Fix each skill separately ✗ |
+| **Cross-package theme** | DDD error + ARC error | Same structural mistake across two families | Nobody notices the pattern ✗ |
+
+`upstream_clean: true/false` on each promoted case is the root cause flag. If false, the correction is likely a symptom.
+
+### Extended `cases.json` schema — pipeline fields
+
+Add these fields at promotion time. Cost is low; missing them later is expensive.
+
+```json
+{
+  "id": "domain-lang-italic-001",
+  "skill": "abd-domain-language",
+  "stage": "discovery",
+  "package": "domain-driven-design",
+  "rule": "domain-terms-italicized-in-prose",
+  "upstream_skill": "abd-domain-glossary",
+  "upstream_clean": true,
+  "consumer_skills": ["abd-domain-model"],
+  "theme": null,
+  "source": "skill-errors-log.md#entry-2026-06-15",
+  "session_date": "2026-06-15"
+}
+```
+
+`theme` is `null` at promotion; set by `analyze_themes.py` after clustering.
+
+### Cross-skill corpus layout
+
+```text
+common/
+  eval/
+    index.json          ← all promoted corrections across all skills and packages
+    skill-graph.json    ← explicit dependency graph derived from stage definitions
+    themes.md           ← generated theme report (gitignore or commit on demand)
+```
+
+`skill-graph.json` shape — one entry per skill:
+
+```json
+{
+  "abd-domain-language": {
+    "stage": "discovery",
+    "package": "domain-driven-design",
+    "consumes": ["abd-domain-glossary"],
+    "produces_for": ["abd-domain-model", "abd-story-mapping"]
+  }
+}
+```
+
+This graph enables: *given a theme cluster, which node is the earliest common ancestor?* That is root cause attribution.
+
+### Theme detection — two tiers
+
+**Tier 1 — rule-name frequency (no LLM, build first):**
+Aggregate `rule` field across `index.json`. A rule appearing across multiple skills and packages is a cross-skill signal even without semantic analysis.
+
+**Tier 2 — semantic clustering (embeddings, add later):**
+Embed the `Example (wrong)` text for each promoted case. Cluster. Name clusters. This finds themes that hit different rules but share the same root concept — e.g., "anemia" surfaces as `behavior-not-on-entity` in DDD, `thin-orchestration-violation` in ARC, and `acceptance-criteria-missing-domain-behavior` in SDD. Different rules; same upstream mistake.
+
+Implementation: `openai.embeddings` + `sklearn KMeans` — approximately 40 lines. No framework required.
+
+### What this changes about the LangChain question
+
+| Capability needed for cross-skill trends | LangChain adds value? |
+| --- | --- |
+| Schema extension + promotion script | No — field additions |
+| Cross-skill index aggregation | No — walk dirs, merge JSON |
+| Skill graph traversal for root cause | No — plain graph traversal |
+| Rule-name frequency trending | No — Counter over index.json |
+| Semantic clustering of errors | Marginal — any embedding API + sklearn |
+| Timeline trend (errors over time) | No — sort by `session_date` |
+| Root cause attribution via graph | No — BFS/DFS on `skill-graph.json` |
+| Dashboard / UI for trends | **LangSmith is relevant here** — without it, output is `themes.md` |
+
+LangSmith becomes more justified for cross-skill trend visibility than for per-skill eval. It still puts correction data in a SaaS and still requires an account. Treat it as an optional ops layer once `analyze_themes.py` and the index exist, not a foundation decision.
 
 ---
 
@@ -246,10 +360,12 @@ Session journal / checklist fixtures; same scanner→AI pattern where rules exis
 | Phase | What |
 | --- | --- |
 | **0** | Agree this doc; pilot `abd-domain-language` |
-| **1** | Manual promotion of 1–2 real corrections with rule + context tags |
+| **1** | Manual promotion of 1–2 real corrections — include pipeline fields (`stage`, `package`, `upstream_skill`, `upstream_clean`, `session_date`) from the start |
 | **2** | `promote_correction_to_eval.py` + `run_skill_eval.py` (scanner then AI) |
-| **3** | CI on skill-package changes |
-| **4** | CDD + central index if needed |
+| **3** | `aggregate_corrections.py` → `common/eval/index.json`; author `skill-graph.json`; Tier 1 frequency analysis → `themes.md` |
+| **4** | Tier 2 semantic clustering; root cause attribution via graph traversal |
+| **5** | CI on skill-package changes |
+| **6** | CDD + LangSmith observability layer if team size justifies it |
 
 ---
 

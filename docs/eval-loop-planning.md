@@ -173,28 +173,40 @@ Repo-level scripts (future, not built):
 - [ ] Add `eval/` to pilot skill only
 - [ ] Manually copy 1–2 confirmed corrections into `fixtures/pass` and `fixtures/fail`
 - [ ] Wire `cases.json` to existing scanners (no new scanners required for first case)
+- [ ] **Include pipeline fields from the start:** `stage`, `package`, `upstream_skill`, `upstream_clean`, `session_date` — adding these later requires retroactive tagging of every promoted case
 - [ ] Document promote steps in pilot skill’s Validate section (or link here)
 
 ### Phase 2 — Repo tooling
 
-- [ ] `promote_correction_to_eval.py`
+- [ ] `promote_correction_to_eval.py` — include pipeline field prompts in the script
 - [ ] `run_skill_eval.py` (thin wrapper over existing scanners + cases.json)
 - [ ] Add `fix-skill` step 0: run eval; must be green after edits
 
-### Phase 3 — Layer 2 (optional)
+### Phase 3 — Cross-skill trend detection
+
+- [ ] `aggregate_corrections.py` — walk all skill `eval/cases.json` → merge into `common/eval/index.json`
+- [ ] Author `common/eval/skill-graph.json` — explicit dependency graph from stage definitions in `common/stages/`
+- [ ] Tier 1 frequency analysis on `index.json` by `rule` field across skills and packages — no LLM needed
+- [ ] Generate `common/eval/themes.md` with cross-skill frequency report and root-cause candidates (cases where `upstream_clean: false`)
+
+### Phase 4 — Semantic theme clustering
 
 - [ ] Define when LLM rule-grader runs vs human-only
 - [ ] Keep grader rubric = `rules/*.md` text; no duplicated rule prose
+- [ ] Embed `Example (wrong)` text per promoted case using any embedding API; cluster with `sklearn KMeans`
+- [ ] Name clusters; cross-reference against `skill-graph.json` to find earliest common ancestor (root cause skill)
+- [ ] Append semantic themes to `themes.md`
 
-### Phase 4 — Orchestrator (CDD)
+### Phase 5 — Orchestrator (CDD)
 
 - [ ] Only after Phase 1–2 proven on deliverable skills
 - [ ] Decide: session journal excerpts vs checklist-only fixtures
 - [ ] Align with CDD “corrections are session-local unless promoted” policy
 
-### Phase 5 — CI (optional)
+### Phase 6 — CI (optional)
 
 - [ ] On changes to `rules/`, `scanners/`, `SKILL.md` under skills with `eval/`: run `run_skill_eval.py`
+- [ ] On changes to `common/eval/`: run `aggregate_corrections.py` and regenerate `themes.md`
 
 ---
 
@@ -206,6 +218,10 @@ Repo-level scripts (future, not built):
 4. **Who runs eval?** Human after session, agent before `fix-skill`, CI on PR — all three?
 5. **CDD corrections-pending hook** — does promotion integrate with `detect-correction.sh` or stay manual?
 6. **Practice skills not in `npx skills` registry** — eval is the quality path for those; catalog install is a separate concern.
+7. **Intrinsic vs inherited** — who sets `upstream_clean`? Requires the engineer/agent to inspect whether the input artifact was clean before attributing root cause. Define protocol.
+8. **skill-graph.json maintenance** — who updates it when a new skill is added or stage order changes? Should it be generated from stage definition files or hand-authored?
+9. **Theme naming** — who names semantic clusters? AI-suggested labels need human ratification before entering `themes.md` as official categories.
+10. **Cross-package root cause** — when the earliest ancestor skill is in a different package (e.g., a DDD error surfaces as an ARC correction), who owns the fix?
 
 ---
 
@@ -216,6 +232,8 @@ Repo-level scripts (future, not built):
 - Do not treat eval as model training or fine-tuning
 - Do not block deploy on eval until CI phase is agreed
 - Do not rewrite CDD as a deliverable skill — it remains an orchestrator
+- Do not build `aggregate_corrections.py` or `skill-graph.json` until Phase 1 pilot has at least 3 promoted cases — no corpus to aggregate yet
+- Do not adopt LangSmith as a foundation dependency — evaluate as an optional observability layer after Phase 3 tooling exists
 
 ---
 
