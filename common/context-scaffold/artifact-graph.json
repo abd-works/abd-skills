@@ -1,0 +1,17 @@
+{
+  "schema": "abd-artifact-graph/v1",
+  "product": "",
+  "artifact_registry": {
+    "story_graph": "docs/stories/story-map/story-graph.json",
+    "domain_language": "docs/domain/language/domain-language.md",
+    "domain_model": "docs/domain/model/domain-model.md",
+    "domain_glossary": "docs/domain/glossary/domain-glossary.md",
+    "ux_information_architecture": "docs/ux/information-architecture/information-architecture.md",
+    "ux_mockup_index": "docs/ux/mockup/mockups.md",
+    "architecture_blueprint": "docs/architecture/blueprint/architecture-blueprint.md"
+  },
+  "domain_nodes": {},
+  "ux_nodes": {},
+  "arch_nodes": {},
+  "story_links": {}
+}

@@ -1,0 +1,84 @@
+{
+  "schema": "abd-artifact-graph/v1",
+  "product": "PawPlace",
+  "artifact_registry": {
+    "story_graph": "docs/stories/story-map/story-graph.json",
+    "domain_language": "docs/domain/language/domain-language.md",
+    "domain_model": "docs/domain/model/domain-model.md",
+    "domain_glossary": "docs/domain/glossary/domain-glossary.md",
+    "ux_information_architecture": "docs/ux/information-architecture/information-architecture.md",
+    "ux_mockup_index": "docs/ux/mockup/mockups.md",
+    "architecture_blueprint": "docs/architecture/blueprint/architecture-blueprint.md"
+  },
+  "domain_nodes": {
+    "Catalog.Product": {
+      "module": "Catalog",
+      "concept": "Product",
+      "file": "docs/domain/model/domain-model.md"
+    },
+    "Catalog.SearchResult": {
+      "module": "Catalog",
+      "concept": "SearchResult",
+      "file": "docs/domain/model/domain-model.md"
+    },
+    "Catalog.StockLevel": {
+      "module": "Catalog",
+      "concept": "StockLevel",
+      "file": "docs/domain/model/domain-model.md"
+    },
+    "Store.Store": {
+      "module": "Store",
+      "concept": "Store",
+      "file": "docs/domain/model/domain-model.md"
+    }
+  },
+  "ux_nodes": {
+    "product-search": {
+      "label": "Product Search",
+      "file": "docs/ux/mockup/screens/product-search.md"
+    },
+    "product-detail": {
+      "label": "Product Detail",
+      "file": "docs/ux/mockup/screens/product-detail.md"
+    },
+    "store-stock": {
+      "label": "Store Stock",
+      "file": "docs/ux/mockup/screens/store-stock.md"
+    }
+  },
+  "arch_nodes": {
+    "catalog-api": {
+      "label": "Catalog API",
+      "file": "docs/architecture/specification/catalog-api/architecture-specification.md",
+      "mechanism": "REST"
+    },
+    "search-index": {
+      "label": "Search Index",
+      "file": "docs/architecture/specification/search-index/architecture-specification.md",
+      "mechanism": "ElasticSearch"
+    }
+  },
+  "story_links": {
+    "Search Products by Keyword": {
+      "epic": "Shop in store",
+      "sub_epic": "Find products and check stock",
+      "domain": ["Catalog.Product", "Catalog.SearchResult"],
+      "ux": ["product-search"],
+      "arch": ["catalog-api", "search-index"]
+    },
+    "View Product Detail Page": {
+      "epic": "Shop in store",
+      "sub_epic": "Find products and check stock",
+      "domain": ["Catalog.Product"],
+      "ux": ["product-detail"],
+      "arch": ["catalog-api"]
+    },
+    "Confirm Product Stock at Store": {
+      "epic": "Shop in store",
+      "sub_epic": "Find products and check stock",
+      "domain": ["Catalog.Product", "Catalog.StockLevel", "Store.Store"],
+      "ux": ["product-detail", "store-stock"],
+      "arch": ["catalog-api"]
+    }
+  }
+}

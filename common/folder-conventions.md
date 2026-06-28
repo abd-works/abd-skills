@@ -22,6 +22,8 @@ Skills resolve their deliverables folder in this order:
 ```
 docs/
 │
+├── artifact-graph.json                 ← cross-view-index (links stories → domain/UX/arch nodes)
+│
 ├── domain/
 │   ├── language/
 │   │   └── domain-language.md              ← abd-domain-language
@@ -117,6 +119,7 @@ docs/
 
 | Skill | Canonical file name | Notes |
 |---|---|---|
+| cross-view-index | `docs/artifact-graph.json` | Cross-view index linking stories → domain concepts, UX screens, and arch mechanisms; schema `abd-artifact-graph/v1` |
 | abd-domain-specification | `domain-specification.md` | Renamed from `class-model.md` — confirmed |
 | abd-story-acceptance-test | project test folder | Test code goes in the host project's test folder, not `docs/` — correct by design |
 | abd-ux-information-architecture | `docs/ux/information-architecture/information-architecture.md` + `.drawio` | Path and filename confirmed |

@@ -1,0 +1,72 @@
+---
+description: Use the artifact-graph.json index to navigate cross-view artifacts cheaply before loading full MD files
+globs:
+  - "**/artifact-graph.json"
+  - "**/domain-model.md"
+  - "**/domain-language.md"
+  - "**/mockups.md"
+  - "**/screens/*.md"
+  - "**/architecture-blueprint.md"
+  - "**/architecture-specification.md"
+alwaysApply: false
+---
+
+# cross-view-index — load the index before loading views
+
+## Core rule
+
+**Before loading multiple full Markdown files across views, check whether `artifact-graph.json` exists.** If it does, use it to navigate to only the files you need.
+
+## Lookup workflow
+
+When working on a specific story or set of stories:
+
+1. Find `artifact-graph.json` (canonical: `docs/artifact-graph.json`; check `cdd-context-index.md` for non-standard paths).
+2. Run: `python artifact_graph_cli.py lookup --file docs/artifact-graph.json --story "Exact Story Name"`
+3. Load only the files listed in the output — domain node files, UX screen files, arch spec files.
+4. Do **not** load the full domain language, full mockup index, or full blueprint unless the task explicitly covers the whole product.
+
+## Reverse lookup
+
+When working on a domain concept, UX screen, or architecture mechanism and needing story context:
+
+```
+python artifact_graph_cli.py reverse --file docs/artifact-graph.json --domain "Module.Concept"
+python artifact_graph_cli.py reverse --file docs/artifact-graph.json --ux "screen-slug"
+python artifact_graph_cli.py reverse --file docs/artifact-graph.json --arch "mechanism-id"
+```
+
+Load only the stories returned — their acceptance criteria and scenarios from `story-graph.json`.
+
+## Drift check at session start
+
+At the start of any multi-view session, run:
+
+```
+python artifact_graph_cli.py drift --file docs/artifact-graph.json --root .
+```
+
+If drift is detected, fix missing files or dangling links before proceeding. Do not assume the links in the graph are correct without running this check first.
+
+## When artifact-graph.json does not exist
+
+If the file does not exist yet:
+
+- If the task is creating the index: read the **cross-view-index** skill and follow its workflow.
+- If the task is something else: proceed by loading the full view files as usual, but note in your session journal that the artifact graph is missing and suggest creating it.
+
+## When to update the graph
+
+| Event | Update required |
+|---|---|
+| New story added to `story-graph.json` | Add a `story_links` entry for the story |
+| Domain concept renamed in `domain-model.md` | Update the node ID in `domain_nodes`; update all story links referencing the old ID |
+| New UX screen created | Add to `ux_nodes`; link to relevant stories |
+| New architecture mechanism spec created | Add to `arch_nodes`; link to relevant stories |
+| Story renamed | Update the key in `story_links` to match the new name in `story-graph.json` |
+
+**Always validate after updating:** `python artifact_graph_cli.py validate --file docs/artifact-graph.json`
+
+## NON-NEGOTIABLE after updating artifact-graph.json
+
+If you modified `artifact-graph.json`, you **must** run `validate` before ending your turn. A turn that writes to the graph without validation is not complete.
