@@ -109,13 +109,46 @@ Per-screen `*-state.json` files remain the **rich control/state source**; `ux-gr
 
 Architecture prose (`architecture-specification.md`, ADRs) stays the **deep detail**; `arch-graph.json` holds **structure and mechanism placement**.
 
-### View graph rules
-
 1. **Containment only** inside a view — no typed cross-links.
 2. **Stable node ids** on every node: `{view}:{kind}:{slug}` (e.g. `story:epic:shop-in-store`).
-3. **Canonical path** on every node: file path + JSON pointer (or markdown anchor).
+3. **Semantic locator** on every node: file `path` + name-based `pointer` (see below) — not array indices.
 4. **Skills write the view graph first** (or validate into it); Markdown is generated or checked against it.
 5. View graphs may **consolidate** over time (e.g. ux-graph absorbing navigation from `state.json`) — one spine per view, same pattern as story-graph.
+
+### Semantic locators (name-based pointers)
+
+A node's `pointer` is a **path through the containment tree using element names**, not a JSON Pointer index.
+
+```text
+epics/"Shop in store"/sub_epics/"Find products and check stock"/stories/"Search Products by Keyword"
+screens/"Search Results"/regions/"Results list"
+modules/"Catalog"/classes/"Product"
+modules/"Catalog"/mechanisms/"Repository pattern"
+```
+
+**Format:**
+
+```text
+{collection}/"{name}"/{collection}/"{name}"/…
+```
+
+| Part | Rule |
+| --- | --- |
+| `collection` | Plural segment for the child array in that view (`epics`, `sub_epics`, `stories`, `scenarios`, `screens`, `regions`, `modules`, `classes`, …) |
+| `"{name}"` | The node's `name` field at that position, in double quotes |
+| Root | Starts at the view graph root — no leading slash, no numeric indices |
+
+**Why names, not indices:**
+
+- **Readable** — agents, humans, and diffs see what the path means without loading the file.
+- **Stable across reorder** — renaming aside, inserting a sibling does not invalidate the path the way `/epics/0/…` does.
+- **Aligns with bot paths** — same mental model as `story_graph."Shop in store"."Find products".stories."Search Products"` in story-graph-ops.
+
+**Resolution:** tooling walks the view graph file at `path`, matching `name` at each segment. Sibling names must be unique within a parent (already required for story-graph navigation).
+
+**Escaping:** if a name contains `"`, escape as `\"` inside the quoted segment. Prefer renaming over escape when possible.
+
+**Markdown-only nodes** (e.g. architecture prose without a graph spine yet): `pointer` may be a markdown anchor path — `architecture-specification.md#repository-pattern` — until promoted into `arch-graph.json`.
 
 ---
 
@@ -138,42 +171,42 @@ The context graph is a standard **nodes + edges** graph. It does **not** duplica
       "kind": "Screen",
       "view": "ux",
       "path": "docs/ux/mockup/ux-graph.json",
-      "pointer": "/flows/0/screens/1"
+      "pointer": "flows/\"Shop in store\"/screens/\"Search Results\""
     },
     {
       "id": "story:epic:shop-in-store",
       "kind": "Epic",
       "view": "stories",
       "path": "docs/stories/story-map/story-graph.json",
-      "pointer": "/epics/0"
+      "pointer": "epics/\"Shop in store\""
     },
     {
       "id": "ux:region:results-list",
       "kind": "Region",
       "view": "ux",
       "path": "docs/ux/mockup/ux-graph.json",
-      "pointer": "/flows/0/screens/1/regions/0"
+      "pointer": "flows/\"Shop in store\"/screens/\"Search Results\"/regions/\"Results list\""
     },
     {
       "id": "story:scenario:keyword-returns-matching-products",
       "kind": "Scenario",
       "view": "stories",
       "path": "docs/stories/story-map/story-graph.json",
-      "pointer": "/epics/0/sub_epics/0/stories/0/scenarios/0"
+      "pointer": "epics/\"Shop in store\"/sub_epics/\"Find products and check stock\"/stories/\"Search Products by Keyword\"/scenarios/\"Keyword returns matching products\""
     },
     {
       "id": "domain:module:catalog",
       "kind": "Module",
       "view": "domain",
       "path": "docs/domain/model/domain-graph.json",
-      "pointer": "/modules/0"
+      "pointer": "modules/\"Catalog\""
     },
     {
       "id": "arch:mechanism:repository-pattern",
       "kind": "Mechanism",
       "view": "architecture",
       "path": "docs/architecture/arch-graph.json",
-      "pointer": "/modules/0/mechanisms/0"
+      "pointer": "modules/\"Catalog\"/mechanisms/\"Repository pattern\""
     }
   ],
   "edges": [
@@ -213,7 +246,7 @@ The context graph is a standard **nodes + edges** graph. It does **not** duplica
 
 | Field | Meaning |
 | --- | --- |
-| `nodes[]` | Registry of cross-view node references (id, kind, view, path, pointer) |
+| `nodes[]` | Registry of cross-view node references (`id`, `kind`, `view`, `path`, `pointer`) |
 | `edges[]` | Directed cross-view relationships |
 | `edges[].type` | One of the **fixed cross-view edge types** (below) |
 | `edges[].source`, `edges[].target` | Node ids — any kind, any hierarchy level |
@@ -237,7 +270,7 @@ Edge types are **fixed across views** — the same six names everywhere. Hierarc
 
 Optional `note` on an edge is free text for humans — not a schema extension.
 
-### Path-based node references
+### Node references (`path` + semantic `pointer`)
 
 Each node (in view graphs and registered in the context graph) carries:
 
@@ -248,13 +281,25 @@ Each node (in view graphs and registered in the context graph) carries:
   "view": "stories",
   "name": "Search Products by Keyword",
   "path": "docs/stories/story-map/story-graph.json",
-  "pointer": "/epics/0/sub_epics/0/stories/0"
+  "pointer": "epics/\"Shop in store\"/sub_epics/\"Find products and check stock\"/stories/\"Search Products by Keyword\""
 }
 ```
 
-Skills resolve `id` → `path` + `pointer` → fetch only that slice.
+| Field | Role |
+| --- | --- |
+| `id` | Stable slug for edges and APIs — does not change when display name is tweaked |
+| `name` | Human label — appears quoted inside `pointer` |
+| `path` | Which file holds the view graph (or markdown for prose-only nodes) |
+| `pointer` | Name-based locator within that file — **semantic, not numeric** |
 
-Non-canonical paths are listed in `cdd-context-index.md` (existing); node `path` fields point to the actual file.
+Skills resolve in two steps:
+
+1. `id` or `pointer` → locate the node in the view graph.
+2. Fetch only that node's content (and children if roll-up needs them).
+
+`id` and `pointer` are redundant on purpose: **edges use `id`**; **logs, skills, and humans use `pointer`** when discussing location.
+
+Non-canonical file locations are listed in `cdd-context-index.md` (existing); `path` points to the actual file on disk.
 
 ### Roll-up on read (not on write)
 
@@ -340,7 +385,7 @@ docs/
 2. Resolve run scope from kanban / user (increment, epic, story names).
 3. Find scope node ids in the relevant view graph(s).
 4. Collect edges touching those node ids (by `source` / `target`); filter by `type` when needed; optionally roll up/down containment in view graphs.
-5. Fetch **only** `path` + `pointer` (or anchor) for hit nodes.
+5. Fetch content for hit nodes via `path` + semantic `pointer` (or resolve `id` → `pointer` first).
 6. If a required link is missing, **flag a gap** — do not fabricate (see `handling-incomplete-context.md`).
 
 ### Validation
@@ -349,6 +394,8 @@ docs/
 | --- | --- |
 | View graph well-formed | Per-view schema + existing scanners |
 | Every edge `source` / `target` resolves to a registered node id | `context-graph` validator |
+| Every registered node `pointer` resolves to exactly one node in its view graph | `context-graph` validator |
+| Sibling `name` values are unique within each parent (required for locators) | Per-view graph validator |
 | Every edge `type` is one of the six fixed cross-view types | `context-graph` validator |
 | Cross-view claims in Markdown have matching edges | New integrity scanners |
 | Orphan nodes in scope | Coverage report per increment |
@@ -375,7 +422,7 @@ docs/
 | --- | --- | --- |
 | **0** | This document + `abd-context-graph/v1` schema stub | Agree ids, layout, verbs |
 | **1** | Stable ids on `story-graph` nodes; `context-graph.json` with nodes + edges for one fixture | PawPlace mini |
-| **2** | `context-graph-ops` CLI: `add-edge`, `neighbors`, `validate`, `coverage` | Mirror `story-graph-ops` |
+| **2** | `context-graph-ops` CLI: `add-edge`, `neighbors`, `validate`, `coverage`, `resolve-pointer` | Mirror `story-graph-ops`; name-walk resolver |
 | **3** | `domain-graph.json` schema + domain skills emit on write | Alongside `domain.json` |
 | **4** | `ux-graph.json` from IA / mockup skills | IA trace tables → `enables` / `presents` edges |
 | **5** | `arch-graph.json` from blueprint / specification skills | Mechanism nodes + `implements` / `realizes` edges |
@@ -390,16 +437,16 @@ docs/
 - Not RDF / JSON-LD — typed view graphs + simple links are enough.
 - Not per-level edge types — six fixed cross-view types; hierarchy level is on the nodes, not in the type name.
 - Not a single mega-tree — each view keeps its own containment; context graph wires across them.
+- Not numeric JSON Pointers in authored files — locators use quoted names (`epics/"…"/stories/"…"`), not `/epics/0/…`.
 - Not replacing Markdown — projections stay for humans; graphs stay for machines and skills.
-
----
 
 ## Open questions
 
 1. **ux-graph vs `state.json`** — when to merge navigation spine into state files vs separate `ux-graph.json`.
 2. **Edge symmetry** — edges are directed; whether to infer reverse traversal on read for specific types.
 3. **Evidence edges** — whether brownfield traceability needs a seventh type (e.g. `evidence`) from semantic-index chunks.
-4. **Versioning** — optimistic concurrency on `context-graph.json` (same `--expect-sha` pattern as `story-graph-ops`).
+4. **`id` on rename** — keep stable slug and only update `pointer` + `name`, or migrate `id` and edge endpoints when display names change.
+5. **Versioning** — optimistic concurrency on `context-graph.json` (same `--expect-sha` pattern as `story-graph-ops`).
 
 ---
 
