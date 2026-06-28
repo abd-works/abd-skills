@@ -2,15 +2,15 @@
 
 ## Solution in one sentence
 
-**Promote every confirmed correction into rerunnable fixtures; on each fixture run scanner (when the rule has one) then AI verdict on the matching rule — so the skill package improves from real failures and stays fixed across future sessions.**
+**Promote every confirmed correction into rerunnable fixtures; on each fixture run scanner (when the rule has one) then AI verdict on the matching rule — so each real failure permanently upgrades the skill package and improvement compounds across sessions.**
 
 ---
 
 ## Problem
 
-Practice skills already have rules, scanners, session correction logs, and a `fix-skill` pass. What they lack is **regression memory**: when a rule or scanner changes, nothing reruns the failures that taught us the rule in the first place.
+Practice skills already have rules, scanners, session correction logs, and a `fix-skill` pass. What they lack is **durable improvement**: confirmed corrections fix one artifact once, but the lesson does not reliably harden into the skill package for the next engagement.
 
-Logs record good and bad examples. They do not **guard** against the same mistake coming back.
+Logs record good and bad examples. They do not **compound** — nothing ensures today's correction becomes tomorrow's default behaviour.
 
 ---
 
@@ -172,7 +172,7 @@ There is **no arbitrary cap**. Ten was a planning placeholder — discard it.
 | **End of every CDD session** | No — too heavy; session uses live validate only | No |
 | **Nightly / weekly** | `run_skill_eval --all` aggregate report | Optional |
 
-**Summary:** eval is **regression on the skill package**, not on every chat turn. Live validate is **every turn**; eval is **on promotion and on skill changes**.
+**Summary:** eval is **proof that skill-package improvements stick**, not on every chat turn. Live validate is **every turn**; eval is **on promotion and on skill changes** — rerunnable cases are how you know a fix-skill pass actually made the system better.
 
 ---
 
