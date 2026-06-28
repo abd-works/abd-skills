@@ -60,25 +60,11 @@ Session
 
 ---
 
-## Two eval layers (plain language)
+## Eval pass on each fixture — scanner then AI
 
-### Layer 1 — Mechanical (scanners on fixtures)
+**Reject:** “Structural rules → scanners only; semantic rules → AI only.”
 
-**What:** Python scanners on saved files.  
-**When:** Rule is structural — headings exist, terms italicized, forbidden patterns, file shape, session checklist lines.  
-**Prototype:** `abd-secure-code/test/` (`secure-sample` must pass, `insecure-sample` must fail named scanners).
-
-**Good for:** Practice deliverable skills (domain language, story map, AC, architecture spec, secure code).
-
-### Layer 2 — Rule verdict on frozen fixtures
-
-**What:** The per-rule PASS/FAIL you already require in validate — but run again on **saved** artifacts, not only fresh generation.  
-**When:** Scanners pass but meaning is still wrong, or rule is semantic / judgment-heavy.  
-**How (options to decide):** Fixed rubric from `rules/*.md`; optional LLM-as-judge with temperature 0; human spot-check on failure themes.
-
-**Good for:** “Is this thin-sliced enough?”, “Does this concept belong here?”, orchestrator behavior reviews.
-
-**Important:** Layer 2 is not new magic. It is **regression testing for fuzzy rules** — only worth it after Layer 1 and promotion are habitual.
+**Per rule, per fixture:** scanner (if any) → AI verdict on matching `rules/<rule>.md`. See `docs/Solution.md` for full model, context tags, layout, and run frequency.
 
 ---
 
