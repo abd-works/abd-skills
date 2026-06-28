@@ -1,4 +1,4 @@
-﻿---
+---
 name: abd-story-specification
 catalog_garden_tier: practice
 catalog_garden_order: 40
@@ -63,11 +63,14 @@ Check for `domain.json` in the workspace. If it does not exist and a domain mode
 
 ### 2. Generate
 
-**Choose notation first:**
-- **Scenarios** (plain): each scenario has distinct context; all values inline. Use for main flow, failure, edge cases.
-- **Scenario Outlines**: same Given/When/Then steps across multiple data rows; `{column_name}` tokens bound to an **Examples** block. Use only when steps are genuinely identical across every row.
+**Default notation: Scenario Outline.**
 
-If not specified, determine based on the nature of the requirements and confirm with the user.
+Use **Scenario Outline** with normalised **Examples** tables for every story that has more than one scenario. This is the default — do not use plain Scenario blocks for multi-scenario stories.
+
+- **Scenario Outline** (default): `{column_name}` tokens in steps bound to per-concept Examples tables above (Given data) and below (When/Then data). Use for all stories with data variation — happy path, failure, edge cases share the same step structure and differ only in row data.
+- **Plain Scenario** (exception only): use only when a story has exactly one scenario AND parameterising it with a one-row table adds no value.
+
+Never use a plain `Scenario` block when a story covers multiple paths. If paths differ in data, use Outline rows. If paths differ structurally, model each structural variant as its own Scenario Outline.
 
 **Produce the template:**
 
@@ -81,7 +84,7 @@ If not specified, determine based on the nature of the requirements and confirm 
 - Name each scenario by its **outcome**, not its action.
 - Cover at least one happy path, one failure or rejection, and any edge cases implied by the story.
 - If *Acceptance Criteria* exist, use the main-flow AC as your spine: convert WHEN → When, THEN → Then, add Given preconditions.
-- If you find yourself writing the same steps three or more times with only values changing, switch to **Scenario Outlines**.
+- **Start with Scenario Outline** for every story with more than one scenario. Only fall back to plain Scenario when a story has a single, non-parameterisable path.
 - **Stubbed external services:** When a scenario involves a stubbed service (hardcoded request + response), apply `rules/stub-service-interaction-structure.md`: declare the stub in **Given**, express the system-captures → system-forwards → service-returns sequence in **When**, assert only the business outcome in **Then**. Never put a stub response in **Then**. For every new stub input/output pair introduced, note it for stub fixture update (see `abd-story-acceptance-test` rule `stub-data-sync-with-scenarios`).
 
 **Domain grounding:**
@@ -104,7 +107,7 @@ Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.m
 - **Given/When/Then structure** — correct keywords; Background is state-only; multiple When/Then beats where the flow requires.
 - **Trailing spaces** — every step line (Given, When, Then, And, But) ends with two trailing spaces so markdown preview renders each step on its own line.
 - **Domain emphasis** — domain-significant terms use *italics* consistently; concept names match the domain model exactly.
-- **Scenario vs Outline choice** — Outlines used only when steps are genuinely identical across all rows.
+- **Scenario Outline is the default** — every multi-scenario story uses Scenario Outline with Examples tables. Plain Scenario only for truly single-path stories with no data variation.
 - **Coverage** — happy path, failure path, and edge cases implied by story or AC are visible.
 - **Domain model grounding** — `domain.json` matches or has been produced if a domain model file exists.
 - **Stub structure** — if any scenario involves a stubbed service: stub declared in Given, invocation + response in When, business outcome only in Then. No stub response in Then.

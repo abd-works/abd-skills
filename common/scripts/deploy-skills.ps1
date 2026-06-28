@@ -62,7 +62,7 @@ function Remove-AndCopyDirectory {
             Remove-Item -LiteralPath $Destination -Recurse -Force -ErrorAction Stop
         } catch {
             # Folder is locked (e.g. open in IDE) — fall back to file-by-file overwrite
-            Write-Host "  ⚠️  Cannot remove '$Destination' (in use) — merging files instead."
+            Write-Host "  [WARN] Cannot remove '$Destination' (in use) -- merging files instead."
             New-Directory -Path $Destination
             Copy-Item -Path (Join-Path $Source '*') -Destination $Destination -Recurse -Force -ErrorAction SilentlyContinue
             return
@@ -227,11 +227,12 @@ function Deploy-Package {
             Remove-AndCopyDirectory -Source $PackageRoot -Destination (Join-Path $githubSkillsDst 'common')
         } else {
             Remove-AndCopyDirectory -Source $PackageRoot -Destination (Join-Path $skillsDst 'common')
-            $promptsSrc = Join-Path $PackageRoot 'prompt'
+            $promptsSrc = Join-Path $PackageRoot 'prompts'
             if (Test-Path -LiteralPath $promptsSrc) {
                 Get-ChildItem -LiteralPath $promptsSrc -Filter '*.prompt.md' -File | ForEach-Object {
                     New-Directory -Path $commandsDst
-                    Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $commandsDst $_.Name) -Force
+                    $destName = $_.Name -replace '\.prompt\.md$', '.md'
+                    Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $commandsDst $destName) -Force
                 }
             }
         }
@@ -377,7 +378,8 @@ function Deploy-Package {
                 Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $githubPromptsDst $_.Name) -Force
             } else {
                 New-Directory -Path $commandsDst
-                Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $commandsDst $_.Name) -Force
+                $destName = $_.Name -replace '\.prompt\.md$', '.md'
+                Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $commandsDst $destName) -Force
             }
         }
     }
@@ -459,12 +461,12 @@ try {
                 if ($Status) { exit 0 }
             }
             "fresh" {
-                Write-Host "🆕 $($delta.message)"
+                Write-Host "[NEW] $($delta.message)"
                 if ($Status) { exit 0 }
             }
         }
     } else {
-        Write-Host "🆕 No previous deploy found — full deploy."
+        Write-Host "[NEW] No previous deploy found - full deploy."
         if ($Status) { exit 0 }
     }
 } catch {

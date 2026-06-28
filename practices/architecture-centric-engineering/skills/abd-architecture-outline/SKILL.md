@@ -1,4 +1,4 @@
-﻿---
+---
 catalog_garden_tier: practice
 catalog_garden_order: 10
 name: abd-architecture-outline
@@ -70,6 +70,7 @@ Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution
 Read these files:
 - **`reference/concepts.md`** — what an outline is, the system context diagram, the extended system-context scope (functions + tech + protocols), the mechanisms catalogue concept, guiding principles, major systems catalogue, and decision records.
 - **`reference/system-context.md`** — deeper guidance on the system context diagram.
+- **`../common/record-all-architecture-violations.md`** — violation workflow (current-state documentation only): surface pattern deviations, orphan concerns, and missing mechanisms; stop and inform the user; ask 2a/2b/2c per violation; launch a non-blocking sub-agent to write DRs and downstream artefacts. Read `../common/decision-record.md` for the DR template and criteria.
 
 ### 2. Generate
 
@@ -104,6 +105,10 @@ Only after the element file is complete:
 4. Reference the PNG and link the element file from the outline markdown.
 
 **Quality bar:** Element-inventory file present and fully described (no placeholder tokens). System context element file includes functions + platform tech per system and protocol per relationship. Diagram present and matching its element file, accompanied by a caption of three sentences or fewer. Every mechanism has a named technology choice and NFR justification. ADRs on disk for all mechanism choices and platform decisions.
+
+**Step 2c — Record violations (existing systems only):**
+
+If you are documenting an existing system, follow `../common/record-all-architecture-violations.md` after completing steps 2a and 2b. Collect all violations, present the table, ask fix or defer, and write a Deferral ADR for every deferred item. Append the violation resolution summary to the outline document.
 
 ### 3. Validate
 

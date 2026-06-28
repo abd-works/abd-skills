@@ -61,6 +61,57 @@ async function waitForRender(page) {
 
 **DO NOT** use a conditional reload (`if (!controlled) { reload }`). The SW may already be registered but the current page's first navigation still races with SW claiming. An unconditional reload is the only fully reliable pattern.
 
+## Rule: Complete Interactivity — Capture All Interactive States
+
+**Correction (2026-06-26):** Extraction tests MUST simulate user interactions to capture every meaningful UI state, not just the initial page load. Static capture of the landing state is not enough.
+
+**For every page, identify and capture:**
+
+1. **Expanded states** — accordions, collapsibles, tabs. Click each expandable and capture the open state as a separate slug (e.g. `05b-my-billing-past-payments`).
+2. **Form states** — fill inputs with realistic values before capture. Capture both empty (initial) and filled states.
+3. **Wizard steps** — for multi-step flows, navigate directly to the correct step URL rather than clicking through intermediate screens. Example: `/sign-up/plan-starter` starts the Sign-Up wizard directly at the CreateAccount step (`startIndex=2`), bypassing the Slick slider carousel.
+4. **Modal / sheet triggers** — if a button opens a modal or bottom sheet, click it and capture the open state.
+
+**DO NOT** try to `force: true` click elements buried under overlay components (Slick slider, MUI Backdrop, Portal). Instead, find the direct navigation path: URL params, query strings, or programmatic state that bypasses the overlay entirely.
+
+**Naming convention for interactive states:**
+
+```
+<base-slug>         → initial / default state
+<base-slug>-<state> → interactive state (e.g. 05b-my-billing-past-payments)
+```
+
+**Example — billing accordions:**
+
+```typescript
+// Initial state
+test('05-my-billing', ...) { await page.goto('/my/billing'); ... }
+
+// Expanded accordion state
+test('05b-my-billing-past-payments', async ({ page }) => {
+  await page.goto('/my/billing')
+  await waitForRender(page)
+  const btn = page.getByRole('button', { name: /past payments/i })
+  if (await btn.isVisible()) { await btn.click(); await page.waitForTimeout(1000) }
+  await capturePage(page, { slug: '05b-my-billing-past-payments', ... })
+})
+```
+
+**Example — wizard direct navigation (bypass carousel):**
+
+```typescript
+// Correct: navigate directly to the step URL
+test('02b-sign-up-create-account', async ({ page }) => {
+  await page.goto('/sign-up/plan-starter') // planId in URL → startIndex=2 (CreateAccount)
+  await waitForRender(page)
+  await capturePage(page, { slug: '02b-sign-up-create-account', ... })
+})
+
+// WRONG: clicking "Sign up now" inside a Slick slider carousel
+// The carousel overlay intercepts pointer events; force-click fires DOM event
+// but React synthetic event may not propagate to the onClick handler correctly.
+```
+
 ## Placement in `capturePage`
 
 ```

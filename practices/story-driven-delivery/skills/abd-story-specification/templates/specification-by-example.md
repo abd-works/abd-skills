@@ -10,11 +10,11 @@
   Default input: domain model outline — read it before writing any scenario.
   Concept names, relationships, and invariants come from there verbatim.
 
-  Each story uses whichever notation fits its behavior:
-  - Plain Scenario: distinct logical flow with inline values (bold concepts, italic values)
-  - Scenario Outline: data-driven variations with {column_name} tokens and example tables
+  DEFAULT NOTATION: Scenario Outline.
+  Every story with more than one scenario uses Scenario Outline with normalised Examples tables.
+  Plain Scenario is the exception — only for single-path stories with no data variation.
 
-  Stories are the organizing unit. Both notations live in this single file.
+  Stories are the organizing unit. All scenarios live in this single file.
 -->
 
 ## Story: `<Verb–Noun Title>`
@@ -167,7 +167,7 @@ Then the **Wire Payment** is marked as {validation_status}
 
 ## Instructions
 
-- Each story uses whichever notation fits: plain scenario for distinct flows, scenario outline for data-driven variations. Both live in this single file, grouped by story.
+- **Default notation: Scenario Outline.** Every multi-scenario story uses Scenario Outline with Examples tables. Plain Scenario only for single-path stories with no data variation.
 - **Plain scenarios:** Given = state; When = action; Then = observable outcome. Use **bold** for domain concepts, *italics* for values.
 - **Scenario outlines:** Use `{column_name}` tokens in steps matching example table headers exactly. Provide multiple rows.
 - **Example tables:** One table per domain concept. Link related tables with foreign-key columns. Never denormalize multiple concepts into a single flat table.

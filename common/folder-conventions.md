@@ -8,6 +8,9 @@ The empty folder-and-file scaffold that mirrors this table lives at [`context-sc
 
 ## Default output resolution (all skills)
 
+All paths below are relative to **`<project>/`** — the project root within the workspace
+(e.g. `pml-my/`, `pml-midtier/`). All deliverables live under `<project>/docs/` by default.
+
 Skills resolve their deliverables folder in this order:
 
 1. **Explicit user path** — if the user names a file or folder, use exactly that.
@@ -102,13 +105,19 @@ docs/
 │
 ├── external/                               ← other inputs and source data (not skill outputs)
 │   ├── code-research/                      ← abd-code-research output
+│   ├── app-extraction/
+│   │   └── pages/
+│   │       └── <page-slug>/
+│   │           ├── aria.yaml               ← abd-context-app-extractor
+│   │           └── screenshot.png          ← abd-context-app-extractor
+│   ├── app-sandbox/
+│   │   └── stubs/                          ← abd-context-app-sandbox (stub registry + credentials)
 │   └── context-chunks/                     ← legacy context memory chunks (superseded by docs/context/)
 │
-└── sessions/                               ← context-driven-delivery session artefacts
+└── cdd-sessions/                           ← context-driven-delivery session artefacts
     └── <YYYY-MM-DD>-<topic>/
-        ├── session-journal.md              ← context-driven-delivery (append-only narrative)
-        └── progress/
-            └── process-checklist.md        ← context-driven-delivery (grid progress)
+        ├── cdd-session-journal.md          ← context-driven-delivery (append-only narrative)
+        └── cdd-session-checklist.md        ← context-driven-delivery (grid progress)
 ```
 
 ---
@@ -123,7 +132,7 @@ docs/
 | abd-ux-mockup | `docs/ux/mockup/screens/` | `mockup/` (singular) confirmed |
 | abd-architecture-specification | `docs/architecture/specification/<specification-name>/` | One subfolder per specification |
 | abd-bdd-behavior | `docs/bdd/<feature>-behavior.md` | Behavior spec only; test/spec files go in the project test folder |
-| cdd sessions | `docs/sessions/<YYYY-MM-DD>-<topic>/` | Matches scaffold |
+| cdd sessions | `docs/cdd-sessions/<YYYY-MM-DD>-<topic>/` | Matches scaffold |
 
 ---
 

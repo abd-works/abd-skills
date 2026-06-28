@@ -128,6 +128,8 @@ The skill output is a validation tool — use it as soon as it would move the co
 
 **Fidelity:** Every fidelity level × perspective gets the same treatment. None is more important than another. The entry point is determined by what exists, not hardcoded.
 
+**Engineering: Domain before Stories:** At the Engineering stage, complete domain code interrogation (walk types, map where each domain object lives, identify structural conflicts) before defining testing layers or implementing tests. The testing layer must be shaped by what the code actually is — not by what the domain model aspires to be. Do not design test wrappers, builders, or semantic types until the domain object → code location map is complete and type conflicts are documented.
+
 ---
 
 ## Progress tracking
@@ -136,20 +138,56 @@ Use the `track_task` skill pattern to create and maintain a checkbox progress fi
 
 **When to create:** As soon as the entry point is confirmed by the user. Do not wait.
 
-**Location:** `<workspace>/docs/sessions/<date>-<topic>/progress/process-checklist.md`
+**Location:** `<workspace>/docs/cdd-sessions/<date>-<topic>/cdd-session-checklist.md`
 
-**Format:** One `- [ ]` line per fidelity level × perspective cell in scope, plus an entry point line. Pre-populate based on the confirmed entry point and any skips the user declared.
+**Format:** One `- [ ]` line per fidelity level × perspective cell in scope, plus an entry point line. Pre-populate based on the confirmed entry point and any skips the user declared. **Each line must name the exact skill** (from `skill-index.md`) — never a generic placeholder.
 
 ```markdown
-- [x] Entry point confirmed: <fidelity level> — <reason>
-- [ ] <Fidelity>: Domain — <skill name>
-- [ ] <Fidelity>: Stories — <skill name>
-- [ ] <Fidelity>: UX — <skill name>
-- [ ] <Fidelity>: Architecture — <skill name>
-- [ ] Consistency check — <Fidelity>
-- [ ] <NextFidelity>: Domain — ...
-...
+- [x] Entry point confirmed: <stage> — <reason>
+
+## Shaping
+
+- [ ] Shaping: Domain — abd-domain-glossary
+- [ ] Shaping: Stories — abd-story-mapping (outline mode)
+- [ ] Shaping: UX — abd-ux-user-impact-map
+- [ ] Shaping: Architecture — abd-architecture-outline
+- [ ] Consistency check — Shaping
+
+## Discovery
+
+- [ ] Discovery: Domain — abd-domain-language
+- [ ] Discovery: Stories — abd-story-mapping (full mode)
+- [ ] Discovery: UX — abd-ux-information-architecture
+- [ ] Discovery: Architecture — abd-architecture-blueprint
+- [ ] Consistency check — Discovery
+
+## Exploration
+
+- [ ] Exploration: Domain — abd-domain-model
+- [ ] Exploration: Stories — abd-story-acceptance-criteria
+- [ ] Exploration: UX — abd-ux-mockup
+- [ ] Exploration: Architecture — abd-architecture-specification (document mode)
+- [ ] Consistency check — Exploration
+
+## Specification
+
+- [ ] Specification: Domain — abd-domain-specification + abd-domain-walk
+- [ ] Specification: Stories — abd-story-specification
+- [ ] Specification: UX — abd-ux-specification
+- [ ] Specification: Architecture — abd-architecture-specification (template mode)
+- [ ] Consistency check — Specification
+
+## Engineering
+
+- [ ] Engineering: Domain — abd-domain-code
+- [ ] Engineering: Stories — abd-story-acceptance-test
+- [ ] Engineering: UX — abd-ux-ui-implementation
+- [ ] Engineering: Architecture — abd-architecture-code
+- [ ] Engineering: Quality — abd-clean-code + abd-secure-code
+- [ ] Consistency check — Engineering
 ```
+
+Only include stages from the confirmed entry point onward. Omit stages the user explicitly skips.
 
 **Each turn:**
 
@@ -170,9 +208,18 @@ Use the `track_task` skill pattern to create and maintain a checkbox progress fi
 
 Maintain a running session journal — a record for resumption and traceability. Append-only, write in the background, never let it slow the conversation.
 
-**Location:** `<workspace>/docs/sessions/<date>-<topic>/session-journal.md`
+**Location:** `<workspace>/docs/cdd-sessions/<date>-<topic>/cdd-session-journal.md`
 
 **Format:** See [`templates/session-journal.md`](./templates/session-journal.md)
+
+**Every `Ran` line must include the exact SKILL.md name and the exact output path:**
+
+```markdown
+- Ran `abd-domain-glossary/SKILL.md` → `docs/domain/glossary.md` — accepted
+- Ran `abd-story-mapping/SKILL.md` (outline mode) → `docs/stories/story-map.md` — needs revision
+```
+
+Never write `Ran <skill>` with a vague name. The exact skill name is what lets the session restart without asking what ran before.
 
 ---
 

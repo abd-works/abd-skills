@@ -58,9 +58,39 @@ Read the following files in full before doing anything else:
 
 - **`reference/what-counts-as-external.md`** — definition of external dependency and the peer-repo e2e exclusion
 - **`reference/stub-patterns.md`** — boundary identification heuristics, stub shape examples for common service types
+- **`reference/complex-stub-strategy.md`** — **MANDATORY** — when stubbing is complex (5+ externals, domain-shaped returns, auth-gated screens, feature-flag-gated flows), do Discovery and Exploration through stories and domain BEFORE writing any stub. Read this file to determine whether to apply the complex strategy.
 - **`../../reference/tool-selection.md`** — shared surface-to-tool matrix; use this to choose the smoke-test automation tool after stubs are in place
 
 Do not proceed to step 2 until all required reference files have been read completely.
+
+### 1b. Apply the complex stub strategy if triggered
+
+After reading `reference/complex-stub-strategy.md`, check the trigger condition:
+
+> **Trigger:** Five or more distinct external services, OR any stub must return a nested domain object with more than three fields.
+
+If triggered — **STOP. Do not proceed to Generate (step 2) yet.**
+
+The session checklist **must** include all three of the following discrete steps in
+order. They cannot be collapsed, skipped, or combined into a single checkbox:
+
+1. **Story mapping — minimal stub-focus pass** → `docs/stubs/story-map.md`
+   Map each user activity to: which external service is called, at which step, and what
+   minimum response shape it must return for the activity to advance.
+
+2. **Acceptance criteria — minimal stub-focus pass** → `docs/stubs/acceptance-criteria.md`
+   For each activity, write 2–4 plain-language acceptance criteria that name the stub
+   value, the observable outcome, and the screen it is visible on.
+
+3. **Domain language — minimal stub-focus pass** → `docs/stubs/domain-glossary.md`
+   For each domain term that appears in an external service response, list the minimum
+   fields the UI reads, their types, example values, and which component reads them.
+
+Only after all three documents are written, proceed to step 2 (Generate) using the
+story map, acceptance criteria, and domain glossary to author stubs with realistic,
+domain-shaped return values.
+
+If not triggered — proceed directly to step 2.
 
 ### 2. Generate
 

@@ -1,30 +1,37 @@
-# Rule: Use scenario outline when the story needs data variation
+# Rule: Scenario Outline is the default notation
 
-Use a **Scenario Outline** with **Examples** when the **same** steps apply across multiple rows: calculations, fee tables, boundary sweeps, or named entity variations. Prefer separate **Scenario**s when setups differ materially, business meaning diverges, or you only have **one** row.
+**Scenario Outline is the default.** Every story with more than one scenario must use `Scenario Outline` with normalised `Examples` tables. Plain `Scenario` blocks are the exception, not the rule.
 
 ## DO
 
-- Outline **formula-like** or **table-driven** behavior (inputs → outputs) with a concise Examples block.
-- Keep placeholders in steps consistent with Examples column headers.
+- Use **Scenario Outline** for all multi-scenario stories — happy path, failure, edge cases, boundary sweeps, flag variants.
+- Organise Examples tables by domain concept (one table per concept), linked by a `scenario` column.
+- Use `{column_name}` tokens in steps that match Examples table headers exactly.
+- Use a plain **Scenario** only when a story has exactly one scenario and adding a one-row Examples table provides no value.
 
-``Scenario Outline: Modifier depends on rank
-  Given ability rank <rank>
-  When modifier is calculated
-  Then modifier is <modifier>
+```
+Scenario Outline: Authenticate Subscriber
+  Given a **Subscriber** {email} with account status {account_status}
+  When the **Subscriber** submits {email} and {password}
+  Then the system navigates to {expected_destination}
 
   Examples:
-    | rank | modifier |
-    | 10   | 0        |
-    | 12   | +1       |
-``
+  | scenario   | email                    | account_status | password | expected_destination |
+  | Scenario 1 | alex.chen@paradise.bm    | active         | correct  | /my                  |
+  | Scenario 2 | new@paradise.bm          | first_time     | correct  | /my/setup            |
+  | Scenario 3 | alex.chen@paradise.bm    | active         | wrong    | sign-in              |
+```
+
 ## DON'T
 
-- Wrap a single concrete path in an outline with one Examples row—use a normal **Scenario**.
-- Use outlines when scenarios need different **Given** contexts that are clearer as separate scenarios.
+- Do not write multiple plain `Scenario` blocks for the same story when they differ only in data.
+- Do not use a flat single table mixing multiple domain concepts — normalise into separate per-concept tables.
+- Do not skip Outline because paths "feel different" — if data varies across paths, Outline rows capture that variation.
 
-``# WRONG — outline adds noise for one row
-Scenario Outline: User saves profile
-  Examples:
-    | name |
-    | Jane |
-``
+```
+# WRONG — multiple plain Scenarios when Outline rows would do
+### Scenario 1: Valid credentials navigate home
+Given a Subscriber alex.chen@paradise.bm …
+### Scenario 2: Wrong password shows error
+Given a Subscriber alex.chen@paradise.bm …
+```

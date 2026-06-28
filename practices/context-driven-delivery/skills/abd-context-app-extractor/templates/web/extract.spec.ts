@@ -5,15 +5,20 @@
  *   1. Fill in the PAGES array with the routes you want to capture.
  *   2. Run:  npx playwright test extract.spec.ts --reporter=line
  *
- * Outputs (relative to repo root):
- *   docs/extracted-context/app-extraction/extraction-overview.md
+ * Outputs (relative to repo root) — three files per page:
  *   docs/extracted-context/app-extraction/pages/<slug>/screenshot.png
  *   docs/extracted-context/app-extraction/pages/<slug>/aria.yaml
+ *   docs/extracted-context/app-extraction/pages/<slug>/interactivity.json
+ *
+ * And one overview:
+ *   docs/extracted-context/app-extraction/extraction-overview.md
  *
  * Prerequisites:
  *   - @playwright/test installed (>=1.61 for page.ariaSnapshot())
  *   - A playwright.config.ts with baseURL set
  *   - Dev/test server running (or webServer config in playwright.config.ts)
+ *
+ * See example-output/ for annotated examples of each file.
  */
 
 import * as fs from 'node:fs'
@@ -79,15 +84,15 @@ fs.mkdirSync(PAGES_DIR, { recursive: true })
 // ---------------------------------------------------------------------------
 
 type PageEntry = {
-	step_id:           string
-	url_or_view:       string
-	user_intent:       string
-	domain_focus:      string[]
-	ux_focus:          string[]
-	aria_snapshot_file: string
-	screenshot_file:   string
-	network_summary:   string[]
-	notes:             string
+	step_id:             string
+	url_or_view:         string
+	user_intent:         string
+	domain_focus:        string[]
+	ux_focus:            string[]
+	aria_snapshot_file:  string
+	screenshot_file:     string
+	interactivity_file:  string
+	notes:               string
 }
 
 const pages: PageEntry[] = []
@@ -110,22 +115,107 @@ async function waitForRender(page: import('@playwright/test').Page): Promise<voi
 }
 
 /**
+ * Capture raw DOM interactivity facts — written to interactivity.json.
+ *
+ * Two sections:
+ *   clickable_non_semantic  — divs/spans/li with cursor:pointer that are NOT
+ *                             natively interactive (button, a, input, …).
+ *                             These are invisible to ARIA but clickable.
+ *   aria_states             — elements carrying an active ARIA state attribute
+ *                             (aria-selected, aria-current, aria-expanded, …).
+ *                             Captures which items are selected/expanded at
+ *                             the moment of extraction.
+ *
+ * Raw facts only — no interpretation. Interpretation is downstream.
+ * See example-output/pages/01-example-page/interactivity.json for shape.
+ */
+async function captureInteractivity(
+	page: import('@playwright/test').Page,
+	pageDir: string,
+): Promise<void> {
+	const SEMANTIC = ['BUTTON', 'A', 'INPUT', 'SELECT', 'TEXTAREA', 'OPTION', 'SUMMARY', 'LABEL']
+
+	const result = await page.evaluate((semanticTags: string[]) => {
+		type ClickableEntry = {
+			tag: string; text: string; classes: string
+			role: string | null; testid: string | null; count: number
+		}
+		type AriaStateEntry = {
+			attribute: string; value: string | null
+			tag: string; text: string; role: string | null
+		}
+
+		// Non-semantic elements with cursor:pointer — deduplicated by class fingerprint.
+		// count > 1 means the same component renders multiple times (e.g. list items).
+		const clickableMap = new Map<string, ClickableEntry>()
+		document.querySelectorAll('div, span, li, td, article, section').forEach(el => {
+			if (semanticTags.includes(el.tagName)) return
+			if (window.getComputedStyle(el).cursor !== 'pointer') return
+			const classes = [...el.classList].filter(c => c.length < 60).join(' ')
+			const key = `${el.tagName}:${classes}`
+			const existing = clickableMap.get(key)
+			if (existing) {
+				existing.count++
+			} else {
+				clickableMap.set(key, {
+					tag: el.tagName,
+					text: (el.textContent ?? '').trim().replace(/\s+/g, ' ').slice(0, 80),
+					classes,
+					role: el.getAttribute('role'),
+					testid: el.getAttribute('data-testid'),
+					count: 1,
+				})
+			}
+		})
+
+		// Elements with non-false ARIA state attributes — reflects current UI state
+		// (selected tab, expanded accordion, checked checkbox, etc.)
+		const ariaStates: AriaStateEntry[] = []
+		const attrs = ['aria-selected', 'aria-current', 'aria-expanded', 'aria-checked', 'aria-pressed', 'aria-disabled']
+		attrs.forEach(attr => {
+			document.querySelectorAll(`[${attr}]`).forEach(el => {
+				const value = el.getAttribute(attr)
+				if (value === null || value === 'false') return  // skip unset / inactive
+				ariaStates.push({
+					attribute: attr,
+					value,
+					tag: el.tagName,
+					text: (el.textContent ?? '').trim().replace(/\s+/g, ' ').slice(0, 80),
+					role: el.getAttribute('role') ?? el.tagName.toLowerCase(),
+				})
+			})
+		})
+
+		return {
+			clickable_non_semantic: [...clickableMap.values()],
+			aria_states: ariaStates,
+		}
+	}, SEMANTIC)
+
+	fs.writeFileSync(
+		path.join(pageDir, 'interactivity.json'),
+		JSON.stringify(result, null, 2),
+		'utf-8',
+	)
+}
+
+/**
  * Capture one page:
  *   1. Creates  pages/<slug>/  folder
- *   2. Screenshot  → pages/<slug>/screenshot.png
- *   3. ARIA snapshot → pages/<slug>/aria.yaml
- *   4. Pushes PageEntry into the shared log
+ *   2. Screenshot       → pages/<slug>/screenshot.png
+ *   3. ARIA snapshot    → pages/<slug>/aria.yaml
+ *   4. Interactivity    → pages/<slug>/interactivity.json
+ *   5. Pushes PageEntry into the shared log
  */
 async function capturePage(
 	page: import('@playwright/test').Page,
 	opts: {
-		slug:          string
-		urlOrView:     string
-		userIntent:    string
-		domainFocus:   string[]
-		uxFocus:       string[]
-		notes:         string
-		networkSummary?: string[]
+		slug:        string
+		urlOrView:   string
+		userIntent:  string
+		domainFocus: string[]
+		uxFocus:     string[]
+		notes:       string
 	},
 ): Promise<void> {
 	const pageDir = path.join(PAGES_DIR, opts.slug)
@@ -158,6 +248,7 @@ async function capturePage(
 	).toBe(false)
 
 	fs.writeFileSync(path.join(pageDir, 'aria.yaml'), ariaContent, 'utf-8')
+	await captureInteractivity(page, pageDir)
 
 	pages.push({
 		step_id:            opts.slug,
@@ -167,7 +258,7 @@ async function capturePage(
 		ux_focus:           opts.uxFocus,
 		aria_snapshot_file: `./pages/${opts.slug}/aria.yaml`,
 		screenshot_file:    `./pages/${opts.slug}/screenshot.png`,
-		network_summary:    opts.networkSummary ?? [],
+		interactivity_file: `./pages/${opts.slug}/interactivity.json`,
 		notes:              opts.notes,
 	})
 }
@@ -250,6 +341,7 @@ test.describe(`abd-context-app-extractor — ${APP_NAME} scout`, () => {
 				`- ux_focus: [${uxList}]`,
 				`- aria_snapshot: "${p.aria_snapshot_file}"`,
 				`- screenshot: "${p.screenshot_file}"`,
+				`- interactivity: "${p.interactivity_file}"`,
 				`- notes: |`,
 				`  ${p.notes}`,
 				'',

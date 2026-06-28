@@ -1,4 +1,4 @@
-﻿---
+---
 catalog_garden_tier: practice
 catalog_garden_order: 40
 name: abd-architecture-specification
@@ -154,6 +154,7 @@ Read all of these before doing anything else:
 - **`reference/concepts.md`** and **`reference/examples.md`** — the ideas and worked examples behind this skill.
 - **`reference/example.ts`** — merged template module (all tiers in one file); catalog hero and shape reference for the runnable template slice.
 - **`templates/architecture-specification.md`** — the document skeleton and placeholder vocabulary.
+- **`../common/record-all-architecture-violations.md`** — violation workflow (current-state documentation only): surface pattern deviations, orphan concerns, and missing mechanisms; stop and inform the user; ask 2a/2b/2c per violation; launch a non-blocking sub-agent to write DRs and downstream artefacts. Read `../common/decision-record.md` for the DR template and criteria.
 
 ### 2. Ask — mode and template domain
 
@@ -222,6 +223,10 @@ When mode is **document** or **both**:
 When mode is **document** only, do not create or edit files under `template/` unless the user explicitly asks to refresh template code in the same run.
 
 When mode is **template** only, skip `architecture-specification.md` unless the user explicitly asks for document work in the same run.
+
+**Record violations (existing systems only):**
+
+If you are specifying an existing system (document or both mode), follow `../common/record-all-architecture-violations.md` after completing the specification document. Collect all violations observed across mechanism sections, present the table, ask fix or defer, and write a Deferral ADR for every deferred item. Append the violation resolution summary to `architecture-specification.md`.
 
 ### 4. Assign to story map
 

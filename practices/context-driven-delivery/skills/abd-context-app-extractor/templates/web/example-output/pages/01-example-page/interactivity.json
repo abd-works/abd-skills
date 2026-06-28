@@ -1,0 +1,76 @@
+{
+  "clickable_non_semantic": [
+    {
+      "tag": "DIV",
+      "text": "Basic $25/mo · 5 GB data Select Basic",
+      "classes": "plan-card",
+      "role": null,
+      "testid": "plan-card-basic",
+      "count": 1
+    },
+    {
+      "tag": "DIV",
+      "text": "Standard $40/mo · 15 GB data Select Standard",
+      "classes": "plan-card",
+      "role": null,
+      "testid": "plan-card-standard",
+      "count": 1
+    },
+    {
+      "tag": "DIV",
+      "text": "Premium $60/mo · Unlimited data Select Premium",
+      "classes": "plan-card plan-card--featured",
+      "role": null,
+      "testid": "plan-card-premium",
+      "count": 1
+    },
+    {
+      "tag": "LI",
+      "text": "",
+      "classes": "carousel-dot carousel-dot--active",
+      "role": null,
+      "testid": null,
+      "count": 1
+    },
+    {
+      "tag": "LI",
+      "text": "",
+      "classes": "carousel-dot",
+      "role": null,
+      "testid": null,
+      "count": 2
+    },
+    {
+      "tag": "SPAN",
+      "text": "‹",
+      "classes": "carousel-arrow carousel-arrow--prev",
+      "role": null,
+      "testid": "carousel-prev",
+      "count": 1
+    },
+    {
+      "tag": "SPAN",
+      "text": "›",
+      "classes": "carousel-arrow carousel-arrow--next",
+      "role": null,
+      "testid": "carousel-next",
+      "count": 1
+    }
+  ],
+  "aria_states": [
+    {
+      "attribute": "aria-current",
+      "value": "page",
+      "tag": "A",
+      "text": "Services",
+      "role": "link"
+    },
+    {
+      "attribute": "aria-expanded",
+      "value": "false",
+      "tag": "BUTTON",
+      "text": "Menu",
+      "role": "button"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+- banner:
+  - navigation:
+    - link "Home"
+    - link "Billing"
+    - link "Services"
+    - link "Support"
+  - button "Menu"
+- main:
+  - heading "Choose a plan" [level=1]
+  - text: "Select the plan that works best for you."
+  - img "Basic plan image"
+  - heading "Basic" [level=3]
+  - text: "$25/mo · 5 GB data"
+  - button "Select Basic"
+  - img "Standard plan image"
+  - heading "Standard" [level=3]
+  - text: "$40/mo · 15 GB data"
+  - button "Select Standard"
+  - img "Premium plan image"
+  - heading "Premium" [level=3]
+  - text: "$60/mo · Unlimited data"
+  - button "Select Premium"
+- contentinfo:
+  - text: "© 2026 My App"

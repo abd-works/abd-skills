@@ -1,4 +1,4 @@
-﻿---
+---
 catalog_garden_tier: practice
 catalog_garden_order: 20
 name: abd-architecture-blueprint
@@ -72,6 +72,7 @@ Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution
 Read these files:
 - **`reference/concepts.md`** — what a blueprint is, the platform diagram, modules vs mechanisms, how mechanisms are deepened from the outline (module interactions + platform detail), testing architecture, decision records, and what the blueprint does NOT contain.
 - **`reference/examples.md`** — typical blueprint file tree and the shape of a good blueprint.
+- **`../common/record-all-architecture-violations.md`** — violation workflow (current-state documentation only): surface pattern deviations, orphan concerns, and missing mechanisms; stop and inform the user; ask 2a/2b/2c per violation; launch a non-blocking sub-agent to write DRs and downstream artefacts. Read `../common/decision-record.md` for the DR template and criteria.
 
 Also read the project's **`architecture-outline.md`** to obtain the mechanism technology choices, NFR justifications, and guiding principles before starting. The blueprint deepens the outline — it does not re-state or re-decide what the outline recorded.
 
@@ -109,6 +110,10 @@ Fill every section with real names and 1-2 sentence descriptions; no placeholder
 4. Export PNGs: `.\scripts\arch-drawio.ps1 export -ProjectRoot <target-project-root>`
 
 **Quality bar:** Platform element file fully described. Mechanisms described in prose (code shape each module must adopt). Mechanism-modules described with functional surface. Domain modules described in 1-2 sentences + mechanisms + dependencies. Module diagram has legend for universal mechanisms.
+
+**Step 2c — Record violations (existing systems only):**
+
+If you are documenting an existing system, follow `../common/record-all-architecture-violations.md` after completing steps 2a and 2b. Collect all violations found across mechanism and module descriptions, present the table, ask fix or defer, and write a Deferral ADR for every deferred item. Append the violation resolution summary to the blueprint document.
 
 ### 3. Validate
 
