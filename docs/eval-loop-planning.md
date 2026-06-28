@@ -216,7 +216,7 @@ Repo-level scripts (future, not built):
 
 1. **Where does `skill-errors-log.md` live?** Per skill package vs engagement `docs/` — promotion script must handle both (instructions mention both patterns).
 2. **npx skills vs deploy vs eval** — deploy copies to `.cursor/skills/`; eval is separate from Cursor skill autocomplete. Document so nobody conflates them.
-3. **How many fixtures per skill?** Cap at ~10 per skill? Rotate old ones out?
+3. **Fixture scale** — no arbitrary cap; one case per promoted failure mode; coverage map rules over time (see `docs/Solution.md`).
 4. **Who runs eval?** Human after session, agent before `fix-skill`, CI on PR — all three?
 5. **CDD corrections-pending hook** — does promotion integrate with `detect-correction.sh` or stay manual?
 6. **Practice skills not in `npx skills` registry** — eval is the quality path for those; catalog install is a separate concern.
