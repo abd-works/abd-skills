@@ -120,33 +120,35 @@ Architecture prose (`architecture-specification.md`, ADRs) stays the **deep deta
 A node's `pointer` is a **path through the containment tree using element names**, not a JSON Pointer index.
 
 ```text
-epics/"Shop in store"/sub_epics/"Find products and check stock"/stories/"Search Products by Keyword"
-screens/"Search Results"/regions/"Results list"
-modules/"Catalog"/classes/"Product"
-modules/"Catalog"/mechanisms/"Repository pattern"
+epics/Shop in store/sub_epics/Find products and check stock/stories/Search Products by Keyword
+screens/Search Results/regions/Results list
+modules/Catalog/classes/Product
+modules/Catalog/mechanisms/Repository pattern
 ```
 
 **Format:**
 
 ```text
-{collection}/"{name}"/{collection}/"{name}"/…
+{collection}/{name}/{collection}/{name}/…
 ```
 
 | Part | Rule |
 | --- | --- |
 | `collection` | Plural segment for the child array in that view (`epics`, `sub_epics`, `stories`, `scenarios`, `screens`, `regions`, `modules`, `classes`, …) |
-| `"{name}"` | The node's `name` field at that position, in double quotes |
+| `{name}` | The node's `name` field — **unquoted**; spaces and punctuation are fine |
 | Root | Starts at the view graph root — no leading slash, no numeric indices |
+
+**No quotes in the normal case.** The pointer lives inside a JSON string already; wrapping every name in `\"…\"` adds clutter and escaping pain for no benefit when names are plain text (which they almost always are).
+
+**Escaping (rare):** only when a name contains `/`, wrap that segment in brackets: `stories/[Confirm stock/availability]`. If a name contains `]`, prefer renaming. Do not use per-segment JSON quotes.
 
 **Why names, not indices:**
 
 - **Readable** — agents, humans, and diffs see what the path means without loading the file.
 - **Stable across reorder** — renaming aside, inserting a sibling does not invalidate the path the way `/epics/0/…` does.
-- **Aligns with bot paths** — same mental model as `story_graph."Shop in store"."Find products".stories."Search Products"` in story-graph-ops.
+- **Aligns with bot paths** — same mental model as `story_graph."Shop in store".stories."Search Products"` in story-graph-ops, without persisting quote characters.
 
-**Resolution:** tooling walks the view graph file at `path`, matching `name` at each segment. Sibling names must be unique within a parent (already required for story-graph navigation).
-
-**Escaping:** if a name contains `"`, escape as `\"` inside the quoted segment. Prefer renaming over escape when possible.
+**Resolution:** tooling walks the view graph at `path`, alternating `collection` / `name` segments (known collection vocabulary vs match on `name`). Sibling names must be unique within a parent.
 
 **Markdown-only nodes** (e.g. architecture prose without a graph spine yet): `pointer` may be a markdown anchor path — `architecture-specification.md#repository-pattern` — until promoted into `arch-graph.json`.
 
@@ -171,42 +173,42 @@ The context graph is a standard **nodes + edges** graph. It does **not** duplica
       "kind": "Screen",
       "view": "ux",
       "path": "docs/ux/mockup/ux-graph.json",
-      "pointer": "flows/\"Shop in store\"/screens/\"Search Results\""
+      "pointer": "flows/Shop in store/screens/Search Results"
     },
     {
       "id": "story:epic:shop-in-store",
       "kind": "Epic",
       "view": "stories",
       "path": "docs/stories/story-map/story-graph.json",
-      "pointer": "epics/\"Shop in store\""
+      "pointer": "epics/Shop in store"
     },
     {
       "id": "ux:region:results-list",
       "kind": "Region",
       "view": "ux",
       "path": "docs/ux/mockup/ux-graph.json",
-      "pointer": "flows/\"Shop in store\"/screens/\"Search Results\"/regions/\"Results list\""
+      "pointer": "flows/Shop in store/screens/Search Results/regions/Results list"
     },
     {
       "id": "story:scenario:keyword-returns-matching-products",
       "kind": "Scenario",
       "view": "stories",
       "path": "docs/stories/story-map/story-graph.json",
-      "pointer": "epics/\"Shop in store\"/sub_epics/\"Find products and check stock\"/stories/\"Search Products by Keyword\"/scenarios/\"Keyword returns matching products\""
+      "pointer": "epics/Shop in store/sub_epics/Find products and check stock/stories/Search Products by Keyword/scenarios/Keyword returns matching products"
     },
     {
       "id": "domain:module:catalog",
       "kind": "Module",
       "view": "domain",
       "path": "docs/domain/model/domain-graph.json",
-      "pointer": "modules/\"Catalog\""
+      "pointer": "modules/Catalog"
     },
     {
       "id": "arch:mechanism:repository-pattern",
       "kind": "Mechanism",
       "view": "architecture",
       "path": "docs/architecture/arch-graph.json",
-      "pointer": "modules/\"Catalog\"/mechanisms/\"Repository pattern\""
+      "pointer": "modules/Catalog/mechanisms/Repository pattern"
     }
   ],
   "edges": [
@@ -281,14 +283,14 @@ Each node (in view graphs and registered in the context graph) carries:
   "view": "stories",
   "name": "Search Products by Keyword",
   "path": "docs/stories/story-map/story-graph.json",
-  "pointer": "epics/\"Shop in store\"/sub_epics/\"Find products and check stock\"/stories/\"Search Products by Keyword\""
+  "pointer": "epics/Shop in store/sub_epics/Find products and check stock/stories/Search Products by Keyword"
 }
 ```
 
 | Field | Role |
 | --- | --- |
 | `id` | Stable slug for edges and APIs — does not change when display name is tweaked |
-| `name` | Human label — appears quoted inside `pointer` |
+| `name` | Human label — appears as a segment in `pointer` |
 | `path` | Which file holds the view graph (or markdown for prose-only nodes) |
 | `pointer` | Name-based locator within that file — **semantic, not numeric** |
 
@@ -437,7 +439,7 @@ docs/
 - Not RDF / JSON-LD — typed view graphs + simple links are enough.
 - Not per-level edge types — six fixed cross-view types; hierarchy level is on the nodes, not in the type name.
 - Not a single mega-tree — each view keeps its own containment; context graph wires across them.
-- Not numeric JSON Pointers in authored files — locators use quoted names (`epics/"…"/stories/"…"`), not `/epics/0/…`.
+- Not numeric JSON Pointers in authored files — locators use name paths (`epics/Shop in store/stories/…`), not `/epics/0/…`.
 - Not replacing Markdown — projections stay for humans; graphs stay for machines and skills.
 
 ## Open questions
