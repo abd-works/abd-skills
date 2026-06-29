@@ -17,6 +17,8 @@
 | Specification | `abd-story-specification` | spec-by-example |
 | Engineering | `abd-story-acceptance-test` | acceptance-tests |
 
+**Supporting:** `story-graph-ops`, `drawio-story-sync`, `miro-story-sync`.
+
 ---
 
 ## Shared reference (practice level)

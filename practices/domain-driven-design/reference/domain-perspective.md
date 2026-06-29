@@ -16,7 +16,7 @@
 | Specification | `abd-domain-specification` | typed-model |
 | Engineering | `abd-domain-code` | domain-tdd |
 
-**Supporting:** `abd-bounded-context-map`, `abd-ddd-design-building-blocks`, `abd-domain-walk`, `drawio-domain-sync` (tooling — not thin-router migrated).
+**Supporting:** `abd-bounded-context-map`, `abd-ddd-design-building-blocks`, `abd-domain-walk`, `drawio-domain-sync`.
 
 ---
 

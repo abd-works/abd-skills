@@ -42,4 +42,4 @@ Each script should:
 
 ## CLI reference
 
-The full CLI command reference — `add-class`, `update-class`, `delete-class`, `move`, all relationship commands, `inspect`, and `sync-to-model` — is documented in [`diagrams.md`](../drawio-domain-sync/diagrams.md) alongside detailed layout guidelines, UML relationship selection, and cross-model import conventions. Read that file during rendering; SKILL.md does not duplicate those mechanics.
+The full CLI command reference — `add-class`, `update-class`, `delete-class`, `move`, all relationship commands, `inspect`, and `sync-to-model` — is documented in [`reference/diagram-workflow.md`](./diagram-workflow.md) alongside detailed layout guidelines, UML relationship selection, and cross-model import conventions. Read that file during rendering.
