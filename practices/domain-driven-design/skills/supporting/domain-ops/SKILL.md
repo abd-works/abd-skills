@@ -91,3 +91,17 @@ python3 -m pytest tests/ -v
 ```
 
 Tests follow the story-graph-ops AC style (`Given` / `When` / `Then` helpers) and validate practice reference fixtures under `practices/domain-driven-design/references/`.
+
+## Clean code (abd-clean-code)
+
+After changing Python under `scripts/` or `tests/`, run **abd-clean-code** scanners:
+
+```bash
+python3 common/scripts/run_scanners.py \
+  --skill-root stages/engineering/abd-clean-code \
+  --workspace practices/domain-driven-design/skills/supporting/domain-ops/scripts \
+  --language python \
+  --report-dir practices/domain-driven-design/skills/supporting/domain-ops/tests/scanner-report
+```
+
+Latest report: `tests/scanner-report/abd-clean-code.md` — **ALL CLEAN** (17/17 rules).
