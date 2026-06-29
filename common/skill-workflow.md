@@ -46,7 +46,7 @@ After read-gates:
 - Produce **one deliverable per file** in `templates/` (and for any new template added later).
 - Generated project files contain **stakeholder-facing content only** — never paste template `## Instructions` or maintainer notation sections into deliverables.
 
-Skill-specific generate steps live in the active skill's `SKILL.md` § Generate.
+Skill-specific workflow order, fidelity branching, and pre-scanners live in **`reference/generate.md`** when that file exists. Shape contracts are in **`rules/`** and **`templates/`** — do not duplicate them in `SKILL.md`.
 
 ---
 
@@ -63,7 +63,7 @@ Rule: <rule-filename>  ->  FAIL  <offending line or reason>
 
 No rule may be silently skipped. Fix every FAIL before calling the work done.
 
-When the active skill's practice family has **`reference/validate-checklist.md`**, read it and apply those shared items in addition to skill-specific `## Validate` bullets.
+When the active skill's practice family has **`reference/validate-checklist.md`**, read it and apply those shared items during § Validate output. Do **not** duplicate rule checks in `SKILL.md` — per-rule verdicts and scanners are sufficient.
 
 **B — Scanner pass:**
 

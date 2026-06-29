@@ -2,7 +2,7 @@
   Parameterized SKILL.md skeleton for agilebydesign-skills.
   Canonical copy: skills/abd-practice-skill-builder/abd-author-practice-skill/templates/SKILL_template.md
   Copy to skills/<your-skill>/SKILL.md and replace every {{PLACEHOLDER}}.
-  Shape: thin router — purpose, when-to-use, Agent Instructions (read-gates), Validate.
+  Shape: thin router — purpose, when-to-use, Agent Instructions (mandatory skill-workflow read-gates). Orchestration in reference/generate.md; shape in rules/ + templates/; no ## Validate in SKILL.md when scanners exist.
   Rules live in rules/*.md only. Concept teaching lives in reference/*.md only. Nothing inlined here.
 -->
 
@@ -50,33 +50,9 @@ Load this skill when **any** of the following apply:
 
 ## Agent Instructions
 
-**MANDATORY:** Read **[`common/skill-workflow.md`](../../../../common/skill-workflow.md) in its entirety** and complete § Read-gates before generating.
+**MANDATORY:** Read **[`common/skill-workflow.md`](../../../../common/skill-workflow.md) in its entirety** and complete § Read-gates before generating or validating.
 
-### 1. Generate
-
-| Template | What to produce |
-| --- | --- |
-| {{TEMPLATE_ROW_1}} | {{TEMPLATE_ROW_1_DESC}} |
-| {{TEMPLATE_ROW_2}} | {{TEMPLATE_ROW_2_DESC}} |
-
-{{BUILD_EXTRA_NOTES_OR_DELETE}}
-
-### 2. Validate
-
-See [`common/skill-workflow.md`](../../../../common/skill-workflow.md) § Validate output.
-
----
-
-## Validate
-
-**Goal:** Inspect what was built — read the artifacts as reviewers, not a second authoring pass.
-
-- **Who is checking:** {{VALIDATE_WHO_LINE}}
-- {{VALIDATE_BULLET_1}}
-- {{VALIDATE_BULLET_2}}
-- {{VALIDATE_BULLET_3}}
-
-{{VALIDATE_CLOSING_PARAGRAPH}}
+Orchestration (workflow order, fidelity branching, pre-scanners) belongs in **`reference/generate.md`** when non-obvious. Do not add § Generate template tables, rule summaries, or `## Validate` bullets to `SKILL.md` — `rules/`, `templates/`, and `skill-workflow` § Validate output are sufficient.
 
 ---
 

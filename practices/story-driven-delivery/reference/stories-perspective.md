@@ -36,6 +36,7 @@
 | File | Role |
 | --- | --- |
 | `reference/input-traps.md` | Method-specific input ambiguities — all five practice skills |
+| `reference/generate.md` | Orchestration only (fidelity, pipeline, pre-scanners) — mapping, thin-slicing, spec, acceptance-test |
 | `reference/diagram-workflow.md` | Mode + output path — mapping, AC, thin-slicing only |
 | `reference/output.md` | Non-default output rules only — acceptance-test (project test folder) |
 

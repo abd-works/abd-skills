@@ -8,9 +8,9 @@ Failure is a `SKILL.md` that still has bundle markers, inlined rule prose, or an
 
 ## DO
 
-- Keep **`SKILL.md`** as a thin router: purpose, when-to-use, Agent Instructions (mandatory `common/skill-workflow.md` read-gates), skill-specific § Generate, Validate with per-rule verdict via workflow.
+- Keep **`SKILL.md`** as a thin router: purpose, when-to-use, Agent Instructions (mandatory `common/skill-workflow.md` read-gates). Orchestration in **`reference/generate.md`**; no template tables; no `## Validate` when scanners exist.
 
-  **Example (pass):** Agent Instructions opens with **MANDATORY:** read `common/skill-workflow.md` in full; no per-file Read context list — practice links live in `reference/concepts.md`; § Generate holds only skill-specific steps.
+  **Example (pass):** `SKILL.md` is Purpose + one-line mandatory workflow read; `reference/generate.md` holds fidelity branching; `rules/` + scanners handle validation.
 
 - Set **`scanner: <stem>`** in the **rule file's YAML** only when **`scanners/<stem>-scanner.py`** exists on that package (stem repeated exactly in the scanner Python filename).
 
