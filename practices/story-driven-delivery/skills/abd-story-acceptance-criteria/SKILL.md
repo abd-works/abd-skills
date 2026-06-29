@@ -21,23 +21,9 @@ State exactly what must be true for a story to be done — so everyone agrees on
 
 ## Output file
 
-**Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
+**Deliverables folder:** see `common/skill-workflow.md` — Output file resolution.
 
 **File name:** `acceptance-criteria.md`. Add a `<name>-` prefix only when disambiguation is needed.
-
----
-
-## Grill prompts
-
-Read `common/grill-me-with-practice-skill.md` before grilling.
-
-Before generating, surface these common input traps:
-
-- **Hidden actors** — who actually triggers this — is "the user" hiding three different actors with different journeys and different expectations of "done"?
-- **One story or a bundle** — does this story describe one observable interaction, or is it actually three behaviors wearing a trenchcoat? If you can't state done in 4-9 criteria, it might be a bundle.
-- **Unstated negative paths** — what should explicitly NOT happen? Every happy path has a shadow — rejection, timeout, conflict, unauthorized. Have those been surfaced or assumed away?
-- **Domain vocabulary drift** — are the terms in these criteria the same terms the domain experts use, or has the team invented its own words? Synonyms become bugs.
-- **Observable vs. internal** — can a stakeholder verify each criterion by looking at the system's behavior, or do some criteria describe internal state that nobody outside the code can see?
 
 ---
 
@@ -56,7 +42,7 @@ python drawio_story_sync_cli.py render \
 
 ## Agent Instructions
 
-Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
+Follow `common/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
@@ -81,7 +67,7 @@ Read these files:
 
 ### 3. Validate
 
-Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.md` § Validate output.
+Run scanners and emit per-rule verdicts — see `common/skill-workflow.md` § Validate output.
 
 ---
 

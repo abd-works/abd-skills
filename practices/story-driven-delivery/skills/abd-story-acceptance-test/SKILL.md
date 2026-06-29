@@ -13,21 +13,6 @@ context-fidelity:
 ---
 # abd-story-acceptance-test
 
-## Grill prompts
-
-Read `common/grill-me-with-practice-skill.md` before grilling.
-
-Before generating, surface these common input traps:
-
-- **Behavior coverage confidence** — which behaviors are we actually proving work — and are we confident we know all the paths, or are there flows nobody has walked through yet?
-- **Boundary assumptions** — what happens at the boundaries — when this behavior depends on another system's response, do we know what responses are realistic vs. what we're assuming?
-- **Test doubles vs. reality** — where are we substituting a fake for something real — and does the fake behave like the real thing, or are we testing a fantasy?
-- **Data realism** — are the test fixtures using values that could actually appear in production, or are we testing with "foo" and "123" and hoping edge cases don't matter?
-- **Failure mode blindness** — do we know what failure looks like for each behavior — timeout, partial success, conflicting concurrent changes — or are we only proving the happy path works?
-- **Example data alignment** — does every value in every test trace back to an Examples table in the specification — and where a stub stands in for a real system, is it configured to receive and return those exact values, or is it using invented defaults that hide misalignment?
-
----
-
 ## Purpose
 
 Generate executable test files from specification scenarios, acceptance criteria, stories, or rough descriptions using the project's language and framework. Follow RED-GREEN-REFACTOR: write a failing test that expresses expected behavior, implement production code until it passes — one class per story, one method per scenario, Given-When-Then helpers doing the work.
@@ -50,7 +35,7 @@ Do **not** invent a predetermined folder name. Tests follow the host project's c
 
 ## Agent Instructions
 
-Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
+Follow `common/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
@@ -96,7 +81,7 @@ Do not add a third fix. Flip immediately into diagnose mode:
 
 ### 4. Validate
 
-Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.md` § Validate output.
+Run scanners and emit per-rule verdicts — see `common/skill-workflow.md` § Validate output.
 
 ---
 

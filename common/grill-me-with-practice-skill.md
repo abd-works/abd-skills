@@ -33,7 +33,7 @@ Stay inside the named skill. Do not navigate to peer perspectives.
 > `/abd-story-mapping grill me only`  
 > `grill me with abd-story-mapping only`
 
-Use this when the user wants to sharpen one skill's input without bringing in other perspectives. Questions come only from the active skill's `## Grill prompts` and `rules/`. No cross-perspective surfacing.
+Use this when the user wants to sharpen one skill's input without bringing in other perspectives. Questions come only from the active skill's `reference/input-traps.md` and `rules/`. No cross-perspective surfacing.
 
 ---
 
@@ -61,7 +61,7 @@ When the user uses vague or overloaded terms, check if the domain skills have al
 
 The gap between what the ask needs and what already exists. Also:
 
-- **Skill grill prompts** in the active skill's `## Grill prompts` section — input traps specific to this skill at this perspective and fidelity level.
+- **`reference/input-traps.md`** in the active skill package — method-specific ambiguities and missing context for this skill.
 - **Skill rules** — each FAIL example in a skill's `rules/*.md` implies a question.
 
 ---

@@ -21,30 +21,15 @@ Make story behavior unambiguous — concrete examples with real values so devs a
 
 ## Output file
 
-**Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
+**Deliverables folder:** see `common/skill-workflow.md` — Output file resolution.
 
 **File name:** `specification-by-example.md` — a single file for all stories in the module. Add a `<name>-` prefix only when disambiguation is needed.
 
 ---
 
-## Grill prompts
-
-Read `common/grill-me-with-practice-skill.md` before grilling.
-
-Before generating, surface these common input traps:
-
-- **Concrete enough to disagree** — if you showed these examples to a domain expert and a developer, would they argue about whether the output is correct? If not, the examples might be too vague to catch real misunderstandings.
-- **Values from where** — are the example values representative of real domain data, or generic placeholders? Realistic values surface edge cases that "John Doe, $100" never will.
-- **Missing state combinations** — what combinations of Given conditions have we not explored? The dangerous bugs live in states nobody thought to combine.
-- **Assumed preconditions** — what has to be true before each scenario starts — and does everyone agree on that starting state, or are there hidden setup assumptions?
-- **Boundary behaviors** — what happens at the edges — zero, one, many, max, just-over-max? Have we specified what the system does at the limits, or just in the comfortable middle?
-- **Stubbed services** — if the scenario involves an external service or system whose response is hardcoded in a stub, is the stub declared in Given, the invocation and response expressed in When, and only the business outcome in Then? Or has the service response leaked into Then as though it were a business result?
-
----
-
 ## Agent Instructions
 
-Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
+Follow `common/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
@@ -95,7 +80,7 @@ Generated artifacts contain only scenario content; template instructions stay in
 
 ### 3. Validate
 
-Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.md` § Validate output.
+Run scanners and emit per-rule verdicts — see `common/skill-workflow.md` § Validate output.
 
 
 ---

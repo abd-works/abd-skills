@@ -18,12 +18,14 @@ Read this file when any practice skill tells you to. It defines the shared workf
 
 ## Read-gates
 
-Before authoring any artifact — **hard gate, no exceptions:**
+Before authoring any artifact — **hard gate, no exceptions.** Read in this order:
 
-- Read every file in **`rules/`** for the active skill.
-- Read every file in **`reference/`** for the active skill. Treat each DO / DO NOT as a hard contract, not a suggestion.
+1. **`rules/`** — every file for the active skill.
+2. **`reference/`** — concepts, examples, and other teaching files (**not** `input-traps.md` yet).
+3. **`reference/input-traps.md`** — check each trap against available input; flag gaps; do not assume away ambiguities this skill names.
+4. **Grill mode only** — if the invocation includes **"grill me"**, read [`grill-me-with-practice-skill.md`](./grill-me-with-practice-skill.md) and work through unresolved traps as questions (one at a time) before generating.
 
-Do not rely on memory or the SKILL body alone. No main task starts until this gate is done.
+Do not rely on memory or the SKILL body alone. No main task starts until steps 1–3 are done.
 
 ---
 

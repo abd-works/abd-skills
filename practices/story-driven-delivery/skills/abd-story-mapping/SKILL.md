@@ -23,29 +23,9 @@ Give product, delivery, and domain people one shared picture of scope — outcom
 
 ## Output file
 
-**Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
+**Deliverables folder:** see `common/skill-workflow.md` — Output file resolution.
 
 **File name:** `story-map.md`. Add a `<name>-` prefix only when disambiguation is needed.
-
----
-
-## Grill prompts
-
-Read `common/grill-me-with-practice-skill.md` before grilling.
-
-Before generating, surface these common input traps:
-
-- **Hidden actors** — who actually uses this — is "the user" hiding three different people with different goals, or is there a system actor nobody mentioned?
-- **Actor reality** — for every actor, confirm they exist in this iteration. Ask: is this a real human role, or an automated system? If automated, does the automation exist yet? Do not assume an actor is real because it sounds plausible — verify it. If everything is manual in this iteration, automated actors do not belong on the map.
-- **Behaviors vs. tasks** — are these outcomes people care about, or build tasks disguised as stories? "Implement payment gateway" is a task; "Process customer payment" is a behavior. Which are we looking at?
-- **Vague story names** — when a story uses a vague verb or noun ("provision", "manage", "handle", "set up", "improve"), ask what the actual concrete steps are. A story name must describe one observable behavior, not a category of work.
-- **Tool specificity** — when a story describes a generic behavior ("extract content", "send notification"), ask which specific tool or mechanism is actually used. Generic behavior names produce generic output; name the tool.
-- **Missing triggers** — are there background processes, scheduled jobs, or external systems that kick off behaviors nobody has surfaced yet? They always show up later as gaps.
-- **Sequencing** — read the sub-epics in order. Can each story actually be done before the next one starts? Are there prerequisites that haven't appeared yet? Repo-before-extraction, setup-before-use. Common sense must pass.
-- **Delivery epics and CDD flow** — if there is an epic about delivering value, check whether the stories inside it mirror the CDD fidelity flow (shaping → discovery → exploration → specification → engineering). A delivery epic with generic "generate → review → submit" stories has not been connected to the actual delivery process.
-- **Scope bleeding** — where does this product's responsibility end and another system's begin? If that boundary isn't drawn, stories will leak across it.
-- **Duplication across sub-epics** — before finalising, scan all sub-epics for overlap. Do any two sub-epics describe the same behaviour under different names? If yes, collapse or kill the duplicate — do not carry redundant sub-epics forward.
-- **Depth agreement** — does everyone expect the same level of detail from this map — an outline to frame conversations, or a full breakdown to plan work? Mismatched expectations waste everyone's time.
 
 ---
 
@@ -72,7 +52,7 @@ python drawio_story_sync_cli.py sync \
 
 ## Agent Instructions
 
-Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
+Follow `common/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
@@ -101,7 +81,7 @@ Read these files:
 
 ### 3. Validate
 
-Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.md` § Validate output.
+Run scanners and emit per-rule verdicts — see `common/skill-workflow.md` § Validate output.
 
 ---
 

@@ -16,3 +16,5 @@
 | Exploration | `abd-story-acceptance-criteria` | acceptance-criteria |
 | Specification | `abd-story-specification` | spec-by-example |
 | Engineering | `abd-story-acceptance-test` | acceptance-tests |
+
+**Input traps:** each skill above ships `reference/input-traps.md` — method-specific ambiguities to check before generating. Read order: [`common/skill-workflow.md`](../../../common/skill-workflow.md) § Read-gates. Grill interview mechanics: [`common/grill-me-with-practice-skill.md`](../../../common/grill-me-with-practice-skill.md).

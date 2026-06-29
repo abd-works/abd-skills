@@ -20,23 +20,9 @@ Decide what to deliver first and why — so the team ships value in the smallest
 
 ---
 
-## Grill prompts
-
-Read `common/grill-me-with-practice-skill.md` before grilling.
-
-Before generating, surface these:
-
-- **Spine vs optional** — Which stories must be delivered together to show an end-to-end path, and which can follow later without blocking value?
-- **Vertical not horizontal** — Are you slicing by user-visible capability, or by technical layer — and would a stakeholder recognise your increment names?
-- **Value assumption** — What makes you believe this increment is the smallest useful thing, rather than a comfortable batch?
-- **Dependency trap** — Which cross-epic dependencies are you hiding inside an increment instead of making them visible?
-- **Ordering rationale** — Why does increment N come before increment N+1 — is it risk, learning, or just the order you thought of them?
-
----
-
 ## Output file
 
-**Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
+**Deliverables folder:** see `common/skill-workflow.md` — Output file resolution.
 
 **File name:** `thin-slicing.md`. Add a `<name>-` prefix only when disambiguation is needed.
 
@@ -57,7 +43,7 @@ python drawio_story_sync_cli.py render \
 
 ## Agent Instructions
 
-Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
+Follow `common/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
@@ -104,7 +90,7 @@ python skills/abd-thin-slicing/scanners/story-name-exact-match-scanner.py --work
 
 Exit code 1 means story name mismatches — **do not proceed until it passes**.
 
-Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.md` § Validate output.
+Run scanners and emit per-rule verdicts — see `common/skill-workflow.md` § Validate output.
 
 ---
 
