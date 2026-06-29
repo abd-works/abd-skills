@@ -25,11 +25,11 @@ State exactly what must be true for a story to be done — so everyone agrees on
 
 ## Read
 
-[`common/skill-workflow.md`](../../../../common/skill-workflow.md) § Read-gates — `rules/`, `reference/`, `templates/`, practice files linked from [`reference/concepts.md`](reference/concepts.md).
+§ Read-gates — `rules/`, `reference/`, `templates/`, practice files linked from [`reference/concepts.md`](reference/concepts.md).
 
 ## Grill me
 
-[`common/grill-me-with-practice-skill.md`](../../../../common/grill-me-with-practice-skill.md) — interview mechanics; questions from [`reference/input-traps.md`](reference/input-traps.md).
+[`common/grill-me-with-practice-skill.md`](../../../../common/grill-me-with-practice-skill.md); questions from [`reference/input-traps.md`](reference/input-traps.md).
 
 ## Generate
 
@@ -37,8 +37,8 @@ State exactly what must be true for a story to be done — so everyone agrees on
 
 ## Validate
 
-[`common/skill-workflow.md`](../../../../common/skill-workflow.md) § Validate output + [`../../../reference/validate-checklist.md`](../../../reference/validate-checklist.md).
+§ Validate output + [`../../../reference/validate-checklist.md`](../../../reference/validate-checklist.md).
 
 ## Diagram workflow
 
-[`reference/diagram-workflow.md`](reference/diagram-workflow.md) — shared CLI in [`../../../reference/diagram-workflow.md`](../../../reference/diagram-workflow.md).
+[`reference/diagram-workflow.md`](reference/diagram-workflow.md).
