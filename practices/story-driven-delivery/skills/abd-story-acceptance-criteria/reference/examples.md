@@ -46,3 +46,11 @@ Below is one story in full so agents can read a single complete pattern without 
 - **WHEN / THEN / AND / BUT** — negatives use **BUT**; no **Given** in AC
 - Each AC is a **delta** or distinct case — general browse flow once, then category, detail, and out-of-stock paths
 - **Evidence** cites a concrete source even for workshop-derived discovery
+
+---
+
+## Cross-skill example domain — Mombasa Ferry Service
+
+A second worked domain for grill-me sessions and quality benchmarks: the **Mombasa-Likoni Ferry Service**. Features capacity invariants, Journey Card balance deduction, and two distinct actor types — exercises the full AC pattern including **BUT** negatives and multiple rejection paths.
+
+See [`../../../reference/mombasa-ferry/acceptance-criteria.md`](../../../reference/mombasa-ferry/acceptance-criteria.md) for full AC across three stories, and [`../../../reference/mombasa-ferry/README.md`](../../../reference/mombasa-ferry/README.md) for domain context.

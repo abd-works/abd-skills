@@ -53,3 +53,11 @@ Background:
 ```
 
 Background is Given/And only — no When or Then. Use when three or more scenarios share identical starting state.
+
+---
+
+## Cross-skill example domain — Mombasa Ferry Service
+
+A second worked domain for grill-me sessions and quality benchmarks: the **Mombasa-Likoni Ferry Service**. Features balance-deduction invariants (Journey Card), two distinct rejection paths, and a Background with vessel state — exercises Scenario Outline with realistic Kenyan domain data.
+
+See [`../../../reference/mombasa-ferry/specification-by-example.md`](../../../reference/mombasa-ferry/specification-by-example.md) for full scenarios across two stories, and [`../../../reference/mombasa-ferry/README.md`](../../../reference/mombasa-ferry/README.md) for domain context.

@@ -22,3 +22,11 @@
 - Actor goes before `-->`, not in the story name
 - Each story is one observable behavior — not a task or feature
 - Sub-epics group stories into coherent flows
+
+---
+
+## Cross-skill example domain — Mombasa Ferry Service
+
+A second worked domain for grill-me sessions and quality benchmarks: the **Mombasa-Likoni Ferry Service** (Kenya Ferry Services). Richer domain constraints (capacity, vehicle lanes, Journey Card balance), two distinct actor types (Passenger, Vehicle Driver), and a real system with regulatory and operational invariants.
+
+See [`../../../reference/mombasa-ferry/story-map.md`](../../../reference/mombasa-ferry/story-map.md) for the full story map in this domain, and [`../../../reference/mombasa-ferry/README.md`](../../../reference/mombasa-ferry/README.md) for domain context.

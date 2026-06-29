@@ -20,3 +20,11 @@ Each increment shows an end-to-end slice: input → processing → persistence �
 - Phase numbers with no outcome: "Sprint 1", "Sprint 2"
 - "All UI then all API" — horizontal layering
 - Three auth methods as spine steps 2–4 when one suffices for the first increment
+
+---
+
+## Cross-skill example domain — Mombasa Ferry Service
+
+A second worked domain for grill-me sessions: the **Mombasa-Likoni Ferry Service** — four increments from foot passenger crossing (cash) through vessel operations, Journey Card, and vehicle crossing. Demonstrates explicit dependency declaration and named quality trade-offs ("operator enforces manually" → "system enforces").
+
+See [`../../../reference/mombasa-ferry/thin-slicing.md`](../../../reference/mombasa-ferry/thin-slicing.md) for the full slicing, and [`../../../reference/mombasa-ferry/README.md`](../../../reference/mombasa-ferry/README.md) for domain context.

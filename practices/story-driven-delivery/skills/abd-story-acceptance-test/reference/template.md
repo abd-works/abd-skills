@@ -41,3 +41,11 @@ When helpers are shared across sub-epic files, extract them into:
   tests/<epic_name>/<sub_epic_name>/<sub_epic_name>.py
     class Test<Story>(<EpicName>Helpers): ...
 ```
+
+---
+
+## Cross-skill example domain — Mombasa Ferry Service
+
+A second worked domain for grill-me sessions: the **Mombasa-Likoni Ferry Service** — Journey Card boarding and capacity enforcement stories, with `@pytest.mark.parametrize` rows drawn directly from the `specification-by-example.md` Examples tables.
+
+See [`../../../reference/mombasa-ferry/specification-by-example.md`](../../../reference/mombasa-ferry/specification-by-example.md) for the source scenarios and [`../../../reference/mombasa-ferry/README.md`](../../../reference/mombasa-ferry/README.md) for domain context.
