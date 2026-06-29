@@ -44,7 +44,7 @@ Read every file in **`rules/`**; author to those rules.
 
 **Rendering (source → diagram):**
 
-1. **Identify the source file** — locate `<name>-domain-specification.md` / `class-model.md`, `<name>-domain-model.md` / `domain-model.md`, or `<name>-domain-language.md` / `domain-language.md`. Prefer highest fidelity available (Domain Specification > Domain Model > Domain Language).
+1. **Identify the source file** — locate `<name>-domain-specification.md` / `domain-specification.md`, `<name>-domain-model.md` / `domain-model.md`, or `<name>-domain-language.md` / `domain-language.md`. Prefer highest fidelity available (Domain Specification > Domain Model > Domain Language).
 2. **For each Key Abstraction**, init a page, plan layout (bases above derived), add imported ancestors, add local classes with rows/collaborators per source fidelity, add edges (inheritance → composition → association → dependency), inspect for overlaps, verify sync.
 3. **Persist build scripts** when full renders produce bespoke Python scripts.
 

@@ -15,7 +15,7 @@
 | Shaping | all | story-mapping, thin-slicing |
 | Discovery | increment | domain-terms, UL, architecture-blueprint, information-architecture |
 | Exploration | increment | UL-refresh, acceptance-criteria, ux-mockup, architecture-template |
-| Specification | sprint | CRC, spec-by-example, scenario-walkthrough, interface-design, architecture-reference |
+| Specification | sprint | domain model, spec-by-example, scenario-walkthrough, interface-design, architecture-reference |
 | Engineering | sprint | interface-design, object-model, ATDD, clean-code |
 
 ---

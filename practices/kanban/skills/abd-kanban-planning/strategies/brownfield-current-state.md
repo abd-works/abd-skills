@@ -16,7 +16,7 @@
 | Shaping | all | module-partition, architecture-outline, story-mapping, thin-slicing |
 | Discovery | increment | domain-terms, UL, architecture-blueprint, information-architecture (optional) |
 | Exploration | increment | UL-refresh, acceptance-criteria, ux-mockup (optional), architecture-template (optional) |
-| Specification | sprint | CRC (optional), spec-by-example, scenario-walkthrough |
+| Specification | sprint | domain model (optional), spec-by-example, scenario-walkthrough |
 | Engineering | sprint | object-model (optional), ATDD, clean-code / stack skill |
 
 ### Context stage (when to include)
@@ -95,9 +95,9 @@ Include context stage when source material is in non-markdown formats (PDF, PPTX
 | AC | abd-acceptance-criteria | exploration |
 | UX mockup (opt) | abd-ux-mockup | exploration |
 | Architecture template (opt) | abd-architecture-template | exploration |
-| CRC cards (opt) | abd-class-responsibility-collaborator | specification |
-| Spec-by-example | abd-specification-by-example | specification |
-| Scenario walkthrough | abd-scenario-walkthrough | specification |
-| Object model (opt) | abd-object-model | engineering |
+| domain model cards (opt) | abd-domain-model | specification |
+| Spec-by-example | abd-story-specification | specification |
+| Scenario walkthrough | abd-domain-walk | specification |
+| domain specification (opt) | abd-domain-code | engineering |
 | Characterization / change tests | abd-acceptance-test-driven-development | engineering |
 | Production code (change slices) | abd-clean-code / stack skill | engineering |

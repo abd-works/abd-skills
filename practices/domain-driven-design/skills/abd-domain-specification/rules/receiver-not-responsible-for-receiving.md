@@ -44,4 +44,4 @@ A class *may* have a property that describes what is used to act upon it. This i
   + resistanceTrait: Trait   ? declares which trait a character uses to resist; the effect is not doing the resisting
   ```
 
-**Source:** Engagement convention (class-model skill). Adapted from class-responsibility-collaborator/rules/receiver-not-responsible-for-receiving.md.
+**Source:** Engagement convention (domain-specification skill). Adapted from abd-domain-model/rules/receiver-not-responsible-for-receiving.md.

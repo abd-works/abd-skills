@@ -6,8 +6,8 @@ Read domain artifacts **before** writing acceptance criteria, specification scen
 
 ## Priority order
 
-1. **Class Model** (`domain-specification.md`) — typed classes with invariants and typed relationships. Use first when present.
-2. **Domain model** (`domain-model.md`) — concepts with responsibilities and collaborators. **Default source** when no Class Model exists.
+1. **Domain specification** (`domain-specification.md`) — typed classes with invariants and typed relationships. Use first when present.
+2. **Domain model** (`domain-model.md`) — concepts with responsibilities and collaborators. **Default source** when no domain specification exists.
 3. **Domain language** (`domain-language.md`) — defined terms and key abstractions. Use for term verification and when no model file exists.
 
 Check for `domain.json` in the workspace. If it does not exist and a domain model markdown file is present, produce `domain.json` before running scanners (specification skill).

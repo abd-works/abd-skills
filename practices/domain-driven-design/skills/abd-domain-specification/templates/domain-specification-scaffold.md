@@ -1,8 +1,8 @@
 <!--  
-  Normative shape for the class-model phase output.  
+  Normative shape for the domain-specification phase output.  
 
-  Output: <deliverables-folder>/[<name>-]class-model.md  
-          (or <deliverables-folder>/modules/<module-name>-class-model.md  
+  Output: <deliverables-folder>/[<name>-]domain-specification.md  
+          (or <deliverables-folder>/modules/<module-name>-domain-specification.md  
            for multi-module engagements)  
 
   This skill produces a STANDALONE file. It does not enrich the prior phase's  

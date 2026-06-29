@@ -52,4 +52,4 @@ If a collaborator appears nowhere in 1–4, it has been silently dropped. That is 
 
 Record it as a decision: state which collaborator is excluded and why (e.g., "D20 is an internal implementation detail not exposed at this fidelity level"). Without an explicit decision, any missing collaborator is a gap.
 
-**Source:** Engagement convention (class-model skill).
+**Source:** Engagement convention (domain-specification skill).

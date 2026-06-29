@@ -12,6 +12,6 @@ Run these skills in order for the feature the user described. Read each skill an
 3. **Acceptance Criteria** — `abd-story-acceptance-criteria`
 4. **domain model** _(if exists)_ — `abd-domain-model`
 5. **Spec by Example** — `abd-story-specification`
-6. **Class Model** _(if exists)_ — `abd-domain-specification`
+6. **domain specification** _(if exists)_ — `abd-domain-specification`
 7. **Acceptance Tests (RED)** — `abd-story-acceptance-test`
 8. **Production Code (GREEN)** — `abd-clean-code`

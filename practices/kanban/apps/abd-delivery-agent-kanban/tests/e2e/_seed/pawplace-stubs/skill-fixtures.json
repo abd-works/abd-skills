@@ -209,7 +209,7 @@
         "copies": [
           {
             "source": "skill-fixtures/abd-domain-specification.md",
-            "target": "docs/increments/1-product-catalog-inc-1-find-products-and-check-store-stock/engineering/class-model.md"
+            "target": "docs/increments/1-product-catalog-inc-1-find-products-and-check-store-stock/engineering/domain-specification.md"
           }
         ]
       }

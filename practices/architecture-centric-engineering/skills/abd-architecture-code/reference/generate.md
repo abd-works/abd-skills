@@ -23,8 +23,8 @@ Gather **all** of these before reading the spec or writing a line of code.
 
 **Domain context priority**
 
-1. **`domain-specification.md`** — class model, operations, stereotypes.
-2. **`domain-model.md`** — typed domain surface.
+1. **`domain-specification.md`** — typed surface: operations, stereotypes, invariants.
+2. **`domain-model.md`** — conceptual domain model: responsibilities and collaborators.
 3. Neither found → **AskQuestion** before proceeding.
 
 ## Step 1 — Read context — `<spec-root>` is law

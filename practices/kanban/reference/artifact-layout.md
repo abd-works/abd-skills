@@ -130,7 +130,7 @@ Merge increment exploration content into the matching subfolder when increment e
 
 | File | Content |
 | --- | --- |
-| `class-model.md` | **One** whole-solution typed class model |
+| `domain-specification.md` | **One** whole-solution domain specification |
 | `specification-by-example.md` | **One** whole-solution spec file |
 | `ux-specification.md`, `prototype/` | **One** whole-solution UX spec + clickable hi-fi prototype assets |
 | `architecture-reference.md`, `architecture-reference-assignment.md` | Whole-solution arch reference |
@@ -183,7 +183,7 @@ docs/increments/8-marketing-engine/
 
 | Skill | File(s) |
 | --- | --- |
-| `abd-domain-specification` | `class-model.md` |
+| `abd-domain-specification` | `domain-specification.md` |
 | `abd-story-specification` | `specification-by-example.md` |
 | `abd-ux-specification` | `ux-specification.md`, `prototype/` (HTML/CSS/JS) |
 | `abd-architecture-specification` | `architecture-reference.md`, `architecture-reference-assignment.md` |

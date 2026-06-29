@@ -1,17 +1,17 @@
 # Rule: Ground scenarios in domain model content when available
 
-When Class Model, domain model, or domain language content exists in the workspace or has been provided as context, scenario language must use the exact concept names and relationships that content defines.
+When domain specification, domain model, or domain language content exists in the workspace or has been provided as context, scenario language must use the exact concept names and relationships that content defines.
 
 Look in this order — use the first type you find:
-1. **Class Model** — typed classes with attributes and typed relationships between classes (most precise source)
-2. **domain model** — each concept with its responsibilities and the other concepts it works with
+1. **Domain specification** — typed classes with attributes and typed relationships between classes (most precise source)
+2. **Domain model** — each concept with its responsibilities and the other concepts it works with
 3. **Domain language or key abstractions** — glossaries, defined terms, or grouped concept names with definitions
 
 These types of content are the outputs of domain-driven design practices. If such content is present in the workspace or supplied as context, it is the authoritative source for concept names and relationships.
 
 ## DO
 
-- Read any available domain model content before naming any concept in a step — Class Model first, then domain model, then domain language.
+- Read any available domain model content before naming any concept in a step — domain specification first, then domain model, then domain language.
 - Use the exact term the model defines.
 
 ```gherkin

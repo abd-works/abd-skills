@@ -22,8 +22,8 @@ Translate exploration artifacts into typed **domain specification**, **concrete 
 
 | Order | Family | Skill | Role | Notes |
 | --- | --- | --- | --- | --- |
-| 1 | **Domain-driven design** | `abd-domain-specification` | Business Expert | Typed Class Model from domain model — before spec-by-example |
-| 1b | **Domain-driven design** | `drawio-domain-sync` | | **Background** after domain specification — `class-model-class-diagram.drawio` |
+| 1 | **Domain-driven design** | `abd-domain-specification` | Business Expert | Domain specification from domain model — before spec-by-example |
+| 1b | **Domain-driven design** | `drawio-domain-sync` | | **Background** after domain specification — `domain-specification.drawio` |
 | 2 | **Story-driven delivery** | `abd-story-specification` | Product Owner | Given/When/Then with real values; tables name domain model concepts |
 | 2b | **Story-driven delivery** | `drawio-story-sync` | | **Background** after spec + graph scenario merge — refresh `acceptance-criteria.drawio` |
 | 3 | **User experience design** | `abd-ux-specification` | UX Designer | Clickable hi-fi prototype + `ux-specification.md` from lo-fi mockups and design reference |

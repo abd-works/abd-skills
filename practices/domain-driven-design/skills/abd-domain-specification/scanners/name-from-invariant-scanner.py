@@ -3,7 +3,7 @@
 
 When the right name for a private operation is unclear, it should be named after its
 invariant — not invented with a vague process verb. This scanner flags private
-operations (lines starting with - methodName() in Class Model sections) whose names
+operations (lines starting with - methodName() in domain specification class blocks) whose names
 begin with generic verbs like handle, apply, process, manage, check, do, or execute.
 """
 from __future__ import annotations
@@ -33,32 +33,14 @@ from scanner_bases.resources.scan_context import (  # noqa: E402
 # Private operation: starts with - and has parentheses
 _PRIVATE_OP_RE = re.compile(r"^-\s+(\w+)\s*\(")
 # Generic verbs that indicate the operation name was not derived from its invariant.
-# These are vague process words — when the right name is unclear, name after the invariant instead.
 _GENERIC_VERBS = frozenset([
     "handle", "apply", "process", "manage", "check",
     "do", "execute",
 ])
-# Class Model section
-_OM_SECTION_RE = re.compile(r"^### Class Model\s*$")
-
-
-def _find_object_model_sections(lines: List[str]) -> List[tuple[int, int]]:
-    sections = []
-    start = None
-    for i, line in enumerate(lines):
-        if _OM_SECTION_RE.match(line):
-            start = i
-        elif start is not None and re.match(r"^#{2,3}\s", line) and not _OM_SECTION_RE.match(line):
-            sections.append((start, i))
-            start = None
-    if start is not None:
-        sections.append((start, len(lines)))
-    return sections
 
 
 def _first_verb(method_name: str) -> str:
     """Extract the leading verb from a camelCase method name."""
-    # Split on uppercase boundaries
     parts = re.findall(r"[A-Z]?[a-z]+|[A-Z]+(?=[A-Z]|$)", method_name)
     return parts[0].lower() if parts else method_name.lower()
 
@@ -77,13 +59,10 @@ class NameFromInvariantScanner(Scanner):
         violations: List[Dict[str, Any]] = []
         content = file_path.read_text(encoding="utf-8")
         lines = content.split("\n")
-        om_sections = _find_object_model_sections(lines)
-        om_set: set[int] = set()
-        for s, e in om_sections:
-            om_set.update(range(s, e))
+        scannable = domain_spec_scannable_line_indices(lines)
 
         for i, line in enumerate(lines):
-            if i not in om_set:
+            if i not in scannable:
                 continue
             m = _PRIVATE_OP_RE.match(line)
             if not m:
@@ -104,7 +83,10 @@ class NameFromInvariantScanner(Scanner):
         return violations
 
 
-from object_model_context import build_object_model_context as _build_context  # noqa: E402
+from object_model_context import (  # noqa: E402
+    build_object_model_context as _build_context,
+    domain_spec_scannable_line_indices,
+)
 
 
 if __name__ == "__main__":

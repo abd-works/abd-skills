@@ -44,7 +44,7 @@ new                                | AggregateRoot (delegates to Factory or Spec
 find by [business search criteria] | (search parameters)
 retire / archive                   | (retirement rules)
                                    |   note: abstracts persistence behind a collection-style interface;
-                                   |   at class-model fidelity, implement as a collection type
+                                   |   at domain-specification fidelity, implement as a collection type
 
 ### <<Factory>> ConceptNameFactory
 assemble [concept] from [inputs]   | Collaborators

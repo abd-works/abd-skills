@@ -2,7 +2,7 @@
 
 **Scanner:** Manual review
 
-A passing model uses plain class headings, simple domain types, and minimal notation. No UML stereotypes, no generic collection types, no visibility prefixes (except `-` for private), no interaction blocks, and no class description paragraphs. A failing model imports UML or class-model embellishments that the domain-model format does not use.
+A passing model uses plain class headings, simple domain types, and minimal notation. No UML stereotypes, no generic collection types, no visibility prefixes (except `-` for private), no interaction blocks, and no class description paragraphs. A failing model imports UML or domain-specification embellishments that the domain-model format does not use.
 
 ## DO
 

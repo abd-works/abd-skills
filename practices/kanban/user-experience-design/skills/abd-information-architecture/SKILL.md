@@ -226,7 +226,7 @@ A **system story** has no user-visible interaction of its own. It does not get i
 
 ### Domain term / concept / class
 
-A **domain term**, **concept**, or **class** comes from the ubiquitous language, conceptual model, or class model of the solution and names something the team and its users care about. On the IA it appears by **name** with a **link** to its definition.
+A **domain term**, **concept**, or **class** comes from the ubiquitous language, conceptual model, or domain specification of the solution and names something the team and its users care about. On the IA it appears by **name** with a **link** to its definition.
 
 **Visible-only rule:** a domain term belongs on a screen only if it names something the user can see or directly interact with on that screen � a data field label, a list row type name, a region name, or a screen name. Internal model concepts that do not appear as visible text or a distinct UI element are excluded. The full sub-concept hierarchy of a KA is never listed wholesale; list only the sub-concepts that appear as named items in the UI.
 

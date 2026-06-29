@@ -11,19 +11,19 @@ When you change any artifact, **ask the user** if they want to sync in both dire
 
 | Changed | Offer upstream | Skills |
 | --- | --- | --- |
-| **Production code** | Acceptance tests, Object model | `abd-acceptance-test-driven-development`, `abd-object-model` |
-| **Acceptance tests** or **Object model** | Spec by Example, CRC | `abd-specification-by-example`, `abd-class-responsibility-collaborator` |
-| **Spec by Example** or **CRC** | Acceptance Criteria, Domain Sketch | `abd-acceptance-criteria`, `abd-domain-sketch` |
+| **Production code** | Acceptance tests, domain specification | `abd-acceptance-test-driven-development`, `abd-domain-code` |
+| **Acceptance tests** or **domain specification** | Spec by Example, domain model | `abd-story-specification`, `abd-domain-model` |
+| **Spec by Example** or **domain model** | Acceptance Criteria, Domain Sketch | `abd-acceptance-criteria`, `abd-domain-sketch` |
 | **Acceptance Criteria** or **Domain Sketch** | Story Map, Domain Language, Key Abstractions | `abd-story-mapping`, `abd-domain-language`, `abd-key-abstractions` |
 
 ## Changed on one side of a level → offer the other side
 
 | Changed | Offer peer | Skills |
 | --- | --- | --- |
-| **Acceptance tests** | Object model | `abd-object-model` |
-| **Object model** | Acceptance tests | `abd-acceptance-test-driven-development` |
-| **Spec by Example** | CRC | `abd-class-responsibility-collaborator` |
-| **CRC** | Spec by Example | `abd-specification-by-example` |
+| **Acceptance tests** | domain specification | `abd-domain-code` |
+| **domain specification** | Acceptance tests | `abd-acceptance-test-driven-development` |
+| **Spec by Example** | domain model | `abd-domain-model` |
+| **domain model** | Spec by Example | `abd-story-specification` |
 | **Acceptance Criteria** | Domain Sketch | `abd-domain-sketch` |
 | **Domain Sketch** | Acceptance Criteria | `abd-acceptance-criteria` |
 | **Story Map** | Domain Language, Key Abstractions | `abd-domain-language`, `abd-key-abstractions` |
@@ -34,6 +34,6 @@ When you change any artifact, **ask the user** if they want to sync in both dire
 | Changed | Offer downstream | Skills |
 | --- | --- | --- |
 | **Story Map**, **Domain Language**, or **Key Abstractions** | Acceptance Criteria, Domain Sketch | `abd-acceptance-criteria`, `abd-domain-sketch` |
-| **Acceptance Criteria** or **Domain Sketch** | Spec by Example, CRC | `abd-specification-by-example`, `abd-class-responsibility-collaborator` |
-| **Spec by Example** or **CRC** | Acceptance tests, Object model | `abd-acceptance-test-driven-development`, `abd-object-model` |
-| **Acceptance tests** or **Object model** | Production code | `abd-clean-code` |
+| **Acceptance Criteria** or **Domain Sketch** | Spec by Example, domain model | `abd-story-specification`, `abd-domain-model` |
+| **Spec by Example** or **domain model** | Acceptance tests, domain specification | `abd-acceptance-test-driven-development`, `abd-domain-code` |
+| **Acceptance tests** or **domain specification** | Production code | `abd-clean-code` |

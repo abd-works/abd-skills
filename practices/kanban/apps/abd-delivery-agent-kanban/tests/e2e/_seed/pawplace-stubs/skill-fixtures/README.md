@@ -29,6 +29,6 @@ Content is trimmed from [abd-pet-store-demo](https://github.com/agilebydesign/ab
 | `abd-domain-model.md` | domain model |
 | `abd-story-specification.md` | Spec by example |
 | `abd-ux-specification.md` | Interface design |
-| `abd-domain-specification.md` | Class Model |
+| `abd-domain-specification.md` | domain specification |
 | `abd-story-acceptance-test.py` | ATDD stub |
 | `abd-clean-code-product_catalog.py` | Clean code stub |

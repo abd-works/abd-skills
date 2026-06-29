@@ -1,5 +1,5 @@
 {
-  "_comment": "Machine-readable vocabulary extracted from the Class Model. Written alongside class-model.md. Read by the specification-by-example scanner to validate example-table column names against domain class properties. Attributes are the typed property names declared with '+ propertyName: Type'.",
+  "_comment": "Machine-readable vocabulary extracted from the domain specification. Written alongside domain-specification.md. Read by the specification-by-example scanner to validate example-table column names against domain class properties. Attributes are the typed property names declared with '+ propertyName: Type'.",
   "concepts": {
     "KanbanBoard": {
       "attributes": ["savedAt", "workspacePath", "stages", "team"],

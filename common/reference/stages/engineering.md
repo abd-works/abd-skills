@@ -37,7 +37,7 @@ Run skills **top to bottom**. Skip only when the engagement plan explicitly waiv
 | Order | Family | Skill | Role | Notes |
 | --- | --- | --- | --- | --- |
 | 1 | **Domain-driven design** | `abd-domain-code` | Business Expert | Domain tests + production code TDD from domain specification |
-| 1b | **Domain-driven design** | `drawio-domain-sync` | Business Expert | **Background** after domain code — `class-model-class-diagram.drawio` |
+| 1b | **Domain-driven design** | `drawio-domain-sync` | Business Expert | **Background** after domain code — `domain-specification.drawio` |
 | 2 | **Story-driven delivery** | `abd-story-acceptance-test` | Product Owner | Acceptance tests from scenarios; example data from domain code; test layout per architecture reference |
 | 3 | **Architecture-centric engineering** | `abd-architecture-code` | Engineer | Production code from named architecture spec — templates, file layout, and rules for the story; **production UI** honours the clickable prototype and `ux-specification.md` from [Specification](specification.md) |
 

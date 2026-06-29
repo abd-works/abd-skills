@@ -15,7 +15,7 @@ context-fidelity:
 
 ## Purpose
 
-Build a typed Class Model for a module — fully typed properties, operations with parameters, relationships, object initialisation, and interaction blocks — from a domain model or directly from domain knowledge.
+Build a **domain specification** for a module — fully typed properties, operations with parameters, relationships, object initialisation, and interaction blocks — from a **domain model** or directly from domain knowledge.
 
 ---
 

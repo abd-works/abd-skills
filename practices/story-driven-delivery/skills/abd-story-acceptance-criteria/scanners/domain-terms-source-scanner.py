@@ -7,7 +7,7 @@ file found in the same folder.
 
 Domain source files recognised (case-insensitive, any of):
     domain-language.md, domain-language.md, domain-sketch.md,
-    domain model.md, class-model.md
+    domain-model.md, domain-specification.md
 
 Rules enforced:
   1. If ANY domain source exists and a term is not found in any of them → WARNING.
@@ -47,8 +47,8 @@ _DOMAIN_SOURCES = {
     "domain-language.md",
     "domain-language.md",
     "domain-sketch.md",
-    "domain model.md",
-    "class-model.md",
+    "domain-model.md",
+    "domain-specification.md",
 }
 
 # ---------------------------------------------------------------------------

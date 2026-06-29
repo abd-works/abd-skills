@@ -2,7 +2,7 @@
 
 **Scanner:** Manual review
 
-When a typed operation implies a chain of actors or steps, every actor in that chain must be traceable to a typed property or operation with explicit parameters in the Class Model. Nothing may be left implied or nebulous. "May" and "requires" language in a behavior must be fully modeled as typed members.
+When a typed operation implies a chain of actors or steps, every actor in that chain must be traceable to a typed property or operation with explicit parameters in the domain specification. Nothing may be left implied or nebulous. "May" and "requires" language in a behavior must be fully modeled as typed members.
 
 ## DO
 
@@ -10,7 +10,7 @@ When a typed operation implies a chain of actors or steps, every actor in that c
 
   **Example (pass):** Behavior: "may be ongoing for a target character: requires a resistance check at the end of each of the target's turns until ended."
 
-  This implies: someone tracks which characters are ongoing targets, and someone triggers end-of-turn resistance checks. The Class Model must reflect both:
+  This implies: someone tracks which characters are ongoing targets, and someone triggers end-of-turn resistance checks. The domain specification must reflect both:
   ```
   PowerEffect : Trait
   + << aggregation >> ongoingTargets: List<Character>
@@ -43,4 +43,4 @@ When a typed operation implies a chain of actors or steps, every actor in that c
   + resist(check: Check): void   ? missing the PowerEffect parameter; which effect is being resisted?
   ```
 
-**Source:** Engagement convention (class-model skill). Adapted from class-responsibility-collaborator/rules/explicit-chain-of-responsibility.md.
+**Source:** Engagement convention (domain-specification skill). Adapted from abd-domain-model/rules/explicit-chain-of-responsibility.md.

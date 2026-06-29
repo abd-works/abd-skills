@@ -78,7 +78,7 @@ class NoPrematureDesignCommitmentsScanner(Scanner):
                     rule=self.rule,
                     violation_message=(
                         f"DDD stereotype found: '{_ANY_STEREOTYPE_RE.search(line).group()}' — "
-                        "remove from Domain Language (belongs at class-model stage)"
+                        "remove from Domain Language (belongs at domain-specification stage)"
                     ),
                     location=str(file_path),
                     line_number=i + 1,

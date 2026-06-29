@@ -47,9 +47,9 @@
           "name": "specification",
           "scope": "sprint",
           "skills": [
-            { "skill": "abd-class-responsibility-collaborator", "role": "business-expert" },
-            { "skill": "abd-specification-by-example", "role": "product-owner" },
-            { "skill": "abd-scenario-walkthrough", "role": "business-expert" },
+            { "skill": "abd-domain-model", "role": "business-expert" },
+            { "skill": "abd-story-specification", "role": "product-owner" },
+            { "skill": "abd-domain-walk", "role": "business-expert" },
             { "skill": "abd-interface-design", "role": "ux-designer" },
             { "skill": "abd-architecture-reference", "role": "engineer" }
           ]
@@ -59,7 +59,7 @@
           "scope": "sprint",
           "skills": [
             { "skill": "abd-interface-design", "role": "ux-designer" },
-            { "skill": "abd-object-model", "role": "engineer" },
+            { "skill": "abd-domain-code", "role": "engineer" },
             { "skill": "abd-acceptance-test-driven-development", "role": "engineer" },
             { "skill": "abd-clean-code", "role": "engineer" }
           ]
@@ -114,16 +114,16 @@
           "name": "specification",
           "scope": "sprint",
           "skills": [
-            { "skill": "abd-class-responsibility-collaborator", "role": "business-expert" },
-            { "skill": "abd-specification-by-example", "role": "product-owner" },
-            { "skill": "abd-scenario-walkthrough", "role": "business-expert" }
+            { "skill": "abd-domain-model", "role": "business-expert" },
+            { "skill": "abd-story-specification", "role": "product-owner" },
+            { "skill": "abd-domain-walk", "role": "business-expert" }
           ]
         },
         {
           "name": "engineering",
           "scope": "sprint",
           "skills": [
-            { "skill": "abd-object-model", "role": "engineer" },
+            { "skill": "abd-domain-code", "role": "engineer" },
             { "skill": "abd-acceptance-test-driven-development", "role": "engineer" },
             { "skill": "abd-clean-code", "role": "engineer" }
           ]

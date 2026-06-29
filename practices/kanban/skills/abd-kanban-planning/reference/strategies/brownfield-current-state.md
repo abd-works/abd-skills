@@ -198,7 +198,7 @@ Include context stage when source material is in non-markdown formats (PDF, PPTX
 
 | Spec-by-example | abd-story-specification | specification | — |
 
-| Class Model (opt) | abd-domain-specification | engineering | business-expert |
+| domain specification (opt) | abd-domain-specification | engineering | business-expert |
 
 | Characterization / change tests | abd-story-acceptance-test | engineering | product-owner |
 

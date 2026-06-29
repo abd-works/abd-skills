@@ -8,7 +8,7 @@
 - **DO / DO NOT:** **DO** always include collaborator types as type annotations on every property and operation, using `name : Collaborator` notation. When a responsibility has multiple collaborators, list them all (e.g., `modifier : Character, Imposed Conditions, Condition, Game Modifier`). **DO NOT** render properties or operations as bare names without their collaborator types.
 - **Example (wrong):** Properties rendered as `+ character`, `+ modifier`, `+ perform check` — no collaborator type shown. The reader cannot see what type each property holds or what collaborators each operation uses without consulting the domain model source.
 - **Example (correct):** Properties rendered as `+ character : Character`, `+ modifier : Character, Imposed Conditions, Condition, Game Modifier`, operations as `+ perform check : Check, Rank, Check Result`. Every collaborator from the domain model pipe column appears inline.
-- **Likely source:** `prompt gap` — SKILL.md step 7 said "omit type annotations when the source is a Domain Language; add full typed signatures when the source is an Class Model" but did not mention domain models at all. Fixed: step 7 now has explicit sub-bullets for all three source types.
+- **Likely source:** `prompt gap` — SKILL.md step 7 said "omit type annotations when the source is a Domain Language; add full typed signatures when the source is a domain specification" but did not mention domain models at all. Fixed: step 7 now has explicit sub-bullets for all three source types.
 - **Status:** confirmed
 
 ---

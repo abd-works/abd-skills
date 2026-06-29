@@ -4,13 +4,13 @@ Follow every file in `rules/`; fill templates exactly.
 
 ## Inputs
 
-Use whatever domain artifacts exist — richer inputs produce better output. A **domain specification**, **domain model / CRC**, **domain terms list**, **domain glossary**, stories, acceptance criteria, or a plain description — extract what you need as you go.
+Use whatever domain artifacts exist — richer inputs produce better output. **Domain specification**, **domain model**, **domain language**, **domain glossary**, stories, acceptance criteria, or a plain description — extract what you need as you go.
 
 If **architecture specification** (`architecture-specification.md`) exists, read that to understand where the domain layer lives and how to code and test it. If none exists, infer conventions from the context, language, and any existing code.
 
 ## 1. Read domain context
 
-Use whatever is available in priority order: domain specification → domain model / CRC → domain terms → stories and AC → plain description.
+Use whatever is available in priority order: domain specification → domain model → domain language → stories and AC → plain description.
 
 Extract classes, operation signatures, invariants, and relationships from whichever source is richest.
 

@@ -1,6 +1,6 @@
 # DDD Design Building Blocks — Concepts
 
-> **Note:** The purpose of this skill is *not* to perform a detailed object-oriented analysis and design (OOAD) for every domain concept. Instead, use the **Domain Language** (`abd-domain-language`), **domain model cards** (`abd-domain-model`), or an **Class Model** (`abd-domain-specification`) skill as appropriate to your current level of domain discovery. This skill extends the domain model by layering in the DDD building blocks, highlighting the architectural roles and stereotypes required to implement the concept — not replacing existing analysis methods, but enriching them.
+> **Note:** The purpose of this skill is *not* to perform a detailed object-oriented analysis and design (OOAD) for every domain concept. Instead, use the **Domain Language** (`abd-domain-language`), **domain model cards** (`abd-domain-model`), or an **domain specification** (`abd-domain-specification`) skill as appropriate to your current level of domain discovery. This skill extends the domain model by layering in the DDD building blocks, highlighting the architectural roles and stereotypes required to implement the concept — not replacing existing analysis methods, but enriching them.
 
 ## Building block stereotypes
 
@@ -82,7 +82,7 @@ A Repository abstracts persistence behind a **collection-style interface** — a
 - When is this thing **done** — and what does "retire" or "archive" mean for it?
 - Does the business need to **search** across these things, and by what criteria?
 
-At class-model fidelity, a Repository should implement a collection type. At domain model or UL fidelity, it is expressed as responsibilities (add, remove, find by...).
+At domain-specification fidelity, a Repository should implement a collection type. At domain model or UL fidelity, it is expressed as responsibilities (add, remove, find by...).
 
 ## Factory — "How are new instances born?"
 
@@ -141,7 +141,7 @@ If a rule is named, reusable, and expressible as a true/false question the busin
 
 Write the DDD building blocks at the **same level of fidelity** as the input source:
 - From a **domain model** ? use domain model notation: class blocks with responsibilities, collaborators, invariants, and stereotype annotations.
-- From an **Class Model** ? use typed notation: properties, operation signatures, relationships, and stereotype annotations.
+- From an **domain specification** ? use typed notation: properties, operation signatures, relationships, and stereotype annotations.
 - From a **Domain Language** ? use structured concept blocks: intent, behaviors, collaborations, and stereotype annotations.
 - From **Domain Terms** ? use plain-language concept descriptions with stereotype annotations.
 - From **no formal source** ? use plain language and produce domain terms as part of the output.

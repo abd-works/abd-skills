@@ -148,7 +148,7 @@ Also used in shaping (stage-tier): `abd-impact-mapping` — [`stages/idea-shapin
 | `abd-domain-glossary` | Module boundaries + domain terms (Key Abstractions) |
 | `abd-domain-language` | Shared vocabulary, behaviors, invariants |
 | `abd-domain-model` | Typed domain model from Domain Language |
-| `abd-domain-specification` | Typed class model for implementation |
+| `abd-domain-specification` | Typed domain specification for implementation |
 | `abd-domain-code` | Pure domain code from specification |
 | `abd-bounded-context-map` | Context map and integration *(supporting)* |
 | `abd-ddd-design-building-blocks` | Entity / VO / aggregate stereotypes *(supporting)* |

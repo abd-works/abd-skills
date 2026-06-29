@@ -1,6 +1,6 @@
 # drawio-domain-sync
 
-When the user asks to **render a class diagram**, **draw the domain model**, **visualise the object model**, or **sync a Draw.io diagram back** to a Ubiquitous Language, CRC model, or object model:
+When the user asks to **render a class diagram**, **draw the domain model**, **visualise the domain specification**, or **sync a Draw.io diagram back** to a Ubiquitous Language, domain model, or domain specification:
 
 1. Read `../skills/drawio-domain-sync/SKILL.md` in full.
 2. Read all `rules/*.md` files in that skill before placing any class or edge.

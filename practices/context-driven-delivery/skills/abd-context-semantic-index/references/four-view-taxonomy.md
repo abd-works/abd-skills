@@ -51,7 +51,7 @@ Tags for content about system functions, data structures, business rules, invari
 | `domain.key_abstraction` | free text | A building-block concept group within a module (e.g. "Order", "Payment", "Customer"). |
 | `domain.term` | free text | A specific concept within a key abstraction (e.g. "Order Line", "Shipping Address", "Payment Method"). |
 | `domain.stereotype` | enum | DDD building-block classification: `entity`, `value_object`, `aggregate`, `service`, `domain_event`, `repository`, `factory`, `specification`. |
-| `domain.fidelity` | enum | How far the domain model has been refined: `partition` (module boundaries), `terms` (named concepts), `ubiquitous_language` (defined vocabulary), `crc` (responsibilities and collaborators), `object_model` (typed relationships), `building_blocks` (DDD stereotypes). |
+| `domain.fidelity` | enum | How far the domain model has been refined: `partition` (module boundaries), `terms` (named concepts), `ubiquitous_language` (defined vocabulary), `domain_model` (responsibilities and collaborators), `domain_specification` (typed relationships), `building_blocks` (DDD stereotypes). |
 
 ### What qualifies for Domain view
 

@@ -4,7 +4,7 @@ drawio_domain_cli.py — unified domain model → Draw.io class diagram CLI
 
 Supports three source formats, auto-detected from YAML frontmatter or filename:
   state: domain-model                  — domain model pipe-table format
-  state: domain-model         — typed class-model (+ prop: Type, ---- separators)
+  state: domain-model         — typed domain-specification (+ prop: Type, ---- separators)
   state: domain-language  — ULL prose bullet format
 
 Layout: Sugiyama hierarchical layering + spring-force X-relaxation (TogetherJ-style).
@@ -90,7 +90,7 @@ def detect_format(text: str, path: Path) -> str:
     stem = path.stem.lower()
     if "domain model" in stem:
         return "domain model"
-    if "class-model" in stem or "object_model" in stem:
+    if "domain-specification" in stem or "object_model" in stem:
         return "domain-model"
     if "domain-language" in stem or "ubiquitous_language" in stem:
         return "domain-language"
@@ -101,7 +101,7 @@ def detect_format(text: str, path: Path) -> str:
 # domain model Parser
 # ---------------------------------------------------------------------------
 
-def parse_crc(text: str) -> DomainModel:
+def parse_domain_model(text: str) -> DomainModel:
     kas: Dict[str, List[ClassDef]] = {}
     current_ka: Optional[str] = None
     current_cls: Optional[ClassDef] = None
@@ -164,7 +164,7 @@ def parse_crc(text: str) -> DomainModel:
 
 
 # ---------------------------------------------------------------------------
-# Class Model Parser
+# domain specification Parser
 # ---------------------------------------------------------------------------
 
 _PRIMITIVE_TYPES = frozenset({
@@ -366,12 +366,12 @@ def parse_source(path: Path) -> DomainModel:
     text = path.read_text(encoding="utf-8")
     fmt = detect_format(text, path)
     if fmt == "domain model":
-        return parse_crc(text)
-    if fmt in ("domain-model", "class-model"):
+        return parse_domain_model(text)
+    if fmt in ("domain-model", "domain-specification"):
         return parse_object_model(text)
     if fmt == "domain-language":
         return parse_ull(text)
-    return parse_crc(text)
+    return parse_domain_model(text)
 
 
 # ---------------------------------------------------------------------------
@@ -845,7 +845,7 @@ def _add_all_edges(
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Domain model (domain model / class-model / ULL) → Draw.io class diagram"
+        description="Domain model (domain model / domain-specification / ULL) → Draw.io class diagram"
     )
     parser.add_argument("source", type=Path, help="Source .md file")
     parser.add_argument("--output", "-o", type=Path, default=None,

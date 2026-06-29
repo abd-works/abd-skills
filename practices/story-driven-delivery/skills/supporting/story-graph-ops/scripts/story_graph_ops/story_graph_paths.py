@@ -9,7 +9,7 @@ class StoryGraphPaths:
     
     Provides a single source of truth for all documentation paths:
     - docs/story/ for story_bot outputs
-    - docs/crc/ for crc_bot outputs
+    - docs/domain/ for domain model outputs
     - Behavior-specific subfolders (shape, exploration, scenarios, etc.)
     """
 

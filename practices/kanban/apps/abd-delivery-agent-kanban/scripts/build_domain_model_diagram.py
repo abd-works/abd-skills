@@ -32,14 +32,14 @@ from drawio_tools import (
     audit_diagram_report,
 )
 
-CRC_PATH = REPO_ROOT / "docs" / "domain" / "domain model.md"
+DOMAIN_MODEL_PATH = REPO_ROOT / "docs" / "domain" / "domain model.md"
 OUTPUT_PATH = REPO_ROOT / "docs" / "domain" / "domain model-class-diagram.drawio"
 
 PAGE_W = 3000
 PAGE_H = 1800
 
 
-def parse_crc(path: Path):
+def parse_domain_model(path: Path):
     text = path.read_text(encoding="utf-8")
     lines = text.split("\n")
     kas = {}
@@ -263,8 +263,8 @@ def _build_agent_skills_page(mxfile, classes, all_kas):
 
 
 def main():
-    print(f"Parsing: {CRC_PATH}")
-    kas = parse_crc(CRC_PATH)
+    print(f"Parsing: {DOMAIN_MODEL_PATH}")
+    kas = parse_domain_model(DOMAIN_MODEL_PATH)
 
     mxfile = create_empty_mxfile()
     _build_kanban_board_page(mxfile, kas["Kanban Board"]["classes"], kas)

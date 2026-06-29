@@ -6,7 +6,7 @@ Shared reference for all abd-domain-driven-design skills. This file owns the OO 
 
 ## What is a class
 
-> **Applies from: domain-language stage and beyond (domain-language → CRC → class-model).**
+> **Applies from: domain-language stage and beyond (domain-language → domain model → domain specification).**
 
 A class is a named domain idea that earns its own identity because it has at least one of: **distinct identity**, **state**, **behavior**, **structure**, or **interactions** that cannot be collapsed into a property, instance, or type property of something else.
 
@@ -16,14 +16,14 @@ A term that is only a data value on another class is a **property**. A term that
 
 Each skill records a class in its own form:
 - **domain-language** — a named concept block with intent, behaviors, and collaborations in plain English.
-- **CRC** — a `#### **ClassName**` block with responsibility and collaborator columns.
-- **class-model** — a typed class block with properties, operation signatures, relationships, and invariants.
+- **Domain model** — typed class blocks with properties, methods, collaborators, and invariants (pipe-table format).
+- **Domain specification** — fully typed properties, operations, relationships, and interaction blocks.
 
 ---
 
 ## Decomposing responsibilities
 
-> **Applies from: CRC stage and beyond (CRC → class-model → ...).** Do not use this section at domain-language level — there are no typed properties or operations at that stage.
+> **Applies from: domain model stage and beyond (domain model → domain specification → ...).** Do not use this section at domain-language level — there are no typed properties or operations at that stage.
 
 A responsibility is either something a class **holds** (state) or something it **does** (behaviour) — or both. Classify each responsibility before deciding how to represent it:
 
@@ -37,7 +37,7 @@ Never assume every responsibility implies a property, and never assume every res
 
 ## Relationships
 
-> **Applies from: CRC stage and beyond (CRC → class-model).** At domain-language level, dependencies are captured as plain-English collaboration sentences only — no formal relationship modeling.
+> **Applies from: domain model stage and beyond (domain model → domain specification).** At domain-language level, dependencies are captured as plain-English collaboration sentences only — no formal relationship modeling.
 
 A relationship describes how two domain classes depend on each other. Before recording a relationship, answer three questions:
 
@@ -45,7 +45,7 @@ A relationship describes how two domain classes depend on each other. Before rec
 2. **Does one class exist to collect or group the other?** — The collecting class has no meaningful identity without its members. Remove all members and the collector is empty of purpose.
 3. **Are both sides independent?** — Each can exist and be meaningful without the other.
 
-These questions determine the nature of the dependency. Each skill records the answer in its own notation — plain-English collaborations at domain-language level, named collaborators at CRC level, typed flavors with cardinality at class-model level.
+These questions determine the nature of the dependency. Each skill records the answer in its own notation — plain-English collaborations at domain-language level, responsibilities and collaborators at domain model level, typed flavors with cardinality at domain specification level.
 
 A relationship also has **direction**: the class that depends on, uses, or navigates to the other is the navigating end. Be explicit about which side initiates the dependency.
 
@@ -53,7 +53,7 @@ A relationship also has **direction**: the class that depends on, uses, or navig
 
 ## Inheritance and subtypes
 
-> **Applies from: domain-language stage and beyond (domain-language → CRC → class-model).**
+> **Applies from: domain-language stage and beyond (domain-language → domain model → domain specification).**
 
 ### Base class and subtype
 
@@ -104,7 +104,7 @@ A common modeling journey begins with treating domain elements as *instances* or
 
 ### The delta rule
 
-A subtype carries **only what it adds or overrides**. Inherited responsibilities are not repeated at any level of fidelity — domain-language, CRC, or Class Model. If the parent owns a responsibility, the subtype block is silent on it.
+A subtype carries **only what it adds or overrides**. Inherited responsibilities are not repeated at any level of fidelity — domain-language, domain model, or domain specification. If the parent owns a responsibility, the subtype block is silent on it.
 
 ---
 
@@ -139,4 +139,4 @@ After the user chooses, give them space to provide their rationale:
 
 Record both the choice and the rationale in `#### Decisions made` alongside the concept.
 
-**Carrying rationale forward.** Later-stage skills — domain-model, domain-specification — inherit the same typing decision and rationale unless modeling work uncovers new information (for example, a type-field concept develops distinct behavior at class-model stage). When that happens, note the new evidence and resurface the choice rather than silently overriding the earlier call. A later-stage skill may inform a new typing decision using the same rationale — if the user said "variants feel different but we don't know how yet," that context is evidence at domain-model stage to reassess.
+**Carrying rationale forward.** Later-stage skills — domain model, domain specification — inherit the same typing decision and rationale unless modeling work uncovers new information (for example, a type-field concept develops distinct behavior at domain model stage). When that happens, note the new evidence and resurface the choice rather than silently overriding the earlier call. A later-stage skill may inform a new typing decision using the same rationale — if the user said "variants feel different but we don't know how yet," that context is evidence at domain model stage to reassess.

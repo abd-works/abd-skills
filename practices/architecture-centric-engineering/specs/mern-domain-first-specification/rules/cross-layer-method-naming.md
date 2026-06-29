@@ -4,12 +4,12 @@ scanner: cross_layer_naming_scanner.py
 
 # Rule: Cross-Layer Method Naming Contract
 
-A single domain method name flows through all layers unchanged. The Class Model names the operation; every layer uses that same `{verbNoun}` stem. No layer invents a synonym, abbreviation, or CRUD-generic replacement.
+A single domain method name flows through all layers unchanged. The domain specification names the operation; every layer uses that same `{verbNoun}` stem. No layer invents a synonym, abbreviation, or CRUD-generic replacement.
 
 ## The Contract
 
 ```
-Class Model:   {verbNoun}({domainArgs})
+domain specification:   {verbNoun}({domainArgs})
 Shared:         {verbNoun}({domainArgs})              same name, TypeScript types
 Client API:     async {verbNoun}({domainArgs})        same name, HTTP underneath
 Controller:     async {verbNoun}(body)                same name, extracts args from body
@@ -19,13 +19,13 @@ Route:          POST /api/{resource}/{verb-noun}      kebab-case of the same nam
 
 ## DO
 
-- Derive every layer's method name from the Class Model verb: if the model says `toggleMode()`, the controller says `toggleMode(body)`, the service says `toggleMode(boardId)`, the API client says `toggleMode(boardId)`.
+- Derive every layer's method name from the domain specification verb: if the model says `toggleMode()`, the controller says `toggleMode(body)`, the service says `toggleMode(boardId)`, the API client says `toggleMode(boardId)`.
 - Use the same verb-noun pair everywhere: `moveToStage`, `updatePairCount`, `scatterTickets`.
 - Name routes as the kebab-case of the method: `toggleMode` → `POST /api/boards/toggle-mode`.
 - When the domain model adds a new operation, add it with the same name in all layers simultaneously.
 
 ```typescript
-// Class Model says: toggleMode()
+// domain specification says: toggleMode()
 
 // shared/KanbanBoard.ts
 export class KanbanBoard {
@@ -68,13 +68,13 @@ router.post('/toggle-mode', (req, res) => controller.toggleMode(req, res));
 
 ```typescript
 // WRONG — different names at each layer for the same operation
-// Class Model: incrementPairCount()
+// domain specification: incrementPairCount()
 // Client:       Heartbeat.adjustTeam(root, role, +1)    ← verb changed to "adjust"
 // Controller:   updateTeam(body)                        ← verb changed to "update"
 // Service:      modifyTeamCount(role, delta)            ← verb changed to "modify"
 
 // WRONG — CRUD generic hiding domain intent
-// Class Model: moveToStage(ticket, stage)
+// domain specification: moveToStage(ticket, stage)
 // Controller:   update(body)                            ← lost the domain verb entirely
 // Route:        PUT /api/tickets/:id                    ← generic REST, no domain verb
 ```

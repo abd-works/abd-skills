@@ -7,7 +7,7 @@ This skill produces a reference document by joining two kinds of input: **archit
 | Information needed | Common sources |
 |---|---|
 | **Architecture flow** — one interaction end-to-end; diagram + `\| Tech \| File \| Instantiates from domain \|` table. Tech-specific. | Named spec (`specs/<arch>/architecture-specification.md`), layered description doc, ADR, or sibling skill output. |
-| **Instantiating the Domain** — how domain classes and operations become code; module layout; naming contract. **Common to all specs.** | Domain model, domain language, or class model from the engagement; named spec section when assigning. |
+| **Instantiating the Domain** — how domain classes and operations become code; module layout; naming contract. **Common to all specs.** | Domain model, domain language, or domain specification from the engagement; named spec section when assigning. |
 | **Mechanism list** — tech-specific runtime concerns (e.g. Web Client, App Server, Persistence for MERN). One mechanism section per entry. | Architecture blueprint, mechanism inventory, or named spec. |
 
 ## Required code and test standards

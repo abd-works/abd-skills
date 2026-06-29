@@ -126,7 +126,7 @@ docs/
 
 | Skill | Canonical file name | Notes |
 |---|---|---|
-| abd-domain-specification | `domain-specification.md` | Renamed from `class-model.md` — confirmed |
+| abd-domain-specification | `domain-specification.md` | Renamed from `domain-specification.md` — confirmed |
 | abd-story-acceptance-test | project test folder | Test code goes in the host project's test folder, not `docs/` — correct by design |
 | abd-ux-information-architecture | `docs/ux/information-architecture/information-architecture.md` + `.drawio` | Path and filename confirmed |
 | abd-ux-mockup | `docs/ux/mockup/screens/` | `mockup/` (singular) confirmed |

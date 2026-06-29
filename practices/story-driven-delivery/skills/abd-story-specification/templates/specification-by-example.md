@@ -79,7 +79,7 @@ Then **`<outcome>`** is {field_2}
 
 **Story type:** user
 
-**Sources / context:** _(Payments Domain — Class Model: Payment Product, Customer, Account, Owner, Payment Product Agreement · `domain-model.md` § Customer, Account)_
+**Sources / context:** _(Payments Domain — domain specification: Payment Product, Customer, Account, Owner, Payment Product Agreement · `domain-model.md` § Customer, Account)_
 
 ---
 
@@ -113,7 +113,7 @@ Then the **Payment Product Agreement** is *rejected*
 
 **Story type:** user
 
-**Sources / context:** _(Payments Domain — Class Model: Account, Transactional Limit, Wire Payment)_
+**Sources / context:** _(Payments Domain — domain specification: Account, Transactional Limit, Wire Payment)_
 
 ---
 

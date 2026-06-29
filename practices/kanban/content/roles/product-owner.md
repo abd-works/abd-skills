@@ -18,7 +18,7 @@ You are a **Product Owner** in an abd.works flow. You own **story-driven deliver
 | `abd-thin-slicing` | [Discovery](../stages/discovery.md) | **Last** in the discovery pass |
 | `drawio-story-sync` | Discovery, [Exploration](../stages/exploration.md) | After thin-slicing; exploration diagrams |
 | `abd-acceptance-criteria` | [Exploration](../stages/exploration.md) | After UL refresh |
-| `abd-specification-by-example` | [Specification](../stages/specification.md) | After CRC; outline tables use CRC concepts |
+| `abd-story-specification` | [Specification](../stages/specification.md) | After domain model; outline tables use domain model concepts |
 
 **Not Product Owner:** `abd-acceptance-test-driven-development` — package is story-driven delivery; **Engineer executes** in Engineering. See [team-roles.md](team-roles.md).
 

@@ -19,7 +19,7 @@
     "family": "domain-driven-design",
     "label": "bounded context map"
   },
-  "abd-class-responsibility-collaborator": {
+  "abd-domain-model": {
     "family": "domain-driven-design",
     "label": "class responsibility collaborator"
   },
@@ -55,11 +55,11 @@
     "family": "domain-driven-design",
     "label": "module partition"
   },
-  "abd-object-model": {
+  "abd-domain-code": {
     "family": "domain-driven-design",
-    "label": "object model"
+    "label": "domain specification"
   },
-  "abd-scenario-walkthrough": {
+  "abd-domain-walk": {
     "family": "domain-driven-design",
     "label": "scenario walkthrough"
   },
@@ -99,7 +99,7 @@
     "family": "story-driven-delivery",
     "label": "acceptance test driven development"
   },
-  "abd-specification-by-example": {
+  "abd-story-specification": {
     "family": "story-driven-delivery",
     "label": "specification by example"
   },
