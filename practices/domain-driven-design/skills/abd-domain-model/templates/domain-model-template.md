@@ -2,8 +2,12 @@
   Normative shape for the domain-model phase output.
 
   Output: <deliverables-folder>/[<name>-]domain-model.md
-          (or <deliverables-folder>/modules/<module-name>-domain-model.md
+          <deliverables-folder>/[<name>-]domain-model.json   (abd-domain-model/v1 — parallel to story-graph.json)
+          (or <deliverables-folder>/modules/<module-name>-domain-model.md|.json
            for multi-module engagements)
+
+  Machine-readable spine: see ../../references/domain-model-json.md and ../../references/domain-model-template.json.
+  domain.json is a flat scanner vocabulary index derived from domain-model.json.
 
   This skill produces a STANDALONE file. It does not enrich the prior phase's
   file in place. It is a fresh artifact in the same flat heading shape every

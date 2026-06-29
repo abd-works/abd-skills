@@ -1,0 +1,200 @@
+{
+  "_comment": "Machine-readable domain model spine — parallel to story-graph.json. Relationships are first-class siblings of classes (at KA or module scope), not nested inside class nodes. Schema: abd-domain-model/v1.",
+  "schema": "abd-domain-model/v1",
+  "product": "{{ProductOrSystemName}}",
+  "scope": "{{bounded slice or engagement scope}}",
+  "modules": [
+    {
+      "name": "{{ModuleName}}",
+      "scope": "{{module scope when different from root}}",
+      "core_terms": [
+        "{{term1}}",
+        "{{term2}}"
+      ],
+      "relationships": [
+        {
+          "name": "{{relationshipName}}",
+          "kind": "{{association|aggregation|composition}}",
+          "ends": [
+            {
+              "class": "{{SourceClassName}}",
+              "role": "{{sourceRole}}",
+              "cardinality": "{{1..1|0..1|1..*|0..*}}"
+            },
+            {
+              "class": "{{TargetClassName}}",
+              "role": "{{targetRole}}",
+              "cardinality": "{{1..1|0..1|1..*|0..*}}"
+            }
+          ]
+        }
+      ],
+      "key_abstractions": [
+        {
+          "name": "{{KAName}}",
+          "definition": "{{KA intro paragraph — what it owns, relates to, and must always hold}}",
+          "relationships": [
+            {
+              "name": "{{relationshipName}}",
+              "kind": "{{association|aggregation|composition}}",
+              "ends": [
+                {
+                  "class": "{{SourceClassName}}",
+                  "role": "{{sourceRole}}",
+                  "cardinality": "{{1..1|0..1|1..*|0..*}}"
+                },
+                {
+                  "class": "{{TargetClassName}}",
+                  "role": "{{targetRole}}",
+                  "cardinality": "{{1..1|0..1|1..*|0..*}}"
+                }
+              ]
+            }
+          ],
+          "classes": [
+            {
+              "name": "{{KaAnchorClassName}}",
+              "ka_anchor": true,
+              "term": "{{glossary_or_language_term}}",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "{{Type}}"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "{{propertyName}}",
+                  "return_type": "{{Type}}",
+                  "invariants": [
+                    "{{declarative constraint}}"
+                  ],
+                  "interaction": [
+                    "{{interaction line as plain string}}",
+                    {
+                      "return_type": "{{Type}}",
+                      "object": "{{objectName}}",
+                      "operation": "{{operationName}}",
+                      "params": [
+                        "{{arg}}"
+                      ]
+                    },
+                    {
+                      "return_type": "{{Type}}",
+                      "property": "{{propertyPath}}"
+                    }
+                  ],
+                  "language_bullets": [
+                    "{{domain-language bullet this property came from}}"
+                  ]
+                }
+              ],
+              "operations": [
+                {
+                  "name": "{{methodName}}",
+                  "parameter_types": [
+                    "{{Type}}"
+                  ],
+                  "return_type": "{{ReturnType}}",
+                  "visibility": "public",
+                  "collaborators": [
+                    "{{CollaboratorClass}}"
+                  ],
+                  "invariants": [
+                    "{{declarative constraint}}"
+                  ],
+                  "interaction": [
+                    "{{interaction line as plain string}}",
+                    {
+                      "return_type": "{{Type}}",
+                      "object": "{{objectName}}",
+                      "operation": "{{operationName}}",
+                      "params": [
+                        "{{arg}}"
+                      ]
+                    }
+                  ],
+                  "language_bullets": [
+                    "{{domain-language behavior bullet}}"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "{{ChildClassName}}",
+              "ka_anchor": false,
+              "term": "{{glossary_or_language_term}}",
+              "extends": "{{ParentClassName}}",
+              "constructor": {
+                "parameter_types": [
+                  "{{Type}}"
+                ]
+              },
+              "properties": [],
+              "operations": [
+                {
+                  "name": "{{deltaMethodName}}",
+                  "parameter_types": [
+                    "{{Type}}"
+                  ],
+                  "return_type": "{{ReturnType}}",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": [
+                    "{{constraint specific to this subtype}}"
+                  ]
+                }
+              ]
+            }
+          ],
+          "references": [
+            {
+              "title": "{{ref_title}}",
+              "source": "{{source_path}}",
+              "locator": "{{locator}}",
+              "extract": "{{whole or partial}}"
+            }
+          ],
+          "decisions": [
+            "{{modeling decision}}"
+          ]
+        }
+      ],
+      "boundary_domain": {
+        "relationships": [],
+        "classes": [
+          {
+            "name": "{{BoundaryClassName}}",
+            "owned_by": "{{OwningModule}}",
+            "term": "{{glossary_or_language_term}}",
+            "extends": null,
+            "constructor": {
+              "parameter_types": []
+            },
+            "properties": [
+              {
+                "name": "{{propertyName}}",
+                "return_type": "{{Type}}",
+                "invariants": []
+              }
+            ],
+            "operations": [
+              {
+                "name": "{{methodName}}",
+                "parameter_types": [
+                  "{{Type}}"
+                ],
+                "return_type": "{{ReturnType}}",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": []
+              }
+            ]
+          }
+        ],
+        "references": [],
+        "decisions": []
+      }
+    }
+  ]
+}

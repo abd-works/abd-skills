@@ -30,7 +30,7 @@ We need:
 └────────────┬──────────────┬──────────────┬──────────────────────┘
              │              │              │
     ┌────────▼────┐  ┌──────▼─────┐  ┌─────▼─────┐  ┌──────────────┐
-    │ story-graph │  │domain-graph│  │  ux-graph │  │ arch-graph   │
+    │ story-graph │  │domain-model│  │  ux-graph │  │ arch-graph   │
     │ (typed tree)│  │(typed tree)│  │(typed tree│  │ (typed tree) │
     └─────────────┘  └────────────┘  └───────────┘  └──────────────┘
          │                  │               │                │
@@ -68,9 +68,10 @@ Each view is its own JSON graph. Internal structure uses familiar parent/child c
 
 Markdown (`story-map.md`, `specification-by-example.md`, …) and Draw.io diagrams are **projections** of this graph, not a competing source of truth.
 
-### domain-graph
+### domain-model (domain view graph)
 
-**Canonical file:** `docs/domain/model/domain-graph.json` (new; `domain.json` remains for scanner vocabulary)  
+**Canonical file:** `docs/domain/model/domain-model.json` (new; `domain.json` remains for scanner vocabulary)  
+**Schema:** `abd-domain-model/v1`  
 **Evolves from:** `domain-model.md`, `domain.json`, KA / module structure in domain skills
 
 | Node kind | Contains |
@@ -80,7 +81,7 @@ Markdown (`story-map.md`, `specification-by-example.md`, …) and Draw.io diagra
 | `Class` | `Property`, `Responsibility` |
 | `BoundedContext` | `Module` |
 
-`domain.json` stays a **flat vocabulary index** (concept names, attributes, inheritance) for scanners. `domain-graph.json` holds **structure and containment** that markdown scatters today.
+`domain.json` stays a **flat vocabulary index** (concept names, attributes, inheritance) for scanners. `domain-model.json` holds **structure and containment** that markdown scatters today.
 
 ### ux-graph
 
@@ -200,7 +201,7 @@ The context graph is a standard **nodes + edges** graph. It does **not** duplica
       "id": "domain:module:catalog",
       "kind": "Module",
       "view": "domain",
-      "path": "docs/domain/model/domain-graph.json",
+      "path": "docs/domain/model/domain-model.json",
       "pointer": "modules/Catalog"
     },
     {
@@ -351,7 +352,7 @@ docs/
 │   └── context-graph.json          ← cross-view links (new)
 ├── domain/
 │   └── model/
-│       ├── domain-graph.json       ← domain view spine (new)
+│       ├── domain-model.json       ← domain view spine (new)
 │       ├── domain.json             ← flat vocabulary for scanners (existing)
 │       └── domain-model.md         ← projection
 ├── stories/
@@ -409,7 +410,7 @@ docs/
 | Existing piece | Role in this solution |
 | --- | --- |
 | `story-graph.json` + `story-graph-ops` | Story view graph — **keep**; extend with stable ids |
-| `domain.json` | Vocabulary index for scanners — **keep** alongside `domain-graph.json` |
+| `domain.json` | Vocabulary index for scanners — **keep** alongside `domain-model.json` |
 | `abd-context-semantic-index` | Ingestion-time tagging of raw corpus — may inform brownfield edge authoring (future `evidence` type TBD) |
 | `cdd-context-index.md` | Path overrides when artifacts are not at canonical `docs/` paths |
 | `context-taxonomy.md` | Perspective × fidelity grid — **unchanged**; views map to perspectives |
@@ -425,7 +426,7 @@ docs/
 | **0** | This document + `abd-context-graph/v1` schema stub | Agree ids, layout, verbs |
 | **1** | Stable ids on `story-graph` nodes; `context-graph.json` with nodes + edges for one fixture | PawPlace mini |
 | **2** | `context-graph-ops` CLI: `add-edge`, `neighbors`, `validate`, `coverage`, `resolve-pointer` | Mirror `story-graph-ops`; name-walk resolver |
-| **3** | `domain-graph.json` schema + domain skills emit on write | Alongside `domain.json` |
+| **3** | `domain-model.json` schema + domain skills emit on write | Alongside `domain.json` |
 | **4** | `ux-graph.json` from IA / mockup skills | IA trace tables → `enables` / `presents` edges |
 | **5** | `arch-graph.json` from blueprint / specification skills | Mechanism nodes + `implements` / `realizes` edges |
 | **6** | Read-gates on pilot skills (`abd-story-specification`, `abd-ux-mockup`, `abd-architecture-specification`) | Index-first context |

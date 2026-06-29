@@ -29,7 +29,7 @@ Make ownership and responsibilities explicit for every concept — who creates i
 
 ## Read
 
-§ Read-gates — all of [`rules/`](rules/), [`reference/`](reference/), [`templates/`](templates/).
+§ Read-gates — all of [`rules/`](rules/), [`reference/`](reference/), [`templates/`](templates/), [`../../references/domain-model-json.md`](../../references/domain-model-json.md), and [`../supporting/domain-ops/SKILL.md`](../supporting/domain-ops/SKILL.md).
 
 ## Input traps
 
