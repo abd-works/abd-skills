@@ -19,14 +19,6 @@ Make story behavior unambiguous — concrete examples with real values so devs a
 
 ---
 
-## Output file
-
-**Deliverables folder:** see `common/skill-workflow.md` — Output file resolution.
-
-**File name:** `specification-by-example.md` — a single file for all stories in the module. Add a `<name>-` prefix only when disambiguation is needed.
-
----
-
 ## Agent Instructions
 
 Follow `common/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.

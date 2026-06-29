@@ -19,14 +19,6 @@ State exactly what must be true for a story to be done — so everyone agrees on
 
 ---
 
-## Output file
-
-**Deliverables folder:** see `common/skill-workflow.md` — Output file resolution.
-
-**File name:** `acceptance-criteria.md`. Add a `<name>-` prefix only when disambiguation is needed.
-
----
-
 ## Agent Instructions
 
 Follow `common/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.

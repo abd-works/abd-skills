@@ -21,14 +21,6 @@ Give product, delivery, and domain people one shared picture of scope — outcom
 
 ---
 
-## Output file
-
-**Deliverables folder:** see `common/skill-workflow.md` — Output file resolution.
-
-**File name:** `story-map.md`. Add a `<name>-` prefix only when disambiguation is needed.
-
----
-
 ## Agent Instructions
 
 Follow `common/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.

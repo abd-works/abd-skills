@@ -37,5 +37,8 @@
 | --- | --- |
 | `reference/input-traps.md` | Method-specific input ambiguities — all five practice skills |
 | `reference/diagram-workflow.md` | Mode + output path — mapping, AC, thin-slicing only |
+| `reference/output.md` | Non-default output rules only — acceptance-test (project test folder) |
+
+**Output file names** for the four `docs/` skills: [`common/folder-conventions.md`](../../../common/folder-conventions.md) — no `reference/output.md` needed. [`common/skill-workflow.md`](../../../common/skill-workflow.md) § Output file resolution.
 
 **Workflow:** [`common/skill-workflow.md`](../../../common/skill-workflow.md) § Read-gates defines read order. **Grill mode:** [`common/grill-me-with-practice-skill.md`](../../../common/grill-me-with-practice-skill.md) — interview mechanics only; questions from `reference/input-traps.md`.

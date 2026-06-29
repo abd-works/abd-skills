@@ -20,14 +20,6 @@ Decide what to deliver first and why — so the team ships value in the smallest
 
 ---
 
-## Output file
-
-**Deliverables folder:** see `common/skill-workflow.md` — Output file resolution.
-
-**File name:** `thin-slicing.md`. Add a `<name>-` prefix only when disambiguation is needed.
-
----
-
 ## Agent Instructions
 
 Follow `common/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.

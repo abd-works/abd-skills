@@ -19,20 +19,6 @@ Generate executable test files from specification scenarios, acceptance criteria
 
 ---
 
-## Output file
-
-**Where to write the test files (`<tests-folder>` resolution):**
-
-1. **The path the user told you to use.** If the user names a file or folder, use exactly that.
-2. **Where the project already keeps tests.** Look at the workspace; if a `tests/`, `test/`, `spec/`, or language-conventional test folder exists, put new test files in the appropriate subdirectory there.
-3. **The workspace root.** If neither applies, write to the workspace root or a sensible language-default location.
-
-Do **not** invent a predetermined folder name. Tests follow the host project's conventions.
-
-**File names:** Use the target language's test-discovery convention (`test_<scenario>.py`, `<Scenario>Test.java`, `*.test.ts`, etc.).
-
----
-
 ## Agent Instructions
 
 Follow `common/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.

@@ -2,7 +2,7 @@
   Parameterized SKILL.md skeleton for agilebydesign-skills.
   Canonical copy: skills/abd-practice-skill-builder/abd-author-practice-skill/templates/SKILL_template.md
   Copy to skills/<your-skill>/SKILL.md and replace every {{PLACEHOLDER}}.
-  Shape: thin router — purpose, when-to-use, output file, Agent Instructions (read-gates), Validate.
+  Shape: thin router — purpose, when-to-use, Agent Instructions (read-gates), Validate.
   Rules live in rules/*.md only. Concept teaching lives in reference/*.md only. Nothing inlined here.
 -->
 
@@ -48,24 +48,11 @@ Load this skill when **any** of the following apply:
 - {{WHEN_TO_USE_BULLET_3}}
 - {{WHEN_TO_USE_BULLET_4}}
 
-## Output file
-
-**Deliverables folder:** `docs/{{SCAFFOLD_PATH}}/` — see [`common/folder-conventions.md`](../../../../common/folder-conventions.md) for the canonical scaffold tree. The user may name a different path; this is the sensible default.
-
-**Where to write the deliverables (`<deliverables-folder>` resolution):**
-
-1. The path the user told you to use.
-2. Where the engagement already keeps deliverables (write next to existing phase output).
-3. Canonical scaffold path from `common/folder-conventions.md` (see entry for this skill).
-4. The workspace root if none of the above applies.
-
-**File names:** `{{OUTPUT_FILE_NAME}}`. Add a `<name>-` prefix only for disambiguation.
-
----
-
 ## Agent Instructions
 
-> **MANDATORY — follow [`common/skill-workflow.md`](../../../../common/skill-workflow.md) § Read-gates** — including `reference/input-traps.md` before generating.
+Follow [`common/skill-workflow.md`](../../../../common/skill-workflow.md) — read-gates, output file resolution, and the per-rule verdict format are defined there.
+
+> **MANDATORY — follow § Read-gates** — including `reference/input-traps.md` before generating.
 
 ### 1. Read context (MANDATORY before starting)
 

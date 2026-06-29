@@ -6,13 +6,21 @@ Read this file when any practice skill tells you to. It defines the shared workf
 
 ## Output file resolution (deliverables)
 
-**Where to write deliverables (`<deliverables-folder>` resolution):**
+**Where to write** — resolve `<deliverables-folder>` in this order:
 
 1. **The path the user told you to use.** If the user names a file or folder, use exactly that.
-2. **`cdd-context-index.md` at the workspace root.** If this file exists and lists a non-standard path for this artifact, use that path. Update the row if the path changes.
-3. **Where the engagement already keeps deliverables.** Look at the workspace; if previous phase output already lives in a folder, write next to them in the **same** folder.
-4. **Canonical scaffold path.** If none of the above applies, use the path for this skill from [`common/folder-conventions.md`](./folder-conventions.md). The scaffold tree there defines the default `docs/` subtree for every skill family.
+2. **`cdd-context-index.md` at the workspace root.** If this file lists a path for this artifact, use that path. Update the row if it changes.
+3. **Where the engagement already keeps deliverables.** Write next to existing phase output in the **same** folder.
+4. **Canonical scaffold path** from [`folder-conventions.md`](./folder-conventions.md) for the active skill.
 5. **The workspace root.** Last resort only.
+
+**File name** — after the folder is resolved:
+
+1. If the active skill has **`reference/output.md`**, read it for file name, naming pattern, or non-`docs/` rules (e.g. project test folder).
+2. Otherwise use the file name in [`folder-conventions.md`](./folder-conventions.md) for this skill (typically `<artifact-stem>.md`).
+3. Add a `<name>-` prefix only when disambiguation is needed.
+
+Most skills need no `reference/output.md` — `folder-conventions.md` is enough. Add `reference/output.md` only when the skill breaks the default (tests in project tree, multiple named outputs, non-`.md` deliverable).
 
 ---
 
@@ -21,7 +29,7 @@ Read this file when any practice skill tells you to. It defines the shared workf
 Before authoring any artifact — **hard gate, no exceptions.** Read in this order:
 
 1. **`rules/`** — every file for the active skill.
-2. **`reference/`** — concepts, examples, and other teaching files (**not** `input-traps.md` or `diagram-workflow.md` yet).
+2. **`reference/`** — concepts, examples, and other teaching files (**not** `input-traps.md`, `diagram-workflow.md`, or `output.md` yet).
 3. **`reference/input-traps.md`** — check each trap against available input; flag gaps; do not assume away ambiguities this skill names.
 4. **Practice family `reference/`** — read any shared files linked from the active skill's `SKILL.md` or `reference/concepts.md` (e.g. `handling-incomplete-context.md`, `diagram-workflow.md`, `domain-input-priority.md` at practice level).
 5. **Grill mode only** — if the invocation includes **"grill me"**, read [`grill-me-with-practice-skill.md`](./grill-me-with-practice-skill.md) and work through unresolved traps as questions (one at a time) before generating.

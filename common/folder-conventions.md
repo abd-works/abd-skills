@@ -174,10 +174,6 @@ An empty `cdd-context-index.md` is included in [`context-scaffold/`](./context-s
 
 ## How to reference this document
 
-In any practice `SKILL.md`, `## Output file` section, write:
+**Do not** add a `## Output file` section to practice `SKILL.md` files. [`common/skill-workflow.md`](./skill-workflow.md) § Output file resolution resolves folder (user path → `cdd-context-index.md` → existing deliverables → this document → workspace root) and file name (`reference/output.md` if present, else the entry below).
 
-```markdown
-**Deliverables folder:** `docs/<scaffold-path>/` — see [`common/folder-conventions.md`](../../../../common/folder-conventions.md). If this project uses non-standard paths, check `cdd-context-index.md` at the workspace root first.
-```
-
-Substitute the canonical path from the scaffold tree above. The user may move outputs anywhere; the scaffold path is the sensible default, and `cdd-context-index.md` records any deviations.
+When authoring a **new** skill, add its row to the scaffold tree above. Add `reference/output.md` on the skill only when it breaks the default (tests in project tree, multiple outputs, non-`.md` deliverable).
