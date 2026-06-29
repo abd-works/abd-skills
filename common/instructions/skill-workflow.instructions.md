@@ -57,7 +57,11 @@ Before authoring any artifact, read in this order:
 
 ## Generate
 
-After read-gates: author to all `rules/`; one deliverable per `templates/` file; never copy template `## Instructions` into project files. Orchestration in `reference/generate.md` when present. Skill-specific steps are not in `SKILL.md`.
+After read-gates:
+
+1. **Follow every rule** — re-read each `rules/` file; every DO / DO NOT and pass/fail example directs what you write.
+2. **Fill every template** — one deliverable per `templates/` file; match headings, tables, and fields exactly; never copy `## Instructions` into project files.
+3. **Orchestration** — `reference/generate.md` when present (order, fidelity branching, pre-scanners).
 
 ---
 

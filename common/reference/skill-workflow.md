@@ -55,12 +55,13 @@ Before authoring any artifact — **hard gate, no exceptions.** Read in this ord
 
 ## Generate (deliverables)
 
-After read-gates:
+After read-gates, generate the artifact:
 
-- Produce **one deliverable per file** in `templates/` (and for any new template added later).
-- Generated project files contain **stakeholder-facing content only** — never paste template `## Instructions` or maintainer notation sections into deliverables.
+1. **Follow every rule.** Re-read each file in **`rules/`** and let every **DO**, **DO NOT**, and **Example (pass)** / **Example (fail)** direct what you write. Each rule is a shape contract — apply it line by line; do not improvise structure a rule forbids or skip a constraint a rule requires.
+2. **Fill every template.** For each file in **`templates/`**, produce **one deliverable** that matches that template's headings, tables, fields, and layout **exactly**. Copy the template structure; replace placeholders and example content with engagement-specific content. Never paste template **`## Instructions`** or other maintainer-only sections into project files.
+3. **Orchestration.** When the skill ships **`reference/generate.md`**, read it for workflow order, fidelity branching, and pre-scanners — run those steps before or during generation.
 
-Skill-specific workflow order, fidelity branching, and pre-scanners live in **`reference/generate.md`** when that file exists. Shape contracts are in **`rules/`** and **`templates/`** — do not duplicate them in `SKILL.md`.
+Deliverables contain **stakeholder-facing content only**. Do not duplicate rule or template shape in `SKILL.md`.
 
 ---
 
