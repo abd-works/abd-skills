@@ -21,7 +21,7 @@ Establish the shared canonical picture of a system — what systems exist, how t
 
 ## Output files
 
-**Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
+**Deliverables folder:** see `../common/skill-workflow.md` — Output file resolution.
 
 Generate from all templates in `templates/`, preserving subfolder structure. Write to `docs/architecture/diagrams/`. Add a `<name>-` prefix to `architecture-outline.md` only when disambiguation is needed.
 
@@ -63,7 +63,7 @@ Produces `docs/architecture/diagrams/system-context.drawio`. Must exist and veri
 
 ## Agent Instructions
 
-Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
+Follow `../common/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
@@ -112,7 +112,7 @@ If you are documenting an existing system, follow `../common/record-all-architec
 
 ### 3. Validate
 
-Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.md` § Validate output.
+Run scanners and emit per-rule verdicts — see `../common/skill-workflow.md` § Validate output.
 
 Also verify diagram:
 

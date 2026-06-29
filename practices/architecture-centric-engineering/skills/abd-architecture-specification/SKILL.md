@@ -130,7 +130,7 @@ Full teaching — document skeleton, five-part shape, section organization, temp
 
 ## Output
 
-**Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
+**Deliverables folder:** see `../common/skill-workflow.md` — Output file resolution.
 
 **Primary output:** a specification directory (see **Core concepts**).
 
@@ -146,7 +146,7 @@ The spec directory's own `templates/` folder (e.g. `specs/mern/templates/`) hold
 
 ## Agent Instructions
 
-Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
+Follow `../common/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
@@ -236,7 +236,7 @@ Link the specification directory to the relevant story map node(s) — system, e
 
 Follow **`common`**. Run only the passes that match the mode:
 
-**A — Specification document** (modes **document** and **both**): Read every file in **`abd-architecture-specification/rules/`**; emit a per-rule PASS/FAIL verdict per `../common/skill-rule-workflow.md`.
+**A — Specification document** (modes **document** and **both**): Read every file in **`abd-architecture-specification/rules/`**; emit a per-rule PASS/FAIL verdict per `../common/skill-workflow.md`.
 
 **B — Template code** (modes **template** and **both**): Read every file in the spec directory's own **`rules/`**; emit per-rule PASS/FAIL on the template slice. Then run scanners:
 

@@ -23,7 +23,11 @@ Give product, delivery, and domain people one shared picture of scope — outcom
 
 ## Agent Instructions
 
-**MANDATORY:** [`common/skill-workflow.md`](../../../../common/skill-workflow.md) — read in full; complete § Read-gates before generating or validating.
+**MANDATORY:** [`common/skill-workflow.md`](../../../../common/skill-workflow.md) — read in full; complete § Bootstrap and § Read-gates before generating or validating.
+
+## Bootstrap
+
+§ Bootstrap — [`common/skill-workflow.md`](../../../../common/skill-workflow.md).
 
 ## Read
 

@@ -1,6 +1,21 @@
 # Skill Workflow
 
-**You were sent here from a practice skill's `SKILL.md`.** Read this file **in its entirety** before generating, grilling, or validating. It defines the shared workflow: read-gates, output resolution, validation, diagram delegation, and correction.
+**You were sent here from a practice skill's `SKILL.md`.** Read this file **in its entirety** before generating, grilling, or validating. Order: **bootstrap** (engagement context) → **read-gates** (skill package) → generate → validate.
+
+---
+
+## Bootstrap (engagement context)
+
+**Hard gate before skill read-gates.** The skill package defines *how* to work; the engagement defines *what already exists*.
+
+1. **`cdd-context-index.md`** at the workspace root — artifact paths when present ([`folder-conventions.md`](./folder-conventions.md) § Non-standard locations).
+2. **Existing deliverables** for this scope — upstream phase output and peer-perspective artifacts (filenames in [`skill-index.md`](./skill-index.md)).
+3. **Decision records** — read every **`DR-*.md`** / **`ADR-*.md`** under decision folders relevant to the active skill's practice context ([`decision-record.md`](./decision-record.md)). Read **Accepted** records in full; respect **Superseded** / **Deprecated**; treat **Proposed** as unsettled. Check at minimum:
+   - `docs/decisions/` (project-wide)
+   - Practice folder when applicable: `docs/stories/decisions/`, `docs/domain/decisions/`, `docs/architecture/decisions/`, `docs/ux/decisions/`
+   - `docs/sessions/<session>/decisions/` when working in a named session
+
+When a choice meets DR criteria during this run, write a new record per [`decision-record.md`](./decision-record.md) — do not bury major decisions in chat or deliverable prose only.
 
 ---
 
@@ -34,7 +49,7 @@ Before authoring any artifact — **hard gate, no exceptions.** Read in this ord
 4. **Practice family `reference/`** — read **every** file in the practice `<family>-perspective.md` shared-reference table, plus **every** practice file linked from **any** file in this skill's `reference/` folder, **read in full**.
 5. **Grill mode only** — if the invocation includes **"grill me"**, read [`grill-me-with-practice-skill.md`](./grill-me-with-practice-skill.md) and the active skill's **`reference/grill-me.md`** **in full**; ask questions one at a time from `reference/grill-me.md` only (not from `input-traps.md`).
 
-**Read each file in full** — no skimming, no summarizing from memory, no skipping sections. Do not rely on the SKILL body alone. No main task starts until steps 1–4 are done (and step 5 when grill mode is active).
+**Read each file in full** — no skimming, no summarizing from memory, no skipping sections. Do not rely on the SKILL body alone. Complete **§ Bootstrap** first, then steps 1–4 (and step 5 when grill mode is active). No main task starts until bootstrap and read-gates are done.
 
 ---
 

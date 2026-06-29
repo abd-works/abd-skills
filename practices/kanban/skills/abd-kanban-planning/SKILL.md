@@ -44,7 +44,7 @@ Before generating, surface these:
 
 ## Agent Instructions
 
-Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
+Follow `../common/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
@@ -67,7 +67,7 @@ Follow the **strategy selection procedure** from `reference/selecting-a-strategy
 
 ### 3. Validate
 
-Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.md` § Validate output.
+Run scanners and emit per-rule verdicts — see `../common/skill-workflow.md` § Validate output.
 
 ---
 

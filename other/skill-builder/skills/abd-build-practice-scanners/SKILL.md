@@ -25,7 +25,7 @@ Written **DO / DO NOT** rules are easy to **ignore** or **misread**. Small **aut
 
 - **`skills/<skill-name>/`** with finalized (or stable draft) **`SKILL.md`** and **`rules/*.md`**.
 
-Read **`skills/common/skill-rule-workflow.md`** sections **Target Skill Layout** and **Commands**.
+Read [`common/skill-package-layout.md`](../../../../common/skill-package-layout.md) and [`common/skill-workflow.md`](../../../../common/skill-workflow.md) § Validate output.
 
 ## Agent Instructions
 

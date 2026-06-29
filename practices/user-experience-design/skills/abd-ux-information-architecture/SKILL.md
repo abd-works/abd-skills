@@ -19,7 +19,7 @@ Define what screens exist and how users move between them — so missing coverag
 
 ## Output file
 
-**Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
+**Deliverables folder:** see `../common/skill-workflow.md` — Output file resolution.
 
 **File names:** `information-architecture.md` (structured spec), `information-architecture.drawio` (diagram), and one `screens/<screen-slug>.aria.yaml` per screen — all in `docs/ux/information-architecture/`. See [`common/folder-conventions.md`](../../../../common/folder-conventions.md).
 
@@ -66,7 +66,7 @@ Repeat `add-screen`, `add-list`, and `connect` calls for every screen. `save` al
 
 ## Agent Instructions
 
-Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
+Follow `../common/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
@@ -120,7 +120,7 @@ node scripts/drawio-ux.mjs save
 
 ### 3. Validate
 
-Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.md` § Validate output.
+Run scanners and emit per-rule verdicts — see `../common/skill-workflow.md` § Validate output.
 
 ---
 

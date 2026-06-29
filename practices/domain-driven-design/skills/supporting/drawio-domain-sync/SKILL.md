@@ -21,7 +21,7 @@ Keep domain diagrams and source models in sync — so the team reads one truth, 
 
 ## Output file
 
-**Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
+**Deliverables folder:** see `../common/skill-workflow.md` — Output file resolution.
 
 **Default (per-KA tabs):** `<source-name>.drawio` alongside the source `.md` file — same stem, different extension. The file contains one tab per KA plus an optional "All KAs (Overview)" tab.
 
@@ -31,7 +31,7 @@ Keep domain diagrams and source models in sync — so the team reads one truth, 
 
 ## Agent Instructions
 
-Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
+Follow `../common/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
@@ -101,7 +101,7 @@ Use this mode only when the user explicitly asks for it (says "full diagram", "s
 
 ### 3. Validate
 
-Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.md` § Validate output.
+Run scanners and emit per-rule verdicts — see `../common/skill-workflow.md` § Validate output.
 
 ---
 

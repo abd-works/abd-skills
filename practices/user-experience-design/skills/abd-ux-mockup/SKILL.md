@@ -21,7 +21,7 @@ Lock down every control and interaction before visual design — so nothing is i
 
 ## Output file
 
-**Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
+**Deliverables folder:** see `../common/skill-workflow.md` — Output file resolution.
 
 **File names:** `<screen-slug>.aria.yaml` (detailed ARIA spec), `<screen-slug>-state.json` (state source of truth), `<screen-slug>.drawio` (generated wireframe), `<screen-slug>.md` (structured spec). Output to `docs/ux/mockup/screens/`; shared state in `docs/ux/mockup/state.json`. See [`common/folder-conventions.md`](../../../../common/folder-conventions.md).
 
@@ -58,7 +58,7 @@ Run once per screen in scope after `<screen-slug>-state.json` is written. To reg
 
 ## Agent Instructions
 
-Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
+Follow `../common/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
@@ -104,7 +104,7 @@ node "<skill-root>/scripts/drawio-mockup.mjs" `
 
 ### 3. Validate
 
-Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.md` § Validate output.
+Run scanners and emit per-rule verdicts — see `../common/skill-workflow.md` § Validate output.
 
 ---
 

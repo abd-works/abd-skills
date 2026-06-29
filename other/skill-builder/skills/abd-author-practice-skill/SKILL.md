@@ -73,9 +73,7 @@ See rule **Practice level reference folder has perspective and shared concepts**
 
 ### Input traps
 
-Every practice skill that produces artifacts from ambiguous input ships **`reference/input-traps.md`**. Traps are **not** grill-only — they are a pre-flight check in every run. [`common/skill-workflow.md`](../../../../common/skill-workflow.md) § Read-gates loads them after concepts/examples.
-
-List at least three bold-labeled failure modes specific to this method. [`common/grill-me-with-practice-skill.md`](../../../../common/grill-me-with-practice-skill.md) turns unresolved traps into interview questions when the user invokes grill mode. See rule **Input traps reference surfaces input ambiguities** in `rules/`.
+Every practice skill that produces artifacts from ambiguous input ships **`reference/input-traps.md`** — silent pre-flight in every run, not grill questions. Ship **`reference/grill-me.md`** separately for grill interview questions. [`common/grill-me-with-practice-skill.md`](../../../../common/grill-me-with-practice-skill.md) is mechanics only.
 
 ### Diagram workflow
 
@@ -133,7 +131,9 @@ When you **maintain `abd-author-practice-skill`**, keep its **`rules/`** generic
 
 4b. **Set the front matter `description` correctly.** Two sentences: first says what the skill produces (compact, present tense); second starts with `Use when` and names the practitioner's situation in plain language. The `Use when` clause must describe circumstances the practitioner recognizes from their own work — never the name of another skill or that skill's output artifact (see rule **Description front matter has "Use when" in situation language**).
 
-4c. **Write `reference/input-traps.md`.** At least three bold-labeled traps specific to this method — not generic checklist items. No `## Grill prompts` section in `SKILL.md` (see rule **Input traps reference surfaces input ambiguities**).
+4c. **Write `reference/input-traps.md`.** At least three bold-labeled traps — pre-flight only, not grill questions (see rule **Input traps reference surfaces input ambiguities**).
+
+4g. **Write `reference/grill-me.md`.** At least three interview questions for grill mode — separate from input traps (see rule **Grill me reference holds interview questions**). Link mechanics to `common/grill-me-with-practice-skill.md` inside that file, not in `SKILL.md`.
 
 4d. **Ask whether this skill produces diagram outputs.** If yes: add **`reference/diagram-workflow.md`** with mode and output path; put shared CLI in practice `reference/diagram-workflow.md` when multiple skills share tooling. Do not add `## Diagram workflow` or a Read context file list to `SKILL.md` — read-gates are in `common/skill-workflow.md`.
 

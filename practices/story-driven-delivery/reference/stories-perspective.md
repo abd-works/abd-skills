@@ -41,4 +41,4 @@
 | `reference/diagram-workflow.md` | Mode + output path — mapping, AC, thin-slicing only |
 | `reference/output.md` | Non-default output path — acceptance-test only |
 
-**SKILL.md index sections:** Read, Input traps, Grill me, Generate, Validate — plus Diagram workflow / Output when those `reference/` files exist.
+**SKILL.md index sections:** Bootstrap, Read, Input traps, Grill me, Generate, Validate — plus Diagram workflow / Output when those `reference/` files exist. Bootstrap includes decision records via [`common/decision-record.md`](../../../common/decision-record.md) in [`common/skill-workflow.md`](../../../common/skill-workflow.md) § Bootstrap.

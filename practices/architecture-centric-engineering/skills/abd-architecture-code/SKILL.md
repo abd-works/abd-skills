@@ -60,7 +60,7 @@ The companion **abd-architecture-specification** skill shows the *parameterized 
 
 ## Agent Instructions
 
-Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
+Follow `../common/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 0. Required inputs — resolve or ask
 

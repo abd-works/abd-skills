@@ -27,7 +27,7 @@ Engineers ship features faster than attackers find gaps — but only when secure
 
 ## Output file
 
-**Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
+**Deliverables folder:** see `../common/skill-workflow.md` — Output file resolution.
 
 **File name:** Production source files in the target language. Additionally, `secure-code-review-checklist.md` per slice.
 
@@ -35,7 +35,7 @@ Engineers ship features faster than attackers find gaps — but only when secure
 
 ## Agent Instructions
 
-> **MANDATORY — read `../common/skill-rule-workflow.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.**
+> **MANDATORY — read `../common/skill-workflow.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.**
 
 ### 1. Read context
 
@@ -81,7 +81,7 @@ python skills/common/scripts/run_scanners.py \
   --language java
 ```
 
-Then emit per-rule verdicts per `../common/skill-rule-workflow.md`.
+Then emit per-rule verdicts per `../common/skill-workflow.md`.
 
 ---
 

@@ -5,7 +5,19 @@ alwaysApply: false
 
 # Skill Workflow
 
-**You were sent here from a practice skill's `SKILL.md`.** Read this file **in its entirety** before generating, grilling, or validating.
+**You were sent here from a practice skill's `SKILL.md`.** Read in full. Order: bootstrap → read-gates → generate → validate.
+
+---
+
+## Bootstrap (engagement context)
+
+Before skill read-gates:
+
+1. **`cdd-context-index.md`** at workspace root when present.
+2. **Existing deliverables** for this scope (`common/skill-index.md` filenames).
+3. **Decision records** — all relevant `DR-*.md` / `ADR-*.md` per `common/decision-record.md` (Accepted in full). Check `docs/decisions/` plus practice `decisions/` folders and session `decisions/` when applicable.
+
+Write new DRs per `common/decision-record.md` when criteria are met.
 
 ---
 
@@ -39,7 +51,7 @@ Before authoring any artifact, read in this order:
 4. **Practice `reference/`** — every file in `<family>-perspective.md` shared-reference table, plus every practice file linked from any file in this skill's `reference/` folder, **read in full**.
 5. **Grill mode only** — read `common/grill-me-with-practice-skill.md` and the active skill's `reference/grill-me.md` in full; questions from `grill-me.md` only, not `input-traps.md`.
 
-**Read each file in full** — no skimming or memory. Steps 1–4 always; step 5 when grill mode is active.
+**Read each file in full** — no skimming or memory. Complete **Bootstrap** first, then steps 1–4 (and step 5 when grill mode is active).
 
 ---
 

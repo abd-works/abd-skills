@@ -19,7 +19,7 @@ Opportunities, ideas, and initiatives often carry many unverified assumptions �
 
 ## Output file
 
-**Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
+**Deliverables folder:** see `../common/skill-workflow.md` — Output file resolution.
 
 **File name:** `validated-learning-backlog.md`. Add a `<name>-` prefix only when disambiguation is needed.
 
@@ -27,7 +27,7 @@ Opportunities, ideas, and initiatives often carry many unverified assumptions �
 
 ## Agent Instructions
 
-> **MANDATORY — read `../common/skill-rule-workflow.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.**
+> **MANDATORY — read `../common/skill-workflow.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.**
 
 ### 1. Read context
 
@@ -61,7 +61,7 @@ python skills/common/scripts/run_scanners.py \
   --workspace <path-to-output>
 ```
 
-Then emit per-rule verdicts per `../common/skill-rule-workflow.md`.
+Then emit per-rule verdicts per `../common/skill-workflow.md`.
 
 ---
 
