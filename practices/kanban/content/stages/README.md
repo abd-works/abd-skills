@@ -33,11 +33,11 @@ Any output in one family can force an update in another. After each skill, the k
 
 | When this changes… | Review / update… |
 | --- | --- |
-| Domain terms, UL, CRC, object model | Story map labels, AC, scenarios, architecture component names |
+| Domain terms, UL, domain model, domain specification | Story map labels, AC, scenarios, architecture component names |
 | Story map (add/rename/split stories) | Domain terms, IA screen lists, slice assignments, AC scope |
 | UX IA or mockups | AC (interaction-level), interface design, story coverage on screens |
 | Architecture blueprint / template / reference | Domain boundaries, test layout, module structure, SLOs |
-| AC or scenarios | Mockups, CRC, tests, code |
+| AC or scenarios | Mockups, domain model, tests, code |
 
 Log conflicts in `docs/corrections-log.md`; do not advance the slot until assigned ripple updates are scoped or waived at checkpoint.
 

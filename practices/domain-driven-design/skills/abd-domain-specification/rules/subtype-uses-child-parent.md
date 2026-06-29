@@ -2,7 +2,7 @@
 
 **Scanner:** Manual review
 
-When a class is a specialization of another, its class-model heading must use `#### **ClassName : ParentClass**` notation. The block states only delta members — typed properties, operations, and invariants that the subtype adds or overrides beyond the parent. Passing means subtypes are correctly notated and carry only deltas. Failing means subtypes use the wrong format or duplicate inherited members.
+When a class is a specialization of another, its domain-specification heading must use `#### **ClassName : ParentClass**` notation. The block states only delta members — typed properties, operations, and invariants that the subtype adds or overrides beyond the parent. Passing means subtypes are correctly notated and carry only deltas. Failing means subtypes use the wrong format or duplicate inherited members.
 
 ## DO
 
@@ -22,7 +22,7 @@ When a class is a specialization of another, its class-model heading must use `#
 
 ## DO NOT
 
-- Use the Domain Language English heading form in class-model headings.
+- Use the Domain Language English heading form in domain-specification headings.
 
   **Example (fail):** `#### **Opposed Check** *(is a type of Check)*` — use `: ParentClass` in the heading, not the sketch's English form.
 
@@ -41,4 +41,4 @@ When a class is a specialization of another, its class-model heading must use `#
   + resolve(opposing: Check): CheckResult
   ```
 
-**Source:** Engagement convention (class-model skill). Adapted from class-responsibility-collaborator/rules/subtype-uses-child-parent.md.
+**Source:** Engagement convention (domain-specification skill). Adapted from abd-domain-model/rules/subtype-uses-child-parent.md.

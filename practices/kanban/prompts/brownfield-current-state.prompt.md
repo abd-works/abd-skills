@@ -37,12 +37,12 @@ The user will provide **workspace** and **boundary** (module, service, flow). If
 17. **Architecture template** _(optional)_ — `abd-architecture-template` — mechanism patterns
 
 **Specification (optional OOAD pass):**
-18. **CRC** — `abd-class-responsibility-collaborator`
-19. **Spec by Example** — `abd-specification-by-example` — concrete scenarios; drives story-spec-driven tests
-20. **Scenario Walkthrough** — `abd-scenario-walkthrough` — walk specs through CRC model
+18. **domain model** — `abd-domain-model`
+19. **Spec by Example** — `abd-story-specification` — concrete scenarios; drives story-spec-driven tests
+20. **Scenario Walkthrough** — `abd-domain-walk` — walk specs through domain model
 
 **Engineering:**
 21. **Interface design** _(optional)_ — `abd-interface-design` — runnable UI from mockup
-22. **Object model** _(optional)_ — `abd-object-model` — typed domain surface from CRC/UL
+22. **domain specification** _(optional)_ — `abd-domain-code` — typed domain surface from the domain model/UL
 23. **Acceptance Tests (RED)** — `abd-acceptance-test-driven-development` — green on **current** system; from spec scenarios when available, from AC directly when skipped
 24. **Change slice (optional)** — `abd-clean-code` / stack skill — only with approved delta

@@ -2,7 +2,7 @@
 
 Each row reads left-to-right in call order. Six layers:
 
-**Class Model → Shared → Client (JS) → Page (app-client) → Route / Controller → Server**
+**domain specification → Shared → Client (JS) → Page (app-client) → Route / Controller → Server**
 
 ---
 
@@ -11,7 +11,7 @@ Each row reads left-to-right in call order. Six layers:
 ### Class names
 
 ```
-Class Model:   {ClassName}
+domain specification:   {ClassName}
 Shared:         {ClassName}
 Server:         {ClassName}  extends  shared/{ClassName}
 Client (JS):    {ClassName}  extends  shared/{ClassName}
@@ -27,7 +27,7 @@ Examples: `KanbanBoard` → `KanbanBoard` → `KanbanBoard` → `KanbanBoardView
 ### Property names
 
 ```
-Class Model:   {propertyName}: {Type}
+domain specification:   {propertyName}: {Type}
 Shared:         {propertyName}: {type}          (camelCase, same word)
 Raw JSON:       {property_name}                 (snake_case)
 Route body:     req.body.{property_name}        (snake_case)
@@ -35,7 +35,7 @@ Route body:     req.body.{property_name}        (snake_case)
 
 Examples:
 
-| Class Model         | Shared                 | Raw JSON           | Route body            |
+| domain specification         | Shared                 | Raw JSON           | Route body            |
 |---|---|---|---|
 | `scopeLevel: String` | `scopeLevel: string`   | `scope_level`      | —                     |
 | `boardMode`          | `boardMode: BoardMode` | `board_mode`       | `req.body.board_mode` |
@@ -47,7 +47,7 @@ Examples:
 ### Method names
 
 ```
-Class Model:   {verbNoun}({domainArg}: {DomainType})
+domain specification:   {verbNoun}({domainArg}: {DomainType})
 Shared:         {verbNoun}({domainArg}: {domainType})        same names, TypeScript types
 Client (JS):    static async {verbNoun}({domainArg}: {type}) domain types → HTTP body
 Route:          POST /api/board/{resource}/{verb-noun}  body: { {arg_name}: {value} }  (snake_case)
@@ -57,7 +57,7 @@ Server:         async {verbNoun}AndPersist({domainArg}: {type}) same arg names a
 
 Args transform across layers — domain objects narrow to their identity as they cross the wire:
 
-| Class Model arg      | Shared arg           | Route body field | Controller extract | Server arg           | Why it narrows                                                             |
+| domain specification arg      | Shared arg           | Route body field | Controller extract | Server arg           | Why it narrows                                                             |
 |---|---|---|---|---|---|
 | `nextStage: Stage`    | `nextStage: StageId` | `next_stage`     | `body.next_stage`  | `nextStage: StageId` | Stage object narrows to its string ID; name stays the same |
 | `delta: Integer`      | `delta: number`      | `delta`          | `body.delta`       | `delta: number`      | Primitive; passes unchanged |
@@ -67,7 +67,7 @@ Args transform across layers — domain objects narrow to their identity as they
 Examples:
 
 
-| Class Model                      | Client (JS)                                      | Route                    | Controller              | Server                                  |
+| domain specification                      | Client (JS)                                      | Route                    | Controller              | Server                                  |
 |---|---|---|---|---|
 | `toggleMode()`                    | `KanbanBoard.toggleMode()`                       | `POST .../mode`          | `toggleMode(body)`      | `toggleModeAndPersist()`                |
 | `moveToStage(ticket, stage)`      | `Ticket.moveToStage(id, stage, placement)`       | `POST .../move-to-stage` | `moveToStage(body)`     | `moveToStageAndPersist(id, stage)`      |
@@ -99,13 +99,13 @@ POST /api/board/**  →  KanbanBoardSnapshot
 
 ## Drift and Violations
 
-Where the current implementation has strayed from the Class Model or the template rules above.
+Where the current implementation has strayed from the domain specification or the template rules above.
 
 
 | Class               | Property / Method                                     | Layer           | Violation                                                                                                                                                                              |
 | ------------------- | ----------------------------------------------------- | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `KanbanBoard`       | `workspacePath` / `planningRoot`                      | Client → Server | Board-selection state belongs on the server — user picks a board once and the server remembers it. Instead, every client method re-passes the board file path as `planningRoot` on every call. Infrastructure concern leaking into every method signature. Fix: server stores the active board; client methods take domain args only |
-| `KanbanBoard`       | `savedAt`                                             | Shared          | Renamed to `syncedAt` — Class Model says `savedAt` |
+| `KanbanBoard`       | `savedAt`                                             | Shared          | Renamed to `syncedAt` — domain specification says `savedAt` |
 | `KanbanBoard`       | `advanceCompletedTickets()`                           | All             | Method lives on `KanbanBoard` in the model; in code the caller (controller/route) triggers it by calling `moveToStageAndPersist` — no explicit `advanceCompletedTickets` method exists |
 | `KanbanBoard`       | `moveToStage()` controller                            | Controller      | Controller method is `moveTicket()` — should be `moveToStage(body)` to match the template |
 | `KanbanBoard`       | `staleAgents()`                                       | Server/Shared   | Fully absent from TypeScript — delegated entirely to Python CLI `lead tick`; no TS representation                                                                                      |
@@ -124,7 +124,7 @@ Where the current implementation has strayed from the Class Model or the templat
 | `KanbanLead`        | `Agent` base class                                    | Server          | `KanbanLead` and `TeamMember` are independent classes in TS — no shared `Agent` base class                                                                                             |
 | `KanbanLead`        | `writeHeartbeat()`                                    | All             | Removed entirely — replaced by SDK session liveness (`AgentSession.status`)                                                                                                            |
 | `KanbanLead`        | `runScanCycle()`                                      | Server          | Not a TS method — implemented as a Python CLI call via `execFileAsync` in the route                                                                                                    |
-| `KanbanLead`        | `deliveryRole`                                        | Server          | Class Model property — actual server class exposes `workspace` instead; role is implicit                                                                                              |
+| `KanbanLead`        | `deliveryRole`                                        | Server          | domain specification property — actual server class exposes `workspace` instead; role is implicit                                                                                              |
 | `AgentDefinition`   | `rootFilePath`                                        | Server          | Renamed to `path`                                                                                                                                                                      |
 | `AgentDefinition`   | `sharedWorkflowFiles`                                 | Server          | Accessible only via `resolveEligibleSkills().referencedFiles` — not a direct property                                                                                                  |
 | `BootstrapPrompt`   | `roleIdentity`                                        | Shared          | Renamed to `role`                                                                                                                                                                      |
@@ -158,14 +158,14 @@ New routes must follow the current pattern only because the server infrastructur
 
 ## Class Mappings
 
-Each class from the Class Model traced through all six layers.
+Each class from the domain specification traced through all six layers.
 
 ---
 
 ## KanbanBoard
 
 
-| Class Model                          | Shared                                                     | Client (JS)                                      | Page (app-client)                        | Route/Controller                          | Server                                          |
+| domain specification                          | Shared                                                     | Client (JS)                                      | Page (app-client)                        | Route/Controller                          | Server                                          |
 | ------------------------------------- | ---------------------------------------------------------- | ------------------------------------------------ | ---------------------------------------- | ----------------------------------------- | ----------------------------------------------- |
 | **KanbanBoard**                       | **KanbanBoard**                                            | **KanbanBoard**                                  | **KanbanBoardView**                      | **KanbanBoardController**                 | **KanbanBoard**                                 |
 | `stages: List<Stage>`                 | `Stage.ORDER: StageId[]`                                   | —                                                | `visibleStages`                          | —                                         | —                                               |
@@ -186,7 +186,7 @@ Each class from the Class Model traced through all six layers.
 ## Ticket
 
 
-| Class Model                     | Shared                            | Client (JS)                                      | Page (app-client)                        | Route/Controller                          | Server                                   |
+| domain specification                     | Shared                            | Client (JS)                                      | Page (app-client)                        | Route/Controller                          | Server                                   |
 | -------------------------------- | --------------------------------- | ------------------------------------------------ | ---------------------------------------- | ----------------------------------------- | ---------------------------------------- |
 | **Ticket**                       | **Ticket**                        | **Ticket**                                       | **TicketView**                           | —                                         | **Ticket** (scatter)                     |
 | `id: String`                     | `ticketId: string`                | `ticket.ticketId`                                | `data-ticket={ticket.ticketId}`          | `req.body.ticket_id`                      | `ticket.ticket_id`                       |
@@ -209,7 +209,7 @@ Each class from the Class Model traced through all six layers.
 ## Stage
 
 
-| Class Model                      | Shared                               | Client (JS)                  | Page (app-client)                                      | Route/Controller        | Server                    |
+| domain specification                      | Shared                               | Client (JS)                  | Page (app-client)                                      | Route/Controller        | Server                    |
 | --------------------------------- | ------------------------------------ | ---------------------------- | ------------------------------------------------------ | ----------------------- | ------------------------- |
 | **Stage**                         | **Stage**                            | — (uses shared)              | **StageGroupView**                                     | —                       | — (uses shared)           |
 | `name: String`                    | `StageId` type                       | `stage` prop                 | `Stage.LABELS[stage]` in header                        | `req.body.target_stage` | `Stage.ORDER[i]`          |
@@ -229,7 +229,7 @@ Each class from the Class Model traced through all six layers.
 ## SkillProgress
 
 
-| Class Model            | Shared                                   | Client (JS)                                     | Page (app-client)                      | Route/Controller                                 | Server                               |
+| domain specification            | Shared                                   | Client (JS)                                     | Page (app-client)                      | Route/Controller                                 | Server                               |
 | ----------------------- | ---------------------------------------- | ----------------------------------------------- | -------------------------------------- | ------------------------------------------------ | ------------------------------------ |
 | **SkillProgress**       | **SkillProgress**                        | — (queries via Ticket)                          | **TicketView** (expanded rows)         | —                                                | raw `.skill_progress[skill]`         |
 | `skillName: String`     | `skillName: string`                      | `ticket.activeSkillId`                          | `stageSkills.map(s => …)`              | `req.body.skill`                                 | raw key                              |
@@ -250,7 +250,7 @@ Each class from the Class Model traced through all six layers.
 ## Team
 
 
-| Class Model                                      | Shared                              | Client (JS)                            | Page (app-client)                               | Route/Controller                        | Server                           |
+| domain specification                                      | Shared                              | Client (JS)                            | Page (app-client)                               | Route/Controller                        | Server                           |
 | ------------------------------------------------- | ----------------------------------- | -------------------------------------- | ----------------------------------------------- | --------------------------------------- | -------------------------------- |
 | **Team**                                          | `Record<AgentRole, number>` (type)  | —                                      | **TeamView**                                    | —                                       | —                                |
 | `memberships: Dict<DeliveryRole, TeamMembership>` | `counts: Record<AgentRole, number>` | `snapshot.team`                        | `AGENT_ROLES.map(role => <TeamRoleView …/>)`    | —                                       | `data.team`                      |
@@ -263,7 +263,7 @@ Each class from the Class Model traced through all six layers.
 ## TeamMembership
 
 
-| Class Model                  | Shared                                     | Client (JS)  | Page (app-client)                        | Route/Controller | Server                 |
+| domain specification                  | Shared                                     | Client (JS)  | Page (app-client)                        | Route/Controller | Server                 |
 | ----------------------------- | ------------------------------------------ | ------------ | ---------------------------------------- | ---------------- | ---------------------- |
 | **TeamMembership**            | **TeamMembership**                         | —            | **TeamRoleView**                         | —                | **TeamMembership**     |
 | `role: DeliveryRole`          | `AgentRole` key                            | —            | `role` prop                              | `req.body.role`  | `.role`                |
@@ -279,7 +279,7 @@ Each class from the Class Model traced through all six layers.
 ## KanbanLead
 
 
-| Class Model                           | Shared                                                 | Client (JS)                  | Page (app-client)                        | Route/Controller                    | Server                                   |
+| domain specification                           | Shared                                                 | Client (JS)                  | Page (app-client)                        | Route/Controller                    | Server                                   |
 | -------------------------------------- | ------------------------------------------------------ | ---------------------------- | ---------------------------------------- | ----------------------------------- | ---------------------------------------- |
 | **KanbanLead : Agent**                 | —                                                      | — (via Heartbeat)            | **TeamView** (lead avatar)               | **KanbanBoardController**           | **KanbanLead**                           |
 | `deliveryRole`                         | —                                                      | `'kanban-lead'`              | `<TeamMemberView role="kanban-lead" …/>` | —                                   | `KanbanLead.workspace`                   |
@@ -297,7 +297,7 @@ Each class from the Class Model traced through all six layers.
 ## TeamMember
 
 
-| Class Model                        | Shared                    | Client (JS)                            | Page (app-client)                         | Route/Controller         | Server                                    |
+| domain specification                        | Shared                    | Client (JS)                            | Page (app-client)                         | Route/Controller         | Server                                    |
 | ----------------------------------- | ------------------------- | -------------------------------------- | ----------------------------------------- | ------------------------ | ----------------------------------------- |
 | **TeamMember : Agent**              | `AgentRole` type          | —                                      | **TeamMemberView**                        | —                        | **TeamMember**                            |
 | `deliveryRole`                      | `AgentRole`               | —                                      | `role` prop + `Heartbeat.roleLabel(role)` | `req.body.role`          | `TeamMember.role`                         |
@@ -313,7 +313,7 @@ Each class from the Class Model traced through all six layers.
 ## AgentSession
 
 
-| Class Model        | Shared | Client (JS)                          | Page (app-client)               | Route/Controller                   | Server                     |
+| domain specification        | Shared | Client (JS)                          | Page (app-client)               | Route/Controller                   | Server                     |
 | ------------------- | ------ | ------------------------------------ | ------------------------------- | ---------------------------------- | -------------------------- |
 | **AgentSession**    | —      | `useAgentStream(role)`               | **AgentStreamPanel**            | —                                  | **AgentSession**           |
 | `sessionId: String` | —      | —                                    | —                               | —                                  | Map key                    |
@@ -328,7 +328,7 @@ Each class from the Class Model traced through all six layers.
 ## AgentDefinition
 
 
-| Class Model           | Shared | Client (JS) | Page (app-client) | Route/Controller | Server                                     |
+| domain specification           | Shared | Client (JS) | Page (app-client) | Route/Controller | Server                                     |
 | ---------------------- | ------ | ----------- | ----------------- | ---------------- | ------------------------------------------ |
 | **AgentDefinition**    | —      | —           | —                 | —                | **AgentDefinition**                        |
 | `role: String`         | —      | —           | —                 | —                | `.role`                                    |
@@ -341,7 +341,7 @@ Each class from the Class Model traced through all six layers.
 ## BootstrapPrompt
 
 
-| Class Model            | Shared                          | Client (JS) | Page (app-client) | Route/Controller | Server                              |
+| domain specification            | Shared                          | Client (JS) | Page (app-client) | Route/Controller | Server                              |
 | ----------------------- | ------------------------------- | ----------- | ----------------- | ---------------- | ----------------------------------- |
 | **BootstrapPrompt**     | **BootstrapPrompt** (interface) | —           | —                 | —                | assembled in `createAgentSession()` |
 | `workspacePath: String` | `.workspace`                    | —           | —                 | —                | from board config                   |
@@ -354,7 +354,7 @@ Each class from the Class Model traced through all six layers.
 ## AgentOutputStream
 
 
-| Class Model             | Shared | Client (JS)            | Page (app-client)                   | Route/Controller             | Server                         |
+| domain specification             | Shared | Client (JS)            | Page (app-client)                   | Route/Controller             | Server                         |
 | ------------------------ | ------ | ---------------------- | ----------------------------------- | ---------------------------- | ------------------------------ |
 | **AgentOutputStream**    | —      | `useAgentStream(role)` | **AgentStreamPanel**                | SSE relay                    | **AgentOutputStream**          |
 | `messages: List<String>` | —      | `messages[]`           | `messages.map(msg => <div>…</div>)` | `GET .../agent/:role/stream` | `emit({type:'text', content})` |
@@ -366,7 +366,7 @@ Each class from the Class Model traced through all six layers.
 ## Heartbeat / RoleEngagement (derived)
 
 
-| Class Model                          | Shared                                 | Client (JS)                   | Page (app-client)                     | Route/Controller            | Server                           |
+| domain specification                          | Shared                                 | Client (JS)                   | Page (app-client)                     | Route/Controller            | Server                           |
 | ------------------------------------- | -------------------------------------- | ----------------------------- | ------------------------------------- | --------------------------- | -------------------------------- |
 | **Heartbeat** / **RoleEngagement**    | —                                      | **Heartbeat** class           | **TeamMemberView** / **TeamRoleView** | —                           | `getPoolAvatarState()`           |
 | `poolAvatarState`                     | —                                      | `'working'|'idle'|'inactive'` | CSS `kb-agent-avatar--{state}`        | —                           | `getPoolAvatarState(role)`       |
@@ -380,7 +380,7 @@ Each class from the Class Model traced through all six layers.
 ## SkillCatalog (supporting)
 
 
-| Class Model              | Shared                        | Client (JS)              | Page (app-client)              | Route/Controller | Server                           |
+| domain specification              | Shared                        | Client (JS)              | Page (app-client)              | Route/Controller | Server                           |
 | ------------------------- | ----------------------------- | ------------------------ | ------------------------------ | ---------------- | -------------------------------- |
 | **Skill**                 | **SkillCatalog**              | — (uses shared)          | **StageGroupView**             | —                | — (uses shared)                  |
 | `name: String`            | `SkillCatalog.label(id)`      | —                        | `<span>{s.label}</span>` chips | —                | `buildSkillRails()`              |

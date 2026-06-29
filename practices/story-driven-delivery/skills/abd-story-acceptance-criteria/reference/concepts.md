@@ -1,5 +1,7 @@
 # Acceptance Criteria — Core Concepts
 
+**Domain sources first.** Read [`../../../reference/domain-input-priority.md`](../../../reference/domain-input-priority.md) before writing AC — domain terms must come from domain artifacts, not invention.
+
 ## What are acceptance criteria?
 
 **Acceptance criteria** (in this skill's sense) are **story-level, behavioral statements** that say **under what conditions** the product behaves **how**, including chained outcomes and explicit negatives. They sit **above** BDD **scenarios** (which use Given/When/Then on steps).

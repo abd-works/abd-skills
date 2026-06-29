@@ -56,4 +56,4 @@ Trace up the chain:
 
 The right name is almost always already in the source material.
 
-**Source:** Engagement convention (class-model skill).
+**Source:** Engagement convention (domain-specification skill).

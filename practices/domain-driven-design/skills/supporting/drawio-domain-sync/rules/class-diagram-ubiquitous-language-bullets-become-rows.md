@@ -70,7 +70,7 @@ A failing diagram drops bullets, drops italicized terms, invents type annotation
 
 - Invent type annotations the source does not contain.
 
-  **Example (fail):** Adding `+ name: String` or `+ rank: Integer` to a card whose ULL source uses no types. class-model fidelity is only appropriate when the source is an Class Model.
+  **Example (fail):** Adding `+ name: String` or `+ rank: Integer` to a card whose ULL source uses no types. domain-specification fidelity is only appropriate when the source is a domain specification.
 
 - Emit one edge per bullet reference instead of folding duplicates.
 

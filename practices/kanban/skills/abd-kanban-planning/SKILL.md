@@ -17,7 +17,7 @@ Choose how work flows — strategy, stage structure, and scatter rules — so de
 
 ## Grill prompts
 
-Read `common/grill-me-with-practice-skill.md` before grilling.
+Read `common/reference/grill-me-with-practice-skill.md` before grilling.
 
 Before generating, surface these:
 
@@ -44,7 +44,7 @@ Before generating, surface these:
 
 ## Agent Instructions
 
-Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
+Follow `../common/reference/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
@@ -67,7 +67,7 @@ Follow the **strategy selection procedure** from `reference/selecting-a-strategy
 
 ### 3. Validate
 
-Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.md` § Validate output.
+Run scanners and emit per-rule verdicts — see `../common/reference/skill-workflow.md` § Validate output.
 
 ---
 

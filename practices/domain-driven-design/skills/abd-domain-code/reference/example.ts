@@ -1,5 +1,5 @@
 /**
- * Product Catalog — reference Class Model (domain specification fidelity).
+ * Product Catalog — reference domain specification (domain specification fidelity).
  * Runnable TypeScript illustrating typed properties, factory methods,
  * value objects, entity identity, and stock collaboration functions.
  * Companion diagram: reference/example.drawio

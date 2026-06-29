@@ -9,8 +9,8 @@ scanner: domain-terms-source
 Every term in a story's **Domain terms** section must exist in a domain source artifact already present in the project. Domain sources include (but are not limited to):
 
 - Domain Language (`domain-language.md`, `domain-language.md`)
-- domain model (`domain model.md`)
-- Class Model (`class-model.md`)
+- domain model (`domain-model.md`)
+- Domain specification (`domain-specification.md`)
 - Domain sketch (`domain-sketch.md`)
 - Any file the team designates as a domain vocabulary source
 

@@ -9,7 +9,7 @@ When a domain argument crosses a layer boundary, its **name stays the same** eve
 ## The Contract
 
 ```
-Class Model:   {argName}: {DomainType}
+domain specification:   {argName}: {DomainType}
 Shared:         {argName}: {narrowedType}       name preserved, type may narrow
 Client API:     {argName}: {narrowedType}       same name in function signature
 Route body:     {arg_name}: value               snake_case of same name
@@ -22,10 +22,10 @@ Service:        {argName}: {narrowedType}       camelCase again after extraction
 - Keep the argument name identical across shared, client, service, and repository.
 - Allow the **type** to narrow (object → string ID, rich type → primitive) without changing the name.
 - Use snake_case of the same name in JSON bodies: `nextStage` → `next_stage`.
-- Document narrowing in the Class Model or shared layer: "Stage narrows to StageId across the wire."
+- Document narrowing in the domain specification or shared layer: "Stage narrows to StageId across the wire."
 
 ```typescript
-// Class Model: moveToStage(ticket: Ticket, nextStage: Stage)
+// domain specification: moveToStage(ticket: Ticket, nextStage: Stage)
 
 // shared/ — type narrows, name stays
 export function moveToStage(ticketId: string, nextStage: StageId): void { ... }
@@ -54,13 +54,13 @@ async moveToStage(ticketId: string, nextStage: StageId) { ... }
 
 ```typescript
 // WRONG — name changes at every layer
-// Class Model: advanceToNextStage(ticket: Ticket)
+// domain specification: advanceToNextStage(ticket: Ticket)
 // Shared:       advanceToNextStage(ticketId: string)     ← name changed from "ticket"
 // Client:       advanceToNextStage(id: string)           ← name changed again to "id"
 // Controller:   body.item_id                             ← completely different name
 
 // CORRECT — name preserved, only type narrows
-// Class Model: advanceToNextStage(ticket: Ticket)
+// domain specification: advanceToNextStage(ticket: Ticket)
 // Shared:       advanceToNextStage(ticket: string)       ← same name, type narrowed
 // Client:       advanceToNextStage(ticket: string)       ← same name
 // Route body:   { ticket: "abc-123" }                    ← same name (no snake needed for single word)

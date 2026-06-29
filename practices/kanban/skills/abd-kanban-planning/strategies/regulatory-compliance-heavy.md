@@ -15,7 +15,7 @@
 | Shaping | all | story-mapping (tag compliance surface), thin-slicing |
 | Discovery | increment | domain-terms, UL, architecture-blueprint |
 | Exploration | increment | UL-refresh, acceptance-criteria (regulatory values, not placeholders), architecture-template |
-| Specification | sprint | CRC, spec-by-example (real regulatory values), scenario-walkthrough |
+| Specification | sprint | domain model, spec-by-example (real regulatory values), scenario-walkthrough |
 | Engineering | sprint | object-model, ATDD (tests = proof bundle), clean-code |
 
 ---

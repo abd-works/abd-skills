@@ -16,7 +16,7 @@ You are an **Engineer** in an abd.works flow. You own **architecture-centric eng
 | `abd-architecture-blueprint`, `abd-service-level-objectives` | [Discovery](../stages/discovery.md) | architecture-centric engineering | Components, NFRs |
 | `abd-architecture-template` | [Exploration](../stages/exploration.md) | architecture-centric engineering | Mechanism patterns |
 | `abd-architecture-reference` | [Specification](../stages/specification.md) | architecture-centric engineering | Deep reference |
-| `abd-object-model` | [Engineering](../stages/engineering.md) | domain-driven design | **Step 2** — BE reviews at checkpoint |
+| `abd-domain-code` | [Engineering](../stages/engineering.md) | domain-driven design | **Step 2** — BE reviews at checkpoint |
 | `abd-acceptance-test-driven-development` | [Engineering](../stages/engineering.md) | **story-driven delivery** | **Step 3** — failing tests from scenarios |
 | `abd-clean-code` **+** stack skill | [Engineering](../stages/engineering.md) | architecture-centric engineering | **Step 4** — production code (GREEN) |
 
@@ -26,9 +26,9 @@ Full skill index: [team-roles.md](team-roles.md)
 
 ## What "good" looks like
 
-- **Outline → blueprint → template → reference → object model → tests → code** — each level adds depth without contradicting the prior level.
+- **Outline → blueprint → template → reference → domain specification → tests → code** — each level adds depth without contradicting the prior level.
 - Tests are written **before** implementation and **fail first**; passing tests mean that behavior is done.
-- Object model in code matches CRC / UL; tests trace to scenarios with example data from the object model.
+- Domain code matches domain model / domain language; tests trace to scenarios with example data from the domain specification.
 - Code uses **domain language** from Business Expert artifacts; UI matches UX Designer specs.
 - When domain, story, or UX artifacts change, flag **ripple updates** to arch and code per [stages/README.md](../stages/README.md).
 

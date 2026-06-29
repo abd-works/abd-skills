@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Scanner: every class block in Class Model sections must have a ------ separator.
+"""Scanner: every class block in domain specification class blocks must have a ------ separator.
 
 The six-dash separator (------) divides the constructor/initialisation block from the
 properties block. Its absence signals that properties and constructors are merged without
@@ -33,37 +33,14 @@ from scanner_bases.resources.scan_context import (  # noqa: E402
     ScanFilesContext,
 )
 
-# Class block header inside Class Model: #### **ClassName** or #### **ClassName : Parent**
-_CLASS_HEADER_RE = re.compile(r"^#### \*\*[^*]+\*\*", re.IGNORECASE)
-# Constructor/property separator: 6 or more dashes (exactly this usage in class-model)
+# Class block header inside domain specification: ### **ClassName** or ### **ClassName : Parent**
+_CLASS_HEADER_RE = re.compile(r"^### \*\*[^*]+\*\*", re.IGNORECASE)
+# Constructor/property separator: 6 or more dashes (exactly this usage in domain-specification)
 _CTOR_SEPARATOR_RE = re.compile(r"^-{6,}\s*$")
 # Block-level separator (5 dashes): marks end of a class block
 _BLOCK_SEPARATOR_RE = re.compile(r"^-{5}\s*$")
 # Property line: + name: Type (has colon after name)
 _PROPERTY_LINE_RE = re.compile(r"^[+\-]\s+(?:<<[^>]+>>\s*)?\S+\s*:")
-# Class Model section
-_OM_SECTION_RE = re.compile(r"^### Class Model\s*$")
-
-
-def _find_object_model_sections(lines: List[str]) -> List[tuple[int, int]]:
-    sections = []
-    start = None
-    for i, line in enumerate(lines):
-        if _OM_SECTION_RE.match(line):
-            start = i
-        elif start is not None and re.match(r"^#{2,3}\s", line) and not _OM_SECTION_RE.match(line):
-            sections.append((start, i))
-            start = None
-    if start is not None:
-        sections.append((start, len(lines)))
-    return sections
-
-
-def _lines_in_om(lines: List[str], sections: List[tuple[int, int]]) -> set[int]:
-    result: set[int] = set()
-    for s, e in sections:
-        result.update(range(s, e))
-    return result
 
 
 class ClassBlockSeparatorScanner(Scanner):
@@ -80,12 +57,11 @@ class ClassBlockSeparatorScanner(Scanner):
         violations: List[Dict[str, Any]] = []
         content = file_path.read_text(encoding="utf-8")
         lines = content.split("\n")
-        om_sections = _find_object_model_sections(lines)
-        om_set = _lines_in_om(lines, om_sections)
+        scannable = domain_spec_scannable_line_indices(lines)
 
         i = 0
         while i < len(lines):
-            if i not in om_set:
+            if i not in scannable:
                 i += 1
                 continue
             line = lines[i]
@@ -95,7 +71,7 @@ class ClassBlockSeparatorScanner(Scanner):
                 # Collect the class body until the next #### header or -----
                 j = i + 1
                 block_lines: List[str] = []
-                while j < len(lines) and j in om_set:
+                while j < len(lines) and j in scannable:
                     bl = lines[j]
                     if _CLASS_HEADER_RE.match(bl):
                         break
@@ -132,7 +108,10 @@ class ClassBlockSeparatorScanner(Scanner):
         return violations
 
 
-from object_model_context import build_object_model_context as _build_context  # noqa: E402
+from object_model_context import (  # noqa: E402
+    build_object_model_context as _build_context,
+    domain_spec_scannable_line_indices,
+)
 
 
 if __name__ == "__main__":

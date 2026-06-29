@@ -20,8 +20,9 @@ FAMILY_PACKAGES: dict[str, str] = {
     "architecture-centric-engineering": "practices/architecture-centric-engineering",
     "idea-shaping": "practices/idea-shaping",
     "user-experience-design": "practices/user-experience-design",
+    "behavior-driven-development": "practices/behavior-driven-development",
     "context-to-memory": "practices/context-driven-delivery",
-    "skill-builder": "other/skills/skill-builder",
+    "skill-builder": "other/skill-builder",
     "utilities": "utilities",
 }
 

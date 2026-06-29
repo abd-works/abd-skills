@@ -22,9 +22,9 @@
 
 **Status:** confirmed
 
-**Context:** Practice plugins moved under `practices/<plugin>/` with core skills at `skills/<skill>/` and supporting skills at `skills/supporting/<skill>/`. Stage definitions live at `common/stages/`. UX package moved to `practices/user-experience-design/`.
+**Context:** Practice plugins moved under `practices/<plugin>/` with core skills at `skills/<skill>/` and supporting skills at `skills/supporting/<skill>/`. Stage definitions live at `common/reference/stages/`. UX package moved to `practices/user-experience-design/`.
 
-**DO:** Discover skills recursively under `<plugin>/skills/`; on plugin pages group **core** vs **supporting**; load kanban stage tables from `common/stages/`; map `user-experience-design` to `practices/user-experience-design/`; keep supporting/background skills off the kanban grid via existing exclusion rules.
+**DO:** Discover skills recursively under `<plugin>/skills/`; on plugin pages group **core** vs **supporting**; load kanban stage tables from `common/reference/stages/`; map `user-experience-design` to `practices/user-experience-design/`; keep supporting/background skills off the kanban grid via existing exclusion rules.
 
 **DO NOT:** Assume flat repo-root family folders (`delivery/`, `story-driven-delivery/`); scan only immediate `skills/` children on plugin pages; read stages from `content/stages/` or `practices/kanban/user-experience-design/`.
 

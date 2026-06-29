@@ -1,6 +1,6 @@
-# Class Model — Concepts
+# Domain specification — Concepts
 
-For OO fundamentals (what is a class, decomposing responsibilities, relationships, inheritance and subtypes), read [`../../../reference/oo-concepts.md`](../../../reference/oo-concepts.md) in full before proceeding. The sections below cover what is specific to class-model fidelity: typed notation and relationship flavors.
+For OO fundamentals (what is a class, decomposing responsibilities, relationships, inheritance and subtypes), read [`../../../reference/oo-concepts.md`](../../../reference/oo-concepts.md) in full before proceeding. The sections below cover what is specific to **domain specification** fidelity: typed notation and relationship flavors.
 
 ## Properties
 

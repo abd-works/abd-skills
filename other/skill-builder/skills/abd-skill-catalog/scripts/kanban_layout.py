@@ -1,4 +1,4 @@
-"""Build delivery kanban HTML from practices/kanban/reference/stages/*.md practice-skill tables."""
+"""Build delivery kanban HTML from common/reference/stages/*.md practice-skill tables."""
 
 from __future__ import annotations
 
@@ -74,6 +74,7 @@ PLUGIN_CSS_CLASS: dict[str, str] = {
     "architecture-centric-engineering": "aad-fam-arc",
     "idea-shaping": "aad-fam-idea",
     "kanban": "aad-fam-delivery",
+    "behavior-driven-development": "aad-fam-bdd",
 }
 
 PLUGIN_PERSPECTIVE_KEY: dict[str, str] = {
@@ -460,7 +461,7 @@ def discover_stage_folder_skills(repo_root: Path) -> dict[str, list[str]]:
 
 
 def load_kanban_model(repo_root: Path) -> KanbanModel:
-    stages_dir = repo_root / "common" / "stages"
+    stages_dir = repo_root / "common" / "reference" / "stages"
     model = KanbanModel()
     for stage_id, title, num in STAGE_FILES:
         path = stages_dir / f"{stage_id}.md"
@@ -698,13 +699,13 @@ def resolve_skill_stage_id(
             for skill_id in model.stage_folder_skills.get(stage_id, []):
                 if matches(skill_id):
                     return stage_id
-        return model.stages[0][0]
+        return model.stages[0][0] if model.stages else "discovery"
 
     for stage_id, _title, _num, _purpose in model.stages:
         for sk in model.matrix.get(stage_id, {}).get(plugin_id, []):
             if matches(sk.skill_id):
                 return stage_id
-    return model.stages[0][0]
+    return model.stages[0][0] if model.stages else "discovery"
 
 
 def _family_nav_href_at_stage(
@@ -2399,7 +2400,7 @@ def build_stage_sections_html(model: KanbanModel) -> str:
         f"and the delivery war room. Each column above links here.</p>"
     )
     for stage_id, title, num, purpose in model.stages:
-        stage_src = f"{GITHUB_BLOB_MAIN}practices/kanban/reference/stages/{stage_id}.md"
+        stage_src = f"{GITHUB_BLOB_MAIN}common/reference/stages/{stage_id}.md"
         parts.append(f'<article class="kanban-stage" id="stage-{stage_id}-definition">')
         parts.append(
             f"<h3>{num}. {_h(title)}</h3>"

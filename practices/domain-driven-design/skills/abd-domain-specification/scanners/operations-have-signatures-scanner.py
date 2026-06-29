@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Scanner: every operation in Class Model blocks must have a typed signature with parentheses.
+"""Scanner: every operation in domain specification class blocks must have a typed signature.
 
-Finds lines in ### Class Model sections that start with + or - and appear to name an
+Finds member lines in domain specification files that start with + or - and appear to name an
 operation (no colon = not a property, no parentheses = missing signature) and flags them
 as prose-only operation lines that violate the typed-signature rule.
 """
@@ -31,10 +31,6 @@ from scanner_bases.resources.scan_context import (  # noqa: E402
 
 # Matches public/private member lines: + or - at start of line (possibly indented by a tab)
 _MEMBER_LINE_RE = re.compile(r"^(\t?)([+\-])\s+(.+)$")
-# Class Model section header
-_OBJECT_MODEL_SECTION_RE = re.compile(r"^### Class Model\s*$", re.MULTILINE)
-# Class block header (marks boundary of sections)
-_CLASS_BLOCK_RE = re.compile(r"^#{2,3}\s", re.MULTILINE)
 # Stereotype annotation prefix — properties like + << composition >> name: Type are valid
 _STEREOTYPE_RE = re.compile(r"^<<\s*\w+")
 # Initialisation note (not a member)
@@ -50,42 +46,8 @@ _IS_STEREOTYPE = re.compile(r"^<<")
 _ENUM_VALUE_RE = re.compile(r"^[A-Z][A-Z0-9_]+$")  # ALL_CAPS enum constant
 
 
-def _extract_object_model_ranges(content: str) -> List[tuple[int, int]]:
-    """Return (start, end) byte ranges for each ### Class Model section."""
-    ranges = []
-    lines = content.split("\n")
-    in_om = False
-    start = 0
-    pos = 0
-    for i, line in enumerate(lines):
-        if re.match(r"^### Class Model\s*$", line):
-            in_om = True
-            start = pos
-        elif in_om and re.match(r"^#{2,3}\s", line) and not re.match(r"^### Class Model", line):
-            ranges.append((start, pos))
-            in_om = False
-        pos += len(line) + 1  # +1 for newline
-    if in_om:
-        ranges.append((start, len(content)))
-    return ranges
-
-
-def _member_name_and_rest(member_text: str) -> tuple[str, str]:
-    """Strip stereotype prefix and return (name_part, rest)."""
-    text = member_text.strip()
-    # Remove << stereotype >> prefix
-    st = re.match(r"^<<[^>]+>>\s*", text)
-    if st:
-        text = text[st.end():]
-    # name is first token
-    parts = text.split(None, 1)
-    name = parts[0] if parts else ""
-    rest = parts[1] if len(parts) > 1 else ""
-    return name, rest
-
-
 class OperationsHaveSignaturesScanner(Scanner):
-    """Flag operation lines in Class Model sections that lack typed signatures."""
+    """Flag operation lines in domain specification class blocks that lack typed signatures."""
 
     def scan_with_context(self, context: ScanFilesContext) -> List[Dict[str, Any]]:
         violations: List[Dict[str, Any]] = []
@@ -98,22 +60,12 @@ class OperationsHaveSignaturesScanner(Scanner):
         violations: List[Dict[str, Any]] = []
         content = file_path.read_text(encoding="utf-8")
         lines = content.split("\n")
-        om_ranges = _extract_object_model_ranges(content)
-        if not om_ranges:
+        scannable = domain_spec_scannable_line_indices(lines)
+        if not scannable:
             return violations
 
-        # Build set of line indices that fall inside Class Model sections
-        om_line_indices: set[int] = set()
-        pos = 0
         for i, line in enumerate(lines):
-            for start, end in om_ranges:
-                if start <= pos < end:
-                    om_line_indices.add(i)
-                    break
-            pos += len(line) + 1
-
-        for i, line in enumerate(lines):
-            if i not in om_line_indices:
+            if i not in scannable:
                 continue
             m = _MEMBER_LINE_RE.match(line)
             if not m:
@@ -157,7 +109,10 @@ class OperationsHaveSignaturesScanner(Scanner):
         return violations
 
 
-from object_model_context import build_object_model_context as _build_context  # noqa: E402
+from object_model_context import (  # noqa: E402
+    build_object_model_context as _build_context,
+    domain_spec_scannable_line_indices,
+)
 
 
 if __name__ == "__main__":

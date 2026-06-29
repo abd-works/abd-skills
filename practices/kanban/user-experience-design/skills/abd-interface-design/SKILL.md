@@ -19,7 +19,7 @@ Turn an approved design into production-grade accessible code — faithful to ev
 
 ## Grill prompts
 
-Read `common/grill-me-with-practice-skill.md` before grilling.
+Read `common/reference/grill-me-with-practice-skill.md` before grilling.
 
 Before generating, surface these:
 

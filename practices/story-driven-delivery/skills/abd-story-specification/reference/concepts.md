@@ -1,5 +1,7 @@
 # Specification by Example — Core Concepts
 
+**Domain sources first.** Read [`../../../reference/domain-input-priority.md`](../../../reference/domain-input-priority.md) before writing scenarios — produce `domain.json` when required.
+
 ## What is specification by example?
 
 **Specification by example** is a practice where we create specifications for stories through **concrete scenarios** demonstrated through **examples**. Spec scenarios include preconditions (**Given**), the triggering action (**When**), and an observable outcome (**Then**).
@@ -40,7 +42,7 @@ Use Background only when three or more scenarios share identical starting state.
 
 ## Domain concept grounding
 
-Specification by example works at two levels simultaneously: it specifies *behavior* and it confirms *the domain model*. When domain model content — an Class Model, domain model, or domain language glossary — is available, the scenarios are its behavioral proof. Concept names must match exactly.
+Specification by example works at two levels simultaneously: it specifies *behavior* and it confirms *the domain model*. When domain model content — a domain specification, domain model, or domain language glossary — is available, the scenarios are its behavioral proof. Concept names must match exactly.
 
 When no domain model exists, the scenarios themselves reveal the model. The deliberate way a step names a concept and connects it to another documents the model for the team.
 

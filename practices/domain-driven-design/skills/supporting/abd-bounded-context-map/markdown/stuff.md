@@ -12,7 +12,7 @@ Multiple models coexist on big projects and each model applies in a context. The
 
 Example: Booking Context
 
-*A shipping company has an internal project to develop a new application for booking cargo. This application is to be driven by an Class Model. What is the bounded context within which this model applies? To answer this question, we have to look at what is happening on the project. This is a look at the project as it is, not as it ideally should be.*
+*A shipping company has an internal project to develop a new application for booking cargo. This application is to be driven by a domain specification. What is the bounded context within which this model applies? To answer this question, we have to look at what is happening on the project. This is a look at the project as it is, not as it ideally should be.*
 
 *One project team is working on the booking application itself. They are not expected to modify the model objects, but the application they are building has to display and manipulate those objects. This team is a consumer of the model. The model is valid within the application (its primary consumer), and therefore the booking application is in bounds.*
 

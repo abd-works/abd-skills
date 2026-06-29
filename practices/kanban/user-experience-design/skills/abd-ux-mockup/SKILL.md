@@ -19,7 +19,7 @@ Lock down every control and interaction before visual design — so nothing is i
 
 ## Grill prompts
 
-Read `common/grill-me-with-practice-skill.md` before grilling.
+Read `common/reference/grill-me-with-practice-skill.md` before grilling.
 
 Before generating, surface these:
 

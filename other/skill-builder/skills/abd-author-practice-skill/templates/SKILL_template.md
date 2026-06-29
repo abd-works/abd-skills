@@ -2,7 +2,7 @@
   Parameterized SKILL.md skeleton for agilebydesign-skills.
   Canonical copy: skills/abd-practice-skill-builder/abd-author-practice-skill/templates/SKILL_template.md
   Copy to skills/<your-skill>/SKILL.md and replace every {{PLACEHOLDER}}.
-  Shape: thin router — purpose, when-to-use, output file, Agent Instructions (read-gates), Validate.
+  Shape: thin router — purpose, when-to-use, Agent Instructions (mandatory skill-workflow read-gates). Optional human index sections (Read, Input traps, Grill me, Generate, Validate) — one ref per section; link all paths as [`path`](path); § names plain (headings in skill-workflow).
   Rules live in rules/*.md only. Concept teaching lives in reference/*.md only. Nothing inlined here.
 -->
 
@@ -48,85 +48,43 @@ Load this skill when **any** of the following apply:
 - {{WHEN_TO_USE_BULLET_3}}
 - {{WHEN_TO_USE_BULLET_4}}
 
-## Output file
-
-**Deliverables folder:** `docs/{{SCAFFOLD_PATH}}/` — see [`common/folder-conventions.md`](../../../../common/folder-conventions.md) for the canonical scaffold tree. The user may name a different path; this is the sensible default.
-
-**Where to write the deliverables (`<deliverables-folder>` resolution):**
-
-1. The path the user told you to use.
-2. Where the engagement already keeps deliverables (write next to existing phase output).
-3. Canonical scaffold path from `common/folder-conventions.md` (see entry for this skill).
-4. The workspace root if none of the above applies.
-
-**File names:** `{{OUTPUT_FILE_NAME}}`. Add a `<name>-` prefix only for disambiguation.
-
----
-
-## Grill prompts
-
-Read `common/grill-me-with-practice-skill.md` before grilling.
-
-Before generating, surface these traps:
-
-- **{{GRILL_TRAP_1_LABEL}}** — {{GRILL_TRAP_1_DESCRIPTION}}
-- **{{GRILL_TRAP_2_LABEL}}** — {{GRILL_TRAP_2_DESCRIPTION}}
-- **{{GRILL_TRAP_3_LABEL}}** — {{GRILL_TRAP_3_DESCRIPTION}}
-
----
-
 ## Agent Instructions
 
-> **MANDATORY — read every file in `rules/` and `reference/` before authoring any artifact. Do not rely on memory or the SKILL body alone.**
+**MANDATORY:** [`common/reference/skill-workflow.md`](../../../../common/reference/skill-workflow.md) — read in full; complete § Bootstrap and § Read-gates before generating or validating.
 
-### 1. Read context (MANDATORY before starting)
+## Bootstrap
 
-Read every file in **`reference/`** (if the folder exists). These contain concept definitions, examples, and heuristics that govern what good output looks like.
+§ Bootstrap — [`common/reference/skill-workflow.md`](../../../../common/reference/skill-workflow.md).
 
-### 2. Generate
+## Read
 
-Read every file in **`rules/`**. Author to those rules — treat each DO / DO NOT as a shape contract, not a suggestion.
+§ Read-gates — all of [`rules/`](rules/), [`reference/`](reference/), [`templates/`](templates/).
 
-Produce output using every template in **`templates/`**:
+## Input traps
 
-| Template | What to produce |
-| --- | --- |
-| {{TEMPLATE_ROW_1}} | {{TEMPLATE_ROW_1_DESC}} |
-| {{TEMPLATE_ROW_2}} | {{TEMPLATE_ROW_2_DESC}} |
+[`reference/input-traps.md`](reference/input-traps.md) — pre-flight in every run, not grill-only.
 
-{{BUILD_EXTRA_NOTES_OR_DELETE}}
+## Grill me
 
-### 3. Validate (MANDATORY — per-rule verdict required)
+[`reference/grill-me.md`](reference/grill-me.md) — only when the invocation includes "grill me".
 
-Re-read every file in **`rules/`**. For **each rule**, emit a verdict:
+## Generate
 
-```
-Rule: <rule-filename>  ->  PASS
-Rule: <rule-filename>  ->  FAIL  <offending line or reason>
-```
+[`reference/generate.md`](reference/generate.md) when present; otherwise [`rules/`](rules/) + [`templates/`](templates/).
 
-**No rule may be silently skipped.** Then run the scanner pass:
+## Output
 
-```bash
-python skills/common/scripts/run_scanners.py \
-  --skill-root skills/{{SKILL_FOLDER_NAME}} \
-  --workspace <path-to-output>
-```
-
-Fix every FAIL and every scanner violation. No "done" until all rules have a PASS verdict and scanners are green.
-
----
+[`reference/output.md`](reference/output.md) — only when the skill breaks the default `docs/` path.
 
 ## Validate
 
-**Goal:** Inspect what was built — read the artifacts as reviewers, not a second authoring pass.
+## Validate
 
-- **Who is checking:** {{VALIDATE_WHO_LINE}}
-- {{VALIDATE_BULLET_1}}
-- {{VALIDATE_BULLET_2}}
-- {{VALIDATE_BULLET_3}}
+[`common/reference/rule-checklist.md`](../../../../common/reference/rule-checklist.md).
 
-{{VALIDATE_CLOSING_PARAGRAPH}}
+## Diagram workflow
+
+[`reference/diagram-workflow.md`](reference/diagram-workflow.md) — only when the skill produces diagram outputs.
 
 ---
 

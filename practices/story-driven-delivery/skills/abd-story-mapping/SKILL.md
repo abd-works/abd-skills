@@ -21,96 +21,34 @@ Give product, delivery, and domain people one shared picture of scope — outcom
 
 ---
 
-## Output file
+## Agent Instructions
 
-**Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
+**MANDATORY:** [`common/reference/skill-workflow.md`](../../../../common/reference/skill-workflow.md) — read in full; complete § Bootstrap and § Read-gates before generating or validating.
 
-**File name:** `story-map.md`. Add a `<name>-` prefix only when disambiguation is needed.
+## Bootstrap
 
----
+§ Bootstrap — [`common/reference/skill-workflow.md`](../../../../common/reference/skill-workflow.md).
 
-## Grill prompts
+## Read
 
-Read `common/grill-me-with-practice-skill.md` before grilling.
+§ Read-gates — all of [`rules/`](rules/), [`reference/`](reference/), [`templates/`](templates/).
 
-Before generating, surface these common input traps:
+## Input traps
 
-- **Hidden actors** — who actually uses this — is "the user" hiding three different people with different goals, or is there a system actor nobody mentioned?
-- **Actor reality** — for every actor, confirm they exist in this iteration. Ask: is this a real human role, or an automated system? If automated, does the automation exist yet? Do not assume an actor is real because it sounds plausible — verify it. If everything is manual in this iteration, automated actors do not belong on the map.
-- **Behaviors vs. tasks** — are these outcomes people care about, or build tasks disguised as stories? "Implement payment gateway" is a task; "Process customer payment" is a behavior. Which are we looking at?
-- **Vague story names** — when a story uses a vague verb or noun ("provision", "manage", "handle", "set up", "improve"), ask what the actual concrete steps are. A story name must describe one observable behavior, not a category of work.
-- **Tool specificity** — when a story describes a generic behavior ("extract content", "send notification"), ask which specific tool or mechanism is actually used. Generic behavior names produce generic output; name the tool.
-- **Missing triggers** — are there background processes, scheduled jobs, or external systems that kick off behaviors nobody has surfaced yet? They always show up later as gaps.
-- **Sequencing** — read the sub-epics in order. Can each story actually be done before the next one starts? Are there prerequisites that haven't appeared yet? Repo-before-extraction, setup-before-use. Common sense must pass.
-- **Delivery epics and CDD flow** — if there is an epic about delivering value, check whether the stories inside it mirror the CDD fidelity flow (shaping → discovery → exploration → specification → engineering). A delivery epic with generic "generate → review → submit" stories has not been connected to the actual delivery process.
-- **Scope bleeding** — where does this product's responsibility end and another system's begin? If that boundary isn't drawn, stories will leak across it.
-- **Duplication across sub-epics** — before finalising, scan all sub-epics for overlap. Do any two sub-epics describe the same behaviour under different names? If yes, collapse or kill the duplicate — do not carry redundant sub-epics forward.
-- **Depth agreement** — does everyone expect the same level of detail from this map — an outline to frame conversations, or a full breakdown to plan work? Mismatched expectations waste everyone's time.
+[`reference/input-traps.md`](reference/input-traps.md) — pre-flight in every run, not grill-only.
 
----
+## Grill me
+
+[`reference/grill-me.md`](reference/grill-me.md) — only when the invocation includes "grill me".
+
+## Generate
+
+[`reference/generate.md`](reference/generate.md).
+
+## Validate
+
+[`common/reference/rule-checklist.md`](../../../../common/reference/rule-checklist.md).
 
 ## Diagram workflow
 
-Produces `docs/stories/story-map.drawio` from `story-graph.json`. Requires `story-graph.json` to exist (built by `story-graph-ops`). Must exist before the cell is marked done.
-
-```bash
-python drawio_story_sync_cli.py render \
-  --mode outline \
-  --graph docs/stories/story-graph.json \
-  --out   docs/stories/story-map.drawio
-```
-
-Run once after `story-graph.json` is in place. To sync diagram edits back to the graph, use `sync` instead of `render`:
-
-```bash
-python drawio_story_sync_cli.py sync \
-  --drawio docs/stories/story-map.drawio \
-  --graph  docs/stories/story-graph.json
-```
-
----
-
-## Agent Instructions
-
-Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
-
-### 1. Read context
-
-Read these files:
-- **`reference/concepts.md`** — what story maps are, actors, personas, epics, stories, story types, pitfalls, gap recording, and depth levels.
-- **`reference/examples.md`** — a worked example of a story map showing epics, sub-epics, and stories.
-
-### 2. Generate
-
-**Produce output from every template:**
-
-| Template | What to produce |
-| --- | --- |
-| `templates/story-map.md` | The epic/sub-epic/story tree using that layout. Optional title or short context above the tree is fine. **Do not** paste the template's notation / `## Instructions` section into generated project files. |
-
-**New files under `templates/` later** → one deliverable per file.
-
-**Depth:** Respect the depth level the user asks for (see `reference/concepts.md` **Depth levels**). At **Story Map Outline**, produce epics with confirming stories; do not apply the full rule set. At **Level 2+**, apply the full hierarchy and rules. Default to Level 2 when the user does not specify.
-
-**Consistency:** Connectors (`or`, `opt`), nested `(AC)` lines, and actor/story lines must be complete and consistent throughout the `.md` artifact. Generated artifacts contain **only** the map; notation rules stay in this skill and in `templates/story-map.md`.
-
-**Quality bar:** Match the naming and layout expectations in `reference/concepts.md` (verb-noun, actor in `story_type` not in name, stories are behaviors not tasks).
-
-**Where it lives:** Write `story-map.md` alongside the other engagement deliverables for this scope.
-
-
-### 3. Validate
-
-Validate against rules and run scanners to emit per-rule verdicts — see `../common/skill-rule-workflow.md` § Validate output.
-
-Then
-
-**Goal:** Inspect what was built — read the artifacts as a reviewer.
-
-- **Hierarchy** — epics → sub-epics → stories; **verb—noun** names; actors only in `story_type`, not in titles.
-- **Story size** — one observable behavior per story; flows grouped in sub-epics.
-- **Intent** — outcomes and behaviors, not implementation tasks or internal structure.
-- **Context gaps** — gaps recorded inline or in `## Context Gaps` section where context was absent.
-- **No bundle markers** — `SKILL.md` has no `<!-- execute_rules:bundle_rules -->` markers.
-
----
+[`reference/diagram-workflow.md`](reference/diagram-workflow.md).

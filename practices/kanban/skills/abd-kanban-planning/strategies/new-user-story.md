@@ -13,7 +13,7 @@
 | Stage | Scope | Skills (ordered) |
 | --- | --- | --- |
 | Exploration | story | UL-refresh, acceptance-criteria |
-| Specification | story | CRC, spec-by-example, scenario-walkthrough |
+| Specification | story | domain model, spec-by-example, scenario-walkthrough |
 | Engineering | story | object-model, ATDD, clean-code |
 
 **No shaping or discovery.** Map, slices, and domain model already exist. Jump directly to exploration at story scope.

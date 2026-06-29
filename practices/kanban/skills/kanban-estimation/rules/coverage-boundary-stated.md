@@ -22,7 +22,7 @@ Passing means the session file has an explicit coverage boundary checklist in th
   - [x] **Exploration** — acceptance criteria
   - [ ] **Exploration** — UX mockups, architecture template *(deferred)*
   - [x] **Specification**
-  - [x] **Engineering** — Class Model, ATDD, production code
+  - [x] **Engineering** — domain specification, ATDD, production code
   - [x] **Regression testing**
   - [ ] **User testing / UAT** *(Increment 2)*
 

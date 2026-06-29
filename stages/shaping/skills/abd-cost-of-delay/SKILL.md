@@ -22,7 +22,7 @@ This skill classifies the value type and urgency of each feature or initiative i
 
 ## Output file
 
-**Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
+**Deliverables folder:** see `../common/reference/skill-workflow.md` — Output file resolution.
 
 **File name:** `cost-of-delay-canvas.md` and `cd3-ranking.md`. Add a `<name>-` prefix only when disambiguation is needed.
 
@@ -30,7 +30,7 @@ This skill classifies the value type and urgency of each feature or initiative i
 
 ## Agent Instructions
 
-> **MANDATORY — read `../common/skill-rule-workflow.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.**
+> **MANDATORY — read `../common/reference/skill-workflow.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.**
 
 ### 1. Read context
 
@@ -80,7 +80,7 @@ python skills/common/scripts/run_scanners.py \
   --workspace <path-to-output>
 ```
 
-Then emit per-rule verdicts per `../common/skill-rule-workflow.md`.
+Then emit per-rule verdicts per `../common/reference/skill-workflow.md`.
 
 ---
 

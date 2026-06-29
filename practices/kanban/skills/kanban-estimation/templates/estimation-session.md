@@ -20,7 +20,7 @@ Bootcamp stages — the stage files in `reference/stages/`. Check each stage inc
 - [x] **Exploration** — acceptance criteria *(default)*
 - [ ] **Exploration** — UX mockups, architecture template *(opt in)*
 - [x] **Specification** — domain model, spec-by-example, interface design as needed *(default)*
-- [x] **Engineering** — Class Model, ATDD, production code *(default)*
+- [x] **Engineering** — domain specification, ATDD, production code *(default)*
 - [ ] **Engineering** — production UI via `abd-architecture-code` *(opt in when UI-heavy; prototype already in Specification)*
 - [x] **Regression testing** *(default)*
 - [ ] **User testing / UAT** *(not default)*
@@ -90,7 +90,7 @@ Priority order is agreed before estimation begins. AI suggests an initial order;
 - [x] **Exploration** — acceptance criteria
 - [ ] **Exploration** — UX mockups, architecture template *(mockups done in prior increment)*
 - [x] **Specification**
-- [x] **Engineering** — Class Model, ATDD, production code
+- [x] **Engineering** — domain specification, ATDD, production code
 - [x] **Regression testing**
 - [ ] **User testing / UAT** *(deferred to Increment 2)*
 

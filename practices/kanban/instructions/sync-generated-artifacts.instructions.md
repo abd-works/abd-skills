@@ -32,8 +32,8 @@ If user says no, do not auto-sync anything.
 
 | Changed artifact | Offer sync to | Skills |
 | --- | --- | --- |
-| Production code | Acceptance tests, Class Model | `abd-story-acceptance-test`, `abd-domain-specification` |
-| Acceptance tests or Class Model | Spec by Example, Domain Model | `abd-story-specification`, `abd-domain-model` |
+| Production code | Acceptance tests, domain specification | `abd-story-acceptance-test`, `abd-domain-specification` |
+| Acceptance tests or domain specification | Spec by Example, Domain Model | `abd-story-specification`, `abd-domain-model` |
 | Spec by Example or Domain Model | Acceptance Criteria, Domain Sketch | `abd-story-acceptance-criteria`, `abd-domain-sketch` |
 | Acceptance Criteria or Domain Sketch | Story Map, Domain Language, Key Abstractions | `abd-story-mapping`, `abd-domain-language`, `abd-key-abstractions` |
 
@@ -41,8 +41,8 @@ If user says no, do not auto-sync anything.
 
 | Changed artifact | Offer sync to peer | Skills |
 | --- | --- | --- |
-| Acceptance tests | Class Model | `abd-domain-specification` |
-| Class Model | Acceptance tests | `abd-story-acceptance-test` |
+| Acceptance tests | domain specification | `abd-domain-specification` |
+| domain specification | Acceptance tests | `abd-story-acceptance-test` |
 | Spec by Example | Domain Model | `abd-domain-model` |
 | Domain Model | Spec by Example | `abd-story-specification` |
 | Acceptance Criteria | Domain Sketch | `abd-domain-sketch` |
@@ -56,8 +56,8 @@ If user says no, do not auto-sync anything.
 | --- | --- | --- |
 | Story Map, Domain Language, or Key Abstractions | Acceptance Criteria, Domain Sketch | `abd-story-acceptance-criteria`, `abd-domain-sketch` |
 | Acceptance Criteria or Domain Sketch | Spec by Example, Domain Model | `abd-story-specification`, `abd-domain-model` |
-| Spec by Example or Domain Model | Acceptance tests, Class Model | `abd-story-acceptance-test`, `abd-domain-specification` |
-| Acceptance tests or Class Model | Production code | `abd-clean-code` |
+| Spec by Example or Domain Model | Acceptance tests, domain specification | `abd-story-acceptance-test`, `abd-domain-specification` |
+| Acceptance tests or domain specification | Production code | `abd-clean-code` |
 
 ## Do not apply this rule when
 

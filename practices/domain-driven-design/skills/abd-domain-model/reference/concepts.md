@@ -79,7 +79,7 @@ When applying a concept to an entity requires state that is unique from the conc
 
 When a concept owns multiple related objects **and** the collection has unique behavior beyond holding them — such as supersession logic, end-of-turn checks, or add/remove rules — introduce a named collection class that owns that behavior.
 
-## What this format omits (compared to a full Class Model)
+## What this format omits (compared to a full domain specification)
 
 - **No `+` prefix** — visibility is not marked; `-` only for private methods.
 - **No `<< stereotypes >>`** — no Entity, ValueObject, Service markers.

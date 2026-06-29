@@ -3,7 +3,7 @@ scanner:
 ---
 # Rule: Every concept classified with explicit rationale
 
-Every named concept from the input model (domain model block, class-model class, or domain-language concept) must appear in the building-blocks output with **at least one** stereotype annotation. A concept may express multiple stereotypes (Entity + Aggregate Root + emits Domain Events) — that is expected and correct. The answer to the business question is **implicit in the model itself** (the stereotype annotation, the `<<identifier>>` properties, the invariants, the boundary membership) — not written out as a separate Q&A block. Passing means no concept is left out and every stereotype annotation is justified by the model structure. Failing means a concept is missing or a stereotype is slapped on with no supporting model content (no identifier properties on an Entity, no invariants on an Aggregate, etc.).
+Every named concept from the input model (domain model block, domain-specification class, or domain-language concept) must appear in the building-blocks output with **at least one** stereotype annotation. A concept may express multiple stereotypes (Entity + Aggregate Root + emits Domain Events) — that is expected and correct. The answer to the business question is **implicit in the model itself** (the stereotype annotation, the `<<identifier>>` properties, the invariants, the boundary membership) — not written out as a separate Q&A block. Passing means no concept is left out and every stereotype annotation is justified by the model structure. Failing means a concept is missing or a stereotype is slapped on with no supporting model content (no identifier properties on an Entity, no invariants on an Aggregate, etc.).
 
 ## DO
 

@@ -17,7 +17,7 @@ Make delivery work visible and flow-governed — so nothing hides and bottleneck
 
 ## Grill prompts
 
-Read `common/grill-me-with-practice-skill.md` before grilling.
+Read `common/reference/grill-me-with-practice-skill.md` before grilling.
 
 Before generating, surface these:
 

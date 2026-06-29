@@ -2,7 +2,7 @@
 
 **Scanner:** Manual review
 
-A passing file declares `state: domain-model` in its YAML front matter. A failing file uses any other state value — `crc`, `domain-language`, `class-model`, or omits the field entirely.
+A passing file declares `state: domain-model` in its YAML front matter. A failing file uses any other state value — `domain-language`, `domain-specification`, or omits the field entirely.
 
 ## DO
 

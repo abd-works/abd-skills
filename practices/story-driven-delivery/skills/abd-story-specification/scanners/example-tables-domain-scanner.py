@@ -2,7 +2,7 @@
 """Validate that scenario outline example-table columns match domain model attributes.
 
 Reads ``domain.json`` from the workspace (written by the domain model, Domain Language,
-or Class Model skills as a side-effect of producing their markdown output).
+or domain specification skills as a side-effect of producing their markdown output).
 Falls back to ``domain-vocabulary.json`` if ``domain.json`` is absent.
 Every column in every scenario outline's example table must resolve to an attribute
 of some concept in the vocabulary — with inheritance walked transitively.

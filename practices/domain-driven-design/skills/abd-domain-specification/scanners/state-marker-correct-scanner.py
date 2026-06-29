@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Scanner: front matter must contain state: class-model."""
+"""Scanner: front matter must contain state: domain-specification."""
 from __future__ import annotations
 
 import re
@@ -30,7 +30,7 @@ _EXPECTED_STATE = "domain-model"
 
 
 class StateMarkerCorrectScanner(Scanner):
-    """Check that module files at class-model stage carry state: class-model."""
+    """Check that module files at domain-specification stage carry state: domain-specification."""
 
     def scan_with_context(self, context: ScanFilesContext) -> List[Dict[str, Any]]:
         violations: List[Dict[str, Any]] = []
@@ -45,7 +45,7 @@ class StateMarkerCorrectScanner(Scanner):
         if not fm:
             return [Violation(
                 rule=self.rule,
-                violation_message="No YAML front matter found; expected state: class-model",
+                violation_message="No YAML front matter found; expected state: domain-specification",
                 location=str(file_path),
                 line_number=1,
                 severity="error",
@@ -54,7 +54,7 @@ class StateMarkerCorrectScanner(Scanner):
         if not state_m:
             return [Violation(
                 rule=self.rule,
-                violation_message="No state: key in front matter; expected state: class-model",
+                violation_message="No state: key in front matter; expected state: domain-specification",
                 location=str(file_path),
                 line_number=1,
                 severity="error",
