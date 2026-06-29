@@ -150,7 +150,7 @@ Omit `constructor` or use `"parameter_types": []` when the class has no construc
 | `name` | yes | camelCase property name |
 | `return_type` | yes | Domain type, constrained enum, or typed primitive — never raw `String` |
 | `invariants` | yes | Declarative constraints (may be empty) |
-| `interaction` | no | Step chain when the property is derived or has non-trivial internal logic |
+| `interaction` | no | Array of structured steps (`object`+`operation`+`params`, or `property`) or plain strings |
 | `language_bullets` | no | Traceability back to domain-language bullets |
 
 Properties use `return_type` (not `type`) for parity with operations.
@@ -169,54 +169,72 @@ When a property's `return_type` references another class, the corresponding `rel
 | `visibility` | yes | `"public"` or `"private"` (`-` prefix in markdown) |
 | `collaborators` | yes | Hidden domain types not in params or return (may be empty) |
 | `invariants` | yes | Declarative constraints (may be empty) |
-| `interaction` | no | Step chain tracing how collaborators are used (see below) |
+| `interaction` | no | Array of `object.operation(params)` steps, `property` steps, or plain strings |
 | `language_bullets` | no | Traceability back to domain-language behavior bullets |
 
 ---
 
 ## Interaction
 
-Optional on **properties** and **operations** when behavior has inherent complexity — same role as `Interaction:` blocks in domain specification (`abd-domain-specification`).
+Optional **array** on **properties** and **operations** when behavior has inherent complexity — same role as `Interaction:` blocks in domain specification (`abd-domain-specification`).
 
 Omit when behavior is a simple delegation, a direct property read, or fully captured by signature + a single invariant.
 
-| Field | Required | Meaning |
-| --- | --- | --- |
-| `steps` | yes | Ordered flat list — no nesting |
+Each array element is **either** a structured object **or** a plain string.
 
-### Interaction step
+### Structured interaction step — operation call
 
-Each step is **either** an assignment **or** a return — never both.
-
-**Assignment step:**
+`object.operation(params)` — call an operation on a domain object.
 
 | Field | Required | Meaning |
 | --- | --- | --- |
-| `variable` | yes | Domain-language variable name |
-| `return_type` | yes | Type of the variable |
-| `expression` | yes | Typed pseudocode expression using domain language |
-
-**Return step:**
-
-| Field | Required | Meaning |
-| --- | --- | --- |
-| `return` | yes | Variable name to return |
-
-Example (from `Check.resolve`):
+| `return_type` | yes | Type produced by this step |
+| `object` | yes | Domain-language object (variable, `self`, or class name for construction) |
+| `operation` | yes | Operation name on that object |
+| `params` | no | Argument expressions (may be empty) |
 
 ```json
-"interaction": {
-  "steps": [
-    { "variable": "roll", "return_type": "Integer", "expression": "d20.roll()" },
-    { "variable": "rollTotal", "return_type": "Integer", "expression": "roll + trait.rank.toModifier().value + circumstanceModifier.value" },
-    { "variable": "success", "return_type": "Boolean", "expression": "rollTotal >= difficultyClass.value" },
-    { "variable": "result", "return_type": "CheckResult", "expression": "new CheckResult(success, margin)" },
-    { "return": "result" }
-  ]
-}
+{ "return_type": "Integer", "object": "d20", "operation": "roll", "params": [] }
 ```
 
-**Collaborator accounting:** every type in `collaborators[]` must appear in `parameter_types`, `return_type`, a property `return_type`, or a step `expression`. Unaccounted collaborators are modeling gaps.
+Maps to domain-spec pseudocode: `roll: Integer = d20.roll()`.
+
+### Structured interaction step — property access
+
+| Field | Required | Meaning |
+| --- | --- | --- |
+| `return_type` | yes | Type of the property value |
+| `property` | yes | Property path (e.g. `trait.rank.toModifier`) |
+
+```json
+{ "return_type": "Modifier", "property": "trait.rank.toModifier" }
+```
+
+Use **either** `object` + `operation` + `params` **or** `property` — not both on the same step.
+
+### String interaction step
+
+A plain string for assignments, comparisons, or returns that do not decompose cleanly:
+
+```json
+"rollTotal = roll + modifier.value + circumstanceModifier.value"
+"return result"
+```
+
+### Full example (`Check.resolve`)
+
+```json
+"interaction": [
+  { "return_type": "Integer", "object": "d20", "operation": "roll", "params": [] },
+  { "return_type": "Modifier", "property": "trait.rank.toModifier" },
+  "rollTotal = roll + modifier.value + circumstanceModifier.value",
+  "success = rollTotal >= difficultyClass.value",
+  { "return_type": "CheckResult", "object": "CheckResult", "operation": "new", "params": ["success", "margin"] },
+  "return result"
+]
+```
+
+**Collaborator accounting:** every type in `collaborators[]` must appear in `parameter_types`, `return_type`, a property `return_type`, or an interaction step (`object`, `property`, or string). Unaccounted collaborators are modeling gaps.
 
 ---
 

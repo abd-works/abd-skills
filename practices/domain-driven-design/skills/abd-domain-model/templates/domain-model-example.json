@@ -146,23 +146,25 @@
                   "invariants": [
                     "ranks must never be added directly; convert to measures, perform arithmetic on the measures, then convert back to a rank"
                   ],
-                  "interaction": {
-                    "steps": [
-                      {
-                        "variable": "measure",
-                        "return_type": "Measure",
-                        "expression": "Measure.fromRank(value)"
-                      },
-                      {
-                        "variable": "modifier",
-                        "return_type": "Modifier",
-                        "expression": "Modifier.fromMeasure(measure)"
-                      },
-                      {
-                        "return": "modifier"
-                      }
-                    ]
-                  },
+                  "interaction": [
+                    {
+                      "return_type": "Measure",
+                      "object": "Measure",
+                      "operation": "fromRank",
+                      "params": [
+                        "value"
+                      ]
+                    },
+                    {
+                      "return_type": "Modifier",
+                      "object": "Modifier",
+                      "operation": "fromMeasure",
+                      "params": [
+                        "measure"
+                      ]
+                    },
+                    "return modifier"
+                  ],
                   "language_bullets": [
                     "supplies the base *modifier* for a *check* — the *trait's* *rank* flows directly into the *roll total*"
                   ]
@@ -258,38 +260,31 @@
                   "invariants": [
                     "shape is always roll total versus difficulty class; subtypes only vary how total or DC is produced"
                   ],
-                  "interaction": {
-                    "steps": [
-                      {
-                        "variable": "roll",
-                        "return_type": "Integer",
-                        "expression": "d20.roll()"
-                      },
-                      {
-                        "variable": "rollTotal",
-                        "return_type": "Integer",
-                        "expression": "roll + trait.rank.toModifier().value + circumstanceModifier.value"
-                      },
-                      {
-                        "variable": "success",
-                        "return_type": "Boolean",
-                        "expression": "rollTotal >= difficultyClass.value"
-                      },
-                      {
-                        "variable": "margin",
-                        "return_type": "Integer",
-                        "expression": "rollTotal - difficultyClass.value"
-                      },
-                      {
-                        "variable": "result",
-                        "return_type": "CheckResult",
-                        "expression": "new CheckResult(success, margin)"
-                      },
-                      {
-                        "return": "result"
-                      }
-                    ]
-                  },
+                  "interaction": [
+                    {
+                      "return_type": "Integer",
+                      "object": "d20",
+                      "operation": "roll",
+                      "params": []
+                    },
+                    {
+                      "return_type": "Modifier",
+                      "property": "trait.rank.toModifier"
+                    },
+                    "rollTotal = roll + modifier.value + circumstanceModifier.value",
+                    "success = rollTotal >= difficultyClass.value",
+                    "margin = rollTotal - difficultyClass.value",
+                    {
+                      "return_type": "CheckResult",
+                      "object": "CheckResult",
+                      "operation": "new",
+                      "params": [
+                        "success",
+                        "margin"
+                      ]
+                    },
+                    "return result"
+                  ],
                   "language_bullets": [
                     "is resolved by *rolling* a *d20*, adding the *trait rank* and the *circumstance modifier*, comparing the *roll total* to the *difficulty class*, producing a *check result*"
                   ]
@@ -343,23 +338,25 @@
                   "invariants": [
                     "on a tie, the higher bonus wins; if bonuses also tie, a tie-break d20 decides"
                   ],
-                  "interaction": {
-                    "steps": [
-                      {
-                        "variable": "opposingDc",
-                        "return_type": "DifficultyClass",
-                        "expression": "DifficultyClass.fromCheckResult(opposingResult)"
-                      },
-                      {
-                        "variable": "result",
-                        "return_type": "CheckResult",
-                        "expression": "resolve(circumstanceModifier.withDc(opposingDc))"
-                      },
-                      {
-                        "return": "result"
-                      }
-                    ]
-                  },
+                  "interaction": [
+                    {
+                      "return_type": "DifficultyClass",
+                      "object": "DifficultyClass",
+                      "operation": "fromCheckResult",
+                      "params": [
+                        "opposingResult"
+                      ]
+                    },
+                    {
+                      "return_type": "CheckResult",
+                      "object": "self",
+                      "operation": "resolve",
+                      "params": [
+                        "circumstanceModifier.withDc(opposingDc)"
+                      ]
+                    },
+                    "return result"
+                  ],
                   "language_bullets": [
                     "is made against an *opposing character's* *check result* as the *difficulty class*"
                   ]
@@ -439,23 +436,22 @@
                 "invariants": [
                   "DC equals rank + 10"
                 ],
-                "interaction": {
-                  "steps": [
-                    {
-                      "variable": "dcValue",
-                      "return_type": "Integer",
-                      "expression": "rank.value + 10"
-                    },
-                    {
-                      "variable": "dc",
-                      "return_type": "DifficultyClass",
-                      "expression": "new DifficultyClass(dcValue)"
-                    },
-                    {
-                      "return": "dc"
-                    }
-                  ]
-                },
+                "interaction": [
+                  {
+                    "return_type": "Integer",
+                    "property": "rank.value"
+                  },
+                  "dcValue = rank.value + 10",
+                  {
+                    "return_type": "DifficultyClass",
+                    "object": "DifficultyClass",
+                    "operation": "new",
+                    "params": [
+                      "dcValue"
+                    ]
+                  },
+                  "return dc"
+                ],
                 "language_bullets": [
                   "sets the *DC* for *resistance checks* as DC = *rank* + 10"
                 ]

@@ -69,18 +69,21 @@
                   "invariants": [
                     "{{declarative constraint}}"
                   ],
-                  "interaction": {
-                    "steps": [
-                      {
-                        "variable": "{{varName}}",
-                        "return_type": "{{Type}}",
-                        "expression": "{{domain-language expression}}"
-                      },
-                      {
-                        "return": "{{varName}}"
-                      }
-                    ]
-                  },
+                  "interaction": [
+                    {
+                      "return_type": "{{Type}}",
+                      "object": "{{objectName}}",
+                      "operation": "{{operationName}}",
+                      "params": [
+                        "{{arg}}"
+                      ]
+                    },
+                    {
+                      "return_type": "{{Type}}",
+                      "property": "{{propertyPath}}"
+                    },
+                    "{{free-form interaction line or return statement}}"
+                  ],
                   "language_bullets": [
                     "{{domain-language bullet this property came from}}"
                   ]
@@ -100,18 +103,17 @@
                   "invariants": [
                     "{{declarative constraint}}"
                   ],
-                  "interaction": {
-                    "steps": [
-                      {
-                        "variable": "{{varName}}",
-                        "return_type": "{{Type}}",
-                        "expression": "{{expression using collaborators}}"
-                      },
-                      {
-                        "return": "{{varName}}"
-                      }
-                    ]
-                  },
+                  "interaction": [
+                    {
+                      "return_type": "{{Type}}",
+                      "object": "{{objectName}}",
+                      "operation": "{{operationName}}",
+                      "params": [
+                        "{{arg}}"
+                      ]
+                    },
+                    "{{free-form interaction line or return statement}}"
+                  ],
                   "language_bullets": [
                     "{{domain-language behavior bullet}}"
                   ]
@@ -140,10 +142,7 @@
                   "collaborators": [],
                   "invariants": [
                     "{{constraint specific to this subtype}}"
-                  ],
-                  "interaction": {
-                    "steps": []
-                  }
+                  ]
                 }
               ]
             }
@@ -188,10 +187,7 @@
                 "return_type": "{{ReturnType}}",
                 "visibility": "public",
                 "collaborators": [],
-                "invariants": [],
-                "interaction": {
-                  "steps": []
-                }
+                "invariants": []
               }
             ]
           }
