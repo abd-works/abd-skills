@@ -35,7 +35,7 @@ Give product, delivery, and domain people one shared picture of scope — outcom
 
 ## Grill me
 
-[`common/grill-me-with-practice-skill.md`](../../../../common/grill-me-with-practice-skill.md) — only when the invocation includes "grill me".
+[`reference/grill-me.md`](reference/grill-me.md) — only when the invocation includes "grill me".
 
 ## Generate
 

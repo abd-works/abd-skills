@@ -33,7 +33,7 @@ Generate executable test files from specification scenarios, acceptance criteria
 
 ## Grill me
 
-[`common/grill-me-with-practice-skill.md`](../../../../common/grill-me-with-practice-skill.md) — only when the invocation includes "grill me".
+[`reference/grill-me.md`](reference/grill-me.md) — only when the invocation includes "grill me".
 
 ## Generate
 

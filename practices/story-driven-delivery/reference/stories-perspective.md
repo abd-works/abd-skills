@@ -35,7 +35,8 @@
 
 | File | Role |
 | --- | --- |
-| `reference/input-traps.md` | Method-specific input ambiguities — all five practice skills |
+| `reference/input-traps.md` | Pre-flight ambiguity checks — every run, not grill |
+| `reference/grill-me.md` | Grill interview questions — grill mode only |
 | `reference/generate.md` | Orchestration only — mapping, thin-slicing, spec, acceptance-test |
 | `reference/diagram-workflow.md` | Mode + output path — mapping, AC, thin-slicing only |
 | `reference/output.md` | Non-default output path — acceptance-test only |

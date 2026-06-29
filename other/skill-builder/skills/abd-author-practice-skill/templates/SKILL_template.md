@@ -62,7 +62,7 @@ Load this skill when **any** of the following apply:
 
 ## Grill me
 
-[`common/grill-me-with-practice-skill.md`](../../../../common/grill-me-with-practice-skill.md) — only when the invocation includes "grill me".
+[`reference/grill-me.md`](reference/grill-me.md) — only when the invocation includes "grill me".
 
 ## Generate
 

@@ -8,7 +8,7 @@ Invoke any practice skill with **"grill me"** to enter grill mode:
 > `/abd-domain-model grill me`  
 > `grill me with abd-story-mapping`
 
-When a skill is invoked **without** "grill me", it generates directly. Grill mode is opt-in. **If "grill me" was not in the invocation — stop reading this file and proceed with generation** (after `common/skill-workflow.md` read-gates, including `reference/input-traps.md`).
+When a skill is invoked **without** "grill me", it generates directly. Grill mode is opt-in. **If "grill me" was not in the invocation — stop reading this file.**
 
 ---
 
@@ -19,6 +19,16 @@ You are grilling to establish shared understanding at the **current fidelity lev
 You must ask questions **one at a time**, waiting for feedback before continuing.
 
 If a question can be answered by reading existing skill outputs or the codebase, read them instead of asking. Use `common/skill-index.md` output filenames to know what to look for.
+
+---
+
+## Where your questions come from
+
+**[`reference/grill-me.md`](reference/grill-me.md)** in the active skill package — interview questions for this method. Read it in full when grill mode is active.
+
+Do **not** use **`reference/input-traps.md`** for grilling — input traps are a silent pre-flight check in every run, not interview questions.
+
+Skill **rules** — each FAIL example can suggest a follow-up question when output reveals a gap.
 
 ---
 
@@ -33,7 +43,7 @@ Stay inside the named skill. Do not navigate to peer perspectives.
 > `/abd-story-mapping grill me only`  
 > `grill me with abd-story-mapping only`
 
-Use this when the user wants to sharpen one skill's input without bringing in other perspectives. Questions come only from the active skill's `reference/input-traps.md` and `rules/`. No cross-perspective surfacing.
+Use this when the user wants to sharpen one skill's input without bringing in other perspectives. Questions come only from the active skill's **`reference/grill-me.md`** and **`rules/`**. No cross-perspective surfacing.
 
 ---
 
@@ -54,15 +64,6 @@ When examining the ask, use the stories perspective at the current fidelity leve
 ### Sharpen fuzzy language
 
 When the user uses vague or overloaded terms, check if the domain skills have already pinned it down. If yes, reference it. If no, ask them to be precise — that gap signals the domain skill is needed.
-
----
-
-## Where your questions come from
-
-The gap between what the ask needs and what already exists. Also:
-
-- **`reference/input-traps.md`** in the active skill package — method-specific ambiguities and missing context for this skill.
-- **Skill rules** — each FAIL example in a skill's `rules/*.md` implies a question.
 
 ---
 

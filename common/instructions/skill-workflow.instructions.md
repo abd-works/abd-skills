@@ -34,10 +34,10 @@ Most skills need no `reference/output.md` — `folder-conventions.md` is enough.
 Before authoring any artifact, read in this order:
 
 1. **`rules/`** — every file, **read in full**.
-2. **`reference/`** — every file in the skill's `reference/` folder, **read in full**.
+2. **`reference/`** — every file except `grill-me.md` (grill mode only — step 5), **read in full**.
 3. **`templates/`** — every file in the skill's `templates/` folder, **read in full**.
 4. **Practice `reference/`** — every file in `<family>-perspective.md` shared-reference table, plus every practice file linked from any file in this skill's `reference/` folder, **read in full**.
-5. **Grill mode only** — read `common/grill-me-with-practice-skill.md` **in its entirety**.
+5. **Grill mode only** — read `common/grill-me-with-practice-skill.md` and the active skill's `reference/grill-me.md` in full; questions from `grill-me.md` only, not `input-traps.md`.
 
 **Read each file in full** — no skimming or memory. Steps 1–4 always; step 5 when grill mode is active.
 

@@ -1,6 +1,6 @@
 # Rule: Input traps reference surfaces input ambiguities
 
-**Purpose:** Before an agent generates anything for a practice skill, it must know the assumptions, ambiguities, and missing context that commonly produce bad output for that specific method. Those traps live in **`reference/input-traps.md`** — not in `SKILL.md` and not in grill-me. Grill mode uses them as interview questions; direct generation uses them as a pre-flight check.
+**Purpose:** Before an agent generates anything for a practice skill, it must know the assumptions, ambiguities, and missing context that commonly produce bad output for that specific method. Those traps live in **`reference/input-traps.md`** — a silent pre-flight check in **every** run. They are **not** grill questions and **not** inlined in `SKILL.md`.
 
 ## DO
 
@@ -10,31 +10,18 @@
 
 - List at least three input traps that are **specific to this skill's method**. Each trap is bold-labeled and names one real failure mode or ambiguity — not generic checklist items.
 
-  **Example (pass):**
-  ```markdown
-  # Input traps — abd-story-acceptance-criteria
+- Ship **`reference/grill-me.md`** separately for grill interview questions — see rule **Grill me reference holds interview questions**.
 
-  - **Hidden actors** — who actually triggers this — is "the user" hiding three different actors?
-  - **One story or a bundle** — does this story describe one observable interaction, or three behaviors wearing a trenchcoat?
-  - **Unstated negative paths** — what should explicitly NOT happen?
-  ```
-
-- Keep **`SKILL.md` thin** — no `## Grill prompts` section with inlined traps. Read order is [`common/skill-workflow.md`](../../../../common/skill-workflow.md) § Read-gates; grill mechanics are [`common/grill-me-with-practice-skill.md`](../../../../common/grill-me-with-practice-skill.md).
+- Keep **`SKILL.md` thin** — index sections point to `reference/input-traps.md` and `reference/grill-me.md`; no inlined trap or grill lists.
 
 ## DO NOT
 
 - Omit `reference/input-traps.md` when the skill produces artifacts from ambiguous human input.
 
-  **Example (fail):** A practice skill with only `reference/concepts.md` and no input-traps file — agents have no method-specific ambiguity checklist.
+- Use `input-traps.md` as grill questions — grilling uses **`reference/grill-me.md`** only.
 
-- Inline trap lists in `SKILL.md` under `## Grill prompts`.
+- Inline trap lists in `SKILL.md` under `## Grill me` or `## Grill prompts`.
 
-  **Example (fail):** Ten bold-labeled traps copied into `SKILL.md` instead of `reference/input-traps.md`.
-
-- Conflate input traps with grill-me — traps apply in **all modes**; grill-me is only the interview pattern that turns unresolved traps into questions.
-
-- List only generic traps with no method-specific failure modes.
-
-  **Example (fail):** `"Is your workspace configured?"`, `"Have you read the docs?"` — not input risks for this practice.
+- Conflate input traps with grill-me — different files, different jobs.
 
 **Source:** Practice-skill authoring convention (abd-practice-skill-builder).
