@@ -2,7 +2,7 @@
   Parameterized SKILL.md skeleton for agilebydesign-skills.
   Canonical copy: skills/abd-practice-skill-builder/abd-author-practice-skill/templates/SKILL_template.md
   Copy to skills/<your-skill>/SKILL.md and replace every {{PLACEHOLDER}}.
-  Shape: thin router — purpose, when-to-use, Agent Instructions (mandatory skill-workflow read-gates). Orchestration in reference/generate.md; shape in rules/ + templates/; no ## Validate in SKILL.md when scanners exist.
+  Shape: thin router — purpose, when-to-use, Agent Instructions (mandatory skill-workflow read-gates). Optional human index sections (Read, Input traps, Grill me, Generate, Validate) — one ref per section; link all paths as [`path`](path); § names plain (headings in skill-workflow).
   Rules live in rules/*.md only. Concept teaching lives in reference/*.md only. Nothing inlined here.
 -->
 

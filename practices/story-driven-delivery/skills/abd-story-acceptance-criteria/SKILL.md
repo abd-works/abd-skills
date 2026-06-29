@@ -25,7 +25,7 @@ State exactly what must be true for a story to be done — so everyone agrees on
 
 ## Read
 
-§ Read-gates — all of `rules/`, [`reference/`](reference/), `templates/`.
+§ Read-gates — all of [`rules/`](rules/), [`reference/`](reference/), [`templates/`](templates/).
 
 ## Input traps
 
