@@ -317,6 +317,18 @@ Practice-wide artifacts live under `practices/domain-driven-design/references/`:
 | `references/domain-model-outline.json` | Minimal valid graph with KA-level relationship |
 | `references/domain-model-example.json` | Filled Check Resolution example |
 | `references/domain-model-json.md` | This document |
+| `skills/supporting/domain-ops/` | `domain-ops` — CLI, validation, persistence (`domain_graph_cli.py`) |
+
+## domain-ops
+
+After creating or editing `domain-model.json`, validate with **domain-ops**:
+
+```bash
+export PYTHONPATH="practices/domain-driven-design/skills/supporting/domain-ops/scripts"
+python3 practices/domain-driven-design/skills/supporting/domain-ops/scripts/domain_graph_cli.py read --file docs/domain/model/domain-model.json
+```
+
+See `skills/supporting/domain-ops/SKILL.md`.
 
 ---
 

@@ -30,7 +30,7 @@ docs/
 │   │   └── domain-language.md              ← abd-domain-language
 │   ├── model/
 │   │   ├── domain-model.md                 ← abd-domain-model (human projection)
-│   │   ├── domain-model.json               ← abd-domain-model (machine-readable spine; parallel to story-graph.json)
+│   │   ├── domain-model.json               ← domain-ops (machine-readable; parallel to story-graph.json)
 │   │   ├── domain-model.drawio             ← drawio-domain-sync (same stem as domain-model.md)
 │   │   └── domain.json                     ← scanner vocabulary index (derived from domain-model.json)
 │   ├── specification/

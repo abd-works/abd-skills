@@ -395,6 +395,12 @@ Keep Miro story boards in sync with the story graph — so the wall matches the 
 
 - **Skill:** [`miro-story-sync`](../miro-story-sync/SKILL.md)
 
+### domain-ops `graph-ops` — domain
+
+Keep the domain model graph valid and consistent — so downstream DDD tools always read trusted structure.
+
+- **Skill:** [`domain-ops`](../practices/domain-driven-design/skills/supporting/domain-ops/SKILL.md)
+
 ### story-graph-ops `graph-ops` — stories
 
 Keep the story graph valid and consistent — so downstream tools always read trusted structure.
@@ -402,4 +408,4 @@ Keep the story graph valid and consistent — so downstream tools always read tr
 - **Skill:** [`story-graph-ops`](../story-graph-ops/SKILL.md)
 
 ---
-*39 skills indexed.*
+*40 skills indexed.*

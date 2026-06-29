@@ -14,6 +14,7 @@ Shared artifacts under [`references/`](references/):
 | [`references/domain-model-template.json`](references/domain-model-template.json) | Empty scaffold template |
 | [`references/domain-model-outline.json`](references/domain-model-outline.json) | Minimal valid example graph |
 | [`references/domain-model-example.json`](references/domain-model-example.json) | Filled Check Resolution example |
+| [`skills/supporting/domain-ops/`](skills/supporting/domain-ops/SKILL.md) | `domain-ops` — validate/read/write `domain-model.json` |
 
 Conceptual reference under [`reference/`](reference/) (oo-concepts, domain-perspective).
 
