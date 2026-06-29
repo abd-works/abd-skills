@@ -94,14 +94,17 @@ Tests follow the story-graph-ops AC style (`Given` / `When` / `Then` helpers) an
 
 ## Clean code (abd-clean-code)
 
-After changing Python under `scripts/` or `tests/`, run **abd-clean-code** scanners:
+After changing Python under `scripts/`, run **abd-clean-code** scanners with an **explicit code folder**:
 
 ```bash
 python3 common/scripts/run_scanners.py \
   --skill-root stages/engineering/abd-clean-code \
-  --workspace practices/user-experience-design/skills/supporting/ux-ops/scripts \
+  --workspace practices/user-experience-design/skills/supporting/ux-ops \
   --language python \
+  --code-dir scripts \
   --report-dir practices/user-experience-design/skills/supporting/ux-ops/tests/scanner-report
 ```
 
-Latest report: `tests/scanner-report/abd-clean-code.md` — **ALL CLEAN** (17/17 rules).
+Confirm the driver prints `[CODE] 4 Python file(s):` (or current count) before trusting results. Latest report: `tests/scanner-report/abd-clean-code.md`.
+
+Graph-ops CLI tooling mirrors **story-graph-ops** — same structural patterns; full clean-code compliance is incremental.

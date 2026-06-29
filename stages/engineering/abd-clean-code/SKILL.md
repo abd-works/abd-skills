@@ -70,10 +70,16 @@ Read every file in **`rules/`**; author to those rules.
 Run the scanners:
 
 ```bash
-python skills/common/scripts/run_scanners.py \
-  --skill-root skills/abd-clean-code \
-  --workspace <path-to-output>
+python common/scripts/run_scanners.py \
+  --skill-root stages/engineering/abd-clean-code \
+  --workspace <path-to-output-or-skill> \
+  --language python \
+  --code-dir scripts
 ```
+
+**`--code-dir`** — explicit folder (or file) to analyze. Repeat for multiple paths. Relative to `--workspace` unless absolute. Without it, scanners look under `packages/`, then `scripts/`, then the workspace root.
+
+The driver prints `[CODE] N Python file(s):` before scanning. If that count is **0**, nothing was analyzed — fix `--workspace` / `--code-dir` before trusting results.
 
 Then emit per-rule verdicts per `../common/reference/skill-workflow.md`.
 

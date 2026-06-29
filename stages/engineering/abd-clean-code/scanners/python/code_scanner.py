@@ -44,25 +44,68 @@ class CodeScanner:
         return node.end_lineno - node.lineno + 1
 
 
-def build_code_context(workspace: Path) -> dict:
-    """Collect production Python files under packages/ for scanning."""
-    root = workspace.resolve()
+def _is_production_py_file(path: Path) -> bool:
+    if path.suffix != ".py" or not path.is_file():
+        return False
+    if any(part in _SKIP_DIRS for part in path.parts):
+        return False
+    if "tests" in path.parts:
+        return False
+    name = path.name.lower()
+    return not (name.startswith("test_") or name.endswith("_test.py"))
+
+
+def _collect_py_files(search_roots: list[Path]) -> list[str]:
     code_files: list[str] = []
-    packages = root / "packages"
-    if not packages.is_dir():
-        return {"code_files": [], "project_root": str(root)}
+    seen: set[str] = set()
+    for base in search_roots:
+        if base.is_file():
+            candidates = [base]
+        elif base.is_dir():
+            candidates = list(base.rglob("*.py"))
+        else:
+            continue
+        for path in candidates:
+            if not _is_production_py_file(path):
+                continue
+            resolved = str(path.resolve())
+            if resolved not in seen:
+                seen.add(resolved)
+                code_files.append(resolved)
+    return sorted(code_files)
 
-    for path in packages.rglob("*.py"):
-        if not path.is_file():
-            continue
-        if any(part in _SKIP_DIRS for part in path.parts):
-            continue
-        name = path.name.lower()
-        if name.startswith("test_") or name.endswith("_test.py"):
-            continue
-        code_files.append(str(path))
 
-    return {"code_files": sorted(code_files), "project_root": str(root)}
+def build_code_context(
+    workspace: Path,
+    code_dirs: list[Path] | None = None,
+) -> dict:
+    """Collect production Python files for scanning.
+
+  When ``code_dirs`` is set, only those paths are scanned (relative to
+  ``workspace`` unless absolute). Otherwise: ``packages/``, then ``scripts/``,
+  then the workspace root itself.
+    """
+    root = workspace.resolve()
+    if code_dirs:
+        search_roots = [
+            d.resolve() if d.is_absolute() else (root / d).resolve()
+            for d in code_dirs
+        ]
+    else:
+        search_roots = []
+        for sub in ("packages", "scripts"):
+            candidate = root / sub
+            if candidate.is_dir():
+                search_roots.append(candidate)
+        if not search_roots:
+            search_roots = [root]
+
+    code_files = _collect_py_files(search_roots)
+    return {
+        "code_files": code_files,
+        "project_root": str(root),
+        "scan_roots": [str(p) for p in search_roots],
+    }
 
 
 def run_scanner_main(scanner_class, rule_name: str) -> None:
@@ -70,9 +113,27 @@ def run_scanner_main(scanner_class, rule_name: str) -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--workspace", type=Path, default=Path.cwd())
     parser.add_argument("--story-graph", type=Path, default=None)
+    parser.add_argument(
+        "--code-dir",
+        action="append",
+        default=None,
+        metavar="DIR",
+        help=(
+            "Explicit folder or .py file to scan (repeatable). "
+            "Paths are relative to --workspace unless absolute."
+        ),
+    )
     args = parser.parse_args()
 
-    context = build_code_context(args.workspace)
+    code_dirs = [Path(d) for d in args.code_dir] if args.code_dir else None
+    context = build_code_context(args.workspace, code_dirs=code_dirs)
+    if not context["code_files"]:
+        print(
+            f"[WARN] {rule_name}: no Python files to scan "
+            f"(workspace={args.workspace}, code-dir={args.code_dir})",
+            file=sys.stderr,
+        )
+
     scanner = scanner_class(rule_name)
     violations = scanner.scan(context)
 

@@ -241,6 +241,30 @@ def _build_env(root: Path, language: str | None) -> dict:
     return env
 
 
+def _probe_python_code_files(
+    skill_root: Path,
+    workspace: str,
+    code_dirs: list[str] | None,
+    language: str | None,
+) -> list[str]:
+    """Return Python paths that clean-code scanners would scan (for preflight)."""
+    if language != "python":
+        return []
+    scanner_py = skill_root / "scanners" / "python" / "code_scanner.py"
+    if not scanner_py.is_file():
+        return []
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location("_code_scanner_probe", scanner_py)
+    if spec is None or spec.loader is None:
+        return []
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    dirs = [Path(d) for d in code_dirs] if code_dirs else None
+    ctx = mod.build_code_context(Path(workspace), code_dirs=dirs)
+    return list(ctx.get("code_files") or [])
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description="execute-skill-using-skills-rules: run scanners for --skill-root"
@@ -276,9 +300,23 @@ def main(argv: list[str] | None = None) -> int:
             "Pass 'none' to suppress report saving."
         ),
     )
+    parser.add_argument(
+        "--code-dir",
+        action="append",
+        default=None,
+        metavar="DIR",
+        help=(
+            "Explicit folder or file for scanners to analyze (repeatable). "
+            "Forwarded as --code-dir to each scanner. Relative to --workspace unless absolute."
+        ),
+    )
     args = parser.parse_args(argv)
     root = args.skill_root.resolve()
     workspace = args.workspace if args.workspace is not None else str(root)
+    ws_path = Path(workspace)
+    if not ws_path.is_absolute():
+        ws_path = (Path.cwd() / ws_path).resolve()
+    workspace = str(ws_path)
     language: str | None = args.language
 
     cfg = _load_cfg(root)
@@ -305,6 +343,21 @@ def main(argv: list[str] | None = None) -> int:
     else:
         print("[GRAPH] story-graph.json not found in workspace")
 
+    code_files_probe = _probe_python_code_files(root, workspace, args.code_dir, language)
+    if code_files_probe:
+        print(f"[CODE] {len(code_files_probe)} Python file(s):")
+        for fp in code_files_probe:
+            print(f"  - {fp}")
+    elif args.code_dir or language == "python":
+        roots = args.code_dir or ["(auto: packages/, scripts/, or workspace root)"]
+        print(
+            f"[CODE] WARNING: 0 Python files matched "
+            f"(workspace={workspace}, code-dir={roots})",
+            file=sys.stderr,
+        )
+        if args.code_dir:
+            return 2
+
     for scanner_path in scanners:
         script = root.joinpath(*scanner_path.split("/"))
         if not script.is_file():
@@ -315,6 +368,9 @@ def main(argv: list[str] | None = None) -> int:
         cmd = [sys.executable, str(script), "--workspace", workspace]
         if story_graph_path:
             cmd += ["--story-graph", story_graph_path]
+        if args.code_dir:
+            for code_dir in args.code_dir:
+                cmd += ["--code-dir", code_dir]
 
         result = subprocess.run(
             cmd,
