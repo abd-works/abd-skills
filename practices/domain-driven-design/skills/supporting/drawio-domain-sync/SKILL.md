@@ -38,6 +38,8 @@ Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution
 Read these files:
 - **`reference/concepts.md`** — source types (Domain Language, Domain Model, Domain Specification), page-per-KA convention, AI-driven layout, sync-back rules, incremental vs full rendering, build script persistence, and CLI reference pointer.
 - **`diagrams.md`** — full CLI command reference, layout guidelines, UML relationship selection, and cross-model import conventions.
+- **`reference/agentic-repair-loop.md`** — eval loop: how to archive the evals folder, write `violations.md`, capture fail/pass fixtures, and iterate until all scanners pass.
+- **`reference/manual-repair-loop.md`** — how to log a user-fixed issue back into the eval fixtures (fail + pass + cases.json) without running the agentic loop.
 
 ### 2. Generate — Per-KA Tabs (Default Mode)
 
@@ -65,7 +67,12 @@ Read these files:
    - Draw all edges where both source and target are on the tab.
    - Include edge labels (cardinality, role names).
 
-3. **Audit** — Run `audit_diagram_report()` on each tab. Fix overlaps.
+3. **Audit** — Run `audit_diagram_report()` on each tab. If there are definitive violations, follow the eval loop (see `reference/agentic-repair-loop.md`):
+   - Archive any existing `evals/` folder alongside the diagram to `evals-1/` (or `evals-2/`, etc.).
+   - Create `evals/run-1/violations.md` from the scanner failures.
+   - Write a bespoke fix script; run it; audit again.
+   - Increment run number until all definitive violations are cleared.
+   - Capture single-page fail and pass `.drawio` fixtures under `eval/fail/` and `eval/pass/`; update `eval/cases.json`.
 
 4. **Report** — Tell the user the diagram is ready for review.
 
@@ -119,6 +126,7 @@ Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.m
 - **Base classes above derived** — base and imported classes are at lower y-coordinates than their children.
 - **Distinct anchor points** — no two edges from the same side use the same default anchor.
 - **Audit clean** — `audit_diagram_report()` shows zero `edge_crosses_class` violations.
+- **Eval loop followed** — when violations were found, `evals/run-<n>/violations.md` was created, fixtures were captured, and fixes were iterated until clean.
 - **No bundle markers** — `SKILL.md` has no `<!-- execute_rules:bundle_rules -->` markers.
 
 ---

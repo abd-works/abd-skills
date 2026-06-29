@@ -101,13 +101,11 @@ Read these files:
 
 ### 3. Validate
 
-Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.md` § Validate output.
+Validate against rules and run scanners to emit per-rule verdicts — see `../common/skill-rule-workflow.md` § Validate output.
 
----
+Then
 
-## Validate
-
-**Goal:** Inspect what was built — read the artifacts as reviewers.
+**Goal:** Inspect what was built — read the artifacts as a reviewer.
 
 - **Hierarchy** — epics → sub-epics → stories; **verb—noun** names; actors only in `story_type`, not in titles.
 - **Story size** — one observable behavior per story; flows grouped in sub-epics.

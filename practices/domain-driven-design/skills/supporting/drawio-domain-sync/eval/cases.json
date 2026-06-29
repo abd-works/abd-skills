@@ -1,0 +1,293 @@
+{
+  "skill": "drawio-domain-sync",
+  "package": "domain-driven-design",
+  "fixtures": {
+    "pass/clean-full-model": {
+      "date": "2026-06-28",
+      "situation": "Final clean output of the run-1..run-25 iteration. Every page passes every scanner. Regression sentinel \u2014 if a future change to the generator breaks this, something regressed.",
+      "rules": [
+        {
+          "rule": "class-diagram-edges-do-not-cross-classes.md",
+          "scanner": "edges_do_not_cross_classes.py",
+          "expect": "clean"
+        },
+        {
+          "rule": "class-diagram-edges-do-not-overlap-other-edges.md",
+          "scanner": "edges_do_not_overlap_edges.py",
+          "expect": "clean"
+        },
+        {
+          "rule": "class-diagram-edges-do-not-overlap-other-edges.md",
+          "scanner": "edges_do_not_cross_other_edges.py",
+          "expect": "clean"
+        },
+        {
+          "rule": null,
+          "scanner": "edges_approach_perpendicular.py",
+          "expect": "clean"
+        }
+      ]
+    },
+    "fail/edges-cross-classes": {
+      "date": "2026-06-28",
+      "situation": "Layout deliberately broken so PracticeSkill->Reference is routed straight through the Practice rectangle. Visibly violates cross-classes; the rewired routes also trip overlap-edges, cross-other-edges, and approach-perpendicular.",
+      "rules": [
+        {
+          "rule": "class-diagram-edges-do-not-cross-classes.md",
+          "scanner": "edges_do_not_cross_classes.py",
+          "expect": "violate"
+        },
+        {
+          "rule": "class-diagram-edges-do-not-overlap-other-edges.md",
+          "scanner": "edges_do_not_overlap_edges.py",
+          "expect": "violate"
+        },
+        {
+          "rule": "class-diagram-edges-do-not-overlap-other-edges.md",
+          "scanner": "edges_do_not_cross_other_edges.py",
+          "expect": "violate"
+        },
+        {
+          "rule": null,
+          "scanner": "edges_approach_perpendicular.py",
+          "expect": "violate"
+        }
+      ]
+    },
+    "fail/edges-cross-classes-handcurated": {
+      "date": "2026-06-28",
+      "situation": "Hand-curated reference diagram with edges deliberately re-routed across other class rectangles. Visibly violates cross-classes even before running a scanner. Side effect: also trips overlap-edges where the redirected edges run alongside existing ones.",
+      "rules": [
+        {
+          "rule": "class-diagram-edges-do-not-cross-classes.md",
+          "scanner": "edges_do_not_cross_classes.py",
+          "expect": "violate"
+        },
+        {
+          "rule": "class-diagram-edges-do-not-overlap-other-edges.md",
+          "scanner": "edges_do_not_overlap_edges.py",
+          "expect": "violate"
+        },
+        {
+          "rule": "class-diagram-edges-do-not-overlap-other-edges.md",
+          "scanner": "edges_do_not_cross_other_edges.py",
+          "expect": "clean"
+        },
+        {
+          "rule": null,
+          "scanner": "edges_approach_perpendicular.py",
+          "expect": "clean"
+        }
+      ]
+    },
+    "fail/edges-overlap-edges": {
+      "date": "2026-06-28",
+      "situation": "AbdSkill->Scanner and AbdSkill->Template both run along y=90 from x=851 to x=1267, visibly stacked on top of each other. The reshape also re-anchors those edges' source segments, which is what trips approach-perpendicular.",
+      "rules": [
+        {
+          "rule": "class-diagram-edges-do-not-cross-classes.md",
+          "scanner": "edges_do_not_cross_classes.py",
+          "expect": "clean"
+        },
+        {
+          "rule": "class-diagram-edges-do-not-overlap-other-edges.md",
+          "scanner": "edges_do_not_overlap_edges.py",
+          "expect": "violate"
+        },
+        {
+          "rule": "class-diagram-edges-do-not-overlap-other-edges.md",
+          "scanner": "edges_do_not_cross_other_edges.py",
+          "expect": "clean"
+        },
+        {
+          "rule": null,
+          "scanner": "edges_approach_perpendicular.py",
+          "expect": "violate"
+        }
+      ]
+    },
+    "fail/edges-cross-other-edges": {
+      "date": "2026-06-28",
+      "situation": "Mid-iteration regression from the mirrored-perpendicular-relocation work. AbdSkill->Reference and AbdSkill->Rule cross PracticeSkill->Reference transversely; SupportSkill->PracticeSkill crosses Practice->Reference; several edges approach non-perpendicular.",
+      "rules": [
+        {
+          "rule": "class-diagram-edges-do-not-cross-classes.md",
+          "scanner": "edges_do_not_cross_classes.py",
+          "expect": "clean"
+        },
+        {
+          "rule": "class-diagram-edges-do-not-overlap-other-edges.md",
+          "scanner": "edges_do_not_overlap_edges.py",
+          "expect": "violate"
+        },
+        {
+          "rule": "class-diagram-edges-do-not-overlap-other-edges.md",
+          "scanner": "edges_do_not_cross_other_edges.py",
+          "expect": "violate"
+        },
+        {
+          "rule": null,
+          "scanner": "edges_approach_perpendicular.py",
+          "expect": "violate"
+        }
+      ]
+    },
+    "fail/parallel-approach-self-intersect": {
+      "date": "2026-06-28",
+      "situation": "The famous self-intersection case: AiChatAgent->Subagent exits the LEFT side of AiChatAgent but then heads RIGHT, slicing through its own source rectangle. The first three scanners are blind to this \u2014 only the perpendicular scanner catches it. Surfaced the need for signed-direction checks and _path_self_intersects routing.",
+      "rules": [
+        {
+          "rule": "class-diagram-edges-do-not-cross-classes.md",
+          "scanner": "edges_do_not_cross_classes.py",
+          "expect": "clean"
+        },
+        {
+          "rule": "class-diagram-edges-do-not-overlap-other-edges.md",
+          "scanner": "edges_do_not_overlap_edges.py",
+          "expect": "clean"
+        },
+        {
+          "rule": "class-diagram-edges-do-not-overlap-other-edges.md",
+          "scanner": "edges_do_not_cross_other_edges.py",
+          "expect": "clean"
+        },
+        {
+          "rule": null,
+          "scanner": "edges_approach_perpendicular.py",
+          "expect": "violate"
+        }
+      ]
+    },
+    "fail/uncorrected-baseline": {
+      "date": "2026-06-28",
+      "pages": ["AbdSkill", "AiChatAgent", "Context-Driven Delivery"],
+      "situation": "The full 3-page CLI output from run-1 before any of the run-2..run-25 fixes landed. All tabs present as originally generated. Multi-rule sentinel \u2014 useful for confirming that adding new scanners or rules doesn't accidentally make this output look 'better' than it is.",
+      "rules": [
+        {
+          "rule": "class-diagram-edges-do-not-cross-classes.md",
+          "scanner": "edges_do_not_cross_classes.py",
+          "expect": "clean"
+        },
+        {
+          "rule": "class-diagram-edges-do-not-overlap-other-edges.md",
+          "scanner": "edges_do_not_overlap_edges.py",
+          "expect": "violate"
+        },
+        {
+          "rule": "class-diagram-edges-do-not-overlap-other-edges.md",
+          "scanner": "edges_do_not_cross_other_edges.py",
+          "expect": "violate"
+        },
+        {
+          "rule": null,
+          "scanner": "edges_approach_perpendicular.py",
+          "expect": "violate"
+        }
+      ]
+    },
+    "fail/story-graph-inheritance-crosses-epic": {
+      "date": "2026-06-28",
+      "situation": "StoryGraph->ContextPerspectiveGraph inheritance edge routes top-to-top at mid-x\u2248687, crossing Epic (x=645\u2013905, y=670\u2013762).",
+      "rules": [
+        {
+          "rule": "class-diagram-edges-do-not-cross-classes.md",
+          "scanner": "edges_do_not_cross_classes.py",
+          "expect": "violate"
+        },
+        {
+          "rule": "class-diagram-edges-do-not-overlap-other-edges.md",
+          "scanner": "edges_do_not_overlap_edges.py",
+          "expect": "clean"
+        },
+        {
+          "rule": "class-diagram-edges-do-not-overlap-other-edges.md",
+          "scanner": "edges_do_not_cross_other_edges.py",
+          "expect": "clean"
+        },
+        {
+          "rule": null,
+          "scanner": "edges_approach_perpendicular.py",
+          "expect": "clean"
+        }
+      ]
+    },
+    "fail/domain-graph-edges-cross-domain-graph": {
+      "date": "2026-06-28",
+      "situation": "DomainConceptNode->DomainNode association and inheritance edges both route through the DomainGraph class rectangle.",
+      "rules": [
+        {
+          "rule": "class-diagram-edges-do-not-cross-classes.md",
+          "scanner": "edges_do_not_cross_classes.py",
+          "expect": "violate"
+        },
+        {
+          "rule": "class-diagram-edges-do-not-overlap-other-edges.md",
+          "scanner": "edges_do_not_overlap_edges.py",
+          "expect": "clean"
+        },
+        {
+          "rule": "class-diagram-edges-do-not-overlap-other-edges.md",
+          "scanner": "edges_do_not_cross_other_edges.py",
+          "expect": "clean"
+        },
+        {
+          "rule": null,
+          "scanner": "edges_approach_perpendicular.py",
+          "expect": "clean"
+        }
+      ]
+    },
+    "pass/story-graph-inheritance-fixed": {
+      "date": "2026-06-28",
+      "situation": "StoryGraph->ContextPerspectiveGraph rerouted: exit bottom, waypoint (960,826), enter CPG top. Path stays below Epic and right of all row-3 classes.",
+      "rules": [
+        {
+          "rule": "class-diagram-edges-do-not-cross-classes.md",
+          "scanner": "edges_do_not_cross_classes.py",
+          "expect": "clean"
+        },
+        {
+          "rule": "class-diagram-edges-do-not-overlap-other-edges.md",
+          "scanner": "edges_do_not_overlap_edges.py",
+          "expect": "clean"
+        },
+        {
+          "rule": "class-diagram-edges-do-not-overlap-other-edges.md",
+          "scanner": "edges_do_not_cross_other_edges.py",
+          "expect": "clean"
+        },
+        {
+          "rule": null,
+          "scanner": "edges_approach_perpendicular.py",
+          "expect": "clean"
+        }
+      ]
+    },
+    "pass/domain-graph-edges-fixed": {
+      "date": "2026-06-28",
+      "situation": "DomainConceptNode->DomainNode edges rerouted via left corridor (x\u2248332-340, y=300) above DomainGraph. Distinct anchors on source; association enters top, inheritance enters bottom.",
+      "rules": [
+        {
+          "rule": "class-diagram-edges-do-not-cross-classes.md",
+          "scanner": "edges_do_not_cross_classes.py",
+          "expect": "clean"
+        },
+        {
+          "rule": "class-diagram-edges-do-not-overlap-other-edges.md",
+          "scanner": "edges_do_not_overlap_edges.py",
+          "expect": "clean"
+        },
+        {
+          "rule": "class-diagram-edges-do-not-overlap-other-edges.md",
+          "scanner": "edges_do_not_cross_other_edges.py",
+          "expect": "clean"
+        },
+        {
+          "rule": null,
+          "scanner": "edges_approach_perpendicular.py",
+          "expect": "clean"
+        }
+      ]
+    }
+  }
+}

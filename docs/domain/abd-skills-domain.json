@@ -1,0 +1,120 @@
+{
+  "_comment": "Machine-readable vocabulary extracted from abd-skills-domain-model.md. Three KAs: AbdSkill (static catalogue), AiChatAgent (runtime actors), Context-Driven Delivery (CDD-managed session state and the workspace-level context index).",
+  "concepts": {
+    "AbdSkill": {
+      "attributes": ["name", "rootPath", "references", "rules", "scanners", "templates", "outputFilename", "supportedModes"],
+      "inherits": null
+    },
+    "PracticeSkill": {
+      "attributes": ["practice", "fidelityLevel"],
+      "inherits": "AbdSkill"
+    },
+    "SupportSkill": {
+      "attributes": [],
+      "inherits": "PracticeSkill"
+    },
+    "ContextDrivenDeliverySkill": {
+      "attributes": [],
+      "inherits": "AbdSkill"
+    },
+    "Practice": {
+      "attributes": ["name", "rootPath", "perspective", "references", "skills", "agents"],
+      "inherits": null
+    },
+    "Reference": {
+      "attributes": ["name", "filePath"],
+      "inherits": null
+    },
+    "Rule": {
+      "attributes": ["name", "filePath"],
+      "inherits": null
+    },
+    "Scanner": {
+      "attributes": ["name", "filePath"],
+      "inherits": null
+    },
+    "Template": {
+      "attributes": ["name", "filePath"],
+      "inherits": null
+    },
+    "AiChatAgent": {
+      "attributes": ["followingSkill", "spawnedSubagents"],
+      "inherits": null
+    },
+    "Human": {
+      "attributes": [],
+      "inherits": null
+    },
+    "Subagent": {
+      "attributes": ["persona"],
+      "inherits": "AiChatAgent"
+    },
+    "Agent": {
+      "attributes": ["name", "filePath"],
+      "inherits": null
+    },
+    "Script": {
+      "attributes": ["name", "filePath"],
+      "inherits": null
+    },
+    "ContextDrivenDeliverySession": {
+      "attributes": ["topic", "startedAt", "rootPath", "entryPoint", "checklist", "journal"],
+      "inherits": null
+    },
+    "SessionChecklist": {
+      "attributes": ["filePath", "entryPointRow", "rows"],
+      "inherits": null
+    },
+    "ChecklistRow": {
+      "attributes": ["description", "state", "skillReference"],
+      "inherits": null
+    },
+    "SessionJournal": {
+      "attributes": ["filePath", "corrections"],
+      "inherits": null
+    },
+    "Correction": {
+      "attributes": ["kind", "rule", "wrongExample", "correctExample", "affectedRow"],
+      "inherits": null
+    },
+    "ContextIndex": {
+      "attributes": ["filePath", "rows"],
+      "inherits": null
+    },
+    "ContextIndexRow": {
+      "attributes": ["artifactType", "canonicalPath", "actualPath", "notes"],
+      "inherits": null
+    },
+    "VectorIndex": {
+      "attributes": ["rootPath", "embeddings", "embeddingModel"],
+      "inherits": null
+    },
+    "Chunk": {
+      "attributes": ["identifier", "sourceMarkdownPath", "content", "evidenceLabel"],
+      "inherits": null
+    },
+    "ChunkEmbedding": {
+      "attributes": ["chunkIdentifier", "vector"],
+      "inherits": null
+    },
+    "ExtractionOverview": {
+      "attributes": ["filePath"],
+      "inherits": null
+    },
+    "Sandbox": {
+      "attributes": ["rootPath", "stubs"],
+      "inherits": null
+    },
+    "DependencyStub": {
+      "attributes": ["dependencyName", "filePath"],
+      "inherits": null
+    },
+    "SemanticIndex": {
+      "attributes": ["filePath"],
+      "inherits": null
+    }
+  },
+  "aliases": {
+    "scenario": "*"
+  }
+}

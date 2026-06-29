@@ -1,11 +1,11 @@
-﻿---
+---
 name: abd-story-acceptance-criteria
 catalog_garden_tier: practice
 catalog_garden_order: 30
 catalogue_one_liner: >-
   State exactly what must be true for a story to be done — so everyone agrees on 'finished'.
 description: >-
-  Write WHEN/THEN/AND/BUT acceptance criteria that define done for each story. Use when writing or reviewing exploration-phase behavior for stories.
+  Write When/Then/And/But behaviors that define done for each story. Use when writing or reviewing exploration-phase behavior for stories.
 context-perspective: stories
 context-fidelity:
   - level: exploration
@@ -73,9 +73,11 @@ Read these files:
 
 | Template | What to produce |
 | --- | --- |
-| `templates/acceptance-criteria.md` | Story-level AC using WHEN/THEN/AND/BUT per `reference/concepts.md`. Per story, include a **Domain terms** section: key words and phrases for concepts, state, actions, and rules used in that story's AC. **Source traceability:** each numbered AC must cite **Evidence** (chapter, section, page, paragraph, chunk id, etc.) or a per-story **Source evidence** table. **Do not** paste the template's `## Instructions` section into generated project files. |
+| `templates/acceptance-criteria.md` | Story-level behaviors using *When*/*Then*/*And*/*But* per `reference/concepts.md`. Per story: **Domain terms** section, a **Behaviors** numbered list, and an **Evidence** table at the end of the story (one row per behavior #). Never inline Evidence after individual behaviors. **Do not** paste the template's `## Instructions` section into generated project files. |
 
-**Consistency:** WHEN/THEN semantics, story coverage, **domain terms** (same vocabulary; italics on domain terms and domain list), **source evidence per AC**, and ordering must be complete throughout the `.md` artifact. Generated artifacts contain **only** stakeholder-facing sections from the templates.
+**Notation:** Step keywords (*When*, *Then*, *And*, *But*) use `*single-star italic*`, sentence case. Domain terms in step text use `**double-star bold**`. Domain term list entries use `*italic*`. Evidence lives in a `### Evidence` table at the end of each story.
+
+**Consistency:** *When*/*Then* semantics, story coverage, domain terms (same vocabulary throughout), source evidence (per-story table), and ordering must be complete throughout the `.md` artifact. Generated artifacts contain **only** stakeholder-facing sections from the templates.
 
 **If new files are added** under `templates/` later, produce a corresponding artifact for **each** new template the same way.
 
@@ -89,12 +91,12 @@ Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.m
 
 **Goal:** Inspect what was built — read artifacts as reviewers.
 
-- **Behavioral language** — every AC uses observable language; no capability statements ("can do").
-- **Domain terms** — each story has a Domain terms section; all terms traced to a domain source.
-- **WHEN/THEN/AND/BUT** — correct keywords; no Given in AC; no implementation detail.
-- **Atomic AC** — general case once; follow-on AC are deltas only.
+- **Behavioral language** — every behavior uses observable language; no capability statements ("can do").
+- **Domain terms** — each story has a Domain terms section; all terms traced to a domain source; terms in step text use `**bold**`; step keywords use `*italic*`.
+- **When/Then/And/But** — correct keywords, sentence case, single-star italic; no *Given* in AC; no implementation detail.
+- **Atomic behaviors** — general case once; follow-on behaviors are deltas only.
 - **Actor alternation** — no long runs of the same actor without switching (scanner enforces).
-- **Source evidence** — each AC cites evidence or a per-story source table.
+- **Evidence table** — each story has a `### Evidence` table after `### Behaviors`; no inline Evidence after individual behavior items.
 - **No bundle markers** — `SKILL.md` has no `<!-- execute_rules:bundle_rules -->` markers.
 
 ---

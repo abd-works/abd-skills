@@ -472,9 +472,39 @@ def _compute_edge_segments_ex(edge_cell, id_to_geo):
                 py = float(pt.get("y", "0"))
                 waypoints.append((px, py))
 
+    def _expand_orthogonal_seg(pa, pb, prev_dir):
+        """Return list of points (excluding ``pa``) representing the H-V or
+        V-H expansion of segment ``pa→pb`` (or a single point if it is
+        already axis-aligned). ``prev_dir`` is the direction of the
+        previous segment ("h", "v" or None).
+        """
+        ax, ay = pa
+        bx, by = pb
+        if abs(bx - ax) < 1 or abs(by - ay) < 1:
+            return [(bx, by)], ("v" if abs(bx - ax) < 1 else "h")
+        # Diagonal. Follow the previous direction first so the rendered
+        # geometry doesn't ricochet.
+        if prev_dir == "v":
+            corner = (ax, by)
+            return [corner, (bx, by)], "h"
+        corner = (bx, ay)
+        return [corner, (bx, by)], "v"
+
     if waypoints:
         points = [p1] + waypoints + [p2]
-        return [(points[i], points[i + 1]) for i in range(len(points) - 1)], False
+        # Walk consecutive pairs, expanding any diagonal so the audit sees
+        # what drawio renders. The is_approximate flag stays False because
+        # we explicitly have route geometry.
+        expanded = [points[0]]
+        prev_dir = None
+        for i in range(len(points) - 1):
+            next_pts, prev_dir = _expand_orthogonal_seg(
+                expanded[-1], points[i + 1], prev_dir
+            )
+            expanded.extend(next_pts)
+        return [
+            (expanded[i], expanded[i + 1]) for i in range(len(expanded) - 1)
+        ], False
 
     x1, y1 = p1
     x2, y2 = p2
@@ -918,6 +948,32 @@ def create_edge(root, source_id, target_id, edge_type, label="",
     geo.set("as", "geometry")
 
     return cell
+
+
+def add_edge_waypoints(edge_cell, points):
+    """Attach ``<Array as="points">`` waypoints to an edge's geometry.
+
+    ``points`` is a sequence of ``(x, y)`` tuples in absolute page coordinates.
+    Existing waypoints on the edge are replaced.
+
+    Draw.io's orthogonal router honours these waypoints, so callers can use them
+    to dog-leg an edge around an intervening class.
+    """
+    if not points:
+        return
+    geo = edge_cell.find("mxGeometry")
+    if geo is None:
+        geo = ET.SubElement(edge_cell, "mxGeometry")
+        geo.set("relative", "1")
+        geo.set("as", "geometry")
+    for existing in geo.findall("Array"):
+        geo.remove(existing)
+    arr = ET.SubElement(geo, "Array")
+    arr.set("as", "points")
+    for x, y in points:
+        pt = ET.SubElement(arr, "mxPoint")
+        pt.set("x", str(int(round(x))))
+        pt.set("y", str(int(round(y))))
 
 
 def set_edge_anchors(cell, exit_x=None, exit_y=None, entry_x=None, entry_y=None):

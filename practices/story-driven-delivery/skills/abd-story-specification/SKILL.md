@@ -83,7 +83,7 @@ Never use a plain `Scenario` block when a story covers multiple paths. If paths 
 - Use **Background** when three or more scenarios share identical starting state (Given/And only).
 - Name each scenario by its **outcome**, not its action.
 - Cover at least one happy path, one failure or rejection, and any edge cases implied by the story.
-- If *Acceptance Criteria* exist, use the main-flow AC as your spine: convert WHEN → When, THEN → Then, add Given preconditions.
+- If *Acceptance Criteria* exist, use the main-flow behaviors as your spine: the *When*/*Then* steps map directly to scenario When/Then; add *Given* preconditions and examples.
 - **Start with Scenario Outline** for every story with more than one scenario. Only fall back to plain Scenario when a story has a single, non-parameterisable path.
 - **Stubbed external services:** When a scenario involves a stubbed service (hardcoded request + response), apply `rules/stub-service-interaction-structure.md`: declare the stub in **Given**, express the system-captures → system-forwards → service-returns sequence in **When**, assert only the business outcome in **Then**. Never put a stub response in **Then**. For every new stub input/output pair introduced, note it for stub fixture update (see `abd-story-acceptance-test` rule `stub-data-sync-with-scenarios`).
 
@@ -104,9 +104,10 @@ Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.m
 
 **Goal:** Inspect what was built — read the artifacts as reviewers.
 
-- **Given/When/Then structure** — correct keywords; Background is state-only; multiple When/Then beats where the flow requires.
-- **Trailing spaces** — every step line (Given, When, Then, And, But) ends with two trailing spaces so markdown preview renders each step on its own line.
-- **Domain emphasis** — domain-significant terms use *italics* consistently; concept names match the domain model exactly.
+- **Given/When/Then structure** — correct keywords, sentence case, single-star italic; Background is state-only; multiple When/Then beats where the flow requires.
+- **Trailing spaces** — every step line ends with two trailing spaces so markdown preview renders each step on its own line.
+- **Domain emphasis** — domain terms in steps use `**double-star bold**`; literal values use `*single-star italic*`; concept names match the domain model exactly.
+- **Evidence table** — each story has a `### Evidence` table after `### Behaviors`; no inline Evidence after individual scenarios.
 - **Scenario Outline is the default** — every multi-scenario story uses Scenario Outline with Examples tables. Plain Scenario only for truly single-path stories with no data variation.
 - **Coverage** — happy path, failure path, and edge cases implied by story or AC are visible.
 - **Domain model grounding** — `domain.json` matches or has been produced if a domain model file exists.
