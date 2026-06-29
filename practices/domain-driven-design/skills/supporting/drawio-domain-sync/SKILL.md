@@ -1,4 +1,4 @@
-﻿---
+---
 name: drawio-domain-sync
 catalog_garden_order: 7
 catalogue_one_liner: >-
@@ -28,8 +28,9 @@ Keep domain diagrams and source models in sync — so the team reads one truth, 
 § Bootstrap — [`common/reference/skill-workflow.md`](../../../../../common/reference/skill-workflow.md).
 
 Also read:
-- **`reference/agentic-repair-loop.md`** — eval loop: how to archive the evals folder, write `violations.md`, capture fail/pass fixtures, and iterate until all scanners pass.
-- **`reference/manual-repair-loop.md`** — how to log a user-fixed issue back into the eval fixtures (fail + pass + cases.json) without running the agentic loop.
+- **`common/reference/agentic-repair-loop.md`** — eval loop: archive evals folder, write `violations.md`, capture fail/pass fixtures, iterate until all scanners pass.
+- **`common/reference/manual-repair-loop.md`** — log a user-fixed issue back into eval fixtures (fail + pass + cases.json) without running the agentic loop.
+- **`reference/repair-tips.md`** — drawio-specific fix patterns (edge routing corridors, anchor placement, drawio_tools API) — read before writing any fix script.
 
 ## Read
 
@@ -47,7 +48,7 @@ Also read:
 
 [`reference/generate.md`](reference/generate.md).
 
-When audit finds definitive violations, follow **`reference/agentic-repair-loop.md`**.
+When audit finds definitive violations, follow **`common/reference/agentic-repair-loop.md`**. Read **`reference/repair-tips.md`** before writing any fix code.
 
 ## Validate
 

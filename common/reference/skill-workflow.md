@@ -80,3 +80,22 @@ After the scanner pass, check whether the active skill has **`reference/diagram-
 ## Correction process
 
 When something is wrong: identify → log → re-generate → iterate on the output until correct, then optionally improve the source skill. See `skill-helpers/instructions/log-and-fix-skill-errors` for the full loop. Put the log under the engagement tree — not inside the skill package.
+
+---
+
+## Repair loops
+
+When the output has definitive failures (scanner violations, rule breaches, or
+user-reported problems), use the appropriate repair loop:
+
+- **[`agentic-repair-loop.md`](./agentic-repair-loop.md)** — scanners found
+  violations (or the user found a gap that needs a scanner fix first); run the
+  iterative fix loop as a background sub-agent until all checks pass.
+- **[`manual-repair-loop.md`](./manual-repair-loop.md)** — the user already
+  fixed the problem themselves; capture the original bad output and the
+  corrected output as fail/pass fixtures and update `eval/cases.json`.
+
+Both loops write fixtures to `eval/fail/` and `eval/pass/` inside the skill
+package and register them in `eval/cases.json`. If the fix reveals a systematic
+generator problem, improve the generator script and document in
+`evals/SUMMARY.md`.
