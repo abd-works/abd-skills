@@ -27,9 +27,13 @@ State exactly what must be true for a story to be done — so everyone agrees on
 
 § Read-gates — `rules/`, `reference/`, `templates/`, practice files linked from [`reference/concepts.md`](reference/concepts.md).
 
+## Input traps
+
+[`reference/input-traps.md`](reference/input-traps.md) — pre-flight in every run, not grill-only.
+
 ## Grill me
 
-[`common/grill-me-with-practice-skill.md`](../../../../common/grill-me-with-practice-skill.md); questions from [`reference/input-traps.md`](reference/input-traps.md).
+[`common/grill-me-with-practice-skill.md`](../../../../common/grill-me-with-practice-skill.md) — only when the invocation includes "grill me".
 
 ## Generate
 
