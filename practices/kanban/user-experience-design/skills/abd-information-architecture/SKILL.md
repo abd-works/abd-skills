@@ -19,7 +19,7 @@ Define what screens exist and how users move between them � so scope disagreem
 
 ## Grill prompts
 
-Read `common/grill-me-with-practice-skill.md` before grilling.
+Read `common/reference/grill-me-with-practice-skill.md` before grilling.
 
 Before generating, surface these:
 

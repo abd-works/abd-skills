@@ -386,7 +386,7 @@ Session journal / checklist fixtures; same scanner→AI pattern where rules exis
 | --- | --- |
 | Correction process | `common/instructions/log-and-fix-skill-errors.instructions.md` |
 | Fix skill | `common/prompts/fix-skill.prompt.md` |
-| Validate workflow | `common/skill-workflow.md` |
+| Validate workflow | `common/reference/skill-workflow.md` |
 | Scanner driver | `common/scripts/run_scanners.py` |
 | Secure-code fixture pattern | `stages/engineering/abd-secure-code/test/` |
 | Greenfield vs brownfield | `practices/story-driven-delivery/reference/new-vs-existing-system.md` |

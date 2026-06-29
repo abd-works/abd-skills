@@ -21,7 +21,7 @@ Make ownership and responsibilities explicit for every concept — who creates i
 
 ## Output file
 
-**Deliverables folder:** see `../common/skill-workflow.md` — Output file resolution.
+**Deliverables folder:** see `../common/reference/skill-workflow.md` — Output file resolution.
 
 **File name:** `domain-model.md`. Add a `<name>-` prefix only when disambiguation is needed. For multi-module engagements: `<deliverables-folder>/modules/<module-name>-domain-model.md`.
 
@@ -31,7 +31,7 @@ The file is **not** an in-place enrichment of the domain-language file. It is a 
 
 ## Grill prompts
 
-Read `common/grill-me-with-practice-skill.md` before grilling.
+Read `common/reference/grill-me-with-practice-skill.md` before grilling.
 
 Before generating, surface these common input traps:
 
@@ -59,7 +59,7 @@ Run once after `domain-model.md` is written. To regenerate, re-run the same comm
 
 ## Agent Instructions
 
-Follow `../common/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
+Follow `../common/reference/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
@@ -80,7 +80,7 @@ Read these files:
 
 ### 3. Validate
 
-Run scanners and emit per-rule verdicts — see `../common/skill-workflow.md` § Validate output.
+Run scanners and emit per-rule verdicts — see `../common/reference/skill-workflow.md` § Validate output.
 
 ---
 

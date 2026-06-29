@@ -18,7 +18,7 @@ Respond to client proposals by converting materials to memory, creating a respon
 
 ## Output file
 
-**Deliverables folder:** see `../common/skill-workflow.md` — Output file resolution.
+**Deliverables folder:** see `../common/reference/skill-workflow.md` — Output file resolution.
 
 **File name:** `response/strategy.md` for the strategy; answer files per batch in `response/`. Add an `Accelerator Table.md` when answers reference appendix items.
 
@@ -26,7 +26,7 @@ Respond to client proposals by converting materials to memory, creating a respon
 
 ## Agent Instructions
 
-> **MANDATORY — read `../common/skill-workflow.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.**
+> **MANDATORY — read `../common/reference/skill-workflow.md` before starting. It defines read-gates, output file resolution, and the per-rule verdict format.**
 
 ### 1. Read context
 
@@ -60,7 +60,7 @@ Read every file in **`rules/`**; author to those rules.
 
 ### 3. Validate
 
-Emit per-rule verdicts per `../common/skill-workflow.md`.
+Emit per-rule verdicts per `../common/reference/skill-workflow.md`.
 
 ---
 

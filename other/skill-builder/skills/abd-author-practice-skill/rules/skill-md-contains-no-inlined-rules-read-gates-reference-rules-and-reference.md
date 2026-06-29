@@ -8,7 +8,7 @@ Failure is a `SKILL.md` that still has bundle markers, inlined rule prose, or an
 
 ## DO
 
-- Keep **`SKILL.md`** as a thin router: purpose, when-to-use, Agent Instructions (mandatory `common/skill-workflow.md` read-gates). Orchestration in **`reference/generate.md`**; no template tables; no `## Validate` when scanners exist.
+- Keep **`SKILL.md`** as a thin router: purpose, when-to-use, Agent Instructions (mandatory `common/reference/skill-workflow.md` read-gates). Orchestration in **`reference/generate.md`**; no template tables; no `## Validate` when scanners exist.
 
   **Example (pass):** `SKILL.md` is Purpose + one-line mandatory workflow read; `reference/generate.md` holds fidelity branching; `rules/` + scanners handle validation.
 

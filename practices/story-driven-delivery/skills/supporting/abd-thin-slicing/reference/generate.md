@@ -16,7 +16,7 @@
 
 ## Pre-validate scanner
 
-Before `common/skill-workflow.md` § Validate output, run:
+Before `common/reference/skill-workflow.md` § Validate output, run:
 
 ```bash
 python <skill-root>/scanners/story-name-exact-match-scanner.py --workspace <path-to-project>

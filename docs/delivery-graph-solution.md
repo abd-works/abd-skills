@@ -456,8 +456,8 @@ docs/
 
 | Piece | Path |
 | --- | --- |
-| Context taxonomy (perspectives) | `common/context-taxonomy.md` |
-| Folder conventions | `common/folder-conventions.md` |
+| Context taxonomy (perspectives) | `common/reference/context-taxonomy.md` |
+| Folder conventions | `common/reference/folder-conventions.md` |
 | Story graph ops | `practices/story-driven-delivery/skills/supporting/story-graph-ops/SKILL.md` |
 | Scenarios on story graph | `practices/story-driven-delivery/skills/abd-story-specification/rules/scenarios-on-story-graph.md` |
 | Semantic context index | `practices/context-driven-delivery/skills/abd-context-semantic-index/SKILL.md` |

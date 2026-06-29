@@ -17,7 +17,7 @@ Turn architecture decisions into running code — so the spec is not just a docu
 
 ## Grill prompts
 
-Read `common/grill-me-with-practice-skill.md` before grilling.
+Read `common/reference/grill-me-with-practice-skill.md` before grilling.
 
 Before generating, surface these common input traps:
 
@@ -60,7 +60,7 @@ The companion **abd-architecture-specification** skill shows the *parameterized 
 
 ## Agent Instructions
 
-Follow `../common/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
+Follow `../common/reference/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 0. Required inputs — resolve or ask
 

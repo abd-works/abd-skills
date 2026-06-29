@@ -14,10 +14,10 @@ alwaysApply: false
 Before skill read-gates:
 
 1. **`cdd-context-index.md`** at workspace root when present.
-2. **Existing deliverables** for this scope (`common/skill-index.md` filenames).
-3. **Decision records** — all relevant `DR-*.md` / `ADR-*.md` per `common/decision-record.md` (Accepted in full). Check `docs/decisions/` plus practice `decisions/` folders and session `decisions/` when applicable.
+2. **Existing deliverables** for this scope (`common/reference/skill-index.md` filenames).
+3. **Decision records** — all relevant `DR-*.md` / `ADR-*.md` per `common/reference/decision-record.md` (Accepted in full). Check `docs/decisions/` plus practice `decisions/` folders and session `decisions/` when applicable.
 
-Write new DRs per `common/decision-record.md` when criteria are met.
+Write new DRs per `common/reference/decision-record.md` when criteria are met.
 
 ---
 
@@ -28,13 +28,13 @@ Write new DRs per `common/decision-record.md` when criteria are met.
 1. **The path the user told you to use.** If the user names a file or folder, use exactly that.
 2. **`cdd-context-index.md` at the workspace root.** If this file lists a path for this artifact, use that path. Update the row if it changes.
 3. **Where the engagement already keeps deliverables.** Write next to existing phase output in the **same** folder.
-4. **Canonical scaffold path** from `common/folder-conventions.md` for the active skill.
+4. **Canonical scaffold path** from `common/reference/folder-conventions.md` for the active skill.
 5. **The workspace root.** Last resort only.
 
 **File name** — after the folder is resolved:
 
 1. If the active skill has **`reference/output.md`**, read it for file name, naming pattern, or non-`docs/` rules (e.g. project test folder).
-2. Otherwise use the file name in `common/folder-conventions.md` for this skill (typically `<artifact-stem>.md`).
+2. Otherwise use the file name in `common/reference/folder-conventions.md` for this skill (typically `<artifact-stem>.md`).
 3. Add a `<name>-` prefix only when disambiguation is needed.
 
 Most skills need no `reference/output.md` — `folder-conventions.md` is enough.
@@ -49,7 +49,7 @@ Before authoring any artifact, read in this order:
 2. **`reference/`** — every file except `grill-me.md` (grill mode only — step 5), **read in full**.
 3. **`templates/`** — every file in the skill's `templates/` folder, **read in full**.
 4. **Practice `reference/`** — every file in `<family>-perspective.md` shared-reference table, plus every practice file linked from any file in this skill's `reference/` folder, **read in full**.
-5. **Grill mode only** — read `common/grill-me-with-practice-skill.md` and the active skill's `reference/grill-me.md` in full; questions from `grill-me.md` only, not `input-traps.md`.
+5. **Grill mode only** — read `common/reference/grill-me-with-practice-skill.md` and the active skill's `reference/grill-me.md` in full; questions from `grill-me.md` only, not `input-traps.md`.
 
 **Read each file in full** — no skimming or memory. Complete **Bootstrap** first, then steps 1–4 (and step 5 when grill mode is active).
 

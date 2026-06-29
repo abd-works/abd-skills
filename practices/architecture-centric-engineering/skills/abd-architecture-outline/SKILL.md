@@ -21,7 +21,7 @@ Establish the shared canonical picture of a system — what systems exist, how t
 
 ## Output files
 
-**Deliverables folder:** see `../common/skill-workflow.md` — Output file resolution.
+**Deliverables folder:** see `../common/reference/skill-workflow.md` — Output file resolution.
 
 Generate from all templates in `templates/`, preserving subfolder structure. Write to `docs/architecture/diagrams/`. Add a `<name>-` prefix to `architecture-outline.md` only when disambiguation is needed.
 
@@ -29,7 +29,7 @@ Generate from all templates in `templates/`, preserving subfolder structure. Wri
 
 ## Grill prompts
 
-Read `common/grill-me-with-practice-skill.md` before grilling.
+Read `common/reference/grill-me-with-practice-skill.md` before grilling.
 
 Before generating, surface these common input traps:
 
@@ -63,14 +63,14 @@ Produces `docs/architecture/diagrams/system-context.drawio`. Must exist and veri
 
 ## Agent Instructions
 
-Follow `../common/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
+Follow `../common/reference/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
 Read these files:
 - **`reference/concepts.md`** — what an outline is, the system context diagram, the extended system-context scope (functions + tech + protocols), the mechanisms catalogue concept, guiding principles, major systems catalogue, and decision records.
 - **`reference/system-context.md`** — deeper guidance on the system context diagram.
-- **`../common/record-all-architecture-violations.md`** — violation workflow (current-state documentation only): surface pattern deviations, orphan concerns, and missing mechanisms; stop and inform the user; ask 2a/2b/2c per violation; launch a non-blocking sub-agent to write DRs and downstream artefacts. Read `../common/decision-record.md` for the DR template and criteria.
+- **`./record-all-architecture-violations.md`** — violation workflow (current-state documentation only): surface pattern deviations, orphan concerns, and missing mechanisms; stop and inform the user; ask 2a/2b/2c per violation; launch a non-blocking sub-agent to write DRs and downstream artefacts. Read `./decision-record.md` for the DR template and criteria.
 
 ### 2. Generate
 
@@ -108,11 +108,11 @@ Only after the element file is complete:
 
 **Step 2c — Record violations (existing systems only):**
 
-If you are documenting an existing system, follow `../common/record-all-architecture-violations.md` after completing steps 2a and 2b. Collect all violations, present the table, ask fix or defer, and write a Deferral ADR for every deferred item. Append the violation resolution summary to the outline document.
+If you are documenting an existing system, follow `./record-all-architecture-violations.md` after completing steps 2a and 2b. Collect all violations, present the table, ask fix or defer, and write a Deferral ADR for every deferred item. Append the violation resolution summary to the outline document.
 
 ### 3. Validate
 
-Run scanners and emit per-rule verdicts — see `../common/skill-workflow.md` § Validate output.
+Run scanners and emit per-rule verdicts — see `../common/reference/skill-workflow.md` § Validate output.
 
 Also verify diagram:
 

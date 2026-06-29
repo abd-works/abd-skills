@@ -9,7 +9,7 @@ Usage:
     python scripts/build_skill_index.py
 
 Output:
-    common/skill-index.md  (relative to .cursor/skills/)
+    common/reference/skill-index.md  (relative to .cursor/skills/)
 """
 
 from __future__ import annotations
@@ -27,7 +27,7 @@ import yaml
 SCRIPT_DIR = Path(__file__).resolve().parent
 SKILL_ROOT = SCRIPT_DIR.parent          # context-driven-delivery/
 SKILLS_DIR = SKILL_ROOT.parent          # .cursor/skills/
-OUTPUT_PATH = SKILLS_DIR / "common" / "skill-index.md"
+OUTPUT_PATH = SKILLS_DIR / "common" / "reference" / "skill-index.md"
 
 PERSPECTIVES = ["domain", "stories", "ux", "architecture", "stage"]
 FIDELITY_ORDER = ["context", "shaping", "discovery", "exploration", "specification", "engineering"]

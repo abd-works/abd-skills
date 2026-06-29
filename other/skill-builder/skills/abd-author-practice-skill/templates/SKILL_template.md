@@ -50,11 +50,11 @@ Load this skill when **any** of the following apply:
 
 ## Agent Instructions
 
-**MANDATORY:** [`common/skill-workflow.md`](../../../../common/skill-workflow.md) — read in full; complete § Bootstrap and § Read-gates before generating or validating.
+**MANDATORY:** [`common/reference/skill-workflow.md`](../../../../common/reference/skill-workflow.md) — read in full; complete § Bootstrap and § Read-gates before generating or validating.
 
 ## Bootstrap
 
-§ Bootstrap — [`common/skill-workflow.md`](../../../../common/skill-workflow.md).
+§ Bootstrap — [`common/reference/skill-workflow.md`](../../../../common/reference/skill-workflow.md).
 
 ## Read
 

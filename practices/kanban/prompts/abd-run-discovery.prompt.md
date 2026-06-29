@@ -4,7 +4,7 @@ description: >-
 agent: agent
 ---
 
-Read `common/stages/discovery.md` and `practices/kanban/reference/artifact-layout.md`.
+Read `common/reference/stages/discovery.md` and `practices/kanban/reference/artifact-layout.md`.
 
 **Before starting:** run `/keyquestions` to confirm which skills are in scope and which are HIL checkpoints.
 

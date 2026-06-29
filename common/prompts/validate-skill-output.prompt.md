@@ -8,4 +8,4 @@ I just generated output for a skill. Now validate it.
    `python common/scripts/run_scanners.py --skill-root <skill> --workspace <abs-path>`
    Fix all violations and re-run until clean.
 
-See **`common/skill-workflow.md`** § Validate output for the full process.
+See **`common/reference/skill-workflow.md`** § Validate output for the full process.

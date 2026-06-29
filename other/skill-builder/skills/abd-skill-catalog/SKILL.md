@@ -118,7 +118,7 @@ Each listed package includes:
      nested `skills/supporting/<skill>/` packages. Plugin detail pages group
      **core** (top-level under `skills/`) vs **supporting** (`skills/supporting/`).
      The delivery kanban reads stage tables from
-     `common/stages/*.md` and omits supporting/background
+     `common/reference/stages/*.md` and omits supporting/background
      skills from stage tiles. Below the board, **Supporting** (orange) and
      **Foundational** (grey) crosscut rows come from
      `scripts/catalog_supporting_groups.py` — Kanban · domain-driven design ·

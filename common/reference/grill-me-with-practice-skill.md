@@ -18,7 +18,7 @@ You are grilling to establish shared understanding at the **current fidelity lev
 
 You must ask questions **one at a time**, waiting for feedback before continuing.
 
-If a question can be answered by reading existing skill outputs or the codebase, read them instead of asking. Use `common/skill-index.md` output filenames to know what to look for.
+If a question can be answered by reading existing skill outputs or the codebase, read them instead of asking. Use `common/reference/skill-index.md` output filenames to know what to look for.
 
 ---
 
@@ -51,7 +51,7 @@ Use this when the user wants to sharpen one skill's input without bringing in ot
 
 ### Check what already exists
 
-Before asking the user anything, look at what's already been produced. Check `common/skill-index.md` for the output filenames at each perspective and fidelity level — scan for those files in the workspace. If something has been defined, don't re-ask. Reference it.
+Before asking the user anything, look at what's already been produced. Check `common/reference/skill-index.md` for the output filenames at each perspective and fidelity level — scan for those files in the workspace. If something has been defined, don't re-ask. Reference it.
 
 ### Surface contradictions across perspectives *(default mode only)*
 

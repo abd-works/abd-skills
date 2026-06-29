@@ -43,7 +43,7 @@ Read the supporting reference files before generating:
 
 ## Grill prompts
 
-Read `common/grill-me-with-practice-skill.md` before grilling.
+Read `common/reference/grill-me-with-practice-skill.md` before grilling.
 
 Before generating, surface these common input traps:
 
@@ -81,7 +81,7 @@ Read every file listed under **Core concepts** above.
 
 ### 3. Validate
 
-Run scanners and emit per-rule verdicts — see `../common/skill-workflow.md` § Validate output.
+Run scanners and emit per-rule verdicts — see `../common/reference/skill-workflow.md` § Validate output.
 
 ---
 

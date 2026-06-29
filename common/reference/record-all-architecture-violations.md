@@ -83,7 +83,7 @@ The sub-agent executes the actions for each item (see below) and produces a reso
 
 ### 2a — DR and proceed
 
-1. Read `../common/decision-record.md` — DR template and criteria.
+1. Read `./decision-record.md` — DR template and criteria.
 2. Write one DR file to `docs/architecture/decisions/` numbered after the current highest.
 3. Use the **Violation DR** format (see below).
 4. Add the DR to the ADR list in the architecture document.
@@ -126,7 +126,7 @@ The thin slice is not fully planned here. It is a placeholder that signals plann
 
 ## Violation DR format
 
-Use `../common/decision-record.md` as the base template. For violations, fill the fields as follows:
+Use `./decision-record.md` as the base template. For violations, fill the fields as follows:
 
 ```markdown
 # DR-{NNN}: Live with — {category}: {short description}
@@ -166,7 +166,7 @@ We will {proceed with the current state | address this through the strategy desc
 - Collect all violations before surfacing them — one stop, not many.
 - Launch the resolution sub-agent in the background; do not block main architecture work.
 - Write the DR immediately when the user confirms the choice — not at the end of the session.
-- Use `../common/decision-record.md` for the DR template.
+- Use `./decision-record.md` for the DR template.
 
 **DO NOT:**
 - Record security risks, NFR breaches, or technical debt through this workflow — they are plain observations only.

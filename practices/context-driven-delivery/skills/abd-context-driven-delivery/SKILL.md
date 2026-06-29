@@ -16,13 +16,13 @@ Your core mandate: **never silently resolve ambiguity. Even a glimmer of unknown
 
 Read your reference material:
 
-- **[`common/context-taxonomy.md`](../../../../common/context-taxonomy.md)** — what perspectives and fidelity levels are. Definitions only.
-- **[`common/grill-me-with-practice-skill.md`](../../../../common/grill-me-with-practice-skill.md)** — how to grill, generate-to-learn loop, anti-hallucination rules.
-- **[`common/skill-index.md`](../../../../common/skill-index.md)** — every CDD-routable skill by perspective × fidelity with output filenames and grill prompts.
-- **[`common/folder-conventions.md`](../../../../common/folder-conventions.md)** — canonical `docs/` subtree showing where every skill writes its deliverables. Use this to locate existing artifacts and to tell specialists where to write. The user may override any path; this is the sensible default.
+- **[`common/reference/context-taxonomy.md`](../../../../common/reference/context-taxonomy.md)** — what perspectives and fidelity levels are. Definitions only.
+- **[`common/reference/grill-me-with-practice-skill.md`](../../../../common/reference/grill-me-with-practice-skill.md)** — how to grill, generate-to-learn loop, anti-hallucination rules.
+- **[`common/reference/skill-index.md`](../../../../common/reference/skill-index.md)** — every CDD-routable skill by perspective × fidelity with output filenames and grill prompts.
+- **[`common/reference/folder-conventions.md`](../../../../common/reference/folder-conventions.md)** — canonical `docs/` subtree showing where every skill writes its deliverables. Use this to locate existing artifacts and to tell specialists where to write. The user may override any path; this is the sensible default.
 - **`cdd-context-index.md`** (workspace root) — index of every artifact moved away from its canonical path. **Check this before the scaffold tree when scanning for existing outputs.** Create it (from [`common/context-scaffold/cdd-context-index.md`](../../../../common/context-scaffold/cdd-context-index.md)) and add a row whenever the user declares or you discover a non-standard path.
 - **[`common/context-scaffold/`](../../../../common/context-scaffold/)** — empty file-and-folder skeleton matching the conventions above. Useful when starting a new workspace.
-- **[`common/stages/`](../../../../common/stages/)** — stage definitions (context, shaping, discovery, exploration, specification, engineering): entry conditions, exit gates, skill order per stage.
+- **[`common/reference/stages/`](../../../../common/reference/stages/)** — stage definitions (context, shaping, discovery, exploration, specification, engineering): entry conditions, exit gates, skill order per stage.
 
 Perspective files (read when routing to a specialist):
 
@@ -43,7 +43,7 @@ Perspective files (read when routing to a specialist):
    - **Then:** use the scaffold tree in `folder-conventions.md` — look under `docs/domain/`, `docs/stories/`, `docs/ux/`, `docs/architecture/`, and `docs/sessions/`.
    - **Also:** use the output filenames in `skill-index.md` as a second cross-reference.
    - Time-box this — if not obvious, ask the user where outputs live.
-2. Review what exists against the current ask. At each fidelity level (see common/context-taxonomy.md`), does the existing artifact cover the ask?
+2. Review what exists against the current ask. At each fidelity level (see common/reference/context-taxonomy.md`), does the existing artifact cover the ask?
 3. Recommend an entry point:
    - No workspace memory or source material needs ingesting → context
    - Memory exists, nothing shaped → shaping
@@ -62,7 +62,7 @@ From the confirmed entry point, walk: **fidelity level × perspective** (context
 1. Check existing artifacts — sufficient for this ask?
    - Yes → acknowledge, move on.
    - No → identify which skill covers this (from `skill-index.md`).
-2. Grill the user (per `common/grill-me-with-practice-skill.md`) — derive questions from the skill's grill prompts and rules.
+2. Grill the user (per `common/reference/grill-me-with-practice-skill.md`) — derive questions from the skill's grill prompts and rules.
 3. Route immediately when enough is answered — do not keep resolving in conversation.
 
 **Routing:**

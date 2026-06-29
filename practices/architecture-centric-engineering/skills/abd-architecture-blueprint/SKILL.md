@@ -21,7 +21,7 @@ Make architecture legible by naming every mechanism that constrains how code is 
 
 ## Output files
 
-**Deliverables folder:** see `../common/skill-workflow.md` — Output file resolution.
+**Deliverables folder:** see `../common/reference/skill-workflow.md` — Output file resolution.
 
 Generate from all templates in `templates/`, preserving subfolder structure. Write to `docs/architecture/`. Add a `<name>-` prefix to `architecture-blueprint.md` only when disambiguation is needed.
 
@@ -29,7 +29,7 @@ Generate from all templates in `templates/`, preserving subfolder structure. Wri
 
 ## Grill prompts
 
-Read `common/grill-me-with-practice-skill.md` before grilling.
+Read `common/reference/grill-me-with-practice-skill.md` before grilling.
 
 Before generating, surface these common input traps:
 
@@ -65,14 +65,14 @@ Produces four diagrams under `docs/architecture/`: `platform-architecture.drawio
 
 ## Agent Instructions
 
-Follow `../common/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
+Follow `../common/reference/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
 Read these files:
 - **`reference/concepts.md`** — what a blueprint is, the platform diagram, modules vs mechanisms, how mechanisms are deepened from the outline (module interactions + platform detail), testing architecture, decision records, and what the blueprint does NOT contain.
 - **`reference/examples.md`** — typical blueprint file tree and the shape of a good blueprint.
-- **`../common/record-all-architecture-violations.md`** — violation workflow (current-state documentation only): surface pattern deviations, orphan concerns, and missing mechanisms; stop and inform the user; ask 2a/2b/2c per violation; launch a non-blocking sub-agent to write DRs and downstream artefacts. Read `../common/decision-record.md` for the DR template and criteria.
+- **`./record-all-architecture-violations.md`** — violation workflow (current-state documentation only): surface pattern deviations, orphan concerns, and missing mechanisms; stop and inform the user; ask 2a/2b/2c per violation; launch a non-blocking sub-agent to write DRs and downstream artefacts. Read `./decision-record.md` for the DR template and criteria.
 
 Also read the project's **`architecture-outline.md`** to obtain the mechanism technology choices, NFR justifications, and guiding principles before starting. The blueprint deepens the outline — it does not re-state or re-decide what the outline recorded.
 
@@ -113,11 +113,11 @@ Fill every section with real names and 1-2 sentence descriptions; no placeholder
 
 **Step 2c — Record violations (existing systems only):**
 
-If you are documenting an existing system, follow `../common/record-all-architecture-violations.md` after completing steps 2a and 2b. Collect all violations found across mechanism and module descriptions, present the table, ask fix or defer, and write a Deferral ADR for every deferred item. Append the violation resolution summary to the blueprint document.
+If you are documenting an existing system, follow `./record-all-architecture-violations.md` after completing steps 2a and 2b. Collect all violations found across mechanism and module descriptions, present the table, ask fix or defer, and write a Deferral ADR for every deferred item. Append the violation resolution summary to the blueprint document.
 
 ### 3. Validate
 
-Run scanners and emit per-rule verdicts — see `../common/skill-workflow.md` § Validate output.
+Run scanners and emit per-rule verdicts — see `../common/reference/skill-workflow.md` § Validate output.
 
 Also verify diagrams:
 

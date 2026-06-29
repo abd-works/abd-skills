@@ -21,7 +21,7 @@ Map who gets what value from this product — so you build for real outcomes, no
 
 ## Grill prompts
 
-Read `common/grill-me-with-practice-skill.md` before grilling.
+Read `common/reference/grill-me-with-practice-skill.md` before grilling.
 
 Before generating, surface these:
 
@@ -35,7 +35,7 @@ Before generating, surface these:
 
 ## Output file
 
-**Deliverables folder:** see `../common/skill-workflow.md` — Output file resolution.
+**Deliverables folder:** see `../common/reference/skill-workflow.md` — Output file resolution.
 
 **File name:** `impact-map.md` (and paired outputs). Add a `<name>-` prefix only when disambiguation is needed.
 
@@ -43,7 +43,7 @@ Before generating, surface these:
 
 ## Agent Instructions
 
-Follow `../common/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
+Follow `../common/reference/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
@@ -72,7 +72,7 @@ Read these files:
 
 ### 3. Validate
 
-Run scanners and emit per-rule verdicts — see `../common/skill-workflow.md` § Validate output.
+Run scanners and emit per-rule verdicts — see `../common/reference/skill-workflow.md` § Validate output.
 
 ---
 

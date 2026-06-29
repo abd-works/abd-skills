@@ -96,7 +96,7 @@ We will {chosen option in plain language}. {One additional sentence on the speci
 |---|---|
 | Real decision, major | Write a DR |
 | Observation, risk, or concern — not yet a decision | Note it in the document as a `> **Note:**` blockquote |
-| Violation of current-state architecture | Follow `../common/record-all-architecture-violations.md` which produces a Violation DR |
+| Violation of current-state architecture | Follow `./record-all-architecture-violations.md` which produces a Violation DR |
 | Accepted standard (no real alternative considered) | Skip — no DR needed |
 
 ---

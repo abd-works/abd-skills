@@ -1,6 +1,6 @@
 # Grill me — abd-story-acceptance-criteria
 
-**Mechanics:** [`common/grill-me-with-practice-skill.md`](../../../../common/grill-me-with-practice-skill.md) — one question at a time; generate-to-learn when enough is shared.
+**Mechanics:** [`common/reference/grill-me-with-practice-skill.md`](../../../../common/reference/grill-me-with-practice-skill.md) — one question at a time; generate-to-learn when enough is shared.
 
 Ask until "done" is unambiguous for each story:
 

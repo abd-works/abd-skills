@@ -6,7 +6,7 @@ Story map → acceptance criteria → specification → acceptance tests.
 
 **Shared reference:** [`reference/`](reference/stories-perspective.md) — perspective ladder, incomplete context, new vs existing system, diagram workflow, domain input priority, validate checklist.
 
-**Per skill:** `reference/` (all files, including `generate.md` when present), `templates/` (all files). Workflow: [`common/skill-workflow.md`](../../common/skill-workflow.md). Validation: `rules/` + scanners — no `## Validate` in `SKILL.md`.
+**Per skill:** `reference/` (all files, including `generate.md` when present), `templates/` (all files). Workflow: [`common/reference/skill-workflow.md`](../../common/reference/skill-workflow.md). Validation: `rules/` + scanners — no `## Validate` in `SKILL.md`.
 
 ## Deploy
 

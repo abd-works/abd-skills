@@ -73,7 +73,7 @@ See rule **Practice level reference folder has perspective and shared concepts**
 
 ### Input traps
 
-Every practice skill that produces artifacts from ambiguous input ships **`reference/input-traps.md`** — silent pre-flight in every run, not grill questions. Ship **`reference/grill-me.md`** separately for grill interview questions. [`common/grill-me-with-practice-skill.md`](../../../../common/grill-me-with-practice-skill.md) is mechanics only.
+Every practice skill that produces artifacts from ambiguous input ships **`reference/input-traps.md`** — silent pre-flight in every run, not grill questions. Ship **`reference/grill-me.md`** separately for grill interview questions. [`common/reference/grill-me-with-practice-skill.md`](../../../../common/reference/grill-me-with-practice-skill.md) is mechanics only.
 
 ### Diagram workflow
 
@@ -81,7 +81,7 @@ Some practice skills produce **diagram outputs**. When a skill generates a diagr
 
 - **`reference/diagram-workflow.md`** on the skill — mode and output path for this skill; links to practice-level shared CLI when applicable.
 - **Practice `reference/diagram-workflow.md`** — shared commands when multiple skills in the family use the same tooling (see `practices/story-driven-delivery/reference/diagram-workflow.md`).
-- **`common/skill-workflow.md`** § Diagram workflow — background sub-agent runs after scanner pass when `reference/diagram-workflow.md` exists.
+- **`common/reference/skill-workflow.md`** § Diagram workflow — background sub-agent runs after scanner pass when `reference/diagram-workflow.md` exists.
 
 Do **not** put `## Diagram workflow` in `SKILL.md`. See `abd-story-mapping/reference/diagram-workflow.md` for the thin skill-level pattern.
 
@@ -123,7 +123,7 @@ When you **maintain `abd-author-practice-skill`**, keep its **`rules/`** generic
 
 3. **Map hub evidence to the right parts of the target skill page.** Use the **Relevance** tag on each **Kept chunk** in **`inputs/abd-answers-retrieval.md`**: treat **`core_concept`** and **`glossary`** chunks as fuel for opening sections and **`reference/`** files; **`procedure`** and **`rule`** for how-to and **Validate**-style checks; **`example`** for examples and template hints; **`diagram_ref`** for manual or figure notes. Do not add **`scanners/*.py`** in this pass.
 
-4. **Rewrite the target `SKILL.md` as a thin router.** **Purpose**, **When to use**, and **Agent Instructions** (mandatory `common/skill-workflow.md` read-gates only). Put orchestration in **`reference/generate.md`** when needed; put practice links in **`reference/concepts.md`**. No template tables, no `## Validate` section when the skill has `rules/` and scanners — validation is `skill-workflow` § Validate output.
+4. **Rewrite the target `SKILL.md` as a thin router.** **Purpose**, **When to use**, and **Agent Instructions** (mandatory `common/reference/skill-workflow.md` read-gates only). Put orchestration in **`reference/generate.md`** when needed; put practice links in **`reference/concepts.md`**. No template tables, no `## Validate` section when the skill has `rules/` and scanners — validation is `skill-workflow` § Validate output.
 
 4a. **Create or verify the practice-level `reference/` folder.** Under `practices/<family-name>/reference/`, ensure two things exist:
    - **`<family>-perspective.md`** — the fidelity ladder table (fidelity, skill, mode) for this practice family. Create it if it does not exist; update it if a new skill has been added.
@@ -133,11 +133,11 @@ When you **maintain `abd-author-practice-skill`**, keep its **`rules/`** generic
 
 4c. **Write `reference/input-traps.md`.** At least three bold-labeled traps — pre-flight only, not grill questions (see rule **Input traps reference surfaces input ambiguities**).
 
-4g. **Write `reference/grill-me.md`.** At least three interview questions for grill mode — separate from input traps (see rule **Grill me reference holds interview questions**). Link mechanics to `common/grill-me-with-practice-skill.md` inside that file, not in `SKILL.md`.
+4g. **Write `reference/grill-me.md`.** At least three interview questions for grill mode — separate from input traps (see rule **Grill me reference holds interview questions**). Link mechanics to `common/reference/grill-me-with-practice-skill.md` inside that file, not in `SKILL.md`.
 
-4d. **Ask whether this skill produces diagram outputs.** If yes: add **`reference/diagram-workflow.md`** with mode and output path; put shared CLI in practice `reference/diagram-workflow.md` when multiple skills share tooling. Do not add `## Diagram workflow` or a Read context file list to `SKILL.md` — read-gates are in `common/skill-workflow.md`.
+4d. **Ask whether this skill produces diagram outputs.** If yes: add **`reference/diagram-workflow.md`** with mode and output path; put shared CLI in practice `reference/diagram-workflow.md` when multiple skills share tooling. Do not add `## Diagram workflow` or a Read context file list to `SKILL.md` — read-gates are in `common/reference/skill-workflow.md`.
 
-4e. **Register output in `folder-conventions.md`; add `reference/output.md` only when non-default.** Look up or add the canonical path and file name for this skill in [`common/folder-conventions.md`](../../../../common/folder-conventions.md). Do **not** add a `## Output file` section to `SKILL.md` — [`common/skill-workflow.md`](../../../../common/skill-workflow.md) § Output file resolution handles folder and file name (check `reference/output.md` if present; otherwise use `folder-conventions.md`). Add `reference/output.md` only when the skill breaks the default (e.g. tests in the project tree, multiple named outputs, non-`.md` deliverable).
+4e. **Register output in `folder-conventions.md`; add `reference/output.md` only when non-default.** Look up or add the canonical path and file name for this skill in [`common/reference/folder-conventions.md`](../../../../common/reference/folder-conventions.md). Do **not** add a `## Output file` section to `SKILL.md` — [`common/reference/skill-workflow.md`](../../../../common/reference/skill-workflow.md) § Output file resolution handles folder and file name (check `reference/output.md` if present; otherwise use `folder-conventions.md`). Add `reference/output.md` only when the skill breaks the default (e.g. tests in the project tree, multiple named outputs, non-`.md` deliverable).
 
 5. **Author `rules/*.md` on the target as output validators.** Each file targets a **named artifact**; every **DO** must be **decidable** from that artifact without extra context. Keep **step order** in **Build** in **`SKILL.md`**, not in rules. Every normative file needs **`## DO`**, **`## DO NOT`**, per-bullet **Example (pass)** / **Example (fail)**, plus enough condition text to mark pass vs fail. Point **`Source:`** at **`inputs/abd-answers-retrieval.md`** only for **hub-backed** lines; do not fake hub sources for chat-only norms. Add **`scanner:`** in front matter only if **`scanners/<stem>-scanner.py`** already exists on that package.
 
@@ -179,7 +179,7 @@ When you **maintain `abd-author-practice-skill`**, keep its **`rules/`** generic
 
 - **Target root:** **`agilebydesign-skills/skills/<skill-name>/`**
 - **Starter template:** **`skills/abd-practice-skill-builder/abd-author-practice-skill/templates/SKILL_template.md`**
-- **Scaffold + output paths:** **[`common/folder-conventions.md`](../../../../common/folder-conventions.md)** — canonical `docs/` subtree for every practice skill family. Add a new row if the skill is new. Output resolution lives in **[`common/skill-workflow.md`](../../../../common/skill-workflow.md)**; add **`reference/output.md`** on the skill only when it breaks the default.
+- **Scaffold + output paths:** **[`common/reference/folder-conventions.md`](../../../../common/reference/folder-conventions.md)** — canonical `docs/` subtree for every practice skill family. Add a new row if the skill is new. Output resolution lives in **[`common/reference/skill-workflow.md`](../../../../common/reference/skill-workflow.md)**; add **`reference/output.md`** on the skill only when it breaks the default.
 - **Terse order:** seed **`SKILL.md`** if needed; read all `rules/*.md` and `reference/` files; map retrieval by relevance; fill **`SKILL.md`** as a thin router; write **`rules/*.md`**; move concept/example prose to **`reference/*.md`**; register output in `folder-conventions.md` (and `reference/output.md` if non-default); run **Validate** checklist.
 
 ## Validate
@@ -200,7 +200,7 @@ Checklist for the **target** **`skills/<skill-name>/`**:
 - **Templates** — every file the **target** **SKILL.md** promises under **`templates/`** is **filled**, **stubbed with a stated reason**, or **removed from the promise**; each promised template includes **at least one audience-appropriate filled example** (see `rules/templates-include-ideal-filled-examples-for-the-audience.md`).
 - **Rule file shape** — target **`rules/*.md`** are checkable specs for named artifacts (decidable **DO** / **DO NOT**, per-bullet examples, **Source** when hub-backed); **Build** in **`SKILL.md`** remains the step-order doc (see `rules/target-rule-files-are-checkable-specs-for-named-artifacts.md`).
 - **Rules are external, not inlined** — **`rules/*.md`** match **common** shape; **`SKILL.md`** contains **no** `<!-- execute_rules:bundle_rules -->` markers and no inlined rule prose; **`scanner:`** only where the script exists (see `rules/skill-md-contains-no-inlined-rules-read-gates-reference-rules-and-reference.md`).
-- **Thin router shape** — **`SKILL.md`**: Purpose + mandatory `common/skill-workflow.md` read-gates only; orchestration in **`reference/generate.md`**; no `## Validate` when scanners exist.
+- **Thin router shape** — **`SKILL.md`**: Purpose + mandatory `common/reference/skill-workflow.md` read-gates only; orchestration in **`reference/generate.md`**; no `## Validate` when scanners exist.
 - **Teaching is positive, anti-patterns live in rules** — the target **`SKILL.md`** does **not** have "Anti-patterns," "Common mistakes," or "What this is not" sections; negatives are **`## DO NOT`** bullets in **`rules/*.md`** (see `rules/anti-patterns-belong-in-rules-not-skill-teaching.md`).
 - **Diagram workflow declared when needed** — if the skill produces `.drawio` or other diagram outputs, `reference/diagram-workflow.md` exists with mode and output path; practice shared CLI in practice `reference/` when applicable. `SKILL.md` has no `## Diagram workflow` section.
 - **Validate section** — the **target** **SKILL.md** **Validate** list matches what that skill **actually** ships (templates, scanners, citations, read-gates).

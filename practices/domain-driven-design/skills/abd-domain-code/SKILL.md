@@ -30,7 +30,7 @@ If **architecture specification** (`architecture-specification.md`exist; read th
 
 ## Grill prompts
 
-Read `common/grill-me-with-practice-skill.md` before grilling.
+Read `common/reference/grill-me-with-practice-skill.md` before grilling.
 
 Before generating, surface these common input traps:
 

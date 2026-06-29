@@ -33,14 +33,14 @@ abd-skills/
 │       ├── abd-proposal-respond/
 │       ├── abd-mojibake-guard/
 │       └── track_task/
-├── common/                            # stages, instructions, templates, scripts, scaffolds
+├── common/                            # reference/, instructions, templates, scripts, scaffolds
 ├── utilities/                         # shared utility scripts
 ├── stages/                            # stage-tier supplemental skills
 ├── catalog/                           # generated HTML
 └── scripts/                           # deploy-skills.ps1/.sh, clean-skills.ps1/.sh
 ```
 
-**Stage definitions** (source of truth for all practice skills): [`common/stages/`](common/stages/).
+**Stage definitions** (source of truth for all practice skills): [`common/reference/stages/`](./common/reference/stages/).
 
 ---
 
@@ -78,12 +78,12 @@ Six stages × four practice families (DDD · SDD · UXD · ARC). Full skill orde
 
 | Stage | Definition | Primary skills |
 | --- | --- | --- |
-| **Context** | [context.md](common/stages/context.md) | `abd-context-to-markdown`, `abd-context-chunk`, `abd-context-db-embed`, `abd-context-db-ask`, `abd-context-semantic-index`, `abd-context-app-extractor`, `abd-context-app-sandbox` |
-| **Shaping** | [shaping.md](common/stages/shaping.md) | `abd-domain-glossary`, `abd-story-mapping` (outline), `abd-impact-mapping`, `abd-architecture-outline` |
-| **Discovery** | [discovery.md](common/stages/discovery.md) | `abd-story-mapping` (full), `abd-domain-language`, `abd-information-architecture`, `abd-architecture-blueprint`, `abd-thin-slicing` |
-| **Exploration** | [exploration.md](common/stages/exploration.md) | `abd-domain-model`, `abd-story-acceptance-criteria`, `abd-ux-mockup`, `abd-architecture-specification` (document) |
-| **Specification** | [specification.md](common/stages/specification.md) | `abd-domain-specification`, `abd-story-specification`, `abd-ux-specification` (clickable prototype), `abd-architecture-specification` (template) |
-| **Engineering** | [engineering.md](common/stages/engineering.md) | `abd-domain-code`, `abd-story-acceptance-test`, `abd-architecture-code` |
+| **Context** | [context.md](./stages/context.md) | `abd-context-to-markdown`, `abd-context-chunk`, `abd-context-db-embed`, `abd-context-db-ask`, `abd-context-semantic-index`, `abd-context-app-extractor`, `abd-context-app-sandbox` |
+| **Shaping** | [shaping.md](./stages/shaping.md) | `abd-domain-glossary`, `abd-story-mapping` (outline), `abd-impact-mapping`, `abd-architecture-outline` |
+| **Discovery** | [discovery.md](./stages/discovery.md) | `abd-story-mapping` (full), `abd-domain-language`, `abd-information-architecture`, `abd-architecture-blueprint`, `abd-thin-slicing` |
+| **Exploration** | [exploration.md](./stages/exploration.md) | `abd-domain-model`, `abd-story-acceptance-criteria`, `abd-ux-mockup`, `abd-architecture-specification` (document) |
+| **Specification** | [specification.md](./stages/specification.md) | `abd-domain-specification`, `abd-story-specification`, `abd-ux-specification` (clickable prototype), `abd-architecture-specification` (template) |
+| **Engineering** | [engineering.md](./stages/engineering.md) | `abd-domain-code`, `abd-story-acceptance-test`, `abd-architecture-code` |
 
 Stage extras (supplemental strip): `abd-clean-code`, `abd-secure-code` (engineering); discovery may add `abd-code-research`, `abd-service-level-objectives` from `stages/`.
 

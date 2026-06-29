@@ -21,7 +21,7 @@ Every practice skill frames context through exactly one perspective. Each perspe
 
 **domain → stories → ux → architecture**
 
-This is the default, not a constraint. The grill interview (see `common/grill-me-with-practice-skill.md`) determines which perspective — and therefore which practice skill — to run first. When context is already rich in one perspective, the next skill in sequence can start from that output instead of beginning from scratch.
+This is the default, not a constraint. The grill interview (see `common/reference/grill-me-with-practice-skill.md`) determines which perspective — and therefore which practice skill — to run first. When context is already rich in one perspective, the next skill in sequence can start from that output instead of beginning from scratch.
 
 ---
 
@@ -33,12 +33,12 @@ Each fidelity level represents a scope and depth of work. Earlier levels are wid
 
 | Fidelity | Key | Scope | Depth | What it produces | Definition |
 |---|---|---|---|---|---|
-| **Context** | `context` | All sources | Unstructured | Indexed, searchable workspace memory — raw material before generation | [stages/context.md](common/stages/context.md) |
-| **Shaping** | `shaping` | Whole solution | Wide / shallow | Outcomes, scope, boundaries — the full solution view | [stages/shaping.md](common/stages/shaping.md) |
-| **Discovery** | `discovery` | Whole solution | Medium | Interactions, experience, structure — complete product definition | [stages/discovery.md](common/stages/discovery.md) |
-| **Exploration** | `exploration` | Increment | Medium | Solution tests, business logic, user experience, tech design for a slice | [stages/exploration.md](common/stages/exploration.md) |
-| **Specification** | `specification` | Sprint | Narrow / deeper | Behaviour, design, logic — typed models, concrete scenarios, hi-fi prototypes | [stages/specification.md](common/stages/specification.md) |
-| **Engineering** | `engineering` | Story | Narrowest / deep | Tests, code, interface — working software | [stages/engineering.md](common/stages/engineering.md) |
+| **Context** | `context` | All sources | Unstructured | Indexed, searchable workspace memory — raw material before generation | [stages/context.md](./stages/context.md) |
+| **Shaping** | `shaping` | Whole solution | Wide / shallow | Outcomes, scope, boundaries — the full solution view | [stages/shaping.md](./stages/shaping.md) |
+| **Discovery** | `discovery` | Whole solution | Medium | Interactions, experience, structure — complete product definition | [stages/discovery.md](./stages/discovery.md) |
+| **Exploration** | `exploration` | Increment | Medium | Solution tests, business logic, user experience, tech design for a slice | [stages/exploration.md](./stages/exploration.md) |
+| **Specification** | `specification` | Sprint | Narrow / deeper | Behaviour, design, logic — typed models, concrete scenarios, hi-fi prototypes | [stages/specification.md](./stages/specification.md) |
+| **Engineering** | `engineering` | Story | Narrowest / deep | Tests, code, interface — working software | [stages/engineering.md](./stages/engineering.md) |
 
 ### Never skip specification
 
