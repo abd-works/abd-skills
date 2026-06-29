@@ -1,0 +1,308 @@
+{
+  "schema": "abd-domain-model/v1",
+  "product": "Check Resolution",
+  "scope": "How any uncertain action is resolved: roll + modifier vs DC, with degree of success or failure",
+  "modules": [
+    {
+      "name": "Check Resolution",
+      "scope": "How any uncertain action is resolved: roll + modifier vs DC, with degree of success or failure",
+      "core_terms": [
+        "trait",
+        "rank",
+        "check",
+        "difficulty class",
+        "degree of success",
+        "d20",
+        "opposed check"
+      ],
+      "key_abstractions": [
+        {
+          "name": "Trait",
+          "definition": "The base abstraction for every quantifiable game characteristic a character possesses. Trait owns rank and supplies it as the primary modifier for checks.",
+          "classes": [
+            {
+              "name": "Trait",
+              "ka_anchor": true,
+              "term": "trait",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "Rank"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "rank",
+                  "type": "Rank",
+                  "invariants": [
+                    "every trait has exactly one rank"
+                  ],
+                  "language_bullets": [
+                    "has exactly one *rank* — the single numeric value measuring its effectiveness"
+                  ]
+                }
+              ],
+              "operations": [
+                {
+                  "name": "supplyModifierForCheck",
+                  "parameter_types": [
+                    "Check"
+                  ],
+                  "return_type": "Modifier",
+                  "visibility": "public",
+                  "collaborators": [
+                    "Check"
+                  ],
+                  "invariants": [
+                    "without a trait there is no check"
+                  ],
+                  "language_bullets": [
+                    "supplies its *rank* as the primary *modifier* for any *check* made using it"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Rank",
+              "ka_anchor": false,
+              "term": "rank",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "Integer"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "value",
+                  "type": "Integer",
+                  "invariants": [],
+                  "language_bullets": [
+                    "is a single numeric value carried by a *trait* — the measure of that *trait's* effectiveness"
+                  ]
+                }
+              ],
+              "operations": [
+                {
+                  "name": "toModifier",
+                  "parameter_types": [],
+                  "return_type": "Modifier",
+                  "visibility": "public",
+                  "collaborators": [
+                    "Check"
+                  ],
+                  "invariants": [
+                    "ranks must never be added directly; convert to measures, perform arithmetic on the measures, then convert back to a rank"
+                  ],
+                  "language_bullets": [
+                    "supplies the base *modifier* for a *check* — the *trait's* *rank* flows directly into the *roll total*"
+                  ]
+                }
+              ]
+            }
+          ],
+          "references": [
+            {
+              "title": "Ranks & Measures",
+              "source": "context/rules/HeroesHandbook-rules__chunk_008.md",
+              "locator": "lines 376–808",
+              "extract": "whole"
+            }
+          ],
+          "decisions": [
+            "Trait is owned by this module as the base abstraction — other modules define specific traits.",
+            "Rank is a concept, not a property of Trait — it has its own scale, invariant, and interactions with Check."
+          ]
+        },
+        {
+          "name": "Check",
+          "definition": "The core resolution mechanic. It binds together a d20 roll, a trait-derived modifier, and a Difficulty Class into one comparison.",
+          "classes": [
+            {
+              "name": "Check",
+              "ka_anchor": true,
+              "term": "check",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "Trait",
+                  "DifficultyClass"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "d20",
+                  "type": "D20",
+                  "invariants": [],
+                  "language_bullets": [
+                    "is the instrument a *check* rolls — a property of *check*, not a separate concept"
+                  ]
+                },
+                {
+                  "name": "difficultyClass",
+                  "type": "DifficultyClass",
+                  "invariants": [],
+                  "language_bullets": [
+                    "is made *against* a *difficulty class* set by the *GM*"
+                  ]
+                },
+                {
+                  "name": "trait",
+                  "type": "Trait",
+                  "invariants": [],
+                  "language_bullets": [
+                    "is made *using* the *trait* of a *character*"
+                  ]
+                }
+              ],
+              "operations": [
+                {
+                  "name": "resolve",
+                  "parameter_types": [
+                    "CircumstanceModifier"
+                  ],
+                  "return_type": "CheckResult",
+                  "visibility": "public",
+                  "collaborators": [
+                    "Trait",
+                    "DifficultyClass",
+                    "D20"
+                  ],
+                  "invariants": [
+                    "shape is always roll total versus difficulty class; subtypes only vary how total or DC is produced"
+                  ],
+                  "language_bullets": [
+                    "is resolved by *rolling* a *d20*, adding the *trait rank* and the *circumstance modifier*, comparing the *roll total* to the *difficulty class*, producing a *check result*"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "DifficultyClass",
+              "ka_anchor": false,
+              "term": "difficulty class",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "Integer"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "value",
+                  "type": "Integer",
+                  "invariants": [],
+                  "language_bullets": [
+                    "is a number set by the *GM* that a *check* must equal or exceed to succeed"
+                  ]
+                }
+              ],
+              "operations": []
+            },
+            {
+              "name": "OpposedCheck",
+              "ka_anchor": false,
+              "term": "opposed check",
+              "extends": "Check",
+              "constructor": {
+                "parameter_types": [
+                  "Trait",
+                  "CheckResult"
+                ]
+              },
+              "properties": [],
+              "operations": [
+                {
+                  "name": "resolveOpposed",
+                  "parameter_types": [],
+                  "return_type": "CheckResult",
+                  "visibility": "public",
+                  "collaborators": [
+                    "CheckResult",
+                    "DifficultyClass"
+                  ],
+                  "invariants": [
+                    "on a tie, the higher bonus wins; if bonuses also tie, a tie-break d20 decides"
+                  ],
+                  "language_bullets": [
+                    "is made against an *opposing character's* *check result* as the *difficulty class*"
+                  ]
+                }
+              ]
+            }
+          ],
+          "references": [
+            {
+              "title": "Game Play",
+              "source": "context/rules/HeroesHandbook-rules__chunk_009.md",
+              "locator": "lines 809–874",
+              "extract": "whole"
+            },
+            {
+              "title": "Opposed Checks",
+              "source": "context/rules/HeroesHandbook-rules__chunk_014.md",
+              "locator": "lines 1102–1146",
+              "extract": "whole"
+            }
+          ],
+          "decisions": [
+            "Check alone owns success/failure for uncertain outcomes.",
+            "DC belongs here, not as its own KA — it exists only in relation to a check.",
+            "d20 is a property of Check, not a separate class."
+          ]
+        }
+      ],
+      "boundary_domain": {
+        "classes": [
+          {
+            "name": "PowerEffect",
+            "owned_by": "Power",
+            "term": "power effect",
+            "extends": null,
+            "constructor": {
+              "parameter_types": [
+                "Rank"
+              ]
+            },
+            "properties": [
+              {
+                "name": "rank",
+                "type": "Rank",
+                "invariants": []
+              }
+            ],
+            "operations": [
+              {
+                "name": "resistanceCheckDc",
+                "parameter_types": [],
+                "return_type": "DifficultyClass",
+                "visibility": "public",
+                "collaborators": [
+                  "Rank",
+                  "DifficultyClass"
+                ],
+                "invariants": [
+                  "DC equals rank + 10"
+                ],
+                "language_bullets": [
+                  "sets the *DC* for *resistance checks* as DC = *rank* + 10"
+                ]
+              }
+            ]
+          }
+        ],
+        "references": [
+          {
+            "title": "Resistance and Ongoing Effects",
+            "source": "context/rules/HeroesHandbook-rules__chunk_209.md",
+            "locator": "lines 14791–14830",
+            "extract": "whole"
+          }
+        ],
+        "decisions": [
+          "Power effect is owned by the Power module — it has broad meaning outside this scope."
+        ]
+      }
+    }
+  ]
+}

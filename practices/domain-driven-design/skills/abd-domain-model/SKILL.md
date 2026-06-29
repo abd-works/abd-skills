@@ -23,9 +23,17 @@ Make ownership and responsibilities explicit for every concept — who creates i
 
 **Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
 
-**File name:** `domain-model.md`. Add a `<name>-` prefix only when disambiguation is needed. For multi-module engagements: `<deliverables-folder>/modules/<module-name>-domain-model.md`.
+**File names:**
 
-The file is **not** an in-place enrichment of the domain-language file. It is a fresh artifact in the same flat heading shape every other DDD phase skill uses.
+| File | Role |
+| --- | --- |
+| `domain-model.md` | Human-readable projection (flat heading shape) |
+| `domain-model.json` | Machine-readable spine — `abd-domain-model/v1` schema; parallel to `story-graph.json` |
+| `domain.json` | Flat scanner vocabulary index — derived from `domain-model.json` |
+
+Add a `<name>-` prefix only when disambiguation is needed. For multi-module engagements: `<deliverables-folder>/modules/<module-name>-domain-model.md` (and matching `.json`).
+
+The files are **not** an in-place enrichment of the domain-language file. They are fresh artifacts in the same flat heading shape every other DDD phase skill uses.
 
 ---
 
@@ -65,6 +73,7 @@ Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution
 
 Read these files:
 - **`reference/concepts.md`** — domain model format: class blocks, constructor, properties, methods, collaborators, invariants, subtypes, and the consistent file shape.
+- **`reference/domain-model-json.md`** — `domain-model.json` schema, containment hierarchy, and upstream mapping from glossary terms and domain-language bullets.
 - **`../../reference/oo-concepts.md`** — OO fundamentals (what is a class, decomposing responsibilities, relationships, inheritance and subtypes).
 
 ### 2. Generate
@@ -73,8 +82,9 @@ Read these files:
 
 | Template | What to produce |
 | --- | --- |
-| `templates/domain-model-template.md` | The domain model file with typed class blocks under each KA. |
-| `templates/domain.json` | Domain JSON with class names, property names (camelCase), and inheritance. |
+| `templates/domain-model-template.md` | The domain model markdown with typed class blocks under each KA. |
+| `templates/domain-model-template.json` | The domain model graph (`abd-domain-model/v1`) — Module → KA → Class → Property/Operation. |
+| `templates/domain.json` | Flat scanner vocabulary — class names, property names (camelCase), inheritance — derived from `domain-model.json`. |
 
 **Quality bar:** Every behavior bullet from the Domain Language maps to at least one property or method. Properties are typed — never raw `String`; use domain types, constrained enums, or typed primitives. Methods use type-only params (no param names). Hidden collaborators (not in params or return) listed underneath methods, indented, before invariants. No `+` prefix. No stereotypes. No `List<T>` or `Dictionary<K,V>`. No `Interaction:` blocks. Subtype blocks carry only deltas. State marker set to `domain-model`.
 

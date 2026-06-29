@@ -1,0 +1,157 @@
+{
+  "_comment": "Machine-readable domain model spine — parallel to story-graph.json. Markdown (domain-model.md) and domain.json (scanner vocabulary) are projections; this file is the structured source of truth for Module → KA → Class → Property/Operation containment. Schema: abd-domain-model/v1.",
+  "schema": "abd-domain-model/v1",
+  "product": "{{ProductOrSystemName}}",
+  "scope": "{{bounded slice or engagement scope}}",
+  "modules": [
+    {
+      "name": "{{ModuleName}}",
+      "scope": "{{module scope when different from root}}",
+      "core_terms": [
+        "{{term1}}",
+        "{{term2}}"
+      ],
+      "key_abstractions": [
+        {
+          "name": "{{KAName}}",
+          "definition": "{{KA intro paragraph — what it owns, relates to, and must always hold}}",
+          "classes": [
+            {
+              "name": "{{KaAnchorClassName}}",
+              "ka_anchor": true,
+              "term": "{{glossary_or_language_term}}",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "{{Type}}"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "{{propertyName}}",
+                  "type": "{{Type}}",
+                  "invariants": [
+                    "{{declarative constraint}}"
+                  ],
+                  "language_bullets": [
+                    "{{domain-language bullet this property came from}}"
+                  ]
+                }
+              ],
+              "operations": [
+                {
+                  "name": "{{methodName}}",
+                  "parameter_types": [
+                    "{{Type}}"
+                  ],
+                  "return_type": "{{ReturnType}}",
+                  "visibility": "public",
+                  "collaborators": [
+                    "{{CollaboratorClass}}"
+                  ],
+                  "invariants": [
+                    "{{declarative constraint}}"
+                  ],
+                  "language_bullets": [
+                    "{{domain-language behavior bullet — collaborators inferred from *italicized* class names}}"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "{{SubordinateClassName}}",
+              "ka_anchor": false,
+              "term": "{{glossary_or_language_term}}",
+              "extends": null,
+              "constructor": {
+                "parameter_types": []
+              },
+              "properties": [],
+              "operations": []
+            },
+            {
+              "name": "{{ChildClassName}}",
+              "ka_anchor": false,
+              "term": "{{glossary_or_language_term}}",
+              "extends": "{{ParentClassName}}",
+              "constructor": {
+                "parameter_types": [
+                  "{{Type}}"
+                ]
+              },
+              "properties": [],
+              "operations": [
+                {
+                  "name": "{{deltaMethodName}}",
+                  "parameter_types": [
+                    "{{Type}}"
+                  ],
+                  "return_type": "{{ReturnType}}",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": [
+                    "{{constraint specific to this subtype}}"
+                  ]
+                }
+              ]
+            }
+          ],
+          "references": [
+            {
+              "title": "{{ref_title}}",
+              "source": "{{source_path}}",
+              "locator": "{{locator}}",
+              "extract": "{{whole or partial}}"
+            }
+          ],
+          "decisions": [
+            "{{constrained enum values, state-carrier introduction, Liskov decision, dependency-magnet split, typed-primitive introduction, or open question}}"
+          ]
+        }
+      ],
+      "boundary_domain": {
+        "classes": [
+          {
+            "name": "{{BoundaryClassName}}",
+            "owned_by": "{{OwningModule}}",
+            "term": "{{glossary_or_language_term}}",
+            "extends": null,
+            "constructor": {
+              "parameter_types": []
+            },
+            "properties": [
+              {
+                "name": "{{propertyName}}",
+                "type": "{{Type}}",
+                "invariants": []
+              }
+            ],
+            "operations": [
+              {
+                "name": "{{methodName}}",
+                "parameter_types": [
+                  "{{Type}}"
+                ],
+                "return_type": "{{ReturnType}}",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": []
+              }
+            ]
+          }
+        ],
+        "references": [
+          {
+            "title": "{{ref_title}}",
+            "source": "{{source_path}}",
+            "locator": "{{locator}}",
+            "extract": "{{whole or partial}}"
+          }
+        ],
+        "decisions": [
+          "{{boundary placement reasoning}}"
+        ]
+      }
+    }
+  ]
+}

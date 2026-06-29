@@ -1,0 +1,68 @@
+{
+  "schema": "abd-domain-model/v1",
+  "product": "PawPlace",
+  "scope": "Catalog browsing and stock truth for in-store shopping",
+  "modules": [
+    {
+      "name": "Catalog",
+      "scope": "Product identity, categories, reviews, and stock availability",
+      "core_terms": [
+        "product",
+        "category",
+        "customer review",
+        "stock availability"
+      ],
+      "key_abstractions": [
+        {
+          "name": "Product Catalog",
+          "definition": "The browsable, searchable collection of pet supplies and the single source of truth for what is for sale.",
+          "classes": [
+            {
+              "name": "ProductCatalog",
+              "ka_anchor": true,
+              "term": "product catalog",
+              "extends": null,
+              "constructor": {
+                "parameter_types": []
+              },
+              "properties": [],
+              "operations": []
+            },
+            {
+              "name": "Product",
+              "ka_anchor": false,
+              "term": "product",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "Identifier",
+                  "FreeText"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "sku",
+                  "type": "Identifier",
+                  "invariants": []
+                },
+                {
+                  "name": "stockAvailability",
+                  "type": "StockAvailability",
+                  "invariants": []
+                }
+              ],
+              "operations": []
+            }
+          ],
+          "references": [],
+          "decisions": []
+        }
+      ],
+      "boundary_domain": {
+        "classes": [],
+        "references": [],
+        "decisions": []
+      }
+    }
+  ]
+}
