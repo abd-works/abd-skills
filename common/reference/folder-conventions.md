@@ -63,7 +63,8 @@ docs/
 │   │   ├── information-architecture.md     ← abd-ux-information-architecture
 │   │   └── information-architecture.drawio ← abd-ux-information-architecture (via drawio-ux.mjs)
 │   ├── mockup/
-│   │   ├── state.json                      ← abd-ux-mockup (shared state source of truth)
+│   │   ├── ux-graph.json                   ← ux-ops (machine-readable; parallel to story-graph.json)
+│   │   ├── state.json                      ← abd-ux-mockup (legacy render bundle; project from ux-graph.json)
 │   │   ├── mockups.md                      ← abd-ux-mockup (master index / all-screens spec)
 │   │   ├── mockup.drawio                   ← abd-ux-mockup (generated wireframe; see screens/ below)
 │   │   └── screens/

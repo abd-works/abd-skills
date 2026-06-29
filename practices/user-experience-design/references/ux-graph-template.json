@@ -1,0 +1,45 @@
+{
+  "_comment": "Machine-readable UX view spine — parallel to story-graph.json and domain-model.json. Containment only; full wireframe state lives inline on regions. Schema: abd-ux-graph/v1.",
+  "schema": "abd-ux-graph/v1",
+  "product": "{{ProductOrSystemName}}",
+  "scope": "{{flow, epic, or engagement scope}}",
+  "flows": [
+    {
+      "name": "{{FlowName}}",
+      "screens": [
+        {
+          "name": "{{Screen Name}}",
+          "slug": "{{screen-slug}}",
+          "layout": "{{sidebar|split-screen|form|modal|flyout|stack}}",
+          "col": 0,
+          "row": 0,
+          "regions": [
+            {
+              "name": "{{region name}}",
+              "slot": "{{panel|body|left|right|header|footer}}",
+              "type": "{{nav-tabs|form|list|toolbar|button-bar|chrome|tree|listbox|context-menu|toolbar-icons|filter-bar|browse-panel}}",
+              "placeholder": "{{for filter-bar}}",
+              "value": "{{for filter-bar}}",
+              "columns": [
+                "{{for list}}"
+              ],
+              "rows": 3,
+              "actions": [
+                {
+                  "label": "{{action}}"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "{{Source Screen Name}}",
+      "to": "{{Target Screen Name}}",
+      "label": "{{transition label}}"
+    }
+  ]
+}

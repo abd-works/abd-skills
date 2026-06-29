@@ -85,17 +85,18 @@ Markdown (`story-map.md`, `specification-by-example.md`, …) and Draw.io diagra
 
 ### ux-graph
 
-**Canonical file:** `docs/ux/mockup/ux-graph.json` (new; may consolidate with `state.json` over time)  
-**Evolves from:** per-screen `*-state.json`, `aria.yaml`, IA site map
+**Canonical file:** `docs/ux/mockup/ux-graph.json`  
+**Evolves from:** IA site map, mockup exploration (inline region state)
 
 | Node kind | Contains |
 | --- | --- |
 | `Flow` | `Screen` |
-| `Screen` | `Region`, `Tab` |
-| `Region` | `Control`, `ContentType` |
-| `Control` | states, bindings (detail in `*-state.json`) |
+| `Screen` | `Region` |
+| `Region` | control fields inline (filter values, list rows, form fields, actions) |
 
-Per-screen `*-state.json` files remain the **rich control/state source**; `ux-graph.json` is the **structural spine** (screens, regions, navigation) analogous to `story-graph.json`.
+`ux-graph.json` is the **self-contained UX view graph** — flows, screens, regions, and navigation. Same pattern as `story-graph.json` and `domain-model.json`: containment only, no path pointers or cross-view fields on nodes.
+
+Per-screen `*.md`, `*.aria.yaml`, `*.drawio`, and legacy `state.json` are **human or render projections** generated from the graph.
 
 ### arch-graph
 

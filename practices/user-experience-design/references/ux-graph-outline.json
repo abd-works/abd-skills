@@ -1,0 +1,57 @@
+{
+  "schema": "abd-ux-graph/v1",
+  "product": "PawPlace",
+  "scope": "In-store shopping — find products and check stock",
+  "flows": [
+    {
+      "name": "Shop in store",
+      "screens": [
+        {
+          "name": "Search Results",
+          "slug": "search-results",
+          "layout": "sidebar",
+          "col": 0,
+          "row": 0,
+          "regions": [
+            {
+              "name": "search filter",
+              "slot": "header",
+              "type": "filter-bar"
+            },
+            {
+              "name": "results list",
+              "slot": "body",
+              "type": "list"
+            }
+          ]
+        },
+        {
+          "name": "Product Detail",
+          "slug": "product-detail",
+          "layout": "form",
+          "col": 1,
+          "row": 0,
+          "regions": [
+            {
+              "name": "product summary",
+              "slot": "body",
+              "type": "form"
+            },
+            {
+              "name": "store stock",
+              "slot": "body",
+              "type": "list"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "Search Results",
+      "to": "Product Detail",
+      "label": "selects product"
+    }
+  ]
+}

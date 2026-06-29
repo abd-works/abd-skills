@@ -407,5 +407,11 @@ Keep the story graph valid and consistent — so downstream tools always read tr
 
 - **Skill:** [`story-graph-ops`](../story-graph-ops/SKILL.md)
 
+### ux-ops `graph-ops` — ux
+
+Keep the UX graph valid and consistent — so downstream mockup tools always read trusted structure.
+
+- **Skill:** [`ux-ops`](../practices/user-experience-design/skills/supporting/ux-ops/SKILL.md)
+
 ---
-*40 skills indexed.*
+*41 skills indexed.*

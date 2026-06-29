@@ -1,0 +1,100 @@
+{
+  "schema": "abd-ux-graph/v1",
+  "product": "PawPlace",
+  "scope": "In-store shopping — find products and check stock",
+  "flows": [
+    {
+      "name": "Shop in store",
+      "screens": [
+        {
+          "name": "Search Results",
+          "slug": "search-results",
+          "layout": "sidebar",
+          "col": 0,
+          "row": 0,
+          "regions": [
+            {
+              "name": "search filter",
+              "slot": "header",
+              "type": "filter-bar",
+              "placeholder": "Search products…",
+              "value": "kitten"
+            },
+            {
+              "name": "results list",
+              "slot": "body",
+              "type": "list",
+              "columns": [
+                "product",
+                "sku",
+                "in stock"
+              ],
+              "rows": 3,
+              "actions": [
+                {
+                  "label": "View detail"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Product Detail",
+          "slug": "product-detail",
+          "layout": "form",
+          "col": 1,
+          "row": 0,
+          "regions": [
+            {
+              "name": "product summary",
+              "slot": "body",
+              "type": "form",
+              "fields": [
+                {
+                  "label": "Product",
+                  "input": "Kitten Chow 2kg"
+                },
+                {
+                  "label": "SKU",
+                  "input": "KC-2KG"
+                },
+                {
+                  "label": "Price",
+                  "input": "$12.99"
+                }
+              ],
+              "buttons": [
+                {
+                  "label": "Back to results"
+                }
+              ]
+            },
+            {
+              "name": "store stock",
+              "slot": "body",
+              "type": "list",
+              "columns": [
+                "store",
+                "quantity"
+              ],
+              "rows": 2,
+              "actions": [
+                {
+                  "label": "Confirm stock at store",
+                  "primary": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "Search Results",
+      "to": "Product Detail",
+      "label": "selects product"
+    }
+  ]
+}
