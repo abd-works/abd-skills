@@ -150,7 +150,7 @@ Omit `constructor` or use `"parameter_types": []` when the class has no construc
 | `name` | yes | camelCase property name |
 | `return_type` | yes | Domain type, constrained enum, or typed primitive — never raw `String` |
 | `invariants` | yes | Declarative constraints (may be empty) |
-| `interaction` | no | Array of structured steps (`object`+`operation`+`params`, or `property`) or plain strings |
+| `interaction` | no | Array of strings and/or structured steps — **may be strings only** |
 | `language_bullets` | no | Traceability back to domain-language bullets |
 
 Properties use `return_type` (not `type`) for parity with operations.
@@ -169,20 +169,41 @@ When a property's `return_type` references another class, the corresponding `rel
 | `visibility` | yes | `"public"` or `"private"` (`-` prefix in markdown) |
 | `collaborators` | yes | Hidden domain types not in params or return (may be empty) |
 | `invariants` | yes | Declarative constraints (may be empty) |
-| `interaction` | no | Array of `object.operation(params)` steps, `property` steps, or plain strings |
+| `interaction` | no | Array of strings and/or structured steps — **may be strings only** |
 | `language_bullets` | no | Traceability back to domain-language behavior bullets |
 
 ---
 
 ## Interaction
 
-Optional **array** on **properties** and **operations** when behavior has inherent complexity — same role as `Interaction:` blocks in domain specification (`abd-domain-specification`).
+Optional **array** on **properties** and **operations**. Each element is **either**:
 
-Omit when behavior is a simple delegation, a direct property read, or fully captured by signature + a single invariant.
+1. A **plain string** — simplest form; use whenever it reads clearly
+2. A structured **operation call** — `{ return_type, object, operation, params? }`
+3. A structured **property access** — `{ return_type, property }`
 
-Each array element is **either** a structured object **or** a plain string.
+The entire `interaction` array may be strings only — structured objects are optional, not required.
 
-### Structured interaction step — operation call
+```json
+"interaction": [
+  "roll: Integer = d20.roll()",
+  "rollTotal = roll + trait.rank.toModifier().value + circumstanceModifier.value",
+  "return result"
+]
+```
+
+Omit `interaction` when behavior is a simple delegation, a direct property read, or fully captured by signature + a single invariant.
+
+### String step (preferred when sufficient)
+
+A single domain-spec line — assignment, comparison, or return:
+
+```json
+"rollTotal = roll + modifier.value + circumstanceModifier.value"
+"return result"
+```
+
+### Structured step — operation call (optional)
 
 `object.operation(params)` — call an operation on a domain object.
 
@@ -199,7 +220,7 @@ Each array element is **either** a structured object **or** a plain string.
 
 Maps to domain-spec pseudocode: `roll: Integer = d20.roll()`.
 
-### Structured interaction step — property access
+### Structured step — property access (optional)
 
 | Field | Required | Meaning |
 | --- | --- | --- |
@@ -210,18 +231,9 @@ Maps to domain-spec pseudocode: `roll: Integer = d20.roll()`.
 { "return_type": "Modifier", "property": "trait.rank.toModifier" }
 ```
 
-Use **either** `object` + `operation` + `params` **or** `property` — not both on the same step.
+Use **either** `object` + `operation` + `params` **or** `property` on a structured step — not both. Prefer a **string** when the line is easier to read as text.
 
-### String interaction step
-
-A plain string for assignments, comparisons, or returns that do not decompose cleanly:
-
-```json
-"rollTotal = roll + modifier.value + circumstanceModifier.value"
-"return result"
-```
-
-### Full example (`Check.resolve`)
+### Mixed example (`Check.resolve`)
 
 ```json
 "interaction": [

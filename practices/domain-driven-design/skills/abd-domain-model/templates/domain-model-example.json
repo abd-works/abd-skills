@@ -147,22 +147,8 @@
                     "ranks must never be added directly; convert to measures, perform arithmetic on the measures, then convert back to a rank"
                   ],
                   "interaction": [
-                    {
-                      "return_type": "Measure",
-                      "object": "Measure",
-                      "operation": "fromRank",
-                      "params": [
-                        "value"
-                      ]
-                    },
-                    {
-                      "return_type": "Modifier",
-                      "object": "Modifier",
-                      "operation": "fromMeasure",
-                      "params": [
-                        "measure"
-                      ]
-                    },
+                    "measure: Measure = Measure.fromRank(value)",
+                    "modifier: Modifier = Modifier.fromMeasure(measure)",
                     "return modifier"
                   ],
                   "language_bullets": [
@@ -437,19 +423,8 @@
                   "DC equals rank + 10"
                 ],
                 "interaction": [
-                  {
-                    "return_type": "Integer",
-                    "property": "rank.value"
-                  },
-                  "dcValue = rank.value + 10",
-                  {
-                    "return_type": "DifficultyClass",
-                    "object": "DifficultyClass",
-                    "operation": "new",
-                    "params": [
-                      "dcValue"
-                    ]
-                  },
+                  "dcValue: Integer = rank.value + 10",
+                  "dc: DifficultyClass = new DifficultyClass(dcValue)",
                   "return dc"
                 ],
                 "language_bullets": [
