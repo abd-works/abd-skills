@@ -12,10 +12,29 @@
         "customer review",
         "stock availability"
       ],
+      "relationships": [],
       "key_abstractions": [
         {
           "name": "Product Catalog",
           "definition": "The browsable, searchable collection of pet supplies and the single source of truth for what is for sale.",
+          "relationships": [
+            {
+              "name": "catalogues",
+              "kind": "aggregation",
+              "ends": [
+                {
+                  "class": "ProductCatalog",
+                  "role": "catalog",
+                  "cardinality": "1..1"
+                },
+                {
+                  "class": "Product",
+                  "role": "product",
+                  "cardinality": "0..*"
+                }
+              ]
+            }
+          ],
           "classes": [
             {
               "name": "ProductCatalog",
@@ -42,12 +61,12 @@
               "properties": [
                 {
                   "name": "sku",
-                  "type": "Identifier",
+                  "return_type": "Identifier",
                   "invariants": []
                 },
                 {
                   "name": "stockAvailability",
-                  "type": "StockAvailability",
+                  "return_type": "StockAvailability",
                   "invariants": []
                 }
               ],
@@ -59,6 +78,7 @@
         }
       ],
       "boundary_domain": {
+        "relationships": [],
         "classes": [],
         "references": [],
         "decisions": []

@@ -15,10 +15,62 @@
         "d20",
         "opposed check"
       ],
+      "relationships": [
+        {
+          "name": "resolved using",
+          "kind": "association",
+          "ends": [
+            {
+              "class": "Check",
+              "role": "check",
+              "cardinality": "1..1"
+            },
+            {
+              "class": "Trait",
+              "role": "trait",
+              "cardinality": "1..1"
+            }
+          ]
+        },
+        {
+          "name": "compared against",
+          "kind": "association",
+          "ends": [
+            {
+              "class": "Check",
+              "role": "check",
+              "cardinality": "1..1"
+            },
+            {
+              "class": "DifficultyClass",
+              "role": "dc",
+              "cardinality": "1..1"
+            }
+          ]
+        }
+      ],
       "key_abstractions": [
         {
           "name": "Trait",
           "definition": "The base abstraction for every quantifiable game characteristic a character possesses. Trait owns rank and supplies it as the primary modifier for checks.",
+          "relationships": [
+            {
+              "name": "carries",
+              "kind": "composition",
+              "ends": [
+                {
+                  "class": "Trait",
+                  "role": "trait",
+                  "cardinality": "1..1"
+                },
+                {
+                  "class": "Rank",
+                  "role": "rank",
+                  "cardinality": "1..1"
+                }
+              ]
+            }
+          ],
           "classes": [
             {
               "name": "Trait",
@@ -33,7 +85,7 @@
               "properties": [
                 {
                   "name": "rank",
-                  "type": "Rank",
+                  "return_type": "Rank",
                   "invariants": [
                     "every trait has exactly one rank"
                   ],
@@ -75,7 +127,7 @@
               "properties": [
                 {
                   "name": "value",
-                  "type": "Integer",
+                  "return_type": "Integer",
                   "invariants": [],
                   "language_bullets": [
                     "is a single numeric value carried by a *trait* — the measure of that *trait's* effectiveness"
@@ -94,6 +146,23 @@
                   "invariants": [
                     "ranks must never be added directly; convert to measures, perform arithmetic on the measures, then convert back to a rank"
                   ],
+                  "interaction": {
+                    "steps": [
+                      {
+                        "variable": "measure",
+                        "return_type": "Measure",
+                        "expression": "Measure.fromRank(value)"
+                      },
+                      {
+                        "variable": "modifier",
+                        "return_type": "Modifier",
+                        "expression": "Modifier.fromMeasure(measure)"
+                      },
+                      {
+                        "return": "modifier"
+                      }
+                    ]
+                  },
                   "language_bullets": [
                     "supplies the base *modifier* for a *check* — the *trait's* *rank* flows directly into the *roll total*"
                   ]
@@ -117,6 +186,24 @@
         {
           "name": "Check",
           "definition": "The core resolution mechanic. It binds together a d20 roll, a trait-derived modifier, and a Difficulty Class into one comparison.",
+          "relationships": [
+            {
+              "name": "rolls",
+              "kind": "composition",
+              "ends": [
+                {
+                  "class": "Check",
+                  "role": "check",
+                  "cardinality": "1..1"
+                },
+                {
+                  "class": "D20",
+                  "role": "d20",
+                  "cardinality": "1..1"
+                }
+              ]
+            }
+          ],
           "classes": [
             {
               "name": "Check",
@@ -132,7 +219,7 @@
               "properties": [
                 {
                   "name": "d20",
-                  "type": "D20",
+                  "return_type": "D20",
                   "invariants": [],
                   "language_bullets": [
                     "is the instrument a *check* rolls — a property of *check*, not a separate concept"
@@ -140,7 +227,7 @@
                 },
                 {
                   "name": "difficultyClass",
-                  "type": "DifficultyClass",
+                  "return_type": "DifficultyClass",
                   "invariants": [],
                   "language_bullets": [
                     "is made *against* a *difficulty class* set by the *GM*"
@@ -148,7 +235,7 @@
                 },
                 {
                   "name": "trait",
-                  "type": "Trait",
+                  "return_type": "Trait",
                   "invariants": [],
                   "language_bullets": [
                     "is made *using* the *trait* of a *character*"
@@ -171,6 +258,38 @@
                   "invariants": [
                     "shape is always roll total versus difficulty class; subtypes only vary how total or DC is produced"
                   ],
+                  "interaction": {
+                    "steps": [
+                      {
+                        "variable": "roll",
+                        "return_type": "Integer",
+                        "expression": "d20.roll()"
+                      },
+                      {
+                        "variable": "rollTotal",
+                        "return_type": "Integer",
+                        "expression": "roll + trait.rank.toModifier().value + circumstanceModifier.value"
+                      },
+                      {
+                        "variable": "success",
+                        "return_type": "Boolean",
+                        "expression": "rollTotal >= difficultyClass.value"
+                      },
+                      {
+                        "variable": "margin",
+                        "return_type": "Integer",
+                        "expression": "rollTotal - difficultyClass.value"
+                      },
+                      {
+                        "variable": "result",
+                        "return_type": "CheckResult",
+                        "expression": "new CheckResult(success, margin)"
+                      },
+                      {
+                        "return": "result"
+                      }
+                    ]
+                  },
                   "language_bullets": [
                     "is resolved by *rolling* a *d20*, adding the *trait rank* and the *circumstance modifier*, comparing the *roll total* to the *difficulty class*, producing a *check result*"
                   ]
@@ -190,7 +309,7 @@
               "properties": [
                 {
                   "name": "value",
-                  "type": "Integer",
+                  "return_type": "Integer",
                   "invariants": [],
                   "language_bullets": [
                     "is a number set by the *GM* that a *check* must equal or exceed to succeed"
@@ -224,6 +343,23 @@
                   "invariants": [
                     "on a tie, the higher bonus wins; if bonuses also tie, a tie-break d20 decides"
                   ],
+                  "interaction": {
+                    "steps": [
+                      {
+                        "variable": "opposingDc",
+                        "return_type": "DifficultyClass",
+                        "expression": "DifficultyClass.fromCheckResult(opposingResult)"
+                      },
+                      {
+                        "variable": "result",
+                        "return_type": "CheckResult",
+                        "expression": "resolve(circumstanceModifier.withDc(opposingDc))"
+                      },
+                      {
+                        "return": "result"
+                      }
+                    ]
+                  },
                   "language_bullets": [
                     "is made against an *opposing character's* *check result* as the *difficulty class*"
                   ]
@@ -248,11 +384,30 @@
           "decisions": [
             "Check alone owns success/failure for uncertain outcomes.",
             "DC belongs here, not as its own KA — it exists only in relation to a check.",
-            "d20 is a property of Check, not a separate class."
+            "d20 is a property of Check, not a separate class.",
+            "OpposedCheck is a subtype of Check — extends Check, deltas only."
           ]
         }
       ],
       "boundary_domain": {
+        "relationships": [
+          {
+            "name": "sets dc for",
+            "kind": "association",
+            "ends": [
+              {
+                "class": "PowerEffect",
+                "role": "effect",
+                "cardinality": "1..1"
+              },
+              {
+                "class": "DifficultyClass",
+                "role": "resistanceDc",
+                "cardinality": "1..1"
+              }
+            ]
+          }
+        ],
         "classes": [
           {
             "name": "PowerEffect",
@@ -267,7 +422,7 @@
             "properties": [
               {
                 "name": "rank",
-                "type": "Rank",
+                "return_type": "Rank",
                 "invariants": []
               }
             ],
@@ -284,6 +439,23 @@
                 "invariants": [
                   "DC equals rank + 10"
                 ],
+                "interaction": {
+                  "steps": [
+                    {
+                      "variable": "dcValue",
+                      "return_type": "Integer",
+                      "expression": "rank.value + 10"
+                    },
+                    {
+                      "variable": "dc",
+                      "return_type": "DifficultyClass",
+                      "expression": "new DifficultyClass(dcValue)"
+                    },
+                    {
+                      "return": "dc"
+                    }
+                  ]
+                },
                 "language_bullets": [
                   "sets the *DC* for *resistance checks* as DC = *rank* + 10"
                 ]

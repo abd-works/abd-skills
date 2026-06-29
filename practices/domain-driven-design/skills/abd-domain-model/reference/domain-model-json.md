@@ -12,17 +12,22 @@ Machine-readable spine for the domain model perspective. Parallel to `story-grap
 ```text
 domain-model.json
 └── modules[]
+    ├── relationships[]             ← cross-KA / module-wide (sibling to key_abstractions)
     ├── key_abstractions[]          ← KA (Key Abstraction)
+    │   ├── relationships[]         ← within-KA class relationships (sibling to classes)
     │   ├── classes[]
-    │   │   ├── properties[]
-    │   │   └── operations[]
+    │   │   ├── properties[]        ← return_type, invariants, optional interaction
+    │   │   └── operations[]        ← params, return_type, collaborators, invariants, optional interaction
     │   ├── references[]
     │   └── decisions[]
     └── boundary_domain
+        ├── relationships[]
         ├── classes[]
         ├── references[]
         └── decisions[]
 ```
+
+**Relationships sit outside classes** — they are first-class siblings at module, KA, or boundary scope. A class does not own its relationship list; the relationship names both ends explicitly.
 
 Same depth as `story-graph.json`:
 
@@ -33,7 +38,7 @@ Same depth as `story-graph.json`:
 | `sub_epics[]` | `key_abstractions[]` |
 | `stories[]` | `classes[]` |
 | `acceptance_criteria[]` / `scenarios[]` | `properties[]` / `operations[]` |
-| `increments[]` | *(no direct equivalent — boundary_domain is a sibling section)* |
+| *(cross-story links)* | `relationships[]` at module or KA scope |
 
 ---
 
@@ -55,8 +60,9 @@ Same depth as `story-graph.json`:
 | `name` | yes | Module name (matches `# Module: [Name]` in markdown) |
 | `scope` | no | Module-specific scope when different from root |
 | `core_terms` | no | Flat term list (from glossary **Core terms** / **Terms**) |
+| `relationships` | yes | Cross-KA relationships between classes in this module (may be empty) |
 | `key_abstractions` | yes | KA groups under **Core Domain** |
-| `boundary_domain` | yes | Scoped boundary classes (may be empty) |
+| `boundary_domain` | yes | Scoped boundary classes and their relationships |
 
 ---
 
@@ -66,9 +72,55 @@ Same depth as `story-graph.json`:
 | --- | --- | --- |
 | `name` | yes | KA name (matches `## KAName` in markdown) |
 | `definition` | yes | KA intro paragraph — the term definition for the KA |
+| `relationships` | yes | Relationships between classes in this KA (may be empty) |
 | `classes` | yes | All classes owned by this KA |
 | `references` | yes | Source refs for this KA (may be empty) |
 | `decisions` | yes | Modeling decisions for this KA (may be empty) |
+
+---
+
+## Relationship
+
+Declared at **module**, **KA**, or **boundary_domain** scope — never nested inside a class.
+
+| Field | Required | Meaning |
+| --- | --- | --- |
+| `name` | yes | Relationship name (domain language, e.g. `"resolved using"`, `"carries"`) |
+| `kind` | yes | `"association"`, `"aggregation"`, or `"composition"` |
+| `ends` | yes | Exactly two ends — both classes, roles, and cardinalities |
+
+### Relationship end
+
+| Field | Required | Meaning |
+| --- | --- | --- |
+| `class` | yes | PascalCase class name at this end |
+| `role` | yes | Role name at this end (camelCase noun from domain vocabulary) |
+| `cardinality` | yes | One of `1..1`, `0..1`, `1..*`, `0..*` |
+
+**Placement rules:**
+
+| Scope | Use when |
+| --- | --- |
+| `modules[].relationships[]` | Both classes may span different KAs within the module |
+| `key_abstractions[].relationships[]` | Both classes live under the same KA |
+| `boundary_domain.relationships[]` | Boundary class relates to a core-domain class |
+
+**Direction:** the class that lists a collaborator in the domain model is the navigating end. Cardinality on each end is independent.
+
+Example:
+
+```json
+{
+  "name": "carries",
+  "kind": "composition",
+  "ends": [
+    { "class": "Trait", "role": "trait", "cardinality": "1..1" },
+    { "class": "Rank", "role": "rank", "cardinality": "1..1" }
+  ]
+}
+```
+
+Markdown equivalent (domain specification): `Trait *composes* Rank [1..1 ↔ 1..1]`.
 
 ---
 
@@ -79,11 +131,13 @@ Same depth as `story-graph.json`:
 | `name` | yes | PascalCase class name |
 | `ka_anchor` | yes | `true` for the class that names the KA (listed first) |
 | `term` | yes | Glossary / domain-language term this class came from |
-| `extends` | yes | Parent class name, or `null` |
+| `extends` | yes | Parent class name for subtypes, or `null` |
 | `constructor` | yes | `{ "parameter_types": ["Type", ...] }` — types only, no param names |
 | `properties` | yes | Typed state (may be empty) |
 | `operations` | yes | Behavior (may be empty) |
 | `owned_by` | boundary only | Owning module for boundary classes |
+
+**Subtypes:** set `extends` to the parent class name. The child block carries **delta members only** — same rule as `### ChildClass : ParentClass` in markdown.
 
 Omit `constructor` or use `"parameter_types": []` when the class has no constructor.
 
@@ -94,9 +148,14 @@ Omit `constructor` or use `"parameter_types": []` when the class has no construc
 | Field | Required | Meaning |
 | --- | --- | --- |
 | `name` | yes | camelCase property name |
-| `type` | yes | Domain type, constrained enum, or typed primitive — never raw `String` |
+| `return_type` | yes | Domain type, constrained enum, or typed primitive — never raw `String` |
 | `invariants` | yes | Declarative constraints (may be empty) |
+| `interaction` | no | Step chain when the property is derived or has non-trivial internal logic |
 | `language_bullets` | no | Traceability back to domain-language bullets |
+
+Properties use `return_type` (not `type`) for parity with operations.
+
+When a property's `return_type` references another class, the corresponding `relationships[]` entry at KA or module scope declares kind and cardinality. The property and the relationship are complementary — not duplicates.
 
 ---
 
@@ -110,7 +169,54 @@ Omit `constructor` or use `"parameter_types": []` when the class has no construc
 | `visibility` | yes | `"public"` or `"private"` (`-` prefix in markdown) |
 | `collaborators` | yes | Hidden domain types not in params or return (may be empty) |
 | `invariants` | yes | Declarative constraints (may be empty) |
+| `interaction` | no | Step chain tracing how collaborators are used (see below) |
 | `language_bullets` | no | Traceability back to domain-language behavior bullets |
+
+---
+
+## Interaction
+
+Optional on **properties** and **operations** when behavior has inherent complexity — same role as `Interaction:` blocks in domain specification (`abd-domain-specification`).
+
+Omit when behavior is a simple delegation, a direct property read, or fully captured by signature + a single invariant.
+
+| Field | Required | Meaning |
+| --- | --- | --- |
+| `steps` | yes | Ordered flat list — no nesting |
+
+### Interaction step
+
+Each step is **either** an assignment **or** a return — never both.
+
+**Assignment step:**
+
+| Field | Required | Meaning |
+| --- | --- | --- |
+| `variable` | yes | Domain-language variable name |
+| `return_type` | yes | Type of the variable |
+| `expression` | yes | Typed pseudocode expression using domain language |
+
+**Return step:**
+
+| Field | Required | Meaning |
+| --- | --- | --- |
+| `return` | yes | Variable name to return |
+
+Example (from `Check.resolve`):
+
+```json
+"interaction": {
+  "steps": [
+    { "variable": "roll", "return_type": "Integer", "expression": "d20.roll()" },
+    { "variable": "rollTotal", "return_type": "Integer", "expression": "roll + trait.rank.toModifier().value + circumstanceModifier.value" },
+    { "variable": "success", "return_type": "Boolean", "expression": "rollTotal >= difficultyClass.value" },
+    { "variable": "result", "return_type": "CheckResult", "expression": "new CheckResult(success, margin)" },
+    { "return": "result" }
+  ]
+}
+```
+
+**Collaborator accounting:** every type in `collaborators[]` must appear in `parameter_types`, `return_type`, a property `return_type`, or a step `expression`. Unaccounted collaborators are modeling gaps.
 
 ---
 
@@ -129,8 +235,6 @@ Omit `constructor` or use `"parameter_types": []` when the class has no construc
 
 ### Glossary term → class
 
-When a glossary or domain-language **term** is modeled as a **class** (not a pure property or subtype heading only):
-
 | Upstream | JSON |
 | --- | --- |
 | `### term` under a KA | `classes[].term` = term name |
@@ -138,59 +242,37 @@ When a glossary or domain-language **term** is modeled as a **class** (not a pur
 | `### Subtype *is a type of* Base` | `extends: "Base"` on the child class |
 | `### term *(boundary)*` | `boundary_domain.classes[]` with `owned_by` |
 
-Terms that stay **properties only** (e.g. *d20* on *check*) do not get a separate class — they appear as `properties[]` on the owning class.
-
 ### Domain-language bullet → property or operation
-
-Domain-language structure maps **one-for-one** except **relations and who-does-what**:
 
 | Language bullet pattern | JSON target |
 | --- | --- |
-| `is a … of *parent*` / `has …` / `carries …` | `properties[]` on the concept's class |
-| `is resolved by …` / `produces …` / behavior verb | `operations[]` on the concept's class |
+| `is a … of *parent*` / `has …` / `carries …` | `properties[]` with `return_type` |
+| `is resolved by …` / `produces …` / behavior verb | `operations[]` |
 | `**Invariant:**` line | `invariants[]` on the nearest property or operation |
-| Pure property with no independent behavior | property on parent class only — no separate class |
+| Cross-class dependency in bullets | `relationships[]` at KA or module scope |
 
-**Collaborators** (`collaborators[]` on operations) and **who initiates** are **not** copied from language prose. Infer them from *italicized* class names mentioned in the bullet text — every domain type referenced in a behavior bullet that is not already in `parameter_types` or `return_type` becomes a collaborator.
+**Collaborators** on operations are inferred from *italicized* class names in bullets. **Relationships** are declared separately at KA/module scope with both ends, kind, roles, and cardinalities.
 
-Example:
+### Domain specification projection
 
-```text
-- is resolved by *rolling* a *d20*, adding the *trait rank* … comparing … to the *difficulty class*
-```
+When promoting to class-model / domain-specification fidelity:
 
-→ `operations[].collaborators`: `["Trait", "DifficultyClass", "D20"]` (types already in signature are not repeated).
-
-### domain.json (scanner vocabulary)
-
-`domain.json` remains a **flat index** derived from this graph:
-
-```json
-{
-  "concepts": {
-    "Check": {
-      "attributes": ["d20", "difficultyClass", "trait"],
-      "inherits": null
-    },
-    "OpposedCheck": {
-      "attributes": [],
-      "inherits": "Check"
-    }
-  }
-}
-```
-
-Generate `domain.json` from `domain-model.json` — do not hand-maintain both independently.
+| domain-model.json | domain-specification |
+| --- | --- |
+| `properties[].return_type` | `+ property: ReturnType` |
+| `operations[].interaction` | tab-indented `Interaction:` block |
+| `relationships[]` | relationship lines with cardinality |
+| `extends` | `### Child : Parent` heading |
 
 ---
 
 ## Semantic pointer (for context-graph)
 
-Name-based locator within the file (same convention as `story-graph.json`):
-
 ```text
+modules/Check Resolution/relationships/resolved using
+modules/Check Resolution/key_abstractions/Trait/relationships/carries
 modules/Check Resolution/key_abstractions/Trait/classes/Rank
-modules/Catalog/boundary_domain/classes/PowerEffect
+modules/Check Resolution/key_abstractions/Check/classes/OpposedCheck
 ```
 
 ---
@@ -200,11 +282,11 @@ modules/Catalog/boundary_domain/classes/PowerEffect
 | File | Purpose |
 | --- | --- |
 | `templates/domain-model-template.json` | Placeholder scaffold with `{{tokens}}` |
-| `templates/domain-model-outline.json` | Minimal valid empty-ish graph |
+| `templates/domain-model-outline.json` | Minimal valid graph with KA-level relationship |
 | `templates/domain-model-example.json` | Filled Check Resolution example |
 
 ---
 
 ## Relationship to delivery-graph solution
 
-This file is the **domain view spine** described in `docs/delivery-graph-solution.md` (there named `domain-graph.json`). Canonical name in the scaffold is **`domain-model.json`** to mirror `domain-model.md` and `story-graph.json` naming.
+This file is the **domain view spine** described in `docs/delivery-graph-solution.md`. Canonical name is **`domain-model.json`** to mirror `domain-model.md` and `story-graph.json` naming.

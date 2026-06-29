@@ -1,5 +1,5 @@
 {
-  "_comment": "Machine-readable domain model spine — parallel to story-graph.json. Markdown (domain-model.md) and domain.json (scanner vocabulary) are projections; this file is the structured source of truth for Module → KA → Class → Property/Operation containment. Schema: abd-domain-model/v1.",
+  "_comment": "Machine-readable domain model spine — parallel to story-graph.json. Relationships are first-class siblings of classes (at KA or module scope), not nested inside class nodes. Schema: abd-domain-model/v1.",
   "schema": "abd-domain-model/v1",
   "product": "{{ProductOrSystemName}}",
   "scope": "{{bounded slice or engagement scope}}",
@@ -11,10 +11,46 @@
         "{{term1}}",
         "{{term2}}"
       ],
+      "relationships": [
+        {
+          "name": "{{relationshipName}}",
+          "kind": "{{association|aggregation|composition}}",
+          "ends": [
+            {
+              "class": "{{SourceClassName}}",
+              "role": "{{sourceRole}}",
+              "cardinality": "{{1..1|0..1|1..*|0..*}}"
+            },
+            {
+              "class": "{{TargetClassName}}",
+              "role": "{{targetRole}}",
+              "cardinality": "{{1..1|0..1|1..*|0..*}}"
+            }
+          ]
+        }
+      ],
       "key_abstractions": [
         {
           "name": "{{KAName}}",
           "definition": "{{KA intro paragraph — what it owns, relates to, and must always hold}}",
+          "relationships": [
+            {
+              "name": "{{relationshipName}}",
+              "kind": "{{association|aggregation|composition}}",
+              "ends": [
+                {
+                  "class": "{{SourceClassName}}",
+                  "role": "{{sourceRole}}",
+                  "cardinality": "{{1..1|0..1|1..*|0..*}}"
+                },
+                {
+                  "class": "{{TargetClassName}}",
+                  "role": "{{targetRole}}",
+                  "cardinality": "{{1..1|0..1|1..*|0..*}}"
+                }
+              ]
+            }
+          ],
           "classes": [
             {
               "name": "{{KaAnchorClassName}}",
@@ -29,10 +65,22 @@
               "properties": [
                 {
                   "name": "{{propertyName}}",
-                  "type": "{{Type}}",
+                  "return_type": "{{Type}}",
                   "invariants": [
                     "{{declarative constraint}}"
                   ],
+                  "interaction": {
+                    "steps": [
+                      {
+                        "variable": "{{varName}}",
+                        "return_type": "{{Type}}",
+                        "expression": "{{domain-language expression}}"
+                      },
+                      {
+                        "return": "{{varName}}"
+                      }
+                    ]
+                  },
                   "language_bullets": [
                     "{{domain-language bullet this property came from}}"
                   ]
@@ -52,22 +100,23 @@
                   "invariants": [
                     "{{declarative constraint}}"
                   ],
+                  "interaction": {
+                    "steps": [
+                      {
+                        "variable": "{{varName}}",
+                        "return_type": "{{Type}}",
+                        "expression": "{{expression using collaborators}}"
+                      },
+                      {
+                        "return": "{{varName}}"
+                      }
+                    ]
+                  },
                   "language_bullets": [
-                    "{{domain-language behavior bullet — collaborators inferred from *italicized* class names}}"
+                    "{{domain-language behavior bullet}}"
                   ]
                 }
               ]
-            },
-            {
-              "name": "{{SubordinateClassName}}",
-              "ka_anchor": false,
-              "term": "{{glossary_or_language_term}}",
-              "extends": null,
-              "constructor": {
-                "parameter_types": []
-              },
-              "properties": [],
-              "operations": []
             },
             {
               "name": "{{ChildClassName}}",
@@ -91,7 +140,10 @@
                   "collaborators": [],
                   "invariants": [
                     "{{constraint specific to this subtype}}"
-                  ]
+                  ],
+                  "interaction": {
+                    "steps": []
+                  }
                 }
               ]
             }
@@ -105,11 +157,12 @@
             }
           ],
           "decisions": [
-            "{{constrained enum values, state-carrier introduction, Liskov decision, dependency-magnet split, typed-primitive introduction, or open question}}"
+            "{{modeling decision}}"
           ]
         }
       ],
       "boundary_domain": {
+        "relationships": [],
         "classes": [
           {
             "name": "{{BoundaryClassName}}",
@@ -122,7 +175,7 @@
             "properties": [
               {
                 "name": "{{propertyName}}",
-                "type": "{{Type}}",
+                "return_type": "{{Type}}",
                 "invariants": []
               }
             ],
@@ -135,22 +188,16 @@
                 "return_type": "{{ReturnType}}",
                 "visibility": "public",
                 "collaborators": [],
-                "invariants": []
+                "invariants": [],
+                "interaction": {
+                  "steps": []
+                }
               }
             ]
           }
         ],
-        "references": [
-          {
-            "title": "{{ref_title}}",
-            "source": "{{source_path}}",
-            "locator": "{{locator}}",
-            "extract": "{{whole or partial}}"
-          }
-        ],
-        "decisions": [
-          "{{boundary placement reasoning}}"
-        ]
+        "references": [],
+        "decisions": []
       }
     }
   ]
