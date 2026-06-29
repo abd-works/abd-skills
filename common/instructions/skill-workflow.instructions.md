@@ -63,15 +63,7 @@ After read-gates: author to all `rules/`; one deliverable per `templates/` file;
 
 ## Validate output
 
-After generating, do both passes.
-
-**A — Per-rule verdict:** Re-read `rules/`. Emit PASS/FAIL per rule. Apply practice-family `validate-checklist.md` when linked.
-
-**B — Scanner pass:**
-
-```bash
-python <common_root>/scripts/run_scanners.py --skill-root <path-to-skill> --workspace <path-to-output>
-```
+After generating, run [`common/reference/rule-checklist.md`](common/reference/rule-checklist.md) **Steps 2–4** in full.
 
 ---
 

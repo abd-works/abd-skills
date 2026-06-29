@@ -32,8 +32,8 @@ This is not “the model learns.” It is **the skill package learns** — rules
 | --- | --- | --- |
 | Correction process | `common/instructions/log-and-fix-skill-errors.instructions.md` | Fix output first; log DO/DO NOT + Example (wrong); fill Example (correct) on confirm |
 | Fix skill source | `common/prompts/fix-skill.prompt.md` | Read log → change rules / SKILL / scanners / templates |
-| Validate workflow | `common/reference/skill-workflow.md` § Validate | AI pass + scanner pass together |
-| Rule checklist | `common/reference/rule-checklist.md` | Read rules → scanners → per-rule verdict → adversarial intent |
+| Validate workflow | [`common/reference/skill-workflow.md`](common/reference/skill-workflow.md) § Validate → [`rule-checklist.md`](common/reference/rule-checklist.md) | Scanner pass → per-rule verdict → adversarial intent |
+| Rule checklist | [`common/reference/rule-checklist.md`](common/reference/rule-checklist.md) | Steps 2–4 (validate); Step 1 confirms read-gates |
 | Scanner driver | `common/scripts/run_scanners.py` | Run paired scanners; write `scanner-report/` |
 | Reference eval pattern | `stages/engineering/abd-secure-code/test/` | `fixtures/`, `scanner_expectations.json`, pytest — **only skill with this today** |
 | CDD session corrections | `abd-context-driven-delivery` SKILL § Corrections | Session-local; journal format with wrong/correct examples |
@@ -249,8 +249,8 @@ Repo-level scripts (future, not built):
 
 ## References in this repo
 
-- `common/reference/skill-workflow.md` — Validate output (AI + scanner)
-- `common/reference/rule-checklist.md` — four-step validate mindset
+- `common/reference/skill-workflow.md` — Validate output (pointer to rule-checklist)
+- `common/reference/rule-checklist.md` — four-step validate process (source of truth)
 - `common/instructions/log-and-fix-skill-errors.instructions.md` — correction fields including `Likely source`
 - `common/prompts/fix-skill.prompt.md` — source fix targets including scanners
 - `stages/engineering/abd-secure-code/test/README.md` — existing fixture/scanner test pattern

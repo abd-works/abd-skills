@@ -1,6 +1,6 @@
 # Skill Workflow
 
-**You were sent here from a practice skill's `SKILL.md`.** Read this file **in its entirety** before generating, grilling, or validating. Order: **bootstrap** (engagement context) → **read-gates** (skill package) → generate → validate.
+**You were sent here from a practice skill's `SKILL.md`.** Read this file **in its entirety** before generating, grilling, or validating. Order: **bootstrap** (engagement context) → **read-gates** (skill package) → generate → validate ([`rule-checklist.md`](./rule-checklist.md) Steps 2–4).
 
 ---
 
@@ -65,28 +65,9 @@ Skill-specific workflow order, fidelity branching, and pre-scanners live in **`r
 
 ---
 
-## Validate output (AI pass + scanner pass)
+## Validate output
 
-After generating, do **both**. Together they are the answer to "does this match the rules?"
-
-**A — Per-rule verdict (AI pass):** Re-read every file in **`rules/`**. For **each rule**, emit:
-
-```
-Rule: <rule-filename>  ->  PASS
-Rule: <rule-filename>  ->  FAIL  <offending line or reason>
-```
-
-No rule may be silently skipped. Fix every FAIL before calling the work done.
-
-When the active skill's practice family has **`reference/validate-checklist.md`**, read it and apply those shared items during § Validate output. Do **not** duplicate rule checks in `SKILL.md` — per-rule verdicts and scanners are sufficient.
-
-**B — Scanner pass:**
-
-```bash
-python <common_root>/scripts/run_scanners.py --skill-root <path-to-skill> --workspace <path-to-output>
-```
-
-Add `--language <lang>` (e.g. `python`, `javascript`) when scanners live in `scanners/<lang>/`. Save the report to `scanner-report/` in the workspace. Fix all violations and re-run.
+After generating, run [`rule-checklist.md`](./rule-checklist.md) **Steps 2–4** in full. Step 1 confirms § Read-gates above were completed before work started.
 
 ---
 

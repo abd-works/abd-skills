@@ -49,4 +49,6 @@ Generate executable test files from specification scenarios, acceptance criteria
 
 ## Validate
 
-§ Validate output + [`../../reference/validate-checklist.md`](../../reference/validate-checklist.md).
+## Validate
+
+[`common/reference/rule-checklist.md`](../../../../common/reference/rule-checklist.md) — Steps 2–4.

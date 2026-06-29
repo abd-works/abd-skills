@@ -1,6 +1,6 @@
 # Story-Driven Delivery — Shared Validate Checklist
 
-Apply these items during `common/reference/skill-workflow.md` § Validate output for every SDD practice skill.
+Apply these items during [`common/reference/rule-checklist.md`](../../../common/reference/rule-checklist.md) Steps 2–4 for every SDD practice skill.
 
 ---
 

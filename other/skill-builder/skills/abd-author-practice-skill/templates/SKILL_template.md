@@ -78,7 +78,9 @@ Load this skill when **any** of the following apply:
 
 ## Validate
 
-§ Validate output + practice `validate-checklist.md` when the family ships one.
+## Validate
+
+[`common/reference/rule-checklist.md`](../../../../common/reference/rule-checklist.md) — Steps 2–4.
 
 ## Diagram workflow
 

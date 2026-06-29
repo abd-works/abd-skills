@@ -45,4 +45,6 @@ Make story behavior unambiguous — concrete examples with real values so devs a
 
 ## Validate
 
-§ Validate output + [`../../reference/validate-checklist.md`](../../reference/validate-checklist.md).
+## Validate
+
+[`common/reference/rule-checklist.md`](../../../../common/reference/rule-checklist.md) — Steps 2–4.

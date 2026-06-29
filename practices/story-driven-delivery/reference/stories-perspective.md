@@ -41,4 +41,4 @@
 | `reference/diagram-workflow.md` | Mode + output path — mapping, AC, thin-slicing only |
 | `reference/output.md` | Non-default output path — acceptance-test only |
 
-**SKILL.md index sections:** Bootstrap, Read, Input traps, Grill me, Generate, Validate — plus Diagram workflow / Output when those `reference/` files exist. Bootstrap includes decision records via [`common/reference/decision-record.md`](../../../common/reference/decision-record.md) in [`common/reference/skill-workflow.md`](../../../common/reference/skill-workflow.md) § Bootstrap.
+**SKILL.md index sections:** Bootstrap, Read, Input traps, Grill me, Generate, Validate — plus Diagram workflow / Output when those `reference/` files exist. Bootstrap includes decision records via [`common/reference/decision-record.md`](../../../common/reference/decision-record.md) in [`common/reference/skill-workflow.md`](../../../common/reference/skill-workflow.md) § Bootstrap. Validate links [`common/reference/rule-checklist.md`](../../../common/reference/rule-checklist.md) Steps 2–4 (practice items in [`validate-checklist.md`](./validate-checklist.md)).
