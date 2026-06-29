@@ -50,13 +50,19 @@ Load this skill when **any** of the following apply:
 
 ## Agent Instructions
 
-Follow [`common/skill-workflow.md`](../../../../common/skill-workflow.md) — read-gates, output file resolution, and the per-rule verdict format are defined there.
+**MANDATORY bootstrap — no generation until complete.**
 
-> **MANDATORY — follow § Read-gates** — including `reference/input-traps.md` before generating.
+1. Read **[`common/skill-workflow.md`](../../../../common/skill-workflow.md) in its entirety** and complete every step in § Read-gates (all of `rules/`, all of `reference/` including `input-traps.md`, practice files linked from this skill, and [`common/grill-me-with-practice-skill.md`](../../../../common/grill-me-with-practice-skill.md) when grill mode is active).
+2. Read **every file linked in § 1 below in full** — do not skim, summarize from memory, or skip.
 
-### 1. Read context (MANDATORY before starting)
+Output resolution, validation, and diagram delegation are defined in `common/skill-workflow.md`.
 
-Read every file in **`reference/`** (if the folder exists). These contain concept definitions, examples, and heuristics that govern what good output looks like.
+### 1. Read context (MANDATORY — every linked file in full)
+
+Read these files:
+- **`reference/concepts.md`** — {{READ_CONTEXT_CONCEPTS_ONE_LINER}}
+- **`reference/examples.md`** — {{READ_CONTEXT_EXAMPLES_ONE_LINER}}
+- {{READ_CONTEXT_PRACTICE_OR_TEMPLATE_LINKS_OR_DELETE}}
 
 ### 2. Generate
 

@@ -8,9 +8,9 @@ Failure is a `SKILL.md` that still has bundle markers, inlined rule prose, or an
 
 ## DO
 
-- Keep **`SKILL.md`** as a thin router: purpose, when-to-use, output file resolution, Agent Instructions with read-gates, Validate with per-rule verdict.
+- Keep **`SKILL.md`** as a thin router: purpose, when-to-use, Agent Instructions with mandatory bootstrap (read `common/skill-workflow.md` in full + every linked file in full), Validate with per-rule verdict.
 
-  **Example (pass):** Agent Instructions says "MANDATORY: Before authoring, read every file in `rules/` and every file in `reference/`. At validation, re-read every `rules/` file and emit a PASS/FAIL verdict for each."
+  **Example (pass):** Agent Instructions opens with **MANDATORY bootstrap** — read `common/skill-workflow.md` in its entirety, complete § Read-gates, then read every file in § Read context in full; validation re-reads every `rules/` file and emits PASS/FAIL per rule.
 
 - Set **`scanner: <stem>`** in the **rule file's YAML** only when **`scanners/<stem>-scanner.py`** exists on that package (stem repeated exactly in the scanner Python filename).
 

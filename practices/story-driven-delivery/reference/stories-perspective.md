@@ -41,4 +41,4 @@
 
 **Output file names** for the four `docs/` skills: [`common/folder-conventions.md`](../../../common/folder-conventions.md) — no `reference/output.md` needed. [`common/skill-workflow.md`](../../../common/skill-workflow.md) § Output file resolution.
 
-**Workflow:** [`common/skill-workflow.md`](../../../common/skill-workflow.md) § Read-gates defines read order. **Grill mode:** [`common/grill-me-with-practice-skill.md`](../../../common/grill-me-with-practice-skill.md) — interview mechanics only; questions from `reference/input-traps.md`.
+**Workflow:** [`common/skill-workflow.md`](../../../common/skill-workflow.md) § Read-gates defines read order — **read each file in full**. Skills must bootstrap via **MANDATORY** Agent Instructions in `SKILL.md` (read workflow + every linked file). **Grill mode:** [`common/grill-me-with-practice-skill.md`](../../../common/grill-me-with-practice-skill.md) — interview mechanics only; questions from `reference/input-traps.md`.

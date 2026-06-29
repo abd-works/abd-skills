@@ -5,7 +5,7 @@ alwaysApply: false
 
 # Skill Workflow
 
-Apply this when executing any practice skill. It governs how you resolve output paths, gate on rules, validate, and correct.
+**You were sent here from a practice skill's `SKILL.md`.** Read this file **in its entirety** before generating, grilling, or validating.
 
 ---
 
@@ -33,13 +33,13 @@ Most skills need no `reference/output.md` — `folder-conventions.md` is enough.
 
 Before authoring any artifact, read in this order:
 
-1. **`rules/`** — every file for the active skill.
-2. **`reference/`** — concepts, examples, teaching (**not** `input-traps.md`, `diagram-workflow.md`, or `output.md` yet).
-3. **`reference/input-traps.md`** — check each trap against available input.
-4. **Practice family `reference/`** — any shared files linked from `SKILL.md` or `reference/concepts.md`.
-5. **Grill mode only** — if invocation includes **"grill me"**, read `common/grill-me-with-practice-skill.md`.
+1. **`rules/`** — every file for the active skill, **read in full**.
+2. **`reference/`** — every concepts/examples file (**not** `input-traps.md`, `diagram-workflow.md`, or `output.md` yet) — **read in full**.
+3. **`reference/input-traps.md`** — **read in full**; check each trap against available input.
+4. **Practice `reference/` and skill-linked files** — every file linked from `SKILL.md` § Read context or `reference/concepts.md`, including `templates/` when listed — **read in full**.
+5. **Grill mode only** — if invocation includes **"grill me"**, read `common/grill-me-with-practice-skill.md` **in its entirety**.
 
-Do not rely on memory or the SKILL body alone. Steps 1–4 always; step 5 when grill mode is active.
+**Read each file in full** — no skimming or memory. Steps 1–4 always; step 5 when grill mode is active.
 
 ---
 

@@ -1,6 +1,6 @@
 # Skill Workflow
 
-Read this file when any practice skill tells you to. It defines the shared workflow for executing any skill using its rules.
+**You were sent here from a practice skill's `SKILL.md`.** Read this file **in its entirety** before generating, grilling, or validating. It defines the shared workflow: read-gates, output resolution, validation, diagram delegation, and correction.
 
 ---
 
@@ -28,13 +28,13 @@ Most skills need no `reference/output.md` — `folder-conventions.md` is enough.
 
 Before authoring any artifact — **hard gate, no exceptions.** Read in this order:
 
-1. **`rules/`** — every file for the active skill.
-2. **`reference/`** — concepts, examples, and other teaching files (**not** `input-traps.md`, `diagram-workflow.md`, or `output.md` yet).
-3. **`reference/input-traps.md`** — check each trap against available input; flag gaps; do not assume away ambiguities this skill names.
-4. **Practice family `reference/`** — read any shared files linked from the active skill's `SKILL.md` or `reference/concepts.md` (e.g. `handling-incomplete-context.md`, `diagram-workflow.md`, `domain-input-priority.md` at practice level).
-5. **Grill mode only** — if the invocation includes **"grill me"**, read [`grill-me-with-practice-skill.md`](./grill-me-with-practice-skill.md) and work through unresolved traps as questions (one at a time) before generating.
+1. **`rules/`** — **every** file for the active skill, **read in full**.
+2. **`reference/`** — **every** concepts, examples, and teaching file (**not** `input-traps.md`, `diagram-workflow.md`, or `output.md` yet) — **read in full**.
+3. **`reference/input-traps.md`** — **read in full**; check each trap against available input; flag gaps; do not assume away ambiguities this skill names.
+4. **Practice family `reference/`** and **skill-linked files** — read **in full** every file linked from the active skill's `SKILL.md` § Read context or `reference/concepts.md` (e.g. practice `handling-incomplete-context.md`, `domain-input-priority.md`; skill `templates/` when listed).
+5. **Grill mode only** — if the invocation includes **"grill me"**, read [`grill-me-with-practice-skill.md`](./grill-me-with-practice-skill.md) **in its entirety** and work through unresolved traps as questions (one at a time) before generating.
 
-Do not rely on memory or the SKILL body alone. No main task starts until steps 1–4 are done (and step 5 when grill mode is active).
+**Read each file in full** — no skimming, no summarizing from memory, no skipping sections. Do not rely on the SKILL body alone. No main task starts until steps 1–4 are done (and step 5 when grill mode is active).
 
 ---
 

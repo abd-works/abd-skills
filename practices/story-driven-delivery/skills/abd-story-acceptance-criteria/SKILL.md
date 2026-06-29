@@ -21,9 +21,14 @@ State exactly what must be true for a story to be done — so everyone agrees on
 
 ## Agent Instructions
 
-Follow `common/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
+**MANDATORY bootstrap — no generation until complete.**
 
-### 1. Read context
+1. Read **`common/skill-workflow.md` in its entirety** and complete every step in § Read-gates (all of `rules/`, all of `reference/` including `input-traps.md`, practice files linked from this skill, and `common/grill-me-with-practice-skill.md` when grill mode is active).
+2. Read **every file linked in § 1 below in full** — do not skim, summarize from memory, or skip.
+
+Output resolution, validation, and diagram delegation are defined in `common/skill-workflow.md`.
+
+### 1. Read context (MANDATORY — every linked file in full)
 
 Read these files:
 - **`reference/concepts.md`** — what AC are, WHEN/THEN/AND/BUT, domain terms, atomic AC, actor alternation, pitfalls.
