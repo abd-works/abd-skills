@@ -14,64 +14,30 @@ Make integration, ownership, and translation between contexts explicit — so te
 
 ---
 
-## Grill prompts
-
-Read `common/reference/grill-me-with-practice-skill.md` before grilling.
-
-Before generating, surface these:
-
-- **Hidden coupling** — Which contexts do people treat as independent but actually share data, vocabulary, or lifecycle?
-- **Ownership ambiguity** — Where does one team's responsibility end and another's begin — and does everyone agree?
-- **Translation cost** — Which boundary crossings silently corrupt meaning because the same word means different things on each side?
-- **Missing context** — Is there a bounded context the team hasn't named yet because it lives inside someone's head or a spreadsheet?
-- **Relationship direction** — For each dependency, which side sets the rules — and what happens when the downstream context disagrees?
-
----
-
-## Output file
-
-**Deliverables folder:** see `../common/reference/skill-workflow.md` — Output file resolution.
-
-**File name:** `bounded-context-map.md`. Add a `<name>-` prefix only when disambiguation is needed.
-
----
-
 ## Agent Instructions
 
-Follow `../common/reference/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
+**MANDATORY:** [`common/reference/skill-workflow.md`](../../../../../common/reference/skill-workflow.md) — read in full; complete § Bootstrap and § Read-gates before generating or validating.
 
-### 1. Read context
+## Bootstrap
 
-Read these files:
-- **`reference/concepts.md`** — bounded contexts, context maps, the three dimensions per dependency, relationship patterns (Shared Kernel, Customer/Supplier, Conformist, ACL, Open Host/Published Language, Separate Ways), and boundary heuristics.
+§ Bootstrap — [`common/reference/skill-workflow.md`](../../../../../common/reference/skill-workflow.md).
 
-### 2. Generate
+## Read
 
-**Produce output from every template:**
+§ Read-gates — all of [`rules/`](rules/), [`reference/`](reference/), [`templates/`](templates/).
 
-| Template | What to produce |
-| --- | --- |
-| `templates/bounded-context-map-template.md` | A single `bounded-context-map.md` — inventory of bounded contexts, dependency arcs with three dimensions each, decisions and tensions. |
+## Input traps
 
-**Quality bar:** Every bounded context has an owning team and scope description. Every dependency arc fills all three dimensions — domain mapping, integration mechanism, and team engagement model. Every relationship uses a named pattern from the DDD/ABD catalogue. Direction is explicit on every arc. No orphan contexts.
+[`reference/input-traps.md`](reference/input-traps.md).
 
-### 3. Validate
+## Grill me
 
-Run scanners and emit per-rule verdicts — see `../common/reference/skill-workflow.md` § Validate output.
+[`reference/grill-me.md`](reference/grill-me.md) — only when the invocation includes "grill me".
 
----
+## Generate
+
+[`reference/generate.md`](reference/generate.md).
 
 ## Validate
 
-**Goal:** Inspect the completed bounded context map as a reviewer.
-
-- **Completeness** — every bounded context in the system appears in the inventory with owning team and scope.
-- **Three dimensions** — every dependency arc has all three dimensions filled. No blanks, no "TBD" without a follow-up action.
-- **Named patterns** — every team engagement model uses a recognized pattern (Shared Kernel, Customer/Supplier, Conformist, ACL, Open Host/Published Language, Separate Ways) or named collaboration model (Travelling Team Members, Service Provider, Enabler).
-- **Direction** — every dependency states direction explicitly: upstream/downstream, mutual, or standalone.
-- **No orphans** — every bounded context participates in at least one dependency or is explicitly declared standalone with a rationale.
-- **Decisions and tensions** — open questions, contested boundaries, and deferred integrations are recorded, not hidden.
-- **Consistency with domain language** — bounded context names appear in the project's Domain Language.
-- **No bundle markers** — `SKILL.md` has no `<!-- execute_rules:bundle_rules -->` markers.
-
----
+[`common/reference/rule-checklist.md`](../../../../../common/reference/rule-checklist.md).

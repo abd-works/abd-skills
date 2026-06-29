@@ -19,83 +19,34 @@ Define each domain term precisely — name, meaning, boundaries, and relationshi
 
 ---
 
-## Output file
-
-**Deliverables folder:** `<active_skill_workspace>/domain/`
-
-**File name:** `domain-language.md`. Add a `<name>-` prefix only when disambiguation is needed. For multi-module engagements: `<deliverables-folder>/modules/<module-name>-domain-language.md`. When the scope spans more than one module in a single file, organize with `# Module: [ModuleName]` sections.
-
----
-
-## Grill prompts
-
-Read `common/reference/grill-me-with-practice-skill.md` before grilling.
-
-Before generating, surface these common input traps:
-
-- **Vocabulary collisions** — which term means different things to different people in the room — and where is the team smoothing over a real boundary by using one word for two concepts?
-- **Missing behavior** — which concepts are described as things that exist but not things that do anything — where is the behavior hiding behind nouns?
-- **Premature hierarchy** — are we organizing concepts into parent-child relationships because the domain actually has that structure, or because it feels tidy?
-- **Implicit concepts** — what ideas does the team use in every conversation but hasn't named — the concept that everyone assumes but nobody has articulated?
-- **Business vs. implementation language** — which descriptions capture what the concept does in the business versus how it might be implemented — and where has technical thinking leaked into the domain vocabulary?
-
----
-
 ## Agent Instructions
 
-### 1. Read context
+**MANDATORY:** [`common/reference/skill-workflow.md`](../../../../common/reference/skill-workflow.md) — read in full; complete § Bootstrap and § Read-gates before generating or validating.
 
-Read these files:
-- **`reference/concepts.md`** — Domain Language, terms, KAs, concepts, two tests, three outcomes, modeling decisions (concept vs subtype vs property vs instance), italicized-term resolution, decisions/references per KA, three passes, and the consistent file shape.
-- **`../../reference/oo-concepts.md`** — OO fundamentals (what is a class, inheritance and subtypes). Read the **`### Inheritance and subtypes`** section before classifying terms. **Do not** read or apply `### Decomposing responsibilities` — that applies at domain model stage and beyond.
+## Bootstrap
 
-**Read `oo-concepts.md` before touching any term. This is not optional.**
+§ Bootstrap — [`common/reference/skill-workflow.md`](../../../../common/reference/skill-workflow.md).
 
-### 2. Classify terms — mandatory interactive step
+## Read
 
-For every term that could be a concept, subtype, property, or instance: **you must ask before you classify**. This step is not optional and is not error-recovery — it is the process.
+§ Read-gates — all of [`rules/`](rules/), [`reference/`](reference/), [`templates/`](templates/).
 
-For each ambiguous term:
-1. Use `AskQuestion` to present the viable typing options (concept / subtype of X / property of X / instance of X).
-2. Include one sentence of reasoning for each option — why it fits, what it implies.
-3. Wait for the user's answer before writing the block.
+## Input traps
 
-**Never classify a term by assumption.** "It seemed obvious" is not a valid reason to skip the question. If you are uncertain, you are certain you must ask.
+[`reference/input-traps.md`](reference/input-traps.md).
 
-### 3. Generate
+## Grill me
 
-**Produce output from every template:**
+[`reference/grill-me.md`](reference/grill-me.md) — only when the invocation includes "grill me".
 
-| Template | What to produce |
-| --- | --- |
-| `templates/domain-language-template.md` | The Domain Language file with Terms list, KA intros, concept blocks, decisions, and references. |
-| `templates/domain.json` | Domain JSON with concept names, attributes, and inheritance. |
+## Generate
 
-**Quality bar:** Every KA intro opens with "*KAName* is …". Every concept has verb-led behavior bullets. Every `*italicized*` term resolves to a heading, stub, or parenthetical primitive. One `#### Decisions made` and one `#### References` per KA, after all concept blocks.
-
-### 3. Validate
-
-Run scanners and emit per-rule verdicts — see `../common/reference/skill-workflow.md` § Validate output.
-
----
+[`reference/generate.md`](reference/generate.md).
 
 ## Validate
 
-**Goal:** Inspect what was built — read the artifacts as reviewers.
+[`common/reference/rule-checklist.md`](../../../../common/reference/rule-checklist.md).
 
-- **Each KA anchors at least 3–5 terms** — subordinate concepts, subtypes, and properties included. A KA with fewer than three terms is not a KA; merge it under an existing KA or downgrade it to a subordinate concept.
-- **Terms list in header** — a single hierarchical `**Terms**` list.
-- **Every KA has an intro paragraph** — opens with "*KAName* is …".
-- **Every KA's own concept appears first** — the first `### concept` under each `## KA` matches the KA name.
-- **Every concept has verb-led behavior bullets** — active voice; the concept is the subject.
-- **Domain terms italicized** — every domain term in bullets, invariants, and KA intro paragraphs.
-- **Italicized terms resolve** — every `*italicized*` term resolves to a heading, stub, or parenthetical primitive.
-- **No bold on headings** — `## KAName`, `### concept`, and subtype headings carry no bold.
-- **One `#### Decisions made` per KA** — after all concept blocks.
-- **One `#### References` per KA** — after `#### Decisions made`.
-- **Boundary entries have a single named owner** — `Owned by: ModuleName`.
-- **Properties with independent behavior visible** — properties that have their own invariants, behavior, or interactions get a `###` stub; properties that are only "a property of X" are mentioned in the parent concept's bullets only.
-- **No premature design commitments** — no UML stereotypes, typed properties, method signatures, or cardinality notation.
-- **No bundle markers** — `SKILL.md` has no `<!-- execute_rules:bundle_rules -->` markers.
+## Output
 
----
+[`reference/output.md`](reference/output.md).

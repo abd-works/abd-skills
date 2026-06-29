@@ -13,101 +13,40 @@ context-fidelity:
 ---
 # abd-domain-specification
 
-## Grill prompts
-
-Read `common/reference/grill-me-with-practice-skill.md` before grilling.
-
-Before generating, surface these common input traps:
-
-- **Type precision** — which properties are typed as generic primitives when the domain actually constrains them — where does "string" hide a real domain type with its own rules?
-- **Relationship ownership** — when two concepts reference each other, which one owns the relationship — and what happens to the dependent when the owner changes or disappears?
-- **Cross-concept invariants** — which business rules span multiple classes — and where does the enforcement logic actually live when no single class owns the whole rule?
-- **Interaction completeness** — for operations with multiple steps, are we confident we know every participant — or are there hidden collaborators the sequence depends on?
-- **Identity assumptions** — which concepts have identity and which don't — and what breaks if something we treat as a value actually needs to be tracked individually?
-
----
-
 ## Purpose
 
 Build a typed Class Model for a module — fully typed properties, operations with parameters, relationships, object initialisation, and interaction blocks — from a domain model or directly from domain knowledge.
 
 ---
 
-## Output file
-
-**Deliverables folder:** see `../common/reference/skill-workflow.md` — Output file resolution.
-
-**File name:** `domain-specification.md`. Add a `<name>-` prefix only when disambiguation is needed. For multi-module engagements: `<deliverables-folder>/modules/<module-name>-domain-specification.md`.
-
-The file is **not** an in-place enrichment of the domain model file. It is a fresh artifact in the same flat heading shape every other DDD phase skill uses.
-
----
-
-## Diagram workflow
-
-Produces `<deliverables-folder>/domain-specification.drawio` from `domain-specification.md`. Must exist before the cell is marked done.
-
-If a `domain-model.drawio` already exists (from `abd-domain-model`), pass it as `--base-diagram` so layout is preserved and only updated in place:
-
-```bash
-# With existing domain model diagram (preserves layout):
-python scripts/drawio_domain_cli.py \
-  <deliverables-folder>/domain-specification.md \
-  --base-diagram <deliverables-folder>/domain-model.drawio \
-  --output <deliverables-folder>/domain-specification.drawio
-
-# Without (fresh layout):
-python scripts/drawio_domain_cli.py \
-  <deliverables-folder>/domain-specification.md \
-  --output <deliverables-folder>/domain-specification.drawio
-```
-
----
-
 ## Agent Instructions
 
-Follow `../common/reference/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
+**MANDATORY:** [`common/reference/skill-workflow.md`](../../../../common/reference/skill-workflow.md) — read in full; complete § Bootstrap and § Read-gates before generating or validating.
 
-### 1. Read context
+## Bootstrap
 
-Read these files:
-- **`reference/concepts.md`** — typed notation: properties, operations, object initialisation, relationships (aggregation/composition/association), collections, inheritance, invariants, interactions, entities and value objects, and the consistent file shape.
-- **`../../reference/oo-concepts.md`** — OO fundamentals (what is a class, decomposing responsibilities, relationships, inheritance and subtypes).
+§ Bootstrap — [`common/reference/skill-workflow.md`](../../../../common/reference/skill-workflow.md).
 
-### 2. Generate
+## Read
 
-**Produce output from every template:**
+§ Read-gates — all of [`rules/`](rules/), [`reference/`](reference/), [`templates/`](templates/).
 
-| Template | What to produce |
-| --- | --- |
-| `templates/domain-model-scaffold.md` | The Class Model file with typed class blocks under each KA. |
-| `templates/domain.json` | Domain JSON with class names, property names (camelCase), and inheritance. |
+## Input traps
 
-**Quality bar:** Every property is typed and justified by a domain responsibility. Every operation is a fully typed signature. Every class has object initialisation decided. Composition/aggregation properties carry stereotypes. Subtype blocks carry only deltas. Operations with inherent complexity have `Interaction:` blocks. No operation carries multiple invariants without an `Interaction:`. Variable names in interactions use domain language. State marker set to `domain-model`.
+[`reference/input-traps.md`](reference/input-traps.md).
 
-### 3. Validate
+## Grill me
 
-Run scanners and emit per-rule verdicts — see `../common/reference/skill-workflow.md` § Validate output.
+[`reference/grill-me.md`](reference/grill-me.md) — only when the invocation includes "grill me".
 
----
+## Generate
+
+[`reference/generate.md`](reference/generate.md).
 
 ## Validate
 
-**Goal:** Inspect what was built — read the artifacts as reviewers.
+[`common/reference/rule-checklist.md`](../../../../common/reference/rule-checklist.md).
 
-- **Per-phase output file** — named `[<name>-]domain-specification.md`. No prior or later phase content lives in it.
-- **Every KA has a class that names it** — `### **Class** << Stereotype >>` matching the KA, listed first.
-- **No sub-headings under classes** — class member blocks live directly under each `### **Class**` heading.
-- **References per KA** — one `### references` per KA with fenced `source` blocks.
-- **Decisions per KA** — one `### decisions made` per KA listing domain-specification judgment calls.
-- **Every property typed** — justified by a domain responsibility that requires stored state.
-- **Every operation fully typed** — `+ methodName(param: Type): ReturnType`.
-- **Object initialisation decided** — constructor, internal, factory method, or factory object.
-- **Relationship stereotypes present** — `<< composition >>` or `<< aggregation >>` on owning properties.
-- **Subtype deltas only** — no inherited members repeated.
-- **Interactions present where needed** — no operation with multiple invariants lacks an `Interaction:` block.
-- **Domain-language variable names** — no generic placeholders in `Interaction:` blocks.
-- **All domain model collaborators accounted for** — in parameters, return types, properties, or `Interaction:` steps.
-- **No bundle markers** — `SKILL.md` has no `<!-- execute_rules:bundle_rules -->` markers.
+## Diagram workflow
 
----
+[`reference/diagram-workflow.md`](reference/diagram-workflow.md).
