@@ -36,10 +36,8 @@
 | File | Role |
 | --- | --- |
 | `reference/input-traps.md` | Method-specific input ambiguities — all five practice skills |
-| `reference/generate.md` | Orchestration only (fidelity, pipeline, pre-scanners) — mapping, thin-slicing, spec, acceptance-test |
+| `reference/generate.md` | Orchestration only — mapping, thin-slicing, spec, acceptance-test |
 | `reference/diagram-workflow.md` | Mode + output path — mapping, AC, thin-slicing only |
-| `reference/output.md` | Non-default output rules only — acceptance-test (project test folder) |
+| `reference/output.md` | Non-default output path — acceptance-test only |
 
-**Output file names** for the four `docs/` skills: [`common/folder-conventions.md`](../../../common/folder-conventions.md) — no `reference/output.md` needed. [`common/skill-workflow.md`](../../../common/skill-workflow.md) § Output file resolution.
-
-**Workflow:** [`common/skill-workflow.md`](../../../common/skill-workflow.md) § Read-gates — all of `rules/`, `reference/`, `templates/`, plus practice `reference/` per perspective table and outbound links from skill `reference/`. **Grill mode:** [`common/grill-me-with-practice-skill.md`](../../../common/grill-me-with-practice-skill.md).
+**SKILL.md index sections:** Read, Input traps, Grill me, Generate, Validate — plus Diagram workflow / Output when those `reference/` files exist.

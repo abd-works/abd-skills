@@ -22,4 +22,28 @@ Decide what to deliver first and why — so the team ships value in the smallest
 
 ## Agent Instructions
 
-**MANDATORY:** Read **`common/skill-workflow.md` in its entirety** and complete § Read-gates before generating or validating.
+**MANDATORY:** [`common/skill-workflow.md`](../../../../../common/skill-workflow.md) — read in full; complete § Read-gates before generating or validating.
+
+## Read
+
+§ Read-gates — all of [`rules/`](rules/), [`reference/`](reference/), [`templates/`](templates/).
+
+## Input traps
+
+[`reference/input-traps.md`](reference/input-traps.md) — pre-flight in every run, not grill-only.
+
+## Grill me
+
+[`common/grill-me-with-practice-skill.md`](../../../../../common/grill-me-with-practice-skill.md) — only when the invocation includes "grill me".
+
+## Generate
+
+[`reference/generate.md`](reference/generate.md).
+
+## Validate
+
+§ Validate output + [`../../../reference/validate-checklist.md`](../../../reference/validate-checklist.md).
+
+## Diagram workflow
+
+[`reference/diagram-workflow.md`](reference/diagram-workflow.md).
