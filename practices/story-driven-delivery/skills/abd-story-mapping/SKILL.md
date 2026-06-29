@@ -29,27 +29,6 @@ Give product, delivery, and domain people one shared picture of scope — outcom
 
 ---
 
-## Diagram workflow
-
-Produces `docs/stories/story-map.drawio` from `story-graph.json`. Requires `story-graph.json` to exist (built by `story-graph-ops`). Must exist before the cell is marked done.
-
-```bash
-python drawio_story_sync_cli.py render \
-  --mode outline \
-  --graph docs/stories/story-graph.json \
-  --out   docs/stories/story-map.drawio
-```
-
-Run once after `story-graph.json` is in place. To sync diagram edits back to the graph, use `sync` instead of `render`:
-
-```bash
-python drawio_story_sync_cli.py sync \
-  --drawio docs/stories/story-map.drawio \
-  --graph  docs/stories/story-graph.json
-```
-
----
-
 ## Agent Instructions
 
 Follow `common/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
@@ -59,6 +38,7 @@ Follow `common/skill-workflow.md` — read-gates, output file resolution, and th
 Read these files:
 - **`reference/concepts.md`** — what story maps are, actors, personas, epics, stories, story types, pitfalls, gap recording, and depth levels.
 - **`reference/examples.md`** — a worked example of a story map showing epics, sub-epics, and stories.
+- **[`../../../reference/handling-incomplete-context.md`](../../../reference/handling-incomplete-context.md)** and **[`../../../reference/new-vs-existing-system.md`](../../../reference/new-vs-existing-system.md)** — shared gap and system-mode discipline.
 
 ### 2. Generate
 
@@ -81,18 +61,17 @@ Read these files:
 
 ### 3. Validate
 
-Run scanners and emit per-rule verdicts — see `common/skill-workflow.md` § Validate output.
+Run scanners and emit per-rule verdicts — see `common/skill-workflow.md` § Validate output and [`../../../reference/validate-checklist.md`](../../../reference/validate-checklist.md).
 
 ---
 
 ## Validate
 
-**Goal:** Inspect what was built — read the artifacts as reviewers.
+**Goal:** Inspect what was built — read the artifacts as reviewers. Also apply [`../../../reference/validate-checklist.md`](../../../reference/validate-checklist.md).
 
 - **Hierarchy** — epics → sub-epics → stories; **verb—noun** names; actors only in `story_type`, not in titles.
 - **Story size** — one observable behavior per story; flows grouped in sub-epics.
 - **Intent** — outcomes and behaviors, not implementation tasks or internal structure.
 - **Context gaps** — gaps recorded inline or in `## Context Gaps` section where context was absent.
-- **No bundle markers** — `SKILL.md` has no `<!-- execute_rules:bundle_rules -->` markers.
 
 ---

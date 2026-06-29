@@ -28,19 +28,6 @@ Decide what to deliver first and why — so the team ships value in the smallest
 
 ---
 
-## Diagram workflow
-
-Produces `docs/stories/thin-slicing.drawio` from `story-graph.json`. Requires `story-graph.json` to exist (built by `story-graph-ops`). Must exist before the cell is marked done.
-
-```bash
-python drawio_story_sync_cli.py render \
-  --mode thin-slicing \
-  --graph docs/stories/story-graph.json \
-  --out   docs/stories/thin-slicing.drawio
-```
-
----
-
 ## Agent Instructions
 
 Follow `common/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
@@ -90,11 +77,13 @@ python skills/abd-thin-slicing/scanners/story-name-exact-match-scanner.py --work
 
 Exit code 1 means story name mismatches — **do not proceed until it passes**.
 
-Run scanners and emit per-rule verdicts — see `common/skill-workflow.md` § Validate output.
+Run scanners and emit per-rule verdicts — see `common/skill-workflow.md` § Validate output and [`../../../reference/validate-checklist.md`](../../../reference/validate-checklist.md).
 
 ---
 
 ## Validate
+
+Also apply [`../../../reference/validate-checklist.md`](../../../reference/validate-checklist.md).
 
 - Each increment shows a vertical path (input → processing → outcome), not a layer.
 - Increment names are stakeholder-visible capabilities, not internal milestones.

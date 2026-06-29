@@ -36,15 +36,7 @@ Follow `common/skill-workflow.md` — read-gates, output file resolution, and th
 Read these files:
 - **`reference/concepts.md`** — what specification by example is, Given/When/Then, scenarios vs outlines, domain concept grounding, quick checklist.
 - **`reference/examples.md`** — worked examples showing plain Scenarios, Scenario Outlines with relationship-based tables, and Background.
-
-**Default input — domain model outline:** Always read the domain model before writing any scenario. The domain model outline is the structural spine for all scenarios: concept names, relationships, invariants, and constraints come from there verbatim.
-
-Read in this priority order:
-- **Class Model** (`domain-specification.md`) — typed classes with invariants and typed relationships. Use first when present.
-- **Domain model** (`domain-model.md`) — concepts with responsibilities and collaborators. **Default source** when no Class Model exists.
-- **Domain language** (`domain-language.md`) — defined terms and key abstractions. Use for term verification and when no model file exists.
-
-Check for `domain.json` in the workspace. If it does not exist and a domain model markdown file is present, produce `domain.json` before running the scanner.
+- **[`../../../reference/domain-input-priority.md`](../../../reference/domain-input-priority.md)** — read domain artifacts before writing scenarios; produce `domain.json` when required.
 
 ### 2. Generate
 
@@ -80,14 +72,14 @@ Generated artifacts contain only scenario content; template instructions stay in
 
 ### 3. Validate
 
-Run scanners and emit per-rule verdicts — see `common/skill-workflow.md` § Validate output.
+Run scanners and emit per-rule verdicts — see `common/skill-workflow.md` § Validate output and [`../../../reference/validate-checklist.md`](../../../reference/validate-checklist.md).
 
 
 ---
 
 ## Validate
 
-**Goal:** Inspect what was built — read the artifacts as reviewers.
+**Goal:** Inspect what was built — read the artifacts as reviewers. Also apply [`../../../reference/validate-checklist.md`](../../../reference/validate-checklist.md).
 
 - **Given/When/Then structure** — correct keywords; Background is state-only; multiple When/Then beats where the flow requires.
 - **Trailing spaces** — every step line (Given, When, Then, And, But) ends with two trailing spaces so markdown preview renders each step on its own line.
@@ -96,6 +88,5 @@ Run scanners and emit per-rule verdicts — see `common/skill-workflow.md` § Va
 - **Coverage** — happy path, failure path, and edge cases implied by story or AC are visible.
 - **Domain model grounding** — `domain.json` matches or has been produced if a domain model file exists.
 - **Stub structure** — if any scenario involves a stubbed service: stub declared in Given, invocation + response in When, business outcome only in Then. No stub response in Then.
-- **No bundle markers** — `SKILL.md` has no `<!-- execute_rules:bundle_rules -->` markers.
 
 ---

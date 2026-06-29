@@ -71,24 +71,21 @@ Practice skills belong to a **practice family** — a named folder under `practi
 
 See rule **Practice level reference folder has perspective and shared concepts** in `rules/`.
 
-### Grill prompts
+### Input traps
 
-Every practice `SKILL.md` must have a `## Grill prompts` section that fires **before** the agent generates anything. Its job is to surface the input traps — the assumptions, ambiguities, and missing context — that most commonly produce bad output for that specific method. Without it, the agent proceeds on guesswork and the practitioner discovers the gap after the output is wrong.
+Every practice skill that produces artifacts from ambiguous input ships **`reference/input-traps.md`**. Traps are **not** grill-only — they are a pre-flight check in every run. [`common/skill-workflow.md`](../../../../common/skill-workflow.md) § Read-gates loads them after concepts/examples.
 
-The section opens with `Read \`common/grill-me-with-practice-skill.md\` before grilling.` — this loads the shared interview pattern. What follows are the **skill-specific traps**: at least three bold-labeled failure modes that name real risks for this method, not generic checklist items. See rule **Grill prompts section surfaces input traps** in `rules/`.
-
-**Where it lives:** before `## Agent Instructions`. Some skills place it before `## Purpose` when those traps are urgent enough to surface before anything else; either position is acceptable.
+List at least three bold-labeled failure modes specific to this method. [`common/grill-me-with-practice-skill.md`](../../../../common/grill-me-with-practice-skill.md) turns unresolved traps into interview questions when the user invokes grill mode. See rule **Input traps reference surfaces input ambiguities** in `rules/`.
 
 ### Diagram workflow
 
-Some practice skills produce **diagram outputs** — `.drawio` wireframes, architecture diagrams, domain-model class diagrams, or similar. When a skill generates a diagram, the diagram is a **required deliverable**, not an optional follow-up. The cell in the CDD progress checklist is not done until the diagram file exists on disk.
+Some practice skills produce **diagram outputs**. When a skill generates a diagram, the diagram is a **required deliverable** — the CDD cell is not done until the file exists on disk.
 
-Skills that produce diagrams declare this in two places in `SKILL.md`:
+- **`reference/diagram-workflow.md`** on the skill — mode and output path for this skill; links to practice-level shared CLI when applicable.
+- **Practice `reference/diagram-workflow.md`** — shared commands when multiple skills in the family use the same tooling (see `practices/story-driven-delivery/reference/diagram-workflow.md`).
+- **`common/skill-workflow.md`** § Diagram workflow — background sub-agent runs after scanner pass when `reference/diagram-workflow.md` exists.
 
-- **`## Diagram workflow`** section — names the exact CLI command or script, its parameters, and the expected output file path. The CDD orchestrator reads this section to know how to run or re-run the diagram generator.
-- **`## Validate`** checklist item — states that the diagram file must exist on disk before the cell is marked done; the markdown spec alone is not complete.
-
-The `## Diagram workflow` section must be unambiguous: exact command, parameters, and output path — no hand-waving. See the `## Diagram workflow` section in `abd-architecture-outline` and `abd-ux-mockup` for reference examples.
+Do **not** put `## Diagram workflow` in `SKILL.md`. See `abd-story-mapping/reference/diagram-workflow.md` for the thin skill-level pattern.
 
 ### Front matter — description
 
@@ -136,9 +133,9 @@ When you **maintain `abd-author-practice-skill`**, keep its **`rules/`** generic
 
 4b. **Set the front matter `description` correctly.** Two sentences: first says what the skill produces (compact, present tense); second starts with `Use when` and names the practitioner's situation in plain language. The `Use when` clause must describe circumstances the practitioner recognizes from their own work — never the name of another skill or that skill's output artifact (see rule **Description front matter has "Use when" in situation language**).
 
-4c. **Write the `## Grill prompts` section.** Place it before `## Agent Instructions`. Open with `Read \`common/grill-me-with-practice-skill.md\` before grilling.` then list at least three skill-specific input traps — bold-labeled failure modes that name real ambiguities for this method. Do not use generic checklist items that apply to any skill (see rule **Grill prompts section surfaces input traps**).
+4c. **Write `reference/input-traps.md`.** At least three bold-labeled traps specific to this method — not generic checklist items. No `## Grill prompts` section in `SKILL.md` (see rule **Input traps reference surfaces input ambiguities**).
 
-4d. **Ask whether this skill produces diagram outputs.** If yes: add a `## Diagram workflow` section to the target `SKILL.md` (after `## Grill prompts`, before `## Agent Instructions`) with the exact CLI command or script, all required parameters, and the expected output file path — no placeholder prose. Also add a validate item to the `## Validate` section stating that the diagram file must exist before the cell is done. See `abd-architecture-outline` and `abd-ux-mockup` for reference examples.
+4d. **Ask whether this skill produces diagram outputs.** If yes: add **`reference/diagram-workflow.md`** with mode and output path; put shared CLI in practice `reference/diagram-workflow.md` when multiple skills share tooling. Link practice **`validate-checklist.md`** from `## Validate` when the family has one. Do not add `## Diagram workflow` to `SKILL.md`.
 
 4e. **Set the `## Output file` scaffold path.** Look up the canonical path for this skill's outputs in [`common/folder-conventions.md`](../../../../common/folder-conventions.md). Replace the `{{SCAFFOLD_PATH}}` and `{{OUTPUT_FILE_NAME}}` placeholders in the `## Output file` section of the new `SKILL.md` with the exact path and filename from the scaffold tree. The scaffold path is the sensible default; the user may always specify a different location and the skill must honour that. If the skill is a new practice that is not yet listed in `folder-conventions.md`, add it there before completing this step.
 
@@ -194,7 +191,7 @@ Checklist for the **target** **`skills/<skill-name>/`**:
 - **Concepts before notation** — **Core concepts** explain **ideas and relationships** first; diagram symbols, file prefix serialisation, and template positioning live in **templates**, **Agent Instructions**, **Build**, **Validate**, and **`rules/*.md`** (see `rules/core-sections-teach-ideas-before-file-prefixes-and-diagram-notation.md`).
 - **Practice-level reference folder** — `practices/<family-name>/reference/` exists and contains a `<family>-perspective.md` fidelity ladder; shared cross-skill concepts are in that folder rather than duplicated per skill (see `rules/practice-level-reference-folder-has-perspective-and-shared-concepts.md`).
 - **YAML front matter** — **`description`** is two sentences: what the skill produces, then `Use when [situation]`. The `Use when` clause names the practitioner's circumstances in plain language — no other skill names, no other skill's output artifacts (see `rules/description-front-matter-has-use-when-in-situation-language.md`).
-- **Grill prompts** — `## Grill prompts` section exists before `## Agent Instructions`; opens with `Read \`common/grill-me-with-practice-skill.md\` before grilling.`; lists at least three skill-specific input traps with bold labels (see `rules/grill-prompts-section-surfaces-input-traps.md`).
+- **Input traps** — `reference/input-traps.md` exists with at least three method-specific bold-labeled traps (see `rules/grill-prompts-section-surfaces-input-traps.md`).
 - **Placeholders** — no **`{{PLACEHOLDER}}`** unless the engagement **explicitly** defers that slice.
 - **Evidence** — what you call **hub-backed** ties to **`inputs/abd-answers-retrieval.md`**; chat/engagement norms are not forced to; gaps are **documented**, not invented.
 - **Templates** — every file the **target** **SKILL.md** promises under **`templates/`** is **filled**, **stubbed with a stated reason**, or **removed from the promise**; each promised template includes **at least one audience-appropriate filled example** (see `rules/templates-include-ideal-filled-examples-for-the-audience.md`).
@@ -202,7 +199,7 @@ Checklist for the **target** **`skills/<skill-name>/`**:
 - **Rules are external, not inlined** — **`rules/*.md`** match **common** shape; **`SKILL.md`** contains **no** `<!-- execute_rules:bundle_rules -->` markers and no inlined rule prose; **`scanner:`** only where the script exists (see `rules/skill-md-contains-no-inlined-rules-read-gates-reference-rules-and-reference.md`).
 - **Thin router shape** — **`SKILL.md`** Agent Instructions block contains explicit read-gates: MANDATORY read of every **`rules/`** file before generating, MANDATORY read of every **`reference/`** file before authoring, MANDATORY per-rule verdict at validation; concept teaching and examples live in **`reference/*.md`**, not in **`SKILL.md`** body.
 - **Teaching is positive, anti-patterns live in rules** — the target **`SKILL.md`** does **not** have "Anti-patterns," "Common mistakes," or "What this is not" sections; negatives are **`## DO NOT`** bullets in **`rules/*.md`** (see `rules/anti-patterns-belong-in-rules-not-skill-teaching.md`).
-- **Diagram workflow declared when needed** — if the skill produces `.drawio` or other diagram outputs, `SKILL.md` has a `## Diagram workflow` section with the exact CLI command and output path, and `## Validate` includes an item that the diagram must exist before the cell is done. If the skill does not produce diagrams, neither is present.
+- **Diagram workflow declared when needed** — if the skill produces `.drawio` or other diagram outputs, `reference/diagram-workflow.md` exists with mode and output path; practice shared CLI in practice `reference/` when applicable. `SKILL.md` has no `## Diagram workflow` section.
 - **Validate section** — the **target** **SKILL.md** **Validate** list matches what that skill **actually** ships (templates, scanners, citations, read-gates).
 - **Per-rule verdict** — when validating the target, enumerate every rule in **`rules/`** and emit `Rule: <name> -> PASS` or `Rule: <name> -> FAIL <reason>`. No silent skips.
 

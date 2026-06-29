@@ -8,7 +8,7 @@ Invoke any practice skill with **"grill me"** to enter grill mode:
 > `/abd-domain-model grill me`  
 > `grill me with abd-story-mapping`
 
-When a skill is invoked **without** "grill me", it generates directly. Grill mode is opt-in. **If "grill me" was not in the invocation — stop reading this file and proceed with generation.**
+When a skill is invoked **without** "grill me", it generates directly. Grill mode is opt-in. **If "grill me" was not in the invocation — stop reading this file and proceed with generation** (after `common/skill-workflow.md` read-gates, including `reference/input-traps.md`).
 
 ---
 

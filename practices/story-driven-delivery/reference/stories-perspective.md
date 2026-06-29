@@ -17,4 +17,25 @@
 | Specification | `abd-story-specification` | spec-by-example |
 | Engineering | `abd-story-acceptance-test` | acceptance-tests |
 
-**Input traps:** each skill above ships `reference/input-traps.md` — method-specific ambiguities to check before generating. Read order: [`common/skill-workflow.md`](../../../common/skill-workflow.md) § Read-gates. Grill interview mechanics: [`common/grill-me-with-practice-skill.md`](../../../common/grill-me-with-practice-skill.md).
+---
+
+## Shared reference (practice level)
+
+| File | Role |
+| --- | --- |
+| [`handling-incomplete-context.md`](./handling-incomplete-context.md) | Gap discipline — do not fabricate to fill holes |
+| [`new-vs-existing-system.md`](./new-vs-existing-system.md) | Spec-first vs reverse-engineering mode |
+| [`diagram-workflow.md`](./diagram-workflow.md) | Shared Draw.io render/sync from `story-graph.json` |
+| [`domain-input-priority.md`](./domain-input-priority.md) | Domain artifact read order for AC, spec, tests |
+| [`validate-checklist.md`](./validate-checklist.md) | Cross-skill validate items |
+
+---
+
+## Per skill (skill level)
+
+| File | Role |
+| --- | --- |
+| `reference/input-traps.md` | Method-specific input ambiguities — all five practice skills |
+| `reference/diagram-workflow.md` | Mode + output path — mapping, AC, thin-slicing only |
+
+**Workflow:** [`common/skill-workflow.md`](../../../common/skill-workflow.md) § Read-gates defines read order. **Grill mode:** [`common/grill-me-with-practice-skill.md`](../../../common/grill-me-with-practice-skill.md) — interview mechanics only; questions from `reference/input-traps.md`.

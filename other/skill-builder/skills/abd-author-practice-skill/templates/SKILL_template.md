@@ -63,21 +63,9 @@ Load this skill when **any** of the following apply:
 
 ---
 
-## Grill prompts
-
-Read `common/grill-me-with-practice-skill.md` before grilling.
-
-Before generating, surface these traps:
-
-- **{{GRILL_TRAP_1_LABEL}}** — {{GRILL_TRAP_1_DESCRIPTION}}
-- **{{GRILL_TRAP_2_LABEL}}** — {{GRILL_TRAP_2_DESCRIPTION}}
-- **{{GRILL_TRAP_3_LABEL}}** — {{GRILL_TRAP_3_DESCRIPTION}}
-
----
-
 ## Agent Instructions
 
-> **MANDATORY — read every file in `rules/` and `reference/` before authoring any artifact. Do not rely on memory or the SKILL body alone.**
+> **MANDATORY — follow [`common/skill-workflow.md`](../../../../common/skill-workflow.md) § Read-gates** — including `reference/input-traps.md` before generating.
 
 ### 1. Read context (MANDATORY before starting)
 

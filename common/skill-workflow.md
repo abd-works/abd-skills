@@ -21,11 +21,12 @@ Read this file when any practice skill tells you to. It defines the shared workf
 Before authoring any artifact — **hard gate, no exceptions.** Read in this order:
 
 1. **`rules/`** — every file for the active skill.
-2. **`reference/`** — concepts, examples, and other teaching files (**not** `input-traps.md` yet).
+2. **`reference/`** — concepts, examples, and other teaching files (**not** `input-traps.md` or `diagram-workflow.md` yet).
 3. **`reference/input-traps.md`** — check each trap against available input; flag gaps; do not assume away ambiguities this skill names.
-4. **Grill mode only** — if the invocation includes **"grill me"**, read [`grill-me-with-practice-skill.md`](./grill-me-with-practice-skill.md) and work through unresolved traps as questions (one at a time) before generating.
+4. **Practice family `reference/`** — read any shared files linked from the active skill's `SKILL.md` or `reference/concepts.md` (e.g. `handling-incomplete-context.md`, `diagram-workflow.md`, `domain-input-priority.md` at practice level).
+5. **Grill mode only** — if the invocation includes **"grill me"**, read [`grill-me-with-practice-skill.md`](./grill-me-with-practice-skill.md) and work through unresolved traps as questions (one at a time) before generating.
 
-Do not rely on memory or the SKILL body alone. No main task starts until steps 1–3 are done.
+Do not rely on memory or the SKILL body alone. No main task starts until steps 1–4 are done (and step 5 when grill mode is active).
 
 ---
 
@@ -42,6 +43,8 @@ Rule: <rule-filename>  ->  FAIL  <offending line or reason>
 
 No rule may be silently skipped. Fix every FAIL before calling the work done.
 
+When the active skill links to a practice-family **`validate-checklist.md`**, apply those shared items in addition to skill-specific `## Validate` bullets.
+
 **B — Scanner pass:**
 
 ```bash
@@ -54,7 +57,7 @@ Add `--language <lang>` (e.g. `python`, `javascript`) when scanners live in `sca
 
 ## Diagram workflow (non-blocking)
 
-After the scanner pass, re-read the active skill's `SKILL.md` and check whether it contains a `## Diagram workflow` section. If it does, launch a **background sub-agent** (Task tool, `run_in_background: true`) with the diagram workflow section contents and enough context (deliverables folder, output paths) for it to execute the CLI command independently. Do not wait for the sub-agent before returning to the user.
+After the scanner pass, check whether the active skill has **`reference/diagram-workflow.md`**. If it does, launch a **background sub-agent** (Task tool, `run_in_background: true`) with that file's contents and enough context (deliverables folder, output paths) for it to execute the CLI command independently. Do not wait for the sub-agent before returning to the user.
 
 ---
 

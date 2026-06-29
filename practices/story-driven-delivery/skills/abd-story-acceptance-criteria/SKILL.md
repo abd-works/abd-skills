@@ -27,19 +27,6 @@ State exactly what must be true for a story to be done — so everyone agrees on
 
 ---
 
-## Diagram workflow
-
-Produces `docs/stories/acceptance-criteria.drawio` from `story-graph.json`. Requires `story-graph.json` to exist (built by `story-graph-ops`). Must exist before the cell is marked done.
-
-```bash
-python drawio_story_sync_cli.py render \
-  --mode acceptance-criteria \
-  --graph docs/stories/story-graph.json \
-  --out   docs/stories/acceptance-criteria.drawio
-```
-
----
-
 ## Agent Instructions
 
 Follow `common/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
@@ -50,8 +37,7 @@ Read these files:
 - **`reference/concepts.md`** — what AC are, WHEN/THEN/AND/BUT, domain terms, atomic AC, actor alternation, pitfalls.
 - **`reference/examples.md`** — worked AC for one story (same domain as `abd-story-mapping` examples).
 - **`templates/acceptance-criteria-example.md`** — full multi-story filled example (Manage Customer Orders).
-
-**Non-negotiable before writing any Domain terms section:** every term must already exist in a domain source artifact (Domain Language, domain sketch, domain model, Class Model, or any team-designated vocabulary file). If a term is missing, **stop — list every missing term and ask the user how to proceed** before writing it into AC. **NEVER create `domain-terms.md` if any domain source file already exists.** Only create `domain-terms.md` as a bootstrap when the engagement has no domain sources at all. See rule **Domain terms must come from the domain model** in `rules/`.
+- **[`../../../reference/domain-input-priority.md`](../../../reference/domain-input-priority.md)** — domain terms must come from domain sources before writing AC.
 
 ### 2. Generate
 
@@ -67,13 +53,13 @@ Read these files:
 
 ### 3. Validate
 
-Run scanners and emit per-rule verdicts — see `common/skill-workflow.md` § Validate output.
+Run scanners and emit per-rule verdicts — see `common/skill-workflow.md` § Validate output and [`../../../reference/validate-checklist.md`](../../../reference/validate-checklist.md).
 
 ---
 
 ## Validate
 
-**Goal:** Inspect what was built — read artifacts as reviewers.
+**Goal:** Inspect what was built — read artifacts as reviewers. Also apply [`../../../reference/validate-checklist.md`](../../../reference/validate-checklist.md).
 
 - **Behavioral language** — every AC uses observable language; no capability statements ("can do").
 - **Domain terms** — each story has a Domain terms section; all terms traced to a domain source.
@@ -81,6 +67,5 @@ Run scanners and emit per-rule verdicts — see `common/skill-workflow.md` § Va
 - **Atomic AC** — general case once; follow-on AC are deltas only.
 - **Actor alternation** — no long runs of the same actor without switching (scanner enforces).
 - **Source evidence** — each AC cites evidence or a per-story source table.
-- **No bundle markers** — `SKILL.md` has no `<!-- execute_rules:bundle_rules -->` markers.
 
 ---

@@ -44,6 +44,7 @@ Read these files:
 - **`reference/examples.md`** — shape notes + what to notice (same domain as `abd-story-specification` examples).
 - **`templates/acceptance-tests-example.py`** — filled Python/pytest example (order + discount outline).
 - **`reference/diagnose.md`** — when and how to flip into diagnose mode when tests keep failing.
+- **[`../../../reference/domain-input-priority.md`](../../../reference/domain-input-priority.md)** — fixtures and names trace to domain vocabulary and spec examples.
 
 ### 2. Generate
 
@@ -81,13 +82,13 @@ Do not add a third fix. Flip immediately into diagnose mode:
 
 ### 4. Validate
 
-Run scanners and emit per-rule verdicts — see `common/skill-workflow.md` § Validate output.
+Run scanners and emit per-rule verdicts — see `common/skill-workflow.md` § Validate output and [`../../../reference/validate-checklist.md`](../../../reference/validate-checklist.md).
 
 ---
 
 ## Validate
 
-**Goal:** Inspect what was built — read test files as reviewers.
+**Goal:** Inspect what was built — read test files as reviewers. Also apply [`../../../reference/validate-checklist.md`](../../../reference/validate-checklist.md).
 
 - **Test structure declared** — file/class/method hierarchy stated before writing code; file named after lowest-level sub-epic, class after story.
 - **Orchestrator pattern** — test methods under 20 lines; helpers named with GWT vocabulary; no duplicated helper variants.
@@ -95,6 +96,5 @@ Run scanners and emit per-rule verdicts — see `common/skill-workflow.md` § Va
 - **Domain language** — class names, method names, and helper names use domain vocabulary from stories/AC.
 - **Coverage** — happy path, failure path, and edge cases covered.
 - **Example data alignment** — every test value traces to a spec Examples table; all values are imported from a shared fixtures/constants file, not typed inline; stubs are configured to receive and return values that match the spec examples exactly.
-- **No bundle markers** — `SKILL.md` has no `<!-- execute_rules:bundle_rules -->` markers.
 
 ---

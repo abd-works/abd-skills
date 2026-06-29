@@ -23,27 +23,23 @@ When a skill asks you to write deliverables, resolve `<deliverables-folder>` in 
 
 ## Read-gates (hard gate — no exceptions)
 
-Before authoring any artifact:
+Before authoring any artifact, read in this order:
 
-- Read every file in **`rules/`** for the active skill.
-- Read every file in **`reference/`** for the active skill. Treat every DO / DO NOT as a hard contract, not a suggestion.
+1. **`rules/`** — every file for the active skill.
+2. **`reference/`** — concepts, examples, teaching (**not** `input-traps.md` or `diagram-workflow.md` yet).
+3. **`reference/input-traps.md`** — check each trap against available input.
+4. **Practice family `reference/`** — any shared files linked from `SKILL.md` or `reference/concepts.md`.
+5. **Grill mode only** — if invocation includes **"grill me"**, read `common/grill-me-with-practice-skill.md`.
 
-Do not rely on memory or the SKILL body alone. The main task does not start until this gate is done.
+Do not rely on memory or the SKILL body alone. Steps 1–4 always; step 5 when grill mode is active.
 
 ---
 
 ## Validate output
 
-After generating, do both passes. Together they answer "does this match the rules?"
+After generating, do both passes.
 
-**A — Per-rule verdict (AI pass):** Re-read every file in `rules/`. For **each rule** emit:
-
-```
-Rule: <rule-filename>  ->  PASS
-Rule: <rule-filename>  ->  FAIL  <offending line or reason>
-```
-
-No rule may be silently skipped. Fix every FAIL before calling the work done.
+**A — Per-rule verdict:** Re-read `rules/`. Emit PASS/FAIL per rule. Apply practice-family `validate-checklist.md` when linked.
 
 **B — Scanner pass:**
 
@@ -51,16 +47,14 @@ No rule may be silently skipped. Fix every FAIL before calling the work done.
 python <common_root>/scripts/run_scanners.py --skill-root <path-to-skill> --workspace <path-to-output>
 ```
 
-Add `--language <lang>` (e.g. `python`, `javascript`) when scanners live in `scanners/<lang>/`. Save the report to `scanner-report/` in the workspace. Fix all violations and re-run.
-
 ---
 
 ## Diagram workflow (non-blocking)
 
-After the scanner pass, re-read the active skill's `SKILL.md` and check for a `## Diagram workflow` section. If present, launch a **background sub-agent** (`Task` tool, `run_in_background: true`) with the diagram workflow content and enough context (deliverables folder, output paths) for it to run the CLI command independently. Do not wait for the sub-agent before returning to the user.
+After the scanner pass, if the active skill has **`reference/diagram-workflow.md`**, launch a **background sub-agent** with that file's contents. Do not wait for the sub-agent before returning to the user.
 
 ---
 
 ## Correction process
 
-When something is wrong: identify → log → re-generate → iterate until correct, then optionally improve the source skill. See `skill-helpers/instructions/log-and-fix-skill-errors` for the full loop. Put the log under the engagement tree — not inside the skill package.
+When something is wrong: identify → log → re-generate → iterate until correct, then optionally improve the source skill. See `skill-helpers/instructions/log-and-fix-skill-errors` for the full loop.
