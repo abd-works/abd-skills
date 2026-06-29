@@ -1,9 +1,12 @@
 """Typed walk model for ``ux-graph.json`` (abd-ux-graph/v1)."""
 from __future__ import annotations
 
-import json
+import graph_path_bootstrap  # noqa: F401
 from pathlib import Path
 from typing import Any, Dict, Iterator, List, Optional
+
+from graph_dict_utils import dict_object_list, int_field, text_field
+from graph_ops_common import read_json_text_file
 
 GRAPH_SCHEMA = "abd-ux-graph/v1"
 
@@ -24,14 +27,31 @@ VALID_REGION_TYPES = frozenset({
 
 
 class UxNode:
-    def __init__(self, data: Dict[str, Any], flow_idx: int, screen_idx: Optional[int] = None):
-        self.data = data
-        self.flow_idx = flow_idx
-        self.screen_idx = screen_idx
+    def __init__(
+        self,
+        node_payload: Dict[str, Any],
+        flow_idx: int,
+        screen_idx: Optional[int] = None,
+    ):
+        self._payload = node_payload
+        self._flow_idx = flow_idx
+        self._screen_idx = screen_idx
+
+    @property
+    def data(self) -> Dict[str, Any]:
+        return self._payload
+
+    @property
+    def flow_idx(self) -> int:
+        return self._flow_idx
+
+    @property
+    def screen_idx(self) -> Optional[int]:
+        return self._screen_idx
 
     @property
     def name(self) -> str:
-        return str(self.data.get("name", ""))
+        return text_field(self._payload, "name")
 
     @property
     def children(self) -> List["UxNode"]:
@@ -42,9 +62,8 @@ class Flow(UxNode):
     @property
     def screens(self) -> List["Screen"]:
         return [
-            Screen(sc, self.flow_idx, idx)
-            for idx, sc in enumerate(self.data.get("screens") or [])
-            if isinstance(sc, dict)
+            Screen(screen_payload, self._flow_idx, screen_idx)
+            for screen_idx, screen_payload in enumerate(dict_object_list(self._payload, "screens"))
         ]
 
     @property
@@ -53,64 +72,67 @@ class Flow(UxNode):
 
 
 class Region(UxNode):
-    def __init__(self, data: Dict[str, Any], flow_idx: int, screen_idx: int, region_idx: int):
-        super().__init__(data, flow_idx, screen_idx)
-        self.region_idx = region_idx
+    def __init__(self, node_payload: Dict[str, Any], flow_idx: int, screen_idx: int, region_idx: int):
+        super().__init__(node_payload, flow_idx, screen_idx)
+        self._region_idx = region_idx
 
     @property
     def slot(self) -> str:
-        return str(self.data.get("slot", ""))
+        return text_field(self._payload, "slot")
 
     @property
     def region_type(self) -> str:
-        return str(self.data.get("type", ""))
+        return text_field(self._payload, "type")
 
 
 class Screen(UxNode):
-    def __init__(self, data: Dict[str, Any], flow_idx: int, screen_idx: int):
-        super().__init__(data, flow_idx, screen_idx)
-
     @property
     def slug(self) -> str:
-        return str(self.data.get("slug", ""))
+        return text_field(self._payload, "slug")
 
     @property
     def layout(self) -> str:
-        return str(self.data.get("layout", ""))
+        return text_field(self._payload, "layout")
 
     @property
     def regions(self) -> List[Dict[str, Any]]:
-        return [r for r in (self.data.get("regions") or []) if isinstance(r, dict)]
+        return list(dict_object_list(self._payload, "regions"))
 
     @property
     def children(self) -> List[UxNode]:
+        screen_idx = self._screen_idx or 0
         return [
-            Region(r, self.flow_idx, self.screen_idx or 0, idx)
-            for idx, r in enumerate(self.regions)
+            Region(region_payload, self._flow_idx, screen_idx, region_idx)
+            for region_idx, region_payload in enumerate(self.regions)
         ]
 
 
 class UxGraph:
-    def __init__(self, graph: Dict[str, Any]):
-        self.graph = graph
+    def __init__(self, ux_graph: Dict[str, Any]):
+        self._ux_graph = ux_graph
+
+    @property
+    def ux_graph(self) -> Dict[str, Any]:
+        return self._ux_graph
 
     @classmethod
     def from_json_file(cls, path: Path | str) -> "UxGraph":
-        p = Path(path)
-        if not p.is_file():
+        file_path = Path(path)
+        if not file_path.is_file():
             return cls(EMPTY_UX_GRAPH_DICT.copy())
-        with open(p, encoding="utf-8") as f:
-            return cls(json.load(f))
+        parsed = read_json_text_file(file_path)
+        if not isinstance(parsed, dict):
+            return cls(EMPTY_UX_GRAPH_DICT.copy())
+        return cls(parsed)
 
     def flows(self) -> List[Flow]:
         return [
-            Flow(flow, idx)
-            for idx, flow in enumerate(self.graph.get("flows") or [])
-            if isinstance(flow, dict)
+            Flow(flow_payload, flow_idx)
+            for flow_idx, flow_payload in enumerate(dict_object_list(self._ux_graph, "flows"))
         ]
 
     def connections(self) -> List[Dict[str, Any]]:
-        return [c for c in (self.graph.get("connections") or []) if isinstance(c, dict)]
+        return list(dict_object_list(self._ux_graph, "connections"))
 
     def screen_names(self) -> List[str]:
         names: List[str] = []
@@ -133,19 +155,18 @@ class UxGraph:
             yield from self.walk(child)
 
     def to_mockup_state_dict(self, target: str = "") -> Dict[str, Any]:
-        """Project graph to legacy drawio-mockup bundle shape."""
         screens: List[Dict[str, Any]] = []
         for flow in self.flows():
             for screen in flow.screens:
                 screens.append({
                     "name": screen.name,
                     "layout": screen.layout,
-                    "col": screen.data.get("col", 0),
-                    "row": screen.data.get("row", 0),
-                    "regions": [dict(r) for r in screen.regions],
+                    "col": int_field(screen.data, "col"),
+                    "row": int_field(screen.data, "row"),
+                    "regions": [dict(region_payload) for region_payload in screen.regions],
                 })
         return {
             "target": target,
             "screens": screens,
-            "connections": [dict(c) for c in self.connections()],
+            "connections": [dict(connection_payload) for connection_payload in self.connections()],
         }

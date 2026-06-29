@@ -1,13 +1,12 @@
-"""Typed walk model for ``domain-model.json`` (abd-domain-model/v1).
-
-Mirrors the lightweight ``story_map`` layer in story-graph-ops: dict-backed nodes,
-tree walk, and name lookup — not a full mutation graph.
-"""
+"""Typed walk model for ``domain-model.json`` (abd-domain-model/v1)."""
 from __future__ import annotations
 
-import json
+import graph_path_bootstrap  # noqa: F401
 from pathlib import Path
 from typing import Any, Dict, Iterator, List, Optional
+
+from graph_dict_utils import dict_child, dict_object_list, optional_text, stripped_field, text_field
+from graph_ops_common import read_json_text_file
 
 SCHEMA = "abd-domain-model/v1"
 
@@ -19,27 +18,53 @@ EMPTY_DOMAIN_MODEL_DICT: Dict[str, Any] = {
 }
 
 
-class DomainNode:
-    """Base node wrapping a JSON object fragment with positional indices."""
+def _read_json_object(path: Path | str) -> Dict[str, Any]:
+    file_path = Path(path)
+    if not file_path.is_file():
+        return EMPTY_DOMAIN_MODEL_DICT.copy()
+    parsed = read_json_text_file(file_path)
+    return parsed if isinstance(parsed, dict) else EMPTY_DOMAIN_MODEL_DICT.copy()
 
+
+class DomainNode:
     def __init__(
         self,
-        data: Dict[str, Any],
+        node_payload: Dict[str, Any],
         module_idx: int,
         ka_idx: Optional[int] = None,
         class_idx: Optional[int] = None,
         *,
         boundary: bool = False,
     ):
-        self.data = data
-        self.module_idx = module_idx
-        self.ka_idx = ka_idx
-        self.class_idx = class_idx
-        self.boundary = boundary
+        self._payload = node_payload
+        self._module_idx = module_idx
+        self._ka_idx = ka_idx
+        self._class_idx = class_idx
+        self._boundary = boundary
+
+    @property
+    def data(self) -> Dict[str, Any]:
+        return self._payload
+
+    @property
+    def module_idx(self) -> int:
+        return self._module_idx
+
+    @property
+    def ka_idx(self) -> Optional[int]:
+        return self._ka_idx
+
+    @property
+    def class_idx(self) -> Optional[int]:
+        return self._class_idx
+
+    @property
+    def boundary(self) -> bool:
+        return self._boundary
 
     @property
     def name(self) -> str:
-        return str(self.data.get("name", ""))
+        return text_field(self._payload, "name")
 
     @property
     def children(self) -> List["DomainNode"]:
@@ -47,18 +72,18 @@ class DomainNode:
 
     def map_location(self, field: str = "name") -> str:
         if isinstance(self, Module):
-            return f"modules[{self.module_idx}].{field}"
+            return f"modules[{self._module_idx}].{field}"
         if isinstance(self, KeyAbstraction):
-            return f"modules[{self.module_idx}].key_abstractions[{self.ka_idx}].{field}"
+            return f"modules[{self._module_idx}].key_abstractions[{self._ka_idx}].{field}"
         if isinstance(self, DomainClass):
-            if self.boundary:
+            if self._boundary:
                 return (
-                    f"modules[{self.module_idx}].boundary_domain.classes"
-                    f"[{self.class_idx}].{field}"
+                    f"modules[{self._module_idx}].boundary_domain.classes"
+                    f"[{self._class_idx}].{field}"
                 )
             return (
-                f"modules[{self.module_idx}].key_abstractions[{self.ka_idx}]"
-                f".classes[{self.class_idx}].{field}"
+                f"modules[{self._module_idx}].key_abstractions[{self._ka_idx}]"
+                f".classes[{self._class_idx}].{field}"
             )
         return ""
 
@@ -66,28 +91,25 @@ class DomainNode:
 class Module(DomainNode):
     @property
     def relationships(self) -> List[Dict[str, Any]]:
-        return list(self.data.get("relationships") or [])
+        return list(dict_object_list(self._payload, "relationships"))
 
     @property
     def key_abstractions(self) -> List["KeyAbstraction"]:
         return [
-            KeyAbstraction(ka, self.module_idx, ka_idx)
-            for ka_idx, ka in enumerate(self.data.get("key_abstractions") or [])
-            if isinstance(ka, dict)
+            KeyAbstraction(ka_payload, self._module_idx, ka_idx)
+            for ka_idx, ka_payload in enumerate(dict_object_list(self._payload, "key_abstractions"))
         ]
 
     @property
     def boundary_domain(self) -> Dict[str, Any]:
-        bd = self.data.get("boundary_domain")
-        return bd if isinstance(bd, dict) else {}
+        return dict_child(self._payload, "boundary_domain")
 
     @property
     def boundary_classes(self) -> List["DomainClass"]:
-        classes = self.boundary_domain.get("classes") or []
+        boundary = self.boundary_domain
         return [
-            DomainClass(cls, self.module_idx, class_idx=idx, boundary=True)
-            for idx, cls in enumerate(classes)
-            if isinstance(cls, dict)
+            DomainClass(class_payload, self._module_idx, class_idx=idx, boundary=True)
+            for idx, class_payload in enumerate(dict_object_list(boundary, "classes"))
         ]
 
     @property
@@ -98,31 +120,30 @@ class Module(DomainNode):
     def all_classes(self) -> List["DomainClass"]:
         classes: List[DomainClass] = []
 
-        def _collect(node: DomainNode) -> None:
+        def collect(node: DomainNode) -> None:
             if isinstance(node, DomainClass):
                 classes.append(node)
             for child in node.children:
-                _collect(child)
+                collect(child)
 
-        _collect(self)
+        collect(self)
         classes.extend(self.boundary_classes)
         return classes
 
 
 class KeyAbstraction(DomainNode):
-    def __init__(self, data: Dict[str, Any], module_idx: int, ka_idx: int):
-        super().__init__(data, module_idx, ka_idx=ka_idx)
+    def __init__(self, node_payload: Dict[str, Any], module_idx: int, ka_idx: int):
+        super().__init__(node_payload, module_idx, ka_idx=ka_idx)
 
     @property
     def relationships(self) -> List[Dict[str, Any]]:
-        return list(self.data.get("relationships") or [])
+        return list(dict_object_list(self._payload, "relationships"))
 
     @property
     def classes(self) -> List["DomainClass"]:
         return [
-            DomainClass(cls, self.module_idx, self.ka_idx, class_idx)
-            for class_idx, cls in enumerate(self.data.get("classes") or [])
-            if isinstance(cls, dict)
+            DomainClass(class_payload, self._module_idx, self._ka_idx, class_idx)
+            for class_idx, class_payload in enumerate(dict_object_list(self._payload, "classes"))
         ]
 
     @property
@@ -133,24 +154,23 @@ class KeyAbstraction(DomainNode):
 class DomainClass(DomainNode):
     @property
     def term(self) -> str:
-        return str(self.data.get("term", ""))
+        return text_field(self._payload, "term")
 
     @property
     def extends(self) -> Optional[str]:
-        ext = self.data.get("extends")
-        return str(ext) if ext else None
+        return optional_text(self._payload, "extends")
 
     @property
     def ka_anchor(self) -> bool:
-        return bool(self.data.get("ka_anchor"))
+        return bool(self._payload["ka_anchor"]) if "ka_anchor" in self._payload else False
 
     @property
     def properties(self) -> List[Dict[str, Any]]:
-        return [p for p in (self.data.get("properties") or []) if isinstance(p, dict)]
+        return list(dict_object_list(self._payload, "properties"))
 
     @property
     def operations(self) -> List[Dict[str, Any]]:
-        return [o for o in (self.data.get("operations") or []) if isinstance(o, dict)]
+        return list(dict_object_list(self._payload, "operations"))
 
     @property
     def children(self) -> List[DomainNode]:
@@ -158,25 +178,21 @@ class DomainClass(DomainNode):
 
 
 class DomainMap:
-    """In-memory view over a domain-model JSON dict."""
-
     def __init__(self, domain_model: Dict[str, Any]):
-        self.domain_model = domain_model
+        self._domain_model = domain_model
+
+    @property
+    def domain_model(self) -> Dict[str, Any]:
+        return self._domain_model
 
     @classmethod
     def from_json_file(cls, path: Path | str) -> "DomainMap":
-        p = Path(path)
-        if not p.is_file():
-            return cls(EMPTY_DOMAIN_MODEL_DICT.copy())
-        with open(p, encoding="utf-8") as f:
-            data = json.load(f)
-        return cls(data)
+        return cls(_read_json_object(path))
 
     def modules(self) -> List[Module]:
         return [
-            Module(mod, module_idx)
-            for module_idx, mod in enumerate(self.domain_model.get("modules") or [])
-            if isinstance(mod, dict)
+            Module(module_payload, module_idx)
+            for module_idx, module_payload in enumerate(dict_object_list(self._domain_model, "modules"))
         ]
 
     def find_module_by_name(self, module_name: str) -> Optional[Module]:
@@ -187,17 +203,17 @@ class DomainMap:
 
     def find_class_by_name(self, class_name: str) -> Optional[DomainClass]:
         for module in self.modules():
-            for cls in module.all_classes:
-                if cls.name == class_name:
-                    return cls
+            for domain_class in module.all_classes:
+                if domain_class.name == class_name:
+                    return domain_class
         return None
 
     def class_names(self) -> List[str]:
         names: List[str] = []
         for module in self.modules():
-            for cls in module.all_classes:
-                if cls.name:
-                    names.append(cls.name)
+            for domain_class in module.all_classes:
+                if domain_class.name:
+                    names.append(domain_class.name)
         return names
 
     def walk(self, node: DomainNode) -> Iterator[DomainNode]:

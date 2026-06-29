@@ -1,62 +1,71 @@
-"""Filter and subset operations on raw domain-model JSON dicts."""
+"""Filter domain-model JSON by module or class names."""
 from __future__ import annotations
 
+import graph_path_bootstrap  # noqa: F401
 from copy import deepcopy
 from typing import Any, Dict, List, Optional, Set
 
+from graph_dict_utils import stripped_field
+
 
 def _filter_class_list(classes: List[Any], class_names: Set[str]) -> List[Dict[str, Any]]:
-    out: List[Dict[str, Any]] = []
-    for cls in classes:
-        if isinstance(cls, dict) and cls.get("name") in class_names:
-            out.append(dict(cls))
-    return out
+    filtered: List[Dict[str, Any]] = []
+    for class_entry in classes:
+        if not isinstance(class_entry, dict):
+            continue
+        if stripped_field(class_entry, "name") in class_names:
+            filtered.append(dict(class_entry))
+    return filtered
 
 
-def _filter_key_abstraction(ka: Dict[str, Any], class_names: Set[str]) -> Optional[Dict[str, Any]]:
-    classes = _filter_class_list(ka.get("classes") or [], class_names)
+def _filter_key_abstraction(ka_payload: Dict[str, Any], class_names: Set[str]) -> Optional[Dict[str, Any]]:
+    classes = _filter_class_list(ka_payload["classes"] if "classes" in ka_payload else [], class_names)
     if not classes:
         return None
-    out = dict(ka)
-    out["classes"] = classes
-    return out
+    filtered = dict(ka_payload)
+    filtered["classes"] = classes
+    return filtered
+
+
+def _filter_module_classes(module_entry: Dict[str, Any], class_names: Set[str]) -> Optional[Dict[str, Any]]:
+    module_copy = dict(module_entry)
+    kas_out: List[Dict[str, Any]] = []
+    for ka_entry in module_copy["key_abstractions"] if "key_abstractions" in module_copy else []:
+        if not isinstance(ka_entry, dict):
+            continue
+        filtered_ka = _filter_key_abstraction(ka_entry, class_names)
+        if filtered_ka:
+            kas_out.append(filtered_ka)
+    if not kas_out:
+        return None
+    module_copy["key_abstractions"] = kas_out
+    return module_copy
 
 
 def filter_domain_model_to_module_names(
-    domain_model: Dict[str, Any], module_names: Set[str]
+    domain_model: Dict[str, Any],
+    module_names: Set[str],
 ) -> Dict[str, Any]:
-    """Return a deep copy containing only modules whose names are in *module_names*."""
-    data = deepcopy(domain_model)
-    data["modules"] = [
-        dict(m)
-        for m in data.get("modules") or []
-        if isinstance(m, dict) and m.get("name") in module_names
+    result = deepcopy(domain_model)
+    result["modules"] = [
+        dict(module_entry)
+        for module_entry in result["modules"] or []
+        if isinstance(module_entry, dict) and stripped_field(module_entry, "name") in module_names
     ]
-    return data
+    return result
 
 
 def filter_domain_model_to_class_names(
-    domain_model: Dict[str, Any], class_names: Set[str]
+    domain_model: Dict[str, Any],
+    class_names: Set[str],
 ) -> Dict[str, Any]:
-    """Return a deep copy whose KAs and boundary classes only include named classes."""
-    data = deepcopy(domain_model)
-    filtered_modules: List[Dict[str, Any]] = []
-    for module in data.get("modules") or []:
-        if not isinstance(module, dict):
+    result = deepcopy(domain_model)
+    modules_out: List[Dict[str, Any]] = []
+    for module_entry in result["modules"] or []:
+        if not isinstance(module_entry, dict):
             continue
-        mod_out = dict(module)
-        kas_out: List[Dict[str, Any]] = []
-        for ka in module.get("key_abstractions") or []:
-            if not isinstance(ka, dict):
-                continue
-            fka = _filter_key_abstraction(ka, class_names)
-            if fka:
-                kas_out.append(fka)
-        mod_out["key_abstractions"] = kas_out
-        bd = dict(module.get("boundary_domain") or {})
-        bd["classes"] = _filter_class_list(bd.get("classes") or [], class_names)
-        mod_out["boundary_domain"] = bd
-        if kas_out or bd.get("classes"):
-            filtered_modules.append(mod_out)
-    data["modules"] = filtered_modules
-    return data
+        filtered_module = _filter_module_classes(module_entry, class_names)
+        if filtered_module:
+            modules_out.append(filtered_module)
+    result["modules"] = modules_out
+    return result
