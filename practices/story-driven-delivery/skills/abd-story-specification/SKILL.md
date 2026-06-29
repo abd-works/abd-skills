@@ -21,21 +21,9 @@ Make story behavior unambiguous — concrete examples with real values so devs a
 
 ## Agent Instructions
 
-**MANDATORY bootstrap — no generation until complete.**
+**MANDATORY:** Read **`common/skill-workflow.md` in its entirety** and complete § Read-gates before generating.
 
-1. Read **`common/skill-workflow.md` in its entirety** and complete every step in § Read-gates (all of `rules/`, all of `reference/` including `input-traps.md`, practice files linked from this skill, and `common/grill-me-with-practice-skill.md` when grill mode is active).
-2. Read **every file linked in § 1 below in full** — do not skim, summarize from memory, or skip.
-
-Output resolution, validation, and diagram delegation are defined in `common/skill-workflow.md`.
-
-### 1. Read context (MANDATORY — every linked file in full)
-
-Read these files:
-- **`reference/concepts.md`** — what specification by example is, Given/When/Then, scenarios vs outlines, domain concept grounding, quick checklist.
-- **`reference/examples.md`** — worked examples showing plain Scenarios, Scenario Outlines with relationship-based tables, and Background.
-- **[`../../../reference/domain-input-priority.md`](../../../reference/domain-input-priority.md)** — read domain artifacts before writing scenarios; produce `domain.json` when required.
-
-### 2. Generate
+### 1. Generate
 
 **Default notation: Scenario Outline.**
 
@@ -46,11 +34,9 @@ Use **Scenario Outline** with normalised **Examples** tables for every story tha
 
 Never use a plain `Scenario` block when a story covers multiple paths. If paths differ in data, use Outline rows. If paths differ structurally, model each structural variant as its own Scenario Outline.
 
-**Produce the template:**
-
 | Template | What to produce |
 | --- | --- |
-| `templates/specification-by-example.md` | Given/When/Then scenarios for each story, using the chosen notation. No template `## Instructions` in deliverables. |
+| `templates/specification-by-example.md` | Given/When/Then scenarios for each story, using the chosen notation. |
 
 **While writing:**
 - Use the **domain model outline** as the structural spine: concept names in bold, relationships made explicit in step language, invariants exercised by at least one scenario.
@@ -65,18 +51,14 @@ Never use a plain `Scenario` block when a story covers multiple paths. If paths 
 - Use exact concept names from the domain model source; do not paraphrase, abbreviate, or rename.
 - Make relationships deliberate in step language and table column sets.
 
-Generated artifacts contain only scenario content; template instructions stay in `templates/` for maintainers.
+### 2. Validate
 
-### 3. Validate
-
-Run scanners and emit per-rule verdicts — see `common/skill-workflow.md` § Validate output and [`../../../reference/validate-checklist.md`](../../../reference/validate-checklist.md).
+See `common/skill-workflow.md` § Validate output.
 
 
 ---
 
 ## Validate
-
-**Goal:** Inspect what was built — read the artifacts as reviewers. Also apply [`../../../reference/validate-checklist.md`](../../../reference/validate-checklist.md).
 
 - **Given/When/Then structure** — correct keywords; Background is state-only; multiple When/Then beats where the flow requires.
 - **Trailing spaces** — every step line (Given, When, Then, And, But) ends with two trailing spaces so markdown preview renders each step on its own line.

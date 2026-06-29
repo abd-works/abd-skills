@@ -33,13 +33,19 @@ Most skills need no `reference/output.md` — `folder-conventions.md` is enough.
 
 Before authoring any artifact, read in this order:
 
-1. **`rules/`** — every file for the active skill, **read in full**.
-2. **`reference/`** — every concepts/examples file (**not** `input-traps.md`, `diagram-workflow.md`, or `output.md` yet) — **read in full**.
-3. **`reference/input-traps.md`** — **read in full**; check each trap against available input.
-4. **Practice `reference/` and skill-linked files** — every file linked from `SKILL.md` § Read context or `reference/concepts.md`, including `templates/` when listed — **read in full**.
-5. **Grill mode only** — if invocation includes **"grill me"**, read `common/grill-me-with-practice-skill.md` **in its entirety**.
+1. **`rules/`** — every file, **read in full**.
+2. **`reference/`** — every file in the skill's `reference/` folder, **read in full**.
+3. **`templates/`** — every file in the skill's `templates/` folder, **read in full**.
+4. **Practice `reference/`** — every file linked from `reference/concepts.md` and the practice `<family>-perspective.md` table, **read in full**.
+5. **Grill mode only** — read `common/grill-me-with-practice-skill.md` **in its entirety**.
 
 **Read each file in full** — no skimming or memory. Steps 1–4 always; step 5 when grill mode is active.
+
+---
+
+## Generate
+
+After read-gates: author to all `rules/`; one deliverable per `templates/` file; never copy template `## Instructions` into project files. Skill-specific steps are in `SKILL.md` § Generate.
 
 ---
 

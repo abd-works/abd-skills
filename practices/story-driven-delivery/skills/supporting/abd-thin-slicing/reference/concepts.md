@@ -1,5 +1,7 @@
 # Thin Slicing — Core Concepts
 
+**Gap discipline.** Do not invent stories or increments to fill holes — see [`../../../reference/handling-incomplete-context.md`](../../../reference/handling-incomplete-context.md).
+
 ## What is a Story Map Increment?
 
 An increment is a **named, ordered slice** of the story map you plan to **ship or learn from before** the next slice. It groups **existing stories** (verb–noun, flow order) under one increment: a **sequenced backlog grouping**, not a new epic. This skill turns a story map into a map **with increments**.

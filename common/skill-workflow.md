@@ -29,12 +29,24 @@ Most skills need no `reference/output.md` — `folder-conventions.md` is enough.
 Before authoring any artifact — **hard gate, no exceptions.** Read in this order:
 
 1. **`rules/`** — **every** file for the active skill, **read in full**.
-2. **`reference/`** — **every** concepts, examples, and teaching file (**not** `input-traps.md`, `diagram-workflow.md`, or `output.md` yet) — **read in full**.
-3. **`reference/input-traps.md`** — **read in full**; check each trap against available input; flag gaps; do not assume away ambiguities this skill names.
-4. **Practice family `reference/`** and **skill-linked files** — read **in full** every file linked from the active skill's `SKILL.md` § Read context or `reference/concepts.md` (e.g. practice `handling-incomplete-context.md`, `domain-input-priority.md`; skill `templates/` when listed).
+2. **`reference/`** — **every** file in the skill's `reference/` folder, **read in full** (concepts, examples, `input-traps.md`, `diagram-workflow.md`, `output.md`, and any other teaching files).
+3. **`templates/`** — **every** file in the skill's `templates/` folder, **read in full** (layout contracts and filled examples — do not copy `## Instructions` blocks into deliverables).
+4. **Practice family `reference/`** — **every** file linked from this skill's `reference/concepts.md` and from the practice family's `<family>-perspective.md` shared-reference table, **read in full**.
 5. **Grill mode only** — if the invocation includes **"grill me"**, read [`grill-me-with-practice-skill.md`](./grill-me-with-practice-skill.md) **in its entirety** and work through unresolved traps as questions (one at a time) before generating.
 
 **Read each file in full** — no skimming, no summarizing from memory, no skipping sections. Do not rely on the SKILL body alone. No main task starts until steps 1–4 are done (and step 5 when grill mode is active).
+
+---
+
+## Generate (deliverables)
+
+After read-gates:
+
+- Author to **every** file in `rules/` — each DO / DO NOT is a shape contract.
+- Produce **one deliverable per file** in `templates/` (and for any new template added later).
+- Generated project files contain **stakeholder-facing content only** — never paste template `## Instructions` or maintainer notation sections into deliverables.
+
+Skill-specific generate steps live in the active skill's `SKILL.md` § Generate.
 
 ---
 
@@ -51,7 +63,7 @@ Rule: <rule-filename>  ->  FAIL  <offending line or reason>
 
 No rule may be silently skipped. Fix every FAIL before calling the work done.
 
-When the active skill links to a practice-family **`validate-checklist.md`**, apply those shared items in addition to skill-specific `## Validate` bullets.
+When the active skill's practice family has **`reference/validate-checklist.md`**, read it and apply those shared items in addition to skill-specific `## Validate` bullets.
 
 **B — Scanner pass:**
 

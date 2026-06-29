@@ -22,28 +22,13 @@ Decide what to deliver first and why — so the team ships value in the smallest
 
 ## Agent Instructions
 
-**MANDATORY bootstrap — no generation until complete.**
+**MANDATORY:** Read **`common/skill-workflow.md` in its entirety** and complete § Read-gates before generating.
 
-1. Read **`common/skill-workflow.md` in its entirety** and complete every step in § Read-gates (all of `rules/`, all of `reference/` including `input-traps.md`, practice files linked from this skill, and `common/grill-me-with-practice-skill.md` when grill mode is active).
-2. Read **every file linked in § 1 below in full** — do not skim, summarize from memory, or skip.
-
-Output resolution, validation, and diagram delegation are defined in `common/skill-workflow.md`.
-
-### 1. Read context (MANDATORY — every linked file in full)
-
-Read these files:
-- **`reference/concepts.md`** — definitions of increments, thin slicing, and vertical vs horizontal slices.
-- **`reference/examples.md`** — output shape examples and weak patterns to avoid.
-
-### 2. Generate
-
-**Produce the template:**
+### 1. Generate
 
 | Template | Produce |
 | --- | --- |
-| `templates/thin-slicing.md` | Increments: **name**, **outcome**, optional **slicing notes**, ordered **story** bullets (*italic* domain terms where helpful). Optional product/context at top. No template `## Instructions` in the deliverable. |
-
-**New files under `templates/` later** → one deliverable per file.
+| `templates/thin-slicing.md` | Increments: **name**, **outcome**, optional **slicing notes**, ordered **story** bullets (*italic* domain terms where helpful). Optional product/context at top. |
 
 **Workflow steps:**
 
@@ -59,12 +44,11 @@ Read these files:
    > - `- System --> Load Crowd from Repository` (WRONG — actor prefix; parser stores "System" as the name)
 
 6. **Write the template file** — fill **`templates/thin-slicing.md`** with the increments and stories (*italics* on domain terms where helpful).
-7. **Omit maintainer noise** — do **not** copy the template's `## Instructions` block into project deliverables.
 
 **Before:** `abd-story-mapping` — produces the story map this skill slices.
 **After:** `abd-story-acceptance-criteria`, `abd-story-specification` — add story detail once priorities are set.
 
-### 3. Validate
+### 2. Validate
 
 Run the story-name exact-match scanner first:
 
@@ -74,13 +58,11 @@ python skills/abd-thin-slicing/scanners/story-name-exact-match-scanner.py --work
 
 Exit code 1 means story name mismatches — **do not proceed until it passes**.
 
-Run scanners and emit per-rule verdicts — see `common/skill-workflow.md` § Validate output and [`../../../reference/validate-checklist.md`](../../../reference/validate-checklist.md).
+Then see `common/skill-workflow.md` § Validate output.
 
 ---
 
 ## Validate
-
-Also apply [`../../../reference/validate-checklist.md`](../../../reference/validate-checklist.md).
 
 - Each increment shows a vertical path (input → processing → outcome), not a layer.
 - Increment names are stakeholder-visible capabilities, not internal milestones.

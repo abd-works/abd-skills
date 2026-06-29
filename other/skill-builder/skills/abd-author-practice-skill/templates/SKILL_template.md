@@ -50,25 +50,9 @@ Load this skill when **any** of the following apply:
 
 ## Agent Instructions
 
-**MANDATORY bootstrap — no generation until complete.**
+**MANDATORY:** Read **[`common/skill-workflow.md`](../../../../common/skill-workflow.md) in its entirety** and complete § Read-gates before generating.
 
-1. Read **[`common/skill-workflow.md`](../../../../common/skill-workflow.md) in its entirety** and complete every step in § Read-gates (all of `rules/`, all of `reference/` including `input-traps.md`, practice files linked from this skill, and [`common/grill-me-with-practice-skill.md`](../../../../common/grill-me-with-practice-skill.md) when grill mode is active).
-2. Read **every file linked in § 1 below in full** — do not skim, summarize from memory, or skip.
-
-Output resolution, validation, and diagram delegation are defined in `common/skill-workflow.md`.
-
-### 1. Read context (MANDATORY — every linked file in full)
-
-Read these files:
-- **`reference/concepts.md`** — {{READ_CONTEXT_CONCEPTS_ONE_LINER}}
-- **`reference/examples.md`** — {{READ_CONTEXT_EXAMPLES_ONE_LINER}}
-- {{READ_CONTEXT_PRACTICE_OR_TEMPLATE_LINKS_OR_DELETE}}
-
-### 2. Generate
-
-Read every file in **`rules/`**. Author to those rules — treat each DO / DO NOT as a shape contract, not a suggestion.
-
-Produce output using every template in **`templates/`**:
+### 1. Generate
 
 | Template | What to produce |
 | --- | --- |
@@ -77,24 +61,9 @@ Produce output using every template in **`templates/`**:
 
 {{BUILD_EXTRA_NOTES_OR_DELETE}}
 
-### 3. Validate (MANDATORY — per-rule verdict required)
+### 2. Validate
 
-Re-read every file in **`rules/`**. For **each rule**, emit a verdict:
-
-```
-Rule: <rule-filename>  ->  PASS
-Rule: <rule-filename>  ->  FAIL  <offending line or reason>
-```
-
-**No rule may be silently skipped.** Then run the scanner pass:
-
-```bash
-python skills/common/scripts/run_scanners.py \
-  --skill-root skills/{{SKILL_FOLDER_NAME}} \
-  --workspace <path-to-output>
-```
-
-Fix every FAIL and every scanner violation. No "done" until all rules have a PASS verdict and scanners are green.
+See [`common/skill-workflow.md`](../../../../common/skill-workflow.md) § Validate output.
 
 ---
 

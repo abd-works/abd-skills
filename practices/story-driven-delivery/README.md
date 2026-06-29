@@ -6,7 +6,7 @@ Story map → acceptance criteria → specification → acceptance tests.
 
 **Shared reference:** [`reference/`](reference/stories-perspective.md) — perspective ladder, incomplete context, new vs existing system, diagram workflow, domain input priority, validate checklist.
 
-**Per skill:** `reference/input-traps.md`, `reference/diagram-workflow.md` (diagram skills only). Workflow: [`common/skill-workflow.md`](../../common/skill-workflow.md).
+**Per skill:** `reference/` (all files), `templates/` (all files). Workflow: [`common/skill-workflow.md`](../../common/skill-workflow.md) § Read-gates. Practice links live in `reference/concepts.md`, not `SKILL.md`.
 
 ## Deploy
 

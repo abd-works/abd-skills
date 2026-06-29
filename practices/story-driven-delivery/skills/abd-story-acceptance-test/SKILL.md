@@ -21,33 +21,17 @@ Generate executable test files from specification scenarios, acceptance criteria
 
 ## Agent Instructions
 
-**MANDATORY bootstrap — no generation until complete.**
+**MANDATORY:** Read **`common/skill-workflow.md` in its entirety** and complete § Read-gates before generating.
 
-1. Read **`common/skill-workflow.md` in its entirety** and complete every step in § Read-gates (all of `rules/`, all of `reference/` including `input-traps.md`, practice files linked from this skill, and `common/grill-me-with-practice-skill.md` when grill mode is active).
-2. Read **every file linked in § 1 below in full** — do not skim, summarize from memory, or skip.
-
-Output resolution, validation, and diagram delegation are defined in `common/skill-workflow.md`.
-
-### 1. Read context (MANDATORY — every linked file in full)
-
-Read these files:
-- **`reference/concepts.md`** — what ATDD is, test organization, orchestrator pattern, TDD cycle, domain language.
-- **`reference/examples.md`** — shape notes + what to notice (same domain as `abd-story-specification` examples).
-- **`templates/acceptance-tests-example.py`** — filled Python/pytest example (order + discount outline).
-- **`reference/diagnose.md`** — when and how to flip into diagnose mode when tests keep failing.
-- **[`../../../reference/domain-input-priority.md`](../../../reference/domain-input-priority.md)** — fixtures and names trace to domain vocabulary and spec examples.
-
-### 2. Generate
+### 1. Generate
 
 **Before writing any code:**
 0. **Verify test structure first (Priority 1)** — Trace the story hierarchy, declare file / class / method before writing any code. See **Test organization** in `reference/concepts.md`.
 1. **Confirm language and framework** — If not stated, ask. Defaults: pytest (Python), `node:test` (JS/TS), JUnit 5 (Java).
-2. **Pick the matching template** from `templates/` — `acceptance-tests.py`, `.js`, or `.java`. Emit code only; omit the `## Instructions` block.
+2. **Pick the matching template** from `templates/` — `acceptance-tests.py`, `.js`, or `.java`. Emit code only.
 
 **Build steps:**
 3. One file per area, one class per story, one method per scenario. Name helpers with GWT language (`given_*`, `when_*`, `then_*`) matching step text verbatim. Parameterize helpers to prevent sprawl. Extract shared helpers to `tests/<epic_name>/<epic_name>_helper.py` when reused across files.
-
-**Template table:**
 
 | Template | What to produce |
 | --- | --- |
@@ -56,7 +40,7 @@ Read these files:
 | `templates/acceptance-tests.js` | JS/TS test file following orchestrator pattern |
 | `templates/acceptance-tests.java` | Java/JUnit5 test file following orchestrator pattern |
 
-### 3. Diagnose — flip immediately when tests keep failing
+### 2. Diagnose — flip immediately when tests keep failing
 
 **If a test fails after 2 or more consecutive fix attempts — stop. You are spinning.**
 
@@ -71,15 +55,13 @@ Do not add a third fix. Flip immediately into diagnose mode:
 
 **Do not proceed to the next story until the spinning test is resolved.**
 
-### 4. Validate
+### 3. Validate
 
-Run scanners and emit per-rule verdicts — see `common/skill-workflow.md` § Validate output and [`../../../reference/validate-checklist.md`](../../../reference/validate-checklist.md).
+See `common/skill-workflow.md` § Validate output.
 
 ---
 
 ## Validate
-
-**Goal:** Inspect what was built — read test files as reviewers. Also apply [`../../../reference/validate-checklist.md`](../../../reference/validate-checklist.md).
 
 - **Test structure declared** — file/class/method hierarchy stated before writing code; file named after lowest-level sub-epic, class after story.
 - **Orchestrator pattern** — test methods under 20 lines; helpers named with GWT vocabulary; no duplicated helper variants.

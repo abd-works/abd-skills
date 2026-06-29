@@ -21,42 +21,23 @@ State exactly what must be true for a story to be done — so everyone agrees on
 
 ## Agent Instructions
 
-**MANDATORY bootstrap — no generation until complete.**
+**MANDATORY:** Read **`common/skill-workflow.md` in its entirety** and complete § Read-gates before generating.
 
-1. Read **`common/skill-workflow.md` in its entirety** and complete every step in § Read-gates (all of `rules/`, all of `reference/` including `input-traps.md`, practice files linked from this skill, and `common/grill-me-with-practice-skill.md` when grill mode is active).
-2. Read **every file linked in § 1 below in full** — do not skim, summarize from memory, or skip.
-
-Output resolution, validation, and diagram delegation are defined in `common/skill-workflow.md`.
-
-### 1. Read context (MANDATORY — every linked file in full)
-
-Read these files:
-- **`reference/concepts.md`** — what AC are, WHEN/THEN/AND/BUT, domain terms, atomic AC, actor alternation, pitfalls.
-- **`reference/examples.md`** — worked AC for one story (same domain as `abd-story-mapping` examples).
-- **`templates/acceptance-criteria-example.md`** — full multi-story filled example (Manage Customer Orders).
-- **[`../../../reference/domain-input-priority.md`](../../../reference/domain-input-priority.md)** — domain terms must come from domain sources before writing AC.
-
-### 2. Generate
-
-**Produce the template:**
+### 1. Generate
 
 | Template | What to produce |
 | --- | --- |
-| `templates/acceptance-criteria.md` | Story-level AC using WHEN/THEN/AND/BUT per `reference/concepts.md`. Per story, include a **Domain terms** section: key words and phrases for concepts, state, actions, and rules used in that story's AC. **Source traceability:** each numbered AC must cite **Evidence** (chapter, section, page, paragraph, chunk id, etc.) or a per-story **Source evidence** table. **Do not** paste the template's `## Instructions` section into generated project files. |
+| `templates/acceptance-criteria.md` | Story-level AC using WHEN/THEN/AND/BUT per `reference/concepts.md`. Per story, include a **Domain terms** section: key words and phrases for concepts, state, actions, and rules used in that story's AC. **Source traceability:** each numbered AC must cite **Evidence** (chapter, section, page, paragraph, chunk id, etc.) or a per-story **Source evidence** table. |
 
-**Consistency:** WHEN/THEN semantics, story coverage, **domain terms** (same vocabulary; italics on domain terms and domain list), **source evidence per AC**, and ordering must be complete throughout the `.md` artifact. Generated artifacts contain **only** stakeholder-facing sections from the templates.
+**Consistency:** WHEN/THEN semantics, story coverage, **domain terms** (same vocabulary; italics on domain terms and domain list), **source evidence per AC**, and ordering must be complete throughout the `.md` artifact.
 
-**If new files are added** under `templates/` later, produce a corresponding artifact for **each** new template the same way.
+### 2. Validate
 
-### 3. Validate
-
-Run scanners and emit per-rule verdicts — see `common/skill-workflow.md` § Validate output and [`../../../reference/validate-checklist.md`](../../../reference/validate-checklist.md).
+See `common/skill-workflow.md` § Validate output.
 
 ---
 
 ## Validate
-
-**Goal:** Inspect what was built — read artifacts as reviewers. Also apply [`../../../reference/validate-checklist.md`](../../../reference/validate-checklist.md).
 
 - **Behavioral language** — every AC uses observable language; no capability statements ("can do").
 - **Domain terms** — each story has a Domain terms section; all terms traced to a domain source.

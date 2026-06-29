@@ -4,7 +4,7 @@ For scanners to run against a skill, the skill package must have this structure:
 
 | Piece | Role |
 | --- | --- |
-| **`SKILL.md`** | Thin router: purpose, when-to-use, mandatory bootstrap (read `common/skill-workflow.md` + every linked file in full), validate gate. No inlined rule prose. |
+| **`SKILL.md`** | Thin router: purpose, when-to-use, mandatory `common/skill-workflow.md` read-gates, skill-specific § Generate, validate gate. No inlined rule prose. No per-file Read context lists. |
 | **`rules/<name>.md`** | **Source of truth** for rule prose — the only place rule text lives. |
 | **`reference/*.md`** | Concept teaching, examples, heuristics — read on demand before authoring. |
 | **`scanners/*-scanner.py`** | Optional: CLI entrypoint per concern (beside scanner modules); linked from rule frontmatter via `scanner:` |

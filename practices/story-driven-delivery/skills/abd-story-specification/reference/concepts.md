@@ -1,5 +1,7 @@
 # Specification by Example — Core Concepts
 
+**Domain sources first.** Read [`../../../reference/domain-input-priority.md`](../../../reference/domain-input-priority.md) before writing scenarios — produce `domain.json` when required.
+
 ## What is specification by example?
 
 **Specification by example** is a practice where we create specifications for stories through **concrete scenarios** demonstrated through **examples**. Spec scenarios include preconditions (**Given**), the triggering action (**When**), and an observable outcome (**Then**).

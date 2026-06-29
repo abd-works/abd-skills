@@ -1,5 +1,7 @@
 # Acceptance Test-Driven Development — Core Concepts
 
+**Domain sources first.** Read [`../../../reference/domain-input-priority.md`](../../../reference/domain-input-priority.md) before writing tests — fixtures and names trace to domain vocabulary and spec examples.
+
 ## What is acceptance test-driven development?
 
 **Acceptance test-driven development (ATDD)** is a practice where **automated tests** are written from behavioral context — in whatever form is available — before (or alongside) production code. Tests validate that the system does what the behavior says it should do — from the outside, through observable outcomes.
