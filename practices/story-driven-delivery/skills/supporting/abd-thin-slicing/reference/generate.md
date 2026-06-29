@@ -16,7 +16,7 @@
 
 ## Pre-validate scanner
 
-Before [`common/reference/rule-checklist.md`](../../../../../common/reference/rule-checklist.md) Steps 2–4, run:
+Before [`common/reference/rule-checklist.md`](../../../../../common/reference/rule-checklist.md), run:
 
 ```bash
 python <skill-root>/scanners/story-name-exact-match-scanner.py --workspace <path-to-project>

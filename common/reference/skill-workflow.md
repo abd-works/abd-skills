@@ -1,6 +1,6 @@
 # Skill Workflow
 
-**You were sent here from a practice skill's `SKILL.md`.** Read this file **in its entirety** before generating, grilling, or validating. Order: **bootstrap** (engagement context) → **read-gates** (skill package) → generate → validate ([`rule-checklist.md`](./rule-checklist.md) Steps 2–4).
+**You were sent here from a practice skill's `SKILL.md`.** Read this file **in its entirety** before generating, grilling, or validating. Order: **bootstrap** (engagement context) → **read-gates** (skill package) → generate → validate ([`rule-checklist.md`](./rule-checklist.md)).
 
 ---
 
@@ -57,7 +57,6 @@ Before authoring any artifact — **hard gate, no exceptions.** Read in this ord
 
 After read-gates:
 
-- Author to **every** file in `rules/` — each DO / DO NOT is a shape contract.
 - Produce **one deliverable per file** in `templates/` (and for any new template added later).
 - Generated project files contain **stakeholder-facing content only** — never paste template `## Instructions` or maintainer notation sections into deliverables.
 
@@ -67,7 +66,7 @@ Skill-specific workflow order, fidelity branching, and pre-scanners live in **`r
 
 ## Validate output
 
-After generating, run [`rule-checklist.md`](./rule-checklist.md) **Steps 2–4** in full. Step 1 confirms § Read-gates above were completed before work started.
+After generating, run [`rule-checklist.md`](./rule-checklist.md) in full.
 
 ---
 

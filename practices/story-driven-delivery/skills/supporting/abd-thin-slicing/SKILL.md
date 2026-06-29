@@ -46,9 +46,7 @@ Decide what to deliver first and why — so the team ships value in the smallest
 
 ## Validate
 
-## Validate
-
-[`common/reference/rule-checklist.md`](../../../../../common/reference/rule-checklist.md) — Steps 2–4.
+[`common/reference/rule-checklist.md`](../../../../../common/reference/rule-checklist.md).
 
 ## Diagram workflow
 

@@ -63,7 +63,7 @@ After read-gates: author to all `rules/`; one deliverable per `templates/` file;
 
 ## Validate output
 
-After generating, run [`common/reference/rule-checklist.md`](common/reference/rule-checklist.md) **Steps 2–4** in full.
+After generating, run [`common/reference/rule-checklist.md`](common/reference/rule-checklist.md) in full.
 
 ---
 

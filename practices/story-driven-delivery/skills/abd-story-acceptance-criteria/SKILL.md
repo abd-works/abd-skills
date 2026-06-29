@@ -45,9 +45,7 @@ State exactly what must be true for a story to be done — so everyone agrees on
 
 ## Validate
 
-## Validate
-
-[`common/reference/rule-checklist.md`](../../../../common/reference/rule-checklist.md) — Steps 2–4.
+[`common/reference/rule-checklist.md`](../../../../common/reference/rule-checklist.md).
 
 ## Diagram workflow
 

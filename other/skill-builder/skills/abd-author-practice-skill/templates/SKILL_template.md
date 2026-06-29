@@ -80,7 +80,7 @@ Load this skill when **any** of the following apply:
 
 ## Validate
 
-[`common/reference/rule-checklist.md`](../../../../common/reference/rule-checklist.md) — Steps 2–4.
+[`common/reference/rule-checklist.md`](../../../../common/reference/rule-checklist.md).
 
 ## Diagram workflow
 

@@ -123,7 +123,7 @@ When you **maintain `abd-author-practice-skill`**, keep its **`rules/`** generic
 
 3. **Map hub evidence to the right parts of the target skill page.** Use the **Relevance** tag on each **Kept chunk** in **`inputs/abd-answers-retrieval.md`**: treat **`core_concept`** and **`glossary`** chunks as fuel for opening sections and **`reference/`** files; **`procedure`** and **`rule`** for how-to and **Validate**-style checks; **`example`** for examples and template hints; **`diagram_ref`** for manual or figure notes. Do not add **`scanners/*.py`** in this pass.
 
-4. **Rewrite the target `SKILL.md` as a thin router.** **Purpose**, **When to use**, and **Agent Instructions** (mandatory `common/reference/skill-workflow.md` read-gates only). Put orchestration in **`reference/generate.md`** when needed; put practice links in **`reference/concepts.md`**. No template tables, no `## Validate` section when the skill has `rules/` and scanners — validation is [`common/reference/rule-checklist.md`](../../../../common/reference/rule-checklist.md) Steps 2–4 (linked from `skill-workflow` § Validate output).
+4. **Rewrite the target `SKILL.md` as a thin router.** **Purpose**, **When to use**, and **Agent Instructions** (mandatory `common/reference/skill-workflow.md` read-gates only). Put orchestration in **`reference/generate.md`** when needed; put practice links in **`reference/concepts.md`**. No template tables, no `## Validate` section when the skill has `rules/` and scanners — validation is [`common/reference/rule-checklist.md`](../../../../common/reference/rule-checklist.md) (linked from `skill-workflow` § Validate output).
 
 4a. **Create or verify the practice-level `reference/` folder.** Under `practices/<family-name>/reference/`, ensure two things exist:
    - **`<family>-perspective.md`** — the fidelity ladder table (fidelity, skill, mode) for this practice family. Create it if it does not exist; update it if a new skill has been added.
@@ -203,7 +203,7 @@ Checklist for the **target** **`skills/<skill-name>/`**:
 - **Thin router shape** — **`SKILL.md`**: Purpose + mandatory `common/reference/skill-workflow.md` read-gates only; orchestration in **`reference/generate.md`**; **Validate** links [`common/reference/rule-checklist.md`](../../../../common/reference/rule-checklist.md) only.
 - **Teaching is positive, anti-patterns live in rules** — the target **`SKILL.md`** does **not** have "Anti-patterns," "Common mistakes," or "What this is not" sections; negatives are **`## DO NOT`** bullets in **`rules/*.md`** (see `rules/anti-patterns-belong-in-rules-not-skill-teaching.md`).
 - **Diagram workflow declared when needed** — if the skill produces `.drawio` or other diagram outputs, `reference/diagram-workflow.md` exists with mode and output path; practice shared CLI in practice `reference/` when applicable. `SKILL.md` has no `## Diagram workflow` section.
-- **Validate section** — the **target** **`SKILL.md`** **`## Validate`** links only [`common/reference/rule-checklist.md`](../../../../common/reference/rule-checklist.md) (Steps 2–4).
+- **Validate section** — the **target** **`SKILL.md`** **`## Validate`** links only [`common/reference/rule-checklist.md`](../../../../common/reference/rule-checklist.md).
 - **Per-rule verdict** — when validating the target, enumerate every rule in **`rules/`** and emit `Rule: <name> -> PASS` or `Rule: <name> -> FAIL <reason>`. No silent skips.
 
 ---
