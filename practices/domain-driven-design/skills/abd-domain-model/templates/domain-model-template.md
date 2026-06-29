@@ -6,7 +6,7 @@
           (or <deliverables-folder>/modules/<module-name>-domain-model.md|.json
            for multi-module engagements)
 
-  Machine-readable spine: see reference/domain-model-json.md and templates/domain-model-template.json.
+  Machine-readable spine: see ../../references/domain-model-json.md and ../../references/domain-model-template.json.
   domain.json is a flat scanner vocabulary index derived from domain-model.json.
 
   This skill produces a STANDALONE file. It does not enrich the prior phase's

@@ -309,11 +309,14 @@ modules/Check Resolution/key_abstractions/Check/classes/OpposedCheck
 
 ## Templates
 
+Practice-wide artifacts live under `practices/domain-driven-design/references/`:
+
 | File | Purpose |
 | --- | --- |
-| `templates/domain-model-template.json` | Placeholder scaffold with `{{tokens}}` |
-| `templates/domain-model-outline.json` | Minimal valid graph with KA-level relationship |
-| `templates/domain-model-example.json` | Filled Check Resolution example |
+| `references/domain-model-template.json` | Placeholder scaffold with `{{tokens}}` |
+| `references/domain-model-outline.json` | Minimal valid graph with KA-level relationship |
+| `references/domain-model-example.json` | Filled Check Resolution example |
+| `references/domain-model-json.md` | This document |
 
 ---
 
