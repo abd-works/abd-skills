@@ -50,7 +50,7 @@ Do **not** invent a predetermined folder name. Tests follow the host project's c
 
 ## Agent Instructions
 
-Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
+Follow `../common/story-driven-delivery/skill-extensions.md` and `common/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
@@ -96,7 +96,7 @@ Do not add a third fix. Flip immediately into diagnose mode:
 
 ### 4. Validate
 
-Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.md` § Validate output.
+Run scanners and emit per-rule verdicts — see `../common/story-driven-delivery/skill-extensions.md` § Validate output and `../common/story-driven-delivery/validate-checklist.md`.
 
 ---
 
@@ -110,6 +110,5 @@ Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.m
 - **Domain language** — class names, method names, and helper names use domain vocabulary from stories/AC.
 - **Coverage** — happy path, failure path, and edge cases covered.
 - **Example data alignment** — every test value traces to a spec Examples table; all values are imported from a shared fixtures/constants file, not typed inline; stubs are configured to receive and return values that match the spec examples exactly.
-- **No bundle markers** — `SKILL.md` has no `<!-- execute_rules:bundle_rules -->` markers.
 
 ---

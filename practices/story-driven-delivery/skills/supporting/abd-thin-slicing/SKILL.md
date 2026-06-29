@@ -36,7 +36,7 @@ Before generating, surface these:
 
 ## Output file
 
-**Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
+**Deliverables folder:** see `../../common/story-driven-delivery/skill-extensions.md` — Output file resolution.
 
 **File name:** `thin-slicing.md`. Add a `<name>-` prefix only when disambiguation is needed.
 
@@ -44,20 +44,13 @@ Before generating, surface these:
 
 ## Diagram workflow
 
-Produces `docs/stories/thin-slicing.drawio` from `story-graph.json`. Requires `story-graph.json` to exist (built by `story-graph-ops`). Must exist before the cell is marked done.
-
-```bash
-python drawio_story_sync_cli.py render \
-  --mode thin-slicing \
-  --graph docs/stories/story-graph.json \
-  --out   docs/stories/thin-slicing.drawio
-```
+See `../../common/story-driven-delivery/diagram-workflow.md` — **mode `thin-slicing`**, output `docs/stories/thin-slicing.drawio`.
 
 ---
 
 ## Agent Instructions
 
-Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
+Follow `../../common/story-driven-delivery/skill-extensions.md` and `common/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
@@ -104,7 +97,7 @@ python skills/abd-thin-slicing/scanners/story-name-exact-match-scanner.py --work
 
 Exit code 1 means story name mismatches — **do not proceed until it passes**.
 
-Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.md` § Validate output.
+Run scanners and emit per-rule verdicts — see `../../common/story-driven-delivery/skill-extensions.md` § Validate output and `../../common/story-driven-delivery/validate-checklist.md`.
 
 ---
 

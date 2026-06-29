@@ -21,7 +21,7 @@ State exactly what must be true for a story to be done — so everyone agrees on
 
 ## Output file
 
-**Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
+**Deliverables folder:** see `../common/story-driven-delivery/skill-extensions.md` — Output file resolution.
 
 **File name:** `acceptance-criteria.md`. Add a `<name>-` prefix only when disambiguation is needed.
 
@@ -43,20 +43,13 @@ Before generating, surface these common input traps:
 
 ## Diagram workflow
 
-Produces `docs/stories/acceptance-criteria.drawio` from `story-graph.json`. Requires `story-graph.json` to exist (built by `story-graph-ops`). Must exist before the cell is marked done.
-
-```bash
-python drawio_story_sync_cli.py render \
-  --mode acceptance-criteria \
-  --graph docs/stories/story-graph.json \
-  --out   docs/stories/acceptance-criteria.drawio
-```
+See `../common/story-driven-delivery/diagram-workflow.md` — **mode `acceptance-criteria`**, output `docs/stories/acceptance-criteria.drawio`.
 
 ---
 
 ## Agent Instructions
 
-Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
+Follow `../common/story-driven-delivery/skill-extensions.md` and `common/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
@@ -65,7 +58,7 @@ Read these files:
 - **`reference/examples.md`** — worked AC for one story (same domain as `abd-story-mapping` examples).
 - **`templates/acceptance-criteria-example.md`** — full multi-story filled example (Manage Customer Orders).
 
-**Non-negotiable before writing any Domain terms section:** every term must already exist in a domain source artifact (Domain Language, domain sketch, domain model, Class Model, or any team-designated vocabulary file). If a term is missing, **stop — list every missing term and ask the user how to proceed** before writing it into AC. **NEVER create `domain-terms.md` if any domain source file already exists.** Only create `domain-terms.md` as a bootstrap when the engagement has no domain sources at all. See rule **Domain terms must come from the domain model** in `rules/`.
+**Non-negotiable before writing any Domain terms section:** every term must already exist in a domain source artifact. See `../common/story-driven-delivery/domain-input-priority.md` and rule **Domain terms must come from the domain model** in `rules/`.
 
 ### 2. Generate
 
@@ -81,7 +74,7 @@ Read these files:
 
 ### 3. Validate
 
-Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.md` § Validate output.
+Run scanners and emit per-rule verdicts — see `../common/story-driven-delivery/skill-extensions.md` § Validate output and `../common/story-driven-delivery/validate-checklist.md`.
 
 ---
 
@@ -95,6 +88,5 @@ Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.m
 - **Atomic AC** — general case once; follow-on AC are deltas only.
 - **Actor alternation** — no long runs of the same actor without switching (scanner enforces).
 - **Source evidence** — each AC cites evidence or a per-story source table.
-- **No bundle markers** — `SKILL.md` has no `<!-- execute_rules:bundle_rules -->` markers.
 
 ---

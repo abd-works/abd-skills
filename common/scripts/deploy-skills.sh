@@ -328,6 +328,14 @@ deploy_package() {
                 done
             fi
         done
+
+        # Practice skills/common/ — merge into .cursor/skills/common/ (e.g. story-driven-delivery/)
+        local practice_common_src="$skills_src/common"
+        if [[ -d "$practice_common_src" && "$ide" != "vscode" ]]; then
+            merge_directory_contents "$practice_common_src" "$skills_dst/common"
+        elif [[ -d "$practice_common_src" && "$ide" == "vscode" ]]; then
+            merge_directory_contents "$practice_common_src" "$github_skills_dst/common"
+        fi
     fi
 
     # --- Flat layout: skills directly in package root (no skills/ wrapper) ---

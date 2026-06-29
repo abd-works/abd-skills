@@ -23,7 +23,7 @@ Give product, delivery, and domain people one shared picture of scope — outcom
 
 ## Output file
 
-**Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
+**Deliverables folder:** see `../common/story-driven-delivery/skill-extensions.md` — Output file resolution.
 
 **File name:** `story-map.md`. Add a `<name>-` prefix only when disambiguation is needed.
 
@@ -51,28 +51,13 @@ Before generating, surface these common input traps:
 
 ## Diagram workflow
 
-Produces `docs/stories/story-map.drawio` from `story-graph.json`. Requires `story-graph.json` to exist (built by `story-graph-ops`). Must exist before the cell is marked done.
-
-```bash
-python drawio_story_sync_cli.py render \
-  --mode outline \
-  --graph docs/stories/story-graph.json \
-  --out   docs/stories/story-map.drawio
-```
-
-Run once after `story-graph.json` is in place. To sync diagram edits back to the graph, use `sync` instead of `render`:
-
-```bash
-python drawio_story_sync_cli.py sync \
-  --drawio docs/stories/story-map.drawio \
-  --graph  docs/stories/story-graph.json
-```
+See `../common/story-driven-delivery/diagram-workflow.md` — **mode `outline`**, output `docs/stories/story-map.drawio`. Sync back to graph with `sync` (same doc).
 
 ---
 
 ## Agent Instructions
 
-Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
+Follow `../common/story-driven-delivery/skill-extensions.md` and `common/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
@@ -101,7 +86,7 @@ Read these files:
 
 ### 3. Validate
 
-Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.md` § Validate output.
+Run scanners and emit per-rule verdicts — see `../common/story-driven-delivery/skill-extensions.md` § Validate output and `../common/story-driven-delivery/validate-checklist.md`.
 
 ---
 
@@ -113,6 +98,5 @@ Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.m
 - **Story size** — one observable behavior per story; flows grouped in sub-epics.
 - **Intent** — outcomes and behaviors, not implementation tasks or internal structure.
 - **Context gaps** — gaps recorded inline or in `## Context Gaps` section where context was absent.
-- **No bundle markers** — `SKILL.md` has no `<!-- execute_rules:bundle_rules -->` markers.
 
 ---

@@ -21,7 +21,7 @@ Make story behavior unambiguous — concrete examples with real values so devs a
 
 ## Output file
 
-**Deliverables folder:** see `../common/skill-rule-workflow.md` — Output file resolution.
+**Deliverables folder:** see `../common/story-driven-delivery/skill-extensions.md` — Output file resolution.
 
 **File name:** `specification-by-example.md` — a single file for all stories in the module. Add a `<name>-` prefix only when disambiguation is needed.
 
@@ -44,7 +44,7 @@ Before generating, surface these common input traps:
 
 ## Agent Instructions
 
-Follow `../common/skill-rule-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
+Follow `../common/story-driven-delivery/skill-extensions.md` and `common/skill-workflow.md` — read-gates, output file resolution, and the per-rule verdict format are defined there.
 
 ### 1. Read context
 
@@ -52,14 +52,7 @@ Read these files:
 - **`reference/concepts.md`** — what specification by example is, Given/When/Then, scenarios vs outlines, domain concept grounding, quick checklist.
 - **`reference/examples.md`** — worked examples showing plain Scenarios, Scenario Outlines with relationship-based tables, and Background.
 
-**Default input — domain model outline:** Always read the domain model before writing any scenario. The domain model outline is the structural spine for all scenarios: concept names, relationships, invariants, and constraints come from there verbatim.
-
-Read in this priority order:
-- **Class Model** (`domain-specification.md`) — typed classes with invariants and typed relationships. Use first when present.
-- **Domain model** (`domain-model.md`) — concepts with responsibilities and collaborators. **Default source** when no Class Model exists.
-- **Domain language** (`domain-language.md`) — defined terms and key abstractions. Use for term verification and when no model file exists.
-
-Check for `domain.json` in the workspace. If it does not exist and a domain model markdown file is present, produce `domain.json` before running the scanner.
+**Default input — domain model outline:** Read `../common/story-driven-delivery/domain-input-priority.md` before writing any scenario.
 
 ### 2. Generate
 
@@ -95,7 +88,7 @@ Generated artifacts contain only scenario content; template instructions stay in
 
 ### 3. Validate
 
-Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.md` § Validate output.
+Run scanners and emit per-rule verdicts — see `../common/story-driven-delivery/skill-extensions.md` § Validate output and `../common/story-driven-delivery/validate-checklist.md`.
 
 
 ---
@@ -111,6 +104,5 @@ Run scanners and emit per-rule verdicts — see `../common/skill-rule-workflow.m
 - **Coverage** — happy path, failure path, and edge cases implied by story or AC are visible.
 - **Domain model grounding** — `domain.json` matches or has been produced if a domain model file exists.
 - **Stub structure** — if any scenario involves a stubbed service: stub declared in Given, invocation + response in When, business outcome only in Then. No stub response in Then.
-- **No bundle markers** — `SKILL.md` has no `<!-- execute_rules:bundle_rules -->` markers.
 
 ---

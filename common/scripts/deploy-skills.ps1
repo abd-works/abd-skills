@@ -292,6 +292,15 @@ function Deploy-Package {
                 }
             }
         }
+        # Practice skills/common/ — merge into .cursor/skills/common/
+        $practiceCommonSrc = Join-Path $skillsSrc 'common'
+        if (Test-Path -LiteralPath $practiceCommonSrc) {
+            if ($Ide -eq 'vscode') {
+                Merge-DirectoryContents -Source $practiceCommonSrc -Destination (Join-Path $githubSkillsDst 'common')
+            } else {
+                Merge-DirectoryContents -Source $practiceCommonSrc -Destination (Join-Path $skillsDst 'common')
+            }
+        }
     }
 
     # Flat layout: skills live directly as subdirs of the package root (no skills/ wrapper).
