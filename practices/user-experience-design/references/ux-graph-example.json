@@ -21,6 +21,17 @@
               "value": "kitten"
             },
             {
+              "name": "search actions",
+              "slot": "header",
+              "type": "button-bar",
+              "buttons": [
+                {
+                  "label": "Search",
+                  "primary": true
+                }
+              ]
+            },
+            {
               "name": "results list",
               "slot": "body",
               "type": "list",
