@@ -25,7 +25,7 @@ State exactly what must be true for a story to be done — so everyone agrees on
 
 ## Read
 
-§ Read-gates — `rules/`, `reference/`, `templates/`, practice files linked from [`reference/concepts.md`](reference/concepts.md).
+§ Read-gates — all of `rules/`, [`reference/`](reference/), `templates/`.
 
 ## Input traps
 

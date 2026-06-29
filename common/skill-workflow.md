@@ -31,7 +31,7 @@ Before authoring any artifact — **hard gate, no exceptions.** Read in this ord
 1. **`rules/`** — **every** file for the active skill, **read in full**.
 2. **`reference/`** — **every** file in the skill's `reference/` folder, **read in full** (concepts, examples, `input-traps.md`, `diagram-workflow.md`, `output.md`, and any other teaching files).
 3. **`templates/`** — **every** file in the skill's `templates/` folder, **read in full** (layout contracts and filled examples — do not copy `## Instructions` blocks into deliverables).
-4. **Practice family `reference/`** — **every** file linked from this skill's `reference/concepts.md` and from the practice family's `<family>-perspective.md` shared-reference table, **read in full**.
+4. **Practice family `reference/`** — read **every** file in the practice `<family>-perspective.md` shared-reference table, plus **every** practice file linked from **any** file in this skill's `reference/` folder, **read in full**.
 5. **Grill mode only** — if the invocation includes **"grill me"**, read [`grill-me-with-practice-skill.md`](./grill-me-with-practice-skill.md) **in its entirety** and work through unresolved traps as questions (one at a time) before generating.
 
 **Read each file in full** — no skimming, no summarizing from memory, no skipping sections. Do not rely on the SKILL body alone. No main task starts until steps 1–4 are done (and step 5 when grill mode is active).

@@ -42,4 +42,4 @@
 
 **Output file names** for the four `docs/` skills: [`common/folder-conventions.md`](../../../common/folder-conventions.md) — no `reference/output.md` needed. [`common/skill-workflow.md`](../../../common/skill-workflow.md) § Output file resolution.
 
-**Workflow:** [`common/skill-workflow.md`](../../../common/skill-workflow.md) § Read-gates — read **all** of `rules/`, `reference/`, `templates/`, and practice files linked from `reference/concepts.md` / `<family>-perspective.md`, each in full. **Grill mode:** [`common/grill-me-with-practice-skill.md`](../../../common/grill-me-with-practice-skill.md).
+**Workflow:** [`common/skill-workflow.md`](../../../common/skill-workflow.md) § Read-gates — all of `rules/`, `reference/`, `templates/`, plus practice `reference/` per perspective table and outbound links from skill `reference/`. **Grill mode:** [`common/grill-me-with-practice-skill.md`](../../../common/grill-me-with-practice-skill.md).
