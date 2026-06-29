@@ -1,0 +1,180 @@
+{
+  "_comment": [
+    "Machine-readable domain model. Written alongside domain-model.md.",
+    "Relationships between classes are NOT declared explicitly — they are inferred by scanning",
+    "property 'type', operation 'params', 'returns', and 'collaborators' for class names that",
+    "exist elsewhere in this file. A class name appearing in any of those fields implies a",
+    "dependency from the containing class toward the referenced one.",
+    "Glossary-term-to-class mapping: when a domain-language term becomes a class, its text",
+    "bullets map to properties (noun-valued bullets) or operations (verb-valued bullets).",
+    "Visibility: 'public' is the default; use 'private' only for methods prefixed with '-' in",
+    "the markdown class block. Properties have no visibility distinction.",
+    "Constructor: list param types only, no param names. Omit (empty array or null) for classes",
+    "that have no constructor (factory, pre-defined instances).",
+    "Collaborators: hidden domain types used inside an operation but absent from params/returns.",
+    "Invariants: declarative rules; use 'must', 'cannot', 'only if' phrasing."
+  ],
+  "module": "ModuleName",
+  "scope": "bounded slice or engagement scope",
+  "core_domain": {
+    "key_abstractions": [
+      {
+        "name": "KAName",
+        "classes": [
+          {
+            "name": "ClassName",
+            "inherits": null,
+            "constructor": ["Type", "Type"],
+            "properties": [
+              {
+                "name": "propertyName",
+                "type": "Type",
+                "invariants": ["declarative constraint — must / cannot / only if"]
+              },
+              {
+                "name": "anotherProperty",
+                "type": "Type",
+                "invariants": []
+              }
+            ],
+            "operations": [
+              {
+                "name": "operationName",
+                "params": ["Type", "Type"],
+                "returns": "ReturnType",
+                "visibility": "public",
+                "collaborators": ["HiddenCollaboratorType"],
+                "invariants": ["declarative constraint"]
+              },
+              {
+                "name": "anotherOperation",
+                "params": [],
+                "returns": "void",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": []
+              }
+            ]
+          },
+          {
+            "name": "ChildClass",
+            "inherits": "ClassName",
+            "constructor": ["Type"],
+            "properties": [],
+            "operations": [
+              {
+                "name": "deltaOperation",
+                "params": ["Type"],
+                "returns": "ReturnType",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": ["constraint specific to this subtype"]
+              }
+            ]
+          },
+          {
+            "name": "AnotherClass",
+            "inherits": null,
+            "constructor": null,
+            "properties": [
+              {
+                "name": "property",
+                "type": "Type",
+                "invariants": []
+              }
+            ],
+            "operations": [
+              {
+                "name": "operation",
+                "params": ["Type"],
+                "returns": "ReturnType",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": []
+              }
+            ]
+          }
+        ],
+        "decisions": [
+          "constrained enum values, state-carrier or collection-class introduction, Liskov decision, dependency-magnet split, typed-primitive introduction, or open question"
+        ],
+        "references": [
+          {
+            "title": "ref_title",
+            "source": "relative/path/to/source/file.md",
+            "locator": "lines NNN–NNN",
+            "extract": "whole"
+          }
+        ]
+      },
+      {
+        "name": "AnotherKAName",
+        "classes": [
+          {
+            "name": "AnotherKAClass",
+            "inherits": null,
+            "constructor": ["Type"],
+            "properties": [
+              {
+                "name": "property",
+                "type": "Type",
+                "invariants": []
+              }
+            ],
+            "operations": [
+              {
+                "name": "operation",
+                "params": ["Type"],
+                "returns": "ReturnType",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": []
+              }
+            ]
+          }
+        ],
+        "decisions": ["decision rationale"],
+        "references": [
+          {
+            "title": "ref_title",
+            "source": "relative/path/to/source/file.md",
+            "locator": "lines NNN–NNN",
+            "extract": "whole"
+          }
+        ]
+      }
+    ]
+  },
+  "boundary_domain": [
+    {
+      "name": "BoundaryClassName",
+      "owned_by": "OwningModule",
+      "properties": [
+        {
+          "name": "propertyName",
+          "type": "Type",
+          "invariants": []
+        }
+      ],
+      "operations": [
+        {
+          "name": "operationName",
+          "params": ["Type"],
+          "returns": "ReturnType",
+          "visibility": "public",
+          "collaborators": [],
+          "invariants": []
+        }
+      ],
+      "decisions": ["boundary placement reasoning"],
+      "references": [
+        {
+          "title": "ref_title",
+          "source": "relative/path/to/source/file.md",
+          "locator": "lines NNN–NNN",
+          "extract": "whole"
+        }
+      ]
+    }
+  ]
+}

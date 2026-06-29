@@ -74,7 +74,8 @@ Read these files:
 | Template | What to produce |
 | --- | --- |
 | `templates/domain-model-template.md` | The domain model file with typed class blocks under each KA. |
-| `templates/domain.json` | Domain JSON with class names, property names (camelCase), and inheritance. |
+| `templates/domain.json` | Minimal domain JSON consumed by the specification-by-example scanner: class names, property names (camelCase), and inheritance only. |
+| `templates/domain-model.json` | Full machine-readable domain model: module, KAs, classes, properties with types, operations with typed params and return types, collaborators, invariants, and boundary domain entries. Relationships are inferred from class names appearing in types/params/returns/collaborators — no explicit relation array needed. |
 
 **Quality bar:** Every behavior bullet from the Domain Language maps to at least one property or method. Properties are typed — never raw `String`; use domain types, constrained enums, or typed primitives. Methods use type-only params (no param names). Hidden collaborators (not in params or return) listed underneath methods, indented, before invariants. No `+` prefix. No stereotypes. No `List<T>` or `Dictionary<K,V>`. No `Interaction:` blocks. Subtype blocks carry only deltas. State marker set to `domain-model`.
 
