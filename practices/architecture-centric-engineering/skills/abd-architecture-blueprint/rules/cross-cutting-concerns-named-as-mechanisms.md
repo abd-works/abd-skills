@@ -21,7 +21,7 @@ Every cross-cutting concern the system commits to appears in the blueprint as a 
 
 - Describe each mechanism in 1–2 paragraphs: what concern it addresses, which components depend on it, how they interact with it; then explicitly defer deep walkthroughs to the reference.
 
-  **Example (pass):** "Caching — Catalogue data is cached in Redis with a write-through pattern; admin writes invalidate the keys they touch. Identity data is cached at the API edge with a 60-second TTL. *See `architecture-reference.md` for the full cache-key convention and invalidation strategy.*"
+  **Example (pass):** "Caching — Catalogue data is cached in Redis with a write-through pattern; admin writes invalidate the keys they touch. Identity data is cached at the API edge with a 60-second TTL. *See the Caching mechanism's `architecture-context.md` for the full cache-key convention and invalidation strategy.*"
 
 - Add project-specific mechanisms when the canonical list does not cover something material (e.g. **Multi-tenancy Isolation**, **Game Bridge Seam**, **GPU Workload Dispatch**).
 
@@ -41,4 +41,4 @@ Every cross-cutting concern the system commits to appears in the blueprint as a 
 
   **Example (fail):** "### 3.5 Configuration. TBD." Either describe the mechanism in 1–2 paragraphs, omit the section because the concern is not yet a real commitment, or call out the deferral in writing with a reason.
 
-**Source:** Practice-skill authoring convention (abd-architecture-blueprint); mechanisms map one-to-one to architecture-reference sections.
+**Source:** Practice-skill authoring convention (abd-architecture-blueprint); each mechanism named here becomes a mechanism-tier `architecture-context.md` (and a one-line entry in the central spec) under `abd-architecture-specification`.

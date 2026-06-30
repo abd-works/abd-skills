@@ -2,9 +2,9 @@
 
 This is the family-level definition of an **architecture mechanism**. The
 architecture skills (`abd-architecture-outline`, `abd-architecture-blueprint`,
-`abd-architecture-specification`, `abd-architecture-specification`) all refer to it; each
-skill adds its own *level of fidelity* on top of this single definition rather
-than re-defining the term.
+`abd-architecture-specification`, `abd-architecture-template`,
+`abd-architecture-code`) all refer to it; each skill adds its own *level of
+fidelity* on top of this single definition rather than re-defining the term.
 
 ## What an architecture mechanism is
 
@@ -42,7 +42,8 @@ Less common but recurring: idempotency, transactions, rate limiting, messaging.
 
 ## How each skill uses this concept
 
-- **`abd-architecture-outline`** — *names* the mechanisms in scope and explicitly defers their detail downward.
-- **`abd-architecture-blueprint`** — describes each mechanism in 1–2 paragraphs: the concern it addresses, which components depend on it, how they interact with it.
-- **`abd-architecture-specification`** — takes one mechanism at a time and goes deep using the five-part shape (principles & patterns, file structure, participants, flow, walkthrough).
-- **`abd-architecture-specification`** — emits runnable code that implements one mechanism end-to-end.
+- **`abd-architecture-outline`** — *names* every mechanism, records its technology choice + NFR justification, and writes an ADR per mechanism choice. Detail defers downward.
+- **`abd-architecture-blueprint`** — describes each mechanism in 1–2 paragraphs as a **code shape** every module must adopt: where the mechanism activates, what every module that participates in it must do, which modules (if any) implement its functional surface. The mechanism-modules section names mechanisms that also have a concrete module surface.
+- **`abd-architecture-specification`** — for every mechanism named in the blueprint, produces a **mechanism-tier `architecture-context.md`** in the folder that hosts the templated pattern (File Structure, Participants, Class Specification, Rules, Canonical Patterns, Across the Codebase). The central `architecture-specification.md` lists every mechanism as a one-line entry with a link to its context file and surfaces it in the Where-to-Start table when feature work touches it.
+- **`abd-architecture-template`** — turns one mechanism's `architecture-context.md` into a **runnable parameterized reference module** at `docs/architecture/templates/<slug>/` — folder skeleton, real source files using the spec's placeholder vocabulary verbatim, parameterized test scaffolds mirroring the test-helpers context file, plus a concrete `example/` that builds and whose tests pass. In `project` mode (default) one package covers the project's primary mechanism; in `mechanism` mode (opt-in) one package per mechanism is generated.
+- **`abd-architecture-code`** — for one story at a time, resolves the right template package (via the central spec's Where-to-Start lookup of the mechanism in scope), reads `<spec-root>/template/`, `<spec-root>/templates/tests/`, `<spec-root>/example/`, `<spec-root>/rules/` from that package, copies and renames the template files with the story's domain terms, and enforces the lifted Rules through tests and production code at the spec's layer order.

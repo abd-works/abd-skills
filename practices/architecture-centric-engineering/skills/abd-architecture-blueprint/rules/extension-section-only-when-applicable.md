@@ -10,7 +10,7 @@ Section 6 of the blueprint (Extension & Evolution) is included **only** when the
 
 - Describe each extension point in one paragraph naming the contract, the registration mechanism, and where the contract is documented in detail.
 
-  **Example (pass):** "Theme plug-ins — load JSON theme manifests at startup through `IThemeProvider`; the contract is in `architecture-reference.md` section 5.4."
+  **Example (pass):** "Theme plug-ins — load JSON theme manifests at startup through `IThemeProvider`; the contract lives in the Theme mechanism's `architecture-context.md` (Class Specification → `IThemeProvider`)."
 
 - Omit the section entirely when there are no real extension points. State explicitly in the Build/Validate step that section 6 was omitted because nothing is pluggable; reviewers know it was a considered decision.
 

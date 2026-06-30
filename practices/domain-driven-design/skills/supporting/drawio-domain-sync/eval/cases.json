@@ -187,7 +187,7 @@
     },
     "fail/story-graph-inheritance-crosses-epic": {
       "date": "2026-06-28",
-      "situation": "StoryGraph->ContextPerspectiveGraph inheritance edge routes top-to-top at mid-x\u2248687, crossing Epic (x=645\u2013905, y=670\u2013762).",
+      "situation": "StoryGraph->ContextPerspectiveGraph inheritance edge routes top-to-top at mid-x~687, crossing Epic (x=645-905, y=670-762). The diagram also has pre-existing overlap, cross-edge, and perpendicular-approach violations on other edges that were already present at capture time and are not the focus of this fixture.",
       "rules": [
         {
           "rule": "class-diagram-edges-do-not-cross-classes.md",
@@ -197,23 +197,23 @@
         {
           "rule": "class-diagram-edges-do-not-overlap-other-edges.md",
           "scanner": "edges_do_not_overlap_edges.py",
-          "expect": "clean"
+          "expect": "violate"
         },
         {
           "rule": "class-diagram-edges-do-not-overlap-other-edges.md",
           "scanner": "edges_do_not_cross_other_edges.py",
-          "expect": "clean"
+          "expect": "violate"
         },
         {
           "rule": null,
           "scanner": "edges_approach_perpendicular.py",
-          "expect": "clean"
+          "expect": "violate"
         }
       ]
     },
     "fail/domain-graph-edges-cross-domain-graph": {
       "date": "2026-06-28",
-      "situation": "DomainConceptNode->DomainNode association and inheritance edges both route through the DomainGraph class rectangle.",
+      "situation": "DomainConceptNode->DomainNode association and inheritance edges both route through the DomainGraph class rectangle. The diagram also has pre-existing overlap, cross-edge, and perpendicular-approach violations on other edges that were already present at capture time and are not the focus of this fixture.",
       "rules": [
         {
           "rule": "class-diagram-edges-do-not-cross-classes.md",
@@ -223,24 +223,56 @@
         {
           "rule": "class-diagram-edges-do-not-overlap-other-edges.md",
           "scanner": "edges_do_not_overlap_edges.py",
-          "expect": "clean"
+          "expect": "violate"
         },
         {
           "rule": "class-diagram-edges-do-not-overlap-other-edges.md",
           "scanner": "edges_do_not_cross_other_edges.py",
-          "expect": "clean"
+          "expect": "violate"
         },
         {
           "rule": null,
           "scanner": "edges_approach_perpendicular.py",
-          "expect": "clean"
+          "expect": "violate"
         }
       ]
     },
     "pass/story-graph-inheritance-fixed": {
       "date": "2026-06-28",
-      "situation": "StoryGraph->ContextPerspectiveGraph rerouted: exit bottom, waypoint (960,826), enter CPG top. Path stays below Epic and right of all row-3 classes.",
+      "situation": "StoryGraph->ContextPerspectiveGraph rerouted: exit bottom, waypoint (960,826), enter CPG top. Path stays below Epic and right of all row-3 classes. The edges_do_not_cross_classes violation is fixed (the focus of this fixture); other pre-existing overlap, cross-edge, and perpendicular violations on unrelated edges were present at capture time and remain.",
       "rules": [
+        {
+          "rule": "class-diagram-edges-do-not-cross-classes.md",
+          "scanner": "edges_do_not_cross_classes.py",
+          "expect": "clean"
+        },
+        {
+          "rule": "class-diagram-edges-do-not-overlap-other-edges.md",
+          "scanner": "edges_do_not_overlap_edges.py",
+          "expect": "violate"
+        },
+        {
+          "rule": "class-diagram-edges-do-not-overlap-other-edges.md",
+          "scanner": "edges_do_not_cross_other_edges.py",
+          "expect": "violate"
+        },
+        {
+          "rule": null,
+          "scanner": "edges_approach_perpendicular.py",
+          "expect": "violate"
+        }
+      ]
+    },
+    "fail/onboarding-leaves-horizontal-row": {
+      "date": "2026-06-30",
+      "situation": "Customer (Onboarding) page from the pml-domain diagram where the CLI placed all 7 leaf nodes (Identity, Address, Cart, Metadata, Plan, Order, Portability) in a single horizontal row at y=514, stretching the canvas to ~2420px wide. The hub class OnboardingCustomer sits at y=60 with no fan. Also has a pre-existing UserProfile->Address perpendicular-approach violation. Only leaf_nodes_not_in_horizontal_row catches the anti-pattern being tested.",
+      "pages": ["Customer (Onboarding)"],
+      "rules": [
+        {
+          "rule": "class-diagram-ka-spatial-cohesion.md",
+          "scanner": "leaf_nodes_not_in_horizontal_row.py",
+          "expect": "violate"
+        },
         {
           "rule": "class-diagram-edges-do-not-cross-classes.md",
           "scanner": "edges_do_not_cross_classes.py",
@@ -259,13 +291,13 @@
         {
           "rule": null,
           "scanner": "edges_approach_perpendicular.py",
-          "expect": "clean"
+          "expect": "violate"
         }
       ]
     },
     "pass/domain-graph-edges-fixed": {
       "date": "2026-06-28",
-      "situation": "DomainConceptNode->DomainNode edges rerouted via left corridor (x\u2248332-340, y=300) above DomainGraph. Distinct anchors on source; association enters top, inheritance enters bottom.",
+      "situation": "DomainConceptNode->DomainNode edges rerouted via left corridor (x~332-340, y=300) above DomainGraph. Distinct anchors on source; association enters top, inheritance enters bottom. The edges_do_not_cross_classes violation is fixed (the focus of this fixture); other pre-existing overlap, cross-edge, and perpendicular violations on unrelated edges were present at capture time and remain.",
       "rules": [
         {
           "rule": "class-diagram-edges-do-not-cross-classes.md",
@@ -275,17 +307,17 @@
         {
           "rule": "class-diagram-edges-do-not-overlap-other-edges.md",
           "scanner": "edges_do_not_overlap_edges.py",
-          "expect": "clean"
+          "expect": "violate"
         },
         {
           "rule": "class-diagram-edges-do-not-overlap-other-edges.md",
           "scanner": "edges_do_not_cross_other_edges.py",
-          "expect": "clean"
+          "expect": "violate"
         },
         {
           "rule": null,
           "scanner": "edges_approach_perpendicular.py",
-          "expect": "clean"
+          "expect": "violate"
         }
       ]
     }

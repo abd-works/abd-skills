@@ -10,7 +10,7 @@
 
 ## 1. Scope
 
-This blueprint extends [`architecture-outline.md`](./architecture-outline.md). Deep mechanism walkthroughs — code, sequence diagrams beyond three participants, per-file structures — defer to architecture specification documents (one or more, one per mechanism or group). Outline-level concerns (system-context diagram, mechanism technology choices, guiding principles, tech stack, major systems, mechanism ADRs) stay in the outline and are not repeated here.
+This blueprint extends [`architecture-outline.md`](./architecture-outline.md). Deep mechanism walkthroughs — code, sequence diagrams beyond three participants, per-file structures, canonical patterns, rules — defer to [`specification/architecture-specification.md`](./specification/architecture-specification.md) (the central navigation hub) and the per-folder `architecture-context.md` files it indexes. Outline-level concerns (system-context diagram, mechanism technology choices, guiding principles, tech stack, major systems, mechanism ADRs) stay in the outline and are not repeated here.
 
 ---
 
@@ -240,5 +240,5 @@ Blueprint-level decisions (continuing ADR numbering from the outline):
 ## See also
 
 - [`architecture-outline.md`](./architecture-outline.md) — mechanism technology choices, guiding principles, tech stack, major systems, mechanism ADRs.
-- [`<mechanism>-architecture-specification.md`](./<mechanism>-architecture-specification.md) — spec (module layout, layer qualifiers, worked examples) for one or more mechanisms mentioned here.
+- [`specification/architecture-specification.md`](./specification/architecture-specification.md) — the central navigation hub plus per-folder `architecture-context.md` files (mechanism / package / miscellaneous tiers) that carry the file structures, participants, canonical patterns, and rules for every mechanism named here. Produced by `abd-architecture-specification`.
 - [`service-level-objectives.md`](./service-level-objectives.md) — non-functional requirements per major system.

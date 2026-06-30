@@ -1,7 +1,7 @@
 ﻿{
-  "last_deploy_root": "C:\\dev\\paradise-mobile",
-  "last_ide": "cursor",
-  "last_package": "all",
-  "last_deploy_mode": "delta",
-  "last_encoding_guard": false
+    "last_package":  "all",
+    "last_encoding_guard":  false,
+    "last_deploy_root":  "C:\\dev\\paradise-mobile",
+    "last_deploy_mode":  "clean",
+    "last_ide":  "cursor"
 }

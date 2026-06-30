@@ -73,6 +73,56 @@ The testing flow diagram shows this visually: each tier as a column, each stack 
 
 ---
 
+## Optional: scaffold mode
+
+The blueprint skill has two modes at Discovery fidelity:
+
+| Mode | What it produces |
+|---|---|
+| `blueprint` (default) | The centralized `architecture-blueprint.md` document and its blueprint-level ADRs and diagrams. |
+| `scaffold` (opt-in) | Everything `blueprint` produces, **plus** the folder skeleton for each named module and mechanism-host folder, each seeded with a stub `architecture-context.md`. |
+
+Scaffold mode exists because the blueprint already knows enough — module names, mechanism-modules, code-shape constraints, test tiers, inter-module dependencies — to **seed** the per-folder context files that `abd-architecture-specification` will later fill in. Scaffold mode is the natural greenfield handoff between blueprint and specification: blueprint puts the folder skeleton on disk and stamps blueprint-fidelity content into each stub; the specification skill then fills in the spec-fidelity slots (file structure, participants, rules, canonical pattern).
+
+### What scaffold mode writes
+
+For each module named in the blueprint's Modules section:
+
+- Create `src/<module>/` if it does not exist.
+- Create `src/<module>/architecture-context.md` from the package-context stub template, pre-filled with:
+  - Owning module name
+  - Mechanisms used (from the module's mechanism list)
+  - Test tier (from the testing architecture)
+  - Dependencies on other modules
+  - Spec-fidelity slots (File Structure, Participants, Class Specification, Rules, Canonical Pattern) marked `<!-- spec to fill -->`
+
+For each mechanism named in the blueprint's Mechanisms section that has a host folder (a folder the templated pattern lives in):
+
+- Create the host folder if it does not exist.
+- Create `<host-folder>/architecture-context.md` from the mechanism-context stub template, pre-filled with:
+  - Mechanism name
+  - Code-shape paragraph (copied from the blueprint)
+  - Technology choice + ADR link (from the outline)
+  - Spec-fidelity slots marked `<!-- spec to fill -->`
+
+### Idempotency
+
+Scaffold mode is safe to re-run. It must:
+
+- Skip any folder that already exists.
+- Skip any `architecture-context.md` that already exists, except to **append** new blueprint-fidelity content (a newly added mechanism, a changed dependency, a flipped test tier) — never overwrite existing content.
+- Surface a conflict via the violation workflow when blueprint-fidelity content in an existing file disagrees with the current blueprint document (vocabulary drift).
+
+### Boundary: what scaffold mode does NOT write
+
+- Source-code files (no `*.ts`, `*.py`, etc.) — that is `abd-architecture-code`'s job.
+- Spec-fidelity content (File Structure, Participants, Class Specification, Rules, Canonical Pattern) — that is `abd-architecture-specification`'s job. Stubs leave those slots empty with `<!-- spec to fill -->` markers.
+- Test files. The test-tier name lands in the stub; the test scaffolding itself is downstream.
+
+Scaffold stubs are governed by [`../rules/scaffold-stubs-are-blueprint-only.md`](../rules/scaffold-stubs-are-blueprint-only.md).
+
+---
+
 ## Decision records at this level
 
 Blueprint-level decisions are choices visible at this level: module boundaries, test-tier vocabulary, data ownership patterns, extension seam contracts. Mechanism technology choices have their ADRs in the outline and are not re-recorded here.
@@ -86,6 +136,8 @@ Blueprint-level decisions are choices visible at this level: module boundaries, 
 - Sequence diagrams that involve more than three participants
 - Per-module file structures
 - Test code examples per tier
+- Per-folder `architecture-context.md` files (mechanism / package / miscellaneous tiers) that describe File Structure, Participants, Class Specification, Rules, and Canonical Patterns
+- The central `architecture-specification.md` navigation hub (Where-to-Start table, mechanism index, source layout, testing architecture)
 
 **Lives in `abd-architecture-outline`:**
 - Layered architecture diagram
@@ -95,3 +147,23 @@ Blueprint-level decisions are choices visible at this level: module boundaries, 
 - Technology stack table
 - Major systems catalogue (one-liners)
 - Mechanism-choice ADRs
+
+---
+
+## Handoff to `abd-architecture-specification`
+
+The blueprint is the **direct input** to the architecture specification. The shared model — centralized documents (outline + blueprint + specification) fanning into per-folder `architecture-context.md` files, three tiers (mechanism / package / miscellaneous), the vocabulary chain, and the existing-vs-new flow — is canonicalised once at the practice level:
+
+→ **[`practices/architecture-centric-engineering/reference/architecture-context-model.md`](../../../reference/architecture-context-model.md)**
+
+Specifically inherited from this blueprint by the spec:
+
+| Blueprint artefact | Becomes in the spec |
+|---|---|
+| Each mechanism (code shape) | One mechanism-tier `architecture-context.md` in the folder that hosts the templated pattern (see [§ 5 of the shared model](../../../reference/architecture-context-model.md#5-where-mechanism-tier-context-files-land)). |
+| Mechanism index (this document) | The Mechanisms table in the central `architecture-specification.md`. |
+| Modules & dependencies | Source Layout section in the central spec; per-package `architecture-context.md` files where a package introduces context the central spec does not cover. |
+| Testing tiers | The central spec's Testing Architecture section + a `test-helpers/` miscellaneous-tier context file when the tiers share helpers. |
+| Architecture flow diagram | Embedded in (or linked from) the relevant mechanism-tier context file. |
+
+**Vocabulary constraint:** the spec uses blueprint names verbatim — see [§ 3 The vocabulary chain](../../../reference/architecture-context-model.md#3-the-vocabulary-chain) and [§ 6.1](../../../reference/architecture-context-model.md#61-vocabulary-matches-the-source-of-truth). If discovery surfaces a missing mechanism or module, the rename happens in this blueprint (and the outline, if it is a mechanism technology choice) before the spec introduces it.

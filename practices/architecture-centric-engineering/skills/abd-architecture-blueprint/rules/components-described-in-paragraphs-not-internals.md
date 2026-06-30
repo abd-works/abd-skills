@@ -22,7 +22,7 @@ A component in the blueprint is described in **one to two short paragraphs** cov
 
 - Defer "how does it do X?" to the architecture reference by explicit forward link when the question naturally arises.
 
-  **Example (pass):** "Implements the outbox pattern for cross-component event delivery — see the Persistence mechanism in `architecture-reference.md` for the full transactional shape."
+  **Example (pass):** "Implements the outbox pattern for cross-component event delivery — see the Persistence mechanism's `architecture-context.md` for the full transactional shape."
 
 ## DO NOT
 

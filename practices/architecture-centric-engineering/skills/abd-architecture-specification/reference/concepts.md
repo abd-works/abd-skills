@@ -1,284 +1,75 @@
-﻿# Architecture Specification — Concepts
+# Concepts -- abd-architecture-specification
 
-## What is an architecture specification?
+> **The shared model — centralized documents + distributed per-folder context files, three tiers, the vocabulary chain, the existing-vs-new flow, the read-side scan of distributed context, and the higher-level rules — is canonicalised at the practice level:** [`practices/architecture-centric-engineering/reference/architecture-context-model.md`](../../../reference/architecture-context-model.md). This skill's concepts page restates what the spec skill specifically owns and adds the "what good looks like" criteria backed by the rules under [`../rules/`](../rules/).
 
-An **architecture specification** is a **specification directory** — doc, runnable template slice, rules, and scanners — that defines how domain concepts and stories instantiate as code in a chosen stack. Where the directory lives does not matter; the shape does:
+## Two artefacts
 
-```
-<spec>/
-├── architecture-specification.md   ← the doc
-├── template/                       ← runnable code + domain artifacts + tests
-├── templates/                      ← parameterized scaffold (peer to template/)
-├── rules/                          ← what generated code must satisfy
-└── scanners/                       ← automated checks against those rules
-```
+1. **Central `architecture-specification.md`** at `docs/architecture/specification/architecture-specification.md`. A map: routing table, one-line summaries, folder indexes, annotated source tree. It links out; it does not explain.
+2. **Per-folder `architecture-context.md`** next to the code. The manuals: file structure, participants, rules, diagrams, canonical patterns.
 
-The markdown doc details one or more cross-cutting **mechanisms** the system needs and defines how each is realized across the architecture's layers. A finished spec lets a reviewer answer three questions in one read:
+Co-locate context files with the code they describe so detail stays findable when folders move or get refactored.
 
-- **What is the principle?** — the one-line rule that, if you violated it, your code would no longer be "in this architecture".
-- **What is the pattern?** — the named, repeatable shape that implements the principle.
-- **How does it actually run?** — the participants, the file layout, the call sequence, and the test approach.
+## Central spec
 
----
+Section layout and placeholders: [../templates/architecture-specification.md](../templates/architecture-specification.md). Constraints: [../rules/](../rules/).
 
-## Mechanism
+## Three tiers
 
-**Architecture mechanism** is a family-level concept — see [`reference/architecture-mechanism.md`](../../../reference/architecture-mechanism.md) for the definition and the canonical categories. The specification document devotes one section (or file) to each mechanism the project has actually decided, and is the deepest-fidelity treatment: it gives each mechanism the full five-part shape below.
+Pick from what the folder contains, not its name.
 
-**Document once, assign later.** After discovery (or the first run that creates a mechanism), later exploration, specification, and engineering **assign** the existing section. Only **create** when the scope needs a mechanism that has no complete section yet.
+| Tier | What it is | Template |
+|---|---|---|
+| **Mechanism** | Reusable pattern; new instances follow a recipe. | [templates/mechanism-context.md](../templates/mechanism-context.md) |
+| **Package** | Module with deep functional surface area; no replication recipe. | [templates/package-context.md](../templates/package-context.md) |
+| **Miscellaneous** | A sentence or two, or a holder for unrelated subfolders/files. | [templates/miscellaneous-context.md](../templates/miscellaneous-context.md) |
 
----
+## Vocabulary
 
-## Assign vs create
+Mechanism names, layer names, and system names must match the architecture's agreed source of truth (ADRs, blueprint, outline). Update the source of truth before introducing a new name in the spec.
 
-Assignment is recorded on the **story map**, not in a separate mechanism table. Each node — **system**, **epic**, or **sub-epic** — carries an **`architecture-spec`** field: a list of specification directory paths. **More than one spec may be assigned to the same node** (e.g. stack baseline + scoped companion).
+## Boundary
 
-| Node level | Assign when | Create when |
-| --- | --- | --- |
-| **System** | Complete spec directory exists for this stack | Bootstrapping a new architecture |
-| **Epic** | Spec(s) already document this epic's mechanisms and patterns | Epic needs a new spec directory or mechanisms not in any assigned spec |
-| **Sub-epic** | Assigned spec(s) already cover this sub-epic's stories | Sub-epic needs new mechanism sections or template slices |
+The central spec is not a blueprint, outline, domain specification, or code-generation manual. Link to those artefacts; do not copy their content into this skill's output.
 
-Before writing anything, **discover** existing specification directories — skills repo (`specs/<arch>/`), project workspace, or `mechanism-registry.json`.
+Package-tier context files describe architecture seams, not domain invariants ? those belong in `abd-domain-specification`.
 
-**Workflow:**
+## What good looks like
 
-1. **Locate the story map node** for this run and read its current `architecture-spec` list.
-2. **Assign** — add paths to existing complete spec directories; cite them on the node; do not rewrite their content.
-3. **Create** — when no assigned spec covers the node, author a new spec directory or extend an assigned spec with missing mechanism sections only.
-4. **Inside each assigned spec** — each mechanism is documented once: assign existing `## Mechanism: <Name>` sections; create only what is missing.
+The structure above is necessary but not sufficient. A two-artefact spec with the right tiers can still be bad documentation if the units inside it are poorly formed. Each criterion below has an enforcing rule in [`../rules/`](../rules/).
 
-| Situation | Action |
-| --- | --- |
-| Spec directory exists and covers this node | **Assign** — add path to node's `architecture-spec` |
-| Node needs a second, scoped spec (integration, increment) | **Assign** — add second path; node holds multiple specs |
-| No spec covers this node | **Create** — new spec directory; add path to `architecture-spec` |
-| Mechanism missing inside an assigned spec | **Create** — add or finish that section only |
+### Good mechanism
 
-**Avoid:** regenerating a full `architecture-specification.md` when only new mechanisms are needed; duplicating a mechanism under a different heading when an equivalent section exists; forking a full spec copy per epic when a companion spec suffices.
+- **Pattern coherence across instances.** Every instance follows the same canonical shape ? same file skeleton, same extension points, same wiring contract. A mechanism may legitimately span several responsibilities (request lifecycle: validate + route + translate; identity setup: authenticate + authorise + refresh) so long as every instance does them the same way. The test is shape consistency, not responsibility count. ? [mechanism-pattern-is-coherent-across-instances](../rules/mechanism-pattern-is-coherent-across-instances.md)
+- **Activation path named.** The context file names how a new instance becomes live ? composition-root registration, base-class inheritance + consumer usage, file-glob discovery, or decorator-driven scanning. The reader can answer "what makes this code run?" without reading existing instances. ? [mechanism-activation-path-is-named](../rules/mechanism-activation-path-is-named.md)
+- **Parameters obvious from the pattern.** The Participants and Canonical Patterns use placeholders (`{Partner}`, `{System}`) so a reader can see what varies per instance and what stays fixed. An explicit "Adding a new instance" recipe is optional and only needed when extension touches files outside the mechanism folder. ? [mechanism-parameters-are-obvious-from-the-pattern](../rules/mechanism-parameters-are-obvious-from-the-pattern.md)
+- **Rules that can fail a review.** Every bullet in the Rules section names a must / must-never with a code-visible violation. Sentiments ("strive for", "prefer") are not rules. ? [mechanism-rules-are-code-verifiable](../rules/mechanism-rules-are-code-verifiable.md)
 
-**Example:** Epic *Wire Payment* assigns `specs/mern/` (stack) and `docs/architecture/wire-transfer/` (companion). Sub-epic *Refund Processing* adds `docs/architecture/refunds/` (create). Mechanisms Error Handling and Persistence are assigned inside `specs/mern/`; Refund validation is created in the refunds companion.
+### Good package
 
----
+- **Cohesive surface.** Operations share one subject ? the same concept, the same external system, the same capability. Junk drawers get reclassified as miscellaneous. ? [package-surface-is-cohesive](../rules/package-surface-is-cohesive.md)
+- **Minimal seam, deep functionality.** The package's *public surface* is a short named list; the *functionality behind it* is substantial. Shallow packages (one-line wrappers around an SDK) and bloated public surfaces (every helper exported) both fail this property. ? [package-seam-is-minimal-and-named](../rules/package-seam-is-minimal-and-named.md)
+- **Named consumers.** Anonymous packages ("used across the codebase") are unmaintainable; consumers are listed by file path.
+- **Documents the package, not the domain.** The context file covers public surface AND internals (lifecycle, helpers, wiring) ? anyone modifying the package needs them. What it stays out of is domain rules: business invariants, state machines, and validation policies live in `abd-domain-specification`. ? [package-context-file-stays-out-of-domain-details](../rules/package-context-file-stays-out-of-domain-details.md)
 
-## Kanban ticket run (quick pass vs long pass)
+### Good interactions between packages
 
-When pulled from a kanban board, **always run this skill** — kanban does not auto-skip.
+- **One direction of dependency per pair.** Cycles are seams in disguise ? break them with a third package or an event.
+- **Calls cross documented seams, not internals.** A consumer that reaches into another package's private files is coupled to its implementation; both packages now refactor together.
+- **Packages don't construct each other.** Collaborators are received, not instantiated ? through a composition root, framework auto-wiring, or a documented inheritance contract. Keeps the seam testable and the package replaceable.
+- **Failure shapes are uniform across the seam.** A package's errors are part of its surface; consumers translate at one point, not at every call site.
 
-1. **Locate the story map node** and read its `architecture-spec` field.
-2. **Check** assigned spec directories and mechanism sections inside them; consult `mechanism-registry.json` when present.
-3. **Quick pass** — every needed spec is already assigned on the node and every mechanism inside those specs is complete → update story map links only; mark skill done.
-4. **Long pass** — node needs a new spec path and/or mechanisms missing inside assigned specs → create only what is missing; add paths to `architecture-spec`; register creates in `mechanism-registry.json` when used.
+### Good system-level structure
 
----
+- **Boundary stated both ways.** The Overview names what the system owns AND what it explicitly does not ? the negative half is what stops scope creep. ? [overview-names-system-boundary](../rules/overview-names-system-boundary.md)
+- **One vocabulary.** Mechanism, layer, and system names match the agreed source of truth (ADRs, blueprint) verbatim. ? [vocabulary-matches-source-of-truth](../rules/vocabulary-matches-source-of-truth.md)
+- **Live distinguishable from dead.** Every shown folder is tagged with its owning unit or marked `[dead code]` / `[legacy]`; a reader can tell what is reachable from the system's entry point. ? [live-and-dead-code-are-distinguished](../rules/live-and-dead-code-are-distinguished.md)
+- **Every documented unit is reachable.** A context file that the central spec does not index is invisible; the index entries match the context files on disk. ? [every-documented-folder-is-reachable-from-central-spec](../rules/every-documented-folder-is-reachable-from-central-spec.md)
 
-## Run modes
+### Good documentation, regardless of tier
 
-| Mode | Produces | When to use |
-| --- | --- | --- |
-| **document** | `architecture-specification.md` | Mechanism sections only; `template/` already exists on the assigned spec |
-| **template** | `template/` runnable code, spec `templates/` scaffold, `rules/`, `scanners/` | Code-first; doc assigned separately or refreshed later |
-| **both** (default) | Full specification directory | New spec or full refresh — template slice first, then doc |
+- **Purposeful.** Every section answers a question the reader actually has. Sections that exist because the template included them are dead weight.
+- **Navigation over explanation.** The central spec routes; detail lives next to code. Anyone who has to read the whole central spec to find one fact is being failed by it.
+- **Examples are canonical, not aspirational.** Code blocks would pass production review with only placeholder renaming. ? [canonical-examples-are-production-ready](../rules/canonical-examples-are-production-ready.md)
+- **Routes by need, not by code.** The Where to Start questions describe feature requirements a product owner could answer, not artefacts only insiders know. ? [where-to-start-routes-by-feature-need](../rules/where-to-start-routes-by-feature-need.md)
+- **Testing architecture has a shape.** The test-helpers context file names the pattern and the stub boundary; "tests use Jest" is not enough. ? [testing-architecture-names-pattern-and-seam](../rules/testing-architecture-names-pattern-and-seam.md)
 
-**Document** — write or update mechanism sections, diagrams, and walkthroughs. Walkthrough steps reference files under `template/` when present; otherwise use parameterized pattern comments pointing at `templates/`. Do not edit `template/` unless the user asks.
-
-**Template** — produce the runnable slice under `template/` (domain spec, spec-by-example, tests, production code), mirror it in `templates/`, and bootstrap or update `rules/` and `scanners/`. Skip `architecture-specification.md`.
-
-**Both** — run template pass first (with human review before the document pass), then author the doc and validate both passes.
-
-When pulled from kanban without an explicit mode, default to **both**. When the ticket or user names only one deliverable ("doc only", "template only"), honor that mode.
-
-**Kanban stage defaults:** Exploration → **document**; Specification → **template**.
-
----
-
-## Principle vs. pattern
-
-A **principle** is a one-liner stance the architecture takes — a constraint the team is not allowed to break. It is technology-agnostic, fits in a sentence, and survives in a corridor conversation.
-
-A **pattern** is the full description of how the team has chosen to satisfy that principle in this project: the named shape, its structural options, its benefits, and its trade-offs.
-
----
-
-## Layered description vs. mechanism reference
-
-**Instantiating the Domain** is the common section of every architecture reference. It has four sub-sections: **Principles** (naming rules, layer qualifiers), **Architecture Flow** (how one interaction traverses the tech stack — diagram + table), **Module Layout** (folder tree + shared artefact table), and **Participants** (class diagram showing inheritance, interface implementation, and delegation across tiers). **Mechanisms** cover each runtime concern (web client, app server, persistence, …) — content differs by stack.
-
----
-
-## Reference document structure
-
-Every `architecture-specification.md` follows the skeleton in **`templates/architecture-specification.md`**. Summary:
-
-| Section | Scope |
-|---------|-------|
-| Overview | Architecture name, mechanism list, sources |
-| **Instantiating the Domain** | **Common** — four sub-sections: **Principles** (naming rules, layer qualifiers), **Architecture Flow** (diagram + `\| Tech \| File \| Instantiates from domain \|` table), **Module Layout** (folder tree), **Participants** (class diagram — inheritance, interface, delegation) |
-| Mechanisms | Tech-specific — one section per runtime concern; five-part shape each (no testing subsection inside mechanisms) |
-| **Testing Architecture** | **Common** — four sub-sections: **Principles** (story instantiates tests; stub at tier boundary only), **Testing Scope** (4-layer diagram — domain unit / HTTP adapter / React adapter / browser; entry point, real, stubbed, asserts), **Module Layout** (domain unit tests beside domain classes; lowest sub-epic = file; story = `describe`; scenario = `it`), **Participants** (base helper = scenario vocabulary; tier helpers = adapter implementations; class diagram) |
-| Example | `template/` pointer — runnable code, `specification-by-example.md`, `domain-spec.md`, tests |
-| Rules and Validation | `rules/` + `scanners/` — one-row-per-rule table + run command |
-| References | Worked example path, normative patterns, standards |
-
-**Architecture Flow** is a sub-section of Instantiating the Domain — not a standalone top-level section.
-
-**Named spec directories** (e.g. `specs/<arch>/`) are authoritative for their architecture. Assign; do not recreate.
-
----
-
-## The five-part shape
-
-Every mechanism section has the same five-part shape:
-
-1. **Principles & Patterns** — one-liner principle(s) followed by a named pattern description per principle.
-2. **File Structure** — where the mechanism's code lives (a fenced tree).
-3. **Participants** — the classes/modules involved, as a class diagram or table.
-4. **Flow** — a sequence diagram of one representative scenario.
-5. **Walkthrough Example** — a step-by-step narration of the same scenario with example code.
-
-Testing content belongs in the top-level **Testing Architecture** section — not inside individual mechanism sections.
-
----
-
-## Section organization
-
-The reference is **always one file**: `architecture-specification.md`.
-
-- **Combined section** — when there are only **2–3 mechanisms** and they are tightly related, use one `## Mechanisms` section that weaves the five-part shape across all of them.
-- **One section per mechanism** — the default for **4+ mechanisms**, and always allowed. Each mechanism gets its own `## Mechanism: <Name>` section.
-
----
-
-## Code and test standards
-
-Code in walkthroughs follows the project's coding standard (defaulting to `abd-clean-code` when in scope). Test snippets follow the project's testing standard (defaulting to `abd-story-acceptance-test` when in scope).
-
----
-
-## Template code conventions
-
-Every run that includes **template** mode produces a **runnable template slice** under `template/` alongside the reference doc (when mode is **both**). The template slice and the doc are a single artifact — they must stay in sync.
-
-### Template domain artifacts
-
-Alongside template code, produce two domain artifacts in the **same folder**:
-
-| File | Produced per |
-|------|--------------|
-| `specification-by-example.md` | `abd-story-specification` — scenarios for the story the template implements |
-| `domain-spec.md` | `abd-domain-specification` — typed domain specification |
-
-**Template layout** (`template/`):
-
-```
-template/
-├── specification-by-example.md      # Given/When/Then scenarios for the story
-├── domain-spec.md                   # Typed domain spec for the example module
-├── packages/
-│   ├── app-server/                  # Composition root — mounts routers, injects repos
-│   ├── app-client/                  # Composition root — React app, routes
-│   └── <domain>/
-│       ├── shared/
-│       │   ├── <Entity>.ts
-│       │   ├── <Entity>s.ts
-│       │   ├── <entity>.schema.ts
-│       │   ├── <Entity>Repository.ts
-│       │   └── <entity>s.test.ts    ← domain unit tests — live here, next to the classes
-│       ├── server/
-│       │   ├── <Entity>sServer.ts
-│       │   ├── <Entity>Router.ts
-│       │   └── <Entity>RepositoryServer.ts
-│       └── client/
-│           ├── <Entity>Client.ts
-│           ├── <Entity>sClient.ts
-│           ├── <Entity>.api.ts
-│           ├── use<Entity>s.ts
-│           ├── <Entity>ListView.tsx
-│           └── <Entity>CardView.tsx
-└── tests/
-    └── <epic>/                           # Epic → folder
-        ├── <sub-epic>_server.test.ts     # Sub-epic → file | Story → describe | Scenario → it
-        ├── <sub-epic>_client.test.tsx
-        ├── <sub-epic>_e2e.spec.ts
-        └── helpers/
-            ├── <sub-epic>.base.ts        # scenario vocabulary + test data constants
-            ├── <sub-epic>.server.ts      # seeds DB; Supertest HTTP
-            ├── <sub-epic>.client.ts      # vi.mock at API boundary; Testing Library
-            └── <sub-epic>.e2e.ts         # Playwright page navigation
-```
-
-**File naming** (real-story examples — all names derive from domain classes):
-
-| Layer | Pattern | Example |
-|-------|---------|---------|
-| Shared entity | `<Entity>.ts` | `Recipient.ts` |
-| Shared collection | `<Entity>s.ts` | `Recipients.ts` |
-| Shared schema | `<entity>.schema.ts` | `recipient.schema.ts` |
-| Shared repository interface | `<Entity>Repository.ts` | `RecipientRepository.ts` |
-| Domain unit tests | `<entity>s.test.ts` in `shared/` | `recipients.test.ts` |
-| Server collection | `<Entity>sServer.ts` | `RecipientsServer.ts` |
-| Server router | `<Entity>Router.ts` | `RecipientRouter.ts` |
-| Server repository impl | `<Entity>RepositoryServer.ts` | `RecipientRepositoryServer.ts` |
-| Client entity | `<Entity>Client.ts` | `RecipientClient.ts` |
-| Client collection | `<Entity>sClient.ts` | `RecipientsClient.ts` |
-| Client API | `<Entity>.api.ts` | `Recipient.api.ts` |
-| Client hook | `use<Entity>s.ts` | `useRecipients.ts` |
-| Test file | `<sub-epic>_<tier>.test.ts` | `select-recipient_server.test.ts` |
-| Base helper | `<sub-epic>.base.ts` | `select-recipient.base.ts` |
-| Tier helper | `<sub-epic>.<tier>.ts` | `select-recipient.server.ts` |
-
-When assigning from a named spec, assign all three together — code, spec-by-example, and domain spec.
-
-### Template validation (mandatory)
-
-Every run that **creates or edits** template code (modes **template** or **both**) must validate it against the **architecture spec's** rules and scanners — not only this skill's document rules.
-
-| Pass | `--skill-root` | `--workspace` | What it checks |
-|------|----------------|---------------|----------------|
-| **Doc** | `abd-architecture-specification/` | `architecture-specification.md` | Mechanism shape, TOC, diagrams, walkthroughs |
-| **Template** | `specs/<arch>/` (or project's spec copy) | `specs/<arch>/template/` or `template/` | Tier extensions, layer purity, tests, package layout |
-
-Workflow per **`common`:**
-
-1. Read `specs/<arch>/rules/` before writing template code.
-2. After authoring — AI pass: per-rule verdict on template code.
-3. Run `run_scanners.py` with `--language` when applicable; fix all failures; re-run until green.
-
-Named spec reference command (MERN):
-
-```bash
-python foundational/skill-helpers/skills/common/scripts/run_scanners.py \
-  --skill-root practices/architecture-centric-engineering/specs/mern \
-  --workspace practices/architecture-centric-engineering/specs/mern/template \
-  --language typescript
-```
-
-Do not declare the template slice complete while any scanner fails.
-
-### Folder layout
-
-```
-template/
-├── <mechanism-name>/        # kebab-case, matches mechanism heading in the doc
-│   ├── <domain>.<ext>
-│   ├── <presentation>.<ext>
-│   └── tests/
-│       └── test_<scenario>.<ext>
-└── <next-mechanism>/
-    └── ...
-```
-
-One sub-folder per mechanism in the reference. Folder name must match the mechanism heading exactly (kebab-case, lower-case).
-
-### Two template domain modes
-
-**Toy / hello-world** — use when no real project context exists or when isolating the mechanism is clearest. Pick a simple domain (Calculator, Pet Store, Library) and keep the three-layer shape (Domain → Presentation → Tests).
-
-**Real story** — draw class and file names from the actual domain model and stories in the engagement. Follow the file naming table above.
-
-### Non-negotiable rules
-
-- Every file runs immediately — no stubs, no placeholder bodies, no missing imports.
-- Every Walkthrough step in the doc references a specific file by path (e.g. `template/error-handling/calculator.py`).
-- When the doc changes, the template code changes in the **same edit**. When template code is fixed, the corresponding Walkthrough step is updated in the **same edit**.
-- Tests are named after story scenarios or user-facing behaviors, not implementation details.

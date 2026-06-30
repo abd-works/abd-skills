@@ -2,7 +2,7 @@
 
 **You were sent here from a practice skill's `SKILL.md`.** Read this file **in its entirety** before generating, grilling, or validating. Order: **bootstrap** (engagement context) → **read-gates** (skill package) → generate → validate ([`rule-checklist.md`](./rule-checklist.md)).
 
----
+
 
 ## Bootstrap (engagement context)
 
@@ -17,7 +17,7 @@
 
 When a choice meets DR criteria during this run, write a new record per [`decision-record.md`](./decision-record.md) — do not bury major decisions in chat or deliverable prose only.
 
----
+
 
 ## Output file resolution (deliverables)
 
@@ -37,21 +37,25 @@ When a choice meets DR criteria during this run, write a new record per [`decisi
 
 Most skills need no `reference/output.md` — `folder-conventions.md` is enough. Add `reference/output.md` only when the skill breaks the default (tests in project tree, multiple named outputs, non-`.md` deliverable).
 
----
+
 
 ## Read-gates
 
 Before authoring any artifact — **hard gate, no exceptions.** Read in this order:
 
 1. **`rules/`** — **every** file for the active skill, **read in full**.
-2. **`reference/`** — **every** file in the skill's `reference/` folder, **read in full**, except **`grill-me.md`** (grill mode only — step 5).
+2. **`reference/`** — **every** file in the skill's `reference/` folder, **read in full**, including **`grill-me.md`**.
 3. **`templates/`** — **every** file in the skill's `templates/` folder, **read in full** (layout contracts and filled examples — do not copy `## Instructions` blocks into deliverables).
 4. **Practice family `reference/`** — read **every** file in the practice `<family>-perspective.md` shared-reference table, plus **every** practice file linked from **any** file in this skill's `reference/` folder, **read in full**.
-5. **Grill mode only** — if the invocation includes **"grill me"**, read [`grill-me-with-practice-skill.md`](./grill-me-with-practice-skill.md) and the active skill's **`reference/grill-me.md`** **in full**; ask questions one at a time from `reference/grill-me.md` only (not from `input-traps.md`).
+5. **Grill mode (default — opt out only when explicitly told to skip).** Read [`grill-me-with-practice-skill.md`](./grill-me-with-practice-skill.md) and the active skill's **`reference/grill-me.md`** in full. Then run **two grilling passes**:
+   1. **Grill the context** — ask each question visibly, then answer it yourself by reading the available sources (codebase, deliverables, decision records, design docs). Show the question and the answer so the user can see your reasoning.
+   2. **Grill the user** — for any question the context cannot answer, surface it to the user one at a time. Every answer or assumption made in lieu of an answer must be stated back to the user before generation begins.
 
-**Read each file in full** — no skimming, no summarizing from memory, no skipping sections. Do not rely on the SKILL body alone. Complete **§ Bootstrap** first, then steps 1–4 (and step 5 when grill mode is active). No main task starts until bootstrap and read-gates are done.
+   Only skip grill mode when the user explicitly says so (e.g. "skip grilling", "no grill", "just generate").
 
----
+**Read each file in full** — no skimming, no summarizing from memory, no skipping sections. Do not rely on the SKILL body alone. Complete **§ Bootstrap** first, then steps 1–5. No main task starts until bootstrap and read-gates are done.
+
+
 
 ## Generate (deliverables)
 
@@ -63,25 +67,25 @@ After read-gates, generate the artifact:
 
 Deliverables contain **stakeholder-facing content only**. Do not duplicate rule or template shape in `SKILL.md`.
 
----
+
 
 ## Validate output
 
 After generating, run [`rule-checklist.md`](./rule-checklist.md) in full.
 
----
+
 
 ## Diagram workflow (non-blocking)
 
 After the scanner pass, check whether the active skill has **`reference/diagram-workflow.md`**. If it does, launch a **background sub-agent** (Task tool, `run_in_background: true`) with that file's contents and enough context (deliverables folder, output paths) for it to execute the CLI command independently. Do not wait for the sub-agent before returning to the user.
 
----
+
 
 ## Correction process
 
 When something is wrong: identify → log → re-generate → iterate on the output until correct, then optionally improve the source skill. See `skill-helpers/instructions/log-and-fix-skill-errors` for the full loop. Put the log under the engagement tree — not inside the skill package.
 
----
+
 
 ## Repair loops
 

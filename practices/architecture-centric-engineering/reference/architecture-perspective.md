@@ -12,8 +12,10 @@
 |---|---|---|
 | Shaping | `abd-architecture-outline` | system-context |
 | Discovery | `abd-architecture-blueprint` | blueprint |
+| Discovery | `abd-architecture-blueprint` | scaffold *(opt-in: seeds folder skeleton + stub `architecture-context.md` files; see [skill modes](../skills/abd-architecture-blueprint/SKILL.md#modes))* |
 | Exploration | `abd-architecture-specification` | document |
-| Specification | `abd-architecture-specification` | template |
+| Specification | `abd-architecture-template` | project *(default: one runnable parameterized reference module per project at `docs/architecture/templates/<project-slug>/`)* |
+| Specification | `abd-architecture-template` | mechanism *(opt-in: one runnable reference module per named mechanism at `docs/architecture/templates/<mechanism-slug>/`; see [skill modes](../skills/abd-architecture-template/SKILL.md#modes))* |
 | Engineering | `abd-architecture-code` | production-code |
 
 ---
@@ -22,9 +24,10 @@
 
 | File | Role |
 | --- | --- |
+| [`architecture-context-model.md`](./architecture-context-model.md) | Canonical model for the whole family — centralized documents (outline + blueprint + specification) and how they fan out to per-folder `architecture-context.md` files, three tiers, vocabulary chain, existing-vs-new flow, higher-level rules, skill-level handoff summary |
+| [`architecture-mechanism.md`](./architecture-mechanism.md) | What an architecture mechanism is and how each skill in the family uses the concept |
 | [`validate-checklist.md`](./validate-checklist.md) | Cross-skill validate items |
 | [`diagram-workflow.md`](./diagram-workflow.md) | Shared `arch-drawio.ps1` init/export/verify |
-| [`architecture-mechanism.md`](./architecture-mechanism.md) | Mechanism definitions (existing) |
 | [`common/reference/record-all-architecture-violations.md`](../../../common/reference/record-all-architecture-violations.md) | Violation workflow for existing systems |
 
 ---

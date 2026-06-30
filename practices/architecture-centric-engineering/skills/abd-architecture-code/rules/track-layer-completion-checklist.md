@@ -1,6 +1,6 @@
 # Rule: Track layer completion with track_task
 
-Every **testing tier** and **production layer** named in **`<spec-root>` Testing Architecture** must appear as an explicit checkbox in the engagement **`progress/`** tree. Session progress lives in those files — not in chat alone, and not by editing normative skill or spec sources.
+Every **testing tier** and **production layer** named in the test-helpers package-tier `architecture-context.md` (corroborated by **`<context-file>`** Testing references and by **`<spec-root>/templates/tests/`**) must appear as an explicit checkbox in the engagement **`progress/`** tree. Session progress lives in those files — not in chat alone, and not by editing normative skill or spec sources.
 
 ## DO
 
@@ -8,7 +8,7 @@ Every **testing tier** and **production layer** named in **`<spec-root>` Testing
 
 - After step **1b** (test scaffolds on disk), run **`track_task`**: create **`<workspace>/abd-architecture-code/progress/`** when missing.
 
-- Derive checklist rows **only** from **`<spec-root>`** — layer names, tier order, test path patterns, and production placement from **Testing Architecture**, **`rules/`**, **`templates/tests/`**, and **`template/`**. Do not hardcode MERN, hero-vtt, or another stack when **`<spec-root>`** differs.
+- Derive checklist rows **only** from the joint authority of **`<context-file>`** (Testing references + § File Structure tier mapping), the test-helpers package-tier context file (tier names + helper layout), and **`<spec-root>`** (`rules/`, `templates/tests/`, `template/`). Do not hardcode MERN, hero-vtt, or another stack when `<spec-root>` differs.
 
 - Write **`process-checklist.md`** — one `- [ ]` line per workflow phase (inputs → context/inventory → scaffold → layer generation → deploy/verify → validate).
 
@@ -16,9 +16,9 @@ Every **testing tier** and **production layer** named in **`<spec-root>` Testing
 
   - **Scenarios** — each scenario in that tier **executed** RED then GREEN (not merely written).
   - **Tier suite** — **full test run executed** for that tier; all tests pass.
-  - **Production** — minimum code for those scenarios green in the layer **`<spec-root>`** assigns (domain/shared, server, client, etc.).
+  - **Production** — minimum code for those scenarios green in the layer `<context-file>` § File Structure assigns (domain/shared, server, client, etc.); files copied from `<spec-root>/template/`.
 
-  Add **Test execution — all tiers in scope** at the end — one line per distinct test runner or tier **`<spec-root>/rules/`** mandates; tick only after a **full run** passes.
+  Add **Test execution — all tiers in scope** at the end — one line per distinct test runner or tier `<spec-root>/rules/` or `<context-file>` § Rules mandates; tick only after a **full run** passes.
 
   **Example (pass):** Spec lists Domain → Server → Client → E2E; sub-epic `open-account-transfer` in scope → twelve layer lines (four layers × three checkboxes) plus four scope-level execution lines with commands from the spec.
 
@@ -42,6 +42,6 @@ Every **testing tier** and **production layer** named in **`<spec-root>` Testing
 
 - Declare step **4** or **5** done while **Test execution — all tiers in scope** or **`- [ ] 4a`** is still unchecked.
 
-- Skip a testing tier or production layer **`<spec-root>`** mandates — even when that tier has zero scenarios in the current story scope (tick with note `N/A — no scenarios in scope` only when the inventory proves zero scenarios, not to avoid scaffolding).
+- Skip a testing tier or production layer the joint authority of `<context-file>` / `<spec-root>` / helpers context file mandates — even when that tier has zero scenarios in the current story scope (tick with note `N/A — no scenarios in scope` only when the inventory proves zero scenarios, not to avoid scaffolding).
 
 - Track layer completion only in chat when the user is running **`abd-architecture-code`** across sessions.

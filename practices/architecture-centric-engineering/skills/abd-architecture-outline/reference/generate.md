@@ -6,6 +6,16 @@
 - **`reference/system-context.md`** — deeper guidance on the system context diagram.
 - **[`common/reference/record-all-architecture-violations.md`](../../../../../common/reference/record-all-architecture-violations.md)** — violation workflow (existing systems only): surface pattern deviations, orphan concerns, and missing mechanisms; stop and inform the user; ask 2a/2b/2c per violation; launch a non-blocking sub-agent to write DRs and downstream artefacts. Read [`common/reference/decision-record.md`](../../../../../common/reference/decision-record.md) for the DR template and criteria.
 
+### Scan existing distributed context (existing systems)
+
+If the target project already contains `architecture-context.md` files (per-folder, distributed alongside the code — see [`architecture-context-model.md` § 1](../../../reference/architecture-context-model.md#1-centralized-documents-and-distributed-context-files)), scan them before authoring the outline. Pick up signals at outline fidelity:
+
+- **Mechanism mentions** — every named mechanism the context files reference should appear in the outline's mechanisms catalogue (or be flagged as a missing mechanism per the violation workflow).
+- **Technology choices** — when a context file already names the persistence engine, HTTP stack, identity provider, etc., corroborate it against the outline's tech-stack table; conflicts are violations.
+- **System / boundary signals** — references to external systems in context files should match the system-context elements file.
+
+Treat the per-folder files as a contributing source of truth, not as authority over the outline. Where context files and the outline disagree, surface the conflict via the violation workflow rather than silently overwriting either side.
+
 ## Output
 
 Generate from all templates in `templates/`, preserving subfolder structure. Write to `docs/architecture/diagrams/`. Add a `<name>-` prefix to `architecture-outline.md` only when disambiguation is needed.
@@ -54,3 +64,9 @@ After generation, also verify diagram:
 ```
 
 Then run [`common/reference/rule-checklist.md`](../../../../../common/reference/rule-checklist.md) and practice [`validate-checklist.md`](../../../reference/validate-checklist.md).
+
+## Handoff to downstream skills
+
+Once the outline is on disk, the names and decisions captured here become the **top of the vocabulary chain** for the blueprint, the architecture specification, and the code skill.
+
+See [`architecture-context-model.md`](../../../reference/architecture-context-model.md) — in particular [§ 3 The vocabulary chain](../../../reference/architecture-context-model.md#3-the-vocabulary-chain) and [§ 7 Skill-level handoff summary](../../../reference/architecture-context-model.md#7-skill-level-handoff-summary) — for the full handoff contract. Downstream skills must not rename or invent mechanisms / systems; if the blueprint or spec discovers a missing or wrongly named mechanism, this outline (and its ADR) is updated first, then propagated.

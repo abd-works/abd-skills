@@ -10,6 +10,8 @@ context-perspective: architecture
 context-fidelity:
   - level: discovery
     mode: blueprint
+  - level: discovery
+    mode: scaffold
 ---
 # abd-architecture-blueprint
 
@@ -42,6 +44,13 @@ Make architecture legible by naming every mechanism that constrains how code is 
 ## Generate
 
 [`reference/generate.md`](reference/generate.md).
+
+### Modes
+
+| Mode | What it produces | When |
+|---|---|---|
+| `blueprint` *(default)* | The centralized `architecture-blueprint.md` document plus blueprint-level ADRs and diagrams. | Every run. 
+| `scaffold` *(opt-in)* | Everything `blueprint` produces, **plus** the folder skeleton for each named module/mechanism-host folder, each seeded with a stub `architecture-context.md` carrying blueprint-fidelity content (owning module, mechanism code-shape, test tier, dependencies). Spec-fidelity slots (file structure, participants, rules, canonical pattern) are left empty for `abd-architecture-specification` to fill. | Greenfield work, or after a blueprint update that introduces new modules/mechanism-hosts. Skipped by default — pass `mode: scaffold` to activate. |
 
 ## Validate
 

@@ -4,16 +4,18 @@ Concepts and orchestration overview: **`reference/concepts.md`**.
 
 ## Step 0 — Required inputs — resolve or ask
 
-Gather **all** of these before reading the spec or writing a line of code.
+Gather **all** of these before reading the spec or writing a line of code. The two architecture inputs (central spec + template package) come from two different upstream skills (`abd-architecture-specification` + `abd-architecture-template`); both must exist before this step proceeds.
 
 | Input | Required | Resolution order | If missing |
 | --- | --- | --- | --- |
-| **Architecture spec** | Yes | User path; story-map node `architecture-spec`; project `docs/architecture/specification/<name>/` | **AskQuestion** — which spec directory? Record as **`<spec-root>`** for all following steps. |
+| **Central architecture spec** | Yes | `docs/architecture/specification/architecture-specification.md` | **AskQuestion** — does the spec exist? If no, route back to `abd-architecture-specification`. |
+| **Mechanism in scope** | Yes | The mechanism the story implements — read from the central spec's `## Where to Start` table by matching the story's requirement to a row. | **AskQuestion** — which mechanism row in Where to Start matches this story? |
+| **`<context-file>`** | Yes | Follow the Where-to-Start link from the mechanism row to the per-folder `architecture-context.md`. | Stop and route back to `abd-architecture-specification` if the link is missing or the context file has `<!-- spec to fill -->` markers in File Structure, Class Specification, Rules, or Canonical Patterns. |
+| **`<spec-root>` (template package)** | Yes | The template package for the mechanism in scope, located at `docs/architecture/templates/<slug>/`. In `project` mode (default) `<slug>` is the project slug. In `mechanism` mode `<slug>` is the kebab-cased mechanism name; the central spec's Where-to-Start row or References section names the link. | Stop and route back to `abd-architecture-template` if the package does not exist or `<spec-root>/example/` does not build. |
 | **Domain context** | Yes | `domain-specification.md` (preferred) → `domain-model.md` | **AskQuestion** — which domain artifact? |
 | **Story scope** | Yes | Story specification (preferred) → acceptance criteria on the story | **AskQuestion** — which story / spec / AC file? |
 | **UX context** | When UI | `ux-specification.md` + mockup for the increment/flow | **AskQuestion** — which UX artifact? |
 | **Story hierarchy** | Yes | `story-graph.json` or story map for epic / sub-epic names | **AskQuestion** — which increment / epic? |
-| **Shape reference** | No | **`reference/example.ts`** in this skill — concrete instantiated module (catalog hero); not a template | — |
 
 **Story scope priority**
 
@@ -27,43 +29,55 @@ Gather **all** of these before reading the spec or writing a line of code.
 2. **`domain-model.md`** — conceptual domain model: responsibilities and collaborators.
 3. Neither found → **AskQuestion** before proceeding.
 
-## Step 1 — Read context — `<spec-root>` is law
+## Step 1 — Read context — `<context-file>` is the design; `<spec-root>` is the embodiment
 
-**MANDATORY — read from the resolved `<spec-root>` before any generation:**
+**MANDATORY — read both before any generation:**
+
+### From `<spec-root>` (the template package)
 
 | Artifact | Path inside `<spec-root>` | Governs |
 | --- | --- | --- |
-| Architecture doc | `architecture-specification.md` (or `archiecture-specification.md`) | Mechanisms, participants, **Testing Architecture**, layer order |
-| Rules | `rules/*.md` | DO / DO NOT for every generated file |
-| Working example | `template/` | Canonical runnable code — match structure and naming exactly |
-| Scaffolds | `templates/` | Parameterized files to instantiate (including `templates/tests/` when present) |
-| Examples | `example/` when present | Worked domain + story + test mapping |
+| Parameterized reference module | `template/` | Canonical runnable code shape — copy and rename, never invent |
+| Test scaffolds | `templates/tests/` | Parameterized test files per tier; instantiate one per sub-epic |
+| Runnable example | `example/` | Sentinel-bound proof the template package builds + tests pass — read for reference, never modify |
+| Mechanism rules | `rules/*.md` | DO / DO NOT for every generated file; FAIL halts the run |
+| Substitution map | `parameters.json` | Placeholders + binding hints + rename map; drives all substitution |
+| Package README | `README.md` | Runbook commands for `example/`; placeholder summary |
 
-The resolved spec's **Testing Architecture** section, **`templates/tests/`**, and **`example/tests/`** (when present) dictate how **every test tier** is created. Do not invent folders, file names, test tiers, or layer order not derivable from **`<spec-root>`**.
+### From `<context-file>` (the per-folder spec the template embodies)
 
-Also read (outside `<spec-root>`):
+| Artifact | Path | Governs |
+| --- | --- | --- |
+| Mechanism context file | `<context-file>` (resolved from central spec Where-to-Start) | File Structure, Participants, Class Specification, Rules, Canonical Patterns — the *design* the template package mirrors. Read to verify the template is still current. |
+| Central spec | `docs/architecture/specification/architecture-specification.md` | Where-to-Start (already used in Step 0) + cross-file navigation when the story touches multiple mechanisms. |
+| Test-helpers context file | `tests/<helpers>/architecture-context.md` | Tier names, helper layout, folder structure — corroborates the template's `templates/tests/` shape; used when picking layer order. |
+
+The template package is the embodiment of the per-folder context file. They MUST agree. If they disagree (template missing a new participant the spec added, vocabulary drift between Canonical Patterns and `template/`), **stop and route back to `abd-architecture-template` for a refresh**. Do not silently bridge the gap.
+
+Layer order and tier mapping come from `<context-file>` + the test-helpers context file. Do not invent folders, file names, test tiers, or layer order not derivable from these inputs.
+
+### Also read (outside `<spec-root>` and `<context-file>`)
 
 - **Domain artifact** resolved in step 0 — class names, operations, field names, invariants.
 - **Story artifact** resolved in step 0 — scenarios, acceptance criteria, actors.
 - **UX artifact** when the story has screens — controls, test ids, navigation, states (client + E2E tests assert against these).
-- **`reference/example.ts`** in this skill — optional concrete output shape (catalog hero); the companion **abd-architecture-specification** skill shows the parameterized template.
-- **Existing project tests** — use only as a secondary reference **after** confirming they match `<spec-root>` rules; repo drift is not authority.
+- **Existing project tests** — use only as a secondary reference **after** confirming they match `<spec-root>/rules/` and `<context-file>` § Rules; repo drift is not authority.
 
 ## Step 1b — Test layout inventory — mandatory gate before RED
 
 **Do not write any scenario test or production code until this gate passes.**
 
-All steps read from **`<spec-root>`** — never from agent memory of another project or stack.
+All steps read from the joint authority of **`<context-file>`**, the test-helpers package-tier context file, and **`<spec-root>`** — never from agent memory of another project or stack.
 
-1. Read **Testing Architecture** in `<spec-root>/architecture-specification.md` (or typo filename) — extract: story-artifact → test-artifact mapping, tier names, helper layout, layer order, slug rules.
-2. Read test-related rules under `<spec-root>/rules/` (e.g. `test-story-driven.md`, `use-thorough-e2e-tests.md`, or spec-equivalents) — extract mandatory tier count and naming patterns.
+1. Read tier names, layer order, and story-artifact → test-artifact mapping from the test-helpers package-tier context file (typically `tests/<helpers>/architecture-context.md`) corroborated by `<context-file>` Testing references.
+2. Read test-related rules under `<spec-root>/rules/` and `<context-file>` § Rules — extract mandatory tier count and naming patterns.
 3. List every **lowest-level sub-epic** in scope from `story-graph.json` / story map.
-4. For each sub-epic, **derive** the full tier file set and helper set by substituting epic/sub-epic slugs into `<spec-root>/templates/tests/` paths (or mirror `<spec-root>/example/tests/` when templates are absent).
+4. For each sub-epic, **derive** the full tier file set and helper set by substituting epic/sub-epic slugs into `<spec-root>/templates/tests/` paths per `<spec-root>/parameters.json`; cross-check filename pattern against the helpers context file's folder structure (mirror `<spec-root>/example/` when a tier scaffold is missing and route the gap back to `abd-architecture-template`).
 5. Create empty scaffolds on disk from those templates **before** the first RED scenario.
-6. Publish the inventory in chat — one row per sub-epic, columns = each tier and helper path **as defined by this spec** (not a fixed column set from this skill).
+6. Publish the inventory in chat — one row per sub-epic, columns = each tier and helper path **as defined by the helpers context file** (not a fixed column set from this skill).
 7. If the project already has tests, compare structure to the inventory; reconcile drift before adding scenarios.
 
-**Named spec overrides downstream defaults:** when **`abd-story-acceptance-test`** says "follow host project conventions", **`<spec-root>` Testing Architecture** wins.
+**Named spec overrides downstream defaults:** when **`abd-story-acceptance-test`** says "follow host project conventions", the helpers context file's testing-architecture decisions and `<spec-root>/templates/tests/` win.
 
 See **`rules/scaffold-test-layout-before-scenarios.md`**.
 
@@ -73,11 +87,11 @@ See **`rules/scaffold-test-layout-before-scenarios.md`**.
 
 1. **Resolve workspace** — **`skill-config.json` → `workspace.active_skill_workspace`**, or **`python skill-helpers/scripts/get_workspace.py`** from the agilebydesign-skills repo root; if unset, ask the user to set workspace first.
 2. **Create progress tree** — **`<active_skill_workspace>/abd-architecture-code/progress/`** (do not overwrite existing checklists unless the user asks to reset).
-3. **Derive layers from `<spec-root>`** — same source as step **1b**: **Testing Architecture** tier names, production layer mapping, and layer order. Default only when the spec is silent: domain → server → client → E2E.
+3. **Derive layers** from the same sources as step **1b**: tier names and layer order from the helpers context file + `<context-file>` Testing references; production layer mapping from `<context-file>` § File Structure (mirrored in `<spec-root>/template/`). Default only when all sources are silent: domain → server → client → E2E.
 4. **Write `process-checklist.md`** — one `- [ ]` line per workflow phase:
 
    ```markdown
-   - [ ] 0 — Resolve inputs (<spec-root>, domain, story, UX, hierarchy)
+   - [ ] 0 — Resolve inputs (`<context-file>`, `<spec-root>`, helpers context file, domain, story, UX, hierarchy)
    - [ ] 1 — Read context; derive test + production layer inventory
    - [ ] 1b — Scaffold test layout on disk
    - [ ] 1c — Layer progress checklist created
@@ -92,11 +106,11 @@ See **`rules/scaffold-test-layout-before-scenarios.md`**.
    ```markdown
    ## <sub-epic-slug>
 
-   ### <LayerName> (tests — <tier> per <spec-root>)
+   ### <LayerName> (tests — <tier> per helpers context file)
    - [ ] Scenarios — each RED then GREEN (executed, not merely written) — `<test-tier-path-from-1b-inventory>`
    - [ ] Tier suite — full test run executed, all pass — `<same-path>` via `<spec test command>`
 
-   ### <LayerName> (production — <spec-root> layer)
+   ### <LayerName> (production — `<context-file>` File Structure layer)
    - [ ] Minimum code green for those scenarios — `<production-path-pattern-from-spec>`
    ```
 
@@ -122,16 +136,16 @@ See **`rules/track-layer-completion-checklist.md`**.
 
 - **MUST** read and follow that skill's `SKILL.md`, `rules/`, `reference/`, and matching language template.
 - **Input:** story specification scenarios when available; acceptance criteria when not.
-- **Plus (overrides generic output paths):** **`<spec-root>` Testing Architecture** — tier names, helper layout, test doubles, story-hierarchy → file mapping (read from the resolved spec, not assumed).
-- **File unit** = whatever the resolved spec maps to the lowest story artifact (often sub-epic → file; hero-vtt and others differ — read the table in `<spec-root>`).
-- **Helpers** = whatever count and naming `<spec-root>` defines per file unit — shared across stories in that unit, not one helper file per story.
+- **Plus (overrides generic output paths):** tier names, helper layout, test doubles, story-hierarchy → file mapping from the test-helpers package-tier context file + `<context-file>` Testing references; parameterized filenames and helper signatures from `<spec-root>/templates/tests/` (read from those sources, not assumed).
+- **File unit** = whatever the helpers context file maps to the lowest story artifact (often sub-epic → file; some stacks differ — read the helpers context file's spec-alignment table).
+- **Helpers** = whatever count and naming the helpers context file defines per file unit; signatures live in `<spec-root>/templates/tests/_helpers/` — shared across stories in that unit, not one helper file per story.
 - Complete step **1b** (test layout inventory) before declaring file / class / method hierarchy.
 
 **`abd-clean-code`**
 
 - **MUST** read and follow that skill's `SKILL.md` and `rules/` when writing production code.
 - **Input:** failing tests from step 3; domain artifact for names and behaviour.
-- **Plus:** the named spec's `template/` patterns — constructor injection, layer placement, mechanism boundaries.
+- **Plus:** `<spec-root>/template/` patterns (constructor injection, layer placement, mechanism boundaries) corroborated by `<context-file>` § Class Specification and § Canonical Patterns.
 
 If either skill package is not available in the workspace, **AskQuestion** — do not improvise test or production structure.
 
@@ -139,7 +153,7 @@ If either skill package is not available in the workspace, **AskQuestion** — d
 
 Work **one layer at a time**, and within each layer work **one scenario at a time**. The unit of progress is a single scenario (one `it` / `test` method) — not a whole story file, not a whole layer.
 
-**Default layer order** — read from **`<spec-root>` Testing Architecture** first; use this table only when the spec does not name an order:
+**Default layer order** — read from the test-helpers package-tier context file + `<context-file>` Testing references first; use this table only when both are silent:
 
 | Order | Production layer | Test layer (typical) |
 | --- | --- | --- |
@@ -148,7 +162,7 @@ Work **one layer at a time**, and within each layer work **one scenario at a tim
 | **3** | Client / presentation | Client / UI adapter tests |
 | **4** | — (full stack) | E2E / browser tests |
 
-Tier file names, extensions, and helper suffixes come from **`<spec-root>/templates/tests/`** and **`example/tests/`** — not from examples in this skill prose.
+Tier file names, extensions, and helper suffixes come from **`<spec-root>/templates/tests/`** and **`<spec-root>/example/`** — not from examples in this skill prose.
 
 **Per-scenario loop (mandatory — repeat for every scenario in story order)**
 

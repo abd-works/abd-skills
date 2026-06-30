@@ -1,7 +1,16 @@
 /**
  * example.ts — MERN Recipients module: shared + client tiers merged into one file.
  *
- * Source: specs/mern-domain-first-specification/example/packages/recipients/
+ * Reference example showing what an instantiated (placeholder-bound) module looks
+ * like after this skill copies a template package and renames it for a story. The
+ * canonical runnable equivalent now lives in the template package itself:
+ *   `docs/architecture/templates/<slug>/example/` (sentinel-bound version)
+ *   `docs/architecture/templates/<slug>/template/` (parameterized version that
+ *      this skill substitutes per `parameters.json` to produce per-feature code).
+ *
+ * This file is preserved as a reading-only reference of *what filled-in output
+ * looks like*, kept for back-compat with earlier guidance that pointed to a
+ * legacy spec layout (specs/mern-domain-first-specification/example/packages/recipients/).
  *
  * File layout this merges:
  *   shared/

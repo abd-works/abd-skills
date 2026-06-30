@@ -1,47 +1,103 @@
 # Sources this skill consumes
 
-This skill produces a reference document by joining two kinds of input: **architecture context** (what the layers are, what mechanisms are in play) and **code/test standards** (the project's coding standard and testing standard, which the walkthrough samples must obey). The skill does **not** assume any specific sibling skill is present — it asks for the *information*, and uses whichever sources the project actually has in scope.
+This skill produces two artefacts -- a central `architecture-specification.md`
+and many per-folder `architecture-context.md` files -- and the only way to
+produce them faithfully is to read the codebase being specified plus a
+small set of supporting documents. This file lists what to read and why.
 
-## Required architecture context
+## Primary source
+
+Ground truth depends on whether code already exists.
+
+### Existing codebase
+
+The source tree on disk. The procedure in [`../reference/discovery.md`](../reference/discovery.md) Step 1 is a recursive walk; treat what you find as ground truth and the documents below as supporting evidence.
+
+| What to look for | Where to find it |
+|---|---|
+| **Entry point / bootstrap** | The file or module that starts the process in this repo. |
+| **Composition root** | Where this stack wires modules together. |
+| **Full source tree** | All folders under the repo's source and test roots. |
+| **Test root(s)** | Conventional test folders for this repo (`tests/`, `test/`, …). |
+| **Existing context files** | Any `architecture-context.md` under source or test roots — update incrementally. |
+
+### New system (no code yet)
+
+Agreed design artefacts — not an empty folder list. Step 1 in discovery is **design the intended tree**, not walk disk.
+
+| What to look for | Common sources |
+|---|---|
+| **Mechanisms and layers** | [`abd-architecture-blueprint`](../../abd-architecture-blueprint/), [`abd-architecture-outline`](../../abd-architecture-outline/) |
+| **Domain boundaries** | [`abd-domain-specification`](../../../domain-driven-design/skills/abd-domain-specification/), story map |
+| **First slices / integrations** | Thin-slice plan, acceptance criteria — which folders will exist at first ship |
+| **Folder conventions** | Sibling repo, ADR, team habit — only when the team has actually agreed it |
+
+Documentation mode: spec and context files describe this planned tree. Code mode ([`abd-architecture-code`](../../abd-architecture-code/)): scaffold from the spec.
+
+## Supporting documents
+
+These define the vocabulary and the constraints the central spec must
+respect. Read them BEFORE authoring; cite them in `## References`.
 
 | Information needed | Common sources |
 |---|---|
-| **Architecture flow** — one interaction end-to-end; diagram + `\| Tech \| File \| Instantiates from domain \|` table. Tech-specific. | Named spec (`specs/<arch>/architecture-specification.md`), layered description doc, ADR, or sibling skill output. |
-| **Instantiating the Domain** — how domain classes and operations become code; module layout; naming contract. **Common to all specs.** | Domain model, domain language, or domain specification from the engagement; named spec section when assigning. |
-| **Mechanism list** — tech-specific runtime concerns (e.g. Web Client, App Server, Persistence for MERN). One mechanism section per entry. | Architecture blueprint, mechanism inventory, or named spec. |
+| **Architecture source of truth** -- the agreed names for layers, mechanisms, systems. The central spec must use these names verbatim. | ADRs, `docs/architecture/blueprint/*.md`, a sibling skill's output ([`abd-architecture-blueprint`](../../abd-architecture-blueprint/), [`abd-architecture-outline`](../../abd-architecture-outline/)). |
+| **Domain specification** -- what the domain types and operations are; the architecture spec stops at the seam between architecture and domain. | `docs/domain/*.md`, output of [`abd-domain-specification`](../../../domain-driven-design/skills/abd-domain-specification/) and [`abd-domain-model`](../../../domain-driven-design/skills/abd-domain-model/). |
+| **Coding and testing standards** -- the conventions the codebase already follows, which the spec describes (not invents). | The project's CONTRIBUTING / AGENTS / CLAUDE document, ESLint/Prettier configs, the team's testing skill ([`abd-clean-code`](../../../../foundations/abd-clean-code/), [`abd-story-acceptance-test`](../../../../foundations/abd-story-acceptance-test/) when in scope). |
 
-## Required code and test standards
+## Stakeholder input
 
-| Information needed | Common sources |
-|---|---|
-| **Coding standard** — the conventions every production-code snippet in a walkthrough must follow. | Whatever the project has in scope: a style guide, an ESLint/Prettier config, a `CLAUDE.md` block, or **`abd-clean-code`** when that skill is in scope (default in agilebydesign-skills-anchored projects). |
-| **Testing standard** — the conventions every test snippet in a walkthrough must follow. | Whatever the project has in scope: a test-style guide, the team's existing test patterns, or **`abd-story-acceptance-test`** when that skill is in scope (default in agilebydesign-skills-anchored projects). |
+The Where to Start table at the top of the central spec is a *requirements*
+view, and requirements come from the team that ships features. If you are
+authoring the spec without access to that team, the routing table will be
+generic and unhelpful.
+
+Collect, from the team or from the engagement record:
+
+- **The last three feature requests they shipped**, in the team's own
+  words. These become the seed for the Where to Start questions
+  ([`../reference/grill-me.md`](../reference/grill-me.md)).
+- **The two folders new engineers ask about most often** -- usually the
+  composition root and the main repeating-pattern folder. Make sure those are
+  context-file documented to a high standard; they are the most-read
+  pages.
+- **Any house rules the team enforces verbally but has never written
+  down** — "every failure path converges at one handler",
+  "all third-party SDKs are wrapped before use". These belong in the
+  relevant mechanism's `### Rules` section.
+
+## What this skill does NOT consume
+
+- **Generic stack documentation** ("framework X docs say...", "conventional
+  patterns for stack Y..."). The spec describes THIS system, not a
+  framework tutorial. If the team's actual code differs from conventional
+  patterns, the spec describes what the team does.
+- **Architectural opinions from outside the engagement.** Do not
+  introduce mechanisms the codebase does not have because they would
+  be "better practice". That work belongs in a deferral ADR and a
+  separate refactor story, not in this spec.
+- **Runnable example code.** This skill's previous version produced a
+  `template/` slice of runnable code; that responsibility now belongs
+  to [`abd-architecture-code`](../../abd-architecture-code/). The
+  golden fixture under [`../eval/pass/golden-spec/`](../eval/pass/golden-spec/)
+  serves as the worked example for THIS skill.
 
 ## Worked example
 
-The shape of a finished reference is shown by the **filled illustrative example block at the bottom of [`templates/architecture-specification.md`](../templates/architecture-specification.md)** — a worked Error Handling mechanism complete with principles, file structure, participants, flow, walkthrough, and a tested fragment. Read it once before authoring new sections so the shape stays consistent. The skill keeps this example **inside the template** so the skill is self-contained and does not depend on any other repository or sibling skill being present.
-
-The **runnable module shape** for the template slice is in [`reference/example.ts`](../reference/example.ts) — all template files merged into one parameterized TypeScript file (shared, server, client tiers). The AI Garden catalog uses this file as the skill hero preview, not a class diagram.
+The fully-worked output for the `pml-midtier` codebase lives at
+[`../eval/pass/golden-spec/`](../eval/pass/golden-spec/). It shows the
+exact shape this skill produces. Refer to it whenever ambiguity arises
+about what a section or context file should look like.
 
 ## Outputs
 
-The reference document this skill produces is **not** stored under this skill. It is written into the **target project** (or under the implementation skill that will consume it) as a single file:
+The artefacts this skill produces:
 
-- `architecture-specification.md` (or legacy `architecture-specification.md`) — always one file. The mechanisms inside it are organized in one of two ways (combined section vs one section per mechanism) depending on count, per the `section-organization-matches-mechanism-count` rule.
+| Output | Path |
+|---|---|
+| Central spec | `docs/architecture/specification/architecture-specification.md` (or the project's equivalent) |
+| Per-folder context files | `<folder>/architecture-context.md` for every folder in the classification table that is documented |
 
-**Template outputs** (same deliverables folder or `specs/<arch>/template/`):
-
-| Output | Skill shape |
-|--------|-------------|
-| Runnable code under `template/` or `specs/<arch>/template/packages/` | This skill + coding/testing standards |
-| `specification-by-example.md` | `abd-story-specification` |
-| `domain-spec.md` | `abd-domain-specification` |
-
-**Validation** (when template code is created or edited):
-
-| Pass | Command target |
-|------|----------------|
-| Doc rules | `abd-architecture-specification/rules/` → specification document |
-| Template rules + scanners | `specs/<arch>/rules/` + `run_scanners.py --skill-root specs/<arch> --workspace <template-root>` |
-
-New named specs must ship with `rules/` and `scanners/` (copy from an existing spec such as `specs/mern/` when the stack matches). The template slice is not done until scanners pass.
+The classification table from discovery is not itself an output (it's a
+working artefact); the central spec's `## Package Context` section is
+the public, contractual index of every documented folder.

@@ -28,7 +28,9 @@ docs/architecture/
 1. Scope
    Linked from the architecture outline. This blueprint adds component-level
    description and mechanism catalogue. Mechanism walkthroughs live in
-   architecture-reference.md (one section per mechanism).
+   `abd-architecture-specification` output — the central
+   `docs/architecture/specification/architecture-specification.md` plus per-folder
+   `architecture-context.md` files (mechanism / package / miscellaneous tiers).
 
 2. Components
    2.1 {System} components
@@ -40,8 +42,9 @@ docs/architecture/
 3. Architecture Mechanisms
    3.1 Security
        {1–2 paragraphs: what concern it addresses, which components depend
-       on it, how they interact with it. Defer mechanism internals to
-       architecture-reference.md.}
+       on it, how they interact with it. Defer mechanism internals (file
+       structure, participants, canonical patterns, rules) to that mechanism's
+       `architecture-context.md` under `abd-architecture-specification`.}
    3.2 Error Handling & Resilience
        {1–2 paragraphs}
    ...

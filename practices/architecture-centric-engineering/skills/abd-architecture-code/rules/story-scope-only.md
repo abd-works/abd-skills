@@ -18,6 +18,6 @@ Generated production code and tests implement exactly the behaviour described in
 
   **Example (fail):** Story is "spawn character." Generated `Character.cs` also includes `Despawn()`, `SetGangMode()`, and `SavePosition()` — none in the acceptance criteria.
 
-- Add abstraction layers, base classes, or utility helpers not shown in the spec's example.
+- Add abstraction layers, base classes, or utility helpers not shown in `<spec-root>/template/` and not described in `<context-file>` § Class Specification.
 
-  **Example (fail):** `BaseCharacter` introduced as a parent class when `specs/hero-vtt/template/` shows a plain concrete class with constructor injection and no hierarchy.
+  **Example (fail):** `BaseCharacter` introduced as a parent class when `<spec-root>/template/{Domain}.cs` shows a plain concrete class with constructor injection and no hierarchy, and `<context-file>` § Class Specification names no base class.

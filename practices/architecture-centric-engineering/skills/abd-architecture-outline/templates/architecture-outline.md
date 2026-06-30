@@ -152,7 +152,7 @@ The principles below are the one-sentence stances that govern every deeper archi
 | **{System A}** | {What it does in one line.} | `{packages/system-a}` |
 | **{System B}** | {What it does in one line.} | `{packages/system-b}` |
 
-*(One row per major system the architecture distinguishes. No internal components, no mechanisms, no patterns — those go in the blueprint and reference.)*
+*(One row per major system the architecture distinguishes. No internal components, no mechanisms, no patterns — those go in the blueprint and the architecture specification.)*
 
 ---
 
@@ -173,6 +173,6 @@ The outline-level decisions — including mechanism choices — are listed below
 
 ## See also
 
-- [`architecture-blueprint.md`](./architecture-blueprint.md) — second-level: platform runtime, deployment topology, components, deeper mechanism walkthrough, data models.
-- [`architecture-reference.md`](./architecture-reference.md) — third-level: full mechanism walkthroughs and patterns.
+- [`architecture-blueprint.md`](./architecture-blueprint.md) — second-level: platform runtime, mechanisms as code shapes, modules and dependencies, architecture flow, testing tiers.
+- [`specification/architecture-specification.md`](./specification/architecture-specification.md) — third-level: the central navigation hub plus per-folder `architecture-context.md` files (mechanism / package / miscellaneous tiers) that carry the file structures, participants, canonical patterns, and rules for every mechanism named here. Produced by `abd-architecture-specification`.
 - [`service-level-objectives.md`](./service-level-objectives.md) — non-functional requirements per major system.

@@ -95,3 +95,19 @@ These live in `abd-architecture-blueprint` and `abd-architecture-specification`:
 - Deep mechanism walkthroughs (code, sequence diagrams with multiple participants)
 - Data models or entity relationships
 - Testing strategy beyond a one-liner stating where tests live
+
+---
+
+## Handoff to downstream skills
+
+The outline is the **top of the vocabulary chain** for this practice family. Names and decisions recorded here are inherited verbatim by the blueprint, the architecture specification, and the code skill. The shared model that all downstream skills build on is canonicalised at the practice level:
+
+→ **[`practices/architecture-centric-engineering/reference/architecture-context-model.md`](../../../reference/architecture-context-model.md)**
+
+See in particular:
+
+- [§ 3 The vocabulary chain](../../../reference/architecture-context-model.md#3-the-vocabulary-chain) — the outline is the source of system names, mechanism names, and mechanism technology choices.
+- [§ 6.1 Vocabulary matches the source of truth](../../../reference/architecture-context-model.md#61-vocabulary-matches-the-source-of-truth) — enforced downstream by [`vocabulary-matches-source-of-truth`](../../abd-architecture-specification/rules/vocabulary-matches-source-of-truth.md).
+- [§ 7 Skill-level handoff summary](../../../reference/architecture-context-model.md#7-skill-level-handoff-summary) — what flows from this outline into each downstream skill.
+
+If the blueprint or spec needs a new mechanism name during discovery, update this outline (and the ADR) **first**, then propagate. Downstream skills must not invent names the outline does not record.

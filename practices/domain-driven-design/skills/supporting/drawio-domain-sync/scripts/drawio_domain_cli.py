@@ -2268,6 +2268,138 @@ def _enforce_perpendicular_approach(
 # CLI entry point
 # ---------------------------------------------------------------------------
 
+def _mechanism_name_from_context(text: str) -> Optional[str]:
+    """Return the top-level ``# Heading`` from a mechanism context file, or None."""
+    for line in text.split("\n"):
+        m = re.match(r"^#\s+(.+)$", line.strip())
+        if m:
+            return m.group(1).strip()
+    return None
+
+
+def collect_mechanism_kas(
+    arch_spec_path: Path,
+    section: str = "Class Specification",
+) -> DomainModel:
+    """Scan an architecture-specification.md for mechanism context file links.
+
+    For each linked ``architecture-context.md`` that contains a section named
+    *section* (default: ``Class Specification``), extract that section and parse
+    it as a separate KA.  The KA name is taken from the context file's own ``#``
+    heading.  Returns a combined ``DomainModel`` with one KA per mechanism.
+
+    Link format expected in the arch spec (workspace-root paths):
+        [text](/path/to/architecture-context.md)
+    """
+    arch_spec_path = arch_spec_path.resolve()
+    workspace_root = arch_spec_path
+    # Walk up until we find the workspace root (heuristic: no more /../ needed)
+    # Fall back to the parent of the spec directory.
+    spec_dir = arch_spec_path.parent
+
+    text = arch_spec_path.read_text(encoding="utf-8")
+
+    # Find all markdown links whose href ends with architecture-context.md
+    link_pattern = re.compile(r"\[([^\]]*)\]\((/[^)]+architecture-context\.md)\)")
+    found: List[tuple] = link_pattern.findall(text)
+
+    if not found:
+        raise ValueError(
+            f"No architecture-context.md links found in {arch_spec_path}. "
+            "Links must use workspace-root paths starting with '/'."
+        )
+
+    combined_kas: Dict[str, List[ClassDef]] = {}
+
+    # Resolve workspace root: walk up from the spec file until we find a directory
+    # that contains the first linked path segment.
+    candidate = arch_spec_path.parent
+    for _ in range(8):
+        first_link = found[0][1].lstrip("/")
+        if (candidate / first_link).exists():
+            workspace_root = candidate
+            break
+        candidate = candidate.parent
+    else:
+        workspace_root = arch_spec_path.parents[2]  # docs/architecture/specification -> repo root
+
+    seen: set = set()
+    for _link_text, href in found:
+        context_path = workspace_root / href.lstrip("/")
+        if not context_path.exists():
+            print(f"  Warning: {context_path} not found — skipping", file=sys.stderr)
+            continue
+        key = str(context_path)
+        if key in seen:
+            continue
+        seen.add(key)
+
+        ctx_text = context_path.read_text(encoding="utf-8")
+        try:
+            section_body = _extract_section(ctx_text, section)
+        except ValueError:
+            # This context file has no Class Specification — skip silently
+            continue
+
+        ka_name = _mechanism_name_from_context(ctx_text) or context_path.parent.name
+        fmt = detect_format(ctx_text, context_path)
+        sub_model = parse_object_model(section_body, source_format=fmt)
+
+        # Merge classes under the mechanism's KA name
+        all_classes: List[ClassDef] = []
+        for classes in sub_model.kas.values():
+            for cls in classes:
+                cls.ka = ka_name
+            all_classes.extend(classes)
+
+        if all_classes:
+            combined_kas[ka_name] = all_classes
+            print(f"  [{ka_name}] — {len(all_classes)} classes from {context_path.name}")
+
+    if not combined_kas:
+        raise ValueError(
+            f"No '{section}' sections found in any mechanism context file linked from {arch_spec_path}"
+        )
+
+    return DomainModel(kas=combined_kas, source_format="arch-spec")
+
+
+def _extract_section(text: str, heading: str) -> str:
+    """Return the body of a Markdown section identified by its heading text.
+
+    Matches any ``#``-level heading whose stripped text equals *heading*
+    (case-insensitive).  Returns everything from the line after the heading up
+    to (but not including) the next heading at the same or higher level, or
+    end-of-file.  Raises ``ValueError`` when the heading is not found.
+
+    Example — given ``--section "Class Specification"`` the function extracts
+    the content of ``### Class Specification`` from an ``architecture-context.md``
+    file so the parser sees a self-contained class-spec document.
+    """
+    lines = text.split("\n")
+    start_idx: Optional[int] = None
+    heading_level: int = 0
+
+    for i, line in enumerate(lines):
+        m = re.match(r"^(#{1,6})\s+(.+)$", line)
+        if m and m.group(2).strip().lower() == heading.strip().lower():
+            start_idx = i + 1
+            heading_level = len(m.group(1))
+            break
+
+    if start_idx is None:
+        raise ValueError(f"Section '{heading}' not found in document")
+
+    end_idx = len(lines)
+    for i in range(start_idx, len(lines)):
+        m = re.match(r"^(#{1,6})\s+", lines[i])
+        if m and len(m.group(1)) <= heading_level:
+            end_idx = i
+            break
+
+    return "\n".join(lines[start_idx:end_idx])
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(
         description="Domain model (domain model / class-model / ULL) → Draw.io class diagram"
@@ -2277,6 +2409,22 @@ def main() -> None:
                         help="Output .drawio path")
     parser.add_argument("--ka", default=None,
                         help="Render only the named Key Abstraction")
+    parser.add_argument("--section", default=None,
+                        help=(
+                            "Extract a named Markdown section before parsing. "
+                            "Use when the source file contains multiple sections "
+                            "and you only want one — e.g. --section 'Class Specification' "
+                            "to pull the ### Class Specification block from an "
+                            "architecture-context.md file."
+                        ))
+    parser.add_argument("--from-arch-spec", action="store_true",
+                        help=(
+                            "Treat source as an architecture-specification.md. "
+                            "Scans it for all mechanism context file links, extracts "
+                            "the '### Class Specification' section from each, and renders "
+                            "each mechanism as a separate diagram tab. "
+                            "Each tab is named after the mechanism context file's own # heading."
+                        ))
     parser.add_argument("--page-w", type=int, default=3000,
                         help="Page width px (default 3000)")
     parser.add_argument("--page-h", type=int, default=2000,
@@ -2294,11 +2442,32 @@ def main() -> None:
     output_path = (
         args.output.resolve()
         if args.output
-        else source_path.parent / f"{stem}-class-diagram.drawio"
+        else source_path.parent / f"{stem}-participants.drawio"
     )
 
-    print(f"Parsing:  {source_path}")
-    model = parse_source(source_path)
+    if args.from_arch_spec:
+        print(f"Arch spec: {source_path}")
+        print(f"Scanning for mechanism context files…")
+        try:
+            section_name = args.section or "Class Specification"
+            model = collect_mechanism_kas(source_path, section=section_name)
+        except ValueError as exc:
+            print(f"Error: {exc}", file=sys.stderr)
+            sys.exit(1)
+    elif args.section:
+        print(f"Parsing:  {source_path}")
+        print(f"Section:  {args.section}")
+        raw_text = source_path.read_text(encoding="utf-8")
+        try:
+            section_text = _extract_section(raw_text, args.section)
+        except ValueError as exc:
+            print(f"Error: {exc}", file=sys.stderr)
+            sys.exit(1)
+        fmt = detect_format(raw_text, source_path)
+        model = parse_object_model(section_text, source_format=fmt)
+    else:
+        print(f"Parsing:  {source_path}")
+        model = parse_source(source_path)
     print(f"Format:   {model.source_format}")
     print(f"KAs:      {list(model.kas.keys())}")
 

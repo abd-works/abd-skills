@@ -1,7 +1,7 @@
 ﻿---
 name: abd-architecture-code
 description: >-
-  Generate tests and production code from a named architecture spec, instantiating its patterns with domain and story context. Use when a story has a named spec and needs executable code.
+  Generate tests and production code by resolving the per-folder architecture-context.md for the mechanism in scope and copying-and-renaming the matching template package per story. Use when a story has both a specification and a runnable template package and needs executable code.
 context-perspective: architecture
 context-fidelity:
   - level: engineering
@@ -11,7 +11,7 @@ context-fidelity:
 
 ## Purpose
 
-Turn architecture decisions into running code — so the spec is not just a document but an enforced reality in every layer and test tier.
+Turn architecture decisions into running code — so the per-folder `architecture-context.md` design and the runnable template package it embodies are an enforced reality in every layer and test tier for every story.
 
 ---
 
@@ -25,7 +25,14 @@ Turn architecture decisions into running code — so the spec is not just a docu
 
 ## Read
 
-§ Read-gates — all of [`rules/`](rules/), [`reference/`](reference/), [`templates/`](templates/).
+§ Read-gates — read in this order:
+
+- **[`reference/concepts.md`](reference/concepts.md)** — defines the two inputs this skill consumes (`<context-file>` for the design, `<spec-root>` for the embodiment), how `<spec-root>` resolves to a template package under `docs/architecture/templates/`, and the orchestration of downstream skills.
+- **[`../../reference/architecture-context-model.md`](../../reference/architecture-context-model.md)** — practice-level model; centralized documents + per-folder context files + template packages.
+- **[`reference/generate.md`](reference/generate.md)** — step-by-step workflow (input resolution → context read → test layout inventory → progress checklist → generation → validation).
+- **[`reference/input-traps.md`](reference/input-traps.md)** — pre-flight in every run; route back to `abd-architecture-specification` or `abd-architecture-template` when gates fail.
+- **[`reference/grill-me.md`](reference/grill-me.md)** — interview questions when inputs are incomplete; mechanics in [`common/reference/grill-me-with-practice-skill.md`](../../../../common/reference/grill-me-with-practice-skill.md).
+- **All files in [`rules/`](rules/)** — DO / DO NOT contract per rule; every generated file is validated against this set plus `<spec-root>/rules/` and `<context-file>` § Rules.
 
 ## Input traps
 
