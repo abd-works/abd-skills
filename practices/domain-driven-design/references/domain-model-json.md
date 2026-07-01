@@ -59,10 +59,11 @@ Same depth as `story-graph.json`:
 | --- | --- | --- |
 | `name` | yes | Module name (matches `# Module: [Name]` in markdown) |
 | `scope` | no | Module-specific scope when different from root |
+| `intro` | no | Module-level intro paragraph carried from markdown (longer prose; `scope` stays for the short label) |
 | `core_terms` | no | Flat term list (from glossary **Core terms** / **Terms**) |
 | `relationships` | yes | Cross-KA relationships between classes in this module (may be empty) |
 | `key_abstractions` | yes | KA groups under **Core Domain** |
-| `boundary_domain` | yes | Scoped boundary classes and their relationships |
+| `boundary_domain` | yes | Scoped boundary classes and their relationships. May carry an `intro` string for the Boundary Domain section prose |
 
 ---
 
@@ -132,14 +133,24 @@ Markdown equivalent (domain specification): `Trait *composes* Rank [1..1 ↔ 1..
 | `ka_anchor` | yes | `true` for the class that names the KA (listed first) |
 | `term` | yes | Glossary / domain-language term this class came from |
 | `extends` | yes | Parent class name for subtypes, or `null` |
-| `constructor` | yes | `{ "parameter_types": ["Type", ...] }` — types only, no param names |
+| `constructor` | yes | `{ "parameter_types": ["Type", ...], "parameters": [{"name", "type"}]? }` |
 | `properties` | yes | Typed state (may be empty) |
 | `operations` | yes | Behavior (may be empty) |
+| `stereotype` | no | One of `Entity`, `ValueObject`, `Service`, `Factory`, `Repository`, `DomainEvent`, `Boundary`. Lifted from `<< Stereotype >>` markers in markdown |
+| `stereotype_note` | no | Free-text qualifier following the stereotype (e.g. `"Identity Provider — AWS IAM"` from `<< Service >> [Identity Provider — AWS IAM]`) |
+| `initialisation` | no | Free-text initialisation paragraph (e.g. `"AWS Amplify singleton — configured at app bootstrap"`) |
+| `note` | no | Free-text note carried from `Note:` lines in markdown |
 | `owned_by` | boundary only | Owning module for boundary classes |
 
 **Subtypes:** set `extends` to the parent class name. The child block carries **delta members only** — same rule as `### ChildClass : ParentClass` in markdown.
 
-Omit `constructor` or use `"parameter_types": []` when the class has no constructor.
+Omit `constructor` or use `"parameter_types": []` when the class has no constructor. When named parameters are known (specification fidelity), populate `constructor.parameters` as well — `parameter_types` stays populated for back-compat.
+
+### Stereotype canonical list
+
+`Entity`, `ValueObject`, `Service`, `Factory`, `Repository`, `DomainEvent`, `Boundary`.
+
+Project-invented stereotypes (e.g. `ProxyController`) must be normalised to one of the canonical names with the original name preserved in `stereotype_note` or in `domain-context.md` at the module root.
 
 ---
 
@@ -151,6 +162,7 @@ Omit `constructor` or use `"parameter_types": []` when the class has no construc
 | `return_type` | yes | Domain type, constrained enum, or typed primitive — never raw `String` |
 | `invariants` | yes | Declarative constraints (may be empty) |
 | `interaction` | no | Array of strings and/or structured steps — **may be strings only** |
+| `note` | no | Free-text note carried from `Note:` lines in markdown |
 | `language_bullets` | no | Traceability back to domain-language bullets |
 
 Properties use `return_type` (not `type`) for parity with operations.
@@ -165,11 +177,14 @@ When a property's `return_type` references another class, the corresponding `rel
 | --- | --- | --- |
 | `name` | yes | camelCase method name |
 | `parameter_types` | yes | Types only — no parameter names |
+| `parameters` | no | `[{name, type}]` — named params at specification fidelity. Parallel to `parameter_types` |
 | `return_type` | yes | Return type; use `void` for commands with no return |
 | `visibility` | yes | `"public"` or `"private"` (`-` prefix in markdown) |
 | `collaborators` | yes | Hidden domain types not in params or return (may be empty) |
 | `invariants` | yes | Declarative constraints (may be empty) |
 | `interaction` | no | Array of strings and/or structured steps — **may be strings only** |
+| `phase` | no | Free-text grouping label lifted from `**<Phase> operations**:` headers in markdown (e.g. `"onboarding"`, `"self-care"`) |
+| `note` | no | Free-text note carried from `Note:` lines in markdown |
 | `language_bullets` | no | Traceability back to domain-language behavior bullets |
 
 ---

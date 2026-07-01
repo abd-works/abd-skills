@@ -8,5 +8,5 @@ Ask until the system boundary, neighbors, and mechanism choices are concrete:
 - Are there interacting systems or manual processes nobody has named yet?
 - Which cross-cutting concerns actually matter here — and which are included only because they're "standard"?
 - For each connection, do you know protocol, initiator, and failure behavior?
-- Can each guiding principle constrain a real code decision with a clear yes-or-no?
+- Can each rule in the Rules section constrain a real code decision with a clear yes-or-no?
 - What is deliberately out of scope — and does the team agree?

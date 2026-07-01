@@ -22,8 +22,11 @@
   "Template:" instruction block before shipping.
 -->
 
-<!-- ============================================================ -->
-<!-- FLAVOUR 1: single-purpose tiny package                       -->
+---
+generating-skill: abd-architecture-specification
+type: utility
+fidelity: specification
+---                       -->
 <!-- ============================================================ -->
 
 # {{PackageName}}

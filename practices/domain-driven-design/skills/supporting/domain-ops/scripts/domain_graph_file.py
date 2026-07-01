@@ -18,6 +18,17 @@ from domain_map import SCHEMA, DomainClass, DomainMap, KeyAbstraction, Module
 
 _VALID_RELATIONSHIP_KINDS = frozenset({"association", "aggregation", "composition"})
 _VALID_CARDINALITIES = frozenset({"1..1", "0..1", "1..*", "0..*"})
+_VALID_STEREOTYPES = frozenset(
+    {
+        "Entity",
+        "ValueObject",
+        "Service",
+        "Factory",
+        "Repository",
+        "DomainEvent",
+        "Boundary",
+    }
+)
 
 
 def _err(path: str, message: str) -> None:
@@ -57,6 +68,22 @@ def _validate_interaction(path: str, interaction: Any) -> None:
         )
 
 
+def _validate_named_parameters(path: str, parameters: Any) -> None:
+    """Optional ``parameters: [{name, type}]`` — parallel to ``parameter_types``."""
+    if parameters is None:
+        return
+    if not isinstance(parameters, list):
+        _err(path, "parameters must be an array")
+    for idx, param in enumerate(parameters):
+        ppath = f"{path}[{idx}]"
+        if not isinstance(param, dict):
+            _err(ppath, "parameter entry must be an object")
+        if not str(param.get("name", "")).strip():
+            _err(ppath, "parameter requires name")
+        if not str(param.get("type", "")).strip():
+            _err(ppath, "parameter requires type")
+
+
 def _validate_member_list(
     path: str,
     items: Any,
@@ -82,6 +109,13 @@ def _validate_member_list(
             params = item.get("parameter_types")
             if params is not None and not isinstance(params, list):
                 _err(item_path, "parameter_types must be an array")
+            _validate_named_parameters(f"{item_path}.parameters", item.get("parameters"))
+            phase = item.get("phase")
+            if phase is not None and not isinstance(phase, str):
+                _err(item_path, "operation phase must be a string when present")
+        note = item.get("note")
+        if note is not None and not isinstance(note, str):
+            _err(item_path, f"{kind} note must be a string when present")
         _validate_interaction(f"{item_path}.interaction", item.get("interaction"))
 
 
@@ -122,6 +156,24 @@ def _validate_class(path: str, cls: Dict[str, Any], *, boundary: bool) -> None:
         _err(path, "class requires extends (use null when not a subtype)")
     if boundary and not str(cls.get("owned_by", "")).strip():
         _err(path, "boundary class requires owned_by")
+    stereotype = cls.get("stereotype")
+    if stereotype is not None:
+        if not isinstance(stereotype, str):
+            _err(path, "stereotype must be a string when present")
+        if stereotype not in _VALID_STEREOTYPES:
+            _err(path, f"stereotype must be one of {sorted(_VALID_STEREOTYPES)}")
+    stereotype_note = cls.get("stereotype_note")
+    if stereotype_note is not None and not isinstance(stereotype_note, str):
+        _err(path, "stereotype_note must be a string when present")
+    initialisation = cls.get("initialisation")
+    if initialisation is not None and not isinstance(initialisation, str):
+        _err(path, "initialisation must be a string when present")
+    note = cls.get("note")
+    if note is not None and not isinstance(note, str):
+        _err(path, "class note must be a string when present")
+    ctor = cls.get("constructor")
+    if isinstance(ctor, dict):
+        _validate_named_parameters(f"{path}.constructor.parameters", ctor.get("parameters"))
     _validate_member_list(f"{path}.properties", cls.get("properties"), kind="property")
     _validate_member_list(f"{path}.operations", cls.get("operations"), kind="operation")
 
@@ -153,6 +205,9 @@ def _validate_key_abstraction(path: str, ka: Dict[str, Any]) -> Set[str]:
 def _validate_module(path: str, module: Dict[str, Any]) -> None:
     if not str(module.get("name", "")).strip():
         _err(path, "module name must be non-empty")
+    intro = module.get("intro")
+    if intro is not None and not isinstance(intro, str):
+        _err(path, "module intro must be a string when present")
     _validate_relationships(f"{path}.relationships", module.get("relationships"))
     kas = module.get("key_abstractions")
     if not isinstance(kas, list):
@@ -174,6 +229,9 @@ def _validate_module(path: str, module: Dict[str, Any]) -> None:
         _err(f"{path}.boundary_domain", "boundary_domain is required (may be empty)")
     if not isinstance(bd, dict):
         _err(f"{path}.boundary_domain", "boundary_domain must be an object")
+    bd_intro = bd.get("intro")
+    if bd_intro is not None and not isinstance(bd_intro, str):
+        _err(f"{path}.boundary_domain", "boundary_domain intro must be a string when present")
     _validate_relationships(f"{path}.boundary_domain.relationships", bd.get("relationships"))
     boundary_classes = bd.get("classes")
     if boundary_classes is None:

@@ -55,29 +55,4 @@ Define **domain exceptions** that name what went wrong in the domain (`EmptyCart
 
 ## The shape of good production code
 
-```
-<domain_entity_snake_case>.py
-  Module docstring: domain entity + responsibilities covered
-  Imports  (stdlib -> third-party -> local)
-
-  DOMAIN CONSTANTS section
-    TAX_RATE = 0.13          <- named constant, no magic numbers
-    LOYALTY_THRESHOLD = 1000
-
-  DOMAIN EXCEPTIONS section
-    class EmptyCartError(Exception): ...
-
-  CLASS: <DomainEntity>      <- Cart, Order, Product -- not CheckoutService
-    Docstring: one sentence on what this entity is responsible for.
-
-    @property                <- what this entity IS / CONTAINS
-      is_empty
-      subtotal
-
-    public methods           <- what this entity CAN DO, under 20 lines each
-      def add(product, qty)
-      def place_order()
-
-    _private helpers         <- implementation details, under 20 lines each
-      def _apply_loyalty_discount(amount)
-```
+See [`../templates/clean-code.py`](../templates/clean-code.py) for the canonical module layout with fully worked examples for constants, exceptions, and domain entities.

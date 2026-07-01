@@ -2,112 +2,88 @@
 
 ## What is an architecture outline?
 
-An **architecture outline** is the *one-page* answer to "what is this system?". It is built around a system context diagram supplemented by an architecture mechanisms catalogue, guiding principles, and the technology stack. It is **deliberately at the right altitude**: it names every system's functions and platform technology, commits to the mechanisms that address cross-cutting concerns, and records the decisions behind those choices — but explicitly defers runtime platform detail, deployment topology, component contracts, data models, and deep mechanism walkthroughs to the **blueprint** and **reference** skills that follow.
+An **architecture outline** is the first fidelity level of `src/architecture-context.md` — the single root document that evolves through outline → blueprint → specification without ever changing its file path or TOC. At outline fidelity the document is authored before any folder structure exists; it establishes shared facts the whole team starts from.
 
-This skill ships **two layers of output for the diagram**: an element-inventory markdown that lists and describes every element, and a `.drawio` source populated from that inventory. The element file is written first; the diagram is built from it. The CLI helper at `scripts/arch-drawio.ps1` initialises the `.drawio` template, exports PNGs, and verifies that the diagram in the markdown has a matching `.drawio` source.
+The outline answers: what is this system, what does it sit next to, what packages govern its cross-cutting concerns, which mechanisms impose code shape, and what rules constrain every decision that follows?
 
-The outline carries **decision records** for all choices visible at this level: chosen platform, chosen architectural style, and every mechanism technology choice. Decisions below this level — component boundaries, internal patterns, test-tier vocabulary — live with the blueprint or reference document that introduces them.
+This skill ships **two artefacts**: the `src/architecture-context.md` root document (at outline fidelity), and a `src/system-context.drawio` diagram — the only diagram produced at this stage.
+
+---
+
+## The unified document
+
+`src/architecture-context.md` carries the same sections at every fidelity level. Section headings are **not numbered** — sections are added or absent depending on fidelity, and numbering breaks every time one is added or removed.
+
+- **System Context** — surrounding systems diagram + prose (complete at outline; never stripped later)
+- **Architecture Flow** — absent at outline; added at blueprint
+- **Packages** — prose paragraphs at outline (no folder links); one-liners + links at specification
+- **Architecture Mechanisms** — one-sentence entries at outline (no folder links); one-liners + links at specification
+- **Testing Architecture** — intent paragraph at outline; tier table at blueprint
+- **Rules** — system-wide constraints; established at outline, refined later
+- **Decision Records** — outline-stage ADRs only at this fidelity; stage column grows over time
+
+At blueprint and specification fidelity, the same file is *updated* — content migrates into per-folder `architecture-context.md` files and the root shrinks to one-liners + links. The file is never deleted or replaced.
 
 ---
 
 ## System context
 
-The outline is centred on one diagram that answers a single question.
+The outline's primary deliverable. It must be **complete at outline stage** — knowing every system the subject connects to is a prerequisite for every package and mechanism decision. The surrounding-systems table is not a sketch; it is the agreed-upon boundary. It does not shrink at later fidelity levels.
 
-| **System context diagram** | What systems are in scope (with their major functions and platform technology), who uses them, what external systems connect, and over which protocols? |
+The system context diagram (`src/system-context.drawio`) shows the same information visually: the subject system, every caller, every downstream, and the protocols across each boundary.
 
----
+The **Surrounding systems** subsection of `src/architecture-context.md` is the canonical element inventory. The diagram and that section are kept in lockstep — every node in the diagram appears as a `###` entry in the section, and every section entry appears as a node in the diagram. There is no third file.
 
-## Diagram element inventory
-
-Before the diagram is drawn, the outline skill produces a **`system-context-elements.md`** file. This file lists every element the diagram will show and gives each one a 1–2 sentence description. The inventory is the team's agreement on what belongs in the diagram; the `.drawio` source is populated *from* the inventory.
-
-The file lives in `docs/architecture/diagrams/`:
-
-| `system-context-elements.md` | All in-scope systems (functions + platform technology), persons (actors/roles), external systems, and relationships with protocols |
-
-Every element in the diagram must have a matching entry in its inventory file, and every entry in the inventory must appear in the diagram.
+**Tech Stack belongs in the System Context section** as a brief inline statement for *this repo only*. External systems' stacks are described in their own repos' context files, not here.
 
 ---
 
-## System context detail
+## Packages
 
-For each **owned system**, the element inventory records:
+Each package entry is the package name — **linked to its per-folder `architecture-context.md` if that file already exists, plain bold text if it does not** — followed by 2–3 sentences covering: the seam it owns, the constraint it places on the rest of the codebase, and the technology named inline. No sub-category labels (mechanism-host, service package, entity-instance, utility). All packages are just packages.
 
-- **Major functions** — the capabilities the system provides
-- **Platform technology** — app stack (runtime, framework, key libraries), persistence (database and role), tools and infrastructure libs
-
-For each **relationship**, the inventory records the **protocol** (HTTP/REST, gRPC, AMQP, WebSocket, etc.) alongside the functional description of what crosses the boundary.
-
-The outline describes every system in terms of its functions and tech.
+On a **greenfield** system the folders and per-folder context files do not exist yet, so entries have no links. On an **existing** system those files may already be present; include the links when they exist. The result is that an outline for an existing system will look much like a specification in terms of link presence — that is correct and expected.
 
 ---
 
-## Architecture mechanisms catalogue
+## Architecture mechanisms
 
-The outline names every **architecture mechanism** the system commits to and gives each one a brief description: the **technology or platform choice**, **one or two paragraphs** on how the mechanism works at this level, and the **key non-functional requirement or justification** that drove the choice.
+A **mechanism** is a recurring code shape that multiple components instantiate — a pattern, not a topic. Naming "Authentication" as a mechanism is a commitment that there is one principle, one named pattern, one technology choice, and a known set of components that will follow that pattern. If you cannot name those four things, you have not identified a mechanism.
 
-The standard set of mechanisms covers:
+The standard mechanism vocabulary — Security, Error Handling & Resilience, Logging & Observability, Validation, Configuration & Secrets, Caching, Persistence, Communication — is a **discovery prompt**. For each entry, ask: does this system have this pattern recurring across multiple components? If yes, include it; if no, omit it silently. When the system has a recurring shape the standard vocabulary does not name, add a **bespoke mechanism**.
 
-| Mechanism | Concern addressed |
-|---|---|
-| Security | Identity, authentication, authorisation, secrets |
-| Error Handling & Resilience | Failure representation, propagation, circuit breaking, retry |
-| Logging & Observability | Structured logging, tracing, metrics, correlation |
-| Validation | Input validation at the edge and business rules in the domain |
-| Configuration & Secrets | Startup config, secret injection, rotation |
-| Caching | Cache technology, pattern, invalidation, staleness guarantees |
-| Persistence | Data ownership, cross-aggregate consistency, migration policy |
-| Communication | Synchronous protocols (REST/gRPC), async messaging, contracts |
+Each mechanism entry is the mechanism name — **linked to its per-folder `architecture-context.md` if that file already exists, plain bold text if it does not** — followed by one sentence describing the recurring pattern it establishes.
 
-Additional **bespoke mechanisms** — concerns unique to this system's context that the standard set does not cover — are included as additional subsections. The skill must derive these from the problem domain, not default to an empty list.
+**Order mechanisms by request flow, not alphabetically.** Ask: what does the system do first when a request arrives, and what is ambient throughout? A typical HTTP proxy flows: Configuration → Authentication → primary structural mechanism → Validation → Error Handling → Logging. Reorder to match how your system actually processes a request.
 
-**Decision records for mechanism choices happen at the outline level**, not the blueprint level. If the choice of Redis over Memcached or gRPC over REST warranted a decision, that ADR lives here.
+On a **greenfield** system entries have no links. On an **existing** system include links where the per-folder files exist. Do **not** include an "Omitted" list — simply leave out mechanisms that don't apply.
 
 ---
 
-## Guiding principles
+## Rules
 
-A **guiding principle** is a one-sentence stance the system takes that constrains future decisions. Good principles are **decidable**, **directional**, and **traceable to a real trade-off** the team has accepted.
+The outline establishes **rules** — one-sentence decidable constraints that apply across the whole system. A rule is verifiable: a reviewer can look at a code change and say "this violates rule 3" or "this is fine under rule 3."
+
+Rules are the same section used in per-folder `architecture-context.md` files throughout all fidelity levels.
+
+5–8 rules at outline stage is typical. Rules are added, refined, or removed as the document evolves through later fidelity levels.
 
 ---
 
 ## Decision records
 
-A **decision record (ADR)** captures *why* a choice was made — context, options considered, consequences. The outline carries ADRs for:
+ADRs live in `src/decisions/` and have `stage: outline` front matter. The outline lists only the ADRs raised during outline work — typically platform choices, deployment model, and the decisions behind any major mechanism merges or removals.
 
-- Platform and architectural-style choices
-- Major external integration choices
-- Every mechanism technology choice (which auth provider, which cache, which message bus, etc.)
-
-Decisions about internals — component boundaries, test-tier vocabulary, specific code patterns — live with the document that introduces them.
+The ADR table in `src/architecture-context.md` includes a **Stage** column. Blueprint-stage ADRs are added at blueprint fidelity (continuing the same numbering); specification-stage ADRs at specification fidelity. The full history accumulates in one table.
 
 ---
 
 ## What the outline does NOT contain
 
-These live in `abd-architecture-blueprint` and `abd-architecture-specification`:
-
-- Layered architecture diagram
-- Platform runtime diagram (client apps, backend services, data stores, CDN)
-- Deployment topology diagram (environments, infrastructure nodes, container instances)
-- Component-by-component descriptions
-- Deep mechanism walkthroughs (code, sequence diagrams with multiple participants)
-- Data models or entity relationships
-- Testing strategy beyond a one-liner stating where tests live
-
----
-
-## Handoff to downstream skills
-
-The outline is the **top of the vocabulary chain** for this practice family. Names and decisions recorded here are inherited verbatim by the blueprint, the architecture specification, and the code skill. The shared model that all downstream skills build on is canonicalised at the practice level:
-
-→ **[`practices/architecture-centric-engineering/reference/architecture-context-model.md`](../../../reference/architecture-context-model.md)**
-
-See in particular:
-
-- [§ 3 The vocabulary chain](../../../reference/architecture-context-model.md#3-the-vocabulary-chain) — the outline is the source of system names, mechanism names, and mechanism technology choices.
-- [§ 6.1 Vocabulary matches the source of truth](../../../reference/architecture-context-model.md#61-vocabulary-matches-the-source-of-truth) — enforced downstream by [`vocabulary-matches-source-of-truth`](../../abd-architecture-specification/rules/vocabulary-matches-source-of-truth.md).
-- [§ 7 Skill-level handoff summary](../../../reference/architecture-context-model.md#7-skill-level-handoff-summary) — what flows from this outline into each downstream skill.
-
-If the blueprint or spec needs a new mechanism name during discovery, update this outline (and the ADR) **first**, then propagate. Downstream skills must not invent names the outline does not record.
+- **Architecture Flow diagram** — added at blueprint fidelity once folder structure exists
+- **Module overview / platform / testing-flow diagrams** — added at blueprint fidelity
+- **Folder links** in the Packages or Mechanisms sections — added as folders and per-folder context files are created
+- **Separate Technology Stack table** — tech is inline prose in the System Context and Packages sections
+- **Separate Major Systems table** — the surrounding systems table in System Context already covers this; a separate section is duplication
+- **Separate Principles section** — the concept is expressed through the Rules section
+- **Deep mechanism walkthroughs** — those live in per-folder `architecture-context.md` files at specification fidelity

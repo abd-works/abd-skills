@@ -8,9 +8,10 @@
 
 **Hard gate before skill read-gates.** The skill package defines *how* to work; the engagement defines *what already exists*.
 
-1. **`cdd-context-index.md`** at the workspace root — artifact paths when present ([`folder-conventions.md`](./folder-conventions.md) § Non-standard locations).
-2. **Existing deliverables** for this scope — upstream phase output and peer-perspective artifacts (filenames in [`skill-index.md`](./skill-index.md)).
-3. **Decision records** — read every **`DR-*.md`** / **`ADR-*.md`** under decision folders relevant to the active skill's practice context ([`decision-record.md`](./decision-record.md)). Read **Accepted** records in full; respect **Superseded** / **Deprecated**; treat **Proposed** as unsettled. Check at minimum:
+1. **`generating-skill` front matter** — if opening an existing artifact file, check for `generating-skill` in its YAML front matter ([`generating-skill-front-matter.md`](./generating-skill-front-matter.md)). If present, that key names the skill package to read in the steps below — load it even if the user did not explicitly name the skill.
+2. **`cdd-context-index.md`** at the workspace root — artifact paths when present ([`folder-conventions.md`](./folder-conventions.md) § Non-standard locations).
+3. **Existing deliverables** for this scope — upstream phase output and peer-perspective artifacts (filenames in [`skill-index.md`](./skill-index.md)).
+4. **Decision records** — read every **`DR-*.md`** / **`ADR-*.md`** under decision folders relevant to the active skill's practice context ([`decision-record.md`](./decision-record.md)). Read **Accepted** records in full; respect **Superseded** / **Deprecated**; treat **Proposed** as unsettled. Check at minimum:
    - `docs/decisions/` (project-wide)
    - Practice folder when applicable: `docs/stories/decisions/`, `docs/domain/decisions/`, `docs/architecture/decisions/`, `docs/ux/decisions/`
    - `docs/sessions/<session>/decisions/` when working in a named session

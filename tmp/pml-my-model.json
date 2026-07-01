@@ -1,0 +1,1991 @@
+{
+  "schema": "abd-domain-model/v1",
+  "product": "pml-my",
+  "scope": "Scope: Customer onboarding (plan selection, identity verification, payment, order creation) and Customer self-care (usage, billing, plan change, profile, portability). Excludes support tickets, static",
+  "modules": [
+    {
+      "name": "pml-my",
+      "relationships": [],
+      "key_abstractions": [
+        {
+          "name": "Customer (Onboarding)",
+          "definition": "Customer (Onboarding) key abstraction",
+          "relationships": [],
+          "classes": [
+            {
+              "name": "OnboardingCustomer",
+              "ka_anchor": true,
+              "term": "onboardingcustomer",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "Email",
+                  "Password"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "identity",
+                  "return_type": "Identity",
+                  "invariants": []
+                },
+                {
+                  "name": "address",
+                  "return_type": "Address",
+                  "invariants": []
+                },
+                {
+                  "name": "cart",
+                  "return_type": "Cart",
+                  "invariants": []
+                },
+                {
+                  "name": "metadata",
+                  "return_type": "Metadata",
+                  "invariants": [
+                    "metadata.verified = false — no Order has completed"
+                  ]
+                },
+                {
+                  "name": "billing",
+                  "return_type": "Billing",
+                  "invariants": []
+                },
+                {
+                  "name": "Invariant",
+                  "return_type": "MSISDN must be reserved from inventory before Cart advances",
+                  "invariants": []
+                },
+                {
+                  "name": "Invariant",
+                  "return_type": "only Plans with price > 0 and isSellable = true are selectable",
+                  "invariants": []
+                },
+                {
+                  "name": "Invariant",
+                  "return_type": "Persona KYC inquiry must complete successfully before profile submission",
+                  "invariants": []
+                },
+                {
+                  "name": "Invariant",
+                  "return_type": "card data never passes through the application",
+                  "invariants": []
+                },
+                {
+                  "name": "Invariant",
+                  "return_type": "requires a completed Transaction and an existing Billing account before activation",
+                  "invariants": [
+                    "POST /billing creates billing.id; POST /order sets metadata.verified = true"
+                  ]
+                }
+              ],
+              "operations": [
+                {
+                  "name": "selectNumber",
+                  "parameter_types": [
+                    "PhoneNumber"
+                  ],
+                  "return_type": "Cart",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                },
+                {
+                  "name": "selectPlan",
+                  "parameter_types": [
+                    "Plan"
+                  ],
+                  "return_type": "Cart",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                },
+                {
+                  "name": "selectSim",
+                  "parameter_types": [
+                    "SIMType"
+                  ],
+                  "return_type": "Cart",
+                  "visibility": "public",
+                  "collaborators": [
+                    "Cart"
+                  ],
+                  "invariants": [
+                    "pSIM requires a valid ICCID; eSIM does not"
+                  ]
+                },
+                {
+                  "name": "submitProfile",
+                  "parameter_types": [
+                    "Identity",
+                    "Address"
+                  ],
+                  "return_type": "void",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                },
+                {
+                  "name": "submitPayment",
+                  "parameter_types": [],
+                  "return_type": "Order",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                },
+                {
+                  "name": "activate",
+                  "parameter_types": [
+                    "Order"
+                  ],
+                  "return_type": "SelfCareCustomer",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                },
+                {
+                  "name": "portNumber",
+                  "parameter_types": [
+                    "Portability"
+                  ],
+                  "return_type": "Cart",
+                  "visibility": "public",
+                  "collaborators": [
+                    "PortabilityVerification"
+                  ],
+                  "invariants": [
+                    "portability.verified = true required before Cart can advance"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Identity",
+              "ka_anchor": false,
+              "term": "identity",
+              "extends": null,
+              "constructor": {
+                "parameter_types": []
+              },
+              "properties": [
+                {
+                  "name": "email",
+                  "return_type": "EmailAddress",
+                  "invariants": []
+                },
+                {
+                  "name": "name",
+                  "return_type": "PersonName",
+                  "invariants": []
+                },
+                {
+                  "name": "lastName",
+                  "return_type": "PersonName",
+                  "invariants": []
+                },
+                {
+                  "name": "fullName",
+                  "return_type": "PersonName",
+                  "invariants": []
+                },
+                {
+                  "name": "preferredName",
+                  "return_type": "PersonName",
+                  "invariants": []
+                },
+                {
+                  "name": "dateOfBirth",
+                  "return_type": "Date",
+                  "invariants": []
+                },
+                {
+                  "name": "idNumber",
+                  "return_type": "Identifier",
+                  "invariants": []
+                },
+                {
+                  "name": "idType",
+                  "return_type": "IdentityDocumentType",
+                  "invariants": []
+                },
+                {
+                  "name": "idNationality",
+                  "return_type": "CountryCode",
+                  "invariants": []
+                },
+                {
+                  "name": "expiryDate",
+                  "return_type": "Date",
+                  "invariants": []
+                },
+                {
+                  "name": "otherPhoneNumber",
+                  "return_type": "PhoneNumber",
+                  "invariants": []
+                }
+              ],
+              "operations": [
+                {
+                  "name": "update",
+                  "parameter_types": [
+                    "Identity"
+                  ],
+                  "return_type": "void",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": [
+                    "when account type is Enterprise, identity intersects with EnterpriseIdentity"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "EnterpriseIdentity",
+              "ka_anchor": false,
+              "term": "enterpriseidentity",
+              "extends": "Identity",
+              "constructor": {
+                "parameter_types": []
+              },
+              "properties": [
+                {
+                  "name": "headOffice",
+                  "return_type": "FreeText",
+                  "invariants": []
+                },
+                {
+                  "name": "industry",
+                  "return_type": "FreeText",
+                  "invariants": []
+                },
+                {
+                  "name": "organizationType",
+                  "return_type": "FreeText",
+                  "invariants": []
+                },
+                {
+                  "name": "status",
+                  "return_type": "FreeText",
+                  "invariants": []
+                }
+              ],
+              "operations": []
+            },
+            {
+              "name": "Address",
+              "ka_anchor": false,
+              "term": "address",
+              "extends": null,
+              "constructor": {
+                "parameter_types": []
+              },
+              "properties": [
+                {
+                  "name": "street",
+                  "return_type": "FreeText",
+                  "invariants": []
+                },
+                {
+                  "name": "complement",
+                  "return_type": "FreeText",
+                  "invariants": []
+                },
+                {
+                  "name": "city",
+                  "return_type": "FreeText",
+                  "invariants": []
+                },
+                {
+                  "name": "parish",
+                  "return_type": "FreeText",
+                  "invariants": []
+                },
+                {
+                  "name": "postalCode",
+                  "return_type": "PostalCode",
+                  "invariants": []
+                },
+                {
+                  "name": "country",
+                  "return_type": "CountryCode",
+                  "invariants": []
+                }
+              ],
+              "operations": [
+                {
+                  "name": "update",
+                  "parameter_types": [
+                    "Address"
+                  ],
+                  "return_type": "void",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                }
+              ]
+            },
+            {
+              "name": "Metadata",
+              "ka_anchor": false,
+              "term": "metadata",
+              "extends": null,
+              "constructor": {
+                "parameter_types": []
+              },
+              "properties": [
+                {
+                  "name": "id",
+                  "return_type": "Identifier",
+                  "invariants": []
+                },
+                {
+                  "name": "verified",
+                  "return_type": "Boolean",
+                  "invariants": [
+                    "verified = false means no Order has completed; route gate checks billing.id"
+                  ]
+                },
+                {
+                  "name": "type",
+                  "return_type": "AccountType",
+                  "invariants": []
+                },
+                {
+                  "name": "onboard",
+                  "return_type": "OnboardProgress",
+                  "invariants": []
+                }
+              ],
+              "operations": []
+            }
+          ],
+          "references": [
+            {
+              "title": "Onboarding Customer type",
+              "source": "src/pages/Onboarding/types/Customer.ts",
+              "locator": "`Customer`, `Identity`, `Address`, `Metadata`, `Cart`",
+              "extract": "whole"
+            },
+            {
+              "title": "My Customer type",
+              "source": "src/pages/My/types/Customer.ts",
+              "locator": "`Customer`, `Identity`, `EnterpriseIdentity`, `Address`, `Metadata`",
+              "extract": "whole"
+            },
+            {
+              "title": "useCustomer (shared)",
+              "source": "src/hooks/useCustomer.ts",
+              "locator": "`patchCustomer`, `patchCart`, `patchCartPlan`, `updateCustomer`, `mergeCustomer`",
+              "extract": "whole"
+            },
+            {
+              "title": "useFormUserData",
+              "source": "src/pages/Onboarding/pages/Profile/hooks/useFormUserData/useFormUserData.ts",
+              "locator": "profile submission with Persona data merge",
+              "extract": "whole"
+            }
+          ],
+          "decisions": [
+            "Two Customer aggregates are modeled as distinct domain objects — the lifecycle transition is a meaningful business event (Order creation); the code has two separate type files with no inheritance (DDR-001).",
+            "Identity is a concept, not a property — it has its own update path (`patchCustomer({ identity })`), its own KYC boundary interaction, and an intersection subtype (EnterpriseIdentity).",
+            "Address is a concept — own update path, own Google Maps boundary interaction, own field structure.",
+            "Metadata is a concept — `verified` is the cross-cutting lifecycle invariant; `type` disambiguates consumer vs enterprise rendering.",
+            "OnboardingCustomer operations map 1:1 to onboarding steps: selectNumber → selectPlan → selectSim → submitProfile → submitPayment → activate."
+          ]
+        },
+        {
+          "name": "Customer (Self-Care)",
+          "definition": "Customer (Self-Care) key abstraction",
+          "relationships": [],
+          "classes": [
+            {
+              "name": "SelfCareCustomer",
+              "ka_anchor": true,
+              "term": "selfcarecustomer",
+              "extends": null,
+              "constructor": {
+                "parameter_types": []
+              },
+              "properties": [
+                {
+                  "name": "identity",
+                  "return_type": "Identity",
+                  "invariants": []
+                },
+                {
+                  "name": "address",
+                  "return_type": "Address",
+                  "invariants": []
+                },
+                {
+                  "name": "subscriptions",
+                  "return_type": "Subscription",
+                  "invariants": []
+                },
+                {
+                  "name": "billing",
+                  "return_type": "Billing",
+                  "invariants": [
+                    "billing.id must be present (route gate: `!!customer?.billing?.id`)"
+                  ]
+                },
+                {
+                  "name": "metadata",
+                  "return_type": "Metadata",
+                  "invariants": [
+                    "metadata.verified = true — Order has completed"
+                  ]
+                },
+                {
+                  "name": "cart",
+                  "return_type": "Cart",
+                  "invariants": []
+                },
+                {
+                  "name": "Invariant",
+                  "return_type": "uses same FAC iframe mechanism as onboarding; afterPaymentGoToAtom routes back",
+                  "invariants": []
+                },
+                {
+                  "name": "Invariant",
+                  "return_type": "settles current billing.balance via card charge",
+                  "invariants": []
+                }
+              ],
+              "operations": [
+                {
+                  "name": "selectSubscription",
+                  "parameter_types": [
+                    "Identifier"
+                  ],
+                  "return_type": "Subscription",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": [
+                    "switches active line in multi-subscription accounts"
+                  ]
+                },
+                {
+                  "name": "changePlan",
+                  "parameter_types": [
+                    "Plan"
+                  ],
+                  "return_type": "Order",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                },
+                {
+                  "name": "updateProfile",
+                  "parameter_types": [
+                    "Identity",
+                    "Address"
+                  ],
+                  "return_type": "void",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": [
+                    "patchCustomer PATCH merges payload optimistically into customerAtom"
+                  ]
+                },
+                {
+                  "name": "updatePaymentMethod",
+                  "parameter_types": [],
+                  "return_type": "PaymentMethod",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                },
+                {
+                  "name": "payOutstandingBalance",
+                  "parameter_types": [],
+                  "return_type": "void",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                },
+                {
+                  "name": "submitPortability",
+                  "parameter_types": [
+                    "Portability"
+                  ],
+                  "return_type": "void",
+                  "visibility": "public",
+                  "collaborators": [
+                    "PortabilityVerification"
+                  ],
+                  "invariants": [
+                    "porting an additional number onto the account"
+                  ]
+                }
+              ]
+            }
+          ],
+          "references": [
+            {
+              "title": "My Customer type",
+              "source": "src/pages/My/types/Customer.ts",
+              "locator": "`Customer`, `Subscription`, `Bundle`, `Billing`",
+              "extract": "whole"
+            },
+            {
+              "title": "useCustomer (My)",
+              "source": "src/pages/My/hooks/useCustomer.ts",
+              "locator": "`patchCustomer`, `updateCustomer`, `setCustomer`",
+              "extract": "whole"
+            },
+            {
+              "title": "subscriptionSelector",
+              "source": "src/pages/My/recoil/subscription.ts",
+              "locator": "`subscriptionSelector` — selects first subscription or by stored ID",
+              "extract": "whole"
+            },
+            {
+              "title": "useChangePlan",
+              "source": "src/pages/My/pages/ChangePlan/",
+              "locator": "plan change flow with roaming ticket gate",
+              "extract": "whole"
+            }
+          ],
+          "decisions": [
+            "SelfCareCustomer has `billing` as required (rich shape with invoices, balance, transactions); OnboardingCustomer has `billing` as optional (thin shape with id + defaultPayment only).",
+            "`selectSubscription` is a Self-Care action — the UI allows switching the active line when a Customer holds multiple Subscriptions.",
+            "`changePlan` produces an Order — it is the same business event as onboarding activation but for an existing customer changing their enrolled Bundle.",
+            "`updatePaymentMethod` and `payOutstandingBalance` both use Payment but serve different purposes — one updates the stored card, the other settles a balance."
+          ]
+        },
+        {
+          "name": "Subscription",
+          "definition": "Subscription key abstraction",
+          "relationships": [],
+          "classes": [
+            {
+              "name": "Subscription",
+              "ka_anchor": true,
+              "term": "subscription",
+              "extends": null,
+              "constructor": {
+                "parameter_types": []
+              },
+              "properties": [
+                {
+                  "name": "id",
+                  "return_type": "Identifier",
+                  "invariants": []
+                },
+                {
+                  "name": "msisdn",
+                  "return_type": "PhoneNumber",
+                  "invariants": []
+                },
+                {
+                  "name": "bundle",
+                  "return_type": "Bundle",
+                  "invariants": []
+                },
+                {
+                  "name": "simType",
+                  "return_type": "SIMType",
+                  "invariants": []
+                },
+                {
+                  "name": "status",
+                  "return_type": "SubscriptionStatus",
+                  "invariants": [
+                    "status ≠ active means Usage is inaccessible"
+                  ]
+                },
+                {
+                  "name": "usage",
+                  "return_type": "Usage",
+                  "invariants": []
+                }
+              ],
+              "operations": []
+            },
+            {
+              "name": "Bundle",
+              "ka_anchor": false,
+              "term": "bundle",
+              "extends": null,
+              "constructor": {
+                "parameter_types": []
+              },
+              "properties": [
+                {
+                  "name": "id",
+                  "return_type": "Identifier",
+                  "invariants": []
+                },
+                {
+                  "name": "name",
+                  "return_type": "FreeText",
+                  "invariants": []
+                },
+                {
+                  "name": "description",
+                  "return_type": "FreeText",
+                  "invariants": []
+                },
+                {
+                  "name": "price",
+                  "return_type": "Money",
+                  "invariants": []
+                },
+                {
+                  "name": "fees",
+                  "return_type": "Money",
+                  "invariants": []
+                },
+                {
+                  "name": "totalPrice",
+                  "return_type": "Money",
+                  "invariants": []
+                },
+                {
+                  "name": "features",
+                  "return_type": "Feature",
+                  "invariants": []
+                }
+              ],
+              "operations": []
+            },
+            {
+              "name": "Usage",
+              "ka_anchor": false,
+              "term": "usage",
+              "extends": null,
+              "constructor": {
+                "parameter_types": []
+              },
+              "properties": [
+                {
+                  "name": "local",
+                  "return_type": "UsageDimension",
+                  "invariants": []
+                },
+                {
+                  "name": "roaming",
+                  "return_type": "UsageDimension",
+                  "invariants": []
+                }
+              ],
+              "operations": []
+            }
+          ],
+          "references": [
+            {
+              "title": "My Subscription type",
+              "source": "src/pages/My/types/Customer.ts",
+              "locator": "`Subscription`, `Bundle`, `Usage`",
+              "extract": "whole"
+            },
+            {
+              "title": "subscriptionSelector",
+              "source": "src/pages/My/recoil/subscription.ts",
+              "locator": "whole",
+              "extract": "whole"
+            }
+          ],
+          "decisions": [
+            "Bundle is subordinate to Subscription — it is the snapshot of Plan terms at order time; it does not update when the Catalog changes.",
+            "Bundle is distinct from Plan — Plan is a catalog offering; Bundle is what is enrolled on a Subscription.",
+            "Usage is a concept — carries its own null-quota invariant and two named sub-dimensions.",
+            "SIMType is a value object (constrained enum) — associated with both Cart and Subscription."
+          ]
+        },
+        {
+          "name": "Catalog",
+          "definition": "Catalog key abstraction",
+          "relationships": [],
+          "classes": [
+            {
+              "name": "Catalog",
+              "ka_anchor": true,
+              "term": "catalog",
+              "extends": null,
+              "constructor": {
+                "parameter_types": []
+              },
+              "properties": [
+                {
+                  "name": "plans",
+                  "return_type": "Plan",
+                  "invariants": []
+                }
+              ],
+              "operations": [
+                {
+                  "name": "fetch",
+                  "parameter_types": [],
+                  "return_type": "Plan",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": [
+                    "fetched once per session (staleTime: Infinity); unauthenticated; cached in TanStack Query"
+                  ]
+                },
+                {
+                  "name": "filter",
+                  "parameter_types": [
+                    "Plan"
+                  ],
+                  "return_type": "Plan",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": [
+                    "only Plans with price > 0 and name not containing ' PROMO' suffix are presented"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Plan",
+              "ka_anchor": false,
+              "term": "plan",
+              "extends": null,
+              "constructor": {
+                "parameter_types": []
+              },
+              "properties": [
+                {
+                  "name": "id",
+                  "return_type": "Identifier",
+                  "invariants": []
+                },
+                {
+                  "name": "name",
+                  "return_type": "FreeText",
+                  "invariants": []
+                },
+                {
+                  "name": "description",
+                  "return_type": "FreeText",
+                  "invariants": []
+                },
+                {
+                  "name": "price",
+                  "return_type": "Money",
+                  "invariants": []
+                },
+                {
+                  "name": "fees",
+                  "return_type": "Money",
+                  "invariants": []
+                },
+                {
+                  "name": "totalPrice",
+                  "return_type": "Money",
+                  "invariants": []
+                },
+                {
+                  "name": "features",
+                  "return_type": "Feature",
+                  "invariants": []
+                },
+                {
+                  "name": "isSellable",
+                  "return_type": "Boolean",
+                  "invariants": [
+                    "price > 0 and isSellable = true to appear in the Catalog"
+                  ]
+                }
+              ],
+              "operations": []
+            },
+            {
+              "name": "NumberOption",
+              "ka_anchor": false,
+              "term": "numberoption",
+              "extends": null,
+              "constructor": {
+                "parameter_types": []
+              },
+              "properties": [
+                {
+                  "name": "msisdn",
+                  "return_type": "PhoneNumber",
+                  "invariants": []
+                }
+              ],
+              "operations": [
+                {
+                  "name": "reserve",
+                  "parameter_types": [
+                    "PhoneNumber"
+                  ],
+                  "return_type": "Cart",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": [
+                    "POST to inventory/msisdn reserves the number; writes msisdn to Cart"
+                  ]
+                },
+                {
+                  "name": "search",
+                  "parameter_types": [
+                    "Keyword"
+                  ],
+                  "return_type": "NumberOption",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": [
+                    "Keyword is up to 5 characters; searches available MSISDN inventory"
+                  ]
+                }
+              ]
+            }
+          ],
+          "references": [
+            {
+              "title": "Root catalog type",
+              "source": "src/types/catalog.ts",
+              "locator": "`PlanResponse`, `Plan`",
+              "extract": "whole"
+            },
+            {
+              "title": "useCatalog",
+              "source": "src/services/mavenir/useCatalog.tsx",
+              "locator": "`staleTime: Infinity`, fetch once per session, filter price > 0",
+              "extract": "partial"
+            },
+            {
+              "title": "useReserveNumber",
+              "source": "src/components/LineNumber/hooks/useReserveNumber.ts",
+              "locator": "POST to inventory/msisdn then patchCart",
+              "extract": "whole"
+            },
+            {
+              "title": "useSearchNumber",
+              "source": "src/components/LineNumber/hooks/useSearchNumber.ts",
+              "locator": "GET inventory/msisdn/search/{phone}",
+              "extract": "whole"
+            }
+          ],
+          "decisions": [
+            "Catalog is the collection KA; Plan is the primary class within it — aligns with code and TM Forum standard.",
+            "Feature is a property of Plan — no independent behavior or invariants.",
+            "NumberOption belongs under Catalog KA — it is an inventory item surfaced alongside Plan selection.",
+            "NumberOption has `reserve` and `search` operations — these are domain actions that interact with Cart."
+          ]
+        },
+        {
+          "name": "Cart",
+          "definition": "Cart key abstraction",
+          "relationships": [],
+          "classes": [
+            {
+              "name": "Cart",
+              "ka_anchor": true,
+              "term": "cart",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "OnboardingCustomer"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "id",
+                  "return_type": "Identifier",
+                  "invariants": []
+                },
+                {
+                  "name": "msisdn",
+                  "return_type": "PhoneNumber",
+                  "invariants": []
+                },
+                {
+                  "name": "bundle",
+                  "return_type": "Plan",
+                  "invariants": []
+                },
+                {
+                  "name": "simType",
+                  "return_type": "SIMType",
+                  "invariants": []
+                },
+                {
+                  "name": "iccid",
+                  "return_type": "Identifier",
+                  "invariants": []
+                },
+                {
+                  "name": "portability",
+                  "return_type": "Portability",
+                  "invariants": []
+                },
+                {
+                  "name": "Invariant",
+                  "return_type": "after Order creation, Cart is stale — selections superseded by Subscription",
+                  "invariants": []
+                }
+              ],
+              "operations": [
+                {
+                  "name": "patchNumber",
+                  "parameter_types": [
+                    "PhoneNumber"
+                  ],
+                  "return_type": "Cart",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": [
+                    "writes msisdn from reserved NumberOption or verified Portability"
+                  ]
+                },
+                {
+                  "name": "patchPlan",
+                  "parameter_types": [
+                    "Plan"
+                  ],
+                  "return_type": "Cart",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": [
+                    "extracts bundleId from Plan; merges with existing cart state"
+                  ]
+                },
+                {
+                  "name": "patchSim",
+                  "parameter_types": [
+                    "SIMType",
+                    "Identifier"
+                  ],
+                  "return_type": "Cart",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": [
+                    "pSIM requires valid iccid; eSIM ignores iccid"
+                  ]
+                },
+                {
+                  "name": "patch",
+                  "parameter_types": [
+                    "CartSelection"
+                  ],
+                  "return_type": "Cart",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                }
+              ]
+            },
+            {
+              "name": "Portability",
+              "ka_anchor": false,
+              "term": "portability",
+              "extends": null,
+              "constructor": {
+                "parameter_types": []
+              },
+              "properties": [
+                {
+                  "name": "donorOperator",
+                  "return_type": "CarrierName",
+                  "invariants": []
+                },
+                {
+                  "name": "accountNumber",
+                  "return_type": "Identifier",
+                  "invariants": []
+                },
+                {
+                  "name": "portNumber",
+                  "return_type": "PhoneNumber",
+                  "invariants": []
+                },
+                {
+                  "name": "userType",
+                  "return_type": "FreeText",
+                  "invariants": []
+                },
+                {
+                  "name": "accountType",
+                  "return_type": "FreeText",
+                  "invariants": []
+                },
+                {
+                  "name": "device",
+                  "return_type": "FreeText",
+                  "invariants": []
+                },
+                {
+                  "name": "planSelected",
+                  "return_type": "FreeText",
+                  "invariants": []
+                },
+                {
+                  "name": "verified",
+                  "return_type": "Boolean",
+                  "invariants": [
+                    "verified = true required before Cart can advance past LineNumber step"
+                  ]
+                },
+                {
+                  "name": "Invariant",
+                  "return_type": "calls POST /portability with donor details",
+                  "invariants": []
+                }
+              ],
+              "operations": [
+                {
+                  "name": "submit",
+                  "parameter_types": [
+                    "Portability"
+                  ],
+                  "return_type": "void",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                }
+              ]
+            },
+            {
+              "name": "PortabilityVerification",
+              "ka_anchor": false,
+              "term": "portabilityverification",
+              "extends": null,
+              "constructor": {
+                "parameter_types": []
+              },
+              "properties": [],
+              "operations": [
+                {
+                  "name": "verify",
+                  "parameter_types": [
+                    "OTPCode"
+                  ],
+                  "return_type": "void",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": [
+                    "triggered only when PORTING_2FA flag is enabled; when disabled, Portability proceeds without SMS"
+                  ]
+                },
+                {
+                  "name": "resend",
+                  "parameter_types": [],
+                  "return_type": "void",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": [
+                    "re-sends verification code to the port number"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Voucher",
+              "ka_anchor": false,
+              "term": "voucher",
+              "extends": null,
+              "constructor": {
+                "parameter_types": []
+              },
+              "properties": [
+                {
+                  "name": "code",
+                  "return_type": "VoucherCode",
+                  "invariants": []
+                },
+                {
+                  "name": "discount",
+                  "return_type": "Discount",
+                  "invariants": []
+                },
+                {
+                  "name": "valid",
+                  "return_type": "Boolean",
+                  "invariants": []
+                }
+              ],
+              "operations": [
+                {
+                  "name": "validate",
+                  "parameter_types": [
+                    "VoucherCode"
+                  ],
+                  "return_type": "Voucher",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                },
+                {
+                  "name": "apply",
+                  "parameter_types": [
+                    "Cart"
+                  ],
+                  "return_type": "Cart",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": [
+                    "applies discount to Cart total at checkout; reverts on invalid"
+                  ]
+                }
+              ]
+            }
+          ],
+          "references": [
+            {
+              "title": "Cart type (My)",
+              "source": "src/pages/My/types/Customer.ts",
+              "locator": "`Cart`, `Portability`",
+              "extract": "whole"
+            },
+            {
+              "title": "patchCart",
+              "source": "src/hooks/useCustomer.ts",
+              "locator": "`patchCart`, `patchCartPlan`",
+              "extract": "whole"
+            },
+            {
+              "title": "useNumberPortability",
+              "source": "src/pages/Onboarding/pages/LineNumber/useNumberPortability.ts",
+              "locator": "portability submission logic",
+              "extract": "whole"
+            },
+            {
+              "title": "usePortabilitySmsVerification",
+              "source": "src/pages/Onboarding/pages/LineNumber/usePortabilitySmsVerification.ts",
+              "locator": "SMS code verification",
+              "extract": "whole"
+            }
+          ],
+          "decisions": [
+            "Cart is owned by OnboardingCustomer — it is the working memory of onboarding, has its own PATCH endpoint, and has a distinct stale-after-order lifecycle.",
+            "Portability is subordinate to Cart — own fields, own SMS 2FA sub-flow, own verified-gate invariant.",
+            "PortabilityVerification is subordinate to Portability — own precondition (flag), own verify/resend actions.",
+            "Voucher is subordinate to Cart — validated against midtier before applied; modifies Cart total.",
+            "Cart operations are granular per step: patchNumber, patchPlan, patchSim — each corresponds to an onboarding step."
+          ]
+        },
+        {
+          "name": "Billing",
+          "definition": "Billing key abstraction",
+          "relationships": [],
+          "classes": [
+            {
+              "name": "Billing",
+              "ka_anchor": true,
+              "term": "billing",
+              "extends": null,
+              "constructor": {
+                "parameter_types": []
+              },
+              "properties": [
+                {
+                  "name": "id",
+                  "return_type": "Identifier",
+                  "invariants": []
+                },
+                {
+                  "name": "balance",
+                  "return_type": "Money",
+                  "invariants": []
+                },
+                {
+                  "name": "invoices",
+                  "return_type": "Invoice",
+                  "invariants": []
+                },
+                {
+                  "name": "defaultPayment",
+                  "return_type": "PaymentMethod",
+                  "invariants": []
+                },
+                {
+                  "name": "transactions",
+                  "return_type": "Transaction",
+                  "invariants": [
+                    "a Billing account exists if and only if at least one Order has been successfully created"
+                  ]
+                },
+                {
+                  "name": "Invariant",
+                  "return_type": "POST /billing with transactionId; creates billing.id — the route gate for Self-Care access",
+                  "invariants": []
+                }
+              ],
+              "operations": [
+                {
+                  "name": "create",
+                  "parameter_types": [
+                    "TransactionId"
+                  ],
+                  "return_type": "Billing",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                }
+              ]
+            },
+            {
+              "name": "Invoice",
+              "ka_anchor": false,
+              "term": "invoice",
+              "extends": null,
+              "constructor": {
+                "parameter_types": []
+              },
+              "properties": [
+                {
+                  "name": "invoiceId",
+                  "return_type": "Identifier",
+                  "invariants": []
+                },
+                {
+                  "name": "billDate",
+                  "return_type": "Date",
+                  "invariants": []
+                },
+                {
+                  "name": "dueDate",
+                  "return_type": "Date",
+                  "invariants": []
+                },
+                {
+                  "name": "dueAmount",
+                  "return_type": "Money",
+                  "invariants": []
+                },
+                {
+                  "name": "status",
+                  "return_type": "InvoiceStatus",
+                  "invariants": []
+                }
+              ],
+              "operations": []
+            },
+            {
+              "name": "PaymentMethod",
+              "ka_anchor": false,
+              "term": "paymentmethod",
+              "extends": null,
+              "constructor": {
+                "parameter_types": []
+              },
+              "properties": [
+                {
+                  "name": "id",
+                  "return_type": "Identifier",
+                  "invariants": []
+                },
+                {
+                  "name": "brand",
+                  "return_type": "CardBrand",
+                  "invariants": []
+                },
+                {
+                  "name": "lastFourDigits",
+                  "return_type": "CardDigits",
+                  "invariants": []
+                },
+                {
+                  "name": "status",
+                  "return_type": "PaymentMethodStatus",
+                  "invariants": [
+                    "must be present before recurring charges can be collected"
+                  ]
+                },
+                {
+                  "name": "Invariant",
+                  "return_type": "uses same iframe mechanism as onboarding Payment; afterPaymentGoToAtom routes back",
+                  "invariants": []
+                }
+              ],
+              "operations": [
+                {
+                  "name": "update",
+                  "parameter_types": [],
+                  "return_type": "PaymentMethod",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                }
+              ]
+            },
+            {
+              "name": "Order",
+              "ka_anchor": false,
+              "term": "order",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "Transaction",
+                  "Billing"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "verified",
+                  "return_type": "Boolean",
+                  "invariants": []
+                },
+                {
+                  "name": "payUpFront",
+                  "return_type": "Boolean",
+                  "invariants": []
+                },
+                {
+                  "name": "Invariant",
+                  "return_type": "requires a completed Transaction and existing Billing account",
+                  "invariants": [
+                    "POST /order sets metadata.verified = true — transitions OnboardingCustomer to SelfCareCustomer",
+                    "billing.id is the route gate (Protected.tsx checks `!!customer?.billing?.id`)"
+                  ]
+                }
+              ],
+              "operations": [
+                {
+                  "name": "create",
+                  "parameter_types": [
+                    "Transaction",
+                    "Billing"
+                  ],
+                  "return_type": "SelfCareCustomer",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                }
+              ]
+            }
+          ],
+          "references": [
+            {
+              "title": "Billing type (My)",
+              "source": "src/pages/My/types/Customer.ts",
+              "locator": "`Billing`, `InvoicesInfo`, `Transactions`, `Payment`",
+              "extract": "whole"
+            },
+            {
+              "title": "createOrder in usePayment",
+              "source": "src/pages/Onboarding/pages/Checkout/steps/Payment/hooks/usePayment.tsx",
+              "locator": "`createOrder` function (POST /billing then POST /order)",
+              "extract": "partial"
+            },
+            {
+              "title": "useLoggedUser",
+              "source": "src/pages/Protected/hooks/useLoggedUser.ts",
+              "locator": "`userHasAccount = !!customer?.billing?.id`",
+              "extract": "partial"
+            }
+          ],
+          "decisions": [
+            "Billing is a separate KA from Payment — Billing owns the financial account and history; Payment owns card capture mechanics.",
+            "Order is placed under Billing KA — it creates the Billing account and activates the Subscription; its outcome is a financial and lifecycle event.",
+            "PaymentMethod is a concept under Billing — has own display representation, independently updatable via FAC iframe.",
+            "Billing.create is a distinct operation from Order.create — billing account is created first (POST /billing), then order is placed (POST /order)."
+          ]
+        },
+        {
+          "name": "Payment",
+          "definition": "Payment key abstraction",
+          "relationships": [],
+          "classes": [
+            {
+              "name": "Payment",
+              "ka_anchor": true,
+              "term": "payment",
+              "extends": null,
+              "constructor": {
+                "parameter_types": []
+              },
+              "properties": [
+                {
+                  "name": "Invariant",
+                  "return_type": "sequential: POST /billing → POST /order; both must succeed for activation",
+                  "invariants": []
+                }
+              ],
+              "operations": [
+                {
+                  "name": "loadIframe",
+                  "parameter_types": [],
+                  "return_type": "IframeHtml",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                },
+                {
+                  "name": "submit",
+                  "parameter_types": [],
+                  "return_type": "void",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                },
+                {
+                  "name": "onIframeReply",
+                  "parameter_types": [
+                    "IframeReply"
+                  ],
+                  "return_type": "void",
+                  "visibility": "public",
+                  "collaborators": [
+                    "Transaction"
+                  ],
+                  "invariants": [
+                    "on 'success' reply, triggers Transaction status poll; on 'error', increments attempt count"
+                  ]
+                },
+                {
+                  "name": "createOrder",
+                  "parameter_types": [],
+                  "return_type": "SelfCareCustomer",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                }
+              ]
+            },
+            {
+              "name": "Transaction",
+              "ka_anchor": false,
+              "term": "transaction",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "Identifier"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "transactionId",
+                  "return_type": "Identifier",
+                  "invariants": []
+                },
+                {
+                  "name": "status",
+                  "return_type": "TransactionStatus",
+                  "invariants": []
+                },
+                {
+                  "name": "reason",
+                  "return_type": "FreeText",
+                  "invariants": []
+                },
+                {
+                  "name": "Invariant",
+                  "return_type": "GET /payment/status/:transactionId; completed is precondition for Order creation",
+                  "invariants": []
+                }
+              ],
+              "operations": [
+                {
+                  "name": "pollStatus",
+                  "parameter_types": [],
+                  "return_type": "TransactionStatus",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                }
+              ]
+            },
+            {
+              "name": "PaymentAttempt",
+              "ka_anchor": false,
+              "term": "paymentattempt",
+              "extends": null,
+              "constructor": {
+                "parameter_types": []
+              },
+              "properties": [
+                {
+                  "name": "count",
+                  "return_type": "Integer",
+                  "invariants": []
+                },
+                {
+                  "name": "maxAttempts",
+                  "return_type": "Integer",
+                  "invariants": [
+                    "maxAttempts controlled by GrowthBook PAYMENT_ATTEMPTS flag; default 3"
+                  ]
+                },
+                {
+                  "name": "Invariant",
+                  "return_type": "POST /payment/failed; navigates to Done with failure state; no further retries permitted",
+                  "invariants": []
+                }
+              ],
+              "operations": [
+                {
+                  "name": "increment",
+                  "parameter_types": [],
+                  "return_type": "void",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                },
+                {
+                  "name": "retry",
+                  "parameter_types": [],
+                  "return_type": "void",
+                  "visibility": "public",
+                  "collaborators": [
+                    "Payment"
+                  ],
+                  "invariants": [
+                    "reloads FAC iframe for another attempt"
+                  ]
+                },
+                {
+                  "name": "handleMaxReached",
+                  "parameter_types": [],
+                  "return_type": "void",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                }
+              ]
+            }
+          ],
+          "references": [
+            {
+              "title": "usePayment (Onboarding)",
+              "source": "src/pages/Onboarding/pages/Checkout/steps/Payment/hooks/usePayment.tsx",
+              "locator": "`getPaymentIframe`, `submitIframe`, `getPaymentStatus`, `createOrder`, `handleMaxAttempts`",
+              "extract": "whole"
+            },
+            {
+              "title": "usePayment (My)",
+              "source": "src/pages/My/pages/Payment/hooks/usePayment.tsx",
+              "locator": "payment method update variant (same iframe mechanism, no order creation)",
+              "extract": "whole"
+            },
+            {
+              "title": "afterPaymentGoToAtom",
+              "source": "src/pages/My/recoil/afterPaymentGoTo.ts",
+              "locator": "`Pages = 'ChangePlan' | 'Portability' | null`",
+              "extract": "whole"
+            }
+          ],
+          "decisions": [
+            "Payment is a separate KA from Billing — Payment owns card capture mechanics and retry logic; Billing owns the financial account record.",
+            "Transaction is a first-class concept — has a gateway-assigned ID, a three-state status lifecycle, and a polled query path.",
+            "PaymentAttempt is a concept — has its own counter, configurable maximum (GrowthBook flag), terminal failure path, and session invariant.",
+            "Payment.createOrder orchestrates the full activation sequence — this is the domain event that transitions OnboardingCustomer to SelfCareCustomer."
+          ]
+        }
+      ],
+      "boundary_domain": {
+        "relationships": [],
+        "classes": [
+          {
+            "name": "Cognito",
+            "owned_by": "pml-my",
+            "term": "cognito",
+            "extends": null,
+            "constructor": {
+              "parameter_types": []
+            },
+            "properties": [],
+            "operations": [
+              {
+                "name": "signUp",
+                "parameter_types": [
+                  "Email",
+                  "Password"
+                ],
+                "return_type": "AccountToken",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": []
+              },
+              {
+                "name": "confirmSignUp",
+                "parameter_types": [
+                  "Email",
+                  "OTPCode"
+                ],
+                "return_type": "void",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": []
+              },
+              {
+                "name": "signIn",
+                "parameter_types": [
+                  "Email",
+                  "Password"
+                ],
+                "return_type": "SessionTokens",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": []
+              },
+              {
+                "name": "signOut",
+                "parameter_types": [],
+                "return_type": "void",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": []
+              },
+              {
+                "name": "resetPassword",
+                "parameter_types": [
+                  "Email"
+                ],
+                "return_type": "void",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": []
+              },
+              {
+                "name": "confirmResetPassword",
+                "parameter_types": [
+                  "Email",
+                  "OTPCode",
+                  "Password"
+                ],
+                "return_type": "void",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": []
+              },
+              {
+                "name": "getUser",
+                "parameter_types": [],
+                "return_type": "SessionTokens",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": []
+              },
+              {
+                "name": "getAuthorizationHeader",
+                "parameter_types": [],
+                "return_type": "AuthHeaders",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": [
+                  "force-refreshes session; returns idtoken + Bearer authorization"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Persona KYC",
+            "owned_by": "pml-my",
+            "term": "persona kyc",
+            "extends": null,
+            "constructor": {
+              "parameter_types": []
+            },
+            "properties": [],
+            "operations": [
+              {
+                "name": "startInquiry",
+                "parameter_types": [],
+                "return_type": "InquiryId",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": []
+              },
+              {
+                "name": "onComplete",
+                "parameter_types": [],
+                "return_type": "VerifiedIdentityFields",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": [
+                  "inquiry must complete successfully before profile submission"
+                ]
+              },
+              {
+                "name": "fetchDocument",
+                "parameter_types": [
+                  "Identifier"
+                ],
+                "return_type": "PersonaDocument",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": [
+                  "retrieves ID document data for expiry date mapping"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "GrowthBook",
+            "owned_by": "pml-my",
+            "term": "growthbook",
+            "extends": null,
+            "constructor": {
+              "parameter_types": []
+            },
+            "properties": [],
+            "operations": [
+              {
+                "name": "isOn",
+                "parameter_types": [
+                  "FlagKey"
+                ],
+                "return_type": "Boolean",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": []
+              },
+              {
+                "name": "getValue",
+                "parameter_types": [
+                  "FlagKey"
+                ],
+                "return_type": "FlagValue",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": []
+              }
+            ]
+          },
+          {
+            "name": "FAC Payment Iframe",
+            "owned_by": "pml-my",
+            "term": "fac payment iframe",
+            "extends": null,
+            "constructor": {
+              "parameter_types": []
+            },
+            "properties": [],
+            "operations": [
+              {
+                "name": "load",
+                "parameter_types": [],
+                "return_type": "IframeHtml",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": [
+                  "GET /payment/auth returns HTML rendered as iframe srcdoc"
+                ]
+              },
+              {
+                "name": "submitForm",
+                "parameter_types": [],
+                "return_type": "void",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": [
+                  "parent sends postMessage('submitForm', '*'); no origin restriction"
+                ]
+              },
+              {
+                "name": "onSuccess",
+                "parameter_types": [],
+                "return_type": "void",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": []
+              },
+              {
+                "name": "onError",
+                "parameter_types": [],
+                "return_type": "void",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": [
+                  "card data never leaves the FAC iframe; application never handles raw card numbers"
+                ]
+              }
+            ]
+          },
+          {
+            "name": "Midtier API",
+            "owned_by": "pml-my",
+            "term": "midtier api",
+            "extends": null,
+            "constructor": {
+              "parameter_types": []
+            },
+            "properties": [],
+            "operations": [
+              {
+                "name": "getCustomer",
+                "parameter_types": [],
+                "return_type": "OnboardingCustomer",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": []
+              },
+              {
+                "name": "patchCustomer",
+                "parameter_types": [
+                  "Identity",
+                  "Address"
+                ],
+                "return_type": "void",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": []
+              },
+              {
+                "name": "createCustomer",
+                "parameter_types": [],
+                "return_type": "OnboardingCustomer",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": [
+                  "POST /customer; called from ensureCustomerExists when Cognito lacks customerId"
+                ]
+              },
+              {
+                "name": "patchCart",
+                "parameter_types": [
+                  "CartSelection"
+                ],
+                "return_type": "Cart",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": []
+              },
+              {
+                "name": "postBilling",
+                "parameter_types": [
+                  "Identifier"
+                ],
+                "return_type": "Billing",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": []
+              },
+              {
+                "name": "postOrder",
+                "parameter_types": [],
+                "return_type": "OrderResult",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": []
+              },
+              {
+                "name": "getPaymentStatus",
+                "parameter_types": [
+                  "Identifier"
+                ],
+                "return_type": "TransactionStatus",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": []
+              },
+              {
+                "name": "postPaymentFailed",
+                "parameter_types": [
+                  "Identifier"
+                ],
+                "return_type": "void",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": []
+              },
+              {
+                "name": "getCatalog",
+                "parameter_types": [],
+                "return_type": "Plan",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": []
+              },
+              {
+                "name": "getMsisdnInventory",
+                "parameter_types": [],
+                "return_type": "NumberOption",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": []
+              },
+              {
+                "name": "reserveMsisdn",
+                "parameter_types": [
+                  "PhoneNumber"
+                ],
+                "return_type": "NumberOption",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": []
+              },
+              {
+                "name": "searchMsisdn",
+                "parameter_types": [
+                  "Keyword"
+                ],
+                "return_type": "NumberOption",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": []
+              },
+              {
+                "name": "changePlan",
+                "parameter_types": [
+                  "Identifier",
+                  "Identifier"
+                ],
+                "return_type": "void",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": []
+              },
+              {
+                "name": "postPortability",
+                "parameter_types": [
+                  "Portability"
+                ],
+                "return_type": "void",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": []
+              },
+              {
+                "name": "verifyPortability",
+                "parameter_types": [
+                  "OTPCode"
+                ],
+                "return_type": "void",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": []
+              }
+            ]
+          }
+        ],
+        "references": [
+          {
+            "title": "Auth boundary",
+            "source": "src/services/aws/cognito.ts",
+            "locator": "whole",
+            "extract": "whole"
+          },
+          {
+            "title": "Midtier API (shared)",
+            "source": "src/hooks/useCustomer.ts",
+            "locator": "all request URLs and operations",
+            "extract": "whole"
+          },
+          {
+            "title": "Midtier API (My)",
+            "source": "src/pages/My/hooks/useCustomer.ts",
+            "locator": "patchCustomer (profile update)",
+            "extract": "whole"
+          },
+          {
+            "title": "useMidtier",
+            "source": "src/hooks/useMidtier.ts",
+            "locator": "fetchPersonaDocument",
+            "extract": "whole"
+          },
+          {
+            "title": "ensureCustomerExists",
+            "source": "src/pages/Protected/utils.ts",
+            "locator": "POST /customer + Cognito attribute update",
+            "extract": "whole"
+          }
+        ],
+        "decisions": [
+          "All boundary placements: external regulated services, authentication, feature flags, payment card capture, address autocomplete — none are core domain responsibilities.",
+          "Midtier API is one boundary representing the Paradise Mobile backend; it is the integration point for all Customer, Cart, Billing, Order, Payment, and Catalog operations.",
+          "Cognito.getAuthorizationHeader is a boundary operation — every authenticated midtier call must manually invoke it (no interceptors).",
+          "Midtier API.createCustomer is a provisioning operation — called only once at sign-up when Cognito lacks the customerId attribute."
+        ]
+      },
+      "intro": "Scope: Customer onboarding (plan selection, identity verification, payment, order creation) and Customer self-care (usage, billing, plan change, profile, portability). Excludes support tickets, static marketing pages.\n\n**Core terms**:\n- Onboarding Customer, Self-Care Customer, Identity, EnterpriseIdentity, Address, Metadata\n- Subscription, Bundle, SIMType, Usage\n- Catalog, Plan, NumberOption\n- Cart, Portability, PortabilityVerification, Voucher\n- Billing, Invoice, PaymentMethod, Order\n- Payment, Transaction, PaymentAttempt\n\n**Key Abstractions (term grouping)**:\n- **Onboarding Customer**: the pre-activation aggregate — owns Cart, Identity, Address, Metadata (`verified = false`). Source: `Onboarding/types/Customer.ts`. See DDR-001.\n- **Self-Care Customer**: the post-activation aggregate — owns Subscriptions, full Billing, enriched Identity, Metadata (`verified = true`). Source: `My/types/Customer.ts`. See DDR-001.\n- **Subscription**: an active mobile service line with Bundle, SIMType, and Usage\n- **Catalog**: the set of sellable Plans; includes NumberOption inventory\n- **Cart**: the onboarding workspace accumulating an Onboarding Customer's selections before Order creation\n- **Billing**: the Self-Care Customer's financial account — invoices, balance, payment method, Order history\n- **Order**: the business event that activates a customer (flips `metadata.verified` to `true`, transitions Onboarding Customer → Self-Care Customer)\n- **Payment**: the card-capture act delegated to the FAC iframe boundary\n\n> **Domain decision DDR-001**: The production code has two structurally divergent `Customer` type files (`Onboarding/types/Customer.ts` and `My/types/Customer.ts`). These are two separate domain aggregates with no shared base type — they are structurally independent definitions that both write to the same `customerAtom`. See `docs/domain/decisions/DDR-001-disconnected-customer-aggregates-lack-shared-inheritance.md`."
+    }
+  ]
+}

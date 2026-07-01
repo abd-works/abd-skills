@@ -7,6 +7,7 @@ Behaviors covered:
 """
 from __future__ import annotations
 
+import copy
 import json
 from pathlib import Path
 from typing import Any, Dict
@@ -113,7 +114,7 @@ class TestDomainGraphLoadRejectsInvalidClasses:
 
     def test_rejects_empty_class_name(self, tmp_path: Path) -> None:
         # Given
-        bad = dict(_MINIMAL)
+        bad = copy.deepcopy(_MINIMAL)
         bad["modules"][0]["key_abstractions"][0]["classes"][0]["name"] = ""
         path = given_domain_model_path(tmp_path)
         path.write_text(json.dumps(bad), encoding="utf-8")
@@ -123,7 +124,7 @@ class TestDomainGraphLoadRejectsInvalidClasses:
 
     def test_rejects_invalid_relationship_kind(self, tmp_path: Path) -> None:
         # Given
-        bad = dict(_MINIMAL)
+        bad = copy.deepcopy(_MINIMAL)
         bad["modules"][0]["relationships"] = [
             {
                 "name": "bad",
@@ -164,3 +165,136 @@ class TestPracticeReferenceFixturesValidate:
         # Then
         assert data["schema"] == "abd-domain-model/v1"
         assert data["modules"]
+
+
+# =============================================================================
+# STORY: specification-fidelity optional fields validate
+#
+# Schema extension for abd-domain-specification migration — see
+# docs/domain-multi-backend-planning.md P1.1. All new fields are optional;
+# model-fidelity graphs without them must still round-trip (covered by
+# TestDomainGraphLoadSaveRoundTrip above).
+# =============================================================================
+
+
+def _given_spec_fidelity_graph() -> Dict[str, Any]:
+    """Given: a minimal graph that uses every new optional spec-fidelity field."""
+    return {
+        "schema": "abd-domain-model/v1",
+        "product": "Test",
+        "scope": "spec-fidelity",
+        "modules": [
+            {
+                "name": "Catalog",
+                "intro": "Module-scope paragraph carried from markdown.",
+                "relationships": [],
+                "key_abstractions": [
+                    {
+                        "name": "Product Catalog",
+                        "definition": "Catalog KA",
+                        "relationships": [],
+                        "classes": [
+                            {
+                                "name": "Product",
+                                "ka_anchor": True,
+                                "term": "product",
+                                "extends": None,
+                                "stereotype": "Entity",
+                                "stereotype_note": "Aggregate root",
+                                "initialisation": "constructed by Catalog.add()",
+                                "constructor": {
+                                    "parameter_types": ["Identifier"],
+                                    "parameters": [{"name": "sku", "type": "Identifier"}],
+                                },
+                                "properties": [
+                                    {
+                                        "name": "sku",
+                                        "return_type": "Identifier",
+                                        "invariants": [],
+                                        "note": "Carried over from legacy SKU format.",
+                                    }
+                                ],
+                                "operations": [
+                                    {
+                                        "name": "rename",
+                                        "parameter_types": ["FreeText"],
+                                        "parameters": [{"name": "newName", "type": "FreeText"}],
+                                        "return_type": "void",
+                                        "visibility": "public",
+                                        "collaborators": [],
+                                        "invariants": [],
+                                        "phase": "self-care",
+                                    }
+                                ],
+                            }
+                        ],
+                        "references": [],
+                        "decisions": [],
+                    }
+                ],
+                "boundary_domain": {
+                    "intro": "External systems the Catalog integrates with.",
+                    "relationships": [],
+                    "classes": [],
+                    "references": [],
+                    "decisions": [],
+                },
+            }
+        ],
+    }
+
+
+class TestSpecFidelityOptionalFields:
+    """New optional fields added for abd-domain-specification round-trip."""
+
+    def test_full_spec_fidelity_graph_round_trips(self, tmp_path: Path) -> None:
+        # Given
+        path = given_domain_model_path(tmp_path)
+        # When
+        loaded = when_save_then_load(path, _given_spec_fidelity_graph())
+        # Then
+        cls = loaded["modules"][0]["key_abstractions"][0]["classes"][0]
+        assert cls["stereotype"] == "Entity"
+        assert cls["stereotype_note"] == "Aggregate root"
+        assert cls["initialisation"].startswith("constructed by")
+        assert cls["constructor"]["parameters"] == [{"name": "sku", "type": "Identifier"}]
+        assert cls["operations"][0]["parameters"] == [{"name": "newName", "type": "FreeText"}]
+        assert cls["operations"][0]["phase"] == "self-care"
+        assert loaded["modules"][0]["intro"].startswith("Module-scope")
+        assert loaded["modules"][0]["boundary_domain"]["intro"].startswith("External systems")
+
+    def test_rejects_unknown_stereotype(self, tmp_path: Path) -> None:
+        # Given
+        bad = _given_spec_fidelity_graph()
+        bad["modules"][0]["key_abstractions"][0]["classes"][0]["stereotype"] = "ProxyController"
+        path = given_domain_model_path(tmp_path)
+        path.write_text(json.dumps(bad), encoding="utf-8")
+        # When / Then
+        with pytest.raises(ValueError, match="stereotype must be one of"):
+            when_load_expecting_validation_error(path)
+
+    def test_rejects_named_parameter_missing_type(self, tmp_path: Path) -> None:
+        # Given
+        bad = _given_spec_fidelity_graph()
+        bad["modules"][0]["key_abstractions"][0]["classes"][0]["operations"][0]["parameters"] = [
+            {"name": "newName"}
+        ]
+        path = given_domain_model_path(tmp_path)
+        path.write_text(json.dumps(bad), encoding="utf-8")
+        # When / Then
+        with pytest.raises(ValueError, match="parameter requires type"):
+            when_load_expecting_validation_error(path)
+
+    def test_model_fidelity_graph_without_optional_fields_still_validates(
+        self, tmp_path: Path
+    ) -> None:
+        # Given: a fresh copy of the minimal graph (no spec-only fields)
+        clean = copy.deepcopy(_MINIMAL)
+        path = given_domain_model_path(tmp_path)
+        # When
+        loaded = when_save_then_load(path, clean)
+        # Then: no spec-fidelity fields, but still valid
+        cls = loaded["modules"][0]["key_abstractions"][0]["classes"][0]
+        assert "stereotype" not in cls
+        assert "initialisation" not in cls
+        assert "intro" not in loaded["modules"][0]

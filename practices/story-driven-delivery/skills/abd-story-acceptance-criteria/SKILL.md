@@ -43,6 +43,10 @@ State exactly what must be true for a story to be done — so everyone agrees on
 
 [`rules/`](rules/) + [`templates/`](templates/).
 
+**Output format:** AC are written as structured `as const` objects in `*-stories.ts`, not decorator or annotation syntax. Each story is an `export const` with `story`, `actor`, `acceptance_criteria` (array of step-object arrays), `domain_terms`, `evidence`, and one named scenario object per AC. See [`reference/concepts.md`](reference/concepts.md) § Code format and [`templates/stories.ts`](templates/stories.ts) for the exact shape.
+
+The `acceptance-criteria.md` template is the **design artifact** for exploration. The `stories.ts` template is the **code artifact** — use it when writing AC directly into code or when reviewing generated output.
+
 ## Validate
 
 [`common/reference/rule-checklist.md`](../../../../common/reference/rule-checklist.md).

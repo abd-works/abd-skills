@@ -92,5 +92,42 @@ When a concept owns multiple related objects **and** the collection has unique b
 
 ---
 
+## Code format — `<ka-slug>.<ext>`
+
+Code is the source of truth at model fidelity too. One file per Key Abstraction, named after the KA (`customer.ts`, `cart.ts`, …). The **same file** later evolves to specification fidelity by adding markers and empty invariant/interaction methods in place — a new file is not created (D26).
+
+### Emission target: abstract class
+
+Emit **abstract classes** in the target language.
+
+- TypeScript → `export abstract class KaName { … }`
+- Python     → `class KaName(ABC): …`   (`from abc import ABC, abstractmethod`)
+- Java       → `public abstract class KaName { … }`
+
+Templates: [`../templates/domain-model.ts`](../templates/domain-model.ts), [`../templates/domain-model.py`](../templates/domain-model.py), [`../templates/domain-model.java`](../templates/domain-model.java).
+
+### What model fidelity carries
+
+Everything the type system can express:
+
+- Constructor with typed parameters
+- Properties: `camelCase` name, real type (domain type, constrained enum, typed primitive, or standard type). **No raw `String`.**
+- Abstract operations: `camelCase` name, typed parameters, typed return type. `void` for commands.
+- Subtypes via `extends` (TS/Java) or class-parent (Python) — **delta members only**.
+
+### What model fidelity omits
+
+Everything on the specification-fidelity list. If you find yourself reaching for any of these, you are drifting up — either commit to specification fidelity or move it out:
+
+- `@stereotype`, `@initialisation`
+- `@composition` / `@aggregation` / `@association`
+- Empty `@invariant` / `@interaction` methods
+- Phase grouping / region banners
+
+### Collaborator hints
+
+Legacy markdown model files carried a `Collaborator:` line under each method listing types that were neither in the params nor return. In code, this information is unnecessary — the operation's body (in concrete implementations) is where those collaborators appear via imports and method calls. At the abstract-class level, only include a `/** Collaborators: A, B, C */` doc comment when it materially aids reading — otherwise drop it.
+
+---
 
 See `../templates/` for the canonical file shape.

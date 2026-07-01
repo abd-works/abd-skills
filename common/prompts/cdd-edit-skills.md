@@ -1,0 +1,1 @@
+I'm asking you to make some changes to one of the abd-skills; make sure you do it in the abd-skills repository and not in the deployed area. Once we've made the change and we're about to test it you can then just copy it over into the deployment area,  whatever that current area is if you don't know ask

@@ -2,168 +2,96 @@
 
 ## What is an architecture blueprint?
 
-An **architecture blueprint** is the system-level reference that sits between the one-page outline and the deep-dive architecture specifications. It adds three things the outline deliberately defers:
+An **architecture blueprint** is the second fidelity level of `src/architecture-context.md` — the same single document that started as an outline. At blueprint fidelity, three things are added or deepened in place:
 
-1. **Platform runtime** — the full platform diagram showing what processes actually run, how they connect, and what technology each uses.
-2. **Mechanisms as code shapes** — each mechanism from the outline is described in prose: what technology it uses and, critically, what code shape every module must adopt to implement it.
-3. **Module catalogue** — the major domain and infrastructure areas described in 1–2 sentences each, with their mechanisms and dependencies named.
+1. **Architecture Flow** — the section that was absent at outline fidelity is added: a diagram and mechanism-annotated table showing how a typical request flows through the system.
+2. **Mechanisms deepened** — each one-liner in the Mechanisms section is expanded to prose: what technology it uses and, critically, what code shape every package that participates in it must adopt.
+3. **Packages deepened** — each package entry gains a link to its per-folder `architecture-context.md`, and per-folder files are written with blueprint-fidelity content.
 
-The blueprint also carries the testing architecture (tier vocabulary, what each tier exercises, what it fakes) and blueprint-level decision records.
-
-This skill ships **paired outputs**: a markdown file that humans read, and `.drawio` sources for each diagram (`platform-architecture.drawio`, `architecture-flow.drawio`, `module-overview.drawio`, `testing-flow.drawio`).
-
-The blueprint **defers deep mechanism detail**: code walkthroughs, multi-participant sequence diagrams, and per-file structures live in **architecture specifications** (one per mechanism scope).
+The blueprint also deepens the Testing Architecture section from an intent paragraph to a tier table with named stub boundaries, and adds blueprint-stage ADRs.
 
 ---
 
-## Platform architecture 
+## The unified document
 
-The outline's system-context diagram shows what the system is and who uses it. The blueprint adds the **platform runtime view**: the actual client apps, backend services, data stores, and third-party integrations — showing how they connect and what technology each runs on.
+`src/architecture-context.md` carries the same sections at every fidelity level. Blueprint fidelity adds and deepens — it never replaces or restructures the document.
 
-| Outline level | Blueprint level |
-|---|---|
-| "Retail Platform connects to Stripe over HTTPS/REST" | "Orders API (Node.js/Fastify) calls `stripe.paymentIntents.create()` via the Stripe SDK; response and webhook events both arrive at the Orders API" |
+| Section | Outline | Blueprint |
+|---|---|---|
+| System Context | Complete; never stripped | Unchanged |
+| Architecture Flow | Absent | **Added** — diagram + mechanism table |
+| Packages | Prose, no folder links | Deepened — links to per-folder files where they exist |
+| Architecture Mechanisms | One-liners | **Deepened** — prose code-shape paragraphs |
+| Testing Architecture | Intent paragraph | **Deepened** — tier table + named stub boundary |
+| Rules | System-wide constraints | Unchanged; may gain new entries |
+| Decision Records | Outline-stage ADRs | **Extended** — blueprint-stage ADRs added, Stage column grows |
 
 ---
 
 ## Mechanisms as code shapes
 
-The outline states each mechanism's technology choice and NFR justification. The blueprint goes further: for each mechanism it describes **the code shape every module must adopt** — what pattern, base class, hook, or convention a developer follows when writing a module that participates in that mechanism.
+The outline states each mechanism's technology choice and one-sentence pattern. The blueprint goes further: for each mechanism it describes **the code shape every package must adopt** — what a developer follows when writing code that participates in that mechanism.
 
 | Dimension | Outline | Blueprint |
 |---|---|---|
-| Technology choice | Named | Named (retained from outline) |
-| NFR justification | One sentence | Retained from outline |
-| Code shape | Not present | How every module implements or extends the mechanism — what to extend, inject, or follow |
-| Module interactions | Not present | Which modules call into the mechanism and what they pass |
+| Technology choice | Named | Named (retained) |
+| One-sentence pattern | Present | Expanded to 1–2 paragraphs |
+| Code shape constraint | Not present | **What every participating package must do / must not do** |
+| Consumer interactions | Not present | **Which packages call into the mechanism and what they pass** |
 
-**New mechanisms discovered during blueprint work go back into the outline first.** When blueprinting surfaces a mechanism not yet recorded, add it to the outline (technology choice + NFR justification + ADR), then deepen it in the blueprint. The outline remains the single source of mechanism technology decisions.
-
-### Mechanism-modules
-
-Some mechanisms also have a **concrete module surface** — a deployable or importable unit with its own API. Security (→ Identity module), App Server (→ Bootstrap module), and similar are both a mechanism *and* a module. They are described in the mechanisms section for their code-shape constraint, and in the modules section for their functional surface.
-
-**Unified Domain Logic** is an example of a pure mechanism (no module): it constrains the shape of routes, views, and DB layers to follow domain naming and structure, but there is no single class or API to import. Every module that handles domain objects participates in it.
+**Mechanisms come from `src/architecture-context.md` — not from a standard checklist.** Only deepen mechanisms already named there. If blueprinting surfaces a new mechanism, add it to `src/architecture-context.md` first (in the Mechanisms section), then deepen it here. The master context document is the single source of mechanism vocabulary.
 
 ---
 
-## Modules
+## Packages
 
-Modules are the major domain and infrastructure areas. Front and back are **not** different modules — a module spans the full stack for its domain area. Each module description has:
+At blueprint fidelity, per-folder `architecture-context.md` files are written for every package and mechanism-host folder. This is a **default deliverable** — not an opt-in mode.
 
-- **Business scope** — 1–2 sentences on what domain responsibility this module owns.
-- **Mechanisms used** — universal mechanisms (used by all modules) go in a legend; module-specific ones are listed per module.
-- **Dependencies** — which other modules this one calls or depends on.
+Each per-folder file carries blueprint-fidelity content:
+- Seam owned
+- Mechanism(s) it implements or participates in, and what code shape that imposes on consumers
+- Technology (named inline)
+- Key exports / entry point (enough to convey the surface — not a full file listing)
+- Consumers (which other packages depend on this one)
+- Test tier and how it is stubbed in tests
+- Dependencies on other packages or external systems
 
-The module overview diagram shows inter-module dependencies with a functional scope one-liner and the mechanism list per module.
+This is **not a stub**. A developer reading only this file should understand what the folder is responsible for and how it fits the mechanisms. File structure, participants, class specifications, and canonical patterns are specification-fidelity concerns and are deferred.
+
+Per-folder files are safe to write on both new and existing systems:
+- **New system** — create the folders and write the files from the blueprint's package and mechanism descriptions
+- **Existing system** — write or update files in folders that already exist, using existing code to validate the content
 
 ---
 
-## Architecture flow diagram
+## Architecture flow
 
-The architecture flow diagram shows the **mechanisms active at each layer** for a typical request. It is not an exhaustive sequence diagram — it shows which mechanism governs each layer crossing (e.g. App Server at the entry point, Identity at the auth boundary, Unified Domain Logic at the service and DB layers). More than one diagram is acceptable when different mechanism combinations apply to meaningfully different flows.
+The Architecture Flow section is added at blueprint fidelity. It contains a diagram (`src/architecture-flow.drawio`) and a mechanism-annotated table — each row is one layer or boundary in a typical end-to-end request; the right column names every mechanism active at that step. The diagram and table must stay in sync.
+
+The flow is not an exhaustive sequence diagram. It shows which mechanism governs each layer crossing (e.g. Configuration at startup, Authentication at the request gate, Entity Controllers at the downstream call). More than one flow is acceptable when different mechanism combinations apply to meaningfully different paths.
 
 ---
 
 ## Testing architecture at this level
 
-The outline says "tests exist"; specifications go deep on testing one mechanism. The blueprint sits between: it names the **test tiers common to the whole system** — their scope, what each tier treats as real vs faked, and the entry point for each.
+The outline says "tests exist and what they intend". The blueprint names the **test tiers common to the whole system** — scope, what each tier treats as real vs stubbed, the exact stub boundary (the file or interface where external systems are replaced), and where each tier runs.
 
-The testing flow diagram shows this visually: each tier as a column, each stack layer as a row, coloured by whether that layer is real (green), faked (yellow), the test entry point (blue), or not reached (grey).
-
----
-
-## Optional: scaffold mode
-
-The blueprint skill has two modes at Discovery fidelity:
-
-| Mode | What it produces |
-|---|---|
-| `blueprint` (default) | The centralized `architecture-blueprint.md` document and its blueprint-level ADRs and diagrams. |
-| `scaffold` (opt-in) | Everything `blueprint` produces, **plus** the folder skeleton for each named module and mechanism-host folder, each seeded with a stub `architecture-context.md`. |
-
-Scaffold mode exists because the blueprint already knows enough — module names, mechanism-modules, code-shape constraints, test tiers, inter-module dependencies — to **seed** the per-folder context files that `abd-architecture-specification` will later fill in. Scaffold mode is the natural greenfield handoff between blueprint and specification: blueprint puts the folder skeleton on disk and stamps blueprint-fidelity content into each stub; the specification skill then fills in the spec-fidelity slots (file structure, participants, rules, canonical pattern).
-
-### What scaffold mode writes
-
-For each module named in the blueprint's Modules section:
-
-- Create `src/<module>/` if it does not exist.
-- Create `src/<module>/architecture-context.md` from the package-context stub template, pre-filled with:
-  - Owning module name
-  - Mechanisms used (from the module's mechanism list)
-  - Test tier (from the testing architecture)
-  - Dependencies on other modules
-  - Spec-fidelity slots (File Structure, Participants, Class Specification, Rules, Canonical Pattern) marked `<!-- spec to fill -->`
-
-For each mechanism named in the blueprint's Mechanisms section that has a host folder (a folder the templated pattern lives in):
-
-- Create the host folder if it does not exist.
-- Create `<host-folder>/architecture-context.md` from the mechanism-context stub template, pre-filled with:
-  - Mechanism name
-  - Code-shape paragraph (copied from the blueprint)
-  - Technology choice + ADR link (from the outline)
-  - Spec-fidelity slots marked `<!-- spec to fill -->`
-
-### Idempotency
-
-Scaffold mode is safe to re-run. It must:
-
-- Skip any folder that already exists.
-- Skip any `architecture-context.md` that already exists, except to **append** new blueprint-fidelity content (a newly added mechanism, a changed dependency, a flipped test tier) — never overwrite existing content.
-- Surface a conflict via the violation workflow when blueprint-fidelity content in an existing file disagrees with the current blueprint document (vocabulary drift).
-
-### Boundary: what scaffold mode does NOT write
-
-- Source-code files (no `*.ts`, `*.py`, etc.) — that is `abd-architecture-code`'s job.
-- Spec-fidelity content (File Structure, Participants, Class Specification, Rules, Canonical Pattern) — that is `abd-architecture-specification`'s job. Stubs leave those slots empty with `<!-- spec to fill -->` markers.
-- Test files. The test-tier name lands in the stub; the test scaffolding itself is downstream.
-
-Scaffold stubs are governed by [`../rules/scaffold-stubs-are-blueprint-only.md`](../rules/scaffold-stubs-are-blueprint-only.md).
+The stub boundary is architecture — naming it here means every per-folder context file and every developer writing a new test knows exactly where to draw the line.
 
 ---
 
 ## Decision records at this level
 
-Blueprint-level decisions are choices visible at this level: module boundaries, test-tier vocabulary, data ownership patterns, extension seam contracts. Mechanism technology choices have their ADRs in the outline and are not re-recorded here.
+Blueprint-stage decisions are choices visible at this level: package boundary decisions, test-tier vocabulary, data ownership patterns, significant mechanism code-shape choices. Mechanism technology choices have their ADRs at outline fidelity and are not re-recorded here.
+
+ADRs continue numbering from the last outline ADR. Each blueprint ADR has `stage: blueprint` front matter.
 
 ---
 
 ## What the blueprint does NOT contain
 
-**Lives in `abd-architecture-specification`:**
-- Code-level walkthroughs of a mechanism
-- Sequence diagrams that involve more than three participants
-- Per-module file structures
-- Test code examples per tier
-- Per-folder `architecture-context.md` files (mechanism / package / miscellaneous tiers) that describe File Structure, Participants, Class Specification, Rules, and Canonical Patterns
-- The central `architecture-specification.md` navigation hub (Where-to-Start table, mechanism index, source layout, testing architecture)
-
-**Lives in `abd-architecture-outline`:**
-- Layered architecture diagram
-- System context diagram (functions + tech per system, protocols)
-- Mechanisms catalogue (technology choice + NFR justification)
-- Guiding principles list
-- Technology stack table
-- Major systems catalogue (one-liners)
-- Mechanism-choice ADRs
-
----
-
-## Handoff to `abd-architecture-specification`
-
-The blueprint is the **direct input** to the architecture specification. The shared model — centralized documents (outline + blueprint + specification) fanning into per-folder `architecture-context.md` files, three tiers (mechanism / package / miscellaneous), the vocabulary chain, and the existing-vs-new flow — is canonicalised once at the practice level:
-
-→ **[`practices/architecture-centric-engineering/reference/architecture-context-model.md`](../../../reference/architecture-context-model.md)**
-
-Specifically inherited from this blueprint by the spec:
-
-| Blueprint artefact | Becomes in the spec |
-|---|---|
-| Each mechanism (code shape) | One mechanism-tier `architecture-context.md` in the folder that hosts the templated pattern (see [§ 5 of the shared model](../../../reference/architecture-context-model.md#5-where-mechanism-tier-context-files-land)). |
-| Mechanism index (this document) | The Mechanisms table in the central `architecture-specification.md`. |
-| Modules & dependencies | Source Layout section in the central spec; per-package `architecture-context.md` files where a package introduces context the central spec does not cover. |
-| Testing tiers | The central spec's Testing Architecture section + a `test-helpers/` miscellaneous-tier context file when the tiers share helpers. |
-| Architecture flow diagram | Embedded in (or linked from) the relevant mechanism-tier context file. |
-
-**Vocabulary constraint:** the spec uses blueprint names verbatim — see [§ 3 The vocabulary chain](../../../reference/architecture-context-model.md#3-the-vocabulary-chain) and [§ 6.1](../../../reference/architecture-context-model.md#61-vocabulary-matches-the-source-of-truth). If discovery surfaces a missing mechanism or module, the rename happens in this blueprint (and the outline, if it is a mechanism technology choice) before the spec introduces it.
+- Code-level walkthroughs of a mechanism — those belong in per-folder `architecture-context.md` at specification fidelity
+- Sequence diagrams with more than three participants — those belong in the mechanism's per-folder file at specification fidelity
+- Per-folder file structures (the `src/` tree for a package) — specification fidelity
+- Class specifications and canonical patterns — specification fidelity
+- Test code examples — specification fidelity

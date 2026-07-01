@@ -2,71 +2,119 @@
 
 ## Read before generating
 
-- **`reference/concepts.md`** — outline scope, system context diagram, extended system-context scope (functions + tech + protocols), mechanisms catalogue, guiding principles, major systems catalogue, decision records.
+- **`reference/concepts.md`** — unified document model, system context completeness requirement, packages, mechanisms (merge/remove/rename/add guidance), rules, decisions with stage front matter.
 - **`reference/system-context.md`** — deeper guidance on the system context diagram.
-- **[`common/reference/record-all-architecture-violations.md`](../../../../../common/reference/record-all-architecture-violations.md)** — violation workflow (existing systems only): surface pattern deviations, orphan concerns, and missing mechanisms; stop and inform the user; ask 2a/2b/2c per violation; launch a non-blocking sub-agent to write DRs and downstream artefacts. Read [`common/reference/decision-record.md`](../../../../../common/reference/decision-record.md) for the DR template and criteria.
+- **[`common/reference/record-all-architecture-violations.md`](../../../../../common/reference/record-all-architecture-violations.md)** — violation workflow (existing systems only).
 
-### Scan existing distributed context (existing systems)
+## Output paths
 
-If the target project already contains `architecture-context.md` files (per-folder, distributed alongside the code — see [`architecture-context-model.md` § 1](../../../reference/architecture-context-model.md#1-centralized-documents-and-distributed-context-files)), scan them before authoring the outline. Pick up signals at outline fidelity:
+| Artefact | Path |
+|---|---|
+| Root document (outline fidelity) | `src/architecture-context.md` |
+| System context diagram (editable) | `src/system-context.drawio` |
+| ADR files | `src/decisions/ADR-NNN-{slug}.md` |
 
-- **Mechanism mentions** — every named mechanism the context files reference should appear in the outline's mechanisms catalogue (or be flagged as a missing mechanism per the violation workflow).
-- **Technology choices** — when a context file already names the persistence engine, HTTP stack, identity provider, etc., corroborate it against the outline's tech-stack table; conflicts are violations.
-- **System / boundary signals** — references to external systems in context files should match the system-context elements file.
+Do **not** write to `docs/architecture/`. The document lives in `src/` alongside the code it describes.
 
-Treat the per-folder files as a contributing source of truth, not as authority over the outline. Where context files and the outline disagree, surface the conflict via the violation workflow rather than silently overwriting either side.
+## Step 2a — Surrounding systems section first
 
-## Output
+The **Surrounding systems** subsection of `src/architecture-context.md` is the canonical element inventory; write it before the diagram. For every system the subject connects to, produce a `###` heading (linked to the system's GitHub repo or product site where applicable) followed by 2–3 sentences naming the system's major functions, its relationship to the subject, and the protocol on the integration boundary. For the subject system itself include a one-line Tech Stack statement for this repo.
 
-Generate from all templates in `templates/`, preserving subfolder structure. Write to `docs/architecture/diagrams/`. Add a `<name>-` prefix to `architecture-outline.md` only when disambiguation is needed.
-
-## Step 2a — Element inventory first
-
-Using `templates/system-context-elements.md` as the starting structure, fill in every section with real system names and 1–2 sentence descriptions. No placeholder tokens (`{…}`) should remain.
-
-For the **system-context** file: add **Major functions** and **Platform technology** (app stack, persistence, tools/libs) to every owned system entry; add **Protocol** to every relationship entry.
-
-Complete the element file before proceeding to step 2b.
+The completeness bar is the same as the diagram's: every caller and every downstream is named here. Do not abbreviate or omit entries on the grounds that "detail comes later."
 
 | Template | Output file |
-| --- | --- |
-| `templates/system-context-elements.md` | `docs/architecture/diagrams/system-context-elements.md` |
+|---|---|
+| `templates/architecture-context.md` | The outline-fidelity `src/architecture-context.md` (Surrounding systems section filled in first) |
 
-## Step 2b — Outline document and ADRs
+## Step 2b — Seed system-context.drawio
 
-Only after the element file is complete:
+Create `src/system-context.drawio` as a draw.io XML file. Place the subject system in the centre. Callers on the left, downstreams on the right. Each node shows the system name, a one-line description, and the protocol on each arrow. Use the `<mxfile>` / `<mxGraphModel>` / `<root>` / `<mxCell>` structure. **The diagram nodes and the Surrounding systems `###` entries must be in one-to-one correspondence** — if you add a node, add an entry; if you add an entry, add a node.
+
+## Step 2c — Remaining sections and ADRs
+
+Only after the Surrounding systems section and the diagram are in lockstep, fill in the rest of the document and the ADRs:
 
 | Template | What to produce |
-| --- | --- |
-| `templates/architecture-outline.md` | The outline document — a System Context section describing each owned system, an Architecture Mechanisms section with tech-choice + NFR justification per mechanism, guiding principles, tech stack table, major systems table, and ADR list. |
-| `templates/decisions/decision-record.md` | One ADR file per outline-level decision (platform, architectural style, each mechanism technology choice) under `docs/architecture/decisions/`. |
+|---|---|
+| `templates/architecture-context.md` | The remaining sections of `src/architecture-context.md`: Packages, Architecture Mechanisms, Rules, Decision Records. |
+| `templates/decisions/decision-record.md` | One ADR per outline-level decision under `src/decisions/`. |
 
-### Mechanism guidance
+### System Context section
 
-Cover all eight standard mechanisms (Security, Error Handling & Resilience, Logging & Observability, Validation, Configuration & Secrets, Caching, Persistence, Communication). Then identify any context-specific or bespoke mechanisms this system requires that the standard set does not cover and add them as additional subsections. Do not leave any mechanism empty or placeholder; derive real choices from the project context.
+The surrounding-systems table is **complete at outline stage**. Every system the subject connects to — callers and downstreams alike — is listed with a 2–3 sentence description and a clear role statement. Do not abbreviate or omit entries on the grounds that "detail comes later."
 
-### Diagram workflow
+Include a hyperlink to `./system-context.drawio` at the top of the System Context section:
 
-See [`diagram-workflow.md`](diagram-workflow.md). Fill placeholders in `system-context.drawio` using the element-inventory file as the source of truth. Reference the PNG and link the element file from the outline markdown.
+```markdown
+> Source: [`./system-context.drawio`](./system-context.drawio)
+>
+> <!-- ![System Context](./system-context.png) -->
+```
 
-**Quality bar:** Element-inventory file present and fully described (no placeholder tokens). System context element file includes functions + platform tech per system and protocol per relationship. Diagram present and matching its element file, accompanied by a caption of three sentences or fewer. Every mechanism has a named technology choice and NFR justification. ADRs on disk for all mechanism choices and platform decisions.
+The PNG embed comment is left commented-out; it activates once the diagram has been exported.
+
+### Packages section
+
+Write one entry per package. Each entry is the package name — linked to its `architecture-context.md` if that file already exists, plain bold text if it does not — followed by 2–3 sentences covering: the seam it owns, the constraint it places on the rest of the codebase, and the technology named inline in prose. No sub-category labels. All packages are just packages.
+
+On a greenfield system no per-folder files exist yet so no links appear. On an existing system include links wherever the files are present.
+
+### Architecture Mechanisms section
+
+A mechanism is a **recurring code shape that multiple components instantiate** — a pattern, not a topic. Discover the mechanisms this system has by:
+
+1. Walking the surrounding-systems table and asking: what code shapes will repeat across these integrations?
+2. Walking the standard vocabulary (Security, Error Handling & Resilience, Logging & Observability, Validation, Configuration & Secrets, Caching, Persistence, Communication) as **discovery prompts** — does this system have this pattern? If yes, include it; if no, omit it silently.
+3. Naming bespoke mechanisms when this system has a recurring shape the standard vocabulary does not capture.
+
+Each mechanism entry is: the mechanism name — linked to its `architecture-context.md` if that file already exists, plain bold text if it does not — followed by **one sentence** describing the recurring pattern it establishes.
+
+**Order mechanisms by request flow, not alphabetically.** Ask: what does the system do first when a request arrives? A typical HTTP proxy flows: Configuration → Authentication → primary structural mechanism → Validation → Error Handling → Logging. Reorder to match how your system actually processes a request.
+
+On a greenfield system no per-folder files exist yet so no links appear. On an existing system include links wherever the files are present. Do **not** include an "Omitted" list — simply leave out mechanisms that don't apply.
+
+### Rules section
+
+Write 5–8 one-sentence decidable constraints. Each must name what it constrains (a layer, a folder, a code path, a naming convention) and be verifiable by a reviewer looking at a pull request.
+
+### Decision Records section
+
+List only outline-stage ADRs. The table has columns: `ID | Stage | Decision | One-line consequence`. Write `stage: outline` front matter in each ADR file.
+
+ADR decisions at outline fidelity typically cover: platform and runtime choices, deployment model, significant mechanism merges or removals that represent a deliberate architectural stance.
+
+### ADR front matter
+
+Every ADR file must have a YAML front matter block:
+
+```yaml
+---
+status: Accepted
+date: YYYY-MM-DD
+stage: outline
+---
+```
 
 ## Step 2c — Record violations (existing systems only)
 
-If you are documenting an existing system, follow [`common/reference/record-all-architecture-violations.md`](../../../../../common/reference/record-all-architecture-violations.md) after completing steps 2a and 2b. Collect all violations, present the table, ask fix or defer, and write a Deferral ADR for every deferred item. Append the violation resolution summary to the outline document.
+If documenting an existing system, follow [`common/reference/record-all-architecture-violations.md`](../../../../../common/reference/record-all-architecture-violations.md) after completing steps 2a and 2b.
 
 ## Validate
 
-After generation, also verify diagram:
+After generation, verify the diagram:
 
 ```powershell
 .\scripts\arch-drawio.ps1 verify -ProjectRoot <target-project-root>
 ```
 
-Then run [`common/reference/rule-checklist.md`](../../../../../common/reference/rule-checklist.md) and practice [`validate-checklist.md`](../../../reference/validate-checklist.md).
+Then run [`common/reference/rule-checklist.md`](../../../../../common/reference/rule-checklist.md).
 
-## Handoff to downstream skills
-
-Once the outline is on disk, the names and decisions captured here become the **top of the vocabulary chain** for the blueprint, the architecture specification, and the code skill.
-
-See [`architecture-context-model.md`](../../../reference/architecture-context-model.md) — in particular [§ 3 The vocabulary chain](../../../reference/architecture-context-model.md#3-the-vocabulary-chain) and [§ 7 Skill-level handoff summary](../../../reference/architecture-context-model.md#7-skill-level-handoff-summary) — for the full handoff contract. Downstream skills must not rename or invent mechanisms / systems; if the blueprint or spec discovers a missing or wrongly named mechanism, this outline (and its ADR) is updated first, then propagated.
+**Quality bar:**
+- `src/system-context.drawio` present with subject in centre, all surrounding systems as nodes
+- Hyperlink to `./system-context.drawio` present in the System Context section
+- Every surrounding system has a `###` heading linked to its GitHub repo or product site, followed by 2–3 sentences of prose
+- Diagram nodes and Surrounding-systems `###` entries are in one-to-one correspondence (no third inventory file)
+- Every package entry is name + link + 2–3 sentences; no sub-category labels
+- Every mechanism entry is name + link + one sentence; no Omitted list
+- ADRs on disk under `src/decisions/` with `stage: outline` front matter
+- Decision Records table has Stage column

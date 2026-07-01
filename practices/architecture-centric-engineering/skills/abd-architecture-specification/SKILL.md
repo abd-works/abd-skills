@@ -23,8 +23,8 @@ Produce a short, navigable `architecture-specification.md` that routes a develop
 
 Two kinds of artefact:
 
-1. **`architecture-specification.md`** — the central document. Short. Acts as a navigation hub via a `## Where to Start` table. Names every mechanism in one line + link, lists every documented package in one line + link (categorised), and shows an annotated source tree.
-2. **`architecture-context.md`** — one per folder that has documentation worth keeping. Three tiers; pick the one that matches the folder:
+1. **`src/architecture-context.md`** — the central document. Short. Lives at the root of `src/`. Grows through outline → blueprint → specification fidelity in place. Acts as a navigation hub via a `## Where to Start` table. Names every mechanism in one line + link, lists every documented package in one line + link (categorised), and shows an annotated source tree.
+2. **`{folder}/architecture-context.md`** — one per folder that has documentation worth keeping. Three tiers; pick the one that matches the folder:
 
 | Tier | When | Template |
 |---|---|---|

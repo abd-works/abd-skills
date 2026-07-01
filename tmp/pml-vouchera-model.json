@@ -1,0 +1,2138 @@
+{
+  "schema": "abd-domain-model/v1",
+  "product": "Vouchera",
+  "scope": "Scope: Full platform - Campaign, Voucher, Discount, Redemption, Organisation, Invitation, Credential, Audit Trail.",
+  "modules": [
+    {
+      "name": "Vouchera",
+      "relationships": [],
+      "key_abstractions": [
+        {
+          "name": "Campaign",
+          "definition": "Campaign key abstraction",
+          "relationships": [],
+          "classes": [
+            {
+              "name": "Campaign",
+              "ka_anchor": true,
+              "term": "campaign",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "OrganisationScope",
+                  "CampaignName",
+                  "CampaignWindow",
+                  "EnabledFlag"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "scope",
+                  "return_type": "OrganisationScope",
+                  "invariants": []
+                },
+                {
+                  "name": "name",
+                  "return_type": "CampaignName",
+                  "invariants": []
+                },
+                {
+                  "name": "campaignWindow",
+                  "return_type": "CampaignWindow",
+                  "invariants": []
+                },
+                {
+                  "name": "enabled",
+                  "return_type": "EnabledFlag",
+                  "invariants": []
+                },
+                {
+                  "name": "status",
+                  "return_type": "CampaignStatus",
+                  "invariants": []
+                },
+                {
+                  "name": "financials",
+                  "return_type": "CampaignFinancials",
+                  "invariants": [
+                    "status is derived from enabled and campaignWindow",
+                    "voucher validity window must stay within campaignWindow"
+                  ]
+                }
+              ],
+              "operations": [
+                {
+                  "name": "contains",
+                  "parameter_types": [
+                    "Voucher"
+                  ],
+                  "return_type": "Boolean",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                },
+                {
+                  "name": "deriveStatus",
+                  "parameter_types": [
+                    "Timestamp"
+                  ],
+                  "return_type": "CampaignStatus",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                },
+                {
+                  "name": "deriveFinancials",
+                  "parameter_types": [
+                    "Redemption"
+                  ],
+                  "return_type": "CampaignFinancials",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": [
+                    "financials are derived from redemptions only"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "CampaignWindow",
+              "ka_anchor": false,
+              "term": "campaignwindow",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "StartTimestamp",
+                  "EndTimestamp"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "startAt",
+                  "return_type": "StartTimestamp",
+                  "invariants": []
+                },
+                {
+                  "name": "endAt",
+                  "return_type": "EndTimestamp",
+                  "invariants": [
+                    "startAt must be before endAt"
+                  ]
+                }
+              ],
+              "operations": [
+                {
+                  "name": "includes",
+                  "parameter_types": [
+                    "Timestamp"
+                  ],
+                  "return_type": "Boolean",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                },
+                {
+                  "name": "contains",
+                  "parameter_types": [
+                    "ValidityWindow"
+                  ],
+                  "return_type": "Boolean",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                }
+              ]
+            },
+            {
+              "name": "CampaignFinancials",
+              "ka_anchor": false,
+              "term": "campaignfinancials",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "MoneyAmount",
+                  "MoneyAmount",
+                  "MoneyAmount"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "totalOrderAmount",
+                  "return_type": "MoneyAmount",
+                  "invariants": []
+                },
+                {
+                  "name": "totalDiscountAmount",
+                  "return_type": "MoneyAmount",
+                  "invariants": []
+                },
+                {
+                  "name": "totalAmount",
+                  "return_type": "MoneyAmount",
+                  "invariants": [
+                    "totalAmount equals totalOrderAmount minus totalDiscountAmount"
+                  ]
+                }
+              ],
+              "operations": [
+                {
+                  "name": "accumulate",
+                  "parameter_types": [
+                    "Redemption"
+                  ],
+                  "return_type": "CampaignFinancials",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                },
+                {
+                  "name": "reset",
+                  "parameter_types": [],
+                  "return_type": "CampaignFinancials",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                }
+              ]
+            },
+            {
+              "name": "CampaignStatus",
+              "ka_anchor": false,
+              "term": "campaignstatus",
+              "extends": null,
+              "constructor": {
+                "parameter_types": []
+              },
+              "properties": [
+                {
+                  "name": "statusValue",
+                  "return_type": "CampaignStatusValue",
+                  "invariants": []
+                }
+              ],
+              "operations": [
+                {
+                  "name": "isRedeemable",
+                  "parameter_types": [],
+                  "return_type": "Boolean",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                }
+              ]
+            }
+          ],
+          "references": [
+            {
+              "title": "Campaign and voucher language",
+              "source": "CONTEXT.md",
+              "locator": "Language -> Discounting and Lifecycle",
+              "extract": "whole"
+            },
+            {
+              "title": "Date enforcement at redemption",
+              "source": "docs/code-research/agent-2-deep-dive/voucher-redemption-transaction.md",
+              "locator": "Principles and Flow",
+              "extract": "whole"
+            }
+          ],
+          "decisions": [
+            "CampaignStatus is modeled as a constrained type shared by Campaign and Voucher status derivation.",
+            "CampaignFinancials remains derived and never owns persistence behavior."
+          ]
+        },
+        {
+          "name": "Voucher",
+          "definition": "Voucher key abstraction",
+          "relationships": [],
+          "classes": [
+            {
+              "name": "Voucher",
+              "ka_anchor": true,
+              "term": "voucher",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "Campaign",
+                  "VoucherCode",
+                  "ValidityWindow",
+                  "RedemptionLimit",
+                  "Discount",
+                  "EnabledFlag"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "campaign",
+                  "return_type": "Campaign",
+                  "invariants": []
+                },
+                {
+                  "name": "voucherCode",
+                  "return_type": "VoucherCode",
+                  "invariants": []
+                },
+                {
+                  "name": "validityWindow",
+                  "return_type": "ValidityWindow",
+                  "invariants": []
+                },
+                {
+                  "name": "redemptionLimit",
+                  "return_type": "RedemptionLimit",
+                  "invariants": []
+                },
+                {
+                  "name": "redemptionCount",
+                  "return_type": "RedemptionCount",
+                  "invariants": []
+                },
+                {
+                  "name": "discount",
+                  "return_type": "Discount",
+                  "invariants": []
+                },
+                {
+                  "name": "planRestriction",
+                  "return_type": "PlanRestriction",
+                  "invariants": []
+                },
+                {
+                  "name": "status",
+                  "return_type": "VoucherStatus",
+                  "invariants": [
+                    "validityWindow must stay within campaign.campaignWindow",
+                    "redemptionCount cannot exceed redemptionLimit"
+                  ]
+                }
+              ],
+              "operations": [
+                {
+                  "name": "deriveStatus",
+                  "parameter_types": [
+                    "Timestamp"
+                  ],
+                  "return_type": "VoucherStatus",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                },
+                {
+                  "name": "canRedeem",
+                  "parameter_types": [
+                    "Timestamp"
+                  ],
+                  "return_type": "Boolean",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                },
+                {
+                  "name": "recordSuccessfulRedemption",
+                  "parameter_types": [
+                    "Redemption"
+                  ],
+                  "return_type": "Voucher",
+                  "visibility": "public",
+                  "collaborators": [
+                    "Redemption"
+                  ],
+                  "invariants": [
+                    "recordSuccessfulRedemption increments redemptionCount atomically with redemption creation"
+                  ]
+                },
+                {
+                  "name": "supports",
+                  "parameter_types": [
+                    "Plan"
+                  ],
+                  "return_type": "Boolean",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                }
+              ]
+            },
+            {
+              "name": "VoucherCode",
+              "ka_anchor": false,
+              "term": "vouchercode",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "CodeText"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "value",
+                  "return_type": "CodeText",
+                  "invariants": []
+                }
+              ],
+              "operations": [
+                {
+                  "name": "matches",
+                  "parameter_types": [
+                    "CodeText"
+                  ],
+                  "return_type": "Boolean",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                }
+              ]
+            },
+            {
+              "name": "ValidityWindow",
+              "ka_anchor": false,
+              "term": "validitywindow",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "StartTimestamp",
+                  "EndTimestamp"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "startAt",
+                  "return_type": "StartTimestamp",
+                  "invariants": []
+                },
+                {
+                  "name": "endAt",
+                  "return_type": "EndTimestamp",
+                  "invariants": [
+                    "startAt must be before endAt"
+                  ]
+                }
+              ],
+              "operations": [
+                {
+                  "name": "includes",
+                  "parameter_types": [
+                    "Timestamp"
+                  ],
+                  "return_type": "Boolean",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                }
+              ]
+            },
+            {
+              "name": "RedemptionLimit",
+              "ka_anchor": false,
+              "term": "redemptionlimit",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "PositiveInteger"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "limit",
+                  "return_type": "PositiveInteger",
+                  "invariants": [
+                    "limit must be positive"
+                  ]
+                }
+              ],
+              "operations": [
+                {
+                  "name": "isReachedBy",
+                  "parameter_types": [
+                    "RedemptionCount"
+                  ],
+                  "return_type": "Boolean",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                }
+              ]
+            },
+            {
+              "name": "VoucherBatch",
+              "ka_anchor": false,
+              "term": "voucherbatch",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "Campaign",
+                  "CodePrefix",
+                  "PositiveInteger",
+                  "Discount",
+                  "RedemptionLimit"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "campaign",
+                  "return_type": "Campaign",
+                  "invariants": []
+                },
+                {
+                  "name": "codePrefix",
+                  "return_type": "CodePrefix",
+                  "invariants": []
+                },
+                {
+                  "name": "requestedCount",
+                  "return_type": "PositiveInteger",
+                  "invariants": []
+                },
+                {
+                  "name": "succeededCount",
+                  "return_type": "NonNegativeInteger",
+                  "invariants": []
+                },
+                {
+                  "name": "failedCount",
+                  "return_type": "NonNegativeInteger",
+                  "invariants": []
+                },
+                {
+                  "name": "discount",
+                  "return_type": "Discount",
+                  "invariants": []
+                },
+                {
+                  "name": "redemptionLimit",
+                  "return_type": "RedemptionLimit",
+                  "invariants": []
+                },
+                {
+                  "name": "planRestriction",
+                  "return_type": "PlanRestriction",
+                  "invariants": [
+                    "succeededCount plus failedCount equals requestedCount"
+                  ]
+                }
+              ],
+              "operations": [
+                {
+                  "name": "generate",
+                  "parameter_types": [
+                    "VoucherCode"
+                  ],
+                  "return_type": "Voucher",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                },
+                {
+                  "name": "registerFailure",
+                  "parameter_types": [
+                    "BatchFailureReason"
+                  ],
+                  "return_type": "VoucherBatch",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                }
+              ]
+            },
+            {
+              "name": "PlanRestriction",
+              "ka_anchor": false,
+              "term": "planrestriction",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "Plan"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "plan",
+                  "return_type": "Plan",
+                  "invariants": []
+                },
+                {
+                  "name": "trialPlan",
+                  "return_type": "TrialPlan",
+                  "invariants": [
+                    "trialPlan cannot be combined with any other plan in the same restriction"
+                  ]
+                }
+              ],
+              "operations": [
+                {
+                  "name": "allows",
+                  "parameter_types": [
+                    "Plan"
+                  ],
+                  "return_type": "Boolean",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                },
+                {
+                  "name": "isUnrestricted",
+                  "parameter_types": [],
+                  "return_type": "Boolean",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                }
+              ]
+            },
+            {
+              "name": "VoucherStatus",
+              "ka_anchor": false,
+              "term": "voucherstatus",
+              "extends": null,
+              "constructor": {
+                "parameter_types": []
+              },
+              "properties": [
+                {
+                  "name": "statusValue",
+                  "return_type": "VoucherStatusValue",
+                  "invariants": []
+                }
+              ],
+              "operations": [
+                {
+                  "name": "isRedeemable",
+                  "parameter_types": [],
+                  "return_type": "Boolean",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                }
+              ]
+            }
+          ],
+          "references": [
+            {
+              "title": "Voucher language",
+              "source": "CONTEXT.md",
+              "locator": "Language -> Discounting and Lifecycle",
+              "extract": "whole"
+            },
+            {
+              "title": "Redemption validation sequence",
+              "source": "docs/code-research/agent-2-deep-dive/voucher-redemption-transaction.md",
+              "locator": "all sections",
+              "extract": "whole"
+            }
+          ],
+          "decisions": [
+            "VoucherStatus is distinct from CampaignStatus because Voucher has Redeemed state in addition to campaign lifecycle states.",
+            "VoucherBatch is modeled as a lifecycle carrier rather than generation metadata on Voucher."
+          ]
+        },
+        {
+          "name": "Discount",
+          "definition": "Discount key abstraction",
+          "relationships": [],
+          "classes": [
+            {
+              "name": "Discount",
+              "ka_anchor": true,
+              "term": "discount",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "DiscountType",
+                  "DiscountValue"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "discountType",
+                  "return_type": "DiscountType",
+                  "invariants": []
+                },
+                {
+                  "name": "discountValue",
+                  "return_type": "DiscountValue",
+                  "invariants": [
+                    "exactly one discountType applies to each discount"
+                  ]
+                }
+              ],
+              "operations": [
+                {
+                  "name": "computeDiscountAmount",
+                  "parameter_types": [
+                    "OrderAmount"
+                  ],
+                  "return_type": "DiscountAmount",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                },
+                {
+                  "name": "computeTotalAmount",
+                  "parameter_types": [
+                    "OrderAmount"
+                  ],
+                  "return_type": "TotalAmount",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                }
+              ]
+            },
+            {
+              "name": "DiscountValue",
+              "ka_anchor": false,
+              "term": "discountvalue",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "MoneyAmount"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "value",
+                  "return_type": "MoneyAmount",
+                  "invariants": []
+                }
+              ],
+              "operations": [
+                {
+                  "name": "asMoney",
+                  "parameter_types": [],
+                  "return_type": "MoneyAmount",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                }
+              ]
+            },
+            {
+              "name": "DiscountAmount",
+              "ka_anchor": false,
+              "term": "discountamount",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "MoneyAmount"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "value",
+                  "return_type": "MoneyAmount",
+                  "invariants": [
+                    "value must be non-negative"
+                  ]
+                }
+              ],
+              "operations": [
+                {
+                  "name": "subtractFrom",
+                  "parameter_types": [
+                    "OrderAmount"
+                  ],
+                  "return_type": "TotalAmount",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                }
+              ]
+            },
+            {
+              "name": "TotalAmount",
+              "ka_anchor": false,
+              "term": "totalamount",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "MoneyAmount"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "value",
+                  "return_type": "MoneyAmount",
+                  "invariants": [
+                    "value must be non-negative"
+                  ]
+                }
+              ],
+              "operations": [
+                {
+                  "name": "add",
+                  "parameter_types": [
+                    "DiscountAmount"
+                  ],
+                  "return_type": "OrderAmount",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                }
+              ]
+            }
+          ],
+          "references": [
+            {
+              "title": "Discount calculation mechanics",
+              "source": "docs/code-research/agent-2-deep-dive/voucher-redemption-transaction.md",
+              "locator": "Principles and Walkthrough Example",
+              "extract": "whole"
+            },
+            {
+              "title": "Discount language",
+              "source": "CONTEXT.md",
+              "locator": "Language -> Discounting and Redemption",
+              "extract": "whole"
+            }
+          ],
+          "decisions": [
+            "DiscountType remains a constrained type that also routes to Affiliate Discount behavior.",
+            "DiscountValue is explicit to keep percentage and fixed amounts uniformly typed."
+          ]
+        },
+        {
+          "name": "Affiliate Discount",
+          "definition": "Affiliate Discount key abstraction",
+          "relationships": [],
+          "classes": [
+            {
+              "name": "AffiliateVoucher",
+              "ka_anchor": true,
+              "term": "affiliatevoucher",
+              "extends": "Voucher",
+              "constructor": {
+                "parameter_types": [
+                  "Campaign",
+                  "VoucherCode",
+                  "ValidityWindow",
+                  "RedemptionLimit",
+                  "DiscountTier"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "discountTier",
+                  "return_type": "DiscountTier",
+                  "invariants": []
+                }
+              ],
+              "operations": [
+                {
+                  "name": "resolveDiscount",
+                  "parameter_types": [
+                    "ActiveSubscriberCount"
+                  ],
+                  "return_type": "Discount",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": [
+                    "at least one discount tier must exist",
+                    "discount tier ranges must not overlap"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "ActiveSubscriberCount",
+              "ka_anchor": false,
+              "term": "activesubscribercount",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "NonNegativeInteger"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "value",
+                  "return_type": "NonNegativeInteger",
+                  "invariants": []
+                }
+              ],
+              "operations": [
+                {
+                  "name": "isWithin",
+                  "parameter_types": [
+                    "SubscriberRange"
+                  ],
+                  "return_type": "Boolean",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                }
+              ]
+            },
+            {
+              "name": "DiscountTier",
+              "ka_anchor": false,
+              "term": "discounttier",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "SubscriberRange",
+                  "DiscountValue"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "subscriberRange",
+                  "return_type": "SubscriberRange",
+                  "invariants": []
+                },
+                {
+                  "name": "discountValue",
+                  "return_type": "DiscountValue",
+                  "invariants": []
+                }
+              ],
+              "operations": [
+                {
+                  "name": "matches",
+                  "parameter_types": [
+                    "ActiveSubscriberCount"
+                  ],
+                  "return_type": "Boolean",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                },
+                {
+                  "name": "resolveAsDiscount",
+                  "parameter_types": [
+                    "ActiveSubscriberCount"
+                  ],
+                  "return_type": "Discount",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": [
+                    "if no tier matches, resolved discount is zero"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "SubscriberRange",
+              "ka_anchor": false,
+              "term": "subscriberrange",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "NonNegativeInteger",
+                  "NonNegativeInteger"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "lowerBound",
+                  "return_type": "NonNegativeInteger",
+                  "invariants": []
+                },
+                {
+                  "name": "upperBound",
+                  "return_type": "NonNegativeInteger",
+                  "invariants": [
+                    "lowerBound must be less than or equal to upperBound"
+                  ]
+                }
+              ],
+              "operations": [
+                {
+                  "name": "contains",
+                  "parameter_types": [
+                    "ActiveSubscriberCount"
+                  ],
+                  "return_type": "Boolean",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                }
+              ]
+            }
+          ],
+          "references": [
+            {
+              "title": "Affiliate discount language",
+              "source": "docs/domain/domain-language.md",
+              "locator": "Affiliate Discount key abstraction",
+              "extract": "whole"
+            }
+          ],
+          "decisions": [
+            "AffiliateVoucher is modeled as a Voucher subtype because it preserves voucher lifecycle while changing discount resolution behavior.",
+            "SubscriberRange is separated from DiscountTier to keep range invariants explicit and reusable.",
+            "No AffiliateDiscount class: once a tier resolves, the result is a standard Discount with discountType 'amount'; there is no separate affiliate discount concept post-resolution."
+          ]
+        },
+        {
+          "name": "Redemption",
+          "definition": "Redemption key abstraction",
+          "relationships": [],
+          "classes": [
+            {
+              "name": "Redemption",
+              "ka_anchor": true,
+              "term": "redemption",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "Voucher",
+                  "Redeemer",
+                  "OrderAmount",
+                  "DiscountAmount",
+                  "TotalAmount",
+                  "Timestamp"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "voucher",
+                  "return_type": "Voucher",
+                  "invariants": []
+                },
+                {
+                  "name": "redeemer",
+                  "return_type": "Redeemer",
+                  "invariants": []
+                },
+                {
+                  "name": "orderAmount",
+                  "return_type": "OrderAmount",
+                  "invariants": []
+                },
+                {
+                  "name": "discountAmount",
+                  "return_type": "DiscountAmount",
+                  "invariants": []
+                },
+                {
+                  "name": "totalAmount",
+                  "return_type": "TotalAmount",
+                  "invariants": []
+                },
+                {
+                  "name": "createdAt",
+                  "return_type": "Timestamp",
+                  "invariants": [
+                    "redemption is immutable once created"
+                  ]
+                }
+              ],
+              "operations": [
+                {
+                  "name": "record",
+                  "parameter_types": [],
+                  "return_type": "Redemption",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                },
+                {
+                  "name": "applyVoucher",
+                  "parameter_types": [
+                    "Discount"
+                  ],
+                  "return_type": "Redemption",
+                  "visibility": "public",
+                  "collaborators": [
+                    "Discount"
+                  ],
+                  "invariants": [
+                    "applyVoucher and voucher redemption count increment must commit in one transaction"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Redeemer",
+              "ka_anchor": false,
+              "term": "redeemer",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "RedeemerIdentifier"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "identifier",
+                  "return_type": "RedeemerIdentifier",
+                  "invariants": [
+                    "redeemer identity is external to platform membership identity"
+                  ]
+                }
+              ],
+              "operations": [
+                {
+                  "name": "isExternalIdentity",
+                  "parameter_types": [],
+                  "return_type": "Boolean",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                }
+              ]
+            },
+            {
+              "name": "RedemptionCount",
+              "ka_anchor": false,
+              "term": "redemptioncount",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "NonNegativeInteger"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "value",
+                  "return_type": "NonNegativeInteger",
+                  "invariants": []
+                }
+              ],
+              "operations": [
+                {
+                  "name": "increment",
+                  "parameter_types": [],
+                  "return_type": "RedemptionCount",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                },
+                {
+                  "name": "hasReached",
+                  "parameter_types": [
+                    "RedemptionLimit"
+                  ],
+                  "return_type": "Boolean",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                }
+              ]
+            },
+            {
+              "name": "OrderAmount",
+              "ka_anchor": false,
+              "term": "orderamount",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "MoneyAmount"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "value",
+                  "return_type": "MoneyAmount",
+                  "invariants": [
+                    "value must be non-negative"
+                  ]
+                }
+              ],
+              "operations": [
+                {
+                  "name": "minus",
+                  "parameter_types": [
+                    "DiscountAmount"
+                  ],
+                  "return_type": "TotalAmount",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                }
+              ]
+            }
+          ],
+          "references": [
+            {
+              "title": "Redemption language",
+              "source": "CONTEXT.md",
+              "locator": "Language -> Redemption",
+              "extract": "whole"
+            },
+            {
+              "title": "Serializable redemption transaction",
+              "source": "docs/code-research/agent-2-deep-dive/voucher-redemption-transaction.md",
+              "locator": "all sections",
+              "extract": "whole"
+            }
+          ],
+          "decisions": [
+            "OrderAmount is explicit because redemption arithmetic invariants depend on it directly.",
+            "RedemptionCount remains in this KA because its atomic update rule is coupled to redemption creation."
+          ]
+        },
+        {
+          "name": "Organisation",
+          "definition": "Organisation key abstraction",
+          "relationships": [],
+          "classes": [
+            {
+              "name": "Organisation",
+              "ka_anchor": true,
+              "term": "organisation",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "OrganisationIdentifier",
+                  "OrganisationName"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "identifier",
+                  "return_type": "OrganisationIdentifier",
+                  "invariants": []
+                },
+                {
+                  "name": "name",
+                  "return_type": "OrganisationName",
+                  "invariants": []
+                },
+                {
+                  "name": "membership",
+                  "return_type": "Membership",
+                  "invariants": [
+                    "all campaigns, vouchers, redemptions, and memberships belong to exactly one organisation"
+                  ]
+                }
+              ],
+              "operations": [
+                {
+                  "name": "addMembership",
+                  "parameter_types": [
+                    "Membership"
+                  ],
+                  "return_type": "Organisation",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                },
+                {
+                  "name": "removeMembership",
+                  "parameter_types": [
+                    "Membership"
+                  ],
+                  "return_type": "Organisation",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": [
+                    "at least one owner membership must remain after removal"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Membership",
+              "ka_anchor": false,
+              "term": "membership",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "Organisation",
+                  "UserIdentifier",
+                  "Role"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "organisation",
+                  "return_type": "Organisation",
+                  "invariants": []
+                },
+                {
+                  "name": "userIdentifier",
+                  "return_type": "UserIdentifier",
+                  "invariants": []
+                },
+                {
+                  "name": "role",
+                  "return_type": "Role",
+                  "invariants": []
+                }
+              ],
+              "operations": [
+                {
+                  "name": "grant",
+                  "parameter_types": [
+                    "Role"
+                  ],
+                  "return_type": "Membership",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                },
+                {
+                  "name": "revoke",
+                  "parameter_types": [],
+                  "return_type": "Membership",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": [
+                    "a user may hold at most one membership at a time"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Role",
+              "ka_anchor": false,
+              "term": "role",
+              "extends": null,
+              "constructor": {
+                "parameter_types": []
+              },
+              "properties": [
+                {
+                  "name": "roleValue",
+                  "return_type": "RoleValue",
+                  "invariants": []
+                }
+              ],
+              "operations": [
+                {
+                  "name": "canManageCredentials",
+                  "parameter_types": [],
+                  "return_type": "Boolean",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                },
+                {
+                  "name": "canManageInvitations",
+                  "parameter_types": [],
+                  "return_type": "Boolean",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                },
+                {
+                  "name": "canManageOrganisationLifecycle",
+                  "parameter_types": [],
+                  "return_type": "Boolean",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                }
+              ]
+            },
+            {
+              "name": "Environment",
+              "ka_anchor": false,
+              "term": "environment",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "EnvironmentValue"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "value",
+                  "return_type": "EnvironmentValue",
+                  "invariants": []
+                }
+              ],
+              "operations": [
+                {
+                  "name": "isProduction",
+                  "parameter_types": [],
+                  "return_type": "Boolean",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                },
+                {
+                  "name": "isStaging",
+                  "parameter_types": [],
+                  "return_type": "Boolean",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                }
+              ]
+            },
+            {
+              "name": "OrganisationScope",
+              "ka_anchor": false,
+              "term": "organisationscope",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "OrganisationIdentifier",
+                  "Environment"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "organisationIdentifier",
+                  "return_type": "OrganisationIdentifier",
+                  "invariants": []
+                },
+                {
+                  "name": "environment",
+                  "return_type": "Environment",
+                  "invariants": []
+                }
+              ],
+              "operations": [
+                {
+                  "name": "qualifies",
+                  "parameter_types": [
+                    "DataOperation"
+                  ],
+                  "return_type": "ScopedDataOperation",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": [
+                    "every scoped data operation must carry a fully resolved organisation scope"
+                  ]
+                }
+              ]
+            }
+          ],
+          "references": [
+            {
+              "title": "Tenancy language",
+              "source": "CONTEXT.md",
+              "locator": "Language -> Tenancy",
+              "extract": "whole"
+            },
+            {
+              "title": "Scope isolation and environment switching",
+              "source": "docs/code-research/agent-2-deep-dive/multi-tenant-scope-isolation.md",
+              "locator": "all sections",
+              "extract": "whole"
+            },
+            {
+              "title": "Environment language",
+              "source": "CONTEXT.md",
+              "locator": "Language -> Tenancy (Environment)",
+              "extract": "whole"
+            }
+          ],
+          "decisions": [
+            "Role is kept as a constrained type with behavior predicates instead of inheritance to avoid non-substitutable role subtypes.",
+            "Environment is modeled as data and not configuration because it participates in scope identity.",
+            "OrganisationScope is explicit because scope is passed and validated at every operation boundary."
+          ]
+        },
+        {
+          "name": "Invitation",
+          "definition": "Invitation key abstraction",
+          "relationships": [],
+          "classes": [
+            {
+              "name": "Invitation",
+              "ka_anchor": true,
+              "term": "invitation",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "Organisation",
+                  "Invitee",
+                  "InvitationToken",
+                  "ExpirationTimestamp"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "organisation",
+                  "return_type": "Organisation",
+                  "invariants": []
+                },
+                {
+                  "name": "invitee",
+                  "return_type": "Invitee",
+                  "invariants": []
+                },
+                {
+                  "name": "invitationToken",
+                  "return_type": "InvitationToken",
+                  "invariants": []
+                },
+                {
+                  "name": "expiresAt",
+                  "return_type": "ExpirationTimestamp",
+                  "invariants": []
+                },
+                {
+                  "name": "acceptedAt",
+                  "return_type": "Timestamp",
+                  "invariants": []
+                },
+                {
+                  "name": "cancelledAt",
+                  "return_type": "Timestamp",
+                  "invariants": [
+                    "only one active unaccepted invitation may exist per invitee per organisation"
+                  ]
+                }
+              ],
+              "operations": [
+                {
+                  "name": "accept",
+                  "parameter_types": [
+                    "AuthenticatedInvitee"
+                  ],
+                  "return_type": "Acceptance",
+                  "visibility": "public",
+                  "collaborators": [
+                    "Acceptance"
+                  ],
+                  "invariants": [
+                    "acceptance must atomically create membership and spend invitation token"
+                  ]
+                },
+                {
+                  "name": "cancel",
+                  "parameter_types": [
+                    "OwnerMembership"
+                  ],
+                  "return_type": "Invitation",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                },
+                {
+                  "name": "renew",
+                  "parameter_types": [
+                    "ExpirationTimestamp"
+                  ],
+                  "return_type": "Invitation",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                }
+              ]
+            },
+            {
+              "name": "Invitee",
+              "ka_anchor": false,
+              "term": "invitee",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "EmailAddress"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "email",
+                  "return_type": "EmailAddress",
+                  "invariants": []
+                }
+              ],
+              "operations": [
+                {
+                  "name": "matches",
+                  "parameter_types": [
+                    "EmailAddress"
+                  ],
+                  "return_type": "Boolean",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                }
+              ]
+            },
+            {
+              "name": "InvitationToken",
+              "ka_anchor": false,
+              "term": "invitationtoken",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "TokenSecret",
+                  "TokenHash",
+                  "ExpirationTimestamp"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "tokenHash",
+                  "return_type": "TokenHash",
+                  "invariants": []
+                },
+                {
+                  "name": "expiresAt",
+                  "return_type": "ExpirationTimestamp",
+                  "invariants": []
+                },
+                {
+                  "name": "spentAt",
+                  "return_type": "Timestamp",
+                  "invariants": [
+                    "plaintext token secret is never persisted"
+                  ]
+                }
+              ],
+              "operations": [
+                {
+                  "name": "validate",
+                  "parameter_types": [
+                    "TokenSecret"
+                  ],
+                  "return_type": "Boolean",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                },
+                {
+                  "name": "spend",
+                  "parameter_types": [],
+                  "return_type": "InvitationToken",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": [
+                    "spent token cannot be used again"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Acceptance",
+              "ka_anchor": false,
+              "term": "acceptance",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "Invitation",
+                  "Membership",
+                  "Timestamp"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "invitation",
+                  "return_type": "Invitation",
+                  "invariants": []
+                },
+                {
+                  "name": "membership",
+                  "return_type": "Membership",
+                  "invariants": []
+                },
+                {
+                  "name": "acceptedAt",
+                  "return_type": "Timestamp",
+                  "invariants": []
+                }
+              ],
+              "operations": [
+                {
+                  "name": "complete",
+                  "parameter_types": [],
+                  "return_type": "Acceptance",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": [
+                    "complete only when membership creation and invitation spend both succeed"
+                  ]
+                }
+              ]
+            }
+          ],
+          "references": [
+            {
+              "title": "Invitation lifecycle",
+              "source": "docs/code-research/agent-2-deep-dive/secret-backed-credential-lifecycle.md",
+              "locator": "Invitation creation through acceptance flow",
+              "extract": "whole"
+            }
+          ],
+          "decisions": [
+            "Acceptance is modeled as an explicit state-carrier for the atomic join operation.",
+            "InvitationToken stays in Invitation KA despite similar hashing pattern to ApiKey because lifecycle is invitation-scoped."
+          ]
+        },
+        {
+          "name": "Credential",
+          "definition": "Credential key abstraction",
+          "relationships": [],
+          "classes": [
+            {
+              "name": "ApiKey",
+              "ka_anchor": true,
+              "term": "apikey",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "OrganisationScope",
+                  "ApiKeyName",
+                  "KeyHash"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "scope",
+                  "return_type": "OrganisationScope",
+                  "invariants": []
+                },
+                {
+                  "name": "name",
+                  "return_type": "ApiKeyName",
+                  "invariants": []
+                },
+                {
+                  "name": "keyHash",
+                  "return_type": "KeyHash",
+                  "invariants": []
+                },
+                {
+                  "name": "enabled",
+                  "return_type": "EnabledFlag",
+                  "invariants": []
+                },
+                {
+                  "name": "lastUsedAt",
+                  "return_type": "Timestamp",
+                  "invariants": []
+                }
+              ],
+              "operations": [
+                {
+                  "name": "rename",
+                  "parameter_types": [
+                    "ApiKeyName"
+                  ],
+                  "return_type": "ApiKey",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                },
+                {
+                  "name": "disable",
+                  "parameter_types": [],
+                  "return_type": "ApiKey",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                },
+                {
+                  "name": "recordUsage",
+                  "parameter_types": [
+                    "Timestamp"
+                  ],
+                  "return_type": "ApiKey",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": [
+                    "plaintext key is never persisted or retrievable after issuance"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "KeyHash",
+              "ka_anchor": false,
+              "term": "keyhash",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "HmacSha256HexText"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "value",
+                  "return_type": "HmacSha256HexText",
+                  "invariants": []
+                }
+              ],
+              "operations": [
+                {
+                  "name": "matches",
+                  "parameter_types": [
+                    "TokenSecret",
+                    "Pepper"
+                  ],
+                  "return_type": "Boolean",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                }
+              ]
+            },
+            {
+              "name": "Pepper",
+              "ka_anchor": false,
+              "term": "pepper",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "SecretReference"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "secretReference",
+                  "return_type": "SecretReference",
+                  "invariants": []
+                }
+              ],
+              "operations": [
+                {
+                  "name": "apply",
+                  "parameter_types": [
+                    "TokenSecret"
+                  ],
+                  "return_type": "KeyHash",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": [
+                    "pepper exists only in server configuration and never in database storage"
+                  ]
+                }
+              ]
+            }
+          ],
+          "references": [
+            {
+              "title": "API key lifecycle and hash strategy",
+              "source": "docs/code-research/agent-2-deep-dive/secret-backed-credential-lifecycle.md",
+              "locator": "Principles, flow, and walkthrough",
+              "extract": "whole"
+            }
+          ],
+          "decisions": [
+            "ApiKey remains an environment-scoped credential through OrganisationScope.",
+            "Pepper is modeled explicitly to enforce security boundary constraints in the domain."
+          ]
+        },
+        {
+          "name": "Audit Trail",
+          "definition": "Audit Trail key abstraction",
+          "relationships": [],
+          "classes": [
+            {
+              "name": "AuditTrail",
+              "ka_anchor": true,
+              "term": "audittrail",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "Organisation"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "organisation",
+                  "return_type": "Organisation",
+                  "invariants": []
+                },
+                {
+                  "name": "auditLogEntry",
+                  "return_type": "AuditLogEntry",
+                  "invariants": []
+                }
+              ],
+              "operations": [
+                {
+                  "name": "record",
+                  "parameter_types": [
+                    "AuditLogEntry"
+                  ],
+                  "return_type": "AuditTrail",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                },
+                {
+                  "name": "query",
+                  "parameter_types": [
+                    "EntityType",
+                    "TimestampRange"
+                  ],
+                  "return_type": "AuditLogEntry",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": [
+                    "audit trail is append-only"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "AuditLogEntry",
+              "ka_anchor": false,
+              "term": "auditlogentry",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "Actor",
+                  "EntityType",
+                  "AuditAction",
+                  "EntityIdentifier",
+                  "Timestamp"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "actor",
+                  "return_type": "Actor",
+                  "invariants": []
+                },
+                {
+                  "name": "entityType",
+                  "return_type": "EntityType",
+                  "invariants": []
+                },
+                {
+                  "name": "action",
+                  "return_type": "AuditAction",
+                  "invariants": []
+                },
+                {
+                  "name": "entityIdentifier",
+                  "return_type": "EntityIdentifier",
+                  "invariants": []
+                },
+                {
+                  "name": "fieldChange",
+                  "return_type": "FieldChange",
+                  "invariants": []
+                },
+                {
+                  "name": "createdAt",
+                  "return_type": "Timestamp",
+                  "invariants": [
+                    "once written, an audit log entry cannot be modified or deleted"
+                  ]
+                }
+              ],
+              "operations": [
+                {
+                  "name": "describes",
+                  "parameter_types": [
+                    "FieldChange"
+                  ],
+                  "return_type": "Boolean",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                }
+              ]
+            },
+            {
+              "name": "Actor",
+              "ka_anchor": false,
+              "term": "actor",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "ActorIdentifier",
+                  "ActorType",
+                  "ActorDisplayName"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "identifier",
+                  "return_type": "ActorIdentifier",
+                  "invariants": []
+                },
+                {
+                  "name": "actorType",
+                  "return_type": "ActorType",
+                  "invariants": []
+                },
+                {
+                  "name": "displayName",
+                  "return_type": "ActorDisplayName",
+                  "invariants": []
+                }
+              ],
+              "operations": [
+                {
+                  "name": "isOperator",
+                  "parameter_types": [],
+                  "return_type": "Boolean",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                },
+                {
+                  "name": "isApiClient",
+                  "parameter_types": [],
+                  "return_type": "Boolean",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                }
+              ]
+            },
+            {
+              "name": "EntityType",
+              "ka_anchor": false,
+              "term": "entitytype",
+              "extends": null,
+              "constructor": {
+                "parameter_types": []
+              },
+              "properties": [
+                {
+                  "name": "value",
+                  "return_type": "EntityTypeValue",
+                  "invariants": []
+                }
+              ],
+              "operations": [
+                {
+                  "name": "matches",
+                  "parameter_types": [
+                    "EntityIdentifier"
+                  ],
+                  "return_type": "Boolean",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                }
+              ]
+            },
+            {
+              "name": "FieldChange",
+              "ka_anchor": false,
+              "term": "fieldchange",
+              "extends": null,
+              "constructor": {
+                "parameter_types": [
+                  "FieldIdentifier",
+                  "FieldValue",
+                  "FieldValue"
+                ]
+              },
+              "properties": [
+                {
+                  "name": "fieldIdentifier",
+                  "return_type": "FieldIdentifier",
+                  "invariants": []
+                },
+                {
+                  "name": "beforeValue",
+                  "return_type": "FieldValue",
+                  "invariants": []
+                },
+                {
+                  "name": "afterValue",
+                  "return_type": "FieldValue",
+                  "invariants": []
+                }
+              ],
+              "operations": [
+                {
+                  "name": "isNoop",
+                  "parameter_types": [],
+                  "return_type": "Boolean",
+                  "visibility": "public",
+                  "collaborators": [],
+                  "invariants": []
+                }
+              ]
+            }
+          ],
+          "references": [
+            {
+              "title": "Audit trail via GUC injection",
+              "source": "docs/code-research/agent-2-deep-dive/audit-trail-guc-injection.md",
+              "locator": "all sections",
+              "extract": "whole"
+            },
+            {
+              "title": "Read-side reporting pipeline",
+              "source": "docs/code-research/agent-2-deep-dive/read-side-reporting-pipeline.md",
+              "locator": "all sections",
+              "extract": "whole"
+            }
+          ],
+          "decisions": [
+            "AuditTrail models both environment-scoped and organisation-level events to reflect cross-environment membership and invitation events.",
+            "FieldChange is a first-class concept because change details are query and compliance primitives."
+          ]
+        }
+      ],
+      "boundary_domain": {
+        "relationships": [],
+        "classes": [
+          {
+            "name": "Plan",
+            "owned_by": "Vouchera",
+            "term": "plan",
+            "extends": null,
+            "constructor": {
+              "parameter_types": [
+                "PlanIdentifier",
+                "PlanName"
+              ]
+            },
+            "properties": [
+              {
+                "name": "identifier",
+                "return_type": "PlanIdentifier",
+                "invariants": []
+              },
+              {
+                "name": "name",
+                "return_type": "PlanName",
+                "invariants": []
+              }
+            ],
+            "operations": [
+              {
+                "name": "isEligibleFor",
+                "parameter_types": [
+                  "PlanRestriction"
+                ],
+                "return_type": "Boolean",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": []
+              }
+            ]
+          },
+          {
+            "name": "TrialPlan",
+            "owned_by": "Vouchera",
+            "term": "trialplan",
+            "extends": "Plan",
+            "constructor": {
+              "parameter_types": [
+                "PlanIdentifier",
+                "PlanName"
+              ]
+            },
+            "properties": [],
+            "operations": [
+              {
+                "name": "isCombinableWith",
+                "parameter_types": [
+                  "Plan"
+                ],
+                "return_type": "Boolean",
+                "visibility": "public",
+                "collaborators": [],
+                "invariants": [
+                  "trial plan cannot be combined with any other plan on one voucher"
+                ]
+              }
+            ]
+          }
+        ],
+        "references": [
+          {
+            "title": "Plan language",
+            "source": "CONTEXT.md",
+            "locator": "Language -> Plans",
+            "extract": "whole"
+          }
+        ],
+        "decisions": [
+          "TrialPlan is a Plan subtype because it preserves plan identity while adding exclusivity behavior.",
+          "Plan remains boundary-owned; Vouchera only consumes identifiers and eligibility semantics."
+        ],
+        "intro": "## **Plan**"
+      },
+      "intro": "Scope: Full platform - Campaign, Voucher, Discount, Redemption, Organisation, Invitation, Credential, Audit Trail.\n\n**Core terms**:\n- Campaign\n- Voucher\n- Discount\n- Affiliate Discount\n- Redemption\n- Organisation\n- Invitation\n- Credential\n- Audit Trail\n\n**Key Abstractions (term grouping)**:\n- **Campaign**: time-bound voucher container and aggregate financial view.\n- **Voucher**: redeemable code and issuance constraints.\n- **Discount**: discount definition and computation shape.\n- **Affiliate Discount**: tier-based discount resolution from subscriber count.\n- **Redemption**: immutable checkout usage record.\n- **Organisation**: tenancy root, operator access, environment partition, and scope propagation.\n- **Invitation**: time-limited join flow and acceptance.\n- **Credential**: machine identity for API authentication.\n- **Audit Trail**: immutable change history."
+    }
+  ]
+}

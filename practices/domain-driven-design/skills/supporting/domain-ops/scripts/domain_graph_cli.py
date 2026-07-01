@@ -174,6 +174,64 @@ def cmd_sha(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_generate(args: argparse.Namespace) -> int:
+    """One-shot bootstrap: JSON graph → language source files.
+
+    Never overwrites. If any target file already exists, the command aborts
+    with exit code 5 and prints the offending paths. Use ``--force`` only for
+    recovery. After bootstrap the CLI's write path is done; the AI edits code
+    directly from that point on (D22).
+    """
+    from code_emitter_ts import plan_output_files, render_ka_file, render_boundary_class_file
+
+    graph = _load_and_validate(Path(args.input))
+    out_root = Path(args.out)
+    fidelity = args.fidelity
+    dry_run = args.dry_run
+    force = args.force
+    language = args.language
+
+    if language != "typescript":
+        print(
+            f"[error] language '{language}' not yet implemented — TypeScript is the "
+            f"only supported bootstrap target. Author {language} files directly (D25).",
+            file=sys.stderr,
+        )
+        return 2
+
+    plan = plan_output_files(graph, out_root)
+    if not plan:
+        print("[warn] graph produced no output files (no modules?)", file=sys.stderr)
+        return 0
+
+    # Collision check — refuse if any target exists (unless --force).
+    collisions = [p for (p, _, _) in plan if p.exists()]
+    if collisions and not force:
+        print(
+            "[error] refusing to overwrite existing files (use --force only for recovery):",
+            file=sys.stderr,
+        )
+        for p in collisions:
+            print(f"  {p}", file=sys.stderr)
+        return 5
+
+    for target, kind, node in plan:
+        if kind == "ka":
+            content = render_ka_file(node, fidelity=fidelity)
+        else:
+            content = render_boundary_class_file(node, fidelity=fidelity)
+        rel = target.relative_to(out_root) if out_root in target.parents or target == out_root else target
+        if dry_run:
+            print(f"  [dry] {rel}")
+        else:
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text(content, encoding="utf-8")
+            print(f"  ok  {rel}")
+
+    print("done." if not dry_run else "dry-run complete.")
+    return 0
+
+
 def cmd_write(args: argparse.Namespace) -> int:
     from domain_graph_file import save_domain_model_dict
 
@@ -240,6 +298,35 @@ def main(argv: List[str] | None = None) -> int:
     w.add_argument("--no-lock", dest="no_lock", action="store_true")
     w.add_argument("--force", action="store_true")
     w.set_defaults(func=cmd_write)
+
+    g = sub.add_parser(
+        "generate",
+        help=(
+            "One-shot bootstrap: emit language source files from domain-model.json. "
+            "Refuses to overwrite existing files. Use --force only for recovery."
+        ),
+    )
+    g.add_argument("--input", required=True, help="Path to domain-model.json")
+    g.add_argument("--out", required=True, help="Target source folder root")
+    g.add_argument(
+        "--language",
+        default="typescript",
+        choices=["typescript"],
+        help="Emitter language (only 'typescript' supported today; author other languages directly per D25)",
+    )
+    g.add_argument(
+        "--fidelity",
+        default="specification",
+        choices=["model", "specification"],
+        help="Fidelity of the emitted code (default: specification)",
+    )
+    g.add_argument("--dry-run", action="store_true", help="Print planned paths without writing")
+    g.add_argument(
+        "--force",
+        action="store_true",
+        help="Override the refuse-on-existing-files check. Recovery only.",
+    )
+    g.set_defaults(func=cmd_generate)
 
     args = p.parse_args(argv)
     return int(args.func(args))

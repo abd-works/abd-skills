@@ -3,9 +3,9 @@ catalog_garden_tier: practice
 catalog_garden_order: 10
 name: abd-architecture-outline
 catalogue_one_liner: >-
-  First architecture artifact — system context diagram with functions and tech per system, mechanisms catalogue with tech choices and NFR justifications, and guiding principles.
+  First fidelity of src/architecture-context.md — system context with all connecting systems, packages, mechanisms catalogue with explicit deviation justification, rules, and decisions.
 description: >-
-  Produce the first shared canonical picture of a system — system context, mechanisms catalogue, principles, and decisions. Use when starting architecture on a new or unfamiliar system, onboarding, or preparing for review.
+  Produce the first fidelity of src/architecture-context.md — system context (complete surrounding-systems table), packages, mechanisms, rules, and outline-stage ADRs. Use when starting architecture on a new or unfamiliar system, onboarding, or preparing for review.
 context-perspective: architecture
 context-fidelity:
   - level: shaping
@@ -15,7 +15,7 @@ context-fidelity:
 
 ## Purpose
 
-Establish the shared canonical picture of a system — what systems exist, how they connect, what mechanisms govern cross-cutting behavior, and what principles guide decisions — so the team starts deeper architecture work from agreed facts, not assumptions.
+Establish the shared canonical picture of a system — what systems exist, how they connect, what packages organise cross-cutting concerns, what mechanisms impose code shape, and what rules constrain every future decision — so the team starts deeper architecture work from agreed facts, not assumptions.
 
 ---
 

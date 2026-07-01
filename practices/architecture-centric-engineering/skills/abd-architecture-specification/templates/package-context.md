@@ -24,7 +24,11 @@
   section that is genuinely empty for your package.
 -->
 
-# {{PackageName}}
+---
+generating-skill: abd-architecture-specification
+type: package
+fidelity: specification
+---
 
 {{One opening paragraph: what this package is, who uses it, and what
 distinguishes it from the rest of the system. If usage is exclusive to a single

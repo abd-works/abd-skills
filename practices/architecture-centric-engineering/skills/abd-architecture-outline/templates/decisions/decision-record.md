@@ -1,7 +1,14 @@
+---
+status: Accepted
+date: YYYY-MM-DD
+stage: outline
+---
+
 # ADR-{NNN}: {short title — the decision in five words or fewer}
 
 > **Status:** Proposed / Accepted / Superseded by ADR-NNN / Deprecated
 > **Date:** YYYY-MM-DD
+> **Stage:** outline / blueprint / specification
 > **Deciders:** {names or roles}
 > **Consulted:** {names or roles}
 > **Informed:** {names or roles}
@@ -47,10 +54,17 @@
 
 ## Example (filled — for tone)
 
+---
+status: Accepted
+date: 2026-04-12
+stage: outline
+---
+
 # ADR-002: Layered architecture with one-way dependencies
 
 > **Status:** Accepted
 > **Date:** 2026-04-12
+> **Stage:** outline
 > **Deciders:** Architect, Tech Lead, Senior Engineer
 > **Consulted:** Engineering team
 > **Informed:** Product, Operations

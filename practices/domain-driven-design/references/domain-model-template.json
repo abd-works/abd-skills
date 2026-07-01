@@ -7,6 +7,7 @@
     {
       "name": "{{ModuleName}}",
       "scope": "{{module scope when different from root}}",
+      "intro": "{{module-level intro paragraph — populate at specification fidelity, omit at model fidelity}}",
       "core_terms": [
         "{{term1}}",
         "{{term2}}"
@@ -57,9 +58,18 @@
               "ka_anchor": true,
               "term": "{{glossary_or_language_term}}",
               "extends": null,
+              "stereotype": "{{Entity|ValueObject|Service|Factory|Repository|DomainEvent|Boundary — omit at model fidelity}}",
+              "stereotype_note": "{{free-text qualifier when present}}",
+              "initialisation": "{{initialisation paragraph when class declares one}}",
               "constructor": {
                 "parameter_types": [
                   "{{Type}}"
+                ],
+                "parameters": [
+                  {
+                    "name": "{{paramName}}",
+                    "type": "{{Type}}"
+                  }
                 ]
               },
               "properties": [
@@ -95,8 +105,15 @@
                   "parameter_types": [
                     "{{Type}}"
                   ],
+                  "parameters": [
+                    {
+                      "name": "{{paramName}}",
+                      "type": "{{Type}}"
+                    }
+                  ],
                   "return_type": "{{ReturnType}}",
                   "visibility": "public",
+                  "phase": "{{free-text phase label e.g. onboarding | self-care — omit when no phase grouping}}",
                   "collaborators": [
                     "{{CollaboratorClass}}"
                   ],
@@ -161,6 +178,7 @@
         }
       ],
       "boundary_domain": {
+        "intro": "{{Boundary Domain section prose — omit at model fidelity}}",
         "relationships": [],
         "classes": [
           {
